@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 1 Foundation — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  body { background:#111811; color:#fff; min-height:100vh; }
+
+  .unit-nav {
+    background:#0d1a10;
+    border-bottom:1px solid rgba(201,168,76,0.15);
+    padding:16px 40px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .unit-nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-logo { width:38px; height:38px; object-fit:contain; }
+  .nav-brand { font-family:'Cormorant Garamond',serif; font-size:1rem; color:rgba(255,255,255,0.6); }
+  .nav-brand strong { color:#c9a84c; display:block; font-size:1.05rem; }
+  .nav-badge { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#c9a84c; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.25); padding:5px 12px; border-radius:2px; }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .nav-back { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.4); text-decoration:none; font-family:Montserrat,sans-serif; transition:color 0.2s; }
+  .nav-back:hover { color:#c9a84c; }
+
+  .unit-header {
+    background:linear-gradient(135deg,#0d1f15 0%,#1a3a2a 100%);
+    padding:60px 40px 50px;
+    border-bottom:1px solid rgba(201,168,76,0.15);
+  }
+  .unit-header-inner { max-width:1100px; margin:0 auto; }
+  .unit-eyebrow { font-size:9px; font-weight:700; letter-spacing:5px; text-transform:uppercase; color:#c9a84c; margin-bottom:14px; }
+  .unit-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; margin-bottom:10px; }
+  .unit-subtitle { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:24px; font-family:Montserrat,sans-serif; }
+  .unit-desc { font-family:'Cormorant Garamond',serif; font-size:1.1rem; line-height:1.8; color:rgba(255,255,255,0.65); max-width:700px; }
+
+  .arc-tabs {
+    display:flex;
+    gap:2px;
+    max-width:1100px;
+    margin:0 auto;
+    padding:40px 40px 0;
+  }
+  .arc-tab {
+    flex:1;
+    padding:14px 10px;
+    text-align:center;
+    background:#1a2a1e;
+    border:1px solid rgba(255,255,255,0.06);
+    border-bottom:none;
+    cursor:pointer;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.35);
+    font-family:Montserrat,sans-serif;
+    transition:all 0.2s;
+    border-radius:3px 3px 0 0;
+  }
+  .arc-tab.active { background:#1c2a1e; color:#c9a84c; border-color:rgba(201,168,76,0.25); border-bottom-color:#1c2a1e; }
+  .arc-tab:hover:not(.active) { color:rgba(255,255,255,0.6); }
+
+  .content-area { max-width:1100px; margin:0 auto; padding:0 40px 60px; }
+
+  .module-panel {
+    display:none;
+    background:#1c2a1e;
+    border:1px solid rgba(201,168,76,0.2);
+    border-top:none;
+    border-radius:0 0 4px 4px;
+    padding:40px;
+  }
+  .module-panel.active { display:block; }
+
+  /* Facilitator script box */
+  .facilitator-script {
+    background:rgba(201,168,76,0.07);
+    border-left:3px solid #c9a84c;
+    padding:20px 24px;
+    border-radius:0 4px 4px 0;
+    margin-bottom:28px;
+  }
+  .facilitator-script-label { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#c9a84c; margin-bottom:10px; font-family:Montserrat,sans-serif; }
+  .facilitator-script p { font-family:'Cormorant Garamond',serif; font-size:1.05rem; line-height:1.8; color:rgba(255,255,255,0.75); font-style:italic; }
+
+  /* Content blocks */
+  .content-block { margin-bottom:32px; }
+  .content-block h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:400; color:#fff; margin-bottom:12px; }
+  .content-block h4 { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#c9a84c; margin-bottom:10px; font-family:Montserrat,sans-serif; }
+  .content-block p { font-size:13px; line-height:1.9; color:rgba(255,255,255,0.6); margin-bottom:12px; }
+
+  /* Two-column layout for System 1/2 */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .col-card { background:#151c15; border:1px solid rgba(255,255,255,0.08); border-radius:3px; padding:24px; }
+  .col-card-title { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a84c; margin-bottom:12px; font-family:Montserrat,sans-serif; }
+  .col-card ul { list-style:none; padding:0; }
+  .col-card ul li { font-size:12px; color:rgba(255,255,255,0.55); padding:5px 0 5px 14px; position:relative; line-height:1.5; }
+  .col-card ul li::before { content:'·'; position:absolute; left:0; color:#c9a84c; }
+
+  /* Converging zone activity box */
+  .activity-box {
+    background:#0f1f12;
+    border:1px solid rgba(201,168,76,0.2);
+    border-radius:4px;
+    padding:28px;
+    margin-top:24px;
+  }
+  .activity-box-label { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#27ae60; margin-bottom:12px; font-family:Montserrat,sans-serif; }
+  .activity-box h4 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:400; color:#fff; margin-bottom:10px; }
+  .activity-box p { font-size:12px; line-height:1.8; color:rgba(255,255,255,0.55); }
+  .activity-steps { counter-reset:step; list-style:none; padding:0; margin:16px 0 0; }
+  .activity-steps li { counter-increment:step; font-size:12px; color:rgba(255,255,255,0.6); padding:8px 0 8px 32px; position:relative; border-bottom:1px solid rgba(255,255,255,0.05); line-height:1.6; }
+  .activity-steps li::before { content:counter(step); position:absolute; left:0; top:8px; width:22px; height:22px; background:rgba(201,168,76,0.15); color:#c9a84c; border-radius:50%; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:Montserrat,sans-serif; }
+
+  /* Timing bar */
+  .timing-bar { display:flex; gap:2px; margin-bottom:28px; }
+  .timing-segment { flex:1; background:#151c15; border-radius:2px; padding:10px 12px; text-align:center; }
+  .timing-segment .time { font-size:10px; font-weight:700; color:#c9a84c; font-family:Montserrat,sans-serif; }
+  .timing-segment .label { font-size:10px; color:rgba(255,255,255,0.4); margin-top:4px; font-family:Montserrat,sans-serif; }
+
+  /* Module nav buttons */
+  .module-nav { display:flex; justify-content:space-between; margin-top:36px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); }
+  .btn-nav { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:12px 24px; border-radius:2px; cursor:pointer; font-family:Montserrat,sans-serif; transition:all 0.2s; border:none; }
+  .btn-prev { background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.5); }
+  .btn-prev:hover { border-color:rgba(255,255,255,0.35); color:#fff; }
+  .btn-next { background:#c9a84c; color:#1c1c1c; }
+  .btn-next:hover { background:#e8c96a; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="unit-nav-left">
+    <img src="../assets/logo.png" alt="IBSL" class="nav-logo" />
+    <div class="nav-brand"><strong>IBSL</strong>Strategy2Result®</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+  <div class="nav-right">
+    <a href="../index.html" class="nav-back">← Back to Platform</a>
+  </div>
+</nav>
+
+<!-- UNIT HEADER -->
+<div class="unit-header">
+  <div class="unit-header-inner">
+    <p class="unit-eyebrow">Unit 1 · Foundation</p>
+    <h1 class="unit-title">Behavioural Strategy Fundamentals</h1>
+    <p class="unit-subtitle">6 Modules · Facilitator Control View</p>
+    <p class="unit-desc">
+      Establishes the psychological bedrock underpinning all strategic decision-making.
+      Use the tabs below to navigate each module arc. Facilitator scripts and participant
+      synthesis prompts are embedded throughout.
+    </p>
+  </div>
+</div>
+
+<!-- ARC TABS -->
+<div class="arc-tabs" style="padding-top:40px;">
+  <div class="arc-tab active" onclick="showModule(0)">M1 · Orientation</div>
+  <div class="arc-tab" onclick="showModule(1)">M2 · Awareness</div>
+  <div class="arc-tab" onclick="showModule(2)">M3 · Intelligence</div>
+  <div class="arc-tab" onclick="showModule(3)">M4 · Extrapolating</div>
+  <div class="arc-tab" onclick="showModule(4)">M5 · Converging</div>
+  <div class="arc-tab" onclick="showModule(5)">M6 · Application</div>
+</div>
+
+<div class="content-area">
+
+  <!-- MODULE 1 -->
+  <div class="module-panel active" id="mod0">
+    <div class="timing-bar">
+      <div class="timing-segment"><div class="time">0:00–0:55</div><div class="label">Awareness</div></div>
+      <div class="timing-segment"><div class="time">0:55–1:40</div><div class="label">Intelligence</div></div>
+      <div class="timing-segment"><div class="time">1:40–2:25</div><div class="label">Extrapolating</div></div>
+      <div class="timing-segment"><div class="time">3:05–3:30</div><div class="label">Converging</div></div>
+    </div>
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Opening</p>
+      <p>"Behavioural Strategy sits at the intersection of cognitive psychology and strategic management. Before we go anywhere today, I want you to understand this is not a knowledge exercise. It is a human exercise. Strategy is not purely analytical — it is human. And this programme is about equipping you to do something about that."</p>
+    </div>
+    <div class="content-block">
+      <h3>Chapter 1: Introduction — Understanding the Basics</h3>
+      <p>This chapter follows four learning zones, each building on the last: Awareness (what behavioural strategy is), Intelligence (why it is critical), Extrapolating (where it fits in the strategy management journey), and Converging Zone (how to create collective intelligence).</p>
+    </div>
+    <div class="activity-box">
+      <p class="activity-box-label">Facilitator Action</p>
+      <h4>Opening Framing Exercise</h4>
+      <p>Before introducing content, ask participants to write one sentence answering: <em>"What do you believe is the primary reason strategies fail in your organisation?"</em> Collect anonymously. Use responses to anchor the session opening.</p>
+    </div>
+    <div class="module-nav">
+      <span></span>
+      <button class="btn-nav btn-next" onclick="showModule(1)">Module 2 — Awareness →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module-panel" id="mod1">
+    <div class="timing-bar">
+      <div class="timing-segment"><div class="time">0:00–0:55</div><div class="label">What</div></div>
+      <div class="timing-segment"><div class="time">0:55–1:40</div><div class="label">Why</div></div>
+      <div class="timing-segment"><div class="time">1:40–2:25</div><div class="label">Where</div></div>
+      <div class="timing-segment"><div class="time">3:05–3:30</div><div class="label">Collective</div></div>
+    </div>
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Script — Awareness</p>
+      <p>"Where traditional strategy asks 'What should we do?' — Behavioural Strategy asks the prior question: 'How does the way we think shape what we believe we should do — and are those thinking patterns helping or hurting us?' Today we map that architecture."</p>
+    </div>
+    <div class="content-block">
+      <h3>Section 2.1: Defining Behavioural Strategy</h3>
+      <p>Behavioural strategy merges strategic management theory with insights from cognitive and social psychology. It acknowledges that strategic choices are never purely objective — they are the final output of invisible mental filters.</p>
+      <h4>The Dual-Process Framework — System 1 vs System 2</h4>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <p class="col-card-title">System 1 — Fast Thinking</p>
+        <ul>
+          <li>Automatic, intuitive, emotionally driven</li>
+          <li>Operates below conscious awareness</li>
+          <li>Draws on pattern recognition</li>
+          <li>Vulnerable to cognitive biases</li>
+          <li>Dominant in high-pressure sessions</li>
+        </ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">System 2 — Slow Thinking</p>
+        <ul>
+          <li>Deliberate, analytical, effortful</li>
+          <li>Requires conscious attention</li>
+          <li>Analyses data, weighs trade-offs</li>
+          <li>Easily overridden under time pressure</li>
+          <li>Requires psychological safety to activate</li>
+        </ul>
+      </div>
+    </div>
+    <div class="content-block">
+      <h4>Section 2.3: The 4 Bias Families (20 Types)</h4>
+      <p>Action-Oriented · Stability · Interest · Social — each representing a distinct way judgement becomes systematically skewed. Facilitator note: do not lecture through all 20. Use the table as a reference. Focus on 3–4 that resonate with the group's organisational context.</p>
+    </div>
+    <div class="activity-box">
+      <p class="activity-box-label">Synthesis Prompt — Converging Zone</p>
+      <h4>Elephant Perspective Exercise</h4>
+      <p>Assign each participant a CXO role. Ask them to read the same strategic scenario and write their "internal translation." Surface in plenary. Use to demonstrate functional bias before naming it.</p>
+      <ol class="activity-steps">
+        <li>Assign CXO roles (CEO, CFO, COO, CHRO, CTO, CMO, CCO, CPO, CRO, CSO)</li>
+        <li>Distribute the MyHealth Live Portal scenario</li>
+        <li>Each CXO writes their "internal translation" — what success looks like from their seat</li>
+        <li>Plenary share — facilitator maps responses on whiteboard/screen</li>
+        <li>Debrief: where do the translations align? Where do they fragment?</li>
+      </ol>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(0)">← Module 1</button>
+      <button class="btn-nav btn-next" onclick="showModule(2)">Module 3 — Intelligence →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module-panel" id="mod2">
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Script — Intelligence</p>
+      <p>"Research by McKinsey indicates that organisations with disciplined decision-making practices deliver returns approximately 6% higher than peers. The question isn't whether bias exists — it's whether your organisation has systems to catch it before it becomes a cost."</p>
+    </div>
+    <div class="content-block">
+      <h3>Chapter 3: Why Behavioural Strategy Is Critical</h3>
+      <p>The hidden cost of poor behavioural awareness manifests as misallocated capital, strategic inertia, execution failure, innovation suppression, and purpose drift. Each maps directly to a bias family.</p>
+      <h4>The White Space Concept</h4>
+      <p>The gap between functional mandates where no one is technically "in charge" but where the customer experience actually lives. Facilitator: use the MyHealth Portal example — every CXO hit their target, yet patient satisfaction collapsed.</p>
+    </div>
+    <div class="activity-box">
+      <p class="activity-box-label">Facilitator Action — Panoramic Scan</p>
+      <h4>Three-Point White Space Check</h4>
+      <ol class="activity-steps">
+        <li>Does my "Done" actually create more work for you? (Vertical Success)</li>
+        <li>If the system is Green but the customer is Red, where do we neutralise? (White Space)</li>
+        <li>Has the enterprise won? (Enterprise Consequence)</li>
+      </ol>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(1)">← Module 2</button>
+      <button class="btn-nav btn-next" onclick="showModule(3)">Module 4 — Extrapolating →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 4 -->
+  <div class="module-panel" id="mod3">
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Script — Extrapolating</p>
+      <p>"Bias does not live in people alone. It lives in processes — specifically in the moments within a strategy process where human judgement is required. Today we map those moments."</p>
+    </div>
+    <div class="content-block">
+      <h3>Chapter 4: The Strategy Journey as a Bias Landscape</h3>
+      <p>Four phases — Diagnosis, Option Generation, Decision, Execution — each activates a different cluster of biases. The four Scanner Questions anchor each phase for participant reflection.</p>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <p class="col-card-title">Phase 1 · Diagnosis</p>
+        <ul><li>Availability Bias</li><li>Anchoring Bias</li><li>Confirmation Bias</li><li>Scanner: Strip what we already believe — what does the evidence actually say?</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">Phase 2 · Option Generation</p>
+        <ul><li>Status Quo Bias</li><li>Silo Bias</li><li>Career-Risk Bias</li><li>Scanner: What is the most disruptive option not yet on the table?</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">Phase 3 · Decision</p>
+        <ul><li>Overconfidence Bias</li><li>Loss Aversion</li><li>Authority Bias / Halo Effect</li><li>Scanner: Would we make the same call if the proposer had no stake in the outcome?</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">Phase 4 · Execution</p>
+        <ul><li>Planning Fallacy</li><li>Incentive Bias</li><li>Self-Interest Bias</li><li>Scanner: Are we measuring what matters, or what is easy to measure?</li></ul>
+      </div>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(2)">← Module 3</button>
+      <button class="btn-nav btn-next" onclick="showModule(4)">Module 5 — Converging →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 5 -->
+  <div class="module-panel" id="mod4">
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Script — Converging Zone</p>
+      <p>"The quality of your strategy is a direct function of the quality of the thinking environment in which it was made. The Converging Zone is where we shift from individual expertise to collective intelligence."</p>
+    </div>
+    <div class="content-block">
+      <h3>Chapter 6: The Three Pillars of Convergence</h3>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <p class="col-card-title">1 · Cognitive Integration</p>
+        <ul><li>Break functional silos</li><li>Build a single version of the truth</li><li>Stress test: if Finance data is right, does Marketing plan still hold?</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">2 · Behavioural Guardrails</p>
+        <ul><li>Build friction into the meeting</li><li>Challenge Clock: 10 mins finding reasons the plan won't work</li><li>Stop the loudest voice winning by default</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">3 · Emotional Stabilisation</p>
+        <ul><li>Name the feeling before the content</li><li>Move team from defensiveness to curiosity</li><li>Leaders must admit they don't have all answers</li></ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">Institutional Practices</p>
+        <ul><li>72-Hour Pre-Read Mandate</li><li>Rotating Neutral Facilitation</li><li>Blind Ideation</li><li>Silent Deliberation before verbal discussion</li></ul>
+      </div>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(3)">← Module 4</button>
+      <button class="btn-nav btn-next" onclick="showModule(5)">Module 6 — Application →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 6 -->
+  <div class="module-panel" id="mod5">
+    <div class="facilitator-script">
+      <p class="facilitator-script-label">Facilitator Script — Application</p>
+      <p>"This is the Distortion Lab. Participants will experience firsthand how fragmented data produces fragmented strategy — and how collective intelligence must be deliberately structured."</p>
+    </div>
+    <div class="content-block">
+      <h3>Section 7.1: The Growth Decision — Converging Zone Simulation</h3>
+      <p>Company: Apex Manufacturing. The board has placed pressure to accelerate growth while maintaining financial stability and operational integrity.</p>
+      <h4>Phase 1 — Fragmented Reality (Distribute separately to groups)</h4>
+    </div>
+    <div class="two-col">
+      <div class="col-card"><p class="col-card-title">Group 1 · Finance</p><ul><li>Margins declining 2 years</li><li>Capital constraints tightening</li><li>Debt capacity limited</li><li>Reality: Financial sustainability under pressure</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Group 2 · Market & Strategy</p><ul><li>Adjacent markets growing faster</li><li>Competitors expanding aggressively</li><li>Strong acquisition targets available</li><li>Reality: Growth acceleration critical</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Group 3 · Operations</p><ul><li>Plants near full capacity</li><li>Integration capability limited</li><li>Previous integration effort struggled</li><li>Reality: Operational system stretched and fragile</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Group 4 · People & Culture</p><ul><li>Leadership bandwidth constrained</li><li>Change fatigue visible</li><li>Talent retention becoming concern</li><li>Reality: Organisation may not absorb further strain</li></ul></div>
+    </div>
+    <div class="activity-box">
+      <p class="activity-box-label">Facilitator Debrief Questions</p>
+      <h4>After Phase 2 Board Options are revealed</h4>
+      <ol class="activity-steps">
+        <li>When did you form your preferred option?</li>
+        <li>What shaped that preference?</li>
+        <li>What changed after seeing all perspectives?</li>
+        <li>What made integration difficult?</li>
+      </ol>
+    </div>
+    <div class="content-block" style="margin-top:28px;">
+      <h4>Section 7.2: Behavioural Strategy Leadership Assessment</h4>
+      <p>The Five Commitments Self-Scoring Tool (20 statements, 1–5 scale). Administer at close of Unit 1. Results inform Units 2–4 focus areas for each participant.</p>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(4)">← Module 5</button>
+      <button class="btn-nav btn-next" style="background:#27ae60;" onclick="alert('Unit 1 complete. Unit 2 will be available once released by your facilitator.')">Unit 1 Complete ✓</button>
+    </div>
+  </div>
+
+</div><!-- /content-area -->
+
+<script>
+  function showModule(index) {
+    document.querySelectorAll('.arc-tab').forEach(function(t, i) {
+      t.classList.toggle('active', i === index);
+    });
+    document.querySelectorAll('.module-panel').forEach(function(p, i) {
+      p.classList.toggle('active', i === index);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

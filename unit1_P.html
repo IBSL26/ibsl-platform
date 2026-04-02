@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 1 Foundation — Participant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/style.css">
+<style>
+  body { background:#111811; color:#fff; min-height:100vh; }
+  .unit-nav { background:#0d1a10; border-bottom:1px solid rgba(201,168,76,0.15); padding:16px 40px; display:flex; align-items:center; justify-content:space-between; }
+  .unit-nav-left { display:flex; align-items:center; gap:20px; }
+  .nav-logo { width:38px; height:38px; object-fit:contain; }
+  .nav-brand { font-family:'Cormorant Garamond',serif; font-size:1rem; color:rgba(255,255,255,0.6); }
+  .nav-brand strong { color:#c9a84c; display:block; font-size:1.05rem; }
+  .nav-badge { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#27ae60; background:rgba(39,174,96,0.1); border:1px solid rgba(39,174,96,0.25); padding:5px 12px; border-radius:2px; }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .nav-back { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.4); text-decoration:none; font-family:Montserrat,sans-serif; transition:color 0.2s; }
+  .nav-back:hover { color:#c9a84c; }
+
+  .unit-header { background:linear-gradient(135deg,#0d1f15 0%,#1a3a2a 100%); padding:60px 40px 50px; border-bottom:1px solid rgba(201,168,76,0.15); }
+  .unit-header-inner { max-width:900px; margin:0 auto; }
+  .unit-eyebrow { font-size:9px; font-weight:700; letter-spacing:5px; text-transform:uppercase; color:#c9a84c; margin-bottom:14px; }
+  .unit-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; margin-bottom:10px; }
+  .unit-subtitle { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-bottom:24px; font-family:Montserrat,sans-serif; }
+  .unit-desc { font-family:'Cormorant Garamond',serif; font-size:1.1rem; line-height:1.8; color:rgba(255,255,255,0.65); }
+
+  /* CXO Role badge */
+  .role-bar { background:#0f1f12; border-bottom:1px solid rgba(201,168,76,0.1); padding:14px 40px; display:flex; align-items:center; gap:16px; }
+  .role-label { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.35); font-family:Montserrat,sans-serif; }
+  .role-select { background:#1a2a1e; border:1px solid rgba(201,168,76,0.25); color:#c9a84c; font-family:Montserrat,sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; padding:8px 14px; border-radius:2px; cursor:pointer; }
+
+  .arc-tabs { display:flex; gap:2px; max-width:900px; margin:0 auto; padding:40px 40px 0; }
+  .arc-tab { flex:1; padding:14px 10px; text-align:center; background:#1a2a1e; border:1px solid rgba(255,255,255,0.06); border-bottom:none; cursor:pointer; font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.35); font-family:Montserrat,sans-serif; transition:all 0.2s; border-radius:3px 3px 0 0; }
+  .arc-tab.active { background:#1c2a1e; color:#c9a84c; border-color:rgba(201,168,76,0.25); border-bottom-color:#1c2a1e; }
+
+  .content-area { max-width:900px; margin:0 auto; padding:0 40px 60px; }
+  .module-panel { display:none; background:#1c2a1e; border:1px solid rgba(201,168,76,0.2); border-top:none; border-radius:0 0 4px 4px; padding:40px; }
+  .module-panel.active { display:block; }
+
+  .content-block { margin-bottom:32px; }
+  .content-block h3 { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:400; color:#fff; margin-bottom:14px; }
+  .content-block h4 { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#c9a84c; margin-bottom:10px; font-family:Montserrat,sans-serif; }
+  .content-block p { font-size:13px; line-height:1.9; color:rgba(255,255,255,0.65); margin-bottom:12px; }
+
+  /* Quote block */
+  .quote-block { border-left:3px solid #c9a84c; padding:16px 24px; margin:20px 0; background:rgba(201,168,76,0.05); }
+  .quote-block p { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-style:italic; color:rgba(255,255,255,0.8); line-height:1.7; }
+
+  /* Reflection input */
+  .reflection-box { background:#111811; border:1px solid rgba(201,168,76,0.2); border-radius:4px; padding:24px; margin:20px 0; }
+  .reflection-label { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#c9a84c; margin-bottom:12px; font-family:Montserrat,sans-serif; }
+  .reflection-prompt { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:rgba(255,255,255,0.7); margin-bottom:14px; font-style:italic; }
+  .reflection-input { width:100%; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:2px; padding:14px 16px; color:#fff; font-family:'Cormorant Garamond',serif; font-size:1rem; line-height:1.7; resize:vertical; min-height:100px; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
+  .reflection-input:focus { border-color:rgba(201,168,76,0.4); }
+  .reflection-input::placeholder { color:rgba(255,255,255,0.2); }
+  .save-btn { margin-top:10px; background:none; border:1px solid rgba(201,168,76,0.35); color:#c9a84c; font-family:Montserrat,sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:9px 20px; cursor:pointer; border-radius:2px; transition:all 0.2s; }
+  .save-btn:hover { background:rgba(201,168,76,0.1); }
+
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+  .col-card { background:#151c15; border:1px solid rgba(255,255,255,0.08); border-radius:3px; padding:24px; }
+  .col-card-title { font-size:10px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a84c; margin-bottom:12px; font-family:Montserrat,sans-serif; }
+  .col-card ul { list-style:none; padding:0; }
+  .col-card ul li { font-size:12px; color:rgba(255,255,255,0.55); padding:5px 0 5px 14px; position:relative; line-height:1.5; }
+  .col-card ul li::before { content:'·'; position:absolute; left:0; color:#c9a84c; }
+
+  /* CXO perspective prompt */
+  .cxo-prompt { background:#0f2419; border:1px solid rgba(39,174,96,0.2); border-radius:4px; padding:24px; margin:20px 0; }
+  .cxo-prompt-label { font-size:9px; font-weight:700; letter-spacing:4px; text-transform:uppercase; color:#27ae60; margin-bottom:10px; font-family:Montserrat,sans-serif; }
+  .cxo-prompt h4 { font-family:'Cormorant Garamond',serif; font-size:1.15rem; font-weight:400; color:#fff; margin-bottom:8px; }
+  .cxo-prompt p { font-size:12px; color:rgba(255,255,255,0.55); line-height:1.7; }
+
+  .module-nav { display:flex; justify-content:space-between; margin-top:36px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.06); }
+  .btn-nav { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:12px 24px; border-radius:2px; cursor:pointer; font-family:Montserrat,sans-serif; transition:all 0.2s; border:none; }
+  .btn-prev { background:transparent; border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.5); }
+  .btn-prev:hover { border-color:rgba(255,255,255,0.35); color:#fff; }
+  .btn-next { background:#c9a84c; color:#1c1c1c; }
+  .btn-next:hover { background:#e8c96a; }
+
+  /* Progress dots */
+  .progress-dots { display:flex; justify-content:center; gap:8px; margin:24px 0 0; }
+  .progress-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.12); transition:background 0.2s; }
+  .progress-dot.done { background:#27ae60; }
+  .progress-dot.active { background:#c9a84c; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="unit-nav-left">
+    <img src="../assets/logo.png" alt="IBSL" class="nav-logo" />
+    <div class="nav-brand"><strong>IBSL</strong>Strategy2Result®</div>
+  </div>
+  <span class="nav-badge">Participant View</span>
+  <div class="nav-right">
+    <a href="../index.html" class="nav-back">← Back to Platform</a>
+  </div>
+</nav>
+
+<!-- CXO ROLE BAR -->
+<div class="role-bar">
+  <span class="role-label">Your assigned CXO role:</span>
+  <select class="role-select" id="cxoRole">
+    <option value="">— Select your role —</option>
+    <option>CEO</option><option>CFO</option><option>COO</option>
+    <option>CHRO</option><option>CTO</option><option>CMO</option>
+    <option>CCO</option><option>CPO</option><option>CRO</option><option>CSO</option>
+  </select>
+</div>
+
+<!-- UNIT HEADER -->
+<div class="unit-header">
+  <div class="unit-header-inner">
+    <p class="unit-eyebrow">Unit 1 · Foundation</p>
+    <h1 class="unit-title">Behavioural Strategy Fundamentals</h1>
+    <p class="unit-subtitle">6 Modules · Participant Journey</p>
+    <p class="unit-desc">
+      You are about to begin a programme that will permanently change how you read a room,
+      interpret data, and make decisions. Work through each module in sequence.
+      Your reflections are saved locally to your device.
+    </p>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-dots" style="padding:0 40px;">
+  <div class="progress-dot active" id="dot0"></div>
+  <div class="progress-dot" id="dot1"></div>
+  <div class="progress-dot" id="dot2"></div>
+  <div class="progress-dot" id="dot3"></div>
+  <div class="progress-dot" id="dot4"></div>
+  <div class="progress-dot" id="dot5"></div>
+</div>
+
+<!-- ARC TABS -->
+<div class="arc-tabs">
+  <div class="arc-tab active" onclick="showModule(0)">M1</div>
+  <div class="arc-tab" onclick="showModule(1)">M2</div>
+  <div class="arc-tab" onclick="showModule(2)">M3</div>
+  <div class="arc-tab" onclick="showModule(3)">M4</div>
+  <div class="arc-tab" onclick="showModule(4)">M5</div>
+  <div class="arc-tab" onclick="showModule(5)">M6</div>
+</div>
+
+<div class="content-area">
+
+  <!-- MODULE 1 -->
+  <div class="module-panel active" id="mod0">
+    <div class="content-block">
+      <h3>Module 1 · Orientation</h3>
+      <p>Behavioural Strategy sits at the intersection of cognitive psychology and strategic management. As you progress through Strategy2Result®, you will begin to recognise patterns in how your team debates, how your organisation makes decisions, and how your own mental models shape the strategy your organisation ultimately pursues.</p>
+    </div>
+    <div class="quote-block">
+      <p>"The quality of your strategy is a direct function of the quality of the thinking environment in which it was made."</p>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Opening Reflection</p>
+      <p class="reflection-prompt">Before we begin — what do you believe is the primary reason strategies fail in your organisation?</p>
+      <textarea class="reflection-input" id="ref_m1" placeholder="Write your honest answer here..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m1')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <span></span>
+      <button class="btn-nav btn-next" onclick="showModule(1)">Module 2 →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 2 -->
+  <div class="module-panel" id="mod1">
+    <div class="content-block">
+      <h3>Module 2 · Awareness — What Behavioural Strategy Is</h3>
+      <p>Where traditional strategy asks <em>'What should we do?'</em> — Behavioural Strategy asks the prior question: <em>'How does the way we think shape what we believe we should do — and are those thinking patterns helping or hurting us?'</em></p>
+      <h4>The Dual-Process Framework</h4>
+      <p>Daniel Kahneman's framework reveals that strategic thinking is a dynamic interaction between two internal systems. Understanding which system is dominant in your leadership team is the difference between a reactive impulse and a disciplined choice.</p>
+    </div>
+    <div class="two-col">
+      <div class="col-card">
+        <p class="col-card-title">System 1 — Fast Thinking</p>
+        <ul>
+          <li>Automatic and intuitive</li>
+          <li>Pattern recognition from experience</li>
+          <li>Produces rapid, confident judgements</li>
+          <li>Vulnerable to cognitive biases</li>
+        </ul>
+      </div>
+      <div class="col-card">
+        <p class="col-card-title">System 2 — Slow Thinking</p>
+        <ul>
+          <li>Deliberate and analytical</li>
+          <li>Weighs options and trade-offs</li>
+          <li>More reliable for complex problems</li>
+          <li>Requires psychological safety</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cxo-prompt">
+      <p class="cxo-prompt-label">Your CXO Perspective</p>
+      <h4>From your assigned role — when does your function rely most on System 1 thinking? When does it demand System 2?</h4>
+      <p>Consider a recent strategic decision in your organisation. Which system was dominant in the room?</p>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Module 2 Reflection</p>
+      <p class="reflection-prompt">Describe a moment when System 1 thinking led your team to a decision that System 2 analysis later challenged. What was the cost?</p>
+      <textarea class="reflection-input" id="ref_m2" placeholder="Your reflection..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m2')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(0)">← Module 1</button>
+      <button class="btn-nav btn-next" onclick="showModule(2)">Module 3 →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 3 -->
+  <div class="module-panel" id="mod2">
+    <div class="content-block">
+      <h3>Module 3 · Intelligence — Why It Is Critical</h3>
+      <p>Research by McKinsey indicates organisations with disciplined decision-making practices deliver returns approximately 6% higher than peers. The hidden cost of poor behavioural awareness is not random — it follows predictable patterns across five strategic costs.</p>
+      <h4>The Five Hidden Costs</h4>
+    </div>
+    <div class="two-col">
+      <div class="col-card"><p class="col-card-title">Misallocated Capital</p><ul><li>Sunk-Cost Fallacy</li><li>Endowment Effect</li><li>Overconfidence driving ego acquisitions</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Strategic Inertia</p><ul><li>Anchoring to old metrics</li><li>Status Quo Bias</li><li>Loss Aversion preventing new models</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Execution Failure</p><ul><li>Planning Fallacy in high-level plans</li><li>Optimism Bias in forecasting</li><li>Action-reinforcing Confirmation Bias</li></ul></div>
+      <div class="col-card"><p class="col-card-title">Innovation Suppression</p><ul><li>Groupthink filtering transformative ideas</li><li>Career-Risk Bias silencing dissent</li><li>Conformity Bias to dominant view</li></ul></div>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Module 3 Reflection</p>
+      <p class="reflection-prompt">From your CXO perspective — which of the five hidden costs is most visible in your organisation right now? What is the evidence?</p>
+      <textarea class="reflection-input" id="ref_m3" placeholder="Your reflection..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m3')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(1)">← Module 2</button>
+      <button class="btn-nav btn-next" onclick="showModule(3)">Module 4 →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 4 -->
+  <div class="module-panel" id="mod3">
+    <div class="content-block">
+      <h3>Module 4 · Extrapolating — Where Behavioural Strategy Operates</h3>
+      <p>Bias does not live in people alone. It lives in processes — in the specific moments within a strategy process where human judgement is required. Each of the four phases creates a distinct opening through which systematic distortion can enter.</p>
+    </div>
+    <div class="cxo-prompt">
+      <p class="cxo-prompt-label">Your CXO Perspective — The Four Scanner Questions</p>
+      <h4>Apply each question to your current strategy cycle from your assigned role.</h4>
+      <p><strong>Diagnosis:</strong> If we stripped out everything our team already believed, what would the evidence actually tell us?<br><br>
+      <strong>Option Generation:</strong> What is the most disruptive option we have not yet put on the table — and what is the real reason it is not there?<br><br>
+      <strong>Decision:</strong> If the person who proposed this option had no stake in the outcome, would we make the same decision?<br><br>
+      <strong>Execution:</strong> Are we measuring what matters to the strategy, or what is easy to measure?</p>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Module 4 Reflection</p>
+      <p class="reflection-prompt">In which of the four phases is your organisation most exposed to bias right now? What would you do differently if you were designing the process from scratch?</p>
+      <textarea class="reflection-input" id="ref_m4" placeholder="Your reflection..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m4')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(2)">← Module 3</button>
+      <button class="btn-nav btn-next" onclick="showModule(4)">Module 5 →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 5 -->
+  <div class="module-panel" id="mod4">
+    <div class="content-block">
+      <h3>Module 5 · Converging — How to Build Collective Intelligence</h3>
+      <p>The quality of strategy execution is a direct function of the quality of the thinking environment — not the intelligence of individuals, not the volume of data, but the conditions under which thinking happens.</p>
+    </div>
+    <div class="quote-block">
+      <p>"Convergence is where the 'Me' becomes 'We.' It is the process of trading individual opinions for Collective Intelligence."</p>
+    </div>
+    <div class="cxo-prompt">
+      <p class="cxo-prompt-label">Your CXO Contribution — Converging Zone</p>
+      <h4>From your assigned role — what is the one question only you can bring to the converging table?</h4>
+      <p>Each CXO lens surfaces something others cannot see. Your contribution to collective intelligence is not the answer — it is the question your function is uniquely positioned to ask.</p>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Module 5 Reflection</p>
+      <p class="reflection-prompt">At which point in your current strategy process does collective intelligence break down? What condition would need to exist for honest challenge to become the norm?</p>
+      <textarea class="reflection-input" id="ref_m5" placeholder="Your reflection..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m5')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(3)">← Module 4</button>
+      <button class="btn-nav btn-next" onclick="showModule(5)">Module 6 →</button>
+    </div>
+  </div>
+
+  <!-- MODULE 6 -->
+  <div class="module-panel" id="mod5">
+    <div class="content-block">
+      <h3>Module 6 · Application — The Lens in Practice</h3>
+      <p>The Distortion Lab demonstrates how strategic distortion forms before decisions are made, and how collective intelligence must be deliberately structured to arrive at an integrated enterprise decision.</p>
+      <h4>The Apex Manufacturing Scenario</h4>
+      <p>Your facilitator will assign your group a data set. Based only on that data, form a strategic recommendation. Then discover what the other groups saw — and why your recommendation changes.</p>
+    </div>
+    <div class="content-block">
+      <h4>Unit 1 Assessment — The Five Commitments</h4>
+      <p>Score yourself honestly on each of 20 statements (1–5). Avoid scoring what you aspire to — score what is consistently true of your practice right now.</p>
+    </div>
+    <div class="reflection-box">
+      <p class="reflection-label">Unit 1 Closing Reflection</p>
+      <p class="reflection-prompt">Having completed Unit 1 — what is the single most significant insight about your own thinking that you are taking into Unit 2? Be specific. Name the bias. Name the context. Name the cost.</p>
+      <textarea class="reflection-input" id="ref_m6" style="min-height:140px;" placeholder="Your closing reflection..."></textarea>
+      <button class="save-btn" onclick="saveReflection('ref_m6')">Save Reflection</button>
+    </div>
+    <div class="module-nav">
+      <button class="btn-nav btn-prev" onclick="showModule(4)">← Module 5</button>
+      <button class="btn-nav btn-next" style="background:#27ae60;" onclick="completeUnit()">Submit & Complete Unit 1 ✓</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var currentModule = 0;
+
+  function showModule(index) {
+    document.querySelectorAll('.arc-tab').forEach(function(t, i) { t.classList.toggle('active', i === index); });
+    document.querySelectorAll('.module-panel').forEach(function(p, i) { p.classList.toggle('active', i === index); });
+    document.querySelectorAll('.progress-dot').forEach(function(d, i) {
+      d.classList.remove('active','done');
+      if (i < index) d.classList.add('done');
+      if (i === index) d.classList.add('active');
+    });
+    currentModule = index;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function saveReflection(id) {
+    var val = document.getElementById(id).value;
+    if (val.trim()) {
+      localStorage.setItem('ibsl_' + id, val);
+      var btn = document.querySelector('[onclick="saveReflection(\'' + id + '\')"]');
+      btn.textContent = 'Saved ✓';
+      btn.style.color = '#27ae60';
+      btn.style.borderColor = 'rgba(39,174,96,0.4)';
+      setTimeout(function() { btn.textContent = 'Save Reflection'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+    }
+  }
+
+  function completeUnit() {
+    localStorage.setItem('ibsl_unit1_complete', new Date().toISOString());
+    alert('Unit 1 complete. Your reflections have been saved to this device.\n\nUnit 2 will become available once released by your facilitator.');
+  }
+
+  // Restore saved reflections on load
+  ['ref_m1','ref_m2','ref_m3','ref_m4','ref_m5','ref_m6'].forEach(function(id) {
+    var saved = localStorage.getItem('ibsl_' + id);
+    if (saved && document.getElementById(id)) document.getElementById(id).value = saved;
+  });
+</script>
+</body>
+</html>
