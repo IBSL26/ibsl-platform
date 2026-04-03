@@ -441,10 +441,16 @@
     padding: 40px 28px;
     position: relative;
     overflow: hidden;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border: 1px solid transparent;
   }
 
-  .unit-card:hover { background: #1c2a1c; }
+  .unit-card:hover {
+    background: #1c2a1c;
+    border-color: rgba(201,168,76,0.25);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  }
 
   .unit-lock {
     position: absolute;
@@ -510,6 +516,35 @@
     left: 0;
     color: var(--gold);
     opacity: 0.6;
+  }
+
+  .unit-modules li.mod-header {
+    color: rgba(255,255,255,0.72);
+    font-weight: 600;
+    margin-top: 10px;
+    font-size: 11px;
+  }
+
+  .unit-modules li.mod-header:first-child { margin-top: 0; }
+
+  .unit-modules li.mod-header::before {
+    content: '▸';
+    color: var(--gold);
+    opacity: 0.85;
+    font-size: 9px;
+    top: 2px;
+  }
+
+  .unit-modules li.lens-item {
+    padding-left: 22px;
+    font-size: 10.5px;
+    color: rgba(255,255,255,0.38);
+  }
+
+  .unit-modules li.lens-item::before {
+    content: '–';
+    opacity: 0.4;
+    font-size: 10px;
   }
 
   /* ─── CERTIFICATION BAND ─── */
@@ -896,9 +931,12 @@
         <p style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin-bottom:8px;" id="portalRoleLabel">FACILITATOR PORTAL</p>
         <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#fff;margin:0;" id="portalWelcome">Welcome</h2>
       </div>
-      <div style="text-align:right;">
-        <p style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Montserrat,sans-serif;margin-bottom:6px;" id="portalDaysLeft"></p>
-        <button onclick="signOut()" style="background:none;border:1px solid rgba(201,168,76,0.4);color:#c9a84c;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:8px 18px;cursor:pointer;border-radius:2px;">Sign Out</button>
+      <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Montserrat,sans-serif;margin-bottom:0;" id="portalDaysLeft"></p>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button onclick="goHome()" style="background:none;border:1px solid rgba(255,255,255,0.25);color:rgba(255,255,255,0.6);font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 18px;cursor:pointer;border-radius:2px;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';this.style.color='#fff';" onmouseout="this.style.borderColor='rgba(255,255,255,0.25)';this.style.color='rgba(255,255,255,0.6)';">← Home</button>
+          <button onclick="signOut()" style="background:none;border:1px solid rgba(201,168,76,0.4);color:#c9a84c;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:8px 18px;cursor:pointer;border-radius:2px;">Sign Out</button>
+        </div>
       </div>
     </div>
 
@@ -917,28 +955,31 @@
         <a id="unit1Link" href="#" onclick="openUnit1()" style="display:inline-block;margin-top:16px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Open Unit 1 →</a>
       </div>
 
-      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:32px 28px;position:relative;opacity:0.5;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#555;border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#888;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 2 · LOCKED 🔒</p>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#888;margin-bottom:6px;">Direction</h3>
-        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 1 · 4 Sessions</p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7;font-family:Montserrat,sans-serif;">Requires Unit 1 completion</p>
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 2 · UNLOCKED</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Direction</h3>
+        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 1 · 2 Modules · 3 Lenses</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;font-family:Montserrat,sans-serif;">Strategy Intent &amp; Direction</p>
+        <a href="#" onclick="openUnit2()" style="display:inline-block;margin-top:16px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Open Unit 2 →</a>
       </div>
 
-      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:32px 28px;position:relative;opacity:0.5;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#555;border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#888;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 3 · LOCKED 🔒</p>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#888;margin-bottom:6px;">Influence</h3>
-        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 2 · 3 Sessions</p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7;font-family:Montserrat,sans-serif;">Requires Unit 2 completion</p>
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 3 · UNLOCKED</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Influence</h3>
+        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 2 · 2 Modules · 5 Lenses</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;font-family:Montserrat,sans-serif;">Leadership Execution &amp; Accountability</p>
+        <a href="#" onclick="openUnit3()" style="display:inline-block;margin-top:16px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Open Unit 3 →</a>
       </div>
 
-      <div style="background:#1c1c1c;border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:32px 28px;position:relative;opacity:0.5;">
-        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#555;border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#888;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 4 · LOCKED 🔒</p>
-        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#888;margin-bottom:6px;">Grounding</h3>
-        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#666;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 3 · 3 Sessions</p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.25);line-height:1.7;font-family:Montserrat,sans-serif;">Requires Unit 3 completion</p>
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:10px;">UNIT 4 · UNLOCKED</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Grounding</h3>
+        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;margin-bottom:16px;font-family:Montserrat,sans-serif;">Pillar 3 · 1 Module · 3 Lenses</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7;font-family:Montserrat,sans-serif;">Enterprise &amp; Culture Alignment</p>
+        <a href="#" onclick="openUnit4()" style="display:inline-block;margin-top:16px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Open Unit 4 →</a>
       </div>
 
     </div>
@@ -1021,7 +1062,7 @@
         </p>
         <ul class="portal-features">
           <li>Real-time participant response aggregation and visualisation</li>
-          <li>CXO role assignment and perspective simulation controls</li>
+          <li>executive leader role assignment and perspective simulation controls</li>
           <li>Session pacing and 4-point Learning Arc management</li>
           <li>Panoramic Integration Zone synthesis tools</li>
           <li>Group diagnostic reports and debrief dashboards</li>
@@ -1037,12 +1078,12 @@
         <h3 class="portal-name">Participant<br>Journey Portal</h3>
         <p class="portal-desc">
           The guided learning environment for enrolled CESI candidates. Engage 
-          with each lens, submit perspectives from your assigned CXO role, and 
+          with each lens, submit perspectives from your assigned executive leader role, and 
           build your certification portfolio.
         </p>
         <ul class="portal-features">
           <li>Unit-by-unit guided progression with access controls</li>
-          <li>CXO perspective assignments and structured submissions</li>
+          <li>executive leader perspective assignments and structured submissions</li>
           <li>Interactive assessments — bias audit, KISS mapping, OKRs</li>
           <li>Integration Zone contribution tools for collective synthesis</li>
           <li>Personal portfolio builder and certification tracker</li>
@@ -1072,7 +1113,7 @@
       <div class="pillar d">
         <div class="pillar-letter">D</div>
         <p class="pillar-name">Direction</p>
-        <p class="pillar-desc">Strategy intent, visioning, OKR architecture, and directional integrity across all CXO lenses.</p>
+        <p class="pillar-desc">Strategy intent, visioning, OKR architecture, and directional integrity across all executive leadership lenses.</p>
       </div>
       <div class="pillar i">
         <div class="pillar-letter">I</div>
@@ -1096,63 +1137,62 @@
     <div class="units-grid">
 
       <!-- UNIT 1 -->
-      <div class="unit-card">
-        <div class="unit-lock" title="Open — Available to all enrolled participants" style="background:rgba(39,174,96,0.15);color:#27ae60;border-color:rgba(39,174,96,0.3);">🔓</div>
-        <p class="unit-number">Unit 1</p>
+      <div class="unit-card" onclick="handleArchitectureClick(1)">
         <h3 class="unit-title">Foundation</h3>
-        <p class="unit-subtitle">Behavioural Strategy</p>
+        <p class="unit-subtitle">Behavioural Strategy Fundamentals</p>
         <ul class="unit-modules">
           <li>Module 1 · Orientation</li>
-          <li>Module 2 · Awareness — What</li>
-          <li>Module 3 · Intelligence — Why</li>
-          <li>Module 4 · Extrapolating — Where</li>
-          <li>Module 5 · Integration Zone</li>
-          <li>Module 6 · Application</li>
+          <li>Module 2 · Awareness — What Behavioural Strategy Is</li>
+          <li>Module 3 · Intelligence — Why Behavioural Strategy Is Critical</li>
+          <li>Module 4 · Extrapolating — Where Behavioural Strategy Operates</li>
+          <li>Module 5 · Integrating — How to Build Collective Intelligence</li>
+          <li>Module 6 · Application — The Lens in Practice</li>
         </ul>
       </div>
 
       <!-- UNIT 2 -->
-      <div class="unit-card">
-        <div class="unit-lock" title="Restricted — Requires Unit 1 completion">🔒</div>
+      <div class="unit-card" onclick="handleArchitectureClick(2)">
+        <div class="unit-lock" title="Open — Available to all enrolled participants" style="background:rgba(39,174,96,0.15);color:#27ae60;border-color:rgba(39,174,96,0.3);">🔓</div>
         <p class="unit-number">Unit 2</p>
         <h3 class="unit-title">Direction</h3>
-        <p class="unit-subtitle">Pillar 1 · 4 Sessions</p>
+        <p class="unit-subtitle">Pillar 1 · 2 Modules · 3 Lenses</p>
         <ul class="unit-modules">
-          <li>Lens 1 · Strategy Visioning &amp; SiP</li>
-          <li>Lens 2 · SiP KISS Mapping &amp; OKRs</li>
-          <li>Lens 3 · Strategy Integrity (ABCV-MBT)</li>
-          <li>CXO Perspective Simulation</li>
-          <li>Cross-CXO OKR Synthesis</li>
+          <li class="mod-header">Module 1 · Strategy Intent</li>
+          <li class="lens-item">Lens 1 · Strategy Visioning &amp; Success in Practice (SiP)</li>
+          <li class="mod-header">Module 2 · Strategy Direction</li>
+          <li class="lens-item">Lens 2 · SiP KISS Mapping &amp; OKR Definition</li>
+          <li class="lens-item">Lens 3 · Direction Integrity Checkpoints (ABCV)</li>
         </ul>
       </div>
 
       <!-- UNIT 3 -->
-      <div class="unit-card">
-        <div class="unit-lock" title="Restricted — Requires Unit 2 completion">🔒</div>
+      <div class="unit-card" onclick="handleArchitectureClick(3)">
+        <div class="unit-lock" title="Open — Available to all enrolled participants" style="background:rgba(39,174,96,0.15);color:#27ae60;border-color:rgba(39,174,96,0.3);">🔓</div>
         <p class="unit-number">Unit 3</p>
         <h3 class="unit-title">Influence</h3>
-        <p class="unit-subtitle">Pillar 2 · 3 Sessions</p>
+        <p class="unit-subtitle">Pillar 2 · 2 Modules · 5 Lenses</p>
         <ul class="unit-modules">
-          <li>Lens 4 · Performance Management Setup</li>
-          <li>Lens 5 · Aligning Heart &amp; Mind</li>
-          <li>Lens 6 · Establishing Expectations</li>
-          <li>Lens 7 · Performance Measurement</li>
-          <li>Lens 8 · Strategic Unclogging</li>
+          <li class="mod-header">Module 1 · Leadership Execution</li>
+          <li class="lens-item">Lens 4 · Performance Management Setup</li>
+          <li class="lens-item">Lens 5 · Heart &amp; Mind Alignment</li>
+          <li class="lens-item">Lens 6 · Establishing Expectations</li>
+          <li class="mod-header">Module 2 · Leadership Accountability</li>
+          <li class="lens-item">Lens 7 · Performance Measurement</li>
+          <li class="lens-item">Lens 8 · Strategic Unclogging</li>
         </ul>
       </div>
 
       <!-- UNIT 4 -->
-      <div class="unit-card">
-        <div class="unit-lock" title="Restricted — Requires Unit 3 completion">🔒</div>
+      <div class="unit-card" onclick="handleArchitectureClick(4)">
+        <div class="unit-lock" title="Open — Available to all enrolled participants" style="background:rgba(39,174,96,0.15);color:#27ae60;border-color:rgba(39,174,96,0.3);">🔓</div>
         <p class="unit-number">Unit 4</p>
         <h3 class="unit-title">Grounding</h3>
-        <p class="unit-subtitle">Pillar 3 · 3 Sessions</p>
+        <p class="unit-subtitle">Pillar 3 · 1 Module · 3 Lenses</p>
         <ul class="unit-modules">
-          <li>Lens 9 · ESRG Alignment</li>
-          <li>Lens 10 · Culture &amp; Org. Health</li>
-          <li>Lens 11 · Sustaining Performance (F.I.T.)</li>
-          <li>Enterprise COMPASS Diagnostic</li>
-          <li>CESI Certification Portfolio Review</li>
+          <li class="mod-header">Module 1 · Enterprise &amp; Culture Alignment</li>
+          <li class="lens-item">Lens 9 · ESRG Alignment</li>
+          <li class="lens-item">Lens 10 · Culture Reinforcement &amp; Organisational Health</li>
+          <li class="lens-item">Lens 11 · Sustaining Performance</li>
         </ul>
       </div>
     </div>
@@ -1297,6 +1337,31 @@
   function openUnit1() {
     var isFac = currentRole === 'Facilitator Access';
     window.location.href = isFac ? 'unit1_F.html' : 'unit1_P.html';
+  }
+
+  function openUnit2() {
+    var isFac = currentRole === 'Facilitator Access';
+    window.location.href = isFac ? 'unit2_m1_lens1_f.html' : 'unit2_m1_lens1_p.html';
+  }
+
+  function openUnit3() {
+    var isFac = currentRole === 'Facilitator Access';
+    window.location.href = isFac ? 'unit3_F.html' : 'unit3_P.html';
+  }
+
+  function openUnit4() {
+    var isFac = currentRole === 'Facilitator Access';
+    window.location.href = isFac ? 'unit4_F.html' : 'unit4_P.html';
+  }
+
+  function handleArchitectureClick(unit) {
+    openModal('Facilitator Access', 'Control & Synthesis Portal');
+  }
+
+  function goHome() {
+    document.getElementById('portalView').style.display = 'none';
+    document.body.style.overflow = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function signOut() {
