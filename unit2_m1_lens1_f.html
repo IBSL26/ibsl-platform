@@ -29,6 +29,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
 .arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
 .arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.25);color:#e8917a;}
 .arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
 /* TABS */
 .mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
@@ -334,6 +335,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       <div class="arc-seg in">Intelligence<span>Why</span></div>
       <div class="arc-seg ex">Extrapolating<span>Where</span></div>
       <div class="arc-seg iz">Integration Zone<span>Collective Build</span></div>
+      <div class="arc-seg ap">Integration Application<span>Section 1.5</span></div>
     </div>
   </div>
 </div>
@@ -343,6 +345,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="mod-tab" onclick="showMod(1)">Intelligence — Why</div>
   <div class="mod-tab" onclick="showMod(2)">Extrapolating — Where</div>
   <div class="mod-tab" onclick="showMod(3)">Integration Zone</div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Application</div>
 </div>
 
 <div class="main">
@@ -664,6 +667,164 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-nav"><button class="btn" onclick="showMod(2)">← Extrapolating</button></div>
 </div>
 </div>
+
+
+<div class="mod-panel" id="mod4">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 1.5 · Integration Application</p>
+  <h2>From Assessment to Application</h2>
+  <p>The executive team uses the Strategy Maturity Assessment results to define corrective actions across the four SiP dimensions, then completes the CXO contribution table written in the present tense of the future.</p>
+</div>
+<div class="mod-body">
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Section 1.5 · Integration Application</div><p><strong>Tab intent:</strong> This is the synthesis and application tab. Participants move from understanding and assessing (Sections 1.1–1.4) to producing two integrated outputs: corrective action priorities and a fully completed CXO × SiP table. The headline and storyline produced here become the destination anchor for the entire S2R® journey.</p><p><strong>Sequencing the four activities:</strong></p><ul><li><strong>1.5.1</strong> — Corrective Actions (10–15 min): Each participant reviews their assessment score and identifies actions per SiP dimension</li><li><strong>1.5.2</strong> — CXO SiP Application Table (20–30 min): Each CXO completes their row in present-tense future language</li><li><strong>1.5.3</strong> — SiP Headline &amp; Storyline (10–15 min): Individual contribution, then group synthesis</li><li><strong>1.5.4</strong> — Integration Summary (15–20 min): Facilitator leads synthesis of convergence, tension, missing dimensions, dominant bias</li></ul><p><em>Suggested total tab time: 55–80 minutes.</em></p></div>
+
+<!-- 1.5.1 CORRECTIVE ACTIONS -->
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.5.1 — Using Assessment Results: Defining Corrective Actions</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Assessment → Action</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Section 1.5.1</div><p><strong>Opening the section:</strong> Ask participants to open Section 1.4.2 in a side window or navigate back to review their assessment score before completing this section. Say: <em>"Your assessment revealed where your organisation's strategic capability is strongest and most fragile. This section asks you to convert those diagnostic results into specific corrective actions — the precise changes that must happen for your SiP to become real."</em></p><p><strong>Key facilitation point:</strong> The corrective actions must be specific and cross-functional, not generic. Push back on vague responses like "improve communication" — ask: <em>"Improve it how, between whom, and in what rhythm?"</em></p><p><strong>Group debrief:</strong> After participants have completed their corrective actions, ask 3–4 to share the most critical action in each dimension. Note where multiple participants identify the same gap — this is a convergence point that strengthens the collective SiP.</p><p><em>Suggested time: 10–15 minutes.</em></p></div>
+  <p>Participants use their Strategy Maturity Assessment results from Section 1.4 to identify the most critical corrective actions required across the four SiP dimensions. The assessment score across all 26 areas reveals where the organisation's strategic capability is strongest — and where it is most fragile.</p>
+  <div class="hbox teal"><p>The corrective actions identified here become the inputs into the SiP Application Table in 1.5.2. Before completing their SiP dimensions, each participant should review their assessment results and identify the specific gaps that must be addressed for the strategy to succeed.</p></div>
+  <h4>Assessment Score Reference</h4>
+  <div id="appScoreRefF" style="background:#0a1a0d;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:18px 22px;margin:10px 0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;">Group Assessment Score</div>
+        <div style="display:flex;align-items:baseline;gap:6px;">
+          <span id="appScoreValF" style="font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1;">—</span>
+          <span style="font-size:1rem;color:rgba(255,255,255,.3);">/ 78</span>
+        </div>
+        <div id="appScoreLvlF" style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;margin-top:4px;">Score reflects the group assessment from Section 1.4</div>
+      </div>
+      <button class="btn" onclick="showMod(3)" style="font-size:9px;padding:8px 16px;">← Go to Assessment</button>
+    </div>
+  </div>
+  <h4>Corrective Actions — Group Capture</h4>
+  <p>Use this space to capture the group's collective corrective actions across the four dimensions as they emerge from the debrief.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:#8ab0e8;">D1 · Customer Experience &amp; Value</div><div class="port-desc">What must change to close the gap between the current customer experience and the SiP vision?</div></div>
+      <textarea class="port-ta" id="app_cor_d1_f" placeholder="Capture the group's corrective actions for this dimension..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_cor_d1_f')">Save</button>
+      <div class="port-msg" id="app_cor_d1_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:var(--gold);">D2 · Operational Capability &amp; Execution Rhythm</div><div class="port-desc">What operational gaps must be closed for the strategy to execute reliably?</div></div>
+      <textarea class="port-ta" id="app_cor_d2_f" placeholder="Capture the group's corrective actions for this dimension..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_cor_d2_f')">Save</button>
+      <div class="port-msg" id="app_cor_d2_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:#5ecba1;">D3 · People &amp; Culture Dynamics</div><div class="port-desc">What cultural and behavioural shifts are required to bring the SiP to life?</div></div>
+      <textarea class="port-ta" id="app_cor_d3_f" placeholder="Capture the group's corrective actions for this dimension..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_cor_d3_f')">Save</button>
+      <div class="port-msg" id="app_cor_d3_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:#c39de0;">D4 · Enterprise Value Creation</div><div class="port-desc">What must be strengthened to ensure the strategy creates durable enterprise value?</div></div>
+      <textarea class="port-ta" id="app_cor_d4_f" placeholder="Capture the group's corrective actions for this dimension..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_cor_d4_f')">Save</button>
+      <div class="port-msg" id="app_cor_d4_f-msg">✓ Saved</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 1.5.2 FULL CXO SiP TABLE -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.5.2 — CXO SiP Application Table: All Executive Roles</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Roles · 4 Dimensions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Section 1.5.2</div><p><strong>Purpose:</strong> This table captures each CXO's description of the four SiP dimensions from their assigned role's perspective. It is the primary deliverable of the Application tab and produces the raw material for the integration synthesis in 1.5.4.</p><p><strong>Directing the exercise:</strong> Ask each participant to select their assigned role and complete all four dimensions simultaneously. Enforce present-tense future language throughout — interrupt any responses that slip into planning or future-tense description.</p><p><strong>Quality check:</strong> After each CXO completes their row, ask them to self-audit against the Flammable patterns from Section 1.3.2. Ask: <em>"Which Flammable does your response risk creating? What would you add to balance it?"</em></p><p><strong>Facilitator can record directly:</strong> Use the full table view below to capture group responses as they are shared verbally, or ask participants to enter their own responses from their screens.</p><p><em>Suggested time: 20–30 minutes.</em></p></div>
+  <p>Each executive leader describes the four SiP dimensions from the perspective of their assigned role. All responses must be written in the <strong>present tense of the future</strong> — as if the strategy has already succeeded.</p>
+  <div class="hbox"><p><strong>Facilitator:</strong> After all CXO rows are completed, use the Integration Summary in Section 1.5.4 to identify convergence, tension, missing dimensions, and dominant bias across all contributions.</p></div>
+  <div id="appFullTableF" style="margin-top:16px;"></div>
+</div>
+</div>
+
+<!-- 1.5.3 HEADLINE & STORYLINE -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.5.3 — SiP Headline &amp; Storyline: Collective Synthesis</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Headline · Storyline · Synthesis</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Section 1.5.3</div><p><strong>The synthesis move:</strong> After all CXO rows in 1.5.2 are completed, invite each participant to distil their perspective into a Headline and a Storyline. Then — and this is the critical facilitation move — bring the group together to synthesise these individual contributions into one shared Headline and one co-owned Storyline.</p><p><strong>Headline synthesis:</strong> Read all individual Headlines aloud. Ask the group: <em>"What words appear in most headlines? What is the common destination we are all pointing at?"</em> Draft a composite headline together — do not let one executive write it alone.</p><p><strong>Storyline synthesis:</strong> Ask each CXO to read their Storyline aloud. Capture themes on a whiteboard across the four dimensions. The shared Storyline emerges from points of convergence — not from the most articulate contributor's version.</p><p><em>Suggested time: 15–20 minutes.</em></p></div>
+  <p>Individual contributions from each CXO are synthesised here into one shared Strategic Intent Statement and one co-owned SiP Headline and Storyline.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl">Emerging Shared SiP Headline</div><div class="port-desc">One sentence. The strategic destination that the collective executive team agrees on. Synthesised from individual contributions.</div></div>
+      <textarea class="port-ta" id="app_headline_f" placeholder="Draft the shared SiP headline here as the group synthesises..." style="min-height:60px;"></textarea>
+      <button class="port-save" onclick="saveAppF('app_headline_f')">Save</button>
+      <div class="port-msg" id="app_headline_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl">Emerging Shared SiP Storyline</div><div class="port-desc">The collective narrative description of the future organisation, written in the present tense of the future across all four dimensions.</div></div>
+      <textarea class="port-ta" id="app_storyline_f" placeholder="Draft the shared SiP storyline here — synthesised from all CXO contributions..." style="min-height:140px;"></textarea>
+      <button class="port-save" onclick="saveAppF('app_storyline_f')">Save</button>
+      <div class="port-msg" id="app_storyline_f-msg">✓ Saved</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 1.5.4 INTEGRATION SUMMARY -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.5.4 — Integration Summary: The Emerging Collective View</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Convergence · Tension · Gaps · Bias</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Section 1.5.4</div><p><strong>The integration synthesis:</strong> This is the most important facilitation moment in the entire lens. After all CXO contributions are captured in 1.5.2 and 1.5.3, lead the group through a structured analysis of the four dimensions below. Do not rush this — the most valuable strategic insight often emerges in the tension and missing dimensions, not in the convergence points.</p><p><strong>Sequencing the synthesis:</strong> Start with Convergence (build collective confidence), then move to Tension (surface productive disagreement), then Missing Dimensions (name the blind spots), then Dominant Bias (invite honest self-assessment from the dominant function). The order matters — starting with tension creates defensiveness that prevents the insight from landing.</p><p><strong>Closing the lens:</strong> End with the question: <em>"We have now described the organisation we intend to build. The gap between what we described and what we currently have — is that gap strategic or operational? And who in this room is accountable for closing it?"</em></p><p><em>Suggested time: 15–20 minutes.</em></p></div>
+  <p>The facilitator leads a structured synthesis to identify the four dimensions of the emerging collective view across all CXO contributions.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:#5ecba1;">Points of Convergence</div><div class="port-desc">Where all CXO descriptions aligned. What the organisation consistently looks like across all perspectives.</div></div>
+      <textarea class="port-ta" id="app_convergence_f" placeholder="Record where all executive perspectives aligned..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_convergence_f')">Save</button>
+      <div class="port-msg" id="app_convergence_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:rgba(231,100,80,.8);">Points of Tension</div><div class="port-desc">Where perspectives contradicted or competed. Which functions described incompatible futures.</div></div>
+      <textarea class="port-ta" id="app_tension_f" placeholder="Record the tensions and contradictions between executive perspectives..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_tension_f')">Save</button>
+      <div class="port-msg" id="app_tension_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:var(--gold);">Missing Dimensions</div><div class="port-desc">Which SiP dimensions were inadequately described by any CXO. The collective blind spot.</div></div>
+      <textarea class="port-ta" id="app_missing_f" placeholder="Record the dimensions no executive adequately described..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_missing_f')">Save</button>
+      <div class="port-msg" id="app_missing_f-msg">✓ Saved</div>
+    </div>
+    <div class="port-block">
+      <div class="port-head"><div class="port-lbl" style="color:#c39de0;">Dominant Bias</div><div class="port-desc">Which functional perspective was over-represented. What this reveals about collective strategic blind spots.</div></div>
+      <textarea class="port-ta" id="app_bias_f" placeholder="Record which perspective dominated and what this means..."></textarea>
+      <button class="port-save" onclick="saveAppF('app_bias_f')">Save</button>
+      <div class="port-msg" id="app_bias_f-msg">✓ Saved</div>
+    </div>
+  </div>
+  <div class="ref-block" style="margin-top:6px;">
+    <div class="ref-head"><span class="ref-icon">📋</span><span class="ref-label">Facilitator Closing Note</span></div>
+    <div class="ref-prompt">Record the single most important strategic insight that emerged from the Integration Application — the insight the group did not have at the start of the session.</div>
+    <textarea class="ref-ta" id="app_fac_close" placeholder="Record the key strategic insight from the integration synthesis..."></textarea>
+    <button class="ref-save" onclick="saveAppF('app_fac_close')">Save</button>
+    <div class="ref-saved" id="app_fac_close-saved">✓ Saved</div>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(3)">← Integration Zone</button>
+</div>
+</div>
+</div>
+
 
 </div><!-- /main -->
 
@@ -1165,6 +1326,81 @@ function gateSubmit(){
 document.body.style.overflow='hidden';
 renderConcepts();renderW1H();renderEngine();renderArch();renderDims();renderFlam();
 renderCXO();renderAssessment();renderSIP();renderSummary();
+
+// ── APPLICATION TAB (Section 1.5) — FACILITATOR ───────────────────────────
+var APP_ROLES_F=['CEO','CFO','COO','CHRO','CTO','CMO','CCO','CPO','CRO','CSO'];
+var APP_DIMS_F=[
+  {id:'d1',label:'Customer Experience & Value',color:'#8ab0e8'},
+  {id:'d2',label:'Operational Capability & Execution Rhythm',color:'var(--gold)'},
+  {id:'d3',label:'People & Culture Dynamics',color:'#5ecba1'},
+  {id:'d4',label:'Enterprise Value Creation',color:'#c39de0'}
+];
+
+function saveAppF(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  localStorage.setItem('ibsl_u2m1_appf_'+id,el.value);
+  var msg=document.getElementById(id+'-msg')||document.getElementById(id+'-saved');
+  if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2000);}
+}
+
+function renderAppFullTable(){
+  var wrap=document.getElementById('appFullTableF');
+  if(!wrap)return;
+  var html='';
+  APP_ROLES_F.forEach(function(role){
+    html+='<div style="margin-bottom:20px;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;overflow:hidden;">';
+    html+='<div style="background:rgba(201,168,76,.08);padding:12px 18px;border-bottom:1px solid rgba(201,168,76,.12);">';
+    html+='<span style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">'+role+'</span>';
+    html+='</div>';
+    html+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0;">';
+    APP_DIMS_F.forEach(function(d,di){
+      var key='ibsl_u2m1_appf_sip_'+role+'_'+d.id;
+      var saved=(localStorage.getItem(key)||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      var borderR=di%2===0?'border-right:1px solid rgba(255,255,255,.04);':'';
+      var borderB=di<2?'border-bottom:1px solid rgba(255,255,255,.04);':'';
+      html+='<div style="padding:12px 14px;'+borderR+borderB+'">';
+      html+='<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:'+d.color+';margin-bottom:6px;">'+d.label+'</div>';
+      html+='<textarea data-role="'+role+'" data-dim="'+d.id+'" style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:8px;color:rgba(255,255,255,.7);font-size:12px;font-family:Montserrat,sans-serif;resize:vertical;min-height:80px;outline:none;line-height:1.6;" placeholder="'+role+' — '+d.label+'...">'+saved+'</textarea>';
+      html+='</div>';
+    });
+    html+='</div></div>';
+  });
+  wrap.innerHTML=html;
+  // Attach blur save listeners
+  wrap.querySelectorAll('textarea').forEach(function(ta){
+    ta.addEventListener('blur',function(){
+      var r=ta.getAttribute('data-role');
+      var d=ta.getAttribute('data-dim');
+      if(r&&d)localStorage.setItem('ibsl_u2m1_appf_sip_'+r+'_'+d,ta.value);
+    });
+  });
+}
+function saveAppCell(role,dimId){
+  var ta=document.getElementById('appFT_'+role+'_'+dimId);
+  if(ta)localStorage.setItem('ibsl_u2m1_appf_sip_'+role+'_'+dimId,ta.value);
+}
+
+function loadAppScoreRefF(){
+  var total=Object.values(matScoresF||{}).reduce(function(a,b){return a+b;},0);
+  var sc=document.getElementById('appScoreValF');
+  var lv=document.getElementById('appScoreLvlF');
+  if(sc&&total>0){
+    sc.textContent=total;
+    if(lv)lv.textContent=total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';
+  }
+}
+
+window.addEventListener('load',function(){
+  ['app_cor_d1_f','app_cor_d2_f','app_cor_d3_f','app_cor_d4_f','app_headline_f','app_storyline_f','app_convergence_f','app_tension_f','app_missing_f','app_bias_f','app_fac_close'].forEach(function(id){
+    var saved=localStorage.getItem('ibsl_u2m1_appf_'+id);
+    var el=document.getElementById(id);
+    if(saved&&el)el.value=saved;
+  });
+  renderAppFullTable();
+  setTimeout(loadAppScoreRefF,300);
+});
+
 </script>
 </body>
 </html>
