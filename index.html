@@ -1332,6 +1332,9 @@
     document.getElementById('portalView').style.display    = 'block';
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
+    // Persist portal state so returning from a module restores the portal
+    sessionStorage.setItem('ibsl_portal_role', role);
+    sessionStorage.setItem('ibsl_portal_days', daysMsg);
   }
 
   function openUnit1() {
@@ -1365,7 +1368,19 @@
   function signOut() {
     document.getElementById('portalView').style.display = 'none';
     document.body.style.overflow = '';
+    sessionStorage.removeItem('ibsl_portal_role');
+    sessionStorage.removeItem('ibsl_portal_days');
   }
+
+  // ── Auto-restore portal when returning from a module ──
+  (function() {
+    var role = sessionStorage.getItem('ibsl_portal_role');
+    var days = sessionStorage.getItem('ibsl_portal_days');
+    if (role && days) {
+      currentRole = role;
+      showPortal(role, days);
+    }
+  })();
 
 </script>
 </body>
