@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 3 - Module 1 - Lens 4 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;font-style:italic;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 10px;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+/* Principle Cards */
+.principle-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.p-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;transition:border-color .2s;cursor:pointer;}
+.p-card:hover{border-color:rgba(201,168,76,.25);}
+.p-card.open{border-color:rgba(201,168,76,.3);}
+.p-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#151c15;}
+.p-meta{display:flex;flex-direction:column;}
+.p-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.p-name{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:#fff;}
+.p-arr{font-size:10px;color:rgba(255,255,255,.25);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.p-card.open .p-arr{transform:rotate(180deg);color:var(--gold);}
+.p-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.p-card.open .p-body{display:block;}
+.p-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;}
+.p-body strong{color:rgba(255,255,255,.9);}
+.p-insight{font-size:12px;font-style:italic;color:rgba(255,255,255,.5);border-left:2px solid rgba(201,168,76,.3);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(201,168,76,.04);border-radius:0 3px 3px 0;}
+/* SCARF */
+.scarf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.sc-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.sc-card:hover{transform:translateY(-2px);}
+.sc-card.open{border-color:rgba(201,168,76,.3);}
+.sc-head{padding:14px 12px 10px;background:#151c15;}
+.sc-trigger{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.sc-q{font-size:10px;color:rgba(255,255,255,.4);line-height:1.45;font-style:italic;}
+.sc-bar{height:3px;}
+.sc-body{display:none;padding:14px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.sc-card.open .sc-body{display:block;}
+.sc-row{margin-bottom:9px;}
+.sc-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.sc-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.sc-impact{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.6;color:rgba(255,200,100,.8);}
+.sc-fac{font-size:11px;margin-top:6px;padding:7px 11px;background:rgba(52,152,219,.05);border-radius:2px;border-left:2px solid rgba(52,152,219,.25);line-height:1.6;color:rgba(100,180,240,.75);font-style:italic;}
+/* ACE-IT */
+.aceit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.ai-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.ai-card:hover{border-color:rgba(201,168,76,.25);}
+.ai-card.open{border-color:rgba(201,168,76,.3);}
+.ai-head{padding:14px 12px 10px;background:#151c15;display:flex;align-items:flex-start;justify-content:space-between;}
+.ai-letter{font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:300;line-height:1;margin-bottom:4px;}
+.ai-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.ai-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;}
+.ai-card.open .ai-arr{transform:rotate(180deg);color:var(--gold);}
+.ai-bar{height:3px;background:rgba(201,168,76,.2);}
+.ai-card.open .ai-bar{background:var(--gold);}
+.ai-body{display:none;padding:13px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.ai-card.open .ai-body{display:block;}
+.ai-row{margin-bottom:9px;}
+.ai-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.ai-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.ai-ev{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(39,174,96,.06);border-radius:2px;border-left:2px solid rgba(39,174,96,.3);line-height:1.6;color:rgba(100,210,160,.8);}
+/* COMPASS */
+.compass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0;}
+.cm-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cm-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.cm-card.active{border-color:var(--gold);background:#1a2a1e;}
+.cm-top{padding:14px 12px 10px;}
+.cm-letter{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:var(--gold);margin-bottom:4px;line-height:1;}
+.cm-name{font-size:9px;color:rgba(255,255,255,.38);line-height:1.4;}
+.cm-bar{height:3px;background:rgba(201,168,76,.18);}
+.cm-card.active .cm-bar{background:var(--gold);}
+.cm-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.cm-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.cm-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.cm-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.78;margin-bottom:10px;}
+.cm-signal{font-size:12px;margin-top:8px;padding:9px 13px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.65;color:rgba(255,200,100,.82);}
+.cm-action{font-size:12px;margin-top:7px;padding:9px 13px;background:rgba(52,152,219,.05);border-radius:2px;border-left:2px solid rgba(52,152,219,.28);line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;}
+/* Role Grid */
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.rl-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.rl-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.rl-card.active{border-color:var(--gold);background:#1a2a1e;}
+.rl-top{padding:14px 12px 10px;}
+.rl-abbr{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.rl-title{font-size:9px;color:rgba(255,255,255,.35);line-height:1.4;}
+.rl-bar{height:3px;background:rgba(201,168,76,.18);}
+.rl-card.active .rl-bar{background:var(--gold);}
+.rl-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.rl-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.rl-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.rl-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.rl-domains{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.d-tag{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.22);color:var(--gold);}
+/* Step Tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel strong{color:rgba(255,255,255,.9);}
+/* Working Paper */
+.wp-ta{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.08);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.82);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:64px;outline:none;transition:border-color .2s;margin-top:5px;}
+.wp-ta:focus{border-color:rgba(201,168,76,.3);}
+.wp-ta::placeholder{color:rgba(255,255,255,.16);}
+.wp-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:10px;display:block;margin-bottom:4px;}
+.wp-save{padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:14px;}
+.wp-save:hover{background:rgba(201,168,76,.18);}
+.wp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;}
+.wp-cell{background:#151c15;border-radius:3px;padding:12px;}
+.wp-cell label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:6px;}
+/* Nav */
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;font-family:"Montserrat",sans-serif;}
+.btn:hover{background:rgba(201,168,76,.18);}
+.btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
+.btn.prev:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
+.gate-box{background:#0d1f15;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:40px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;}
+.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.gate-btn:hover{background:rgba(201,168,76,.2);}
+.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
+/* 3-col card grid for small content blocks */
+.tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.tri-card{background:#151c15;border-radius:3px;padding:14px 16px;}
+@media(max-width:900px){.scarf-grid,.aceit-grid{grid-template-columns:repeat(3,1fr);}.compass-grid{grid-template-columns:repeat(3,1fr);}.role-grid{grid-template-columns:repeat(3,1fr);}.cm-detail.visible,.rl-detail.visible{grid-template-columns:1fr;}.wp-row,.tri-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 4</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Lens 4 &middot; Aligning Heart &amp; Mind</strong>Unit 3 &middot; Module 1 &mdash; Facilitator Guide</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 4</div>
+    <h1 class="unit-title">Aligning Heart &amp; Mind</h1>
+    <div class="unit-sub">Leadership Execution &middot; Influence &middot; Facilitator Guide</div>
+    <p class="unit-desc">Before strategy becomes operational activity, it must be interpreted, experienced, and accepted by the people responsible for carrying it forward. This lens establishes the human operating system that enables strategy to move from intention to execution.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Integration Application<span>In Practice</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Integration<br><small style="font-size:8px;opacity:.5;">How</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+
+<div class="main">
+
+<!-- ===== TAB 1: AWARENESS ===== -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1.1 &middot; Awareness &mdash; What</div>
+  <h2>What is Aligning Heart &amp; Mind?</h2>
+  <p>Interrogative Anchor &middot; Before any strategy can be executed, it must travel through people. People arrive at every strategy meeting carrying a personality profile, emotional defaults, and personal motives that determine how much energy they will invest in the organisation&rsquo;s goals.</p>
+</div>
+<div class="mod-body">
+<div class="fac-note-full" style="margin-top:22px;">
+  <div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Tab 1 &middot; Awareness</div>
+  <p><strong>Tab intent:</strong> Establish the foundational insight that strategy is first and foremost a <em>human interpretation problem</em>. Leaders must feel this before they can act on it. Resist the urge to move to solutions quickly &mdash; create space for recognition.</p>
+  <p><strong>Opening provocation:</strong> <em>&ldquo;Think of a strategy that was perfectly designed and then failed in execution. What broke? Was it the plan &mdash; or the people who had to carry it?&rdquo;</em> Pause. Use silence productively. This question surfaces the lived experience that anchors the entire lens.</p>
+  <p><strong>On the Five Principles:</strong> Work through these sequentially. Each builds on the previous. Do not allow leaders to skip to SCARF or ACE-IT without first establishing the foundational logic. <em>Suggested tab time: 45&ndash;60 minutes.</em></p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.1 &mdash; The Human Terrain of Strategy Execution</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives &mdash; By the end of this section, participants will</div><ul>
+    <li>Recognise that strategy enters the organisation through human interpretation before it becomes operational activity</li>
+    <li>Understand Cognitive Alignment (Mind) and Emotional Alignment (Heart) as the two primary filters through which strategy is received</li>
+    <li>Identify the Functional Bias Problem as the root cause of distributed interpretation in leadership teams</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.1.1</div>
+    <p><strong>The Functional Bias Problem:</strong> Ask leaders to honestly name their primary lens. The CFO thinks in capital efficiency. The COO in delivery flow. The CHRO in capability. None is wrong &mdash; but when these operate without deliberate integration, strategy fragments invisibly. <em>Suggested time: 10&ndash;12 minutes.</em></p>
+    <p><strong>Key facilitation question:</strong> <em>&ldquo;When your leadership team last debated a strategic priority &mdash; were you all interpreting the same data through the same lens? Or through the lens of your function?&rdquo;</em></p>
+  </div>
+  <p>Strategy does not enter an organisation as a document. It enters through the people responsible for interpreting and acting on it. Before strategy becomes operational activity, it passes through two human filters:</p>
+  <div class="tri-grid">
+    <div class="tri-card" style="border-top:3px solid #8ab0e8;grid-column:1/2;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Cognition &mdash; Mind</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.7;margin:0;">How individuals <strong style="color:#fff;">interpret</strong> what strategy means. Shaped by professional expertise, mental shortcuts, past experience, and risk perception.</p>
+    </div>
+    <div class="tri-card" style="border-top:3px solid var(--gold);grid-column:2/3;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Emotion &mdash; Heart</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.7;margin:0;">How individuals <strong style="color:#fff;">experience</strong> the strategy. Shapes engagement energy, morale, friction load, psychological safety, and values alignment.</p>
+    </div>
+    <div class="tri-card" style="border-top:3px solid #5ecba1;grid-column:3/4;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">The Result</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.7;margin:0;">Whether strategy produces clarity or confusion, commitment or compliance, momentum or hesitation. <strong style="color:#fff;">Execution begins inside the human system.</strong></p>
+    </div>
+  </div>
+  <div class="hbox"><p><strong>The deeper challenge behind execution friction:</strong> Strategy is not only a technical coordination problem &mdash; it is fundamentally a <strong>human interpretation problem</strong>. The Functional Bias Problem reveals that organisations do not interpret strategy as a single, shared reality. When perspectives diverge, even highly capable executives can unintentionally pull the organisation in different directions.</p></div>
+</div>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.2 &mdash; The Five Principles of Aligning Heart &amp; Mind</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Expand Each Principle</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Articulate how each of the Five Principles builds toward a complete human operating system for execution</li>
+    <li>Apply at least two principles to a current strategic initiative in their own context</li>
+    <li>Identify which principle is most under-leveraged in their leadership team right now</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.1.2</div>
+    <p><strong>Pacing:</strong> Open each principle card and read the insight aloud before inviting reflection. Do not let the group race through. Principle 2 (Misalignment Fragments Effort) generates the most immediate recognition &mdash; use it as a pivot.</p>
+    <p><strong>After all five:</strong> <em>&ldquo;Which principle describes the most critical gap in your leadership team right now? Choose one.&rdquo;</em> The choice itself is diagnostic. <em>Suggested time: 15&ndash;18 minutes.</em></p>
+  </div>
+  <div class="principle-stack">
+    <div class="p-card open" onclick="toggleP(this)">
+      <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Principle 1</div><div class="p-name">Strategy Moves Through People</div></div><div class="p-arr">&#9660;</div></div>
+      <div class="p-body" style="border-left:3px solid #8ab0e8;">
+        <p><strong>The human entry point of execution.</strong> Alignment of the mind (cognition) and heart (emotion) is not optional or &ldquo;soft.&rdquo; It is <strong>the first execution system.</strong></p>
+        <p>Cognitive alignment focuses on making biases visible so they can be managed deliberately. In practice: identify dominant decision biases at executive level, name how those biases shape the S2R process, establish shared decision principles that counter predictable distortions.</p>
+        <p>Emotional alignment requires naming the current emotional state through which strategy is being experienced. Leaders operate from a dominant state of being (Joy, Sadness, Anger, Fear, Disgust, Surprise). Each state influences engagement energy, morale drain, friction load, psychological safety, and values alignment.</p>
+        <div class="p-insight">&#10148; Facilitation insight: Ask leaders to name the dominant emotion in their current team right now. If they cannot name it, they cannot manage it &mdash; and it will manage them.</div>
+      </div>
+    </div>
+    <div class="p-card" onclick="toggleP(this)">
+      <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e74c3c;">Principle 2</div><div class="p-name">Misalignment Fragments Effort</div></div><div class="p-arr">&#9660;</div></div>
+      <div class="p-body" style="border-left:3px solid #e74c3c;">
+        <p><strong>The cost of ignoring the human system.</strong> When interpretation and emotional experience are not aligned, the organisation does not stop working &mdash; effort begins to <strong>fragment</strong>. Everyone remains active, yet the organisation moves with split effort.</p>
+        <div class="tri-grid">
+          <div class="tri-card" style="border-top:2px solid #e74c3c;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#e74c3c;margin-bottom:6px;letter-spacing:1px;">Chinese Whispers</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin:0;">Intent mutates as it travels downward. Frontline execution bears little resemblance to boardroom intent.</p></div>
+          <div class="tri-card" style="border-top:2px solid #e74c3c;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#e74c3c;margin-bottom:6px;letter-spacing:1px;">Clarification Debt</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin:0;">60&ndash;80% of leadership time spent re-explaining, correcting, realigning. Leaders are patching, not steering.</p></div>
+          <div class="tri-card" style="border-top:2px solid #e74c3c;"><div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#e74c3c;margin-bottom:6px;letter-spacing:1px;">Silent Disengagement</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin:0;">People comply outwardly but withdraw inwardly. Looks like cooperation. Feels like exhaustion.</p></div>
+        </div>
+        <div class="hbox red" style="margin-top:12px;"><p><strong>Data:</strong> Low-alignment organisations experience 41% lower productivity and 48% higher turnover. This drift is dangerous because it is gradual, rationalised, and expensive (Gallup; PMI).</p></div>
+      </div>
+    </div>
+    <div class="p-card" onclick="toggleP(this)">
+      <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Principle 3</div><div class="p-name">Alignment Must Be Designed</div></div><div class="p-arr">&#9660;</div></div>
+      <div class="p-body" style="border-left:3px solid var(--gold);">
+        <p><strong>Alignment rarely emerges naturally.</strong> It must be intentionally designed through structured interventions that make interpretation and emotional climate visible. Two diagnostic assessments support this design:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;">
+          <div style="background:#151c15;border-radius:3px;padding:14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">OCEAVL Assessment</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">Surfaces psychological tendencies influencing executive decision-making. Dimensions: Openness, Conscientiousness, Extraversion, Agreeableness, Emotional Stability, Values Alignment, Learning Orientation. Available on demand &mdash; excel or HTML format with facilitated report generation.</p>
+          </div>
+          <div style="background:#151c15;border-radius:3px;padding:14px;">
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Emotional Climate Assessment</div>
+            <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">Identifies the prevailing state of being across six core emotional categories: Joy, Sadness, Anger, Fear, Disgust, Surprise. Allows leaders to stabilise engagement before demanding execution. Available on demand.</p>
+          </div>
+        </div>
+        <div class="p-insight">&#10148; Facilitation insight: These assessments are diagnostic tools, not labels. Their power is in the conversation they generate, not in the data alone. Frame them as leadership mirrors.</div>
+      </div>
+    </div>
+    <div class="p-card" onclick="toggleP(this)">
+      <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Principle 4</div><div class="p-name">Human Reactions Are Predictable</div></div><div class="p-arr">&#9660;</div></div>
+      <div class="p-body" style="border-left:3px solid #c39de0;">
+        <p><strong>Reactions to strategic change follow predictable psychological patterns.</strong> The SCARF Model (David Rock) explains five social conditions that trigger emotional responses during change. The human brain processes social change using the same threat circuitry as physical danger &mdash; any new goal, system, or way of working is evaluated <em>emotionally</em> before it is evaluated rationally.</p>
+        <p>The five SCARF triggers are explored in detail in the next section. The SCARF Tool is available on demand for leaders who want to monitor observable behaviours and proactively strengthen their alignment of heart and mind.</p>
+        <div class="p-insight">&#10148; Facilitation insight: The power of SCARF is not the label &mdash; it is the recognition. When a leader can name which trigger is driving resistance, they can address the root cause rather than the symptom.</div>
+      </div>
+    </div>
+    <div class="p-card" onclick="toggleP(this)">
+      <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Principle 5</div><div class="p-name">Execution Must Be Visible in Behaviour</div></div><div class="p-arr">&#9660;</div></div>
+      <div class="p-body" style="border-left:3px solid #5ecba1;">
+        <p><strong>Strategic alignment ultimately becomes visible through behaviour.</strong> Without observable behaviour, alignment remains theoretical. With behavioural standards, alignment becomes visible, measurable, and sustainable.</p>
+        <p>The <strong>ACE-IT Framework</strong> defines five universally desired behaviours: Accountability, Commitment, Engagement, Integrity, Transparency. These behaviours are <em>independent</em> of an organisation&rsquo;s stated values &mdash; they represent the minimum behavioural standard for any leadership team serious about execution. Explored in detail in section 1.1.4.</p>
+        <div class="p-insight">&#10148; Facilitation insight: Ask leaders: <em>&ldquo;If someone external observed your team for one week, which ACE-IT behaviour would they see most clearly? Which would be absent?&rdquo;</em> The honest answer is a diagnostic.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.3 &mdash; The SCARF Model: Five Triggers of Human Resistance</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Expand Each Trigger</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Name and define the five SCARF triggers that activate emotional resistance to strategic change</li>
+    <li>Identify which SCARF trigger is most frequently activated in their organisation during strategy implementation</li>
+    <li>Apply at least one specific counter-strategy to a live initiative showing signs of SCARF-driven resistance</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.1.3</div>
+    <p><strong>On pacing:</strong> Open each SCARF card and read the trigger question aloud. Then pause: <em>&ldquo;In your last major strategy implementation &mdash; which of these triggers did you observe most? How did you know?&rdquo;</em></p>
+    <p><strong>Key distinction:</strong> SCARF is not about weak people. The triggers activate universally. The difference between leaders who manage it well is not immunity &mdash; it is <em>awareness and deliberate counter-strategy</em>. <em>Suggested time: 12&ndash;15 minutes.</em></p>
+  </div>
+  <p style="margin-bottom:14px;">Expand each trigger to explore what activates it, how it shows up in behaviour, its execution impact, and the counter-strategy that addresses it.</p>
+  <div class="scarf-grid">
+    <div class="sc-card open" onclick="toggleSC(this)">
+      <div class="sc-head" style="border-top:3px solid #8ab0e8;"><div class="sc-trigger" style="color:#8ab0e8;">Status</div><div class="sc-q">&ldquo;Will this reduce my importance?&rdquo;</div></div>
+      <div class="sc-bar" style="background:#8ab0e8;"></div>
+      <div class="sc-body">
+        <div class="sc-row"><div class="sc-rl">Activated By</div><div class="sc-rt">New leaders &bull; New KPIs exposing performance &bull; New systems shifting expertise &bull; Changed reporting lines</div></div>
+        <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">Defensive behaviour &bull; Undermining decisions &bull; Withholding information or cooperation</div></div>
+        <div class="sc-impact">&#9888; Execution: Political friction &bull; Slowed decisions &bull; Misalignment masked as professionalism</div>
+        <div class="sc-fac">&#10148; Counter: Explicitly acknowledge existing credibility. Involve senior leaders in co-designing new structures &mdash; status is protected when people have agency in the change.</div>
+      </div>
+    </div>
+    <div class="sc-card" onclick="toggleSC(this)">
+      <div class="sc-head" style="border-top:3px solid var(--gold);"><div class="sc-trigger" style="color:var(--gold);">Certainty</div><div class="sc-q">&ldquo;Do I know what success looks like?&rdquo;</div></div>
+      <div class="sc-bar" style="background:var(--gold);"></div>
+      <div class="sc-body">
+        <div class="sc-row"><div class="sc-rl">Activated By</div><div class="sc-rt">New goals &bull; Ambiguous ownership &bull; Changing metrics or timelines &bull; Shifting review processes</div></div>
+        <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">Repeated clarification requests &bull; Delay disguised as &ldquo;waiting for alignment&rdquo; &bull; Reversion to old habits</div></div>
+        <div class="sc-impact">&#9888; Execution: Loss of momentum &bull; Paralysis under pressure &bull; Risk avoidance</div>
+        <div class="sc-fac">&#10148; Counter: Create visible milestones early. The brain seeks pattern &mdash; give it enough structure to move without removing all ambiguity.</div>
+      </div>
+    </div>
+    <div class="sc-card" onclick="toggleSC(this)">
+      <div class="sc-head" style="border-top:3px solid #5ecba1;"><div class="sc-trigger" style="color:#5ecba1;">Autonomy</div><div class="sc-q">&ldquo;Am I losing control of my work?&rdquo;</div></div>
+      <div class="sc-bar" style="background:#5ecba1;"></div>
+      <div class="sc-body">
+        <div class="sc-row"><div class="sc-rl">Activated By</div><div class="sc-rt">New systems &bull; Standardised processes &bull; Centralised decision rights &bull; Increased oversight or reporting</div></div>
+        <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">Passive compliance &bull; Minimal effort delivery &bull; Resistance through bureaucracy</div></div>
+        <div class="sc-impact">&#9888; Execution: Low engagement energy &bull; Mechanical execution &bull; Fragile performance</div>
+        <div class="sc-fac">&#10148; Counter: Standardise the <em>what</em>, not the <em>how</em>. Bounded choice preserves autonomy while honouring the mandate.</div>
+      </div>
+    </div>
+    <div class="sc-card" onclick="toggleSC(this)">
+      <div class="sc-head" style="border-top:3px solid #c39de0;"><div class="sc-trigger" style="color:#c39de0;">Relatedness</div><div class="sc-q">&ldquo;Do I still belong here?&rdquo;</div></div>
+      <div class="sc-bar" style="background:#c39de0;"></div>
+      <div class="sc-body">
+        <div class="sc-row"><div class="sc-rl">Activated By</div><div class="sc-rt">Team restructuring &bull; New leaders or external hires &bull; Cross-functional initiatives &bull; Remote or hybrid shifts</div></div>
+        <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">Silo behaviour &bull; Reduced collaboration &bull; Guarded communication</div></div>
+        <div class="sc-impact">&#9888; Execution: Trust erosion &bull; Coordination breakdown &bull; Rework and duplication</div>
+        <div class="sc-fac">&#10148; Counter: Create visible connection rituals during transitions. People need to feel part of the tribe before they will share resources or risk vulnerability.</div>
+      </div>
+    </div>
+    <div class="sc-card" onclick="toggleSC(this)">
+      <div class="sc-head" style="border-top:3px solid #f0a070;"><div class="sc-trigger" style="color:#f0a070;">Fairness</div><div class="sc-q">&ldquo;Is this being applied equitably?&rdquo;</div></div>
+      <div class="sc-bar" style="background:#f0a070;"></div>
+      <div class="sc-body">
+        <div class="sc-row"><div class="sc-rl">Activated By</div><div class="sc-rt">Uneven workload &bull; Selective enforcement of rules &bull; Inconsistent rewards &bull; Unclear decision rationale</div></div>
+        <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">Cynicism &bull; Gossip replacing dialogue &bull; Emotional withdrawal</div></div>
+        <div class="sc-impact">&#9888; Execution: Values misalignment &bull; Morale drain &bull; Cultural decay</div>
+        <div class="sc-fac">&#10148; Counter: Proactively explain rationale behind decisions &mdash; especially asymmetric ones. Transparency about trade-offs is perceived as fairness even when outcomes differ.</div>
+      </div>
+    </div>
+  </div>
+  <div class="fac-note" style="margin-top:18px;"><div class="fac-label">SCARF Tool</div><p>Available on demand for leaders who want to actively monitor observable behaviours during strategy discussions or change initiatives. Helps identify the underlying social concerns influencing reactions &mdash; enabling leaders to adjust their approach in real time.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.4 &mdash; ACE-IT: The Observable Behaviour Standard</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Expand Each Behaviour</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Define each ACE-IT behaviour and its desired observable expression in leadership practice</li>
+    <li>Identify which ACE-IT behaviours are currently most visible and least visible in their team</li>
+    <li>Commit to at least one specific behavioural change that strengthens alignment in their context</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.1.4</div>
+    <p><strong>Key framing:</strong> ACE-IT is not a values framework &mdash; it is a <em>behavioural standard</em>, independent of the organisation&rsquo;s stated values. It describes the minimum visible behaviours required for strategic alignment to be real rather than assumed.</p>
+    <p><strong>After all five:</strong> <em>&ldquo;If you audited your last leadership review against these five behaviours &mdash; where would you find the biggest gap between the ideal and the observable?&rdquo;</em> <em>Suggested time: 10&ndash;12 minutes.</em></p>
+  </div>
+  <div class="aceit-grid">
+    <div class="ai-card" onclick="toggleAI(this)">
+      <div class="ai-head"><div><div class="ai-letter" style="color:#8ab0e8;">A</div><div class="ai-name">Accountability</div></div><div class="ai-arr">&#9660;</div></div>
+      <div class="ai-bar"></div>
+      <div class="ai-body">
+        <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Taking full ownership for results, not excuses. Acknowledging missteps and driving corrective action.</div></div>
+        <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Defines clear ownership &bull; Acknowledges missteps &bull; Holds self and others to measurable standards</div></div>
+        <div class="ai-ev">&#10003; Observable: Commitments tracked &bull; Reviews end with named owners &bull; &ldquo;We missed it, here&rsquo;s the fix&rdquo; language common</div>
+      </div>
+    </div>
+    <div class="ai-card" onclick="toggleAI(this)">
+      <div class="ai-head"><div><div class="ai-letter" style="color:var(--gold);">C</div><div class="ai-name">Commitment</div></div><div class="ai-arr">&#9660;</div></div>
+      <div class="ai-bar"></div>
+      <div class="ai-body">
+        <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Staying anchored to agreed strategic intent even when pressure rises. Following through despite discomfort.</div></div>
+        <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Aligns daily choices to long-term direction &bull; Protects priorities from noise &bull; Closes loops they open</div></div>
+        <div class="ai-ev">&#10003; Observable: Strategic priorities stay consistent &bull; Leaders decline non-strategic work &bull; Promises kept visibly</div>
+      </div>
+    </div>
+    <div class="ai-card" onclick="toggleAI(this)">
+      <div class="ai-head"><div><div class="ai-letter" style="color:#5ecba1;">E</div><div class="ai-name">Engagement</div></div><div class="ai-arr">&#9660;</div></div>
+      <div class="ai-bar"></div>
+      <div class="ai-body">
+        <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Actively involving self and others in sense-making, dialogue, and execution. Listening to understand, not defend.</div></div>
+        <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Invites participation and dissent &bull; Connects roles to purpose &bull; Creates two-way dialogue</div></div>
+        <div class="ai-ev">&#10003; Observable: Team meetings are two-way &bull; Feedback loops visible &bull; People quote the shared &ldquo;why&rdquo;</div>
+      </div>
+    </div>
+    <div class="ai-card" onclick="toggleAI(this)">
+      <div class="ai-head"><div><div class="ai-letter" style="color:#c39de0;">I</div><div class="ai-name">Integrity</div></div><div class="ai-arr">&#9660;</div></div>
+      <div class="ai-bar"></div>
+      <div class="ai-body">
+        <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Acting consistently with values, facts, and truth &mdash; even when inconvenient. Declaring conflicts of interest early.</div></div>
+        <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Says what is true, not what is easy &bull; Uses data to support choices &bull; References values in trade-offs</div></div>
+        <div class="ai-ev">&#10003; Observable: Evidence cited before decisions &bull; Values referenced in hard choices &bull; Teams trust word matches deed</div>
+      </div>
+    </div>
+    <div class="ai-card" onclick="toggleAI(this)">
+      <div class="ai-head"><div><div class="ai-letter" style="color:#f0a070;">T</div><div class="ai-name">Transparency</div></div><div class="ai-arr">&#9660;</div></div>
+      <div class="ai-bar"></div>
+      <div class="ai-body">
+        <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Making reasoning, progress, and constraints visible to all stakeholders. Sharing challenges openly.</div></div>
+        <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Communicates decisions with rationale &bull; Documents choices and lessons &bull; Shares progress including setbacks</div></div>
+        <div class="ai-ev">&#10003; Observable: Dashboards updated regularly &bull; Decisions logged and accessible &bull; &ldquo;No surprises&rdquo; culture evident</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Intelligence &mdash; Why &#8594;</button></div>
+</div>
+</div>
+
+<!-- ===== TAB 2: INTELLIGENCE ===== -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1.2 &middot; Intelligence &mdash; Why</div>
+  <h2>Why Does Heart &amp; Mind Alignment Determine Execution Outcomes?</h2>
+  <p>Ignition Point &middot; Within the Strategy2Results&reg; process, Aligning Hearts and Minds functions as the ignition point of execution &mdash; the moment where strategy transitions from a document describing intent into a system capable of producing movement.</p>
+</div>
+<div class="mod-body">
+<div class="fac-note-full" style="margin-top:22px;">
+  <div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Tab 2 &middot; Intelligence</div>
+  <p><strong>Tab intent:</strong> Move from describing the concept of alignment to understanding its <strong>strategic necessity</strong>. Leaders must understand why this is not a &ldquo;soft skills&rdquo; intervention &mdash; it is the mechanical conversion point of strategy. This tab should create a shift from intellectual understanding to operational conviction.</p>
+  <p><strong>The energy analogy:</strong> The Potential vs. Kinetic Energy logic is highly effective with CXO-level audiences. Engineers, finance leaders, and operators all recognise this from their domain. Use it as an anchor before moving to the compliance/commitment distinction. <em>Suggested tab time: 25&ndash;30 minutes.</em></p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2.1 &mdash; The Ignition Point of Strategy Execution</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Foundation Logic</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Explain why alignment is the mechanical ignition point &mdash; not a cultural aspiration</li>
+    <li>Distinguish between strategic potential (documents) and strategic kinetic energy (movement)</li>
+    <li>Articulate the conditions under which an individual converts from passive receiver to active carrier of strategy</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.2.1</div>
+    <p><strong>On the ignition metaphor:</strong> An ignition point is not where fuel is stored &mdash; it is where fuel becomes power. A strategy document is stored potential. The moment a person decides &ldquo;This matters to me&rdquo; is when kinetic energy begins. Without that moment, the fuel stays fuel.</p>
+    <p><strong>Discussion prompt:</strong> <em>&ldquo;Think of a time when you personally chose to go beyond compliance and genuinely committed to a strategic direction. What caused that shift? What would it take to create that same shift in your team?&rdquo;</em> <em>Suggested time: 8&ndash;10 minutes.</em></p>
+  </div>
+  <p>A strategy document contains <strong>strategic potential</strong>. It articulates direction, ambition, and possibility. However, potential by definition represents energy at rest. For strategic potential to convert into <strong>kinetic energy</strong> &mdash; movement, execution, and results &mdash; human action must occur. No system executes itself.</p>
+  <div class="hbox"><p><strong>Execution begins the moment an individual decides: &ldquo;This matters to me. I am willing to invest energy in making this succeed.&rdquo;</strong> Until that moment occurs across the organisation, strategy remains theoretical. Aligning Hearts and Minds activates the human energy required to convert intention into action. This is the ignition point.</p></div>
+  <p>Without this ignition point, strategy remains defined but not delivered. With it, the organisation shifts from <strong>supervised effort to self-driven momentum</strong> &mdash; the strategic payoff that makes alignment the highest-leverage leadership intervention available.</p>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2.2 &mdash; Three Foundational Logics</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Why It Matters Operationally</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Apply the Potential vs. Kinetic Energy logic to a live strategy initiative</li>
+    <li>Distinguish between compliance-driven and commitment-driven execution &mdash; and their different cost structures for leadership</li>
+    <li>Explain why alignment is the highest-leverage intervention available to leadership</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.2.2</div>
+    <p><strong>Logic II (Compliance vs. Commitment)</strong> typically generates the highest impact with CXO audiences. Leaders recognise compliance-driven execution immediately &mdash; they have managed it and been frustrated by it. Ask: <em>&ldquo;How much of your leadership time is currently spent enforcing compliance rather than directing committed execution?&rdquo;</em> The honest answer is usually sobering. <em>Suggested time: 12&ndash;15 minutes.</em></p>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin:16px 0;">
+    <div style="border:1px solid rgba(107,143,204,.2);border-radius:4px;overflow:hidden;">
+      <div style="background:rgba(107,143,204,.08);padding:13px 18px;border-left:4px solid #8ab0e8;"><strong style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;">I. Potential vs. Kinetic Energy Logic</strong></div>
+      <div style="padding:16px 18px;background:#151c15;"><p style="margin:0;font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;">A strategy document is strategic <em>potential</em> &mdash; energy at rest. For it to become kinetic energy (movement, execution, results), a human decision must activate it. The alignment of heart and mind is precisely the conversion mechanism. Every day that decision is not made is a day strategic potential sits unused. <strong style="color:#fff;">The organisation does not move until people decide to move it.</strong> Leadership cannot shortcut this decision &mdash; it can only create the conditions for it.</p></div>
+    </div>
+    <div style="border:1px solid rgba(231,76,60,.2);border-radius:4px;overflow:hidden;">
+      <div style="background:rgba(231,76,60,.06);padding:13px 18px;border-left:4px solid rgba(231,76,60,.5);"><strong style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#f08080;">II. Compliance vs. Commitment Logic</strong></div>
+      <div style="padding:16px 18px;background:#151c15;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,120,100,.7);margin-bottom:8px;">Compliance &mdash; Mind Only</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.62);line-height:1.72;margin:0;">People act because authority requires it, rules enforce it, or systems monitor it. Produces visible output short-term. Requires continuous supervision. Creates hidden costs: leadership time consumed by follow-ups, teams dependent on instruction, decision-making slows as control increases. <strong style="color:rgba(255,120,100,.8);">Mechanical rather than resilient.</strong></p>
+          </div>
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Commitment &mdash; Mind &amp; Heart</div>
+            <p style="font-size:13px;color:rgba(255,255,255,.62);line-height:1.72;margin:0;">People act because they understand strategic intent, believe the direction is meaningful, and feel personal ownership. Generates behaviours compliance cannot sustain: <strong style="color:#5ecba1;">discretionary effort, adaptive problem-solving, resilience when conditions change.</strong> Execution continues even when leaders are not present.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border:1px solid rgba(46,168,122,.2);border-radius:4px;overflow:hidden;">
+      <div style="background:rgba(46,168,122,.07);padding:13px 18px;border-left:4px solid rgba(46,168,122,.5);"><strong style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;">III. The Strategic Payoff of Alignment</strong></div>
+      <div style="padding:16px 18px;background:#151c15;"><p style="margin:0;font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;">When both cognition and emotion are aligned: people act with ownership rather than obligation, coordination improves across functions, and leaders spend less time correcting and more time advancing strategy. This shift <strong style="color:#fff;">reduces rework, lowers escalation, and preserves leadership capacity</strong> for decisions that truly require executive attention. Aligning Hearts and Minds is not a cultural aspiration &mdash; it is the mechanical conversion point where strategic potential becomes strategic movement.</p></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(0)">&#8592; Awareness</button>
+  <button class="btn" onclick="showMod(2)">Extrapolating &mdash; Where &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB 3: EXTRAPOLATING ===== -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1.3 &middot; Extrapolating &mdash; Where</div>
+  <h2>Where Are the Alignment Hot Zones Across the Organisation?</h2>
+  <p>The Alignment Brigade &middot; The COMPASS framework identifies seven High Flammable Zones where human interpretation, emotional climate, and behaviour directly influence strategic outcomes. These are the leverage points &mdash; and the danger zones.</p>
+</div>
+<div class="mod-body">
+<div class="fac-note-full" style="margin-top:22px;">
+  <div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Tab 3 &middot; Extrapolating</div>
+  <p><strong>Tab intent:</strong> Make the alignment concept specific and organisationally urgent. Leaders must finish this tab knowing <em>where</em> their most significant alignment risks live &mdash; not in the abstract, but in named domains of their enterprise.</p>
+  <p><strong>Diagnostic exercise:</strong> Before revealing the COMPASS narratives, ask participants to independently rate their organisation on each domain (1 = strong alignment, 5 = severe misalignment). Then compare ratings across the leadership team. Divergent ratings are themselves diagnostic. <em>Suggested tab time: 35&ndash;45 minutes.</em></p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.3.1 &mdash; The COMPASS Framework: Seven High Flammable Zones</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Click a Domain</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Identify and define each of the seven High Flammable Zones in the COMPASS framework</li>
+    <li>Locate which COMPASS domains are currently most at risk in their organisation</li>
+    <li>Distinguish between a zone that is a leverage point and one that has escalated to a Burning Platform</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.3.1</div>
+    <p><strong>On the COMPASS cards:</strong> Invite leaders to click the domain they rated highest risk first. Then ask the group: <em>&ldquo;Who has a different view? Where does your assessment diverge?&rdquo;</em> Divergence in the room is itself a signal &mdash; name it explicitly.</p>
+    <p><strong>Key distinction:</strong> High Flammables are <em>leverage points</em> &mdash; dangerous, but early intervention stabilises them. Burning Platforms are what happens when leverage points are ignored. The COMPASS diagnostic is about catching zones before they ignite. <em>Suggested time: 18&ndash;22 minutes.</em></p>
+  </div>
+  <p style="margin-bottom:14px;">Click each COMPASS domain to explore the signal narrative, how it appears when lit, and the facilitation question that drives early intervention.</p>
+  <div class="compass-grid" id="compassGrid">
+    <div class="cm-card" onclick="showCM(this,'cm0')"><div class="cm-top"><div class="cm-letter">C</div><div class="cm-name">Clarity of Strategic Direction</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm1')"><div class="cm-top"><div class="cm-letter">O</div><div class="cm-name">Organizational Alignment</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm2')"><div class="cm-top"><div class="cm-letter">M</div><div class="cm-name">Management Discipline</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm3')"><div class="cm-top"><div class="cm-letter">P</div><div class="cm-name">People &amp; Capability</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm4')"><div class="cm-top"><div class="cm-letter">A</div><div class="cm-name">Allocation of Resources</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm5')"><div class="cm-top"><div class="cm-letter">S</div><div class="cm-name">Sensing &amp; Adaptation</div></div><div class="cm-bar"></div></div>
+    <div class="cm-card" onclick="showCM(this,'cm6')"><div class="cm-top"><div class="cm-letter">S</div><div class="cm-name">Systems &amp; Execution</div></div><div class="cm-bar"></div></div>
+  </div>
+  <div id="cm0" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>The most dangerous fire in any organisation is the quiet combustion when leaders believe they are aligned but are navigating by different compasses. Clarity of Strategic Direction is not whether a strategy document exists &mdash; it is whether people can describe it in the same language, connect it to daily decisions, and hold it steady under pressure.</p><p>When this signal flares: confidence in meetings, confusion in corridors. Priorities multiply. Trade-offs are avoided. Frontline execution diverges from boardroom intent &mdash; not because people are resistant, but because the destination was never made unambiguous enough to follow.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Executives presenting polished strategies that fracture the moment they leave the room. Multiple competing priorities in different functions. Leaders spending time re-explaining decisions rather than advancing strategy.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;Everyone has a different version of what we said.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;Can every person in this room describe the top three strategic priorities in the same order, using the same language? Try it now.&rdquo;</div></div></div>
+  <div id="cm1" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>Alignment is not agreement in the room. It is coordinated behaviour <em>outside</em> the room. Leaders declare alignment after a planning session, observe nodding in forums, and interpret absence of challenge as shared commitment. They are often wrong. True alignment is only visible in behaviour.</p><p>When this signal ignites, it burns slowly and spreads widely. Silos deepen. Functions execute their own version of the strategy. The informal system quietly undermines the formal one.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Agreements reached in meetings relitigated through resource approvals and parallel conversations. Initiatives requiring cross-functional collaboration consistently stall. Senior arbitration required for decisions that should be self-coordinating.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;We agreed on this &mdash; why is it not happening?&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;Where in your organisation do decisions made at the top not survive the journey to implementation? What sits between the decision and the delivery?&rdquo;</div></div></div>
+  <div id="cm2" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>Strategy does not fail in the boardroom. It fails in the gap between what leaders decide and what managers actually enforce, measure, and hold accountable. Management Discipline is the signal that tells you whether the operating rhythm &mdash; reviews, escalation norms, accountability structures, governance forums &mdash; is a genuine engine of delivery or an elaborate performance of oversight.</p><p>When this signal flares, performance reviews recycle the same issues without resolution. The same gaps appear in consecutive cycles and are explained rather than corrected.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Accountability is diffuse &mdash; owned collectively, which means owned by no one. Leaders tolerate persistent underperformance. The culture has decided that explanation is an acceptable substitute for consequence.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;We keep discussing the same issues with no resolution.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;In your last three performance reviews, what was the single most recurring issue? Has it been resolved, or has it been re-explained?&rdquo;</div></div></div>
+  <div id="cm3" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>Organisations frequently approve strategies that their people are not yet equipped to deliver. The People &amp; Capability signal is alight when there is a meaningful distance between the skills, capacity, and engagement required and what the organisation actually has available.</p><p>This signal is particularly dangerous because it is slow-burning and easy to rationalise. Leaders attribute execution failures to process or strategy when the root cause is a capability system never designed to carry the weight being placed on it.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Middle managers stretched beyond bandwidth. Succession plans that exist as documents but not operational reality. Engagement scores declining while leadership describes culture as resilient. Key talent exiting quietly. Institutional knowledge walking out the door.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;We have the strategy but not the people to execute it.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;If you had to deliver your strategy with the team you have today &mdash; which specific capability gaps would most limit you? When did you last name those gaps explicitly?&rdquo;</div></div></div>
+  <div id="cm4" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>An organisation&rsquo;s true strategy is not found in its planning documents &mdash; it is found in its budget. When this signal ignites, there is a visible gap between what leadership declares as strategic and what gets funded, staffed, and protected when decisions become difficult.</p><p>Legacy spend continues by inertia. New priorities are approved in language but starved in practice. The longer resources misalign with stated direction, the more credibility erodes, and the harder it becomes to mobilise genuine commitment behind any priority.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Stated priorities and funded priorities are clearly different. Strategy decks bear no resemblance to budget allocation. &ldquo;Strategic&rdquo; initiatives consistently underfunded or deferred. Leaders handed responsibility without resources to honour it.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;We say this is a priority but the resources tell a different story.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;Look at your budget allocation. Does money follow the stated strategy? Where is the gap between declared priority and funded priority?&rdquo;</div></div></div>
+  <div id="cm5" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>Markets shift. Customer needs evolve. Competitive dynamics change faster than planning cycles. The Sensing &amp; Adaptation signal measures whether the organisation is genuinely learning from what is happening around it &mdash; or whether it is processing information selectively, defending existing plans, and mistaking activity for responsiveness.</p><p>The deeper danger is cultural &mdash; when leaders learn that raising uncomfortable signals carries social cost, the organisation gradually loses its early warning system entirely.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>Customer data reviewed but not acted on. Market shifts acknowledged then filed away. Leaders defending forecasts rather than updating them. Early warning signals treated as noise rather than intelligence. The organisation confuses having a strategy with having the <em>right</em> strategy.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;We knew this was coming, but we didn&rsquo;t adapt fast enough.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;What is one market or customer signal your organisation is receiving that is not yet reflected in your strategic plan? What would it take to act on it?&rdquo;</div></div></div>
+  <div id="cm6" class="cm-detail"><div class="cm-col"><h5>The Signal Narrative</h5><p>A new strategy running through an old machine will always produce the same result. Systems &amp; Execution asks the hardest question: is the organisation actually built to deliver what it has committed to? Not in aspiration &mdash; in architecture. Does the operating model match the strategic priorities?</p><p>When this signal is lit, technology investments produce impressive demonstrations and negligible adoption. Operating models built for stability are asked to deliver agility. Leaders sense something fundamental is misaligned but reach for tactical interventions when what is required is a willingness to redesign the machine.</p></div><div class="cm-col"><h5>Observable Indicators</h5><p>The organisation invests in transformation while being structurally configured to resist it. Structural ambiguities create friction compounding with every execution cycle. Leaders sense misalignment but add governance layers, urgency, or communication &mdash; not structural redesign.</p><div class="cm-signal">&#9888; Signal lit: &ldquo;The structure is working against the strategy.&rdquo;</div><div class="cm-action">&#10148; Facilitation question: &ldquo;Is your current operating model designed for the strategy you have now &mdash; or for a strategy you had two years ago? What would redesigning the machine actually require?&rdquo;</div></div></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.3.2 &mdash; From High Flammables to Burning Platforms</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Escalation Threshold</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Distinguish between a High Flammable Zone (manageable with early intervention) and a Burning Platform (crisis requiring urgent systemic action)</li>
+    <li>Identify warning signals that indicate a zone is crossing the escalation threshold</li>
+    <li>Articulate the cost difference between early intervention and crisis management in each COMPASS domain</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.3.2</div>
+    <p><strong>On the escalation threshold:</strong> High Flammable Zones are <em>not</em> problems &mdash; they are pressure points with high leverage. They become Burning Platforms only when alignment is <em>consistently absent</em> and the zone crosses a tipping point. Ask: <em>&ldquo;Which of your COMPASS domains is closest to that threshold right now?&rdquo;</em></p>
+    <p><strong>Enterprise COMPASS Screening Tool:</strong> Available on demand. Helps teams move from vague alignment concerns to clear diagnosis and targeted intervention. Recommended for use at strategy reviews and execution forums. <em>Suggested time: 8&ndash;10 minutes.</em></p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;">
+    <div style="background:#151c15;border-radius:3px;padding:18px;border-top:3px solid var(--gold);">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">High Flammable Zone</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin:0 0 8px;">Organisational <strong style="color:#fff;">leverage points</strong>. When alignment is strong: rapid clarity, coordinated effort, compounding momentum. When alignment is weak: distorted interpretation, defensive behaviour, multiplying friction.</p>
+      <p style="font-size:12px;color:#5ecba1;margin:0;">&#10003; Early intervention stabilises the zone and converts it into a <em>performance amplifier</em>.</p>
+    </div>
+    <div style="background:#151c15;border-radius:3px;padding:18px;border-top:3px solid #e74c3c;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e74c3c;margin-bottom:10px;">Burning Platform</div>
+      <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin:0 0 8px;">What a High Flammable becomes when misalignment <strong style="color:#fff;">persists and crosses the escalation threshold</strong>. By this point, execution breakdown is visible and costly. Reactive interventions cost exponentially more than proactive alignment would have.</p>
+      <p style="font-size:12px;color:#e74c3c;margin:0;">&#9888; The same zone that was manageable as a leverage point becomes a crisis requiring systemic rebuilding.</p>
+    </div>
+  </div>
+  <div class="fac-note"><div class="fac-label">Enterprise COMPASS Screening Tool</div><p>Available on demand for structured diagnostic baseline. Used regularly during strategy reviews, execution forums, or leadership discussions to identify which zones are approaching the escalation threshold before they cross it. Converts vague &ldquo;alignment concerns&rdquo; into specific diagnosis and targeted intervention.</p></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(1)">&#8592; Intelligence</button>
+  <button class="btn" onclick="showMod(3)">Integration &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB 4: COLLECTIVE INTELLIGENCE ===== -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1.4 &middot; Integration &mdash; How</div>
+  <h2>How Aligning Heart &amp; Mind Creates Collective Intelligence</h2>
+  <p>The Converging Zone &middot; The executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system, stabilising all seven COMPASS domains.</p>
+</div>
+<div class="mod-body">
+<div class="fac-note-full" style="margin-top:22px;">
+  <div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Tab 4 &middot; Integration</div>
+  <p><strong>Tab intent:</strong> Lift the lens from individual alignment to <em>systemic leadership alignment</em>. The Converging Zone is where individual functional expertise becomes coordinated leadership judgment. Without this, the organisation receives multiple interpretations of strategy, causing instability across all seven COMPASS domains.</p>
+  <p><strong>On the role grid:</strong> Ask each leader to click their own role card first. Then: <em>&ldquo;Do you recognise this description? Is this how your team experiences your alignment contribution?&rdquo;</em> Then invite leaders to look at each other&rsquo;s cards. This is particularly powerful when the full CXO team is in the room. <em>Suggested tab time: 30&ndash;40 minutes.</em></p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.4.1 &mdash; The Converging Zone: What Collective Intelligence Creates</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Explain how Collective Intelligence emerges from the Converging Zone</li>
+    <li>Describe the difference in strategic outcomes when Collective Intelligence is present versus absent</li>
+    <li>Articulate the mechanism by which individual alignment responsibilities combine into a coherent leadership signal</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.4.1</div>
+    <p><strong>Two states exercise:</strong> Ask leaders to identify which state their organisation is currently closer to. Then: <em>&ldquo;What is the single most important convergence you need to achieve before your next major strategy initiative?&rdquo;</em> <em>Suggested time: 8&ndash;10 minutes.</em></p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;">
+    <div style="background:#151c15;border-radius:3px;padding:18px;border-top:3px solid #5ecba1;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:10px;">With Collective Intelligence</div>
+      <ul style="padding-left:18px;margin:0;">
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">Direction remains clear across all layers</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">Resources reinforce priorities</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">Systems enable execution</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:0;">People move with coordinated effort</li>
+      </ul>
+      <p style="font-size:12px;color:#5ecba1;margin:10px 0 0;">&#10003; One coherent signal across the organisation. COMPASS domains become leverage points for performance.</p>
+    </div>
+    <div style="background:#151c15;border-radius:3px;padding:18px;border-top:3px solid #e74c3c;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#e74c3c;margin-bottom:10px;">Without Collective Intelligence</div>
+      <ul style="padding-left:18px;margin:0;">
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">Different leaders transmit different interpretations</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">COMPASS domains begin to drift</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:5px;">Functions receive competing signals</li>
+        <li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;margin-bottom:0;">Strategic instability spreads invisibly</li>
+      </ul>
+      <p style="font-size:12px;color:#e74c3c;margin:10px 0 0;">&#9888; Multiple conflicting signals. Leverage zones become sources of execution friction.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.4.2 &mdash; Collective Intelligence Across the Leadership Team</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Click a Role</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-obj"><div class="fac-obj-label">Learning Objectives</div><ul>
+    <li>Identify each CXO role&rsquo;s primary contribution to Collective Intelligence</li>
+    <li>Map leadership roles to their most directly activated COMPASS domains</li>
+    <li>Recognise where gaps in individual role alignment create systemic vulnerability across the enterprise</li>
+  </ul></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Section 1.4.2</div>
+    <p><strong>Key facilitation:</strong> After each leader has reviewed their own role, invite them to look at the role most adjacent to theirs. Ask: <em>&ldquo;What is the most important alignment conversation you need to have with that role in the next 30 days?&rdquo;</em> The answer frequently becomes a direct post-session commitment. <em>Suggested time: 15&ndash;18 minutes.</em></p>
+  </div>
+  <p style="margin-bottom:14px;">Click a role to explore how each CXO function contributes to Collective Intelligence and which COMPASS domains it most directly activates.</p>
+  <div class="role-grid" id="roleGrid">
+    <div class="rl-card" onclick="showRL(this,'rl0')"><div class="rl-top"><div class="rl-abbr">CEO</div><div class="rl-title">Chief Executive</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl1')"><div class="rl-top"><div class="rl-abbr">CFO</div><div class="rl-title">Chief Financial</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl2')"><div class="rl-top"><div class="rl-abbr">COO</div><div class="rl-title">Chief Operating</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl3')"><div class="rl-top"><div class="rl-abbr">CHRO</div><div class="rl-title">Chief Human Resources</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl4')"><div class="rl-top"><div class="rl-abbr">CTO/CIO</div><div class="rl-title">Chief Technology/Information</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl5')"><div class="rl-top"><div class="rl-abbr">CMO</div><div class="rl-title">Chief Marketing</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl6')"><div class="rl-top"><div class="rl-abbr">CCO</div><div class="rl-title">Chief Commercial</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl7')"><div class="rl-top"><div class="rl-abbr">CPO</div><div class="rl-title">Chief Procurement</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl8')"><div class="rl-top"><div class="rl-abbr">CRO</div><div class="rl-title">Chief Risk</div></div><div class="rl-bar"></div></div>
+    <div class="rl-card" onclick="showRL(this,'rl9')"><div class="rl-top"><div class="rl-abbr">CSO</div><div class="rl-title">Chief Strategy</div></div><div class="rl-bar"></div></div>
+  </div>
+  <div id="rl0" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Integrates all seven COMPASS domains into one coherent strategic narrative. Ensures direction, priorities, and trade-offs are communicated with one leadership voice. The CEO&rsquo;s primary alignment responsibility is preventing the &ldquo;Chinese Whispers&rdquo; effect by keeping the strategic story intact as it moves through the organisation.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Clarity of Direction</span><span class="d-tag">Organizational Alignment</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When the CEO&rsquo;s alignment is absent or inconsistent, all other roles struggle to converge &mdash; the COMPASS framework loses its anchor point.</p></div></div>
+  <div id="rl1" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Ensures capital allocation and financial discipline reinforce strategic intent rather than dispersing resources across competing priorities. The CFO&rsquo;s alignment responsibility is making the budget reflect the stated strategy &mdash; and having the courage to make trade-offs visible rather than deferring them.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Allocation of Resources</span><span class="d-tag">Management Discipline</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When the CFO&rsquo;s alignment is absent, resources follow inertia rather than strategy, and the credibility of strategic priorities collapses.</p></div></div>
+  <div id="rl2" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Converts strategy into operational flow, ensuring execution routines, coordination, and hand-offs move the organisation forward. The COO&rsquo;s alignment responsibility is ensuring the operating system is configured for the <em>current</em> strategy &mdash; not a previous one that no longer applies.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Systems &amp; Execution</span><span class="d-tag">Management Discipline</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When COO alignment is absent, execution machinery runs efficiently but in the wrong direction.</p></div></div>
+  <div id="rl3" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Aligns leadership behaviour, capability development, and organisational trust with the strategic direction. The CHRO&rsquo;s alignment responsibility is ensuring the human system has the capacity, engagement, and psychological safety to carry the strategy forward &mdash; not just the structure to house it.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">People &amp; Capability</span><span class="d-tag">Organizational Alignment</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CHRO alignment is absent, strategy consistently exceeds the human system&rsquo;s capacity to carry it.</p></div></div>
+  <div id="rl4" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Aligns technology architecture and data capability with the organisation&rsquo;s strategic priorities and future operating model. The CTO/CIO&rsquo;s alignment responsibility is ensuring technology investments actually change how the organisation works &mdash; not just how it appears to external stakeholders.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Systems &amp; Execution</span><span class="d-tag">Sensing &amp; Adaptation</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CTO/CIO alignment is absent, technology investments produce demonstrations rather than capability shifts.</p></div></div>
+  <div id="rl5" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Aligns market positioning and brand promise with the organisation&rsquo;s operational ability to deliver. The CMO&rsquo;s alignment responsibility is ensuring that demand created externally can be fulfilled internally &mdash; and that the brand promise is one the organisation can keep consistently.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Clarity of Direction</span><span class="d-tag">Sensing &amp; Adaptation</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CMO alignment is absent, market signals are disconnected from strategic direction, and brand promises outpace operational reality.</p></div></div>
+  <div id="rl6" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Aligns revenue generation and customer growth strategies with enterprise positioning and operational capacity. The CCO&rsquo;s alignment responsibility is ensuring all deals strengthen rather than dilute the organisation&rsquo;s distinctive positioning &mdash; that all revenue is <em>strategic</em> revenue.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Allocation of Resources</span><span class="d-tag">Organizational Alignment</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CCO alignment is absent, growth strategies create internal incoherence that compounds over time.</p></div></div>
+  <div id="rl7" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Ensures procurement decisions strengthen operational capability and reinforce strategic priorities. The CPO&rsquo;s alignment responsibility is ensuring cost efficiency decisions serve the customer&rsquo;s end-game and the strategy&rsquo;s priorities &mdash; not just the immediate savings target.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Systems &amp; Execution</span><span class="d-tag">Allocation of Resources</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CPO alignment is absent, procurement optimises for cost at the expense of strategic capability.</p></div></div>
+  <div id="rl8" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Aligns enterprise risk interpretation so that strategic initiatives operate within a shared risk appetite framework. The CRO&rsquo;s alignment responsibility is ensuring risk assessment enables rather than paralyses strategic ambition &mdash; and that risk tolerance is consistently interpreted across all functions.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Management Discipline</span><span class="d-tag">Systems &amp; Execution</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CRO alignment is absent, risk appetite becomes function-by-function interpretation, creating asymmetric exposure.</p></div></div>
+  <div id="rl9" class="rl-detail"><div class="rl-col"><h5>Converging Zone Contribution</h5><p>Maintains the integrity of the strategic narrative as it moves from formulation into execution across the organisation. The CSO&rsquo;s alignment responsibility is ensuring the strategy survives the transition from idea to implementation &mdash; that strategic intent does not mutate as it moves through the organisation.</p></div><div class="rl-col"><h5>Primary COMPASS Activation</h5><div class="rl-domains"><span class="d-tag">Clarity of Direction</span><span class="d-tag">Sensing &amp; Adaptation</span></div><p style="margin-top:12px;font-size:12px;color:rgba(255,255,255,.5);">When CSO alignment is absent, the strategic narrative fragments and different layers execute different versions of the strategy.</p></div></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(2)">&#8592; Extrapolating</button>
+  <button class="btn" onclick="showMod(4)">Integration Application &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- ===== TAB 5: APPLICATION ===== -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1.5 &middot; Integration Application</div>
+  <h2>Building Collective Intelligence Through Shared Interpretation</h2>
+  <p>Application &middot; This exercise highlights how Collective Intelligence emerges when leaders understand each other&rsquo;s alignment responsibilities. The goal: move from individual interpretations to a shared understanding of how roles jointly stabilise all seven COMPASS domains.</p>
+</div>
+<div class="mod-body">
+<div class="fac-note-full" style="margin-top:22px;">
+  <div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Tab 5 &middot; Integration Application</div>
+  <p><strong>Timing:</strong> Step 1 is individual &mdash; 12&ndash;15 minutes. Step 2 is paired exchange &mdash; 15&ndash;20 minutes. Step 3 is plenary synthesis &mdash; 20&ndash;25 minutes. Do not rush Steps 1&ndash;2. The quality of the plenary depends entirely on the depth of individual reflection and peer dialogue that precedes it.</p>
+  <p><strong>Facilitation principle:</strong> Your role in the plenary is to name patterns, not to evaluate responses. When leaders disagree about connectivity, name it explicitly: <em>&ldquo;That disagreement tells us something important about how alignment responsibilities are currently experienced in this team.&rdquo;</em></p>
+</div>
+
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showSP(0,this)"><div class="step-num">Step 1</div><div class="step-name">Individual Reflection</div></div>
+  <div class="step-tab" onclick="showSP(1,this)"><div class="step-num">Step 2</div><div class="step-name">Exchange &amp; Dialogue</div></div>
+  <div class="step-tab" onclick="showSP(2,this)"><div class="step-num">Step 3</div><div class="step-name">Plenary Synthesis</div></div>
+</div>
+
+<div class="step-panel active" id="sp0">
+<div class="fac-obj"><div class="fac-obj-label">Learning Objectives &mdash; Step 1</div><ul>
+  <li>Complete the Collective Intelligence working paper for own role and two closely related roles</li>
+  <li>Identify which two COMPASS domains their role most directly activates</li>
+  <li>Describe specifically <em>how</em> their role creates Collective Intelligence &mdash; not just what they do</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Step 1</div>
+  <p><strong>Briefing:</strong> Each person works independently. They complete the table for their own role first, then for two closely related roles. The &ldquo;How We Create Collective Intelligence&rdquo; column must go beyond job description &mdash; it should describe the <em>alignment mechanism</em> the role provides to the organisation.</p>
+  <p><strong>Watch for:</strong> Participants who list tasks rather than alignment contributions. Redirect: <em>&ldquo;That&rsquo;s what you <em>do</em> &mdash; what happens to the organisation&rsquo;s alignment when you do it well? And when you don&rsquo;t?&rdquo;</em></p>
+</div>
+<p>Work independently. Complete the table for your own role and for two closely related roles. Focus on the alignment mechanism &mdash; not just the job description.</p>
+<div style="margin:16px 0;">
+  <label class="wp-label">Your Role Title</label>
+  <input type="text" class="wp-ta" style="min-height:0;height:40px;resize:none;" placeholder="e.g. Chief Operating Officer">
+  <label class="wp-label" style="margin-top:16px;">Row 1: Your Own Role</label>
+  <div class="wp-row">
+    <div class="wp-cell"><label>Leadership Role</label><textarea class="wp-ta" placeholder="Your role title..."></textarea></div>
+    <div class="wp-cell"><label>Top Two COMPASS Domains Activated</label><textarea class="wp-ta" placeholder="Which two COMPASS domains does your role most directly activate?"></textarea></div>
+    <div class="wp-cell"><label>How We Create Collective Intelligence</label><textarea class="wp-ta" placeholder="What alignment mechanism does your role provide? What breaks when this is absent?"></textarea></div>
+  </div>
+  <label class="wp-label">Row 2: First Closely Related Role</label>
+  <div class="wp-row">
+    <div class="wp-cell"><label>Leadership Role</label><textarea class="wp-ta" placeholder="Related role title..."></textarea></div>
+    <div class="wp-cell"><label>Top Two COMPASS Domains Activated</label><textarea class="wp-ta" placeholder="Which two COMPASS domains does this role most directly activate?"></textarea></div>
+    <div class="wp-cell"><label>How We Create Collective Intelligence</label><textarea class="wp-ta" placeholder="Why did you choose this role? Why do you believe this role's alignment is critical to yours?"></textarea></div>
+  </div>
+  <label class="wp-label">Row 3: Second Closely Related Role</label>
+  <div class="wp-row">
+    <div class="wp-cell"><label>Leadership Role</label><textarea class="wp-ta" placeholder="Related role title..."></textarea></div>
+    <div class="wp-cell"><label>Top Two COMPASS Domains Activated</label><textarea class="wp-ta" placeholder="Which two COMPASS domains does this role most directly activate?"></textarea></div>
+    <div class="wp-cell"><label>How We Create Collective Intelligence</label><textarea class="wp-ta" placeholder="What would strengthen alignment between your role and this one? What is currently missing?"></textarea></div>
+  </div>
+  <button class="wp-save" onclick="saveTA(this)">Save Working Paper</button>
+</div>
+</div>
+
+<div class="step-panel" id="sp1">
+<div class="fac-obj"><div class="fac-obj-label">Learning Objectives &mdash; Step 2</div><ul>
+  <li>Share individual tables with the colleague(s) selected in Step 1 and receive their response</li>
+  <li>Identify productive disagreements about how roles connect and what these signal</li>
+  <li>Discover unexpected connectivity &mdash; how the colleague experiences the impact of your role</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Step 2</div>
+  <p><strong>Process:</strong> Each leader shares their table with the colleague(s) whose role they selected. Three exchange questions: (1) Do you agree with how I described your alignment contribution? (2) How else do you create Collective Intelligence that I missed? (3) Where do our interpretations diverge?</p>
+  <p><strong>Key facilitation move:</strong> Where leaders disagree, do not resolve it. Name it explicitly: <em>&ldquo;That disagreement is diagnostic. It tells you something about how these roles are currently experienced in the organisation.&rdquo;</em></p>
+</div>
+<div style="margin:16px 0;">
+  <label class="wp-label">Exchange Prompt 1: Colleague response to your role description</label>
+  <textarea class="wp-ta" placeholder="Do you agree with how I described your alignment contribution? What have I missed or mischaracterised?" style="min-height:80px;"></textarea>
+  <label class="wp-label">Exchange Prompt 2: Additional connectivity your colleague identified</label>
+  <textarea class="wp-ta" placeholder="What other COMPASS domains does your colleague believe they activate? How do they create Collective Intelligence in ways you had not recognised?" style="min-height:80px;"></textarea>
+  <label class="wp-label">Exchange Prompt 3: Where your interpretations diverged and what that signals</label>
+  <textarea class="wp-ta" placeholder="Where did you disagree? What does that disagreement reveal about how these roles currently experience each other in the organisation?" style="min-height:80px;"></textarea>
+  <button class="wp-save" onclick="saveTA(this)">Save Exchange Notes</button>
+</div>
+</div>
+
+<div class="step-panel" id="sp2">
+<div class="fac-obj"><div class="fac-obj-label">Learning Objectives &mdash; Step 3</div><ul>
+  <li>Identify patterns in Collective Intelligence across the full leadership team</li>
+  <li>Name which COMPASS domains appear most frequently as underactivated</li>
+  <li>Commit to at least one specific behavioural change that will strengthen Collective Intelligence in the next 30 days</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Step 3</div>
+  <p><strong>Synthesis question:</strong> <em>&ldquo;Looking at all the tables in the room &mdash; which COMPASS domain appears most frequently as underactivated or poorly understood? That is your team&rsquo;s most critical alignment vulnerability.&rdquo;</em></p>
+  <p><strong>Closing commitment:</strong> Each leader names one specific behavioural change in the next 30 days to strengthen their alignment contribution. Make these visible &mdash; write them on the board or capture them centrally. Follow up at the next leadership forum.</p>
+</div>
+<div style="margin:16px 0;">
+  <label class="wp-label">Most Frequently Underactivated COMPASS Domain(s)</label>
+  <textarea class="wp-ta" placeholder="Which COMPASS domain appeared most frequently as missing or poorly understood across the leadership team?" style="min-height:65px;"></textarea>
+  <label class="wp-label">Shared Patterns &mdash; Where Alignment Is Already Strong</label>
+  <textarea class="wp-ta" placeholder="Which COMPASS domains are being strongly activated? Where is the team's Collective Intelligence already working well?" style="min-height:65px;"></textarea>
+  <label class="wp-label">Critical Connectivity Gaps &mdash; Where Collective Intelligence Is Weakest</label>
+  <textarea class="wp-ta" placeholder="Where are the most significant gaps between how roles experience each other's alignment contribution? What changes would address these?" style="min-height:75px;"></textarea>
+  <label class="wp-label">Individual Commitments &mdash; 30-Day Behavioural Actions</label>
+  <textarea class="wp-ta" placeholder="Capture each leader's specific commitment: Role | Behaviour commitment | How we will know it has happened..." style="min-height:85px;"></textarea>
+  <button class="wp-save" onclick="saveTA(this)">Save Synthesis</button>
+</div>
+<div class="hbox" style="margin-top:18px;"><p><strong>Micro-Climb Outcome:</strong> The organisation leaves this session with aligned leadership interpretation, emotional commitment to the strategy, and clear visibility of the conditions that will enable or constrain execution &mdash; the human foundation for the next stage of the Strategy2Results&reg; journey.</p></div>
+</div>
+
+
+<div class="acc open" style="margin-top:24px;">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">Micro-Climb Summary &mdash; Aligning Hearts &amp; Minds</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Full Summary</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Micro-Climb Summary</div>
+    <p><strong>Use this summary</strong> to close the lens session, to brief sponsors or observers before a session, or to re-anchor the group at the start of a subsequent session. It is also the reference point for connecting this lens to what follows &mdash; Success in Practice (SiP) and the translation of strategic direction into a shared picture of the future organisation.</p>
+  </div>
+  <p>The Aligning Hearts &amp; Minds micro-climb establishes the human conditions required for strategy execution. It recognises a simple but decisive reality: <strong>strategy moves through people before it moves through systems.</strong></p>
+  <p>Execution therefore depends on whether the organisation achieves alignment of cognition (mind) and alignment of emotional engagement (heart) among the people responsible for delivering the strategy.</p>
+  <p>The micro-climb progresses through four stages that build this alignment.</p>
+  <div class="hbox" style="border-left:4px solid #8ab0e8;background:rgba(107,143,204,.06);margin-bottom:10px;">
+    <p><strong style="color:#8ab0e8;">Awareness &mdash; What</strong><br>Leaders recognise that strategy execution is first a human interpretation problem. Every executive interprets strategy through functional expertise, personality tendencies, and emotional context. Cognitive biases and emotional states shape how strategy is understood, prioritised, and acted upon. Aligning hearts and minds establishes the behavioural conditions that allow diverse perspectives to converge into coordinated action.</p>
+  </div>
+  <div class="hbox" style="border-left:4px solid var(--gold);background:rgba(201,168,76,.06);margin-bottom:10px;">
+    <p><strong style="color:var(--gold);">Intelligence &mdash; Why</strong><br>Leaders understand why alignment determines execution outcomes. A strategy document represents strategic potential &mdash; direction, intent, and ambition. Execution begins only when individuals choose to invest energy in advancing that direction. Organisations can drive execution through compliance or through commitment. Alignment of hearts and minds shifts the organisation from supervised effort to self-driven momentum, enabling resilience, discretionary effort, and coordinated progress.</p>
+  </div>
+  <div class="hbox" style="border-left:4px solid #5ecba1;background:rgba(46,168,122,.06);margin-bottom:10px;">
+    <p><strong style="color:#5ecba1;">Extrapolating &mdash; Where</strong><br>Leaders identify the organisational hot zones where alignment matters most. These High-Flammable zones appear across seven domains: Clarity of Strategic Direction, Allocation of Resources, Sensing &amp; Adaptation, Organizational Alignment, Management Discipline, People &amp; Capability, and Systems &amp; Execution. When alignment is strong, these domains amplify performance. When alignment weakens, they gradually escalate into Burning Platforms, where execution breakdown becomes visible and costly.</p>
+  </div>
+  <div class="hbox" style="border-left:4px solid #c39de0;background:rgba(155,89,182,.06);margin-bottom:10px;">
+    <p><strong style="color:#c39de0;">Converging Zone &mdash; Integration</strong><br>Finally, the executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system, stabilising the seven High-Flammable domains and sending one coherent signal across the organisation.</p>
+  </div>
+  <div class="hbox" style="border-left:4px solid var(--gold);margin-top:6px;">
+    <p><strong>Outcome of the Micro-Climb</strong><br>The organisation leaves the micro-climb with aligned leadership interpretation, emotional commitment to the strategy, and clear visibility of the organisational conditions that will enable or constrain execution.<br><br>This alignment creates the human foundation for the next stage of the Strategy2Results&reg; journey, where the leadership team will define Success in Practice (SiP) and translate strategic direction into a shared picture of the future organisation.</p>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&#8592; Integration</button></div>
+</div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleP(c){c.classList.toggle('open');}
+function toggleSC(c){c.classList.toggle('open');}
+function toggleAI(c){c.classList.toggle('open');}
+function showCM(card,id){
+  const was=card.classList.contains('active');
+  document.querySelectorAll('.cm-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.cm-detail').forEach(d=>d.classList.remove('visible'));
+  if(!was){card.classList.add('active');document.getElementById(id).classList.add('visible');}
+}
+function showRL(card,id){
+  const was=card.classList.contains('active');
+  document.querySelectorAll('.rl-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.rl-detail').forEach(d=>d.classList.remove('visible'));
+  if(!was){card.classList.add('active');document.getElementById(id).classList.add('visible');}
+}
+function showSP(n,tab){
+  document.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('sp'+n).classList.add('active');
+  tab.classList.add('active');
+}
+function saveTA(btn){
+  const orig=btn.textContent;
+  btn.textContent='Saved ✓';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+</script>
+</body>
+</html>
