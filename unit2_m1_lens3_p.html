@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 2 - Module 1 - Lens 3 Participant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--teal:#1a7a6a;--gold:#c9a84c;}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teal);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--teal);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.arc-seg.active{opacity:1;transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3);}
+.outcomes-bar{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.outcome-tag{font-size:10px;font-weight:600;color:rgba(26,122,106,.9);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);padding:5px 12px;border-radius:2px;letter-spacing:.04em;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.tab-btn{flex:1;min-width:120px;padding:12px 16px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-bottom:none;border-radius:3px 3px 0 0;cursor:pointer;text-align:center;font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);transition:all .2s;}
+.tab-btn.active{background:#1a2a1e;border-color:rgba(26,122,106,.4);color:var(--teal);}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.6);}
+.tabs-content{max-width:1100px;margin:0 auto;padding:0 40px 60px;}
+.mod{display:none;padding-top:24px;}
+.mod.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0d1f15,#152a1a);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:30px 36px;margin-bottom:22px;}
+.mod-badge{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.mod-title{font-family:"Cormorant Garamond",serif;font-size:1.9rem;font-weight:300;margin-bottom:6px;}
+.mod-sub{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.04em;}
+.mod-body{padding:2px 0;}
+.mod-body p{font-size:14px;line-height:1.9;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.mod-body ul,.mod-body ol{padding-left:22px;margin-bottom:14px;}
+.mod-body li{font-size:14px;line-height:1.85;color:rgba(255,255,255,.68);margin-bottom:6px;}
+.mod-body strong{color:rgba(255,255,255,.9);}
+.mod-body em{color:rgba(255,255,255,.6);font-style:italic;}
+.mod-body h4{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:var(--teal);margin:20px 0 8px;}
+.mod-body h5{font-size:11px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.5);text-transform:uppercase;margin:16px 0 6px;}
+.cb p{font-size:14px;}
+.muted{color:rgba(255,255,255,.35);}
+.acc{border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:14px;overflow:hidden;}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;background:#131f14;transition:background .2s;}
+.acc-h:hover{background:#1a2a1e;}
+.acc-t{font-size:11px;font-weight:700;letter-spacing:.06em;color:rgba(255,255,255,.75);text-transform:uppercase;}
+.acc-meta{font-size:9px;letter-spacing:.08em;color:var(--teal);text-transform:uppercase;font-weight:600;}
+.arr svg{width:12px;height:12px;stroke:rgba(255,255,255,.35);stroke-width:2;fill:none;transition:transform .25s;}
+.acc.open .arr svg{transform:rotate(180deg);}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .4s ease;}
+.acc.open .acc-b{max-height:9000px;}
+.cb{padding:20px 22px;}
+.cb p{font-size:14px;line-height:1.9;color:rgba(255,255,255,.7);margin-bottom:12px;}
+.cb ul{padding-left:20px;margin-bottom:12px;}
+.cb li{font-size:14px;line-height:1.85;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.9);}
+/* ABCV */
+.abcv-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0;}
+.abcv-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);transition:all .2s;cursor:pointer;}
+.abcv-card:hover{border-color:rgba(26,122,106,.35);}
+.abcv-card.open{border-color:rgba(26,122,106,.4);}
+.abcv-card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#151c15;}
+.abcv-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.abcv-icon{font-size:18px;}
+.abcv-caret{font-size:12px;color:rgba(255,255,255,.3);transition:transform .25s;}
+.abcv-card.open .abcv-caret{transform:rotate(180deg);}
+.abcv-detail{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;background:#0f1a10;padding:0 18px;}
+.abcv-detail-inner{padding:16px 0;}
+.abcv-detail-inner p{font-size:13px;line-height:1.85;color:rgba(255,255,255,.72);margin-bottom:10px;}
+.abcv-detail-inner strong{color:rgba(255,255,255,.9);}
+.abcv-anchor{font-size:11px;font-style:italic;color:rgba(255,255,255,.5);border-left:3px solid rgba(26,122,106,.5);padding:8px 14px;margin:8px 0;background:rgba(26,122,106,.05);border-radius:0 3px 3px 0;}
+.abcv-mbt{font-size:11px;font-weight:600;color:rgba(26,122,106,.9);background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:8px 14px;margin-top:10px;}
+/* Hot Zone */
+.hz-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0 14px;}
+.hz-card{background:#151c15;border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .2s;}
+.hz-card:hover{border-color:rgba(26,122,106,.35);background:#1a2a1e;}
+.hz-card.active{border-color:rgba(26,122,106,.5);background:#1a2a1e;}
+.hz-top{margin-bottom:6px;}
+.hz-role{font-size:13px;font-weight:700;color:var(--teal);}
+.hz-title{font-size:9px;color:rgba(255,255,255,.35);letter-spacing:.04em;margin-top:2px;}
+.hz-bar{height:2px;background:rgba(26,122,106,.3);border-radius:2px;}
+.hz-card.active .hz-bar{background:var(--teal);}
+.hz-detail{display:none;border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:20px 24px;margin-top:10px;background:#0f1a10;}
+.hz-detail.active{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.hz-detail h5{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:8px;}
+.hz-detail p{font-size:13px;line-height:1.8;color:rgba(255,255,255,.7);}
+.hz-hot{font-size:11px;color:rgba(240,160,112,.8);background:rgba(230,126,34,.07);border-left:3px solid rgba(230,126,34,.4);padding:8px 12px;margin-top:10px;border-radius:0 3px 3px 0;}
+.hz-align{font-size:11px;color:rgba(94,203,161,.8);background:rgba(26,122,106,.07);border-left:3px solid rgba(26,122,106,.4);padding:8px 12px;margin-top:10px;border-radius:0 3px 3px 0;}
+/* Step tabs */
+.step-tabs{display:flex;gap:2px;margin-bottom:0;overflow-x:auto;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--teal);border-bottom-color:#1a2a1e;}
+.step-label{display:block;font-size:9px;font-weight:700;letter-spacing:.05em;color:rgba(255,255,255,.35);text-transform:uppercase;margin-top:3px;}
+.step-tab.active .step-label{color:var(--teal);}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel strong{color:rgba(255,255,255,.9);}
+/* Mine game */
+.mine-card{border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:#0f1a10;position:relative;transition:border-color .3s;}
+.mine-card.defused{border-color:#27ae60;background:rgba(39,174,96,.06);}
+.mine-card.detonated{border-color:#c0392b;animation:detonate .5s ease;}
+@keyframes bombPulse{0%{transform:scale(1)}30%{transform:scale(1.4) rotate(-10deg)}60%{transform:scale(.9) rotate(8deg)}100%{transform:scale(1)}}
+@keyframes detonate{0%{transform:translateX(0)}15%{transform:translateX(-8px)}30%{transform:translateX(8px)}45%{transform:translateX(-6px)}60%{transform:translateX(6px)}100%{transform:translateX(0)}}
+.mine-label{font-size:10px;font-weight:700;letter-spacing:.1em;color:var(--teal);background:rgba(26,122,106,.08);padding:8px 16px;border-bottom:1px solid rgba(255,255,255,.05);}
+.mine-scenario{font-size:13px;line-height:1.8;color:rgba(255,255,255,.68);padding:14px 16px 10px;}
+.mine-q{padding:4px 16px 16px;}
+.mine-q label{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.06em;display:block;margin-bottom:5px;margin-top:10px;}
+.mine-q select{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);color:#fff;font-family:"Montserrat",sans-serif;font-size:12px;padding:8px 10px;border-radius:3px;cursor:pointer;}
+.mine-q select:focus{border-color:rgba(26,122,106,.5);outline:none;}
+.mine-feedback{display:none;padding:14px 16px;border-top:1px solid rgba(255,255,255,.05);font-size:13px;line-height:1.75;}
+.mine-feedback.show{display:block;}
+.mine-feedback.success{background:rgba(39,174,96,.07);border-top-color:rgba(39,174,96,.2);color:rgba(255,255,255,.8);}
+.mine-feedback.error{background:rgba(192,57,43,.07);border-top-color:rgba(192,57,43,.2);color:rgba(255,255,255,.8);}
+/* Reflection */
+.ref-ta{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 14px;border-radius:3px;resize:vertical;min-height:44px;display:block;}
+.ref-ta:focus{border-color:rgba(26,122,106,.5);outline:none;}
+.ref-block{border:1px solid rgba(26,122,106,.18);border-left:4px solid rgba(26,122,106,.5);border-radius:0 4px 4px 0;padding:16px 20px;margin:18px 0;background:rgba(26,122,106,.04);}
+.ref-block-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+/* Buttons / nav */
+.btn{background:rgba(26,122,106,.12);border:1px solid rgba(26,122,106,.35);color:rgba(255,255,255,.8);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;padding:10px 22px;border-radius:3px;cursor:pointer;transition:all .2s;}
+.btn:hover{background:rgba(26,122,106,.25);border-color:var(--teal);}
+.btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
+.btn.prev:hover{color:var(--teal);border-color:rgba(26,122,106,.3);}
+.mod-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0 8px;border-top:1px solid rgba(255,255,255,.05);margin-top:28px;}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#0d1f15;border:1px solid rgba(26,122,106,.25);border-radius:6px;padding:40px;width:100%;max-width:400px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:26px;}
+.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:7px;margin-top:16px;}
+.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.12);color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;border-radius:3px;margin-bottom:4px;}
+.gate-input:focus{border-color:rgba(26,122,106,.5);outline:none;}
+.gate-btn{width:100%;padding:12px;background:rgba(26,122,106,.15);border:1px solid rgba(26,122,106,.35);color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:3px;cursor:pointer;margin-top:20px;transition:all .2s;}
+.gate-btn:hover{background:rgba(26,122,106,.28);}
+.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;}
+@media(max-width:700px){.abcv-grid,.hz-grid{grid-template-columns:1fr!important;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}}
+.mine-body{overflow:hidden;transition:max-height .4s ease,opacity .3s;max-height:800px;opacity:1;}
+.mine-card.collapsed .mine-body{max-height:0;opacity:0;pointer-events:none;}
+.mine-label{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
+.mine-label::after{content:"▾";font-size:11px;opacity:.4;transition:transform .3s;}
+.mine-card.collapsed .mine-label::after{transform:rotate(-90deg);}
+.part-obj{background:rgba(26,122,106,.06);border:1px solid rgba(26,122,106,.25);border-left:4px solid var(--teal);border-radius:0 3px 3px 0;padding:14px 18px;margin:0 0 18px;}
+.part-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.part-obj ul{list-style:none;padding:0;margin:0;}
+.part-obj li{font-size:13px;color:rgba(255,255,255,.8);padding:5px 0 5px 18px;position:relative;border-bottom:1px solid rgba(26,122,106,.08);line-height:1.65;}
+.part-obj li:last-child{border-bottom:none;}
+.part-obj li::before{content:"→";position:absolute;left:0;color:var(--teal);}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Participant Portal</div>
+    <div class="gate-sub">Unit 2 &middot; Module 1 &middot; Lens 3</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Enter Learning Portal</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Lens 3 &middot; ABCV-MBT</strong>Unit 2 &middot; Module 1 &mdash; Strategy Direction Integrity</div>
+  </div>
+  <span class="nav-badge">&#127891; Participant</span>
+</nav>
+
+<!-- HEADER -->
+<header class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 2 &middot; Module 1 &middot; Lens 3</div>
+    <h1 class="unit-title">Strategy Direction Integrity Checkpoints</h1>
+    <div class="unit-sub">ABCV-MBT &mdash; The Four Lenses of Strategic Integrity</div>
+    <p class="unit-desc">Well-written OKRs can still fail. Not because execution breaks down &mdash; but because the strategic conditions they assumed were never verified. ABCV-MBT gives you four precision checkpoints that separate strategies that hold from strategies that break.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw active" id="arc0">Awareness<span>What</span></div>
+      <div class="arc-seg in" id="arc1">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex" id="arc2">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz" id="arc3">Integration Zone<span>Collective</span></div>
+      <div class="arc-seg ap" id="arc4">Application<span>In Practice</span></div>
+    </div>
+    <div class="outcomes-bar">
+      <span class="outcome-tag">Diagnose strategic direction</span>
+      <span class="outcome-tag">Apply four ABCV lenses</span>
+      <span class="outcome-tag">Name Must-Be-True conditions</span>
+      <span class="outcome-tag">Build shared leadership commitment</span>
+    </div>
+  </div>
+</header>
+
+<!-- TABS -->
+<div class="mod-tabs">
+  <div class="tab-btn active" onclick="showMod(0)">Awareness</div>
+  <div class="tab-btn" onclick="showMod(1)">Intelligence</div>
+  <div class="tab-btn" onclick="showMod(2)">Extrapolating</div>
+  <div class="tab-btn" onclick="showMod(3)">Integration Zone</div>
+  <div class="tab-btn" onclick="showMod(4)">Application</div>
+</div>
+
+<main class="tabs-content">
+
+<!-- TAB 1: AWARENESS -->
+<div class="mod active" id="mod0">
+<div class="mod-hero">
+  <div class="mod-hero-content">
+    <div class="mod-badge">Awareness</div>
+    <h2 class="mod-title">What Are We Actually Testing?</h2>
+    <p class="mod-sub">Understanding why well-written objectives still fail &mdash; and the four conditions that determine whether they hold</p>
+  </div>
+</div>
+<div class="mod-body">
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.1 &mdash; The Problem with Well-Written OKRs</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="part-obj"><div class="part-obj-label">Learning Objectives — By the end of this section you will be able to</div><ul>
+    <li>Explain why well-written OKRs still fail when underlying assumptions go unnamed</li>
+    <li>Describe the ABCV-MBT framework as a pre-execution integrity filter for strategic direction</li>
+    <li>Distinguish between an OKR that is measurable and one that is strategically grounded</li>
+  </ul></div>
+  <p>A well-written OKR can still fail. Not because the writing is imprecise. Not because the team lacks capability. But because the strategic conditions it assumed &mdash; the Arena, the Boundaries, the Competition, the Value Proposition &mdash; were never verified before execution began.</p>
+  <p>This is the problem ABCV-MBT solves. It moves strategy from belief to testable commitment by naming the conditions that must be true for a strategy to hold &mdash; and then requiring leaders to verify them.</p>
+  <h4>The Must-Be-True (MBT) Condition</h4>
+  <p>A Must-Be-True condition is a specific, verifiable assumption that a strategic objective requires in order to remain valid. It is not a risk. It is not a concern. It is a named condition: either it is true, or the objective rests on unstable ground.</p>
+  <p>The power of naming MBTs is not in the naming itself. It is in what naming reveals: which parts of the strategy have been confirmed, and which parts have simply been assumed.</p>
+
+  <div class="ref-block">
+    <div class="ref-block-label">&#9997; Your Reflection</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Think of a current strategic objective your organisation is pursuing. What is it assuming about the world that has not yet been verified?</p>
+    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+  </div>
+</div>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1.2 &mdash; The Four ABCV Integrity Checkpoints</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Core Framework</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="part-obj"><div class="part-obj-label">Learning Objectives — By the end of this section you will be able to</div><ul>
+    <li>Identify what each of the four ABCV lenses tests in a strategic direction</li>
+    <li>State the Must-Be-True condition each lens requires in order for a strategy to hold</li>
+    <li>Apply one ABCV lens to a live objective from your own context</li>
+  </ul></div>
+  <p>ABCV provides four lenses through which to test the integrity of any strategic direction. Click each lens to explore what it examines, the question it asks, and the Must-Be-True condition it requires.</p>
+  <div class="abcv-grid">
+
+    <!-- Arena -->
+    <div class="abcv-card" onclick="toggleCard(this)">
+      <div class="abcv-card-head" style="border-left:3px solid #8ab0e8;">
+        <div>
+          <div class="abcv-label" style="color:#8ab0e8;">Arena</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;">Customer End Game</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="abcv-icon">&#127919;</span><span class="abcv-caret">&#9660;</span></div>
+      </div>
+      <div class="abcv-detail">
+        <div class="abcv-detail-inner">
+          <p><strong>Strategic Logic:</strong> A strategy is only as valid as the customer outcome it is designed to deliver. Arena defines the precise destination &mdash; not the product, not the service, but the functional, emotional, and social outcome the customer is truly pursuing.</p>
+          <p>When Arena is not verified, strategy can be perfectly executed in the wrong direction. The product works. The team performs. But the customer has moved on to a different end-game.</p>
+          <div class="abcv-anchor">&#10148; Interrogative Anchor: <em>What functional, emotional, and social outcome is the customer truly pursuing &mdash; and has it shifted?</em></div>
+          <div class="abcv-mbt">MBT Condition: The customer outcome we have designed this strategy around is still the right outcome &mdash; and has not materially shifted since our last verified check.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boundaries -->
+    <div class="abcv-card" onclick="toggleCard(this)">
+      <div class="abcv-card-head" style="border-left:3px solid #f0c060;">
+        <div>
+          <div class="abcv-label" style="color:#f0c060;">Boundaries</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;">Friction Architecture</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="abcv-icon">&#9875;</span><span class="abcv-caret">&#9660;</span></div>
+      </div>
+      <div class="abcv-detail">
+        <div class="abcv-detail-inner">
+          <p><strong>Strategic Logic:</strong> Every strategy operates within a friction architecture &mdash; the regulatory, structural, and behavioural constraints that determine what can and cannot be delivered. Boundaries names these explicitly so that strategy is designed around real constraints, not assumed away from them.</p>
+          <p>A strategy that ignores its Boundaries produces plans that are coherent in design and impossible in execution. The friction was always there; it simply wasn&rsquo;t named.</p>
+          <div class="abcv-anchor">&#10148; Interrogative Anchor: <em>What internal or external friction is preventing strategy from delivering at scale?</em></div>
+          <div class="abcv-mbt">MBT Condition: The regulatory, structural, and behavioural constraints operating on this strategy remain within a range that our execution model can absorb.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Competition -->
+    <div class="abcv-card" onclick="toggleCard(this)">
+      <div class="abcv-card-head" style="border-left:3px solid #5ecba1;">
+        <div>
+          <div class="abcv-label" style="color:#5ecba1;">Competition</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;">True Landscape</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="abcv-icon">&#127757;</span><span class="abcv-caret">&#9660;</span></div>
+      </div>
+      <div class="abcv-detail">
+        <div class="abcv-detail-inner">
+          <p><strong>Strategic Logic:</strong> Competition is not limited to those who look like you. The true competitive landscape includes all alternatives the customer can choose &mdash; including doing nothing, self-service, or a solution from an entirely different industry.</p>
+          <p>Organisations that define competition too narrowly build advantage against the wrong rivals. Disruption almost always arrives from outside the frame they were watching.</p>
+          <div class="abcv-anchor">&#10148; Interrogative Anchor: <em>Who else is solving this problem &mdash; including those who don&rsquo;t look like competitors?</em></div>
+          <div class="abcv-mbt">MBT Condition: The competitive landscape we have mapped includes all meaningful alternatives the customer has &mdash; not just traditional industry rivals.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value Proposition -->
+    <div class="abcv-card" onclick="toggleCard(this)">
+      <div class="abcv-card-head" style="border-left:3px solid #c39de0;">
+        <div>
+          <div class="abcv-label" style="color:#c39de0;">Value Proposition</div>
+          <div style="font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;">Coherent Advantage</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;"><span class="abcv-icon">&#128161;</span><span class="abcv-caret">&#9660;</span></div>
+      </div>
+      <div class="abcv-detail">
+        <div class="abcv-detail-inner">
+          <p><strong>Strategic Logic:</strong> A value proposition is not a marketing statement. It is the coherent set of choices &mdash; what you do, what you do not do, and why your combination of both is difficult to replicate &mdash; that creates defensible advantage in the Arena you have chosen.</p>
+          <p>Strategies that expand too broadly, or accept the wrong kind of growth, erode the Value Proposition over time. Distinctiveness is not inherited. It must be maintained by design, checked at each strategic decision.</p>
+          <div class="abcv-anchor">&#10148; Interrogative Anchor: <em>Does our distinctive value architecture still create coherent, defensible advantage?</em></div>
+          <div class="abcv-mbt">MBT Condition: The strategic choices we are making with this objective strengthen &mdash; or at minimum do not dilute &mdash; our distinctive value architecture.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end abcv-grid -->
+
+  <div class="ref-block">
+    <div class="ref-block-label">&#9997; Your Reflection</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Which of the four ABCV lenses is your organisation least likely to examine rigorously before launching a new strategic initiative? What does that pattern cost you?</p>
+    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="goBack()">&#8592; Portal</button>
+  <button class="btn" onclick="showMod(1)">Intelligence &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 2: INTELLIGENCE -->
+<div class="mod" id="mod1">
+<div class="mod-hero">
+  <div class="mod-hero-content">
+    <div class="mod-badge">Intelligence</div>
+    <h2 class="mod-title">Why These Four Lenses?</h2>
+    <p class="mod-sub">The strategic failures that ABCV is designed to prevent &mdash; and why naming conditions changes what leaders are responsible for</p>
+  </div>
+</div>
+<div class="mod-body">
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2.1 &mdash; The Industry Illusion &amp; Arena Shift</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Strategic Pattern</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="part-obj"><div class="part-obj-label">Learning Objectives — By the end of this section you will be able to</div><ul>
+    <li>Explain why industry-category thinking creates strategic blind spots</li>
+    <li>Distinguish between an industry definition and an arena definition of competitive space</li>
+    <li>Apply the three customer need dimensions — functional, emotional, social — to your own context</li>
+  </ul></div>
+  <p>Nokia built the best phones in the world for the market that existed. But the Arena had shifted: the customer&rsquo;s end-game was no longer a phone &mdash; it was a connected, intelligent, personalised device. Nokia&rsquo;s execution was excellent. Its Arena was wrong.</p>
+  <p>Netflix understood something Blockbuster did not: the customer&rsquo;s true end-game was not a physical rental &mdash; it was frictionless access to content. The Arena had always been about convenience and selection. Blockbuster optimised the store. Netflix redefined what the store was for.</p>
+  <p>The Arena has three dimensions that must all be examined:</p>
+  <ul>
+    <li><strong>Functional</strong> &mdash; What specific task or problem the customer needs resolved</li>
+    <li><strong>Emotional</strong> &mdash; How the customer wants to feel during and after the experience</li>
+    <li><strong>Social</strong> &mdash; How the customer wants to be seen by others through their choice</li>
+  </ul>
+  <p>Most strategies address the functional dimension adequately. The emotional and social dimensions are where strategic drift goes undetected &mdash; and where early Arena shifts first become visible, if leaders are asking the right questions.</p>
+
+  <div class="ref-block">
+    <div class="ref-block-label">&#9997; Your Reflection</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">In your own market, which of the three Arena dimensions (functional, emotional, social) is changing fastest? What does that tell you about the MBT conditions your strategy currently assumes?</p>
+    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+  </div>
+</div>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2.2 &mdash; Naming the Must-Be-Trues</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">From Belief to Commitment</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="part-obj"><div class="part-obj-label">Learning Objectives — By the end of this section you will be able to</div><ul>
+    <li>Connect the ABCV structure to the discipline of naming Must-Be-True conditions</li>
+    <li>Articulate why naming MBT conditions transforms ambition into tested commitment</li>
+    <li>Write at least one MBT condition per ABCV lens for one of your current Key Results</li>
+  </ul></div>
+  <p>An MBT condition is not a hope. It is not a risk register entry. It is a specific, named condition that can be investigated, confirmed, or disconfirmed. The act of naming it is an act of strategic honesty: <em>this is what we are betting on.</em></p>
+  <p>Each ABCV lens generates a different category of MBT condition:</p>
+  <ul>
+    <li><strong style="color:#8ab0e8;">Arena MBTs</strong> &mdash; Conditions about what the customer is truly trying to achieve, and whether that outcome remains stable</li>
+    <li><strong style="color:#f0c060;">Boundaries MBTs</strong> &mdash; Conditions about the operational, regulatory, and structural environment within which execution must succeed</li>
+    <li><strong style="color:#5ecba1;">Competition MBTs</strong> &mdash; Conditions about who the real alternatives are, and whether the competitive frame still reflects reality</li>
+    <li><strong style="color:#c39de0;">Value Proposition MBTs</strong> &mdash; Conditions about whether the organisation&rsquo;s distinctive advantage is being maintained, not eroded, by the strategy being pursued</li>
+  </ul>
+  <p>When leaders name MBT conditions explicitly, they transform ambition into tested commitment. The strategy either rests on confirmed conditions &mdash; or it is a well-written aspiration waiting for reality to intervene.</p>
+
+  <div class="ref-block">
+    <div class="ref-block-label">&#9997; Your Reflection</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">For your most important current strategic objective: write one MBT condition per lens. Which lens was hardest to complete? What does that tell you?</p>
+    <textarea class="ref-ta" placeholder="Arena MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+    <textarea class="ref-ta" placeholder="Boundaries MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+    <textarea class="ref-ta" placeholder="Competition MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+    <textarea class="ref-ta" placeholder="Value Proposition MBT: …" style="min-height:60px;"></textarea>
+    <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(0)">&#8592; Awareness</button>
+  <button class="btn" onclick="showMod(2)">Extrapolating &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 3: EXTRAPOLATING -->
+<div class="mod" id="mod2">
+<div class="mod-hero">
+  <div class="mod-hero-content">
+    <div class="mod-badge">Extrapolating</div>
+    <h2 class="mod-title">Where Does This Show Up in Your Role?</h2>
+    <p class="mod-sub">The ABCV lens most likely to be your organisational blind spot &mdash; and why functional expertise creates selective strategic attention</p>
+  </div>
+</div>
+<div class="mod-body">
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.3.1 &mdash; The Executive Hot Zone: Role-Based Blind Spots</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Click a Role</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="part-obj"><div class="part-obj-label">Learning Objectives — By the end of this section you will be able to</div><ul>
+    <li>Identify which ABCV lens is most frequently overlooked in your own executive function</li>
+    <li>Recognise how functional expertise creates selective strategic attention and predictable blind spots</li>
+    <li>Name one MBT condition in your blind-spot lens that your organisation is currently assuming rather than confirming</li>
+  </ul></div>
+  <p>Click your role below to see which ABCV lens is most likely your strategic blind spot, what it looks like when the condition fails, and the question that shifts your focus from symptom to cause.</p>
+  <div class="hz-grid" id="hzGrid">
+    <div class="hz-card" onclick="showHz(this,'hz0')"><div class="hz-top"><div class="hz-role">CEO</div><div class="hz-title">Chief Executive</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz1')"><div class="hz-top"><div class="hz-role">CFO</div><div class="hz-title">Chief Financial</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz2')"><div class="hz-top"><div class="hz-role">COO</div><div class="hz-title">Chief Operating</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz3')"><div class="hz-top"><div class="hz-role">CHRO</div><div class="hz-title">Chief Human Resources</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz4')"><div class="hz-top"><div class="hz-role">CTO</div><div class="hz-title">Chief Technology</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz5')"><div class="hz-top"><div class="hz-role">CMO</div><div class="hz-title">Chief Marketing</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz6')"><div class="hz-top"><div class="hz-role">CCO</div><div class="hz-title">Chief Commercial</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz7')"><div class="hz-top"><div class="hz-role">CPO</div><div class="hz-title">Chief Procurement</div></div><div class="hz-bar"></div></div>
+    <div class="hz-card" onclick="showHz(this,'hz8')"><div class="hz-top"><div class="hz-role">CSO</div><div class="hz-title">Chief Strategy</div></div><div class="hz-bar"></div></div>
+  </div>
+  <div id="hz0" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Boundaries.</strong> The CEO holds the vision and drives narrative &mdash; but operational friction is rarely in the chief executive&rsquo;s focus until execution stalls significantly.</p><div class="hz-hot">&#9888; Symptom: &ldquo;Why are we not seeing the results when our strategy is clear?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Boundaries lens forces explicit naming of the regulatory, structural, and behavioural friction standing between the vision and its delivery. Vision without friction-mapping is a speech, not a strategy.</p><div class="hz-align">&#10003; Right question: &ldquo;What specific conditions must remain true for execution to sustain the pace we&rsquo;ve planned for?&rdquo;</div></div></div>
+  <div id="hz1" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Arena.</strong> The CFO tracks whether the model works &mdash; but whether the underlying customer demand is still real and growing is often outside the financial reporting frame.</p><div class="hz-hot">&#9888; Symptom: &ldquo;The model works&hellip; so why is performance lagging?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Arena lens reframes financial health as dependent on customer-need relevance. Revenue can be temporarily maintained even as the underlying arena is shifting away from your value proposition.</p><div class="hz-align">&#10003; Right question: &ldquo;Is the customer end-game we designed this model around still the right end-game?&rdquo;</div></div></div>
+  <div id="hz2" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Competition.</strong> Operational leaders optimise the machine &mdash; but if the machine is serving the wrong arena, efficiency just accelerates the organisation in the wrong direction.</p><div class="hz-hot">&#9888; Symptom: &ldquo;We&rsquo;ve optimised everything &mdash; what are we missing?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Competition lens asks: who else is solving the customer&rsquo;s problem, even those who look nothing like us? Operational excellence means nothing if the alternatives are more convenient for the customer.</p><div class="hz-align">&#10003; Right question: &ldquo;Are our efficiency gains making us meaningfully more competitive against the real alternatives customers have?&rdquo;</div></div></div>
+  <div id="hz3" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Competition.</strong> People alignment and engagement are the CHRO&rsquo;s primary lens &mdash; but a highly engaged team executing the wrong strategy still loses to a competitor solving the problem better.</p><div class="hz-hot">&#9888; Symptom: &ldquo;Our people are committed &mdash; why isn&rsquo;t it translating?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Competition lens reveals that motivation and alignment are necessary but insufficient if strategic direction points at the wrong competitive target. Energy without direction is enthusiasm without results.</p><div class="hz-align">&#10003; Right question: &ldquo;Are we aligning our people&rsquo;s energy toward the right competitive arena, or building capability for yesterday&rsquo;s contest?&rdquo;</div></div></div>
+  <div id="hz4" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Arena.</strong> Technical delivery is the CTO&rsquo;s primary accountability &mdash; but whether the solution addresses the customer&rsquo;s actual end-game (functional, emotional, social) is often assumed, not tested.</p><div class="hz-hot">&#9888; Symptom: &ldquo;We delivered the system &mdash; why isn&rsquo;t adoption there?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Arena lens asks: did we build for what the customer is actually trying to achieve &mdash; or for the specification handed to us? Adoption requires arena-alignment, not just technical delivery.</p><div class="hz-align">&#10003; Right question: &ldquo;Does this solution address the functional, emotional, and social outcome the customer is actually pursuing?&rdquo;</div></div></div>
+  <div id="hz5" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Boundaries.</strong> The CMO creates demand &mdash; but if the operational infrastructure cannot fulfil that demand, the campaign creates frustration and brand damage rather than growth.</p><div class="hz-hot">&#9888; Symptom: &ldquo;We created demand &mdash; why can&rsquo;t we fulfil it?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Boundaries lens identifies the internal and external friction that must remain within tolerance for demand to convert to delivered value. Demand without delivery capacity is brand erosion, not brand growth.</p><div class="hz-align">&#10003; Right question: &ldquo;Do our operational boundaries allow us to fulfil the demand our marketing is designed to generate?&rdquo;</div></div></div>
+  <div id="hz6" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Value Proposition.</strong> Revenue growth is the CCO&rsquo;s scorecard &mdash; but growing by winning the wrong business can dilute the organisation&rsquo;s distinctive identity and long-term positioning.</p><div class="hz-hot">&#9888; Symptom: &ldquo;We&rsquo;re closing deals &mdash; but at what cost to who we are?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Value Proposition lens asks: does this contract strengthen or dilute our distinctive edge? Not all revenue is strategic revenue. Some growth makes the organisation less coherent, not more competitive.</p><div class="hz-align">&#10003; Right question: &ldquo;Does this deal sharpen our value architecture or compromise it for short-term volume?&rdquo;</div></div></div>
+  <div id="hz7" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Arena.</strong> Cost reduction and supply chain resilience are the CPO&rsquo;s primary mandate &mdash; but savings that are not connected to the customer&rsquo;s end-game do not translate into strategic progress.</p><div class="hz-hot">&#9888; Symptom: &ldquo;We&rsquo;ve saved money &mdash; but has it actually mattered?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Arena lens asks: does this procurement decision improve our ability to deliver on the customer&rsquo;s actual need? Cost efficiency that doesn&rsquo;t serve the customer&rsquo;s end-game is operational tidiness, not strategic advantage.</p><div class="hz-align">&#10003; Right question: &ldquo;Does this cost initiative strengthen our ability to compete in the arena our customers actually operate in?&rdquo;</div></div></div>
+  <div id="hz8" class="hz-detail"><div class="hz-col"><h5>What Gets Overlooked</h5><p><strong>Boundaries.</strong> Strategy clarity is the CSO&rsquo;s domain &mdash; but without explicit identification of operational friction, strategies that are coherent in design break down repeatedly in execution.</p><div class="hz-hot">&#9888; Symptom: &ldquo;Why does execution keep breaking after alignment?&rdquo;</div></div><div class="hz-col"><h5>What the ABCV Lens Reveals</h5><p>The Boundaries lens identifies structural, cultural, and regulatory friction points that strategy must be designed around &mdash; not assumed away. Clarity without friction-mapping is strategy without implementation physics.</p><div class="hz-align">&#10003; Right question: &ldquo;Which operational friction points have we built our strategy around &mdash; and which are we still hoping won&rsquo;t materialise?&rdquo;</div></div></div>
+
+  <div class="ref-block" style="margin-top:18px;">
+    <div class="ref-block-label">&#9997; Your Reflection</div>
+    <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Having explored your role&rsquo;s typical blind spot: what is one MBT condition in that lens that your organisation is currently assuming, not confirming? What would it take to verify it?</p>
+    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(1)">&#8592; Intelligence</button>
+  <button class="btn" onclick="showMod(3)">Integration Zone &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 4: INTEGRATION ZONE -->
+<div class="mod" id="mod3">
+<div class="mod-hero">
+  <div class="mod-hero-content">
+    <div class="mod-badge">Integration Zone</div>
+    <h2 class="mod-title">ABCV&#8211;MBT Working Papers</h2>
+    <p class="mod-sub">From individual insight to collective strategic commitment</p>
+  </div>
+</div>
+<div class="mod-body">
+
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)">Step 1<span class="step-label">Individual Working Paper</span></div>
+  <div class="step-tab" onclick="showStep(1,this)">Step 2<span class="step-label">Consensus &amp; Synthesis</span></div>
+  <div class="step-tab" onclick="showStep(2,this)">Step 3<span class="step-label">Leadership Ownership</span></div>
+  <div class="step-tab" onclick="showStep(3,this)">Step 4<span class="step-label">Supporting Partners</span></div>
+</div>
+
+<!-- STEP 1 -->
+<div class="step-panel active" id="step0">
+<p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 16px;">Work individually. Select up to three current strategic objectives and apply all four ABCV lenses to each. Name one Must-Be-True condition per lens &mdash; make it specific enough that someone could verify it.</p>
+<div id="step1Objectives"></div>
+<button class="btn" style="margin-top:10px;font-size:12px;padding:8px 18px;" onclick="addObjective()">+ Add Objective</button>
+</div>
+
+<!-- STEP 2 -->
+<div class="step-panel" id="step1">
+<p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 12px;">Share one MBT condition from each lens with the group. Look for patterns: which lens recurs as most challenging? Which conditions appear in multiple participants&rsquo; papers?</p>
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Shared Themes</label>
+  <textarea class="ref-ta" placeholder="What MBT conditions appeared across multiple leaders?" style="min-height:80px;"></textarea>
+</div>
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Areas of Disagreement</label>
+  <textarea class="ref-ta" placeholder="Where did leaders disagree? What does this signal about objective clarity?" style="min-height:80px;"></textarea>
+</div>
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Top 5 Priority MBT Conditions (Team Consensus)</label>
+  <textarea class="ref-ta" placeholder="List the five MBT conditions the team collectively agrees are most critical to verify." style="min-height:100px;"></textarea>
+</div>
+<button class="btn" style="font-size:12px;padding:8px 18px;" onclick="saveTA(this)">Save Notes</button>
+</div>
+
+<!-- STEP 3 -->
+<div class="step-panel" id="step2">
+<p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 12px;">Assign clear leadership ownership to each priority MBT condition. Every condition must have a named owner. Shared ownership is no ownership.</p>
+<div id="ownershipRegistry"></div>
+<button class="btn" style="margin-top:10px;font-size:12px;padding:8px 18px;" onclick="addOwnership()">+ Add MBT Ownership Row</button>
+</div>
+
+<!-- STEP 4 -->
+<div class="step-panel" id="step3">
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Internal Partners Required</label>
+  <textarea class="ref-ta" placeholder="Which teams or individuals need to be involved in verifying priority MBT conditions?" style="min-height:80px;"></textarea>
+</div>
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">External Data or Partners Required</label>
+  <textarea class="ref-ta" placeholder="What market data, customer research, or external expertise is needed?" style="min-height:80px;"></textarea>
+</div>
+<div style="margin-bottom:14px;">
+  <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Verification Timeline</label>
+  <textarea class="ref-ta" placeholder="By when will each priority MBT condition be verified? What happens to strategy execution if verification is delayed?" style="min-height:80px;"></textarea>
+</div>
+<button class="btn" style="font-size:12px;padding:8px 18px;" onclick="saveTA(this)">Save Notes</button>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(2)">&#8592; Extrapolating</button>
+  <button class="btn" onclick="showMod(4)">Application &#8594;</button>
+</div>
+</div>
+</div>
+
+<!-- TAB 5: APPLICATION -->
+<div class="mod" id="mod4">
+<div class="mod-hero">
+  <div class="mod-hero-content">
+    <div class="mod-badge">Application</div>
+    <h2 class="mod-title">Cause of Death &mdash; Match the Breakdown</h2>
+    <p class="mod-sub">Diagnose the strategic failure. Defuse the mine before it detonates.</p>
+  </div>
+</div>
+<div class="mod-body">
+
+<p style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:20px;">Each scenario below describes a real-world strategy that failed. Your task: identify the investigation question that would have exposed the failure, and the ABCV lens it belongs to. Choose carefully &mdash; wrong answers detonate.</p>
+
+<!-- SCOREBOARD -->
+<div id="scoreboard" style="display:flex;align-items:center;gap:18px;background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.25);border-radius:8px;padding:14px 20px;margin-bottom:22px;">
+  <div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;">Score</div>
+  <div id="scoreVal" style="font-size:28px;font-weight:700;color:var(--teal);font-family:'Cormorant Garamond',serif;">0</div>
+  <div style="font-size:11px;color:rgba(255,255,255,.4);">pts &nbsp;|&nbsp; max 8</div>
+  <div id="defusedCount" style="font-size:11px;color:rgba(255,255,255,.4);margin-left:6px;">0 / 4 mines defused</div>
+  <button onclick="resetGame()" style="margin-left:auto;background:transparent;border:1px solid rgba(26,122,106,.3);color:var(--teal);font-size:11px;padding:5px 14px;border-radius:4px;cursor:pointer;letter-spacing:.05em;">Reset</button>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;" id="mineGrid">
+
+<!-- MINE 1 -->
+<div class="mine-card" id="mine0">
+  <div class="mine-label" onclick="toggleMine(this)">&#128163; Mine 1 &mdash; The Ghost Ship</div>
+  <div class="mine-body">
+  <p class="mine-scenario">A SaaS platform achieved 85% retention in year one. By year three, churn reached 70%. Nothing in the product changed. Support tickets were low. The platform worked exactly as designed. Post-exit interviews revealed: customers had changed what they were trying to achieve &mdash; and the platform never followed.</p>
+  <div class="mine-q">
+    <label>SELECT THE INVESTIGATION QUESTION</label>
+    <select id="mine0q" onchange="clearFeedback(0)">
+      <option value="">-- choose --</option>
+      <option value="correct">Q1: What functional, emotional, and social outcome is the customer truly pursuing &mdash; and has it shifted?</option>
+      <option value="wrong1">Q2: What internal or external friction is preventing strategy from delivering at scale?</option>
+      <option value="wrong2">Q3: Who else is solving this problem &mdash; including those who don't look like competitors?</option>
+      <option value="wrong3">Q4: Does our distinctive value architecture still create coherent, defensible advantage?</option>
+    </select>
+    <label style="margin-top:10px;">SELECT THE ABCV LENS</label>
+    <select id="mine0l" onchange="clearFeedback(0)">
+      <option value="">-- choose --</option>
+      <option value="ARENA">Arena</option>
+      <option value="BOUNDARIES">Boundaries</option>
+      <option value="COMPETITION">Competition</option>
+      <option value="VALUE PROPOSITION">Value Proposition</option>
+    </select>
+    <button class="btn" style="margin-top:12px;font-size:12px;padding:8px 18px;" onclick="checkMine(0,'correct','ARENA',2)">Submit Answer</button>
+  </div>
+  </div><!-- /mine-body -->
+  <div id="mine0fb" class="mine-feedback"></div>
+</div>
+
+<!-- MINE 2 -->
+<div class="mine-card" id="mine1">
+  <div class="mine-label" onclick="toggleMine(this)">&#128163; Mine 2 &mdash; The Ferrari in the Mud</div>
+  <div class="mine-body">
+  <p class="mine-scenario">A leading logistics firm invested R120m in a new digital operations platform. Eighteen months in, less than 30% of staff were using it consistently. Field teams had developed workarounds. Middle management had quietly reverted to spreadsheets. The system was technically excellent. The organisation was not designed to absorb it.</p>
+  <div class="mine-q">
+    <label>SELECT THE INVESTIGATION QUESTION</label>
+    <select id="mine1q" onchange="clearFeedback(1)">
+      <option value="">-- choose --</option>
+      <option value="wrong1">Q1: What functional, emotional, and social outcome is the customer truly pursuing &mdash; and has it shifted?</option>
+      <option value="correct">Q2: What internal or external friction is preventing strategy from delivering at scale?</option>
+      <option value="wrong2">Q3: Who else is solving this problem &mdash; including those who don't look like competitors?</option>
+      <option value="wrong3">Q4: Does our distinctive value architecture still create coherent, defensible advantage?</option>
+    </select>
+    <label style="margin-top:10px;">SELECT THE ABCV LENS</label>
+    <select id="mine1l" onchange="clearFeedback(1)">
+      <option value="">-- choose --</option>
+      <option value="ARENA">Arena</option>
+      <option value="BOUNDARIES">Boundaries</option>
+      <option value="COMPETITION">Competition</option>
+      <option value="VALUE PROPOSITION">Value Proposition</option>
+    </select>
+    <button class="btn" style="margin-top:12px;font-size:12px;padding:8px 18px;" onclick="checkMine(1,'correct','BOUNDARIES',2)">Submit Answer</button>
+  </div>
+  </div><!-- /mine-body -->
+  <div id="mine1fb" class="mine-feedback"></div>
+</div>
+
+<!-- MINE 3 -->
+<div class="mine-card" id="mine2">
+  <div class="mine-label" onclick="toggleMine(this)">&#128163; Mine 3 &mdash; The Invisible Disruption</div>
+  <div class="mine-body">
+  <p class="mine-scenario">A financial advisory firm was ranked #1 in client satisfaction for four consecutive years. Then revenue began declining. No competitor had taken their clients. No scandal. No service failure. The problem: a fintech app was letting clients self-manage what the firm had always managed for them &mdash; and clients preferred it for 60% of use cases.</p>
+  <div class="mine-q">
+    <label>SELECT THE INVESTIGATION QUESTION</label>
+    <select id="mine2q" onchange="clearFeedback(2)">
+      <option value="">-- choose --</option>
+      <option value="wrong1">Q1: What functional, emotional, and social outcome is the customer truly pursuing &mdash; and has it shifted?</option>
+      <option value="wrong2">Q2: What internal or external friction is preventing strategy from delivering at scale?</option>
+      <option value="correct">Q3: Who else is solving this problem &mdash; including those who don't look like competitors?</option>
+      <option value="wrong3">Q4: Does our distinctive value architecture still create coherent, defensible advantage?</option>
+    </select>
+    <label style="margin-top:10px;">SELECT THE ABCV LENS</label>
+    <select id="mine2l" onchange="clearFeedback(2)">
+      <option value="">-- choose --</option>
+      <option value="ARENA">Arena</option>
+      <option value="BOUNDARIES">Boundaries</option>
+      <option value="COMPETITION">Competition</option>
+      <option value="VALUE PROPOSITION">Value Proposition</option>
+    </select>
+    <button class="btn" style="margin-top:12px;font-size:12px;padding:8px 18px;" onclick="checkMine(2,'correct','COMPETITION',2)">Submit Answer</button>
+  </div>
+  </div><!-- /mine-body -->
+  <div id="mine2fb" class="mine-feedback"></div>
+</div>
+
+<!-- MINE 4 -->
+<div class="mine-card" id="mine3">
+  <div class="mine-label" onclick="toggleMine(this)">&#128163; Mine 4 &mdash; The Identity Crisis</div>
+  <div class="mine-body">
+  <p class="mine-scenario">A boutique consulting firm built its reputation on deep-sector expertise and bespoke strategy work. Under revenue pressure, they began accepting large implementation contracts &mdash; work that paid well but required different skills, different team profiles, and a different culture. Within two years, they won more work but lost their most experienced strategists and their distinctiveness with clients who valued exactly what they had been.</p>
+  <div class="mine-q">
+    <label>SELECT THE INVESTIGATION QUESTION</label>
+    <select id="mine3q" onchange="clearFeedback(3)">
+      <option value="">-- choose --</option>
+      <option value="wrong1">Q1: What functional, emotional, and social outcome is the customer truly pursuing &mdash; and has it shifted?</option>
+      <option value="wrong2">Q2: What internal or external friction is preventing strategy from delivering at scale?</option>
+      <option value="wrong3">Q3: Who else is solving this problem &mdash; including those who don't look like competitors?</option>
+      <option value="correct">Q4: Does our distinctive value architecture still create coherent, defensible advantage?</option>
+    </select>
+    <label style="margin-top:10px;">SELECT THE ABCV LENS</label>
+    <select id="mine3l" onchange="clearFeedback(3)">
+      <option value="">-- choose --</option>
+      <option value="ARENA">Arena</option>
+      <option value="BOUNDARIES">Boundaries</option>
+      <option value="COMPETITION">Competition</option>
+      <option value="VALUE PROPOSITION">Value Proposition</option>
+    </select>
+    <button class="btn" style="margin-top:12px;font-size:12px;padding:8px 18px;" onclick="checkMine(3,'correct','VALUE PROPOSITION',2)">Submit Answer</button>
+  </div>
+  </div><!-- /mine-body -->
+  <div id="mine3fb" class="mine-feedback"></div>
+</div>
+
+</div><!-- end mine grid -->
+
+<!-- CHAPTER SUMMARY -->
+<div class="acc" style="margin-top:10px;">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">Chapter Summary &mdash; Lens 3</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Close Out</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+
+<p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.85;color:rgba(255,255,255,.85);">This session was about ensuring your strategic direction is structurally sound before the first move of execution is made. We&rsquo;ve all seen well-written OKRs collapse &mdash; not for lack of effort, but because the assumptions holding them up were never tested. The ABCV&ndash;MBT framework served as our strategic integrity filter: the stress test to ensure Key Results are anchored in customer reality, resilient to friction, and true to your organisation&rsquo;s identity.</p>
+<p style="font-size:13px;color:rgba(255,255,255,.5);margin-top:-6px;margin-bottom:20px;">Here is a recap of how we moved from individual functional perspectives to a unified executive judgement.</p>
+
+<div style="border-left:3px solid #8ab0e8;padding:16px 20px;background:rgba(107,143,204,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">1 &mdash; Awareness: The Integrity Checkpoints</div>
+  <p>We began with the <em>What.</em> The ABCV lenses interrogated strategy across four critical dimensions:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li><strong style="color:#8ab0e8;">Arena</strong> &mdash; The specific customer end-game we are playing for</li>
+    <li><strong style="color:#f0c060;">Boundaries</strong> &mdash; The operational or regulatory &ldquo;clog points&rdquo; that could slow us down</li>
+    <li><strong style="color:#5ecba1;">Competition</strong> &mdash; The alternatives (not just direct rivals) competing for the same need</li>
+    <li><strong style="color:#c39de0;">Value Proposition</strong> &mdash; The distinctive edge that defines your organisational identity</li>
+  </ul>
+  <p>For every lens, you identified the Must-Be-True (MBT) condition &mdash; the &ldquo;load-bearing&rdquo; assumption that must hold for the strategy to survive. This is the early warning system: exposing risks before they become expensive failures.</p>
+</div>
+
+<div style="border-left:3px solid var(--gold);padding:16px 20px;background:rgba(201,168,76,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">2 &mdash; Intelligence: Why Strategic Integrity Matters</div>
+  <p>This stage explored the <em>Why.</em> Most strategies don&rsquo;t fail because of bad intentions &mdash; they fail because of unexamined assumptions.</p>
+  <p>We shifted thinking from rigid industry categories to Customer Arenas, recognising that customers don&rsquo;t just buy products &mdash; they chase functional, emotional, and social outcomes. By naming MBT conditions early, you moved your strategy from a hopeful ambition to a battle-tested commitment.</p>
+</div>
+
+<div style="border-left:3px solid #5ecba1;padding:16px 20px;background:rgba(46,168,122,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">3 &mdash; Extrapolating: Locating the Blind Spots</div>
+  <p>Next, the <em>Where.</em> Every CXO sees the world through a specialised lens:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li><strong>CEOs</strong> lean toward narrative and stakeholder credibility</li>
+    <li><strong>CFOs</strong> hunt for financial viability and return logic</li>
+    <li><strong>COOs</strong> focus on operational feasibility and delivery rhythm</li>
+    <li><strong>CHROs</strong> look at culture and leadership readiness</li>
+  </ul>
+  <p>While these perspectives are vital, they naturally create selective attention. Applying the ABCV&ndash;MBT lens across all roles surfaced the hidden risks that usually only emerge halfway through the execution cycle.</p>
+</div>
+
+<div style="border-left:3px solid #c39de0;padding:16px 20px;background:rgba(155,89,182,.06);border-radius:0 4px 4px 0;margin-bottom:20px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">4 &mdash; Integration Zone: Collective Intelligence</div>
+  <p>The session culminated in the Converging Zone &mdash; the moment your team consolidated individual perspectives into a single enterprise interpretation. By reviewing consolidated responses, you were able to:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li>Identify patterns of agreement and surface strategic disagreements</li>
+    <li>Determine the most critical &ldquo;deal-breaker&rdquo; execution conditions</li>
+    <li>Agree on the severity of the MBT requirements</li>
+  </ul>
+</div>
+
+<div style="background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.25);border-radius:4px;padding:16px 20px;margin-bottom:22px;">
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.9);line-height:1.8;margin:0;">The ABCV&ndash;MBT checkpoints have transformed your OKRs from polished aspirations into resilient execution signals, grounded in the hard realities of the enterprise system.</p>
+</div>
+
+<div class="ref-block">
+  <div class="ref-block-label">&#9997; Closing Commitment</div>
+  <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">What is one MBT condition your organisation is currently avoiding naming? Why? What will you do about it before your next strategic review?</p>
+  <textarea class="ref-ta" placeholder="Your commitment here…" style="min-height:80px;"></textarea>
+  <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
+</div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(3)">&#8592; Integration Zone</button>
+  <button class="btn" onclick="goBack()">&#8592; Back to Platform</button>
+</div>
+</div>
+
+</div><!-- end tabs-content -->
+</main>
+
+<script>
+/* ── Gate ── */
+const CODES=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
+const DAYS=90;
+function gateSubmit(){
+  const code=document.getElementById('gateCode').value.trim();
+  const email=document.getElementById('gateEmail').value.trim();
+  const err=document.getElementById('gateError');
+  if(!email||!code){err.textContent='Please enter your email and access code.';err.style.display='block';return;}
+  if(!CODES.includes(code)){err.textContent='Access code not recognised. Contact info@ibsleadership.com.';err.style.display='block';return;}
+  const key='s2r_u2l3p_'+code;
+  let stored=localStorage.getItem(key);
+  if(!stored){stored=new Date().toISOString();localStorage.setItem(key,stored);}
+  const daysLeft=DAYS-Math.floor((Date.now()-new Date(stored).getTime())/864e5);
+  if(daysLeft<=0){err.textContent='Your 90-day access period has expired. Contact info@ibsleadership.com.';err.style.display='block';return;}
+  document.getElementById('gateOverlay').style.display='none';
+  document.body.style.overflow='';
+}
+function toggleGateCode(){
+  const inp=document.getElementById('gateCode');
+  const btn=document.getElementById('toggleCodeBtn');
+  if(inp.type==='password'){inp.type='text';btn.textContent='HIDE';btn.style.color='rgba(26,122,106,.8)';}
+  else{inp.type='password';btn.textContent='SHOW';btn.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.getElementById('gateCode').addEventListener('keydown',function(e){if(e.key==='Enter')gateSubmit();});
+  document.body.style.overflow='hidden';
+});
+
+/* ── Arc bar ── */
+function setArc(idx){
+  document.querySelectorAll('.arc-seg').forEach((s,i)=>{
+    s.classList.toggle('active',i===idx);
+  });
+}
+
+/* ── Tabs ── */
+function showMod(idx){
+  document.querySelectorAll('.mod').forEach((m,i)=>m.classList.toggle('active',i===idx));
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
+  setArc(idx);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ── Accordions ── */
+function tA(h){
+  const acc=h.closest('.acc');
+  acc.classList.toggle('open');
+}
+
+/* ── ABCV Cards ── */
+function toggleCard(el){
+  const detail=el.querySelector('.abcv-detail');
+  const isOpen=detail.style.maxHeight&&detail.style.maxHeight!=='0px';
+  document.querySelectorAll('.abcv-detail').forEach(d=>{d.style.maxHeight='0px';d.style.opacity='0';});
+  document.querySelectorAll('.abcv-card').forEach(c=>c.classList.remove('open'));
+  if(!isOpen){
+    detail.style.maxHeight=detail.scrollHeight+'px';
+    detail.style.opacity='1';
+    el.classList.add('open');
+  }
+}
+
+/* ── Hot Zone ── */
+function showHz(card,id){
+  document.querySelectorAll('.hz-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.hz-detail').forEach(d=>d.classList.remove('active'));
+  card.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+/* ── Step Tabs ── */
+function showStep(idx,btn){
+  document.querySelectorAll('.step-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.step-panel').forEach((p,i)=>p.classList.toggle('active',i===idx));
+}
+
+/* ── Integration Zone ── */
+let objCount=0;
+function addObjective(){
+  objCount++;
+  const lenses=[
+    {key:'Arena',col:'#8ab0e8',ph:'What functional, emotional, and social outcome must the customer be pursuing for this objective to remain valid?'},
+    {key:'Boundaries',col:'#f0c060',ph:'What regulatory, structural, or behavioural constraint must remain within tolerance for this objective to be deliverable?'},
+    {key:'Competition',col:'#5ecba1',ph:'What must be true about the competitive landscape for this objective to create differentiated value?'},
+    {key:'Value Proposition',col:'#c39de0',ph:'What must remain true about our distinctive advantage for this objective to strengthen our strategic position?'}
+  ];
+  const lensHtml=lenses.map(l=>`
+    <div style="margin-bottom:12px;">
+      <div style="font-size:11px;font-weight:700;color:${l.col};letter-spacing:.06em;margin-bottom:4px;">${l.key.toUpperCase()}</div>
+      <input type="text" class="ref-ta" placeholder="Name the condition…" style="min-height:auto;padding:8px 12px;margin-bottom:4px;"/>
+      <textarea class="ref-ta" placeholder="${l.ph}" style="min-height:60px;"></textarea>
+    </div>`).join('');
+  const div=document.createElement('div');
+  div.style.cssText='border:1px solid rgba(26,122,106,.2);border-radius:8px;padding:16px 18px;margin-bottom:14px;background:rgba(26,122,106,.03);';
+  div.innerHTML=`
+    <div style="font-size:12px;font-weight:700;color:var(--teal);letter-spacing:.06em;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+      OBJECTIVE ${objCount}
+      <button onclick="this.closest('div[style]').remove()" style="background:transparent;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:16px;line-height:1;">&times;</button>
+    </div>
+    <input type="text" class="ref-ta" placeholder="Objective statement…" style="min-height:auto;padding:8px 12px;margin-bottom:14px;font-weight:600;"/>
+    ${lensHtml}`;
+  document.getElementById('step1Objectives').appendChild(div);
+}
+
+let ownerRows=0;
+function addOwnership(){
+  ownerRows++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td style="padding:6px 8px;"><input type="text" class="ref-ta" placeholder="MBT condition…" style="min-height:auto;padding:6px 10px;width:100%;"/></td>
+    <td style="padding:6px 8px;">
+      <select class="ref-ta" style="min-height:auto;padding:6px 10px;width:100%;">
+        <option>CEO</option><option>CFO</option><option>COO</option><option>CHRO</option>
+        <option>CTO</option><option>CMO</option><option>CCO</option><option>CPO</option><option>CSO</option><option>Other</option>
+      </select>
+    </td>
+    <td style="padding:6px 8px;">
+      <select class="ref-ta" style="min-height:auto;padding:6px 10px;width:100%;">
+        <option>Critical</option><option>High</option><option>Medium</option><option>Low</option>
+      </select>
+    </td>
+    <td style="padding:6px 8px;text-align:center;"><button onclick="this.closest('tr').remove()" style="background:transparent;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:16px;">&times;</button></td>`;
+  if(!document.getElementById('ownershipTable')){
+    const tbl=document.createElement('table');
+    tbl.id='ownershipTable';
+    tbl.style.cssText='width:100%;border-collapse:collapse;font-size:13px;margin-bottom:10px;';
+    tbl.innerHTML='<thead><tr style="background:rgba(26,122,106,.1);"><th style="padding:8px;text-align:left;font-size:11px;color:var(--teal);">MBT Condition</th><th style="padding:8px;text-align:left;font-size:11px;color:var(--teal);">Lead Owner</th><th style="padding:8px;text-align:left;font-size:11px;color:var(--teal);">Priority</th><th style="padding:8px;width:30px;"></th></tr></thead><tbody id="ownershipBody"></tbody>';
+    document.getElementById('ownershipRegistry').insertBefore(tbl,document.getElementById('ownershipRegistry').firstChild);
+  }
+  document.getElementById('ownershipBody').appendChild(tr);
+}
+
+function saveTA(btn){
+  btn.textContent='Saved ✓';
+  btn.style.background='rgba(26,122,106,.25)';
+  btn.style.borderColor='var(--teal)';
+  btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent='Save';btn.style.background='';btn.style.borderColor='';btn.style.color='';},2000);
+}
+
+/* ── Mine Game ── */
+let score=0;
+let defused=0;
+const mineAttempts=[0,0,0,0];
+const mineDefused=[false,false,false,false];
+
+function clearFeedback(idx){
+  const fb=document.getElementById('mine'+idx+'fb');
+  fb.className='mine-feedback';
+  fb.innerHTML='';
+  document.getElementById('mine'+idx).classList.remove('defused','detonated');
+}
+
+function checkMine(idx,correctQ,correctL,pts){
+  if(mineDefused[idx])return;
+  const q=document.getElementById('mine'+idx+'q').value;
+  const l=document.getElementById('mine'+idx+'l').value;
+  const fb=document.getElementById('mine'+idx+'fb');
+  const card=document.getElementById('mine'+idx);
+  if(!q||!l){fb.className='mine-feedback show error';fb.innerHTML='&#9888; Select both a question and a lens before submitting.';return;}
+  mineAttempts[idx]++;
+  const qOk=q==='correct';
+  const lOk=l===correctL;
+  if(qOk&&lOk){
+    mineDefused[idx]=true;
+    defused++;
+    const earnedPts=mineAttempts[idx]===1?pts:1;
+    score+=earnedPts;
+    card.classList.add('defused');
+    const analyses={
+      0:'<strong>Arena failure.</strong> The platform\'s Arena MBT was that customers remained focused on their original operational outcome. That condition expired silently. No churn signal appeared until the Arena had already failed.',
+      1:'<strong>Boundaries failure.</strong> The MBT was that internal adoption friction would remain within manageable tolerance. Organisational structure, middle management habits, and change resistance were the Boundaries conditions that were never mapped.',
+      2:'<strong>Competition failure.</strong> The firm\'s MBT was that competition came from similar advisory services. It didn\'t. A fintech removed the need for the service entirely. Competition had redefined itself as self-service capability.',
+      3:'<strong>Value Proposition failure.</strong> The MBT was that contracts accepted would not dilute the firm\'s distinctive positioning. The implementation work violated that condition silently, contract by contract, until distinctiveness had eroded.'
+    };
+    const wildcards={
+      0:'What would the Arena-aware MBT condition have looked like if written at the time of product launch? At what point could it have been verified?',
+      1:'If the Boundaries MBT had been written before the investment decision, what friction conditions would have needed to be named? Who would have been responsible for verifying them?',
+      2:'What non-industry Competition MBT conditions might your own organisation be ignoring right now?',
+      3:'What Value Proposition MBT condition is your organisation currently assuming without explicit verification?'
+    };
+    fb.className='mine-feedback show success';
+    fb.innerHTML=`<div style="font-size:15px;margin-bottom:8px;">&#10003; Mine Defused &nbsp;<span style="font-size:12px;color:rgba(255,255,255,.5);">+${earnedPts} pt${earnedPts!==1?'s':''}</span></div>
+      <p>${analyses[idx]}</p>
+      <div style="margin-top:10px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:6px;border-left:3px solid var(--teal);">
+        <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.08em;margin-bottom:4px;">WILD CARD</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.7);margin:0;">${wildcards[idx]}</p>
+      </div>`;
+    updateScore();
+  }else{
+    card.classList.remove('detonated');
+    void card.offsetWidth;
+    card.classList.add('detonated');
+    const hint=!qOk&&lOk?'&#128161; Right lens, wrong question &mdash; review the scenario and try again.':
+               qOk&&!lOk?'&#128161; Right question, wrong lens &mdash; which ABCV checkpoint does that question belong to?':
+               'Both the question and the lens are off. Re-read the scenario carefully.';
+    fb.className='mine-feedback show error';
+    fb.innerHTML=`<div style="text-align:center;padding:10px 0 6px;"><div style="font-size:52px;">&#128163;</div><div style="font-size:15px;font-weight:700;color:#f08080;letter-spacing:.04em;margin:6px 0 4px;">MINE DETONATED</div><p style="font-size:12px;color:rgba(255,255,255,.7);margin:6px 0 12px;">${hint}</p><button class="btn" style="font-size:11px;padding:7px 20px;border-color:rgba(240,128,128,.4);color:#f08080;" onclick="clearFeedback(${idx})">&#8635; Try Again</button></div>`;
+  }
+}
+
+function updateScore(){
+  document.getElementById('scoreVal').textContent=score;
+  document.getElementById('defusedCount').textContent=defused+' / 4 mines defused';
+}
+
+function resetGame(){
+  score=0;defused=0;
+  for(let i=0;i<4;i++){mineAttempts[i]=0;mineDefused[i]=false;clearFeedback(i);
+    document.getElementById('mine'+i+'q').value='';
+    document.getElementById('mine'+i+'l').value='';
+  }
+  updateScore();
+}
+
+/* ── Back ── */
+function toggleMine(label){
+  const card=label.closest('.mine-card');
+  if(!card.classList.contains('defused'))card.classList.toggle('collapsed');
+}
+function goBack(){window.location.href='index.html';}
+</script>
+</body>
+</html>
