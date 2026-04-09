@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 3 - Module 1 - Lens 7 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;font-style:italic;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 10px;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+/* Principle Cards */
+.principle-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.p-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;transition:border-color .2s;cursor:pointer;}
+.p-card:hover{border-color:rgba(201,168,76,.25);}
+.p-card.open{border-color:rgba(201,168,76,.3);}
+.p-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#151c15;}
+.p-meta{display:flex;flex-direction:column;}
+.p-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.p-name{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:#fff;}
+.p-arr{font-size:10px;color:rgba(255,255,255,.25);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.p-card.open .p-arr{transform:rotate(180deg);color:var(--gold);}
+.p-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.p-card.open .p-body{display:block;}
+.p-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;}
+.p-body strong{color:rgba(255,255,255,.9);}
+.p-insight{font-size:12px;font-style:italic;color:rgba(255,255,255,.5);border-left:2px solid rgba(201,168,76,.3);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(201,168,76,.04);border-radius:0 3px 3px 0;}
+/* Signal Cards */
+.signal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.sig-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.sig-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.sig-card.active{border-color:var(--gold);background:#1a2a1e;}
+.sig-top{padding:16px 14px 12px;}
+.sig-icon{font-size:1.4rem;margin-bottom:6px;}
+.sig-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:4px;}
+.sig-label{font-family:"Cormorant Garamond",serif;font-size:1rem;color:#fff;line-height:1.3;}
+.sig-bar{height:3px;background:rgba(201,168,76,.18);}
+.sig-card.active .sig-bar{background:var(--gold);}
+.sig-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:20px 24px;}
+.sig-detail.visible{display:block;}
+.sig-detail p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.78;margin-bottom:10px;}
+.sig-action{font-size:12px;padding:9px 13px;background:rgba(52,152,219,.05);border-radius:2px;border-left:2px solid rgba(52,152,219,.28);line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;margin-top:8px;}
+/* Gap Cards */
+.gap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.gap-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.gap-card:hover{border-color:rgba(201,168,76,.3);}
+.gap-card.open{border-color:rgba(201,168,76,.4);}
+.gap-head{padding:16px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.gap-meta{flex:1;}
+.gap-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:4px;}
+.gap-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;line-height:1.3;}
+.gap-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 6px;flex-shrink:0;}
+.gap-card.open .gap-arr{transform:rotate(180deg);color:var(--gold);}
+.gap-bar{height:3px;background:rgba(201,168,76,.14);}
+.gap-card.open .gap-bar{background:var(--gold);}
+.gap-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.gap-card.open .gap-body{display:block;}
+.gap-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px;}
+.gap-body p:last-child{margin-bottom:0;}
+.gap-fac{font-size:12px;padding:8px 12px;background:var(--blues);border-left:2px solid var(--blue);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.78);margin-top:8px;font-style:italic;}
+/* Step Tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Board Zone */
+.board-zone{border:1px solid rgba(201,168,76,.18);border-radius:4px;overflow:hidden;margin:16px 0;}
+.bz-header{background:#1a2a1e;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(201,168,76,.12);}
+.bz-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.bz-title{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.82);}
+.bz-body{padding:16px 18px;background:#121e12;}
+.bz-row{display:grid;grid-template-columns:120px 1fr 1fr 1fr;gap:8px;margin-bottom:8px;font-size:11px;}
+.bz-row.header{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:8px;margin-bottom:10px;}
+.bz-cell{padding:8px 10px;background:rgba(255,255,255,.03);border-radius:2px;color:rgba(255,255,255,.55);line-height:1.5;}
+.bz-cell.role{color:var(--gold);font-weight:600;font-size:10px;letter-spacing:1px;}
+/* Role play */
+.rp-scenario{background:#1a2a1e;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:20px 24px;margin:14px 0;}
+.rp-scenario-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.rp-scenario p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;margin-bottom:8px;}
+.rp-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
+.rp-role{background:#151c15;border-radius:3px;padding:14px 16px;border:1px solid rgba(255,255,255,.06);}
+.rp-role-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.rp-role p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+.loop-diag{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
+.loop-cell{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:14px 16px;text-align:center;}
+.loop-cell-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:6px;}
+.loop-cell-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:var(--gold);margin-bottom:6px;}
+.loop-cell p{font-size:11px;color:rgba(255,255,255,.5);line-height:1.6;}
+/* Reflection */
+.ref-block{margin:14px 0;background:#151c15;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#0f1a10;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(201,168,76,.3);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--gold);color:var(--gold);}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#111811;border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:40px 44px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:400;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:28px;}
+.gate-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#1a2a1e;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;background:var(--gold);color:#111811;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;padding:13px;border-radius:2px;cursor:pointer;transition:background .2s;}
+.gate-btn:hover{background:var(--gl);}
+.gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;line-height:1.5;}
+/* Synthesis table */
+.synth-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.synth-table th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.synth-table td{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.55);line-height:1.65;vertical-align:top;}
+.synth-table td:first-child{color:rgba(255,255,255,.78);font-weight:600;width:42%;font-size:12px;}
+@media(max-width:900px){.signal-grid,.gap-grid{grid-template-columns:1fr;}.rp-roles,.loop-diag{grid-template-columns:1fr;}.bz-row{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 7</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 7</div>
+    <h1 class="unit-title">Performance Measurement</h1>
+    <div class="unit-sub">Making Execution Visible, Correctable &amp; Continuous</div>
+    <p class="unit-desc">Strategy does not fail because leaders lack intention. It fails because progress is not consistently examined. This lens establishes the review discipline that keeps strategy execution visible, surfaces early warning signals, and converts performance data into organisational intelligence through the Review&ndash;Realign&ndash;Restore cycle.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Integration Application<span>In Practice</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Guide<br><small style="font-size:8px;opacity:.5;">Facilitator</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)">Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 0 — FACILITATOR GUIDE
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Lens 7 &mdash; Session Overview</h2><p>Use this tab to orient yourself before each section. It contains the lens intent, key facilitation questions, tone guidance, and watch points for the full session.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lens Intent</div>
+<p>Lens 7 closes the loop opened by Lenses 5 and 6. KPIs have been established, targets have been set, and expectations have been secured. Now the most important discipline of execution begins: the performance review conversation. This lens makes that conversation structured, honest, and useful &mdash; not a compliance ritual, but a genuine dialogue about execution reality.</p>
+<p>The centrepiece is the <strong>Review&ndash;Realign&ndash;Restore Cycle</strong>. Leaders must leave this lens understanding that measurement is not reporting &mdash; it is an execution recovery system. The Accountability Loop role play in Application is non-negotiable: it is where the conceptual work becomes a leadership skill.</p>
+<p>The Integration Zone raises the lens to enterprise level through the <strong>Collective Intelligence Circle</strong>, shifting leaders from functional reporting to shared execution intelligence.</p>
+</div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Think of the last significant performance gap your organisation experienced. When did you first see it coming? What would have had to be true for you to see it three months earlier?&rdquo;</em></li>
+<li><em>&ldquo;Does your organisation measure activity or progress? What&rsquo;s the difference in your context?&rdquo;</em></li>
+<li><em>&ldquo;If you had to activate the Accountability Loop with a member of your team tomorrow &mdash; which of the three root causes would you most likely be diagnosing? And are you equipped for that conversation?&rdquo;</em></li>
+<li><em>&ldquo;When your executive team last reviewed performance together, were you seeing functional KPIs or were you seeing the enterprise execution system? What&rsquo;s the difference?&rdquo;</em></li>
+<li><em>&ldquo;At the end of your last review cycle, did your organisation learn anything &mdash; or did it just record scores?&rdquo;</em></li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Watch for:</strong> leaders who conflate reporting with reviewing. Reporting describes what happened. Reviewing examines why, and determines what must change. Probe: <em>&ldquo;If your dashboard went dark for 60 days and you only had conversations to guide you &mdash; how confident would you be about execution progress?&rdquo;</em></p>
+<p><strong>Watch for:</strong> leaders who treat the Accountability Loop as a confrontation tool. It is a diagnostic discipline. Its purpose is to restore momentum, not assign blame. If the root cause conversation feels uncomfortable, that discomfort is a signal that the culture is still treating performance gaps as verdicts rather than data.</p>
+<p><strong>Watch for:</strong> leaders in the Integration Zone who revert to functional reporting in the Collective Intelligence Circle. The circle is explicitly designed to surface cross-functional dependencies. If every CXO only discusses their own function, the exercise has failed. <strong>Push the horizontal conversation.</strong></p>
+<p><strong>Timing:</strong> Awareness and Intelligence can move at pace. Extrapolating benefits from a brief discussion of real functional examples. Reserve adequate time for the role play in Application and for the full three rounds of the Collective Intelligence Circle.</p>
+</div>
+
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Awareness &mdash; What &rarr;</button></div>
+</div></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 1 — AWARENESS
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>What is Performance Measurement?</h2><p>Establishing performance measurement as an execution visibility discipline &mdash; and introducing the Review&ndash;Realign&ndash;Restore Cycle as the mechanism that keeps strategy correctable.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Distinguish between activity visibility and progress visibility in organisational performance</li>
+<li>Articulate the four strategic purposes of performance measurement: visibility, accountability, learning, and course correction</li>
+<li>Explain how the Review&ndash;Realign&ndash;Restore Cycle converts measurement data into execution action</li>
+<li>Describe the three stages of the cycle and the specific role of the Accountability Loop in Stage 2</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Awareness</div>
+<p>Open with the core provocation: <em>"Work is happening. Teams are busy. Initiatives are underway. But can you confidently say the work being done is actually advancing the strategy?"</em> This question unlocks the gap that this entire lens addresses &mdash; the difference between activity visibility and progress visibility.</p>
+<p>The <strong>four strategic purposes</strong> are the conceptual anchor. Spend time here. Most leaders can name visibility; fewer spontaneously name learning and course correction. These are the purposes that make performance measurement a leadership discipline rather than a reporting system.</p>
+<p>The <strong>Review&ndash;Realign&ndash;Restore Cycle</strong> is the operational centrepiece. Walk each stage with precision: Review establishes evidence-based visibility; Realign diagnoses root cause; Restore rebuilds momentum. The key facilitation moment is when leaders understand that most performance gaps have a diagnosable cause &mdash; and that the three root causes (accountability, skill, structural misfit) require fundamentally different responses.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">From Activity to Progress &mdash; The Visibility Shift</div><div class="acc-meta">Core concept</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The performance management system has been set and mechanisms for establishing performance are in place. Commitments have been secured. Now the most important discipline of execution begins.</p>
+<p>Strategy execution does not fail at the level of intention. It fails at the level of <strong>visibility</strong>. Performance measurement is the discipline that makes execution visible. It answers a simple but decisive question:</p>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;">Are we actually moving closer to our Success in Practice?</p></div>
+<p>Most organisations are extremely good at measuring <strong>activity</strong>: how many projects were launched, how many meetings were held, how many deliverables were completed. These indicators provide evidence that work is occurring. But activity alone does not indicate whether the organisation is actually moving closer to the strategic outcome it set out to achieve.</p>
+<p>Performance measurement therefore asks a different set of questions. Instead of asking <em>"What work was done?"</em> the organisation begins asking <em>"What changed because of the work?"</em> Instead of reporting effort, the organisation examines evidence of progress. This shift transforms performance management from an administrative reporting exercise into an <strong>execution intelligence system</strong>.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Four Strategic Purposes of Performance Measurement</div><div class="acc-meta">Click each to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At its core, performance measurement serves four strategic purposes within the organisation. Select each to explore.</p>
+<div class="principle-stack">
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Purpose 01</div><div class="p-name">Creates Visibility</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Leaders can observe where the organisation is gaining momentum and where it is stalling. Strategic priorities that once existed only as intentions begin to appear as measurable progress signals. Without measurement, leaders are flying blind &mdash; confident in effort but uncertain about direction.</p><div class="p-insight">Facilitator prompt: &ldquo;Where in your organisation does execution happen in the dark? Where are you most likely to be surprised at the end of a reporting period?&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Purpose 02</div><div class="p-name">Establishes Accountability</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>When KPIs are clearly linked to enterprise OKRs, ownership becomes visible. Leaders and teams understand which part of the strategy they are responsible for advancing. Accountability without measurement is aspiration without a feedback loop &mdash; it depends entirely on personal commitment rather than organisational structure.</p><div class="p-insight">Facilitator prompt: &ldquo;If your KPIs disappeared from your scorecard but the targets remained unchanged &mdash; how many would still be actively owned?&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Purpose 03</div><div class="p-name">Enables Learning</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Performance reviews reveal patterns about how work actually unfolds inside the organisation. Leaders begin to see which approaches accelerate progress and which create friction or delay. Over time, disciplined review conversations accumulate into an organisational understanding of how execution actually works &mdash; a capability that compounds over successive strategy cycles.</p><div class="p-insight">Facilitator prompt: &ldquo;What did your organisation actually learn from its last strategy cycle? Not what it achieved &mdash; what it learned about how execution works inside your system?&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Purpose 04</div><div class="p-name">Enables Course Correction</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Early signals allow teams to intervene while progress is still recoverable. Problems are addressed when they are small enough to resolve rather than discovered only when targets have already been missed. This purpose is why measurement frequency matters: a signal detected in week four is fundamentally different from the same signal detected in week twelve.</p><div class="p-insight">Facilitator prompt: &ldquo;What is the average gap in your organisation between when a performance problem begins and when leadership first becomes aware of it? What does that gap cost?&rdquo;</div></div>
+  </div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Review&ndash;Realign&ndash;Restore Cycle</div><div class="acc-meta">3 stages</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Within the S2R&reg; system, performance measurement operates through a continuous execution cycle called the <strong>Review&ndash;Realign&ndash;Restore Cycle</strong>. Its purpose is to ensure that measurement does not end with a score being recorded. Instead, measurement becomes the starting point of a leadership conversation that protects momentum, strengthens accountability, and restores progress when execution drifts.</p>
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Stage 1</div><div class="step-name">Review</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Stage 2</div><div class="step-name">Realign</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Stage 3</div><div class="step-name">Restore</div></div>
+</div>
+<div class="step-panel active">
+<h5>Establishing Evidence-Based Visibility</h5>
+<p>The cycle begins with Review. The purpose is to establish a clear and shared understanding of what progress has actually occurred. Execution reality must be grounded in evidence rather than perception.</p>
+<p>In the S2R&reg; system, the review process begins with the KPI owner conducting a <strong>first-level self-assessment</strong>. The individual examines the agreed targets and assesses progress against the defined rating scale &mdash; submitting verifiable evidence that demonstrates what progress has occurred since the previous review period. Evidence may include operational data, financial results, project milestones, customer metrics, or any other proof that demonstrates whether the intended activity produced the expected movement.</p>
+<p>At the same time, the leader conducts a <strong>parallel assessment</strong> &mdash; independently evaluating the level of progress achieved. When both perspectives are brought into the review conversation, the organisation avoids two common distortions: the individual evaluating without challenge, and the leader imposing evaluation without understanding operational realities.</p>
+<ul>
+<li><strong>Three questions anchor the review:</strong></li>
+<li>Did the agreed activity actually occur?</li>
+<li>Did the activity produce the expected progress toward the target?</li>
+<li>What does the available evidence tell us about execution reality?</li>
+</ul>
+</div>
+<div class="step-panel">
+<h5>Diagnosing the Source of Performance Gaps</h5>
+<p>The second stage begins when the review reveals a gap between expected progress and actual progress. Execution gaps are not unusual &mdash; in complex organisations they are inevitable. The purpose of realignment is not to assign blame but to <strong>diagnose the true source of the gap</strong> so the organisation can intervene intelligently.</p>
+<p>When a gap is identified, the leader activates the <strong>Accountability Loop</strong> &mdash; a structured diagnostic process designed to restore traction and ownership without collapsing into unproductive performance pressure. Most performance gaps emerge from one of three underlying conditions:</p>
+<ul>
+<li><strong>Lack of accountability</strong> — the individual understands the task but has lost the motivational connection to it. Recovery: reconnect purpose and ownership by revisiting the broader organisational context of the KPI.</li>
+<li><strong>Lack of skill</strong> — the individual is committed but lacks the capability required to achieve the expected level. Recovery: targeted coaching, peer support, formal training, or timeline adjustment.</li>
+<li><strong>Misfit of role or structural constraint</strong> — the individual's strengths do not align with the specific responsibilities. Recovery: structural alignment discussion, task redistribution, or repositioning. Note: the performance conversation must remain separate from the role conversation.</li>
+</ul>
+</div>
+<div class="step-panel">
+<h5>Rebuilding Momentum</h5>
+<p>Once the root cause has been identified and addressed, the cycle moves to <strong>Restore</strong>. The purpose is to convert insight into concrete forward action &mdash; rebuilding momentum and re-establishing execution traction.</p>
+<ul>
+<li>Corrective actions are defined clearly</li>
+<li>Specific next steps are agreed</li>
+<li>Responsibilities are reaffirmed</li>
+<li>Follow-up timelines are established</li>
+</ul>
+<p>The KPI owner leaves the conversation with a renewed understanding of what must happen next and by when. The leader confirms how progress will be monitored going forward. This stage ensures that the review conversation produces visible forward movement, not just reflection.</p>
+<p>Within the S2R&reg; system, the alignment state of the KPI is also updated at this stage. The revised state reflects whether the enabling conditions for execution &mdash; clarity, capability, and ownership &mdash; are now fully restored, providing an ongoing signal of organisational readiness.</p>
+</div>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">&larr; Guide</button><button class="btn" onclick="showMod(2)">Intelligence &mdash; Why &rarr;</button></div>
+</div></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 2 — INTELLIGENCE
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why Performance Measurement Determines Execution Velocity</h2><p>Understanding why the discipline of review conversations &mdash; not the sophistication of the scorecard &mdash; is the factor that determines whether strategy execution sustains momentum or quietly stalls.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why execution discipline &mdash; not strategy design &mdash; is the primary determinant of execution velocity</li>
+<li>Identify the four predictable consequences of weak review discipline and their cumulative effect on strategy</li>
+<li>Recognise the three progress signals that surface in healthy review conversations and respond appropriately to each</li>
+<li>Articulate why consistent performance reviews build leadership credibility as well as organisational momentum</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Intelligence</div>
+<p>The key shift in this section is from <em>measurement as tool</em> to <em>measurement as leadership discipline</em>. Most leaders accept the logic of measurement; fewer have internalised that the <strong>rhythm of review conversations</strong> is itself a strategic capability &mdash; and that allowing that rhythm to weaken has predictable, compounding consequences.</p>
+<p>The four consequences of weak review discipline are cumulative, not isolated. Missed early warnings lead to diffused accountability; diffused accountability suppresses learning; suppressed learning erodes leadership credibility. Walk this chain deliberately so participants can recognise it in their own organisations.</p>
+<p>For the three signals: <strong>Progress Confirmation</strong> is not neutral &mdash; it is a leadership opportunity to reinforce the behaviours that generated momentum. Many leaders skip past confirmation because there is nothing to fix. Redirect them: reinforcing what works is as strategically important as correcting what doesn't.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Execution Discipline &mdash; The Real Differentiator</div><div class="acc-meta">Core argument</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The difference between organisations that sustain execution momentum and those that quietly stall rarely lies in the elegance of their strategy design. Most leadership teams are capable of producing sophisticated strategic plans.</p>
+<p>The real difference emerges after the strategy is launched. It appears in the discipline with which leaders return to the strategy and ask a difficult but necessary question: <em>Are we actually progressing?</em></p>
+<p><strong>Execution discipline</strong> is the organisational habit of repeatedly examining progress, confronting evidence honestly, and adjusting behaviour before small deviations become systemic failures. Without this discipline, even well-designed strategies slowly lose traction.</p>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;">Performance measurement must be understood not simply as a reporting system but as an execution discipline. The difference between the two determines whether performance management becomes a compliance ritual or a genuine engine of execution progress.</p></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Four Consequences of Weak Review Discipline</div><div class="acc-meta">Click each to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When performance reviews occur inconsistently or superficially, several predictable patterns begin to emerge. These are not random failures &mdash; they are the foreseeable consequences of allowing the review rhythm to weaken.</p>
+<div class="principle-stack">
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:rgba(231,76,60,.8);">Consequence 01</div><div class="p-name">Early Warning Signals Are Missed</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Execution rarely collapses suddenly. Performance deterioration typically begins with small, subtle indicators &mdash; a milestone that slips by a few days, a process bottleneck beginning to slow delivery, a capability gap emerging in one team. These signals often appear months before the final KPI target is at risk. But if leaders are not regularly examining performance evidence, these signals remain invisible. By the time the problem becomes visible at the end of the reporting period, the opportunity for early intervention has already been lost.</p><div class="p-insight">Facilitator prompt: &ldquo;In your experience, what is the typical lag between when a performance problem begins and when leadership acts? What would closing that lag by half be worth to your organisation?&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:rgba(231,76,60,.8);">Consequence 02</div><div class="p-name">Gradual Diffusion of Accountability</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Accountability is sustained through visibility. When review conversations disappear or become irregular, the psychological signal shifts. Targets remain written on the scorecard, but they no longer appear in leadership dialogue. KPI owners begin to interpret the absence of review as an indication that the target is no longer an active organisational priority. The KPI quietly moves from being operational to being aspirational. Work continues, but the urgency associated with the strategic outcome begins to fade.</p><div class="p-insight">Facilitator prompt: &ldquo;Which KPIs in your current scorecard are operational and which have quietly become aspirational? What made the difference?&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:rgba(231,76,60,.8);">Consequence 03</div><div class="p-name">Loss of Organisational Learning</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Every review conversation contains valuable insight about which approaches accelerate progress, where operational friction exists, and which cross-functional dependencies are working and which are slowing things down. When review conversations are reduced to occasional reporting exercises, results are recorded but the organisation never pauses to understand why those results occurred. Without reflection, improvement becomes accidental rather than intentional. The organisation's execution capability stagnates even as it accumulates more strategic ambition.</p><div class="p-insight">Facilitator prompt: &ldquo;What does your organisation know now about how execution works inside your system that it didn&rsquo;t know eighteen months ago? If the answer is &lsquo;not much,&rsquo; that is a review discipline signal.&rdquo;</div></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:rgba(231,76,60,.8);">Consequence 04</div><div class="p-name">Erodes Leadership Credibility</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>When leaders set ambitious targets and communicate strategic priorities, they create an expectation that those priorities will remain visible in the leadership conversation. If those targets are not revisited through structured performance discussions, a subtle message spreads: the strategy announcement was more symbolic than operational. Teams become less attentive to new strategic commitments because they have learned that priorities often quietly fade. Consistent performance reviews counteract this by demonstrating that strategic priorities are not temporary announcements but ongoing leadership commitments.</p><div class="p-insight">Facilitator prompt: &ldquo;What is the current level of strategic commitment in your organisation? How much of that is shaped by what leaders consistently review versus what they announce?&rdquo;</div></div>
+  </div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Three Progress Signals in Healthy Review Conversations</div><div class="acc-meta">Select each signal</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Healthy performance reviews produce clear signals about the state of execution. Each signal requires a different leadership response. Select a signal below to explore.</p>
+<div class="signal-grid">
+  <div class="sig-card" onclick="showSig(this,'sig-a')">
+    <div class="sig-top"><div class="sig-icon">&#9650;</div><div class="sig-name">Signal 01</div><div class="sig-label">Progress Confirmation</div></div>
+    <div class="sig-bar"></div>
+  </div>
+  <div class="sig-card" onclick="showSig(this,'sig-b')">
+    <div class="sig-top"><div class="sig-icon">&#9888;</div><div class="sig-name">Signal 02</div><div class="sig-label">Early Warning</div></div>
+    <div class="sig-bar"></div>
+  </div>
+  <div class="sig-card" onclick="showSig(this,'sig-c')">
+    <div class="sig-top"><div class="sig-icon">&#9660;</div><div class="sig-name">Signal 03</div><div class="sig-label">Significant Gap</div></div>
+    <div class="sig-bar"></div>
+  </div>
+</div>
+<div class="sig-detail" id="sig-a">
+  <p>The KPI is moving steadily toward its target within the expected timeline. The evidence submitted clearly demonstrates that the agreed activities are producing measurable movement toward the desired outcome.</p>
+  <p><strong>Leadership response:</strong> The role of the review conversation is not merely to record the score. It is to reinforce the behaviours and decisions that generated the progress. Leaders highlight the factors that contributed to success and acknowledge the discipline and coordination that produced the movement. By recognising these patterns, the organisation strengthens the behaviours that sustain execution momentum.</p>
+  <div class="sig-action">Progress confirmation serves both as validation and as reinforcement. Do not pass over it quickly. Name what worked and why &mdash; this builds the execution behaviours that compound over time.</div>
+</div>
+<div class="sig-detail" id="sig-b">
+  <p>Results show signs of slowing progress. The evidence indicates that the incremental targets expected for the period have not been fully achieved &mdash; but the gap is still small enough that recovery remains possible.</p>
+  <p><strong>Leadership response:</strong> This is precisely the moment when performance measurement demonstrates its strategic value. Because the signal has been detected early, leaders can intervene while there is still time to adjust course. Resources may be reallocated, additional support provided, processes refined, or dependencies between teams addressed. The review conversation becomes an opportunity for proactive correction rather than retrospective explanation.</p>
+  <div class="sig-action">The organisation does not wait for failure to occur before responding. Early warning signals are the primary return on investment of a disciplined review rhythm.</div>
+</div>
+<div class="sig-detail" id="sig-c">
+  <p>There is a significant gap between expected progress and actual progress. The review conversation must move beyond surface-level discussion. This signal activates the <strong>Accountability Loop</strong>.</p>
+  <p><strong>Leadership response:</strong> Leaders examine whether the gap reflects a loss of accountability, a capability constraint, or a structural misalignment between the individual and the role. Once the underlying cause becomes visible, the organisation can intervene with clarity rather than speculation. The Accountability Loop ensures that performance gaps become sources of organisational learning and recalibration rather than sources of blame.</p>
+  <div class="sig-action">Activate the Accountability Loop. Diagnose before prescribing. The correct root cause determines the correct recovery action &mdash; pressure alone will not solve a skill gap, and coaching will not solve a structural misfit.</div>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">&larr; Awareness</button><button class="btn" onclick="showMod(3)">Extrapolating &mdash; Where &rarr;</button></div>
+</div></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 3 — EXTRAPOLATING
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>Where Does Performance Measurement Break Down Across Functions?</h2><p>Examining where the Alignment Brigade &mdash; the collective leadership system &mdash; unintentionally weakens the performance measurement discipline through four characteristic fractures.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Recognise that performance measurement breakdown rarely occurs due to absent KPIs &mdash; it occurs in how leaders review and interpret measurement together</li>
+<li>Diagnose the four characteristic fractures: horizontal coordination gap, evidence quality gap, review rhythm breakdown, and learning suppression gap</li>
+<li>Identify which fracture is most prevalent in their own organisation and its downstream consequences</li>
+<li>Articulate what each CXO function must do to protect the integrity of the collective measurement discipline</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Extrapolating</div>
+<p>Begin by establishing the key provocation: <em>"Performance measurement rarely breaks down because organisations lack agreed goals and KPIs. Most modern organisations have dashboards, reporting tools, and performance frameworks. The problem is rarely the absence of measurement. The breakdown usually occurs in how leaders review and interpret the measurement together."</em></p>
+<p>The four gaps are not theoretical &mdash; they are observable patterns. Invite participants to place their organisation honestly on each one. The <strong>Horizontal Coordination Gap</strong> is typically the most impactful but least visible: each function may report strong progress while the enterprise outcome remains inconsistent. The <strong>Learning Suppression Gap</strong> is often the most culturally embedded and the hardest to shift because it requires leaders to move from a judgment posture to a curiosity posture.</p>
+<p>Use the CXO lens to make this concrete: ask participants to identify which gap their function is most likely to create &mdash; and what the first-order impact of that gap is on the organisation.</p>
+</div>
+
+<p style="font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin:18px 0 10px;">Performance measurement is ultimately a <strong>leadership conversation discipline</strong>. When that discipline weakens, several predictable fractures appear across the organisation. Select each gap below to examine where it occurs and what it costs.</p>
+
+<div class="gap-grid">
+  <div class="gap-card" onclick="toggleGap(this)">
+    <div class="gap-head"><div class="gap-meta"><div class="gap-num">Gap 01</div><div class="gap-title">The Horizontal Coordination Gap</div></div><div class="gap-arr">&#9660;</div></div>
+    <div class="gap-bar"></div>
+    <div class="gap-body">
+      <p>One of the most common breakdowns occurs when performance reviews happen <strong>inside functions rather than across functions</strong>. Each department reviews its KPIs independently. Finance examines financial indicators. Operations reviews throughput. Marketing examines campaign performance. Individually, these conversations may be rigorous and technically sound.</p>
+      <p>But strategy execution rarely moves through a single function. Enterprise outcomes depend on interdependent execution across multiple functions. When performance reviews remain confined within functional boundaries, leaders see partial performance signals rather than the full execution pattern. Each function may report strong progress while the overall strategic outcome remains inconsistent.</p>
+      <p>The Alignment Brigade closes this gap by introducing periodic <strong>cross-functional performance reviews</strong> where the executive team collectively examines how the KPIs across functions interact to produce enterprise outcomes.</p>
+      <div class="gap-fac">Facilitator question: &ldquo;Name a strategic outcome in your organisation that required three or more functions to execute successfully. Where did the handoffs break down &mdash; and would a cross-functional review have caught it earlier?&rdquo;</div>
+    </div>
+  </div>
+  <div class="gap-card" onclick="toggleGap(this)">
+    <div class="gap-head"><div class="gap-meta"><div class="gap-num">Gap 02</div><div class="gap-title">The Evidence Quality Gap</div></div><div class="gap-arr">&#9660;</div></div>
+    <div class="gap-bar"></div>
+    <div class="gap-body">
+      <p>Performance measurement loses power when review conversations rely on <strong>weak or inconsistent evidence</strong>. In some cases KPI owners present narrative explanations rather than verifiable indicators. In others, the evidence reflects activity rather than progress toward the outcome. Sometimes information arrives too late to support timely decisions.</p>
+      <p>When evidence quality declines, review conversations shift away from execution insight and toward <strong>interpretation debates</strong>. Leaders begin discussing whether the data can be trusted rather than what the data reveals about progress. Over time, the credibility of the performance system weakens.</p>
+      <p>Closing this gap requires the Alignment Brigade to reinforce a simple but powerful principle: every performance review must be anchored in <strong>verifiable evidence</strong> that shows observable movement toward the outcome, is timely enough to inform decisions, and is clearly connected to the KPI, target, or Key Result being assessed.</p>
+      <div class="gap-fac">Facilitator question: &ldquo;In your last performance review, what percentage of the conversation was spent debating the data versus acting on it? That ratio is a proxy for your evidence quality gap.&rdquo;</div>
+    </div>
+  </div>
+  <div class="gap-card" onclick="toggleGap(this)">
+    <div class="gap-head"><div class="gap-meta"><div class="gap-num">Gap 03</div><div class="gap-title">The Review Rhythm Breakdown</div></div><div class="gap-arr">&#9660;</div></div>
+    <div class="gap-bar"></div>
+    <div class="gap-body">
+      <p>Even well-designed performance systems weaken if the organisation does not maintain a <strong>consistent rhythm of review conversations</strong>. Strategy execution unfolds over time. Progress appears gradually through incremental movement across weeks and months. If review conversations occur too infrequently, leaders lose visibility into the trajectory of that movement. Small deviations accumulate unnoticed until they become significant performance gaps.</p>
+      <p>Irregular review cycles also weaken behavioural discipline. KPI owners begin to treat measurement as a reporting event rather than a continuous execution responsibility.</p>
+      <p>Healthy performance measurement requires a predictable organisational rhythm. Leaders know when reviews will occur. KPI owners know when evidence must be prepared. Teams expect progress to be examined regularly. This rhythm creates a cultural signal: execution progress is not monitored occasionally &mdash; it is observed <strong>continuously</strong>.</p>
+      <div class="gap-fac">Facilitator question: &ldquo;How predictable is your organisation&rsquo;s review rhythm? If a KPI owner was asked to describe the review schedule without referring to a calendar, could they?&rdquo;</div>
+    </div>
+  </div>
+  <div class="gap-card" onclick="toggleGap(this)">
+    <div class="gap-head"><div class="gap-meta"><div class="gap-num">Gap 04</div><div class="gap-title">The Learning Suppression Gap</div></div><div class="gap-arr">&#9660;</div></div>
+    <div class="gap-bar"></div>
+    <div class="gap-body">
+      <p>A subtle but corrosive breakdown appears when performance reviews focus <strong>exclusively on evaluation</strong>. If review conversations concentrate only on whether targets were achieved, teams often become cautious about discussing obstacles openly. People instinctively defend results rather than explore the deeper causes behind them. This dynamic suppresses organisational learning.</p>
+      <p>Yet strategy execution is inherently experimental. Organisations are constantly discovering what works, where friction exists, and how coordination across functions actually unfolds. Healthy performance reviews therefore balance <strong>accountability with curiosity</strong>. Leaders examine evidence rigorously, yet they also explore what the organisation is learning from execution patterns.</p>
+      <p>Questions shift from <em>&ldquo;Why was the target missed?&rdquo;</em> to <em>&ldquo;What is the system teaching us about how execution actually works?&rdquo;</em> When this learning dimension becomes part of review conversations, performance measurement evolves from a scoring mechanism into a capability-building system.</p>
+      <div class="gap-fac">Facilitator question: &ldquo;What is the dominant mood in your organisation&rsquo;s performance review meetings &mdash; defence or curiosity? What would shift it?&rdquo;</div>
+    </div>
+  </div>
+</div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Intelligence</button><button class="btn" onclick="showMod(4)">Integration Zone &rarr;</button></div>
+</div></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 4 — INTEGRATION ZONE
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>Cross-Leadership Performance Intelligence</h2><p>Building the Collective Intelligence Circle &mdash; the mechanism through which the executive leadership team transforms individual PM review signals into a shared view of enterprise execution momentum.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Articulate why no single function can safeguard the integrity of performance measurement alone</li>
+<li>Explain the purpose and structure of the Enterprise Performance Intelligence Circle</li>
+<li>Conduct each of the three rounds: Collective Trajectory, Early Warning Signals, and Execution Learning</li>
+<li>Use the Synthesis Layer to convert collective signals into enterprise decisions</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Integration Zone</div>
+<p>The shift in this section is <em>from function to enterprise</em>. The critical reframe is the question that must guide the entire zone: <em>&ldquo;Is the chain of execution across our functions holding together?&rdquo;</em> This is a fundamentally different question from <em>&ldquo;Is my function achieving its KPI?&rdquo;</em></p>
+<p>The three rounds work in sequence &mdash; do not allow leaders to skip ahead or blend them. <strong>Round 1 establishes the baseline.</strong> Without the collective trajectory being visible first, Round 2 warning signals lack context and Round 3 learnings lack a system to learn about.</p>
+<p>The Synthesis Layer at the end is where the real intelligence emerges. Protect time for it. If the session runs short, compress the individual round discussions but do not sacrifice the synthesis conversation &mdash; that is where the enterprise decision is made.</p>
+<p>Key facilitation discipline: <strong>every contribution must be evidence-based</strong>. When a CXO makes an assertion without evidence, redirect immediately: <em>&ldquo;What does the PM review data tell you? What does your evidence say?&rdquo;</em> This single discipline separates a Collective Intelligence Circle from an opinion forum.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Collective Intelligence Principle</div><div class="acc-meta">Why enterprise performance requires collective review</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Because performance measurement spans the entire organisation, no single function can safeguard its integrity alone. The responsibility rests with the executive leadership collective. The collective intelligence ensures that performance reviews remain connected to enterprise outcomes rather than fragmenting into isolated departmental conversations.</p>
+<p>This means regularly stepping back and asking deeper questions:</p>
+<ul>
+<li>Are our review conversations revealing how execution is truly unfolding?</li>
+<li>Are the signals we are observing early enough for corrective action?</li>
+<li>Are we interpreting the evidence together or only within our functions?</li>
+<li>Are we learning from execution patterns or simply recording performance scores?</li>
+</ul>
+<div class="hbox"><p>The conversation shifts from asking <em>&ldquo;Is my function achieving its KPI/KR?&rdquo;</em> to asking <em>&ldquo;Is the chain of execution across our functions holding together?&rdquo;</em> When leaders observe performance horizontally in this way, coordination improves and performance measurement begins to reveal the true state of enterprise execution, not just isolated functional success.</p></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Enterprise Performance Intelligence Circle &mdash; Three Rounds</div><div class="acc-meta">Step through each round</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The executive team gathers around a shared board or digital canvas. Each leader contributes three signals drawn directly from their PM review sheets. The process unfolds in three disciplined rounds.</p>
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Round 1</div><div class="step-name">Collective Trajectory</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Round 2</div><div class="step-name">Early Warnings</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Round 3</div><div class="step-name">Execution Learning</div></div>
+</div>
+<div class="step-panel active">
+<h5>Establishing the Collective Trajectory of Strategy Execution</h5>
+<p>Each leader begins by stating the current percentage progress toward their KR/KPIs. This percentage is not an estimate or narrative opinion &mdash; it is derived from the PM ratings and evidence documented in their PM review sheet.</p>
+<p>The contribution follows a simple structure: the leader states the overall progress signal, briefly identifies the evidence supporting that signal, and clarifies whether execution momentum is accelerating, stable, or slowing.</p>
+<ul>
+<li><strong>Example:</strong> The COO may report that operational readiness KPIs show 72% progress toward the strategic Key Result, supported by throughput improvements and cycle-time reductions documented in the review sheets.</li>
+<li><strong>Example:</strong> The CFO may report that financial indicators show 65% progress toward the quarterly profitability milestone, supported by margin improvements and cost optimisation evidence.</li>
+</ul>
+<p>As each leader shares their progress signal, the circle begins to reveal a pattern. Some functions may show strong forward momentum; others may show slower movement toward their targets. The executive team begins to see the <strong>collective trajectory</strong> of strategy execution.</p>
+</div>
+<div class="step-panel">
+<h5>Surfacing Early Warning Indicators</h5>
+<p>Once the progress signals are visible, the circle moves to the second signal: <strong>early warning indicators</strong>. Each leader shares one or two warning signals that emerged during their PM review conversations. These signals must again be grounded in evidence drawn from the review sheets.</p>
+<p>Early warnings typically appear before a KPI/KR is formally off target. They often emerge as subtle patterns that indicate potential future friction. Examples might include:</p>
+<ul>
+<li>An operational process beginning to slow delivery times</li>
+<li>A capability gap that may affect upcoming milestones</li>
+<li>A supply constraint that could delay implementation of strategic initiatives</li>
+<li>A change in customer feedback signalling emerging dissatisfaction</li>
+</ul>
+<p>The purpose of sharing these signals is not to escalate problems but to surface emerging risks early enough for collective intervention. When these warnings are shared across the circle, leaders often discover that the signal appearing in one function is connected to activity in another &mdash; what appeared as an isolated operational issue may reveal itself as a <strong>cross-functional execution dependency</strong>.</p>
+</div>
+<div class="step-panel">
+<h5>Capturing Execution Learning</h5>
+<p>The final round focuses on <strong>execution learning</strong>. Every review conversation produces insight about how the organisation actually executes strategy. During this round, each leader shares one key learning emerging from their PM reviews. This learning must be anchored in evidence from the review conversations.</p>
+<ul>
+<li>The CHRO may highlight that performance review discussions revealed a leadership capability gap affecting accountability conversations</li>
+<li>The CTO may share that system visibility improvements significantly accelerated operational decision-making</li>
+<li>The CMO may highlight a pattern in customer experience data that revealed which service interactions most strongly influence trust</li>
+</ul>
+<p>These learnings allow the executive team to develop a shared understanding of how execution works inside the organisation. Over time, the organisation accumulates a body of practical execution intelligence that improves how strategy is implemented.</p>
+<div class="hbox"><p>Many organisations conduct performance reviews. Few organisations convert those reviews into <strong>collective strategic intelligence</strong>. The Collective Intelligence Circle ensures that insights emerging from PM review sheets do not remain isolated within functions &mdash; they are brought together in a structured conversation that allows the Alignment Brigade to observe execution as a living system.</p></div>
+</div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Synthesis Layer &mdash; Enterprise Intelligence Decisions</div><div class="acc-meta">Closing the circle</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>After the three rounds, add a synthesis layer to the board. This is where the collective signals are interpreted and a shared enterprise decision is made. The session must end with a clear enterprise decision &mdash; not a summary of what was discussed, but a concrete action agreed by the Alignment Brigade.</p>
+<table class="synth-table">
+<thead><tr><th>Question</th><th>Collective Insight (to be completed in session)</th></tr></thead>
+<tbody>
+<tr><td>What execution pattern is emerging?</td><td style="background:#0f1a10;"><textarea class="ref-ta" style="min-height:50px;width:100%;" placeholder="Pattern observed across functions..."></textarea></td></tr>
+<tr><td>Where are warning signals repeating?</td><td style="background:#0f1a10;"><textarea class="ref-ta" style="min-height:50px;width:100%;" placeholder="Repeated signals..."></textarea></td></tr>
+<tr><td>Where are cross-functional dependencies breaking down?</td><td style="background:#0f1a10;"><textarea class="ref-ta" style="min-height:50px;width:100%;" placeholder="Dependencies at risk..."></textarea></td></tr>
+<tr><td>Where is the expectations chain weakest?</td><td style="background:#0f1a10;"><textarea class="ref-ta" style="min-height:50px;width:100%;" placeholder="Weakest link in the chain..."></textarea></td></tr>
+<tr><td>What decision must we take now?</td><td style="background:#0f1a10;"><textarea class="ref-ta" style="min-height:50px;width:100%;" placeholder="The enterprise decision: ..."></textarea></td></tr>
+</tbody>
+</table>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Control Rules</div><ul>
+<li><strong>Every entry must be evidence-based</strong> — no opinion statements</li>
+<li>Contributions must be concise and structured</li>
+<li>No storytelling — only signals</li>
+<li>Repeated signals must be explicitly highlighted</li>
+<li><strong>The session must end with a clear enterprise decision</strong></li>
+</ul></div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Extrapolating</button><button class="btn" onclick="showMod(5)">Application &rarr;</button></div>
+</div></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TAB 5 — APPLICATION
+════════════════════════════════════════════════════════════ -->
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Integration Application &middot; In Practice</div><h2>Building the Collective Intelligence Board &amp; The Accountability Loop</h2><p>Two structured exercises: building and running the Enterprise Performance Intelligence Board across three zones, and activating the Accountability Loop through a structured role play.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Build and populate a three-zone Enterprise Performance Intelligence Board using evidence from PM review sheets</li>
+<li>Conduct a disciplined Accountability Loop role play using the Review&ndash;Realign&ndash;Restore framework</li>
+<li>Diagnose root cause (accountability, skill, or structural misfit) without defaulting to pressure or blame</li>
+<li>Capture concrete corrective actions and restore alignment toward 9&ndash;10</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Application</div>
+<p><strong>Exercise 1 (Board Structure)</strong> works best when participants use their real PM review data rather than hypothetical inputs. If participants have completed PM review sheets from their organisations, this exercise produces genuine enterprise intelligence. If not, work from the three examples in the Intelligence section as proxies. The board must end with a populated Synthesis Layer and a named enterprise decision.</p>
+<p><strong>Exercise 2 (Role Play)</strong> is non-negotiable. This is where the Accountability Loop becomes a practised skill rather than a described concept. The most common failure mode is that the CXO in the role play defaults to pressure rather than diagnosis. If this happens, pause and redirect: <em>&ldquo;You&rsquo;ve identified the gap. Now diagnose the cause. Is this an accountability issue, a skill gap, or a structural constraint? What evidence do you have for that?&rdquo;</em></p>
+<p>Allow adequate time for observer feedback after the role play. The observer evaluation criteria are specific &mdash; use them. The quality of the debrief determines how much of the skill transfers into actual leadership practice.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Exercise 1 &mdash; The Collective Intelligence Board</div><div class="acc-meta">Board structure &amp; facilitation guide</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Create a single shared board divided into 3 vertical zones &mdash; physical or digital. The board is populated in 3 disciplined rounds corresponding to the Collective Intelligence Circle.</p>
+
+<div class="board-zone">
+  <div class="bz-header"><div class="bz-label">Zone 1</div><div class="bz-title">Collective Trajectory &mdash; &ldquo;Where are we on execution?&rdquo;</div></div>
+  <div class="bz-body">
+    <div class="bz-row header"><div>CXO Role</div><div>% Progress toward KR/KPIs</div><div>Supporting Evidence</div><div>Momentum Signal</div></div>
+    <div class="bz-row"><div class="bz-cell role">CEO</div><div class="bz-cell">____%</div><div class="bz-cell">From PM review sheets...</div><div class="bz-cell">&#9650; Accelerating / &#9654; Stable / &#9660; Slowing</div></div>
+    <div class="bz-row"><div class="bz-cell role">CFO</div><div class="bz-cell">____%</div><div class="bz-cell">From PM review sheets...</div><div class="bz-cell">&#9650; Accelerating / &#9654; Stable / &#9660; Slowing</div></div>
+    <div class="bz-row"><div class="bz-cell role">COO</div><div class="bz-cell">____%</div><div class="bz-cell">From PM review sheets...</div><div class="bz-cell">&#9650; Accelerating / &#9654; Stable / &#9660; Slowing</div></div>
+    <div class="bz-row"><div class="bz-cell role">CHRO</div><div class="bz-cell">____%</div><div class="bz-cell">From PM review sheets...</div><div class="bz-cell">&#9650; Accelerating / &#9654; Stable / &#9660; Slowing</div></div>
+    <div class="bz-row"><div class="bz-cell role">CTO/CMO</div><div class="bz-cell">____%</div><div class="bz-cell">From PM review sheets...</div><div class="bz-cell">&#9650; Accelerating / &#9654; Stable / &#9660; Slowing</div></div>
+  </div>
+</div>
+
+<div class="board-zone">
+  <div class="bz-header"><div class="bz-label">Zone 2</div><div class="bz-title">Early Warning Signals &mdash; &ldquo;What is starting to break?&rdquo;</div></div>
+  <div class="bz-body">
+    <div class="bz-row header"><div>CXO Role</div><div>Warning Signal</div><div>Evidence</div><div>Potential Impact Area</div></div>
+    <div class="bz-row"><div class="bz-cell role">CEO</div><div class="bz-cell">Emerging risk...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Impact area...</div></div>
+    <div class="bz-row"><div class="bz-cell role">CFO</div><div class="bz-cell">Emerging risk...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Impact area...</div></div>
+    <div class="bz-row"><div class="bz-cell role">COO</div><div class="bz-cell">Emerging risk...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Impact area...</div></div>
+    <div class="bz-row"><div class="bz-cell role">CHRO</div><div class="bz-cell">Emerging risk...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Impact area...</div></div>
+    <div class="bz-row"><div class="bz-cell role">CTO/CMO</div><div class="bz-cell">Emerging risk...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Impact area...</div></div>
+  </div>
+</div>
+
+<div class="board-zone">
+  <div class="bz-header"><div class="bz-label">Zone 3</div><div class="bz-title">Execution Learning &mdash; &ldquo;What is execution teaching us?&rdquo;</div></div>
+  <div class="bz-body">
+    <div class="bz-row header"><div>CXO Role</div><div>Key Execution Learning</div><div>Evidence</div><div>Application Area</div></div>
+    <div class="bz-row"><div class="bz-cell role">CEO</div><div class="bz-cell">Key insight...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Function / Enterprise</div></div>
+    <div class="bz-row"><div class="bz-cell role">CFO</div><div class="bz-cell">Key insight...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Function / Enterprise</div></div>
+    <div class="bz-row"><div class="bz-cell role">COO</div><div class="bz-cell">Key insight...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Function / Enterprise</div></div>
+    <div class="bz-row"><div class="bz-cell role">CHRO</div><div class="bz-cell">Key insight...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Function / Enterprise</div></div>
+    <div class="bz-row"><div class="bz-cell role">CTO/CMO</div><div class="bz-cell">Key insight...</div><div class="bz-cell">Evidence from PM...</div><div class="bz-cell">Function / Enterprise</div></div>
+  </div>
+</div>
+
+<div class="fac-note-full" style="margin-top:14px;"><div class="fac-note-full-label">&#9670; Simple Facilitator Instruction</div>
+<p><em>&ldquo;This board is not for reporting. It is where we make the system visible. Each of you is contributing signals &mdash; not stories. Our job is to see the pattern and decide what must change.&rdquo;</em></p>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Exercise 2 &mdash; The Accountability Loop Role Play</div><div class="acc-meta">Review&ndash;Realign&ndash;Restore in practice</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+
+<div class="rp-scenario">
+  <div class="rp-scenario-label">&#9658; Scenario</div>
+  <p>You are a CXO responsible for the OKR: <strong>&ldquo;Reduce customer complaint resolution time from 48 hours to 12 hours.&rdquo;</strong></p>
+  <p>The latest performance review shows that progress has stalled and complaint resolution is still averaging <strong>36 hours</strong>. The target deadline is six weeks away. You must now activate the Accountability Loop.</p>
+</div>
+
+<div class="rp-roles">
+  <div class="rp-role">
+    <div class="rp-role-title">&#128100; CXO Role</div>
+    <p>Conducts the accountability conversation. Must diagnose the root cause without blaming. Uses the Accountability Loop to identify whether the issue is accountability, skill, or structural misfit. Aims to reach an alignment of 9&ndash;10.</p>
+  </div>
+  <div class="rp-role">
+    <div class="rp-role-title">&#128100; Report Role</div>
+    <p>Responsible for execution of the improvement initiative. Responds authentically to the conversation. May exhibit defensiveness, uncertainty, or genuine constraint &mdash; reflecting real organisational dynamics.</p>
+  </div>
+  <div class="rp-role">
+    <div class="rp-role-title">&#128100; Observer Role</div>
+    <p>Evaluates the quality of the conversation against the criteria below. Provides structured feedback after the role play. Does not intervene during the exercise.</p>
+  </div>
+</div>
+
+<h4>Accountability Loop Diagnosis</h4>
+<p>The CXO must determine whether the root cause is:</p>
+<div class="loop-diag">
+  <div class="loop-cell"><div class="loop-cell-label">Root Cause A</div><div class="loop-cell-name">Lack of Accountability</div><p>Individual understands the task but has lost motivational connection. Recovery: reconnect to purpose and enterprise context.</p></div>
+  <div class="loop-cell"><div class="loop-cell-label">Root Cause B</div><div class="loop-cell-name">Lack of Skill</div><p>Individual is committed but lacks capability required. Recovery: coaching, training, timeline adjustment.</p></div>
+  <div class="loop-cell"><div class="loop-cell-label">Root Cause C</div><div class="loop-cell-name">Misfit / Structural Constraint</div><p>Strengths do not align with responsibilities. Recovery: structural alignment, redistribution, or repositioning.</p></div>
+</div>
+
+<h4>Observer Evaluation Criteria</h4>
+<div class="principle-stack">
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Criterion 01</div><div class="p-name">Evidence Was Used in the Discussion</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Did the CXO anchor the conversation in verifiable performance data rather than opinion or assumption? Was the 36-hour average cited specifically? Were trends, milestones, or other evidence referenced? A conversation without evidence quickly becomes a debate about effort rather than progress.</p></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Criterion 02</div><div class="p-name">Leader Avoided Blame and Focused on Diagnosis</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Did the CXO approach the conversation with curiosity rather than judgment? Was the tone diagnostic rather than prosecutorial? Key signal: if the Report became defensive and the CXO escalated pressure in response, the blame dynamic was activated. A skilled leader redirects defensiveness by returning to evidence and narrowing to root cause.</p></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Criterion 03</div><div class="p-name">Root Cause Was Correctly Identified</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Did the CXO arrive at a root cause diagnosis through genuine dialogue &mdash; or did they assume one at the outset? The root cause must emerge from the conversation, not be imposed on it. A misdiagnosed root cause leads to a mismatched recovery response that will fail even if executed well.</p></div>
+  </div>
+  <div class="p-card" onclick="toggleP(this)">
+    <div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Criterion 04</div><div class="p-name">Clear Corrective Actions Were Agreed</div></div><div class="p-arr">&#9660;</div></div>
+    <div class="p-body"><p>Did the conversation end with specific, time-bound corrective actions that both parties understood and accepted? Was an alignment score agreed? Was a follow-up mechanism established? A review conversation that does not produce a named next action has not completed the Restore stage of the cycle.</p></div>
+  </div>
+</div>
+
+<h4>Facilitator Capture &mdash; Role Play Debrief</h4>
+<div class="ref-block"><div class="ref-label">Root Cause Diagnosed</div><textarea class="ref-ta" style="min-height:50px;" placeholder="The root cause identified was: (accountability / skill / structural) — because..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">Quality of the Accountability Conversation &mdash; Observer Notes</div><textarea class="ref-ta" placeholder="Evidence used: &#10;Blame avoidance: &#10;Root cause quality: &#10;Corrective actions agreed: &#10;&#10;Overall observation: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">What Would Improve the Conversation?</div><textarea class="ref-ta" style="min-height:50px;" placeholder="If you ran this conversation again, what would you change first?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; Performance Measurement</div><div class="acc-meta">Lens 7 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Performance measurement is not a reporting exercise but an execution visibility discipline. KPIs only become meaningful when regularly reviewed through structured conversations grounded in evidence. The Review&ndash;Realign&ndash;Restore cycle establishes the accountability loop through which leaders examine progress, identify gaps, and restore execution momentum.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The rhythm of performance reviews determines execution velocity. When review conversations are disciplined and evidence-based, early warning signals appear before performance failure occurs. Accountability remains active, organisational learning accumulates, and leaders can intervene early enough to sustain momentum.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Performance measurement weakens when reviews remain confined within functions, evidence quality is inconsistent, review rhythms become irregular, or conversations focus only on evaluation rather than learning. These four fractures reduce the organisation&rsquo;s ability to observe execution as a coordinated enterprise system.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The Collective Intelligence Circle synthesises performance insights through three rounds: collective trajectory, early warning signals, and execution learnings. Through this structured exchange, the leadership team develops a shared view of enterprise execution momentum, surfaces emerging risks early, and captures learning that strengthens future performance.</p></div>
+</div>
+<div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;The result is an organisation that does not simply measure performance. It continuously restores performance. And that capability is one of the defining characteristics of organisations that consistently convert strategy into results.&rdquo;</em></p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note</div>
+<p>Close by asking each leader to name one performance KPI they own that has been consistently reviewed &mdash; and one that has been allowed to drift. Ask them to commit to scheduling its next review within five working days, with a structured evidence submission required before the conversation. <strong>The five-day commitment makes the discipline visible rather than aspirational.</strong></p>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">&larr; Integration Zone</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleP(c){c.classList.toggle('open');}
+function toggleGap(c){c.classList.toggle('open');}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+function showSig(card,id){
+  const was=card.classList.contains('active');
+  document.querySelectorAll('.sig-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.sig-detail').forEach(d=>d.classList.remove('visible'));
+  if(!was){card.classList.add('active');document.getElementById(id).classList.add('visible');}
+}
+</script>
+</body>
+</html>
