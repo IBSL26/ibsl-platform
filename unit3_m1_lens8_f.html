@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 3 - Module 1 - Lens 8 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;font-style:italic;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 10px;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+/* Friction cards */
+.friction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.friction-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:18px 16px;}
+.friction-icon{font-size:1.6rem;margin-bottom:10px;}
+.friction-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.friction-desc{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Clog cards */
+.clog-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.clog-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.clog-card:hover{border-color:rgba(201,168,76,.25);}
+.clog-card.open{border-color:rgba(201,168,76,.3);}
+.clog-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#151c15;}
+.clog-meta{flex:1;}
+.clog-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;color:rgba(201,168,76,.55);}
+.clog-name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.abcv-badge{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:2px;flex-shrink:0;margin-left:14px;}
+.abcv-arena{background:rgba(107,143,204,.2);color:#8ab0e8;}
+.abcv-boundaries{background:rgba(201,168,76,.15);color:var(--gold);}
+.abcv-value{background:rgba(155,89,182,.15);color:#c39de0;}
+.abcv-competition{background:rgba(46,168,122,.15);color:#5ecba1;}
+.abcv-mixed{background:rgba(107,143,204,.12);color:#a8c8e8;}
+.clog-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.clog-card.open .clog-arr{transform:rotate(180deg);color:var(--gold);}
+.clog-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.clog-card.open .clog-body{display:block;}
+.clog-row{margin-bottom:10px;}
+.clog-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.clog-rt{font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;}
+.clog-impact{font-size:12px;margin-top:10px;padding:9px 13px;border-radius:2px;border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.06);line-height:1.65;color:rgba(255,220,120,.8);font-style:italic;}
+.clog-signal{font-size:12px;margin-top:8px;padding:9px 13px;border-radius:2px;border-left:2px solid rgba(231,76,60,.3);background:rgba(231,76,60,.05);line-height:1.65;color:rgba(255,180,160,.75);}
+/* Lever grid */
+.lever-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:18px 0;}
+.lever-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.lever-card:hover{border-color:rgba(201,168,76,.25);}
+.lever-card.open{border-color:rgba(201,168,76,.3);}
+.lever-head{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;}
+.lever-meta{flex:1;}
+.lever-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:3px;}
+.lever-name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.lever-role{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:3px;}
+.lever-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 6px;flex-shrink:0;}
+.lever-card.open .lever-arr{transform:rotate(180deg);color:var(--gold);}
+.lever-bar{height:3px;background:rgba(201,168,76,.14);}
+.lever-card.open .lever-bar{background:var(--gold);}
+.lever-body{display:none;padding:14px 16px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.lever-card.open .lever-body{display:block;}
+.lever-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:8px;}
+.lever-why{font-size:12px;padding:8px 12px;background:var(--blues);border-left:2px solid rgba(52,152,219,.3);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.8);font-style:italic;}
+/* COMPASS zone cards */
+.compass-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.cp-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cp-card:hover{border-color:rgba(201,168,76,.3);}
+.cp-card.open{border-color:rgba(201,168,76,.4);}
+.cp-head{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;}
+.cp-code{font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;font-family:"Cormorant Garamond",serif;}
+.cp-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.cp-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 6px;flex-shrink:0;}
+.cp-card.open .cp-arr{transform:rotate(180deg);color:var(--gold);}
+.cp-bar{height:3px;background:rgba(201,168,76,.14);}
+.cp-card.open .cp-bar{background:var(--gold);}
+.cp-body{display:none;padding:14px 16px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.cp-card.open .cp-body{display:block;}
+.cp-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px;}
+.cp-signal{font-size:11px;padding:8px 12px;background:rgba(231,76,60,.05);border-left:2px solid rgba(231,76,60,.3);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(255,180,160,.8);margin-top:8px;}
+.cp-fac{font-size:12px;padding:8px 12px;background:var(--blues);border-left:2px solid rgba(52,152,219,.25);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;margin-top:6px;}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Interp table */
+.interp-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.interp-table th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.interp-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.interp-table td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:28%;font-size:12px;}
+.interp-table td:nth-child(2){color:rgba(255,255,255,.75);font-weight:600;width:22%;}
+/* Tool callout */
+.tool-box{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:20px 24px;margin:18px 0;}
+.tool-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.tool-box p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;}
+/* Role cards */
+.role-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
+.role-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:14px 16px;}
+.role-card-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.role-card p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Reflection */
+.ref-block{margin:14px 0;background:#151c15;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#0f1a10;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(201,168,76,.3);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--gold);color:var(--gold);}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#111811;border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:40px 44px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.6rem;font-weight:400;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:28px;}
+.gate-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#1a2a1e;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;background:var(--gold);color:#111811;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;padding:13px;border-radius:2px;cursor:pointer;transition:background .2s;}
+.gate-btn:hover{background:var(--gl);}
+.gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;line-height:1.5;}
+/* Observer criteria */
+.obs-stack{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.obs-item{background:#151c15;border-left:3px solid rgba(201,168,76,.4);border-radius:0 3px 3px 0;padding:12px 16px;}
+.obs-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.obs-item p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;}
+@media(max-width:900px){.friction-grid,.role-row{grid-template-columns:1fr;}.lever-grid,.compass-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 8</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 8</div>
+    <h1 class="unit-title">Strategic Unclogging</h1>
+    <div class="unit-sub">Engineering the Flow of Execution</div>
+    <p class="unit-desc">When strategy stalls, the failure is rarely in the plan. It is in the system that carries the plan. This lens equips leaders to diagnose the blockages preventing strategic intent from flowing into real-world execution &mdash; and to intervene with precision using the 7 Strategic Unclogging Levers.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Integration Application<span>In Practice</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Guide<br><small style="font-size:8px;opacity:.5;">Facilitator</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)">Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+
+<!-- ═══ TAB 0 — GUIDE ═══ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Lens 8 &mdash; Session Overview</h2><p>Orientation, facilitation questions, tone guidance, and watch points for the full lens.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lens Intent</div>
+<p>Lens 8 sits at a pivotal moment in the S2R&reg; climb. By this point, the strategy is clear, performance expectations are set, and commitments have been secured. Now the gears begin grinding. This lens names that friction precisely &mdash; and gives the leadership team the engineering vocabulary and diagnostic discipline to address it.</p>
+<p>The central reframe is powerful and must land clearly: <strong>a clog is not a failure. It is a signal.</strong> It indicates where the organisation&rsquo;s current operating system has not yet adapted to the new strategic direction. Leaders who understand this stop asking &ldquo;Why are we failing?&rdquo; and start asking &ldquo;Where is the system not yet designed to carry the strategy?&rdquo;</p>
+<p>The Clog Clinic in Application is the centrepiece &mdash; protect the full 45 minutes. It must use real stalled KPIs, not hypotheticals. The quality of the diagnostic conversation is the measure of this lens.</p>
+</div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Think of a strategy that stalled in your organisation. Was the plan wrong &mdash; or was something in the system blocking its flow?&rdquo;</em></li>
+<li><em>&ldquo;When you last named a performance gap, did you name the symptom or the root cause? What&rsquo;s the difference in your context?&rdquo;</em></li>
+<li><em>&ldquo;Which of the seven clogs is most predictable in your organisation given your current strategic direction? What does that tell you about where to look first?&rdquo;</em></li>
+<li><em>&ldquo;If Cultural Resistance is your diagnosis &mdash; is that genuinely a culture problem, or is it a Leadership Avoidance problem that has produced cultural symptoms?&rdquo;</em></li>
+<li><em>&ldquo;You&rsquo;ve selected a lever. What would have to be true for that lever to actually clear the clog &mdash; rather than just creating the appearance of movement?&rdquo;</em></li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Watch for:</strong> the relief response. When leaders first encounter the clog map, they often feel relieved &mdash; they recognise their organisations immediately. The facilitation risk is that the conversation stays at the level of recognition rather than moving to diagnosis and intervention. Push past identification: <em>&ldquo;Recognising it is the start. Now name it precisely and select the lever.&rdquo;</em></p>
+<p><strong>Watch for:</strong> Cultural Resistance overuse. It is the most comfortable diagnosis because it externalises the problem. Challenge it every time: <em>&ldquo;Is this a culture issue, or is it the downstream consequence of Leadership Avoidance?&rdquo;</em></p>
+<p><strong>Watch for:</strong> lever vagueness. &ldquo;We need to improve communication&rdquo; is not a lever. A lever is a structural adjustment &mdash; a redesigned decision right, a reset KPI, a rebuilt process, a named accountability. Push every group until their intervention is concrete enough to own.</p>
+<p><strong>Timing:</strong> Awareness and Intelligence can move at pace. Extrapolating benefits from brief functional discussion. Reserve the full 45 minutes for the Clog Clinic &mdash; it should not be compressed.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Awareness &mdash; What &rarr;</button></div>
+</div></div>
+
+<!-- ═══ TAB 1 — AWARENESS ═══ -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>What is a Strategic Clog?</h2><p>Naming the internal blockages that prevent strategic intent from flowing into execution &mdash; and introducing the 7-clog diagnostic map aligned to ABCV Directional Integrity.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Define a Strategic Clog as an internal blockage that widens the gap between strategic intent and execution reality</li>
+<li>Distinguish the three observable friction signals: Decision Paralysis, Kinetic Misalignment, and the Output-Outcome Gap</li>
+<li>Map each of the 7 clog categories to the ABCV element it distorts and the strategic impact it produces</li>
+<li>Apply the system logic principle: clogs redirect effort, weaken coherence, and create misinterpretation of strategic intent</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Awareness</div>
+<p>Open with the scenario: strategy is clear, objectives are defined, performance expectations are in motion &mdash; and then the gears begin grinding. The three friction signals (Decision Paralysis, Kinetic Misalignment, Output-Outcome Gap) are the entry point. Invite leaders to identify which of the three they are most frequently experiencing.</p>
+<p>The key conceptual shift is from &ldquo;failure of strategy&rdquo; to &ldquo;failure of flow.&rdquo; Clogs are not evidence that the plan was wrong. They are evidence that the system carrying the plan has not yet adapted. This reframe is essential before moving to the 7-clog map.</p>
+<p>Work through the clog map deliberately. Do not rush. Each clog has a distinct observable pattern, a distinct ABCV element it distorts, and a distinct strategic consequence. Encourage leaders to identify which clogs are currently present in their organisation before moving to Intelligence.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">What is a Strategic Clog?</div><div class="acc-meta">Core concept</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At this point, the strategy is clear. Objectives are defined. Performance expectations are in motion. Then the gears begin grinding.</p>
+<p>At its simplest, a <strong>Strategic Clog</strong> is an internal blockage that prevents strategic intent from flowing into real-world execution. It is the widening gap between what we said we would do and what is actually happening. These are not minor inconveniences or growing pains. They are fundamental misalignments where the organisation&rsquo;s current state &mdash; its habits, its structures, its very DNA &mdash; works actively against its future goals.</p>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>Strategy sets the destination. Flow determines whether you have the power to arrive.</em></p></div>
+<p>To navigate this phase of the execution climb, leadership must evolve. It is no longer enough to simply design a brilliant strategy. The role of the leadership team is to become <strong>Engineers of Execution Flow</strong> &mdash; developing the diagnostic eyes to detect clogs early, before they compound into stalled momentum or declining performance.</p>
+<p>Every clog interferes with one or more elements of ABCV Directional Integrity:</p>
+<ul>
+<li><strong>Arena</strong> &mdash; clarity of the problem space and customer end-game</li>
+<li><strong>Boundaries</strong> &mdash; structural, operational, and regulatory constraints</li>
+<li><strong>Competition</strong> &mdash; how the organisation defines alternatives and threats</li>
+<li><strong>Value Proposition</strong> &mdash; how the organisation creates distinct value</li>
+</ul>
+<p>When execution is clogged, strategy does not fail visibly. It loses directional integrity &mdash; gradually and silently.</p>
+<div class="hbox blue" style="margin-top:14px;"><p><strong>System Logic:</strong> A clog acts like a pressure distortion point in the system. It redirects effort away from intended outcomes, weakens coherence across functions, and creates misinterpretation of strategic intent.</p></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Three Observable Friction Signals</div><div class="acc-meta">How clogs first appear</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Despite the clarity of the plan, the reality of the work will periodically be characterised by friction. Three patterns signal that a clog is forming.</p>
+<div class="friction-grid">
+  <div class="friction-card">
+    <div class="friction-icon">&#9201;</div>
+    <div class="friction-name">Decision Paralysis</div>
+    <div class="friction-desc">Choices that should be instinctive begin taking longer than expected, creating a bottleneck at the top. Leaders hesitate where they should act.</div>
+  </div>
+  <div class="friction-card">
+    <div class="friction-icon">&#8644;</div>
+    <div class="friction-name">Kinetic Misalignment</div>
+    <div class="friction-desc">Teams move with intensity but pull in different directions, cancelling each other&rsquo;s efforts. Energy is high; progress is not.</div>
+  </div>
+  <div class="friction-card">
+    <div class="friction-icon">&#128202;</div>
+    <div class="friction-name">Output&ndash;Outcome Gap</div>
+    <div class="friction-desc">Tasks are completed and boxes are checked, but the needle on actual strategic goals isn&rsquo;t moving. Activity is high; advancement is not.</div>
+  </div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Prompt</div>
+<p>Ask the group: <em>&ldquo;Which of these three signals is most visible in your organisation right now? Raise your hand for the one you recognise most immediately.&rdquo;</em> Use the show of hands to calibrate which clog category to explore first in the map below.</p>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The 7-Clog Diagnostic Map</div><div class="acc-meta">ABCV-aligned · Select each clog to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each clog category represents a distinct type of system misalignment. Select each to examine the structural reality, observable patterns, early warning signals, and strategic impact.</p>
+<div class="clog-stack">
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 01</div><div class="clog-name">Structural Misfit</div></div>
+      <span class="abcv-badge abcv-boundaries">Boundaries</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Organisational design (roles, reporting lines, decision rights, governance layers) is misaligned to the current strategy. Structure reflects legacy priorities, not strategic intent.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Bottlenecks at functional handoffs; duplication of work; fragmented ownership of outcomes; breakdown between front-office and back-office; conflicting priorities across functions.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Increasing coordination time; rising dependency on informal workarounds; escalation frequency increases; unclear ownership of outcomes.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> The organisation operates within the wrong structural logic. Execution becomes disjointed, coordination costs increase, and strategy cannot move coherently across the enterprise system.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 02</div><div class="clog-name">Capability Gaps</div></div>
+      <span class="abcv-badge abcv-arena">Arena</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Critical capabilities (skills, systems, tools, capacity, partnerships) required to deliver the strategy are absent, underdeveloped, or unevenly distributed.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Projects stall or slow; over-reliance on key individuals; inconsistent delivery quality; repeated outsourcing of core capabilities; inability to scale execution.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Missed milestones; uneven performance across similar initiatives; burnout of key talent; increasing rework.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> The organisation cannot fully operate within its chosen strategic space. The defined arena becomes theoretical &mdash; execution lacks the capability backbone required to compete and deliver.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 03</div><div class="clog-name">Decision Bottlenecks</div></div>
+      <span class="abcv-badge abcv-boundaries">Boundaries</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Decision rights are unclear, overly centralised, or embedded in outdated hierarchical processes. Authority is not aligned to execution proximity.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Slow approvals; repeated escalation loops; &ldquo;waiting culture&rdquo;; overloaded senior leadership; avoidance of decision ownership at middle levels.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Decision cycle times increase; growing backlog of unresolved issues; repeated agenda items in meetings; teams hesitate to act without approval.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> Decision flow is constrained, weakening execution rhythm. The organisation loses responsiveness and cannot adapt at the speed required by the strategy or environment.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 04</div><div class="clog-name">Misaligned Metrics &amp; Incentives</div></div>
+      <span class="abcv-badge abcv-value">Value Proposition</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">KPIs, scorecards, and reward systems reinforce behaviours that conflict with strategic intent. Legacy metrics remain active post-strategy shift.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Functional optimisation over enterprise outcomes; gaming of metrics; resistance to collaboration; short-term delivery at the expense of long-term value.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> High KPI achievement with weak strategic progress; conflicting performance narratives across functions; misalignment between reported success and actual outcomes.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> Effort is redirected toward what is measured rather than what creates value. The organisation produces activity and output, but not differentiated strategic outcomes.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 05</div><div class="clog-name">Cultural Resistance</div></div>
+      <span class="abcv-badge abcv-value">Value Proposition</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Deeply embedded beliefs, norms, and habits contradict the behavioural shifts required by the strategy. Informal culture overrides formal direction.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Reversion to legacy behaviours under pressure; passive resistance; low initiative; compliance without commitment; scepticism toward change.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Low engagement in strategic initiatives; limited experimentation; silence or avoidance in critical conversations; informal narratives contradicting strategy.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> The organisation cannot consistently deliver its intended value because behaviour does not align with strategic intent. Cultural inertia preserves the past, weakening transformation capability.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 06</div><div class="clog-name">Technology / Infrastructure Lag</div></div>
+      <span class="abcv-badge abcv-competition">Competition</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Legacy systems, fragmented platforms, and poorly integrated infrastructure cannot support execution demands. Data architecture is incomplete or delayed.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Manual workarounds; spreadsheet dependency; delayed reporting; poor data visibility; system integration failures; limited automation.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Data inconsistencies; long reporting cycles; operational errors increase at scale; inability to track real-time performance.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> The organisation loses execution speed and intelligence. It cannot respond, scale, or compete effectively against more technologically enabled alternatives.</div>
+    </div>
+  </div>
+
+  <div class="clog-card" onclick="toggleClog(this)">
+    <div class="clog-head">
+      <div class="clog-meta"><div class="clog-num">Clog 07</div><div class="clog-name">Leadership Avoidance</div></div>
+      <span class="abcv-badge abcv-mixed">Arena + Boundaries</span><div class="clog-arr">&#9660;</div>
+    </div>
+    <div class="clog-body">
+      <div class="clog-row"><div class="clog-rl">Structural Reality</div><div class="clog-rt">Leaders avoid confronting trade-offs, underperformance, structural misalignment, or difficult decisions required for strategy execution.</div></div>
+      <div class="clog-row"><div class="clog-rl">Observable Patterns</div><div class="clog-rt">Persistent unresolved issues; repeated discussions without closure; weak accountability; shifting priorities; lack of enforcement of decisions.</div></div>
+      <div class="clog-signal"><strong>Early Warnings:</strong> Recurring strategic issues across multiple cycles; low trust in leadership decisions; ambiguity in direction; declining ownership across teams.</div>
+      <div class="clog-impact"><strong>Strategic Impact:</strong> Strategic clarity erodes as unresolved tensions accumulate. The organisation drifts between priorities, weakening both strategic focus (Arena) and execution discipline (Boundaries).</div>
+    </div>
+  </div>
+
+</div>
+<div class="fac-note-full" style="margin-top:14px;"><div class="fac-note-full-label">&#9670; Diagnostic Principle</div>
+<ul>
+<li>Do not ask: <em>&ldquo;What is going wrong?&rdquo;</em> Ask: <em>&ldquo;Which ABCV element is being distorted &mdash; and by which clog?&rdquo;</em></li>
+<li>If multiple signals point to <strong>Boundaries</strong> &rarr; structural or decision system issue</li>
+<li>If multiple signals point to <strong>Arena</strong> &rarr; capability or strategic participation issue</li>
+<li>If multiple signals point to <strong>Value Proposition</strong> &rarr; behavioural or measurement misalignment</li>
+<li>If multiple signals point to <strong>Competition</strong> &rarr; speed, responsiveness, or system capability gap</li>
+</ul>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">&larr; Guide</button><button class="btn" onclick="showMod(2)">Intelligence &mdash; Why &rarr;</button></div>
+</div></div>
+
+<!-- ═══ TAB 2 — INTELLIGENCE ═══ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why Clogs Are Predictable Features, Not Random Failures</h2><p>Understanding why execution friction is the inevitable consequence of system misalignment &mdash; and introducing the 7 Strategic Unclogging Levers as the leadership toolkit for restoring execution flow.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why clogs are not accidents but predictable consequences of strategy stretching the existing operating system</li>
+<li>Shift from reactive troubleshooting to proactive execution architecture as the primary leadership mindset</li>
+<li>Apply the three disciplines of execution engineering: early identification, accurate classification, targeted intervention</li>
+<li>Match each of the 7 Unclogging Levers to its strategic role and the clog types it is designed to address</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Intelligence</div>
+<p>The ignition point of this section is the mindset shift: from <em>&ldquo;Why is the strategy failing?&rdquo;</em> to <em>&ldquo;Where is the system not yet designed to carry the strategy?&rdquo;</em> This is not semantics. It is a fundamentally different diagnostic posture that moves leadership from blame to engineering.</p>
+<p>Spend time on the pressure point examples &mdash; they make the abstract concrete. A strategy requiring cross-functional coordination will expose structural misfits. A strategy requiring decentralised execution will expose decision bottlenecks. These are not surprises &mdash; they are predictable based on the design gap between what the strategy demands and what the system can currently provide.</p>
+<p>For the 7 levers: make clear that levers are <strong>structural adjustments</strong>, not motivational initiatives. Rarely does a single lever clear a clog alone. The diagnostic question is always: which lever combination addresses the root cause?</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Clogs Are Design Signals, Not Operational Failures</div><div class="acc-meta">The core argument</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When leaders define strategy, they design a future operating direction. When the organisation attempts to execute that strategy, it must do so through <em>today&rsquo;s</em> operating system &mdash; its structure, decision rights, culture, metrics, capabilities, and technology. If any element of this system is misaligned with the new strategic direction, friction will appear. The friction is not accidental. It is the natural consequence of system misalignment.</p>
+<p>This is why execution breakdowns rarely occur because the strategy itself is incorrect. They occur because the organisation&rsquo;s structure, capabilities, behaviours, or systems have not yet adapted to the strategy. <strong>The clog is therefore not the failure. The clog is the signal that the system requires adjustment.</strong></p>
+<div class="hbox"><p>Clogs emerge precisely where the strategy stretches the existing system beyond its current design capacity. A strategy requiring rapid cross-functional coordination will expose structural misfits. A strategy dependent on data-driven decisions will reveal capability gaps. A strategy requiring decentralised execution will expose decision bottlenecks. These pressures are not random &mdash; they are predictable.</p></div>
+<p>Experienced leadership teams recognise this. Rather than interpreting clogs as operational problems, they treat them as <strong>engineering signals</strong> indicating where the organisation must evolve. This transforms the role of the executive team: not only defining strategic direction, but ensuring the organisation&rsquo;s operating system can carry that direction without excessive friction.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Three Disciplines of Execution Engineering</div><div class="acc-meta">Step through each</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Discipline 1</div><div class="step-name">Early Identification</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Discipline 2</div><div class="step-name">Accurate Classification</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Discipline 3</div><div class="step-name">Targeted Intervention</div></div>
+</div>
+<div class="step-panel active">
+<h5>Detect Signals Before They Compound</h5>
+<p>Leaders must detect the signals that indicate friction is forming. Bottlenecks, repeated coordination failures, declining execution speed, or growing ambiguity in decision rights are all early indicators that a clog is emerging.</p>
+<p>The strategic value of early identification is significant. A clog detected when it is a friction signal requires a targeted structural adjustment. The same clog discovered six months later, after it has compounded into a systemic execution failure, requires a crisis response. The cost &mdash; in time, capital, and leadership credibility &mdash; is vastly different.</p>
+<p>This discipline requires leaders to build signal literacy: the ability to read organisational patterns not just as operational noise but as early indicators of structural misalignment.</p>
+</div>
+<div class="step-panel">
+<h5>Name the Clog Precisely Before Intervening</h5>
+<p>Each clog belongs to a specific category of organisational friction. Structural misfit, capability gaps, decision bottlenecks, misaligned incentives, cultural resistance, technological constraints, or leadership avoidance each require fundamentally different forms of intervention.</p>
+<p>The most common diagnostic failure is applying the wrong lever to a correctly identified symptom. A leader who observes &ldquo;slow execution&rdquo; and responds by adding resources is applying a capability lever to what may be a decision bottleneck. The additional resources do not accelerate execution because the constraint is not capacity &mdash; it is approval latency.</p>
+<p>Accurate classification requires resisting the impulse to solve before diagnosing. The question is not &ldquo;What should we do?&rdquo; It is &ldquo;What type of friction is this, and what does it tell us about the system?&rdquo;</p>
+</div>
+<div class="step-panel">
+<h5>Pull the Right Lever with Precision</h5>
+<p>Once the clog is identified and classified, it must be addressed through the appropriate strategic lever. Clogs rarely clear themselves through trying harder or working more hours. They require a deliberate adjustment to the organisation&rsquo;s structural, behavioural, and operational settings.</p>
+<p>Targeted intervention means matching the lever to the root cause &mdash; not to the symptom. It also means accepting that rarely does a single clog require just one fix. A Capability Gap may require both Upgrade (systems) and Reinforce (skills). A Leadership Avoidance clog may require both Clarify (decision rights) and Rebuild Trust (credibility restoration).</p>
+<p>The goal is to develop a leadership rhythm that moves quickly and precisely: <strong>Identify the Clog &rarr; Select the Lever &rarr; Targeted Intervention.</strong></p>
+</div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The 7 Strategic Unclogging Levers</div><div class="acc-meta">Select each lever to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Think of these seven levers as the leadership toolkit for execution architecture. They do not replace the strategy; they restore the conditions that allow the strategy to move through the organisation at the speed and quality intended. Each lever targets a specific dimension of the system.</p>
+<div class="lever-grid">
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 01</div><div class="lever-name">Standardise</div><div class="lever-role">Ensure Consistency</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Harmonises processes and service levels across teams so everyone plays by the same rules.</p><div class="lever-why">Variability is a silent killer of speed. By establishing a shared &ldquo;way we work,&rdquo; you reduce duplication and ensure every unit pulls in the same direction. Best applied to: Structural Misfit, Misaligned Metrics &amp; Incentives, Technology / Infrastructure Lag.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 02</div><div class="lever-name">Streamline</div><div class="lever-role">Increase Speed</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Simplifies workflows and removes the red tape layers that add no value to execution.</p><div class="lever-why">Leaner processes mean faster approvals and a team that can pivot as quickly as the market demands. Best applied to: Decision Bottlenecks, Structural Misfit.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 03</div><div class="lever-name">Clarify</div><div class="lever-role">Eliminate Confusion</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Defines exactly who owns what, where the handoffs are, and who has the final say.</p><div class="lever-why">Ambiguity breeds hesitation. When people know their roles and decision rights, accountability returns and work stops getting stuck in limbo. Best applied to: Decision Bottlenecks, Structural Misfit, Leadership Avoidance.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 04</div><div class="lever-name">Upgrade</div><div class="lever-role">Remove Bottlenecks</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Fixes underperforming technology and infrastructure that holds execution back.</p><div class="lever-why">You cannot run a modern strategy on yesterday&rsquo;s tools. Upgrading removes the physical and digital friction that makes scaling feel impossible. Best applied to: Technology / Infrastructure Lag, Capability Gaps.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 05</div><div class="lever-name">Reinforce</div><div class="lever-role">Strengthen Behaviour</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Equips the team with the skills, coaching, and confidence they need to actually deliver.</p><div class="lever-why">Strategy requires new behaviours. Reinforcement ensures your people are not just willing to change, but actually capable of doing so. Best applied to: Capability Gaps, Cultural Resistance.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 06</div><div class="lever-name">Realign</div><div class="lever-role">Focus on Results</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Adjusts metrics and rewards so they actually match current strategic priorities.</p><div class="lever-why">People do what they are measured on. When you fix the incentives, the team&rsquo;s energy naturally shifts from protecting their patch to creating enterprise value. Best applied to: Misaligned Metrics &amp; Incentives.</div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)" style="grid-column:1/-1;">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 07</div><div class="lever-name">Rebuild Trust</div><div class="lever-role">Restore Credibility</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Heals relationships and introduces the transparency needed for people to commit again.</p><div class="lever-why">Trust is the social grease of execution. Without it, the system seizes up. Rebuilding it restores the psychological safety required for high-stakes work. Best applied to: Cultural Resistance, Leadership Avoidance.</div></div>
+  </div>
+
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lever Selection Principle</div>
+<p>Identifying a clog is only half the work. The real discipline is lever selection. Rarely does a clog require just one fix. If the clog is a <strong>Capability Gap</strong>, the leaders may need to Upgrade the systems while simultaneously Reinforcing the team&rsquo;s skills. If the clog is <strong>Leadership Avoidance</strong>, there will likely be a need to Clarify decision rights and Rebuild Trust to move forward. Always ask: <em>&ldquo;Which lever combination addresses the root cause &mdash; not just the visible symptom?&rdquo;</em></p>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">&larr; Awareness</button><button class="btn" onclick="showMod(3)">Extrapolating &mdash; Where &rarr;</button></div>
+</div></div>
+
+<!-- ═══ TAB 3 — EXTRAPOLATING ═══ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>Where Are the Highest-Flammability Clog Zones?</h2><p>Using COMPASS as the primary diagnostic lens to locate where execution friction is accumulating &mdash; and applying the 4-step Strategic Unclogging activation process.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply COMPASS as the diagnostic framework for locating clog zones within the enterprise execution system</li>
+<li>Identify the characteristic friction patterns for each of the 7 COMPASS domains</li>
+<li>Execute the 4-step Unclogging activation sequence: identify clog category, locate COMPASS zone, trigger lever, rate severity</li>
+<li>Use the combination of clog category + COMPASS zone to achieve diagnostic precision beyond surface symptoms</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Extrapolating</div>
+<p>Open with the key shift: from generic problem-solving to precise system intervention. COMPASS gives the leadership team a shared coordinate system for locating where clogs are forming &mdash; not just naming that something is wrong, but pinpointing the domain in the execution architecture where friction is accumulating.</p>
+<p>The interpretation guidance is critical: a capability gap located in People &amp; Capability is a skills issue; the same gap located in Systems &amp; Execution may be an operating model issue. The combination of clog + zone provides precision that clog category alone does not. Walk through two or three examples before the 4-step activation.</p>
+<p>For the 4-step activation: this is the procedural backbone that connects directly to the Excel Unclogging Tool participants have. Walk it as a live demonstration with one stalled KPI from the group before moving to Application.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The 7 COMPASS High-Flammability Zones</div><div class="acc-meta">Select each zone to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each clog will surface within one or more of the following COMPASS zones. By locating clogs within COMPASS, leaders move from reactive problem-solving to precise system intervention.</p>
+<div class="compass-grid">
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">C</div><div class="cp-name">Clarity of Direction</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals confusion, drift, or competing priorities in the strategic direction. When this zone heats up, people are unclear what the strategy actually requires of them day-to-day.</p>
+      <div class="cp-signal">Warning signals: Strategy described differently by each leader; too many unranked priorities; teams treat strategy as an annual event not daily guidance; people wait for clarity before acting.</div>
+      <div class="cp-fac">Most common clogs: Decision Bottlenecks, Leadership Avoidance, Cultural Resistance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">O</div><div class="cp-name">Organisational Alignment</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals fragmentation across functions. When this zone heats up, different parts of the organisation are executing to different priorities or conflicting incentives.</p>
+      <div class="cp-signal">Warning signals: KPIs conflict across functions; incentives reward wrong behaviours; silos resist shared outcomes; customer issues bounce between teams unresolved.</div>
+      <div class="cp-fac">Most common clogs: Structural Misfit, Misaligned Metrics &amp; Incentives, Cultural Resistance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">M</div><div class="cp-name">Management Discipline</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals weak follow-through and accountability. When this zone heats up, governance is producing reports rather than decisions, and performance gaps are tolerated rather than corrected.</p>
+      <div class="cp-signal">Warning signals: No clear review cadence; decision rights unclear; leaders tolerate repeated misses; accountability conversations avoided; teams hide problems.</div>
+      <div class="cp-fac">Most common clogs: Decision Bottlenecks, Leadership Avoidance, Cultural Resistance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">P</div><div class="cp-name">People &amp; Capability</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals execution strain or capacity gaps. When this zone heats up, the strategy is demanding capabilities the organisation has not yet built or deployed.</p>
+      <div class="cp-signal">Warning signals: Strategy requires skills not available; over-reliance on consultants without internal transfer; people fear speaking up; performance standards vary across teams.</div>
+      <div class="cp-fac">Most common clogs: Capability Gaps, Leadership Avoidance, Cultural Resistance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">A</div><div class="cp-name">Allocation of Resources</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals misalignment between stated priorities and actual investment decisions. When this zone heats up, money and people are flowing to the wrong places relative to the strategy.</p>
+      <div class="cp-signal">Warning signals: Budget follows history not priorities; too many projects funded simultaneously; leaders commit to outcomes without resourcing; teams compete defensively for resources.</div>
+      <div class="cp-fac">Most common clogs: Structural Misfit, Leadership Avoidance, Cultural Resistance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)">
+    <div class="cp-head"><div><div class="cp-code">S1</div><div class="cp-name">Systems &amp; Execution</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals operational or structural friction slowing execution throughput. When this zone heats up, the machinery of delivery is creating drag rather than enabling flow.</p>
+      <div class="cp-signal">Warning signals: Operating model doesn&rsquo;t support strategic priorities; critical work delayed by approvals; tools slow delivery; leaders don&rsquo;t remove blockers; firefighting feels normal.</div>
+      <div class="cp-fac">Most common clogs: Structural Misfit, Technology / Infrastructure Lag, Leadership Avoidance.</div>
+    </div>
+  </div>
+
+  <div class="cp-card" onclick="toggleCP(this)" style="grid-column:1/-1;">
+    <div class="cp-head"><div><div class="cp-code">S2</div><div class="cp-name">Sensing &amp; Adaptation</div></div><div class="cp-arr">&#9660;</div></div>
+    <div class="cp-bar"></div>
+    <div class="cp-body">
+      <p>Signals missed or ignored internal and external feedback. When this zone heats up, the organisation is operating on stale information and has lost its ability to adapt in real time.</p>
+      <div class="cp-signal">Warning signals: Customer churn visible but ignored; competitor moves tracked late; leaders defend outdated forecasts; people hide bad news; teams stick to plans when reality has shifted.</div>
+      <div class="cp-fac">Most common clogs: Capability Gaps, Leadership Avoidance, Cultural Resistance.</div>
+    </div>
+  </div>
+
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The 4-Step Unclogging Activation</div><div class="acc-meta">Step through each stage</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Strategic Unclogging activation is triggered when a KR/KPI shows signs of execution risk. The objective is not escalation or blame &mdash; it is <strong>precise diagnosis of the obstruction preventing flow</strong>.</p>
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Step 1</div><div class="step-name">Identify Clog Category</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Step 2</div><div class="step-name">Locate in COMPASS</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Step 3</div><div class="step-name">Trigger Lever</div></div>
+  <div class="step-tab" onclick="showStep(3,this)"><div class="step-num">Step 4</div><div class="step-name">Rate Severity</div></div>
+</div>
+<div class="step-panel active">
+<h5>Select the Type of Friction</h5>
+<p>Review the 7 clog categories and select the one that best describes the execution blockage:</p>
+<ul>
+<li>Structural Misfit</li><li>Capability Gaps</li><li>Decision Bottlenecks</li><li>Misaligned Metrics or Incentives</li><li>Cultural Resistance</li><li>Technology / Infrastructure Lag</li><li>Leadership Avoidance</li>
+</ul>
+<p>This step establishes the <em>type</em> of friction affecting execution. It is the most important diagnostic step &mdash; an incorrectly classified clog will attract an incorrectly selected lever.</p>
+</div>
+<div class="step-panel">
+<h5>Pinpoint Where in the System the Clog Is Forming</h5>
+<p>Identify the relevant COMPASS zone: <strong>C · O · M · P · A · S1 · S2</strong></p>
+<p>The combination of clog category + COMPASS zone provides diagnostic precision:</p>
+<table class="interp-table">
+<thead><tr><th>Clog Category</th><th>COMPASS Zone</th><th>Diagnosis</th></tr></thead>
+<tbody>
+<tr><td>Capability Gap</td><td>People &amp; Capability</td><td>Skills or capacity issue — build or recruit</td></tr>
+<tr><td>Decision Bottleneck</td><td>Management Discipline</td><td>Governance breakdown — clarify decision rights</td></tr>
+<tr><td>Structural Misfit</td><td>Systems &amp; Execution</td><td>Operating model misalignment — redesign</td></tr>
+<tr><td>Cultural Resistance</td><td>Organisational Alignment</td><td>Behavioural fragmentation — reinforce + rebuild trust</td></tr>
+</tbody>
+</table>
+</div>
+<div class="step-panel">
+<h5>Activate the Appropriate Lever</h5>
+<p>Once the clog and COMPASS zone are identified, select the intervention lever:</p>
+<ul>
+<li><strong>Standardise</strong> &mdash; establish consistent frameworks or processes</li>
+<li><strong>Streamline</strong> &mdash; simplify workflows or decision pathways</li>
+<li><strong>Clarify</strong> &mdash; define roles, ownership, and decision rights</li>
+<li><strong>Upgrade</strong> &mdash; modernise systems, tools, or infrastructure</li>
+<li><strong>Reinforce</strong> &mdash; strengthen capability through coaching or development</li>
+<li><strong>Realign</strong> &mdash; adjust incentives, metrics, or priorities</li>
+<li><strong>Rebuild Trust</strong> &mdash; restore credibility through visible leadership action</li>
+</ul>
+<p>This enables rapid movement from diagnosis to intervention. The lever must be matched to the root cause, not to the symptom.</p>
+</div>
+<div class="step-panel">
+<h5>Prioritise the Intervention</h5>
+<p>Assess the level of execution risk to determine urgency:</p>
+<ul>
+<li><strong>Low</strong> &mdash; early signal present; limited impact on momentum. Monitor and pre-empt.</li>
+<li><strong>Medium</strong> &mdash; clear friction affecting progress; intervention required within 5 working days.</li>
+<li><strong>High</strong> &mdash; significant execution risk; immediate action required; escalate to Alignment Brigade.</li>
+</ul>
+<p>Severity rating allows leadership teams to prioritise interventions across the strategy portfolio. A portfolio view of all active clogs &mdash; their categories, COMPASS zones, and severity ratings &mdash; constitutes the <strong>Enterprise Unclogging Agenda</strong>.</p>
+</div>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Intelligence</button><button class="btn" onclick="showMod(4)">Integration Zone &rarr;</button></div>
+</div></div>
+
+<!-- ═══ TAB 4 — INTEGRATION ZONE ═══ -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>Cross-Leadership Clog Ownership</h2><p>Building the collective discipline of normalising the unclog &mdash; where detecting and clearing execution friction becomes a shared leadership habit rather than a crisis response.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Articulate why individual clog ownership is insufficient and collective leadership stewardship is required</li>
+<li>Establish a &ldquo;see something, say something&rdquo; culture where surfacing friction is an act of leadership, not a critique of colleagues</li>
+<li>Build the 4-question diagnostic rhythm into regular leadership team practice</li>
+<li>Construct the Enterprise Unclogging Agenda as the collective output of the cross-leadership diagnostic conversation</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — Integration Zone</div>
+<p>The central shift in this zone is from <em>my clog</em> to <em>our clog</em>. Most execution blockages surface in one function but originate in another. A technology lag in IT may actually reflect a resource allocation decision in Finance. A cultural resistance in Sales may be the downstream consequence of a leadership avoidance pattern at the top. The Alignment Brigade must own the diagnostic conversation collectively.</p>
+<p>The &ldquo;see something, say something&rdquo; principle is culturally important. In most organisations, surfacing a problem in someone else&rsquo;s domain is politically risky. Reframe this explicitly: detecting friction early is an act of leadership stewardship, not departmental interference.</p>
+<p>Close this zone by having each CXO name one clog they suspect is forming outside their function &mdash; and the COMPASS zone where they believe it is accumulating. This is the seed of the Enterprise Unclogging Agenda.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Normalising the Unclog &mdash; From Crisis to Habit</div><div class="acc-meta">The collective discipline</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>In most organisations, when execution hits a snag, the response is messy. Leaders vent in hallways, complain about &ldquo;poor execution&rdquo; in silos, and fixes are applied inconsistently. It is reactive, exhausting, and typically produces a cycle of constant firefighting rather than genuine improvement.</p>
+<p>The purpose of the Integration Zone is to standardise how the leadership team finds and fixes blockages. By using a shared unclogging process, the entire leadership team operates with a common language and a reliable toolkit. Fixing execution friction becomes a <strong>normal part of how the organisation runs</strong> &mdash; not a panicked response to a crisis.</p>
+<div class="hbox"><p>When &ldquo;unclogging&rdquo; is a standard discipline, flagging a problem is no longer seen as a failure or a critique of a colleague. It is treated as valuable data. Leaders build a culture where detecting friction early is celebrated &mdash; because it is how the organisation learns to adapt.</p></div>
+<p>This gives the Alignment Brigade a clear shared path:</p>
+<ul>
+<li>Is there a clog?</li>
+<li>What category does it fall into?</li>
+<li>Which part of the system is it affecting?</li>
+<li>Which lever do we pull to fix it?</li>
+</ul>
+<p>When leaders standardise how they find and fix blockages, they develop a genuine organisational superpower: <strong>the ability to maintain the flow of strategy</strong>. They stop letting friction build up in the corners of the organisation. The result is a team that does not just talk about strategy &mdash; they execute it with discipline, transparency, and a collective &ldquo;we&rsquo;ve got this&rdquo; attitude.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The &ldquo;See Something, Say Something&rdquo; Principle</div><div class="acc-meta">Shared stewardship of execution</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Even though every KR has a specific leadership owner, blockages rarely stay in one lane. A technical delay in IT might actually be a people problem in Marketing or a process clog in Finance. Because execution is a team sport, the unclogging tool is for everyone.</p>
+<p>If any leader sees friction forming &mdash; even if it is not in their area of execution &mdash; they are encouraged to surface it. This is not about stepping on toes. It is about <strong>shared stewardship</strong>. Surfacing a blockage early is an act of leadership, ensuring that small hitches do not turn into organisation-wide delays.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Exercise</div>
+<p>Ask each CXO to complete the following statement silently, then share in the group:</p>
+<p><em>&ldquo;The clog I suspect is forming outside my function is [clog category] in the [COMPASS zone]. The signal I&rsquo;m observing is [signal]. I&rsquo;m not raising it because [barrier]. I should raise it because [consequence of not raising it].&rdquo;</em></p>
+<p>The barriers that emerge &mdash; political risk, uncertainty, not wanting to appear critical &mdash; are the cultural patterns that must be addressed before the unclogging discipline can become a genuine team habit.</p>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Enterprise Unclogging Agenda &mdash; Collective Capture</div><div class="acc-meta">Build the shared priority list</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Integration Zone closes with each CXO contributing to a shared Enterprise Unclogging Agenda &mdash; the collective view of where clogs are forming, their severity, and the levers required. This replaces the informal &ldquo;hallway complaints&rdquo; with a structured, visible, collectively owned priority list.</p>
+<div class="ref-block"><div class="ref-label">Enterprise Unclogging Agenda &mdash; Session Capture</div><textarea class="ref-ta" style="min-height:100px;" placeholder="KR at Risk | COMPASS Zone | Clog Category | Lever | Severity | Owner&#10;___________&#10;&#10;e.g. Reduce resolution time to 12 hrs | Management Discipline | Decision Bottlenecks | Clarify | High | COO"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note — Integration Zone</div>
+<p>Close by naming the shift that has occurred. The group has moved from reacting to stalled initiatives to actively engineering the flow of execution. The Enterprise Unclogging Agenda is not a complaint list &mdash; it is a leadership instrument. Each item on it represents an opportunity to restore strategic momentum before performance collapse makes the intervention far more costly.</p>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Extrapolating</button><button class="btn" onclick="showMod(5)">Application &rarr;</button></div>
+</div></div>
+
+<!-- ═══ TAB 5 — APPLICATION ═══ -->
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Integration Application &middot; In Practice</div><h2>The Clog Clinic</h2><p>A structured 3-part exercise where participants practise moving from execution symptom to precise diagnosis to targeted intervention &mdash; using a real stalled KPI from their own organisation.</p></div>
+<div class="mod-body">
+
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply the 4-step Unclogging activation to a real stalled KPI from their current portfolio</li>
+<li>Distinguish the symptom from the root cause through the structured Challenger conversation</li>
+<li>Select a precise lever with a specific owner, action, and completion date</li>
+<li>Evaluate diagnostic quality against the four Observer criteria</li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance — The Clog Clinic</div>
+<p><strong>This exercise is non-negotiable and must use real data.</strong> Hypothetical clogs produce hypothetical insights. The Diagnostician must bring an actual stalled KPI &mdash; one that has been visible for more than two review cycles without resolution. The discomfort of working on a real problem in front of colleagues is precisely the point.</p>
+<p><strong>Watch for the symptom-to-lever skip.</strong> The most common failure is jumping from observable symptom directly to lever selection without naming the clog. A lever applied to the wrong clog will not clear it &mdash; and may make the underlying problem worse. If this happens, pause and redirect: <em>&ldquo;Wait. Before we select the lever, have we correctly classified the clog? Let&rsquo;s go back to Q3.&rdquo;</em></p>
+<p><strong>Watch for Cultural Resistance overuse.</strong> It is the most comfortable diagnosis because it externalises the problem. Challenge it: <em>&ldquo;Is this genuinely a culture issue &mdash; or is it a Leadership Avoidance clog that has produced cultural symptoms?&rdquo;</em></p>
+<p><strong>Watch for vague levers.</strong> &ldquo;We&rsquo;ll improve communication&rdquo; is not a lever. A lever is a structural change &mdash; a redesigned decision right, a reset KPI, a rebuilt process, a named accountability. Push until the action is concrete enough to be owned.</p>
+<p><strong>Timing:</strong> 5 minutes silent prep + 30 minutes triads (10 minutes per person) + 10 minutes Alignment Brigade Challenge. Total: 45 minutes. Do not compress the triad rounds.</p>
+</div>
+
+<div class="tool-box">
+  <div class="tool-box-label">&#9670; Strategic Unclogging Tool &mdash; Reference</div>
+  <p>Participants should have the <strong>S2R&reg; Strategic Unclogging Tool</strong> (Excel) open during this exercise. The tool&rsquo;s Diagnostic Form guides them through the same 4-step activation sequence used in this exercise: select COMPASS Zone &rarr; select Signal &rarr; auto-diagnose Clog &rarr; receive Lever recommendation &rarr; rate Severity. The Quick Reference tab provides the full signal library organised by zone.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Clog Clinic &mdash; Exercise Structure</div><div class="acc-meta">3 parts · 45 minutes total</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Part 1 · 5 min</div><div class="step-name">Individual Prep</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Part 2 · 30 min</div><div class="step-name">Diagnostic Triads</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Part 3 · 10 min</div><div class="step-name">Brigade Challenge</div></div>
+</div>
+
+<div class="step-panel active">
+<h5>Silent Individual Preparation</h5>
+<p>Each participant identifies one KPI or Key Result from their current portfolio that is:</p>
+<ul>
+<li>Below target or stalled</li>
+<li>Not yet resolved despite being visible for more than two review cycles</li>
+</ul>
+<p>They complete three lines privately before the triad begins:</p>
+<div class="ref-block" style="margin:12px 0;"><div class="ref-label">Individual Preparation</div><textarea class="ref-ta" style="min-height:80px;" placeholder="My stalled KR/KPI: ___&#10;Current progress vs target: ___&#10;What I observe happening (one sentence): ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div>
+
+<div class="step-panel">
+<h5>The Diagnostic Conversation — 10 Minutes Per Person</h5>
+<p>Participants work in <strong>triads: Diagnostician &middot; Challenger &middot; Observer</strong>. Roles rotate after each round so every participant runs the diagnostic once.</p>
+<div class="role-row">
+  <div class="role-card"><div class="role-card-title">&#128100; Diagnostician</div><p>Presents the stalled KPI. Reasons aloud through the four questions. Must not skip Q3.</p></div>
+  <div class="role-card"><div class="role-card-title">&#128100; Challenger</div><p>Guides through the four questions in sequence. Challenges comfortable answers. Does not give the diagnosis &mdash; draws it out.</p></div>
+  <div class="role-card"><div class="role-card-title">&#128100; Observer</div><p>Listens and evaluates against the four criteria. Provides structured feedback after the round.</p></div>
+</div>
+<p style="margin-top:14px;"><strong>Four Questions — in sequence, without skipping:</strong></p>
+<div class="obs-stack">
+  <div class="obs-item"><div class="obs-label">Q1 &mdash; Where is the friction?</div><p>&ldquo;Which COMPASS zone best describes where the pain is showing up &mdash; C, O, M, P, A, S1, or S2?&rdquo;</p></div>
+  <div class="obs-item"><div class="obs-label">Q2 &mdash; What is the signal?</div><p>&ldquo;Of the signals in that zone &mdash; which one most precisely describes what you are observing?&rdquo;</p></div>
+  <div class="obs-item"><div class="obs-label">Q3 &mdash; What is the clog?</div><p>&ldquo;Based on that signal &mdash; what type of blockage is at the root? Structure, capability, decision, metrics, culture, technology, or leadership?&rdquo; The Challenger challenges: <em>&ldquo;Are you sure that&rsquo;s the root &mdash; or is that the symptom of something deeper?&rdquo;</em></p></div>
+  <div class="obs-item"><div class="obs-label">Q4 &mdash; What lever would you pull?</div><p>&ldquo;Given that diagnosis &mdash; what is the first action you would take? Not a general direction. A specific action, with an owner and a date.&rdquo;</p></div>
+</div>
+</div>
+
+<div class="step-panel">
+<h5>The Alignment Brigade Challenge — Full Group</h5>
+<p>Each triad nominates one diagnosis to bring to the full group &mdash; ideally the one they found most difficult to crack. The nominated Diagnostician presents in 90 seconds:</p>
+<div class="hbox" style="margin:12px 0;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;">&ldquo;Our KR was [X]. The friction zone was [Y]. The signal was [Z]. We diagnosed [clog]. Our proposed lever is [action] &mdash; owned by [person] &mdash; by [date].&rdquo;</p></div>
+<p>The full group then challenges for three minutes:</p>
+<ul>
+<li>Is the COMPASS zone correctly identified?</li>
+<li>Is the clog category the root cause or just a surface symptom?</li>
+<li>Is the lever precise enough &mdash; or is it still general pressure?</li>
+</ul>
+<p>The facilitator closes each challenge with:</p>
+<div class="hbox" style="margin:12px 0;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;">&ldquo;What would have to be true for that lever to actually clear the clog?&rdquo;</p></div>
+</div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Observer Evaluation Criteria</div><div class="acc-meta">4 criteria for diagnostic quality</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="obs-stack">
+  <div class="obs-item"><div class="obs-label">Criterion 01 &mdash; The Diagnostician Reasoned Through It</div><p>Did the Diagnostician go straight to the comfortable answer &mdash; or genuinely reason through the diagnostic sequence? A good diagnostic conversation shows visible thinking, not pattern-matching to the most familiar clog.</p></div>
+  <div class="obs-item"><div class="obs-label">Criterion 02 &mdash; The Clog Was Distinguished from the Symptom</div><p>Was the clog correctly separated from what was initially observed? The symptom is what leadership sees first (e.g. slow delivery). The clog is the root cause (e.g. decision bottleneck). These must remain distinct.</p></div>
+  <div class="obs-item"><div class="obs-label">Criterion 03 &mdash; The Challenger Used Curiosity, Not Pressure</div><p>Did the Challenger draw out the diagnosis through questions &mdash; or push the Diagnostician toward a conclusion? A good challenger maintains diagnostic curiosity throughout and challenges without prescribing.</p></div>
+  <div class="obs-item"><div class="obs-label">Criterion 04 &mdash; The Intervention Was Concrete</div><p>Did the conversation end with a specific, time-bound action that both parties understood and accepted? &ldquo;We&rsquo;ll improve communication&rdquo; is not a lever. A lever is a structural change with a named owner and a date.</p></div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Exercise Output &mdash; Participant Commitments</div><div class="acc-meta">Capture before leaving</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each participant leaves with three things written down before the session closes.</p>
+<div class="ref-block"><div class="ref-label">1. The Clog I Diagnosed</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Clog category: ___&#10;COMPASS zone: ___&#10;Signal that revealed it: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">2. The Lever I Will Pull</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Lever selected: ___&#10;Specific action: ___&#10;Owner: ___ | Completion date: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">3. Follow-Up Review Date</div><textarea class="ref-ta" style="min-height:50px;" placeholder="I will assess whether the clog has cleared on: ___&#10;Evidence I will look for: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; Strategic Unclogging</div><div class="acc-meta">Lens 8 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">A Strategic Clog is an internal blockage that prevents strategic intent from flowing into execution. The 7-clog diagnostic map &mdash; aligned to ABCV Directional Integrity &mdash; gives leaders the vocabulary to name the type of friction rather than reacting to the symptom.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Clogs are not failures &mdash; they are design signals. Where strategy stretches the operating system beyond its current capacity, friction will appear predictably. The three disciplines of execution engineering (identify, classify, intervene) and the 7 levers restore flow without reactive pressure.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">COMPASS provides the coordinate system for locating clogs within the enterprise execution architecture. The combination of clog category + COMPASS zone delivers the precision needed to select the correct lever. The 4-step activation translates diagnosis into structured intervention.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Clogs rarely stay in one lane. The Alignment Brigade must own the diagnostic conversation collectively, building a &ldquo;see something, say something&rdquo; culture where surfacing friction early is an act of leadership &mdash; and the Enterprise Unclogging Agenda becomes the shared instrument of execution restoration.</p></div>
+</div>
+<div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;When unclogging becomes a habit, everything changes. Friction is no longer a crisis &mdash; it is a signal telling you how the organisation needs to evolve next. You stop just managing a plan and start engineering flow.&rdquo;</em></p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note</div>
+<p>Close by asking each leader to name one clog that has been present in their organisation for more than six months &mdash; visible, discussed, but not yet cleared. Ask them: <em>&ldquo;What has it actually cost the organisation in strategic momentum? And what is the real reason it hasn&rsquo;t been cleared yet?&rdquo;</em> The answers to the second question are almost always the true clogs beneath the clogs. <strong>That conversation is the beginning of genuine execution engineering.</strong></p>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">&larr; Integration Zone</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleClog(c){c.classList.toggle('open');}
+function toggleLever(c){c.classList.toggle('open');}
+function toggleCP(c){c.classList.toggle('open');}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+</script>
+</body>
+</html>
