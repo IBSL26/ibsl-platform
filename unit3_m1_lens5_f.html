@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 3 - Module 1 - Lens 5 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;font-style:italic;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 10px;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+/* Principle Cards */
+.principle-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.p-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;transition:border-color .2s;cursor:pointer;}
+.p-card:hover{border-color:rgba(201,168,76,.25);}
+.p-card.open{border-color:rgba(201,168,76,.3);}
+.p-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#151c15;}
+.p-meta{display:flex;flex-direction:column;}
+.p-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.p-name{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:#fff;}
+.p-arr{font-size:10px;color:rgba(255,255,255,.25);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.p-card.open .p-arr{transform:rotate(180deg);color:var(--gold);}
+.p-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.p-card.open .p-body{display:block;}
+.p-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;}
+.p-body strong{color:rgba(255,255,255,.9);}
+.p-insight{font-size:12px;font-style:italic;color:rgba(255,255,255,.5);border-left:2px solid rgba(201,168,76,.3);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(201,168,76,.04);border-radius:0 3px 3px 0;}
+/* SCARF */
+.scarf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.sc-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.sc-card:hover{transform:translateY(-2px);}
+.sc-card.open{border-color:rgba(201,168,76,.3);}
+.sc-head{padding:14px 12px 10px;background:#151c15;}
+.sc-trigger{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.sc-q{font-size:10px;color:rgba(255,255,255,.4);line-height:1.45;font-style:italic;}
+.sc-bar{height:3px;}
+.sc-body{display:none;padding:14px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.sc-card.open .sc-body{display:block;}
+.sc-row{margin-bottom:9px;}
+.sc-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.sc-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.sc-impact{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.6;color:rgba(255,200,100,.8);}
+.sc-fac{font-size:11px;margin-top:6px;padding:7px 11px;background:rgba(52,152,219,.05);border-radius:2px;border-left:2px solid rgba(52,152,219,.25);line-height:1.6;color:rgba(100,180,240,.75);font-style:italic;}
+/* ACE-IT */
+.aceit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.ai-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.ai-card:hover{border-color:rgba(201,168,76,.25);}
+.ai-card.open{border-color:rgba(201,168,76,.3);}
+.ai-head{padding:14px 12px 10px;background:#151c15;display:flex;align-items:flex-start;justify-content:space-between;}
+.ai-letter{font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:300;line-height:1;margin-bottom:4px;}
+.ai-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.ai-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;}
+.ai-card.open .ai-arr{transform:rotate(180deg);color:var(--gold);}
+.ai-bar{height:3px;background:rgba(201,168,76,.2);}
+.ai-card.open .ai-bar{background:var(--gold);}
+.ai-body{display:none;padding:13px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.ai-card.open .ai-body{display:block;}
+.ai-row{margin-bottom:9px;}
+.ai-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.ai-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.ai-ev{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(39,174,96,.06);border-radius:2px;border-left:2px solid rgba(39,174,96,.3);line-height:1.6;color:rgba(100,210,160,.8);}
+/* COMPASS */
+.compass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0;}
+.cm-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cm-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.cm-card.active{border-color:var(--gold);background:#1a2a1e;}
+.cm-top{padding:14px 12px 10px;}
+.cm-letter{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:var(--gold);margin-bottom:4px;line-height:1;}
+.cm-name{font-size:9px;color:rgba(255,255,255,.38);line-height:1.4;}
+.cm-bar{height:3px;background:rgba(201,168,76,.18);}
+.cm-card.active .cm-bar{background:var(--gold);}
+.cm-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.cm-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.cm-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.cm-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.78;margin-bottom:10px;}
+.cm-signal{font-size:12px;margin-top:8px;padding:9px 13px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.65;color:rgba(255,200,100,.82);}
+.cm-action{font-size:12px;margin-top:7px;padding:9px 13px;background:rgba(52,152,219,.05);border-radius:2px;border-left:2px solid rgba(52,152,219,.28);line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;}
+/* Role Grid */
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.rl-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.rl-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.rl-card.active{border-color:var(--gold);background:#1a2a1e;}
+.rl-top{padding:14px 12px 10px;}
+.rl-abbr{font-size:16px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.rl-title{font-size:9px;color:rgba(255,255,255,.35);line-height:1.4;}
+.rl-bar{height:3px;background:rgba(201,168,76,.18);}
+.rl-card.active .rl-bar{background:var(--gold);}
+.rl-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.rl-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.rl-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.rl-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.rl-domains{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.d-tag{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.22);color:var(--gold);}
+/* Step Tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel strong{color:rgba(255,255,255,.9);}
+/* Working Paper */
+.wp-ta{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.08);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.82);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:64px;outline:none;transition:border-color .2s;margin-top:5px;}
+.wp-ta:focus{border-color:rgba(201,168,76,.3);}
+.wp-ta::placeholder{color:rgba(255,255,255,.16);}
+.wp-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:10px;display:block;margin-bottom:4px;}
+.wp-save{padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:14px;}
+.wp-save:hover{background:rgba(201,168,76,.18);}
+.wp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;}
+.wp-cell{background:#151c15;border-radius:3px;padding:12px;}
+.wp-cell label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:6px;}
+/* Nav */
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;font-family:"Montserrat",sans-serif;}
+.btn:hover{background:rgba(201,168,76,.18);}
+.btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
+.btn.prev:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
+.gate-box{background:#0d1f15;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:40px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;}
+.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.gate-btn:hover{background:rgba(201,168,76,.2);}
+.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
+/* 3-col card grid for small content blocks */
+.tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.tri-card{background:#151c15;border-radius:3px;padding:14px 16px;}
+@media(max-width:900px){.scarf-grid,.aceit-grid{grid-template-columns:repeat(3,1fr);}.compass-grid{grid-template-columns:repeat(3,1fr);}.role-grid{grid-template-columns:repeat(3,1fr);}.cm-detail.visible,.rl-detail.visible{grid-template-columns:1fr;}.wp-row,.tri-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 5</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 5</div>
+    <h1 class="unit-title">Performance Management Setup</h1>
+    <div class="unit-sub">Building the Architecture of Execution Accountability</div>
+    <p class="unit-desc">A performance management system is not a measurement exercise &mdash; it is an execution architecture. This lens equips leaders to design systems that translate strategy into individual accountability, calibrate progress rhythms, and sustain collective ownership across the enterprise.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Integration Application<span>In Practice</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Guide<br><small style="font-size:8px;opacity:.5;">Facilitator</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)">Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Lens 5 &mdash; Session Overview</h2><p>Use this tab to orient yourself before each section. It contains purpose, timing, tone, and key facilitation questions for the full lens.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lens Intent</div>
+<p>Lens 5 bridges strategy and execution accountability. Many organisations have measurement systems but lack management systems. Participants should leave understanding the distinction &mdash; and knowing how to build the management side. The emphasis is on <em>design thinking</em>: how to construct a system that drives behaviour, not just tracks it. This is one of the more technical lenses in S2R&reg; &mdash; keep the energy applied.</p></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;In your organisation, are you measuring what happened &mdash; or managing what will happen next?&rdquo;</em></li>
+<li><em>&ldquo;If your team stopped producing reports tomorrow, what decisions would you lose the ability to make?&rdquo;</em></li>
+<li><em>&ldquo;Is your current PM system designed to generate compliance &mdash; or to build commitment?&rdquo;</em></li>
+<li><em>&ldquo;Where in your organisation does measurement transparency break down? Who does not see their numbers?&rdquo;</em></li>
+<li><em>&ldquo;When you review performance, are you looking at activity or at cumulative progress toward target?&rdquo;</em></li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Avoid:</strong> turning the FACES or EXECUTION frameworks into a compliance checklist. They are diagnostic and design tools, not audit instruments.</p>
+<p><strong>Watch for:</strong> leaders who equate &ldquo;we have a scorecard&rdquo; with &ldquo;we have a PM system.&rdquo; Probe: <em>&ldquo;What happens after you look at the scorecard? What changes? Who decides what?&rdquo;</em></p>
+<p><strong>The Solid Gold reframe</strong> (Rating 3 = Solid Gold) is intentional and often powerful. Bring it to life with an example of a consistent contributor overlooked because they never dramatically exceed &mdash; they reliably deliver.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Awareness &mdash; What &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>Foundations of Performance Management</h2><p>Establishing the conceptual ground: what performance management actually is, how it differs from measurement, and the functional architecture that makes it work.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Distinguish between performance measurement (what happened) and performance management (what we do about it)</li>
+<li>Apply the correct sequence: define success first, then design the management system, then design the measurement infrastructure</li>
+<li>Describe each of the five FACES functions and their role in a complete PM system</li>
+<li>Identify the Three Sights of Progress and explain how they operate at individual and organisational levels</li>
+<li>Apply the 1&ndash;5 Rating Scale and articulate the appropriate leadership response for each rating</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Measurement vs Management</div><div class="acc-meta">The core distinction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Performance management is not performance measurement. This distinction is the single most important conceptual anchor in Lens 5 &mdash; and the one most organisations get wrong.</p>
+<div class="hbox"><p><strong>Measurement</strong> answers: <em>What happened?</em> It is an input &mdash; data, results, scores, dashboards.<br><strong>Management</strong> answers: <em>What do we do about it?</em> It is the leadership response that turns data into decisions, actions, and accountability.</p></div>
+<p>Most organisations have built sophisticated measurement systems and mistakenly believe they have performance management systems. A measurement system without a management architecture produces reports. A management system converts those reports into movement.</p>
+<h4>The Correct Sequence</h4>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Step 1</div><div class="p-name">Define Success</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Before any system is designed, leadership must be explicit about what success looks like. <strong>What are we trying to achieve? By when? At what level of quality or scale?</strong> Without this, measurement has no target and management has no compass.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Step 2</div><div class="p-name">Design the Management System</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Design the system for managing toward success. <strong>What conversations will we have? How often? Who is accountable? What decisions will be made, and by whom?</strong> The management architecture must exist before measurement is collected &mdash; otherwise data accumulates with no system to act on it.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Step 3</div><div class="p-name">Design the Measurement Infrastructure</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Design the measurement tools that will feed the management system. <strong>What data do we need? How frequently? In what format?</strong> Measurement should serve the management conversations already defined, not generate reports that then search for a purpose.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Step 4</div><div class="p-name">Manage Using Data</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Execute the management system using measurement data as the evidence base for conversations, interventions, recognition, and course correction. <strong>This is where most organisations start &mdash; collecting data before having a system to use it.</strong></p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Ask: <em>&ldquo;In your organisation, which comes first &mdash; the data collection system or the definition of success? How many reports exist that nobody acts on?&rdquo;</em> Most will recognise that measurement infrastructure was built first and management systems are retrofitted &mdash; or entirely absent.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The FACES Framework</div><div class="acc-meta">Five functions of PM</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A complete performance management system serves five interconnected functions. These are simultaneous functions that every well-designed PM system must perform.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e8c96a;">F</div><div class="p-name">Foster a Results Culture</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The PM system must reinforce a culture in which results matter, are visible, and are celebrated or addressed consistently. <strong>Culture is shaped by what gets measured, what gets discussed, and what gets rewarded.</strong> A PM system that avoids difficult conversations actively undermines results culture &mdash; no matter how sophisticated the dashboard.</p><div class="p-insight">Facilitation cue: &ldquo;What does your PM system reward? Does it reward activity or results? Compliance or commitment?&rdquo;</div></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e8c96a;">A</div><div class="p-name">Align Individual Performance</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Every individual must see a clear line of sight between their daily work and the organisation&rsquo;s strategic outcomes. <strong>Without this alignment, effort is not wasted &mdash; it is misdirected.</strong> The PM system must decompose strategic outcomes into team and individual targets that are genuinely connected, not merely labelled as strategic.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e8c96a;">C</div><div class="p-name">Create Measurement Transparency</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>People perform at a higher level when they can see their own performance data and understand how it is calculated. <strong>Transparency is not just about sharing data &mdash; it is about ensuring that the logic of measurement is understood and trusted.</strong> Hidden formulas and opaque scoring destroy confidence in the PM system.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e8c96a;">E</div><div class="p-name">Embed Shared Accountability</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The PM system must embed accountability as a shared expectation, not a top-down imposition. <strong>Shared accountability means teams co-own the results &mdash; they participate in setting targets, understand the evidence, and are part of the intervention process.</strong> Systems that locate accountability solely in the leader create dependency and fragility.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#e8c96a;">S</div><div class="p-name">Support Continuous Development</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The PM system must identify what performance reveals about capability gaps, development needs, and growth trajectories. <strong>Performance data is a development signal, not just an accountability score.</strong> Leaders who use PM data only for ratings miss its most powerful application: designing targeted development that improves future performance.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Ask participants to rate their current PM system against each FACES dimension (1&ndash;5). <strong>Typical gap:</strong> most organisations score highest on &ldquo;Create Measurement Transparency&rdquo; (they have dashboards) and lowest on &ldquo;Embed Shared Accountability&rdquo; (accountability lives with the leader, not the team).</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Three Sights of Progress</div><div class="acc-meta">What gets measured</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A well-designed PM system tracks performance across three distinct categories. Each sight provides a different angle on whether the organisation is progressing toward its strategic intent. At the individual level, weightings are assigned according to role and function.</p>
+<div class="scarf-grid" style="grid-template-columns:repeat(3,1fr);">
+<div class="sc-card open" onclick="showSight3(this,0)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:#8ab0e8;">Sight 1</div><div class="sc-q">Strategy Category</div></div><div class="sc-bar" style="background:#8ab0e8;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">What it measures</div><div class="sc-rt">Strategic OKRs directly connected to the organisation&rsquo;s multi-year strategy. This sight asks: <em>Are we making progress on the things that matter most for where we are going?</em></div></div><div class="sc-row"><div class="sc-rl">Individual weighting</div><div class="sc-rt">Typically 30&ndash;50% at senior levels; lower for frontline roles. Reviewed quarterly with executive visibility.</div></div></div></div>
+<div class="sc-card" onclick="showSight3(this,1)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:var(--gold);">Sight 2</div><div class="sc-q">Operational Category</div></div><div class="sc-bar" style="background:var(--gold);"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">What it measures</div><div class="sc-rt">Departmental KPIs tracking the operational engine &mdash; efficiency, output, quality, and service delivery. This sight asks: <em>Are our operations performing at the standard required to sustain strategy?</em></div></div><div class="sc-row"><div class="sc-rl">Individual weighting</div><div class="sc-rt">Typically 30&ndash;50% across most role levels; highest for frontline and specialist roles. Reviewed monthly or fortnightly.</div></div></div></div>
+<div class="sc-card" onclick="showSight3(this,2)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:#5ecba1;">Sight 3</div><div class="sc-q">Behavioural &amp; Values Alignment</div></div><div class="sc-bar" style="background:#5ecba1;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">What it measures</div><div class="sc-rt">How individuals demonstrate the organisation&rsquo;s values and leadership behaviours &mdash; assessed through 360&deg; feedback and peer observation. <em>How</em> results are achieved matters as much as <em>what</em> results are achieved.</div></div><div class="sc-row"><div class="sc-rl">Individual weighting</div><div class="sc-rt">Typically 20&ndash;40% across role levels; higher for leadership and customer-facing roles. Assessed bi-annually or annually via structured 360&deg;.</div></div></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>A common gap: organisations measure Sight 1 and Sight 2 rigorously but treat Sight 3 as a subjective add-on. Surface this: <em>&ldquo;In your current system, what weight does behavioural alignment carry in the final performance rating? Is it measured formally or informally?&rdquo;</em></p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The 1&ndash;5 Rating Scale</div><div class="acc-meta">Ratings &amp; leadership responses</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A rating scale only has value if it is consistently understood and each rating triggers a defined leadership response.</p>
+<div class="principle-stack">
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f08080;">Rating 1 &mdash; Poor</div><div class="p-name">Leadership response: Immediate PIP within 30 days</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Definition:</strong> Performance is significantly below the minimum standard. Output is insufficient, quality is unacceptable, or behaviour is actively damaging.</p><p><strong>Leadership response:</strong> Immediate intervention. A formal performance improvement plan within 30 days. Weekly check-ins. Assess whether the gap is capability, motivation, or role-fit. A Rating 1 sustained beyond 60 days without visible movement is a role-fit decision.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f0a070;">Rating 2 &mdash; Needs Improvement</div><div class="p-name">Leadership response: Structured development plan</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Definition:</strong> Performance is below the expected standard in one or more significant areas. The individual shows some capability but has consistent gaps in output, quality, or behaviour.</p><p><strong>Leadership response:</strong> Structured development plan with specific targets and milestones. Fortnightly check-ins. Clear articulation of the standard required to achieve a Rating 3 by the next review cycle.</p></div></div>
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Rating 3 &mdash; Meets Expectations &nbsp;<span style="font-size:9px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);padding:3px 8px;border-radius:2px;">SOLID GOLD</span></div><div class="p-name">Leadership response: Recognition &amp; retention conversation</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Definition:</strong> Performance fully meets the standard expected for this role, at this level, in this context. Output is consistent, quality is reliable, behaviour is aligned. <em>This is not &ldquo;average.&rdquo; This is exactly what the role requires.</em></p><p><strong>The Solid Gold Reframe:</strong> Most PM systems implicitly treat a Rating 3 as mediocre &mdash; a design flaw that erodes morale and incentivises performative overreach. A Rating 3 is &ldquo;Solid Gold&rdquo;: a person who reliably delivers and represents the backbone of execution in any high-performing organisation.</p><p><strong>Leadership response:</strong> Recognition of consistent contribution. Exploration of growth aspirations &mdash; without implying that remaining at a 3 is a failure. Many exceptional contributors are sustainably and appropriately at a 3.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Rating 4 &mdash; Exceeds Expectations</div><div class="p-name">Leadership response: Stretch opportunities; retention investment</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Definition:</strong> Performance consistently goes beyond what the role requires. The individual proactively adds value, solves problems beyond their mandate, and elevates the team. A Rating 4 is a pattern, not an accident.</p><p><strong>Leadership response:</strong> Explicit recognition and visibility with senior leadership. Conversation about stretch opportunities, expanded scope, or accelerated development. Failure to invest in a sustained Rating 4 is a retention risk.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Rating 5 &mdash; Outstanding</div><div class="p-name">Leadership response: Mandatory structural follow-through</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Definition:</strong> Performance is transformational within the context of the role. The individual not only exceeds their own targets but demonstrably elevates others and advances the organisation. A Rating 5 is rare and must be ratified, not self-assigned.</p><p><strong>Leadership response:</strong> A Rating 5 carries a leadership obligation &mdash; increased scope, a promotion discussion, a compensation review, or a high-impact project assignment. A Rating 5 acknowledged verbally with no structural follow-through is a trust-destroying event. The individual will note that outstanding performance produced no change &mdash; and will adjust their effort accordingly.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>The <strong>Solid Gold reframe</strong> generates significant discussion. Invite reflection: <em>&ldquo;What message has your body language, tone, or incentive system sent to people rated 3?&rdquo;</em> Also surface the Rating 5 accountability point: <em>&ldquo;In the last three years, how many people received a Rating 5? What happened to them afterwards?&rdquo;</em></p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">&larr; Facilitator Guide</button><button class="btn" onclick="showMod(2)">Intelligence &mdash; Why &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>PM as an Execution Bridge</h2><p>Understanding the structural logic of how performance management connects strategy to individual action, and why most PM systems fail to make that connection.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain the four functions of PM as an execution bridge</li>
+<li>Distinguish between compliance-driven and commitment-driven PM architectures across six dimensions</li>
+<li>Apply the two-step Rules of the Game framework to prepare and execute a performance cascade</li>
+<li>Articulate the difference between how leaders and teams are measured, and why it matters</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">PM as the Execution Bridge</div><div class="acc-meta">Four bridge functions</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A performance management system performs four critical bridging functions between strategy and execution. When any one is missing, the bridge develops a structural gap &mdash; and strategy leaks through it.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Bridge 1</div><div class="p-name">Decomposing the Big Picture</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Strategy lives at the enterprise level. PM translates it into progressively smaller, actionable units: enterprise outcomes &rarr; business unit contributions &rarr; team targets &rarr; individual responsibilities. <strong>Without decomposition, strategy remains a declaration and never becomes a task.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Bridge 2</div><div class="p-name">Defining the Logic of Success</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The PM system must make explicit what &ldquo;success&rdquo; looks like at each level &mdash; as a measurable, observable outcome with defined evidence. <strong>When the logic of success is ambiguous, individuals define it for themselves &mdash; and those self-definitions are rarely aligned.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Bridge 3</div><div class="p-name">Calibrating the Rhythm</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Strategy operates on an annual or multi-year timeline. Individual performance operates daily. The PM system must establish a structured rhythm connecting these timelines. <strong>Without rhythm, PM becomes an event rather than a system.</strong></p><div class="hbox" style="margin-top:10px;"><p><strong>Progress per Period = (End Target &minus; Baseline) &divide; Number of Periods</strong><br>This establishes the expected incremental progress in each review period, creating a visible trajectory rather than a binary pass/fail at year-end.</p></div></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Bridge 4</div><div class="p-name">Structuring the Dialogue</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Data without conversation is noise. The PM system must structure the dialogue that turns performance data into decisions. <strong>Define: who speaks, how frequently, about what, and with what authority to decide.</strong> The quality of the PM conversation is the quality of the PM system.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Ask participants to identify which bridge function is most underdeveloped. <em>&ldquo;Where does your strategy most commonly leak? At decomposition, at defining success, at the rhythm, or at the quality of the conversation?&rdquo;</em></p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Compliance vs Commitment Architecture</div><div class="acc-meta">The design choice</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Every PM system is built on one of two architectural orientations: compliance or commitment. The choice is rarely made explicitly &mdash; but it is always made. The six dimensions below reveal which architecture is currently operating.</p>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
+<thead><tr>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);">Dimension</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#f08080;">&#9651; Compliance</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#5ecba1;">&#9651; Commitment</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Purpose</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Ensure minimum standards are met and deviations corrected</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Generate shared ownership of results and continuous improvement</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Ownership</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Leader holds accountability; team is subject to it</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Team co-owns accountability; leader facilitates</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Tone</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Assessment and judgement; hierarchical</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Inquiry and problem-solving; collaborative</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Underperformance</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Consequence and control</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Understanding root cause; co-designing recovery</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Motivation</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Avoiding negative consequence</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Intrinsic meaning; shared pride in progress</td></tr>
+<tr><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">PM experience</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Anxiety-producing; done to the individual</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Energy-generating; done with the individual</td></tr>
+</tbody></table>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Most organisations have compliance systems that use commitment language. The test: <em>&ldquo;When performance data shows underperformance, what is the first instinct of the leader &mdash; to fix the person, or to understand the system?&rdquo;</em> Invite leaders to identify the one structural change that would shift their system most decisively toward commitment.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Rules of the Game</div><div class="acc-meta">Two steps of the cascade</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Before performance can be managed, the rules must be established and understood by everyone expected to play. Two steps structure this process.</p>
+<div class="aceit-grid" style="grid-template-columns:1fr 1fr;gap:12px;">
+<div class="ai-card open" style="cursor:default;"><div class="ai-head" style="padding:14px 16px;background:#151c15;"><div class="sc-trigger" style="color:var(--gold);">Step 1: Prepare the Foundation</div></div><div class="sc-body" style="padding:16px;"><ul style="padding-left:18px;">
+<li style="margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Rating Scale:</strong> Agree the 1&ndash;5 scale, definitions of each level, and evidence required to differentiate between them. Ambiguity here creates inconsistency and destroys trust.</li>
+<li style="margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Performance Thresholds:</strong> Define the minimum acceptable standard for each role. What constitutes a sustained Rating 2 requiring intervention?</li>
+<li style="margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Evidence Standards:</strong> Determine what counts as evidence of performance &mdash; output volume, quality metrics, peer feedback, customer satisfaction. Must be explicit, not assumed.</li>
+<li style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Review Routine:</strong> Establish the cadence: how frequently performance is reviewed, in what format, with what participants. A routine that is skipped destroys PM system credibility.</li>
+</ul></div></div>
+<div class="ai-card open" style="cursor:default;"><div class="ai-head" style="padding:14px 16px;background:#151c15;"><div class="sc-trigger" style="color:#5ecba1;">Step 2: The Cascade</div></div><div class="sc-body" style="padding:16px;"><ul style="padding-left:18px;">
+<li style="margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Verify the Data:</strong> Before any cascade conversation, confirm that data is accurate, current, and consistently interpreted. A cascade built on flawed data produces misaligned targets and erodes trust in the entire PM system.</li>
+<li style="margin-bottom:10px;font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Assign Ownership:</strong> Every metric must have a single named owner &mdash; not a team, not a function. Collective ownership without individual ownership is shared irresponsibility.</li>
+<li style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;"><strong style="color:#fff;">Focus on Learning:</strong> The cascade conversation is not just target-setting. <em>What does this target reveal about capability requirements? What barriers must be removed?</em> Leaders who conduct the cascade purely as a negotiation miss its most important function.</li>
+</ul></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>The most common failure in Step 1 is the evidence standard. Ask: <em>&ldquo;If two managers each gave someone a Rating 4, would they be using the same evidence?&rdquo;</em> Step 2 often breaks down at &ldquo;Assign Ownership&rdquo; &mdash; most cascade conversations end with team-level accountability that no single person is actually responsible for.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Leader vs Team: A Critical Distinction</div><div class="acc-meta">Who is measured on what</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>One of the most frequently misunderstood aspects of performance management is the distinction between how a team is measured and how its leader is measured. Conflating the two creates misaligned incentives and obscures accountability.</p>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
+<thead><tr>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);">Dimension</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#8ab0e8;">The Team Is Measured On</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:var(--gold);">The Leader Is Measured On</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;text-transform:uppercase;">Focus</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Activities, outputs, and behaviours within the review period</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Cumulative outcome trajectory across the full performance cycle</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;text-transform:uppercase;">Time horizon</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Current period: what was done, how it was done</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">End-of-cycle: are we on track to reach the target by year-end?</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;text-transform:uppercase;">Evidence</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Deliverable completion, quality scores, behavioural indicators</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Cumulative progress calculation; gap to target; trend direction</td></tr>
+<tr><td style="padding:10px 14px;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;text-transform:uppercase;">Review frequency</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Monthly / quarterly</td><td style="padding:10px 14px;color:rgba(255,255,255,.72);">Quarterly / bi-annually</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>The practical implication:</strong> A team can complete every planned activity on time (strong team performance) while the leader&rsquo;s cumulative outcome trajectory is still off track (weak leadership performance). The leader is accountable not just for managing tasks &mdash; but for ensuring tasks are producing the outcomes the strategy requires.</p></div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>This is a powerful reframe for leaders who conflate team busyness with strategic progress. <em>&ldquo;Is your current PM review looking at your team&rsquo;s activities &mdash; or at your cumulative outcome trajectory? When last did you review whether your team&rsquo;s activities are actually producing the outcomes the strategy requires?&rdquo;</em></p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">&larr; Awareness</button><button class="btn" onclick="showMod(3)">Extrapolating &mdash; Where &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>PM in the Executive Context</h2><p>Extending PM architecture to the enterprise level: how executive teams align their measurement signals, where execution gaps emerge, and how industry context is shifting.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Describe the Alignment Brigade concept and the executive team as a measurement alignment system</li>
+<li>Identify the CXO Hot Zone for each executive function and its primary PM contribution</li>
+<li>Diagnose the Three Execution Gaps and propose interventions for each</li>
+<li>Contextualise the PM design challenge against the industry shift toward continuous PM</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Alignment Brigade</div><div class="acc-meta">Executive team as PM system</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At the enterprise level, the performance management system does not sit in a software platform or a policy document. It sits in the executive team. The C-suite is, collectively, the organisation&rsquo;s measurement alignment system. When the executive team is not aligned on what they are measuring, why, and what they are doing about it, the enterprise PM system is structurally broken regardless of the tools in place.</p>
+<div class="hbox"><p>The <strong>Alignment Brigade</strong> concept recognises that each executive function carries a unique measurement responsibility &mdash; a &ldquo;hot zone&rdquo; of the enterprise that they are best positioned to track, interpret, and act upon. When these hot zones are integrated through a shared cadence and common language, the executive team becomes a precision measurement system. When they operate independently, they produce competing narratives of organisational performance.</p></div>
+<p>The critical question for any executive team: <em>&ldquo;When we look at the same performance data, do we interpret it through the same lens &mdash; or through the lens of our function? And when the data tells us to act, do we act as a system or as a collection of functions?&rdquo;</em></p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Ask the executive team to independently write down the top three enterprise performance priorities right now &mdash; then compare answers. The degree of divergence is a direct measure of Alignment Brigade dysfunction. <em>&ldquo;If your executive team cannot agree on the top three, how does the organisation below you know where to focus?&rdquo;</em></p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Hot Zones</div><div class="acc-meta">10 executive PM contributions</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each executive function owns a distinct hot zone in the enterprise PM architecture. Click a role to explore its measurement responsibility and contribution to the collective progress signal.</p>
+<div class="compass-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;">
+<div class="comp-card" onclick="showCXO(this,'cxo0')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:4px;">CEO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Enterprise Visibility</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo1')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">CFO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Financial Signals</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo2')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:4px;">COO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Execution Rhythm</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo3')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:4px;">CHRO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Capability &amp; Behaviour</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo4')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0a070;margin-bottom:4px;">CTO/CIO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">System Enablement</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo5')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:4px;">CMO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Market Signal</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo6')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">CCO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Revenue Velocity</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo7')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:4px;">CPO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Supply Reliability</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo8')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:4px;">CRO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Risk &amp; Governance</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+<div class="comp-card" onclick="showCXO(this,'cxo9')" style="background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;padding:14px 12px 10px;transition:all .2s;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0a070;margin-bottom:4px;">CSO</div><div style="font-size:11px;color:rgba(255,255,255,.55);">Strategic Coherence</div><div style="height:3px;background:rgba(255,255,255,.08);margin-top:10px;border-radius:2px;transition:background .2s;" class="cxo-bar"></div></div>
+</div>
+<div id="cxo0" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CEO &mdash; Enterprise Visibility:</strong> The CEO holds the integrated view of whether the organisation as a whole is on trajectory. The CEO&rsquo;s PM role is to ensure the executive team is interpreting performance coherently and that the collective response is coordinated. The CEO is the only function with authority to enforce measurement alignment across all hot zones. When CEO PM visibility is absent, each function optimises its own metric at the expense of enterprise coherence.</p></div>
+<div id="cxo1" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CFO &mdash; Financial Signals:</strong> The CFO interprets the financial performance signal: revenue, cost, margin, liquidity, and capital efficiency. In the PM context, the CFO translates financial data into strategic resource allocation signals &mdash; identifying where investment is producing returns and where it is absorbed without output. When CFO PM insight is isolated, financial data becomes a constraint rather than a strategic navigation tool.</p></div>
+<div id="cxo2" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">COO &mdash; Execution Rhythm:</strong> The COO tracks the execution engine: throughput, cycle times, operational quality, and delivery consistency. The COO ensures operational performance rhythm is matched to strategic demand &mdash; the engine is not just running, but running in the right direction at the right speed. When COO PM is activity-focused rather than outcome-focused, the organisation confuses motion with progress.</p></div>
+<div id="cxo3" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CHRO &mdash; Capability &amp; Behaviour:</strong> The CHRO tracks the capability and behaviour signal: talent pipeline health, performance distribution, leadership effectiveness, and cultural alignment. The CHRO ensures the organisation has the human capability to execute the strategy &mdash; and that behaviour is aligned to values, not just outcomes. When CHRO PM data is absent from executive reviews, capability gaps become execution crises rather than development investments.</p></div>
+<div id="cxo4" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CTO/CIO &mdash; System Enablement:</strong> The CTO/CIO tracks system enablement: technology performance, digital capability, data quality, and system reliability. This function ensures technology is an execution accelerator, not an execution constraint. Poor system performance is a PM variable &mdash; it directly affects what people can deliver. When technology performance is excluded from PM reviews, teams are held accountable for gaps caused by system failures.</p></div>
+<div id="cxo5" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CMO &mdash; Market Signal:</strong> The CMO tracks brand perception, customer acquisition costs, pipeline health, campaign performance, and market share trajectory. The CMO provides the leading indicators of future revenue &mdash; the signal that tells the enterprise whether the market is responding to the strategy. When CMO PM data is lagged, the enterprise acts on market signals that are already 3&ndash;6 months old.</p></div>
+<div id="cxo6" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CCO &mdash; Revenue Velocity:</strong> The CCO tracks win rates, deal cycle times, customer retention, revenue per customer, and commercial pipeline conversion. The CCO translates commercial activity into revenue trajectory signals connecting market position to financial performance. When CCO PM is focused on activity rather than velocity, the organisation mistakes effort for momentum.</p></div>
+<div id="cxo7" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CPO &mdash; Supply Reliability:</strong> The CPO tracks supply reliability, product pipeline health, vendor performance, and input cost management. The CPO ensures the supply and product infrastructure can reliably support execution &mdash; that the organisation can deliver what it has committed to deliver. When CPO PM is reactive, supply disruptions become execution crises that consume leadership capacity.</p></div>
+<div id="cxo8" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CRO &mdash; Risk &amp; Governance:</strong> The CRO tracks regulatory compliance, risk appetite alignment, incident frequency, and control effectiveness. The CRO ensures strategic ambition is pursued within a coherent risk framework &mdash; enabling bold action without reckless exposure. When CRO PM is siloed, risk appetite is interpreted differently across functions, creating asymmetric exposure.</p></div>
+<div id="cxo9" class="cxo-detail" style="display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:8px;padding:22px 26px;"><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;"><strong style="color:#fff;">CSO &mdash; Strategic Coherence:</strong> The CSO tracks whether the organisation&rsquo;s current activities, resource allocation, and performance trajectory are aligned to its multi-year strategic intent. The CSO provides the strategic integrity check &mdash; ensuring operational performance is not winning at the expense of strategic positioning. When CSO PM is absent, operational urgency systematically erodes strategic intent over time.</p></div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Invite participants to work through their own role card first, then two closely related roles. Key question: <em>&ldquo;In your last executive performance review, were all ten hot zones represented? What does the absence of a hot zone from the executive PM conversation produce in the organisation below?&rdquo;</em></p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Three Execution Gaps</div><div class="acc-meta">Where PM breaks down</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Three structural gaps account for the majority of PM system failures at the enterprise level. Each gap is a predictable consequence of a specific design flaw.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f08080;">Gap 1</div><div class="p-name">Competing Definitions of Progress</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Different functions or leaders are using different definitions of what constitutes progress &mdash; finance says margin, operations says throughput, sales says pipeline. <strong>Without a unified definition of progress at the enterprise level, each function optimises its own metric at the expense of collective momentum.</strong></p><p><strong>Intervention:</strong> Establish an enterprise progress definition in the executive PM session. Agree on the three to five metrics that, if achieved, confirm the strategy is working. Everything else is a supporting indicator, not a competing definition of success.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f0a070;">Gap 2</div><div class="p-name">Measurement Blind Spots</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The organisation is systematically not measuring something that matters. Common blind spots: quality of cross-functional collaboration, health of the leadership pipeline, customer experience at key touchpoints. <strong>What is not measured is not managed &mdash; and eventually becomes a crisis.</strong></p><p><strong>Intervention:</strong> Map the current measurement system against the Three Sights of Progress. Ask: <em>&ldquo;What would we need to see to know our strategy is working before the financial results confirm it?&rdquo;</em></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Gap 3</div><div class="p-name">Incentive Misalignment</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The incentive structure rewards behaviour inconsistent with the strategic intent. Leaders are rewarded for short-term financial performance while the strategy requires long-term capability investment. <strong>People do not ignore the strategy &mdash; they follow the incentives. When incentives and strategy diverge, strategy loses.</strong></p><p><strong>Intervention:</strong> Audit the current incentive structure against strategic priorities. Redesign to reward the behaviours the strategy actually requires. Where are incentives producing the wrong behaviour? Which strategic priorities have no incentive attached?</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Ask the group to vote (anonymously if needed) on which Execution Gap is most present in their organisation. In most executive contexts, Gap 1 and Gap 3 will dominate. The discussion about <em>why</em> these gaps persist despite being well understood is where the real facilitation work happens. The answer is usually political: fixing the gap requires someone to give up control of a metric or accept shared accountability they have historically resisted.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Continuous PM Shift</div><div class="acc-meta">Industry context</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="hbox"><p><strong>41% of organisations</strong> have moved to real-time or near-real-time feedback systems, replacing annual or bi-annual performance review cycles with continuous check-in models. This shift reflects a fundamental change in how high-performing organisations understand the relationship between feedback and performance.</p></div>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Trend 1</div><div class="p-name">From Annual to Continuous</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The annual performance review is being supplemented or replaced by structured quarterly conversations, monthly check-ins, and continuous pulse feedback. The shift recognises that <strong>annual feedback is too infrequent to change behaviour and too delayed to be developmental.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Trend 2</div><div class="p-name">From Rating-Centric to Development-Centric</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Leading organisations are shifting from the rating (a backward-looking judgement) to development planning (a forward-looking investment). <strong>The rating becomes an input to development, not the conclusion of the conversation.</strong> Associated with higher engagement, stronger retention, and more rapid capability improvement.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Trend 3</div><div class="p-name">From Individual to Team Performance</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>As organisations become more cross-functional, individual performance ratings are being complemented by team performance assessments. <strong>Most outcomes require coordinated contribution &mdash; not individual heroics.</strong> Organisations that exclusively measure individual performance create hidden disincentives for collaboration.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Invite participants to locate their organisation on the spectrum from traditional (annual, rating-centric, individual) to leading-edge (continuous, development-centric, team-integrated). <em>&ldquo;Where are you now &mdash; and where do you need to be in three years?&rdquo;</em></p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Intelligence</button><button class="btn" onclick="showMod(4)">Integration Zone &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>Designing for Enterprise Performance</h2><p>Synthesising awareness, intelligence, and context into an integrated enterprise PM design: the collective progress signal, three elements of enterprise PM, and the EXECUTION framework.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Define the Collective Progress Signal and explain how it anchors three types of executive question</li>
+<li>Apply the three elements of enterprise PM design: Reporting Cadence, Periodic Measures, and Cumulative Progress</li>
+<li>Calculate cumulative progress percentage using the S2R&reg; formula and interpret the result</li>
+<li>Apply the EXECUTION framework as a design and diagnostic tool for enterprise PM systems</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Collective Progress Signal</div><div class="acc-meta">Anchoring executive conversations</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At the integration level, the executive team converges on a single shared signal: <em>are we collectively making progress toward our strategic intent?</em> This Collective Progress Signal anchors three categories of executive question.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Question Type 1</div><div class="p-name">Execution Traction</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><em>&ldquo;Are our current activities generating the progress we expected?&rdquo;</em></p><p>This assesses whether the execution engine is producing results at the rate and quality the strategy requires. <strong>Execution Traction questions are the most frequent in a well-functioning executive PM rhythm</strong> &mdash; they are the standing agenda item in every performance review. The risk: if only Traction questions are asked, the executive team optimises for current-period efficiency and loses sight of cumulative trajectory.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Question Type 2</div><div class="p-name">Execution Balance</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><em>&ldquo;Are we investing our resources in the right proportions across our strategic priorities?&rdquo;</em></p><p>This steps back from individual metric performance to assess whether the portfolio of activity is balanced. High-performing organisations regularly discover that <strong>80% of their resource is concentrated on the priority representing 30% of their strategic value</strong> &mdash; because that priority is most familiar or most politically visible.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f08080;">Question Type 3</div><div class="p-name">Execution Intervention</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><em>&ldquo;Where must we intervene &mdash; with resources, decisions, or leadership attention &mdash; to prevent a performance gap from becoming a strategic failure?&rdquo;</em></p><p>The most consequential question in the executive PM dialogue. It moves from analysis to action: <strong>a specific decision about where leadership will direct energy, resources, or authority to recover a trajectory that is currently off track.</strong> Organisations that defer intervention decisions until the gap is irreversible have compliance PM systems masquerading as management systems.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>In most organisations, executive PM conversations are dominated by Traction questions with insufficient time for Balance and Intervention. <em>&ldquo;When last did your executive team have an Execution Balance conversation? When last did a performance review result in an explicit, named Intervention decision with an accountable owner and a deadline?&rdquo;</em></p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Three Elements of Enterprise PM Design</div><div class="acc-meta">When, what now, how far</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A complete enterprise PM design integrates three elements. Each answers a different question at a different time horizon. All three must be present for the PM system to function as a genuine management architecture.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Element 1</div><div class="p-name">Reporting Cadence &mdash; When</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Reporting Cadence</strong> defines the structured rhythm: when performance is reviewed, by whom, and with what mandate. Without a defined cadence, performance management reverts to crisis management &mdash; leaders look at the numbers only when something goes wrong.</p><ul><li><strong>Daily:</strong> Frontline operational metrics; team leader visibility</li><li><strong>Weekly:</strong> Departmental progress checks; emerging issues flagged</li><li><strong>Monthly:</strong> Functional performance review; Periodic Measure analysis</li><li><strong>Quarterly:</strong> Enterprise PM review; Cumulative Progress assessment; Intervention decisions</li><li><strong>Annually:</strong> Full PM cycle review; rating calibration; system redesign</li></ul></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Element 2</div><div class="p-name">Periodic Measures &mdash; What Now</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Periodic Measures</strong> are the performance data points collected and reviewed within each reporting period. They answer: <em>What happened in this period? What is our current performance level?</em> Periodic Measures must be:</p><ul><li><strong>Current:</strong> Reflecting performance within the most recent review period</li><li><strong>Comparable:</strong> Measurable against the same standard as previous periods</li><li><strong>Actionable:</strong> Capable of informing a decision or intervention in the next period</li></ul><p>A Periodic Measure that is only collected, never acted on, is a reporting cost with no management value.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Element 3</div><div class="p-name">Cumulative Progress &mdash; How Far</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Cumulative Progress</strong> is the most strategically significant element and the most frequently absent. It answers: <em>Across the full performance cycle, how far have we moved from where we started toward where we need to be?</em></p><div class="hbox" style="margin-top:10px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--gold);margin-bottom:8px;"><strong>Cumulative Progress % = (Baseline &minus; Current) &divide; (Baseline &minus; Target) &times; 100</strong></p><p><em>Example:</em> Complaint resolution baseline = 48 hrs, target = 12 hrs, current = 40 hrs.<br>Progress = (48&minus;40) &divide; (48&minus;12) &times; 100 = 8 &divide; 36 &times; 100 = <strong>22% of journey complete.</strong></p></div><p>This formula reveals whether the organisation is on trajectory to reach its target by end of cycle &mdash; not just whether the current period improved on the previous one. A single-period improvement can mask a cumulative trajectory that is far behind target.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>The Cumulative Progress formula is a practical tool participants can apply immediately. Ask them to identify one current strategic priority and calculate their cumulative progress percentage. This frequently reveals that organisations are further behind their end-of-cycle target than their most recent period improvement suggests &mdash; a critical insight for Intervention decisions.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The EXECUTION Framework</div><div class="acc-meta">Nine design principles</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The EXECUTION framework synthesises the nine design principles of a high-quality enterprise PM system. Each letter represents a principle that, when absent, creates a specific and predictable PM failure mode. Use as a design tool and a diagnostic.</p>
+<div class="aceit-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:18px 0;">
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">E</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">ENTERPRISE</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Strategy First</div></div></div><div class="ai-body"><p>The PM system must be anchored to enterprise strategy, not functional preference. Every metric should be traceable to a strategic outcome. The enterprise intent is the filter through which all PM design decisions are made.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">X</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">eXECUTION</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Line-of-Sight</div></div></div><div class="ai-body"><p>Every individual must see a clear line of sight from their daily work to enterprise strategy. Line-of-sight is the translation mechanism that makes strategy personal. Without it, individuals execute their role description rather than the strategy.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">E</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">EVIDENCE</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Evidence-Based Measurement</div></div></div><div class="ai-body"><p>Performance assessments must be grounded in defined, agreed evidence &mdash; not perception or assumption. Evidence-based measurement protects the integrity of the PM system and builds trust. Without it, ratings are subjective and disputes are inevitable.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">C</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">COLLECTIVE</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Collective Ownership</div></div></div><div class="ai-body"><p>Accountability for results must be shared across the team and organisation, not concentrated in a single leader. Collective ownership means everyone with a contribution to an outcome has a stake in its measurement and a responsibility for its achievement.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">U</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">UNDERSTAND</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Outcomes Not Activity</div></div></div><div class="ai-body"><p>The PM system must measure outcomes &mdash; the actual change produced &mdash; not just activities undertaken. A team can be 100% active while producing 0% of the required outcome. Leaders must measure impact, not effort.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">T</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">TRANSPARENT</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Measurement Logic</div></div></div><div class="ai-body"><p>The logic by which performance is calculated, rated, and rewarded must be transparent to everyone subject to it. Hidden formulas and opaque scoring destroy confidence in the system and generate cynicism that undermines the entire PM architecture.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">I</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">INCENTIVE</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Incentive Alignment</div></div></div><div class="ai-body"><p>The incentive structure must reward the behaviours and outcomes the strategy requires. Misaligned incentives are one of the most reliable predictors of strategy failure. When what gets rewarded diverges from what the strategy needs, people follow the incentive &mdash; this is a design failure, not a motivation failure.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">O</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">ONGOING</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Review Rhythm</div></div></div><div class="ai-body"><p>PM must be an ongoing rhythm, not a periodic event. An annual review cycle produces information too infrequently to inform in-year course correction. The review rhythm must be consistent and embedded in the operational calendar so that PM is the way work is managed &mdash; not a separate and burdensome process.</p></div></div>
+<div class="ai-card" onclick="toggleP(this)" style="cursor:pointer;"><div class="ai-head" style="padding:14px 16px;display:flex;align-items:center;gap:10px;"><span style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);line-height:1;">N</span><div><div style="font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.3);margin-bottom:2px;">NAVIGATE</div><div style="font-size:12px;color:rgba(255,255,255,.7);">Collective Insight</div></div></div><div class="ai-body"><p>The ultimate function of a PM system is navigation: using performance data, collectively interpreted, to make better decisions about where to go and how to get there. A PM system that collects data but does not generate collective insight is a reporting system dressed as management.</p></div></div>
+</div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note</div>
+<p>Run EXECUTION as a self-scoring diagnostic: ask each participant to rate their current PM system 1&ndash;5 against each letter. Compare scores across the group. <em>&ldquo;Which principle scored lowest? What is the cost of that gap? What is the one change that would address it?&rdquo;</em> This becomes the bridge into the Application section.</p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Extrapolating</button><button class="btn" onclick="showMod(5)">Application &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Application &middot; In Practice</div><h2>MyHealth Live Portal &mdash; PM Design Simulation</h2><p>Applying the full lens to a realistic case: designing the performance management architecture for a hospital chain launching a digital patient engagement portal.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply PM design principles to a realistic organisational context</li>
+<li>Build a PM Scorecard Architecture connecting strategic outcomes to individual accountability</li>
+<li>Design scoring logic, reporting cadence, and periodic measures for a live PM scenario</li>
+<li>Calculate and interpret cumulative progress percentages from baseline data</li>
+<li>Propose a reporting tool design serving both operational and executive PM needs</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Note &mdash; Simulation Setup</div>
+<p><strong>Briefing:</strong> Present the MyHealth Live Portal context. Participants work individually through each task first (15 min), then compare outputs at the table. The debrief should focus on design choices, not on whether the &ldquo;answer&rdquo; is correct &mdash; there is no single correct answer. The richness is in the reasoning.</p>
+<p><strong>Suggested timing:</strong> Individual work 15 min &rarr; Table discussion 15 min &rarr; Group debrief 15 min. Tasks 5 and 6 can be combined for groups that move quickly through the earlier tasks.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Case Context: MyHealth Live Portal</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p><strong>Organisation:</strong> A hospital chain operating 12 facilities across three regions. The board has approved a digital transformation initiative: the MyHealth Live Portal, a patient-facing platform enabling online appointment booking, real-time test results, and direct clinical communication.</p>
+<p><strong>Strategic Context:</strong> The portal is a strategic priority for the next 18 months. Three strategic outcomes have been defined by the executive team:</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f08080;">Outcome 1</div><div class="p-name">Reduce patient complaint resolution time: 48 hrs &rarr; 12 hrs</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Baseline:</strong> 48 hours &nbsp; <strong>Target:</strong> 12 hours<br><strong>Key Result:</strong> Portal-based complaint submission and tracking live in all 12 facilities within 6 months; average resolution time below 12 hours within 12 months.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--gold);">Outcome 2</div><div class="p-name">Reduce clinical referral decision time: 10 days &rarr; 3 days</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Baseline:</strong> 10 days &nbsp; <strong>Target:</strong> 3 days<br><strong>Key Result:</strong> Digital referral pathway active for 80% of non-urgent referral types within 9 months; average decision time below 3 days within 15 months.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Outcome 3</div><div class="p-name">Increase cross-facility clinical collaboration: 30% &rarr; 70%</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p><strong>Baseline:</strong> 30% of cases involve cross-facility input &nbsp; <strong>Target:</strong> 70%<br><strong>Key Result:</strong> Shared case management module live within 6 months; cross-facility consultation rate at or above 70% within 18 months.</p></div></div>
+</div>
+</div></div></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Six Design Tasks</div><div class="acc-meta">PM design simulation</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="aceit-grid" style="display:flex;gap:4px;flex-wrap:wrap;margin:0 0 0 0;">
+<div class="ai-head" id="t1btn" onclick="showAppTask(0)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">Task 1</div>
+<div class="ai-head" id="t2btn" onclick="showAppTask(1)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Task 2</div>
+<div class="ai-head" id="t3btn" onclick="showAppTask(2)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Task 3</div>
+<div class="ai-head" id="t4btn" onclick="showAppTask(3)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Task 4</div>
+<div class="ai-head" id="t5btn" onclick="showAppTask(4)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Task 5</div>
+<div class="ai-head" id="t6btn" onclick="showAppTask(5)" style="flex:1;min-width:60px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);">Task 6</div>
+</div>
+<div id="apptask0" style="display:block;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 1: PM Scorecard Architecture</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design a PM Scorecard for the Chief Operations Officer. The scorecard must integrate all Three Sights of Progress and reflect the organisation&rsquo;s strategic outcomes.</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify three to five metrics for each of the Three Sights (Strategic OKRs, Operational KPIs, Behavioural/Values Alignment)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Assign a weighting to each Sight that reflects the COO&rsquo;s role and strategic context</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Confirm that at least one metric in the Strategic OKR category is directly traceable to the MyHealth Live Portal strategic outcomes</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify the single metric you consider the most critical lead indicator of overall execution traction</li></ul>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 1</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations on the group scorecard designs..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+<div id="apptask1" style="display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 2: Scoring Logic Design</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the scoring logic for Outcome 1 (complaint resolution time). The logic must define how performance is translated into a 1&ndash;5 rating.</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Define what performance level earns each rating from 1 to 5 for the complaint resolution time metric</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Specify what evidence is required to confirm each rating (not just the number &mdash; how it is verified)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify any contextual factors that might legitimately affect the rating (e.g. facility size, patient volume)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Describe the leadership response that each rating should trigger in the monthly review</li></ul>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 2</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+<div id="apptask2" style="display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 3: Baseline Simulation</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Using the Cumulative Progress formula, calculate the current cumulative progress % for each strategic outcome. Assume the following data at month 6 of an 18-month cycle:</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Outcome 1:</strong> Current = 40 hrs | Baseline = 48 hrs | Target = 12 hrs</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Outcome 2:</strong> Current = 8 days | Baseline = 10 days | Target = 3 days</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;"><strong style="color:#fff;">Outcome 3:</strong> Current = 42% | Baseline = 30% | Target = 70%</li></ul>
+<div style="background:#0a1a0d;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:16px 20px;margin:12px 0;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin-bottom:8px;">Cumulative % = (Baseline &minus; Current) &divide; (Baseline &minus; Target) &times; 100</p><p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;">Expected progress at month 6 of an 18-month cycle = 33%. Which outcome is most at risk? What Execution Intervention would you recommend?</p></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 3</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Outcome 1: ___% | Outcome 2: ___% | Outcome 3: ___% | Observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+<div id="apptask3" style="display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 4: Reporting Cadence Design</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the full Reporting Cadence for the MyHealth Live Portal PM system, spanning from daily operational tracking through to the quarterly executive review.</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">For each cadence level (daily, weekly, monthly, quarterly), specify: what is reviewed, by whom, and what decisions can be made at that level</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify which CXO Hot Zones must be present at the quarterly executive review and what each must bring</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Design the escalation rule: at what threshold does a monthly performance gap automatically trigger a quarterly Execution Intervention discussion?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">How would the cadence need to change at month 12 if Outcome 3 is still below 50%?</li></ul>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 4</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on cadence design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+<div id="apptask4" style="display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 5: Periodic Measures Selection</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Select the Periodic Measures that will be tracked monthly across the three strategic outcomes. Each measure must be current, comparable, and actionable.</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify three to four Periodic Measures for each strategic outcome; specify: what it tracks, how frequently collected, who owns the data, what action it triggers if it deteriorates</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify one leading indicator for each outcome &mdash; a measure that signals future performance before the outcome metric itself changes</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify any measures that would represent a Measurement Blind Spot if excluded</li></ul>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 5</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+<div id="apptask5" style="display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:4px;">
+<h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 6: Reporting Tool Design</h4>
+<p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the structure of the reporting tool supporting the MyHealth Live Portal PM system. This is a content and structure design task: what information must the tool present, to whom, and at what level of detail?</p>
+<ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Executive Summary view:</strong> What does the CEO see on a single page that tells them whether the Portal strategy is on track?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Operational Detail view:</strong> What does the COO see to manage execution and flag issues for escalation?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Team Performance view:</strong> What does a facility-level team leader see that connects their daily work to the strategic outcomes?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify the three most critical EXECUTION principles that must be embedded in the tool&rsquo;s structure</li></ul>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 6</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on tool design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary</div><div class="acc-meta">Lens 5 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">PM is not measurement &mdash; it is the leadership response to measurement. The correct sequence: define success, design the management system, design the measurement infrastructure, then manage using data.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">PM is an execution bridge with four functions: decomposing the big picture, defining the logic of success, calibrating the rhythm, and structuring the dialogue. The architecture choice &mdash; compliance vs commitment &mdash; shapes every conversation.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The executive team is the organisation&rsquo;s measurement alignment system. Each CXO hot zone contributes a distinct signal. The Three Execution Gaps explain most PM failures at enterprise level.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The Collective Progress Signal anchors three executive question types: Traction, Balance, Intervention. Cumulative Progress calculation reveals whether the trajectory will reach target &mdash; not just whether this period improved.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0a070;margin-bottom:8px;">Application</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The MyHealth Live Portal simulation applies PM design across scorecard architecture, scoring logic, baseline calculation, cadence design, periodic measures, and reporting tool structure &mdash; integrating all lens content into a live design challenge.</p></div>
+</div>
+<div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;A performance management system that only measures has not yet become a management system. The moment measurement becomes the basis for a decision, a conversation, and an accountable intervention &mdash; that is the moment execution begins.&rdquo;</em></p></div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note</div>
+<p>Close by asking each participant to name one design change they will make to their current PM system within the next 30 days. Make it specific: which FACES function, which EXECUTION principle, which of the Three Sights &mdash; and what, specifically, will change. <strong>Specificity is the test of whether the lens has converted into intent.</strong></p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">&larr; Integration Zone</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleP(c){c.classList.toggle('open');}
+function saveTA(btn){
+  const o=btn.textContent;
+  btn.textContent='Saved ✓';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+function showSight3(card,n){
+  const was=card.classList.contains('open');
+  document.querySelectorAll('.sc-card').forEach(c=>{c.classList.remove('open');c.querySelector('.sc-body').style.display='none';});
+  if(!was){card.classList.add('open');card.querySelector('.sc-body').style.display='block';}
+}
+function showCXO(card,id){
+  const allCards=document.querySelectorAll('.comp-card');
+  const allDetails=document.querySelectorAll('.cxo-detail');
+  const allBars=document.querySelectorAll('.cxo-bar');
+  const detail=document.getElementById(id);
+  const isOpen=detail.style.display==='block';
+  allDetails.forEach(d=>d.style.display='none');
+  allCards.forEach(c=>{c.style.borderColor='rgba(255,255,255,.07)';});
+  allBars.forEach(b=>b.style.background='rgba(255,255,255,.08)');
+  if(!isOpen){
+    detail.style.display='block';
+    card.style.borderColor='rgba(201,168,76,.4)';
+    card.querySelector('.cxo-bar').style.background='var(--gold)';
+  }
+}
+function showAppTask(n){
+  const tasks=['apptask0','apptask1','apptask2','apptask3','apptask4','apptask5'];
+  const btns=['t1btn','t2btn','t3btn','t4btn','t5btn','t6btn'];
+  tasks.forEach((id,i)=>{
+    document.getElementById(id).style.display=(i===n)?'block':'none';
+  });
+  btns.forEach((id,i)=>{
+    const b=document.getElementById(id);
+    if(i===n){b.style.background='rgba(201,168,76,.1)';b.style.borderColor='rgba(201,168,76,.3)';b.style.color='var(--gold)';}
+    else{b.style.background='#151c15';b.style.borderColor='rgba(255,255,255,.07)';b.style.color='rgba(255,255,255,.35)';}
+  });
+}
+// Init sc-card bodies hidden except first
+document.querySelectorAll('.sc-card').forEach((c,i)=>{
+  const b=c.querySelector('.sc-body');
+  if(b){b.style.display=i===0?'block':'none';}
+  if(i===0)c.classList.add('open');
+});
+</script>
+</body>
+</html>
