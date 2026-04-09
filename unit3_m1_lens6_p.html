@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 3 - Module 1 - Lens 6 Participant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--teal:#1a7a6a;--teall:#22a08a;--teals:rgba(26,122,106,.06);--gold:#c9a84c;}
+body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0a1614;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teall);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--teall);}
+.unit-header{background:linear-gradient(135deg,#0a1c18,#152e28);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teall);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:18px;}
+.arc-bar{display:flex;gap:2px;margin-bottom:14px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;transition:opacity .2s;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(34,160,138,.1);border:1px solid rgba(34,160,138,.25);color:var(--teall);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.arc-seg.active{opacity:1;box-shadow:0 0 0 1px rgba(34,160,138,.4);}
+.outcomes-bar{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.oc-tag{font-size:9px;font-weight:600;letter-spacing:1px;padding:4px 10px;border-radius:2px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);color:var(--teall);}
+/* Tabs */
+.tab-bar{max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;display:flex;gap:2px;}
+.tab-btn{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#152420;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.tab-btn.active{background:#1a2e28;color:var(--teall);border-color:rgba(26,122,106,.3);border-bottom-color:#1a2e28;}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod{display:none;background:#1a2e28;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#091612,#122420);padding:32px 40px 24px;border-bottom:1px solid rgba(26,122,106,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.part-obj{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.25);border-left:4px solid var(--teal);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.part-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.part-obj ul{list-style:none;padding:0;}
+.part-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.part-obj li:last-child{border-bottom:none;}
+.part-obj li::before{content:"\2192";position:absolute;left:0;color:var(--teall);}
+/* Accordions */
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--teall);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(26,122,106,.5);}
+.acc-h:hover .arr svg{stroke:var(--teall);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(26,122,106,.5);}
+.acc.open .arr svg{stroke:var(--teall);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 10px;}
+.hbox{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+/* Principle cards */
+.principle-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.p-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;cursor:pointer;}
+.p-card:hover{border-color:rgba(26,122,106,.3);}
+.p-card.open{border-color:rgba(26,122,106,.35);}
+.p-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#121e1c;}
+.p-meta{display:flex;flex-direction:column;}
+.p-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
+.p-name{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:#fff;}
+.p-arr{font-size:10px;color:rgba(255,255,255,.25);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.p-card.open .p-arr{transform:rotate(180deg);color:var(--teall);}
+.p-body{display:none;padding:16px 18px;background:#0d1916;border-top:1px solid rgba(255,255,255,.05);}
+.p-card.open .p-body{display:block;}
+.p-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:10px;}
+.p-insight{font-size:12px;font-style:italic;color:rgba(255,255,255,.45);border-left:2px solid rgba(26,122,106,.35);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(26,122,106,.04);border-radius:0 3px 3px 0;}
+/* SCARF */
+.scarf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.sc-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.sc-card:hover{transform:translateY(-2px);}
+.sc-card.open{border-color:rgba(26,122,106,.3);}
+.sc-head{padding:14px 12px 10px;background:#121e1c;}
+.sc-trigger{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.sc-q{font-size:10px;color:rgba(255,255,255,.4);line-height:1.45;font-style:italic;}
+.sc-bar{height:3px;}
+.sc-body{display:none;padding:14px;background:#0d1916;border-top:1px solid rgba(255,255,255,.05);}
+.sc-card.open .sc-body{display:block;}
+.sc-row{margin-bottom:9px;}
+.sc-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.sc-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.sc-impact{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.6;color:rgba(255,200,100,.8);}
+.sc-fac{font-size:11px;margin-top:6px;padding:7px 11px;background:rgba(26,122,106,.05);border-radius:2px;border-left:2px solid rgba(26,122,106,.3);line-height:1.6;color:rgba(60,210,180,.72);font-style:italic;}
+/* ACE-IT */
+.aceit-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.ai-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:all .2s;}
+.ai-card:hover{border-color:rgba(26,122,106,.25);}
+.ai-card.open{border-color:rgba(26,122,106,.35);}
+.ai-head{padding:14px 12px 10px;background:#121e1c;display:flex;align-items:flex-start;justify-content:space-between;}
+.ai-letter{font-family:"Cormorant Garamond",serif;font-size:2rem;font-weight:300;line-height:1;margin-bottom:4px;}
+.ai-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.ai-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;}
+.ai-card.open .ai-arr{transform:rotate(180deg);color:var(--teall);}
+.ai-bar{height:3px;background:rgba(26,122,106,.2);}
+.ai-card.open .ai-bar{background:var(--teal);}
+.ai-body{display:none;padding:13px;background:#0d1916;border-top:1px solid rgba(255,255,255,.05);}
+.ai-card.open .ai-body{display:block;}
+.ai-row{margin-bottom:9px;}
+.ai-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.ai-rt{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;}
+.ai-ev{font-size:11px;margin-top:8px;padding:7px 11px;background:rgba(39,174,96,.06);border-radius:2px;border-left:2px solid rgba(39,174,96,.3);line-height:1.6;color:rgba(100,210,160,.8);}
+/* COMPASS */
+.compass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0;}
+.cm-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cm-card:hover{border-color:rgba(26,122,106,.3);transform:translateY(-2px);}
+.cm-card.active{border-color:var(--teal);background:#1a2e28;}
+.cm-top{padding:14px 12px 10px;}
+.cm-letter{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:var(--teall);margin-bottom:4px;line-height:1;}
+.cm-name{font-size:9px;color:rgba(255,255,255,.38);line-height:1.4;}
+.cm-bar{height:3px;background:rgba(26,122,106,.2);}
+.cm-card.active .cm-bar{background:var(--teal);}
+.cm-detail{display:none;background:#091612;border:1px solid rgba(26,122,106,.2);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.cm-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.cm-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.cm-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.78;margin-bottom:10px;}
+.cm-signal{font-size:12px;margin-top:8px;padding:9px 13px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.35);line-height:1.65;color:rgba(255,200,100,.82);}
+.cm-q{font-size:12px;margin-top:7px;padding:9px 13px;background:rgba(26,122,106,.05);border-radius:2px;border-left:2px solid rgba(26,122,106,.3);line-height:1.65;color:rgba(60,210,180,.75);font-style:italic;}
+/* Role Grid */
+.role-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.rl-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.rl-card:hover{border-color:rgba(26,122,106,.3);transform:translateY(-2px);}
+.rl-card.active{border-color:var(--teal);background:#1a2e28;}
+.rl-top{padding:14px 12px 10px;}
+.rl-abbr{font-size:16px;font-weight:700;color:var(--teall);margin-bottom:4px;}
+.rl-title{font-size:9px;color:rgba(255,255,255,.35);line-height:1.4;}
+.rl-bar{height:3px;background:rgba(26,122,106,.18);}
+.rl-card.active .rl-bar{background:var(--teal);}
+.rl-detail{display:none;background:#091612;border:1px solid rgba(26,122,106,.2);border-radius:4px;margin-top:10px;padding:22px 26px;}
+.rl-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.rl-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.rl-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.rl-domains{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+.d-tag{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:2px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.22);color:var(--teall);}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2e28;border-color:var(--teal);border-bottom-color:#1a2e28;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.6);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0d1a17;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+/* Reflection */
+.ref-block{background:rgba(26,122,106,.06);border:1px solid rgba(26,122,106,.18);border-radius:4px;padding:18px 22px;margin:20px 0;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.ref-ta{width:100%;background:#0a1614;border:1px solid rgba(26,122,106,.15);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.82);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:72px;outline:none;transition:border-color .2s;margin-top:5px;}
+.ref-ta:focus{border-color:rgba(26,122,106,.45);}
+.ref-ta::placeholder{color:rgba(255,255,255,.14);}
+.ref-save{padding:8px 18px;background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.25);border-radius:2px;color:var(--teall);font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:12px;}
+.ref-save:hover{background:rgba(26,122,106,.2);}
+.wp-ta{width:100%;background:#0a1614;border:1px solid rgba(26,122,106,.15);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.82);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:64px;outline:none;transition:border-color .2s;margin-top:5px;}
+.wp-ta:focus{border-color:rgba(26,122,106,.45);}
+.wp-ta::placeholder{color:rgba(255,255,255,.14);}
+.wp-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:10px;display:block;margin-bottom:4px;}
+.wp-save{padding:8px 18px;background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.25);border-radius:2px;color:var(--teall);font-family:"Montserrat",sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-top:14px;}
+.wp-save:hover{background:rgba(26,122,106,.2);}
+.wp-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0;}
+.wp-cell{background:#121e1c;border-radius:3px;padding:12px;}
+.wp-cell label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:6px;}
+.tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.tri-card{background:#121e1c;border-radius:3px;padding:14px 16px;}
+/* Nav */
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(26,122,106,.35);background:rgba(26,122,106,.1);color:var(--teall);transition:all .2s;font-family:"Montserrat",sans-serif;}
+.btn:hover{background:rgba(26,122,106,.22);}
+.btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
+.btn.prev:hover{color:var(--teall);border-color:rgba(26,122,106,.35);}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(5,14,12,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
+.gate-box{background:#0a1c18;border:1px solid rgba(26,122,106,.25);border-radius:6px;padding:40px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:26px;}
+.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
+.gate-input:focus{border-color:rgba(26,122,106,.5);}
+.gate-btn{width:100%;padding:12px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.4);border-radius:2px;color:var(--teall);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.gate-btn:hover{background:rgba(26,122,106,.22);}
+.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
+@media(max-width:900px){.scarf-grid,.aceit-grid{grid-template-columns:repeat(3,1fr);}.compass-grid{grid-template-columns:repeat(3,1fr);}.role-grid{grid-template-columns:repeat(3,1fr);}.cm-detail.visible,.rl-detail.visible{grid-template-columns:1fr;}.wp-row,.tri-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Participant Portal</div>
+    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 6</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Participant Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Participant View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Lens 4 &middot; Establishing Performance Expectations</strong>Unit 3 &middot; Module 1 &mdash; Participant</div>
+  </div>
+  <span class="nav-badge">&#127891; Participant</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 6</div>
+    <h1 class="unit-title">Establishing Performance Expectations</h1>
+    <div class="unit-sub">Leadership Execution &middot; Influence</div>
+    <p class="unit-desc">Execution does not begin when delivery goals are written. It begins when the people responsible for those goals internalise the expectation and accept ownership of the result. This lens gives you the tools to close that gap.</p>
+    <div class="arc-bar" id="arcBar">
+      <div class="arc-seg aw active">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Integration Application<span>In Practice</span></div>
+    </div>
+    <div class="outcomes-bar">
+      <span class="oc-tag">Diagnose human alignment conditions</span>
+      <span class="oc-tag">Apply SCARF model</span>
+      <span class="oc-tag">Map COMPASS hot zones</span>
+      <span class="oc-tag">Build Collective Intelligence</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <div class="tab-btn active" onclick="showMod(0,this)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="tab-btn" onclick="showMod(1,this)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="tab-btn" onclick="showMod(2,this)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="tab-btn" onclick="showMod(3,this)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="tab-btn" onclick="showMod(4,this)">Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+
+<div class="mod active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>What is Establishing Performance Expectations?</h2><p>Naming the distinction that determines whether a delivery goal becomes a metric to be monitored or a commitment to be owned.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; In this section you will</div><ul>
+<li>Distinguish between setting expectations (instruction) and establishing expectations (commitment)</li>
+<li>Identify the three conditions &mdash; Clarity, Capability, Commitment &mdash; that must be present for a KPI to become a personal leadership promise</li>
+<li>Map an Expectations Chain for a delivery goal you currently own</li>
+<li>Understand the purpose and structure of the Alignment Dialogue</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Setting vs Establishing Expectations</div><div class="acc-meta">The defining distinction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>Execution does not begin when delivery goals are written. Execution begins when the people responsible for those goals internalise the expectation and accept ownership of the result.</em></p></div>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
+<thead><tr>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Dimension</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#f08080;">Setting</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#5ecba1;">Establishing</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Approach</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Top-down declaration; target assigned</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Alignment process; ownership secured</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Focus</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Clarity of instruction</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Mutual readiness for execution</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Dialogue</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Limited; understanding assumed to equal commitment</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Structured; feasibility tested, commitment secured</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Execution</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Compliance-driven; cautious, upward escalation</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Commitment-driven; initiative, proactive solving</td></tr>
+<tr><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Accountability</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Conditional; defensive ownership</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Personal; proactive ownership of outcome</td></tr>
+</tbody></table>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Honest Assessment</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Think of the last time you communicated a delivery expectation. Was it set or established? How do you know?</p><textarea class="ref-ta" placeholder="The last expectation I communicated was...&#10;&#10;I know it was [set/established] because...&#10;&#10;What I would do differently: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Three Conditions of Established Expectations</div><div class="acc-meta">Clarity &middot; Capability &middot; Commitment</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A KPI becomes a personal leadership promise only when three conditions are simultaneously present. All three must be confirmed before execution begins.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Condition 1</div><div class="p-name">Clarity &mdash; The individual understands exactly what success looks like</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Clarity is not just knowing the number. It means understanding the full picture of the expected outcome: what must be delivered, by when, at what standard, and how success will be recognised. <strong>Most expectation conversations stop at the number. Establishing expectations requires confirming that both parties share the same picture of the result.</strong></p><div class="p-insight">Test: Ask someone on your team to describe what success looks like for their key result. If the description differs from yours, clarity has not yet been established.</div></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Condition 2</div><div class="p-name">Capability &mdash; The system can realistically support delivery</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Capability refers not only to the individual&rsquo;s skill, but to the system surrounding them. <strong>Are the resources, decisions, cross-functional dependencies, and coordination mechanisms in place to support delivery?</strong> A person may understand and want to own a target that the current system cannot deliver. Establishing expectations surfaces this before execution begins &mdash; not after the deadline has passed.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Condition 3</div><div class="p-name">Commitment &mdash; The person consciously accepts ownership of the outcome</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Commitment is the moment the expectation crosses from instruction to promise. The individual does not merely acknowledge the target &mdash; they accept personal responsibility for ensuring the outcome is delivered. <strong>This cannot be assumed from nodding agreement. It must be actively tested through dialogue.</strong> The Alignment Dialogue is the mechanism designed to confirm this transition has occurred.</p><div class="p-insight">The Alignment Dialogue asks: &ldquo;On a scale of 1&ndash;10, how aligned are you with the expectation for you to deliver this outcome?&rdquo; A score below 9 means Commitment is not yet established.</div></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Which Condition Is Most Often Missing?</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">In your current role, which of the three conditions do you most consistently confirm &mdash; and which do you most often assume?</p><textarea class="ref-ta" placeholder="I most consistently confirm: [Clarity / Capability / Commitment]&#10;&#10;I most often assume: ...&#10;&#10;The cost of that assumption in my last major initiative was: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Expectations Chain</div><div class="acc-meta">Mapping who else influences the outcome</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Very few delivery goals are achieved by a single person acting alone. The Expectations Chain identifies everyone whose work directly affects the delivery of a Key Result or KPI.</p>
+<div class="scarf-grid" style="grid-template-columns:repeat(3,1fr);">
+<div class="sc-card open" onclick="toggleSC(this)"><div class="sc-head"><div class="sc-trigger" style="color:#8ab0e8;">&#8593; Upline Chain</div><div class="sc-q">Those you depend on for approval, decisions, or resources</div></div><div class="sc-bar" style="background:#8ab0e8;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Who</div><div class="sc-rt">Executive leadership, board members, executive sponsors, budget holders</div></div><div class="sc-row"><div class="sc-rl">Key question</div><div class="sc-rt"><em>Who must approve or resource this outcome for delivery to be possible?</em></div></div></div></div>
+<div class="sc-card" onclick="toggleSC(this)"><div class="sc-head"><div class="sc-trigger" style="color:var(--teall);">&#8595; Downline Chain</div><div class="sc-q">Those responsible for executing the work to achieve the KPI</div></div><div class="sc-bar" style="background:var(--teall);"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Who</div><div class="sc-rt">Direct reports, project teams, cross-functional collaborators, shared service functions</div></div><div class="sc-row"><div class="sc-rl">Key question</div><div class="sc-rt"><em>Who must deliver specific activities for this outcome to be achieved?</em></div></div></div></div>
+<div class="sc-card" onclick="toggleSC(this)"><div class="sc-head"><div class="sc-trigger" style="color:#5ecba1;">&#8596; External Chain</div><div class="sc-q">External actors whose contributions influence delivery</div></div><div class="sc-bar" style="background:#5ecba1;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Who</div><div class="sc-rt">Suppliers, service partners, contractors, regulatory bodies, technology vendors</div></div><div class="sc-row"><div class="sc-rl">Key question</div><div class="sc-rt"><em>Which external actors influence whether this outcome can be delivered?</em></div></div></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Map Your Chain</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Choose one current key result. Map your Expectations Chain. Have you had an alignment dialogue with everyone in the chain &mdash; or only with the person holding the KPI?</p><textarea class="ref-ta" placeholder="Key Result: ...&#10;&#10;Upline: ...&#10;Downline: ...&#10;External: ...&#10;&#10;Who I have NOT yet had an alignment dialogue with: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &mdash; Why &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why Establishing Expectations Determines Execution Outcomes</h2><p>Understanding the five mechanisms through which expectation alignment drives ownership &mdash; and why compliance and accountability are the first two casualties when this step is skipped.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; In this section you will</div><ul>
+<li>Explain the difference between compliance-driven and commitment-driven execution</li>
+<li>Identify the five mechanisms through which establishing expectations determines execution outcomes</li>
+<li>Recognise how engagement and accountability degrade when expectations are only set</li>
+<li>Apply the behavioural logic to your own organisational context</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Compliance vs Commitment &mdash; The Execution Dynamic</div><div class="acc-meta">The ignition point</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The moment when expectations are clarified between leader and contributor is the moment a performance target transitions from organisational intention to personal responsibility. If that transition does not occur, execution becomes fragile regardless of how well the system has been designed.</p>
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;">
+<thead><tr>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Dimension</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#f08080;">Compliance-Driven</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:#5ecba1;">Commitment-Driven</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">When obstacles arise</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Escalate upward; remain cautious; protect reporting</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Take initiative; surface issues early; co-design solutions</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Accountability</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Activity ownership &mdash; responsible for tasks, not final result</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Outcome ownership &mdash; personally accountable for the result</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Energy</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Reserved; discretionary effort withheld</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Fully invested; discretionary effort freely given</td></tr>
+<tr><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">How it sounds</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">&ldquo;I completed everything that was asked of me.&rdquo;</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">&ldquo;I&rsquo;ll make sure this gets delivered.&rdquo;</td></tr>
+</tbody></table>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Team Right Now</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">When your team hits an unexpected obstacle, what happens first &mdash; do they solve it, or do they escalate it? What does the answer tell you about the execution dynamic you have created?</p><textarea class="ref-ta" placeholder="When my team hits an obstacle, the typical response is...&#10;&#10;This suggests the execution dynamic is closer to [compliance/commitment] because...&#10;&#10;The expectation conversation that would shift this: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Five Mechanisms: Why Expectation Alignment Determines Outcomes</div><div class="acc-meta">The behavioural logic</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Mechanism 1</div><div class="p-name">From Instruction to Ownership</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>When expectations are merely communicated, people interpret them as instructions. They understand what must be achieved but do not yet feel personally accountable for ensuring the outcome is delivered. <strong>Structured dialogue moves the individual from acknowledging the requirement to accepting ownership of the result.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Mechanism 2</div><div class="p-name">Reducing Interpretation Ambiguity</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Individuals interpret what success requires differently depending on their role, expertise, and operational context. Without alignment, people may pursue the same goal while working from different assumptions. <strong>Establishing expectations creates a shared interpretation of what must be delivered, why it matters, and how success will be recognised.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Mechanism 3</div><div class="p-name">Surfacing Constraints Before Execution Begins</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>If dependencies are not identified during the expectation conversation, they only become visible later &mdash; often when deadlines are approaching. <strong>Establishing expectations allows leaders and contributors to identify cross-functional dependencies, resource needs, and potential risks before they become execution crises.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Mechanism 4</div><div class="p-name">Strengthening Accountability</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Accountability is strongest when individuals perceive that expectations placed on them are clear, achievable, and meaningful. <strong>Establishing expectations ensures both parties share a common understanding of the responsibility involved, the support available, and the standards for evaluating success &mdash; transforming accountability from formal obligation to shared commitment.</strong></p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f0a070;">Mechanism 5</div><div class="p-name">Building the Behavioural Foundation</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Strategy execution is fundamentally a behavioural challenge. <strong>Establishing performance expectations ensures that individuals are not simply aware of what must be done but are psychologically prepared to take responsibility for doing it.</strong> When this foundation is in place, purpose is understood, confidence increases, collaboration improves, and accountability becomes proactive.</p></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Most Absent Mechanism</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Which of the five mechanisms is most absent in your current execution environment? What is the cost of that absence right now?</p><textarea class="ref-ta" placeholder="The mechanism most absent is Mechanism ___ because...&#10;&#10;The cost I can see in my organisation: ...&#10;&#10;The conversation I need to have: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Engagement &amp; Accountability &mdash; The Two Casualties</div><div class="acc-meta">What breaks down first</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f0a070;">First Casualty</div><div class="p-name">Engagement Weakens &mdash; Observable but Subtle</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><ul><li>Work progresses, but discretionary effort is limited</li><li>Individuals wait for direction rather than proactively addressing emerging problems</li><li>Cross-functional coordination slows; people focus on their own responsibilities</li><li>Engagement becomes transactional &mdash; roles are performed, collective ownership does not materialise</li></ul><div class="p-insight">Signal: work is happening, but energy is not invested. People are present but not propelled.</div></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f08080;">Critical Long-Term Impact</div><div class="p-name">Accountability Dilutes &mdash; The Deeper Cost</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><ul><li>Performance discussions revolve around explanations rather than ownership</li><li>Conversations focus on constraints rather than solutions</li><li>Cross-functional dependencies create delays because responsibility for resolving them is unclear</li><li>Multiple teams feel partially responsible; none is fully accountable</li></ul><div class="p-insight">The paradox: teams appear to be working hard, meetings are frequent, updates are detailed &mdash; yet the organisation consistently struggles to achieve what it set out to deliver. The issue is not effort. It is that ownership was assigned without being secured.</div></div></div>
+</div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0,null)">&larr; Awareness</button><button class="btn" onclick="showMod(2,null)">Extrapolating &mdash; Where &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>Where Does the Expectations Gap Emerge?</h2><p>Examining how each executive function&rsquo;s natural tendency creates a characteristic expectation gap &mdash; and why surface alignment so often conceals unresolved ownership.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; In this section you will</div><ul>
+<li>Identify your function&rsquo;s typical tendency in expectation leadership and the gap it creates</li>
+<li>Recognise how functional expertise biases leaders toward setting rather than establishing expectations</li>
+<li>Apply this awareness to name one expectation gap you need to close in your current context</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Expectation Tendencies &amp; Gaps</div><div class="acc-meta">Explore your role first, then adjacent roles</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each executive function communicates expectations through the mechanisms it controls. Click your role to explore your typical tendency and the gap it creates. Then explore the two roles most adjacent to yours.</p>
+<div class="compass-grid" style="grid-template-columns:repeat(5,1fr);">
+<div class="cm-card" onclick="showCXO(this,'px0')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CEO</div><div class="cm-name">Enterprise Ambition</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px1')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CFO</div><div class="cm-name">Financial Precision</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px2')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">COO</div><div class="cm-name">Operational Discipline</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px3')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CHRO</div><div class="cm-name">Cultural Alignment</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px4')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CTO/CIO</div><div class="cm-name">Technical Milestones</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px5')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CMO</div><div class="cm-name">Market Performance</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px6')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CCO</div><div class="cm-name">Commercial Ambition</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px7')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CPO</div><div class="cm-name">Procurement Discipline</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px8')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CRO</div><div class="cm-name">Risk Governance</div></div><div class="cm-bar"></div></div>
+<div class="cm-card" onclick="showCXO(this,'px9')"><div class="cm-top"><div class="cm-letter" style="font-size:1.2rem;font-weight:700;">CSO</div><div class="cm-name">Strategic Planning</div></div><div class="cm-bar"></div></div>
+</div>
+<div id="px0" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Often sets enterprise ambition and directional expectations, assuming functional leaders will translate these into delivery realities. The strategic signal is clear, but the conditions required for execution may not be fully established through dialogue.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>Functional leaders receive strategic direction clearly yet lack confirmed ownership of the conditions required for delivery. The assumption that strategic clarity cascades automatically into execution commitment is the CEO&rsquo;s most common expectation gap.</p><div class="cm-q">Reflection: What is an enterprise-level expectation you have communicated recently? Have you established the conditions for delivery with the leaders responsible?</div></div></div>
+<div id="px1" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Frequently sets precise financial performance expectations through budgets, targets, and reporting timelines. Financial clarity is strong, yet the cross-functional conditions required to deliver financial outcomes may not be fully established with teams responsible for operational delivery.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The finance number is clear; the ownership of delivering it is not. Teams understand the target but may not have confirmed the cross-functional conditions &mdash; resources, decisions, capacity &mdash; required to achieve it.</p><div class="cm-q">Reflection: Who in your expectations chain holds a financial target they received from you? Have you confirmed they own the conditions for delivery?</div></div></div>
+<div id="px2" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Commonly sets operational expectations through processes, service levels, and execution discipline. Operational clarity is high, though alignment conversations that build emotional commitment and shared ownership may receive less attention.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>Process compliance is achieved; outcome ownership is not. Teams follow the operational procedure without necessarily feeling personally responsible for whether the broader result is delivered.</p><div class="cm-q">Reflection: Which operational expectation in your area is being executed compliantly but not yet owned?</div></div></div>
+<div id="px3" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Often sets expectations around people behaviour, engagement, and cultural alignment. The dialogue is typically strong on social and emotional commitment, while the direct linkage to operational and commercial delivery expectations may require further clarification.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>People feel culturally aligned but may not have clear delivery commitments. Engagement is high; the connection between that engagement and measurable commercial outcomes may remain under-established.</p><div class="cm-q">Reflection: Where does your people agenda connect most directly to a commercial delivery expectation? Is that connection established with both parties?</div></div></div>
+<div id="px4" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Frequently sets delivery expectations through technical specifications, system milestones, and project timelines. Technical clarity is strong, though broader organisational alignment around how technology outcomes enable business delivery may require deeper dialogue.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The technical milestone is clear; the business owner&rsquo;s commitment to using the technology outcome to deliver the result is not established. Technology delivers; business ownership of the enabled result is assumed rather than confirmed.</p><div class="cm-q">Reflection: Which technology outcome have you delivered recently that was not fully converted into business value? What expectation conversation was missing?</div></div></div>
+<div id="px5" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Often sets market growth or brand performance expectations through campaign metrics and positioning targets. These expectations frequently depend on multiple functions for delivery, yet the cross-functional support commitments required may not always be fully established.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The campaign target is clear; the operational and commercial functions have not confirmed their ownership of enabling the marketing outcome. Market expectations are set with marketing; the chain extending to other functions remains under-established.</p><div class="cm-q">Reflection: Which functions are critical to your marketing outcomes? Have you established &mdash; not just communicated &mdash; expectations with them?</div></div></div>
+<div id="px6" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Commonly sets ambitious commercial expectations to drive revenue momentum and market urgency. Stretch targets are clear, although the operational conditions required to sustain those outcomes may not be fully aligned across the organisation.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The commercial target is understood; the operational capacity to deliver it sustainably is not confirmed. Revenue commitments are made without fully establishing whether the operational expectations chain has been aligned to support them.</p><div class="cm-q">Reflection: What is the most ambitious commercial target you currently carry? Have you established the operational expectations chain required to sustain it?</div></div></div>
+<div id="px7" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Often sets procurement expectations through contractual terms, supplier metrics, and compliance frameworks. These mechanisms create discipline with external partners, though internal alignment required to convert procurement outcomes into enterprise value may need further establishment.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>Supplier expectations are clear; internal expectations for converting supplier performance into business value are not established. The internal expectations chain for converting inputs into outcomes remains under-confirmed.</p><div class="cm-q">Reflection: Which procurement outcome is delivering inputs that are not yet being converted into enterprise value? What internal alignment conversation is missing?</div></div></div>
+<div id="px8" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Frequently sets expectations for risk control and compliance through governance frameworks, policies, and reporting standards. Rules are clear, yet deeper organisational ownership of risk-aware behaviour may require additional dialogue to move beyond procedural compliance.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The governance rule is understood; the ownership of risk-aware behaviour is procedural rather than internalised. Compliance is achieved; commitment to risk-aware decision-making as a shared organisational responsibility is not established.</p><div class="cm-q">Reflection: Where in your organisation is risk compliance procedural rather than owned? What alignment conversation would change this?</div></div></div>
+<div id="px9" class="cm-detail"><div class="cm-col"><h5>Typical Tendency</h5><p>Often sets expectations around planning milestones, strategic reviews, and OKR cycles. Strategic process discipline is strong, though expectations for day-to-day execution ownership may not always be fully established with the operational leaders responsible.</p></div><div class="cm-col"><h5>The Expectation Gap</h5><p>The strategic plan is clear; operational leaders&rsquo; daily execution ownership of it is assumed rather than established through dialogue. Strategic process compliance is achieved; internalisation of strategic intent at execution level is not confirmed.</p><div class="cm-q">Reflection: Which operational leaders have received your strategic plan but not yet accepted ownership of delivering it? What is one alignment conversation you need to have this week?</div></div></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Expectation Gap</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Based on your role exploration: what is the most important expectation you have set but not yet established? Who in your chain needs that alignment dialogue?</p><textarea class="ref-ta" placeholder="The expectation I have set but not established: ...&#10;&#10;The person/function I need to establish it with: ...&#10;&#10;The alignment dialogue I will have within 5 working days: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1,null)">&larr; Intelligence</button><button class="btn" onclick="showMod(3,null)">Integration Zone &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>The Expectation Architecture</h2><p>A shared leadership practice for establishing expectations consistently across the organisation &mdash; from the Future to the Alignment Dialogue.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; In this section you will</div><ul>
+<li>Apply the four-step Expectation Architecture as a consistent leadership practice</li>
+<li>Use the Alignment Dialogue and Score &rarr; Evaluate &rarr; Resolve coaching model</li>
+<li>Interpret alignment scores accurately and respond to each score range</li>
+<li>Capture the three leader reflections that convert a conversation into a commitment record</li>
+</ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Four-Step Expectation Architecture</div><div class="acc-meta">A shared practice for every leader</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="scarf-grid" style="grid-template-columns:1fr 1fr;gap:10px;">
+<div class="sc-card open" onclick="toggleSC(this)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:#8ab0e8;">Step 1</div><div class="sc-q">Start With the Future</div></div><div class="sc-bar" style="background:#8ab0e8;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Purpose</div><div class="sc-rt">Connect the expectation to the organisation&rsquo;s Success in Practice &mdash; so the individual understands why the outcome matters, not just what it is.</div></div><div class="sc-row"><div class="sc-rl">Leader framing</div><div class="sc-rt"><em>&ldquo;As part of our goal to become the most responsive partner in our market, we need to reduce complaint response times across the service teams.&rdquo;</em></div></div><div class="sc-row"><div class="sc-rl">Why it matters</div><div class="sc-rt">When expectations begin with the Future, individuals understand the contribution their work makes to the broader direction. This shifts the conversation from compliance to purpose.</div></div></div></div>
+<div class="sc-card" onclick="toggleSC(this)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:var(--teall);">Step 2</div><div class="sc-q">Clarify the Delivery Expectation</div></div><div class="sc-bar" style="background:var(--teall);"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Purpose</div><div class="sc-rt">Define the specific outcome required &mdash; in result terms, not activity terms. Confirm a shared picture of what success looks like.</div></div><div class="sc-row"><div class="sc-rl">Leader framing</div><div class="sc-rt"><em>&ldquo;The outcome we need is a reduction in resolution time from 48 hours to 12 hours by Q3 2026.&rdquo;</em></div></div><div class="sc-row"><div class="sc-rl">Why it matters</div><div class="sc-rt">Clarity is tested by asking the individual to describe success in their own words. If the description differs from yours, clarify further before proceeding.</div></div></div></div>
+<div class="sc-card" onclick="toggleSC(this)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:#5ecba1;">Step 3</div><div class="sc-q">Identify the Expectations Chain</div></div><div class="sc-bar" style="background:#5ecba1;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Purpose</div><div class="sc-rt">Map who else must contribute for the result to be achieved. Ensure dependencies are visible before execution begins.</div></div><div class="sc-row"><div class="sc-rl">Explore</div><div class="sc-rt">Which teams must collaborate? Whose decisions influence delivery? Where might coordination be required? Which external actors are involved?</div></div><div class="sc-row"><div class="sc-rl">Why it matters</div><div class="sc-rt">This step helps the individual understand the execution system surrounding the expectation &mdash; they are not delivering alone.</div></div></div></div>
+<div class="sc-card" onclick="toggleSC(this)" style="cursor:pointer;"><div class="sc-head"><div class="sc-trigger" style="color:#c39de0;">Step 4</div><div class="sc-q">Confirm Ownership of the Result</div></div><div class="sc-bar" style="background:#c39de0;"></div><div class="sc-body"><div class="sc-row"><div class="sc-rl">Purpose</div><div class="sc-rt">Confirm that the individual accepts responsibility for ensuring the outcome is delivered. This is the moment the expectation moves from instruction to commitment.</div></div><div class="sc-row"><div class="sc-rl">The question</div><div class="sc-rt"><em>&ldquo;On a scale of 1&ndash;10, how aligned are you with the expectation for you to deliver this outcome?&rdquo;</em></div></div><div class="sc-row"><div class="sc-rl">What it means</div><div class="sc-rt">9&ndash;10 = proceed with confidence. Below 9 = move to Score &rarr; Evaluate &rarr; Resolve before execution begins.</div></div></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Which Step Do You Most Often Skip?</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Of the four steps, which one do you most often move through too quickly? What would change if you gave it more time?</p><textarea class="ref-ta" placeholder="I most often rush Step ___  because...&#10;&#10;If I gave it more time, I would: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Alignment Dialogue &mdash; Score &rarr; Evaluate &rarr; Resolve</div><div class="acc-meta">The coaching model</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When the alignment score is below 9, the leader does not challenge the score or move past it. The number is data. The Score &rarr; Evaluate &rarr; Resolve sequence transforms that signal into a resolved commitment.</p>
+<div class="principle-stack">
+<div class="p-card open" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Score It</div><div class="p-name">The individual provides their alignment number &mdash; a signal of readiness</div></div><div class="p-arr">&#9660;</div></div><div class="p-body">
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;">
+<thead><tr><th style="padding:8px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Score</th><th style="padding:8px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Signal</th><th style="padding:8px 12px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Your action</th></tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:8px 12px;color:#5ecba1;font-weight:700;">9&ndash;10</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Clear ownership; ready to deliver</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Proceed; confirm and document</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:8px 12px;color:var(--teall);font-weight:700;">7&ndash;8</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Partial alignment &mdash; uncertainty remains</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Move to Evaluate</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:8px 12px;color:#f0a070;font-weight:700;">5&ndash;6</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Significant concerns affecting confidence</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Move to Evaluate; expect multiple concerns</td></tr>
+<tr><td style="padding:8px 12px;color:#f08080;font-weight:700;">Below 5</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Expectation not viable in current form</td><td style="padding:8px 12px;color:rgba(255,255,255,.7);">Do not proceed &mdash; redesign the expectation</td></tr>
+</tbody></table>
+</div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Evaluate It</div><div class="p-name">Understand what is preventing full alignment</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The leader explores the reasons behind the score &mdash; not to challenge it, but to understand it. Use diagnostic questions:</p><ul><li><em>&ldquo;What influenced the score you gave?&rdquo;</em></li><li><em>&ldquo;What feels unclear about the expectation?&rdquo;</em></li><li><em>&ldquo;What concerns do you have about delivering this outcome?&rdquo;</em></li><li><em>&ldquo;Where do you anticipate obstacles or constraints?&rdquo;</em></li></ul><p>Common concerns that surface: unclear outcome definition, cross-functional dependencies not confirmed, capacity or resource constraints, confidence in the delivery pathway or timeline.</p></div></div>
+<div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Resolve It</div><div class="p-name">Work with the individual to resolve the concern</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;"><em>&ldquo;What would help move your alignment from where it is now to a 9 or 10?&rdquo;</em></p></div><p>This question shifts the conversation toward solutions. Resolution may involve: clarifying the outcome, adjusting priorities or timelines, identifying additional support, confirming collaboration across the chain. Once resolved, ask the alignment question again to confirm ownership has been established.</p><div class="hbox" style="margin-top:10px;"><p><strong>After the dialogue, capture three reflections:</strong><br>1. Alignment Rating &mdash; Where does commitment stand?<br>2. Primary Concern Identified &mdash; What surfaced?<br>3. Action for Elevation &mdash; What will move alignment upward?</p></div></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Practise the Resolve Question</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Write the Resolve question in your own words. Then apply it to a real expectation alignment scenario you are currently facing.</p><textarea class="ref-ta" placeholder="The Resolve question in my own words: &#8220;...&#8221;&#10;&#10;Applied to my current situation: if I asked this of [person], I would expect them to say...&#10;&#10;And I would respond by: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Application &middot; In Practice</div><h2>Role Play &mdash; Establishing Delivery Expectations</h2><p>You are a CXO establishing delivery expectations with a team member or Head of Department. Apply the full Expectation Architecture to move the expectation from communication into genuine ownership.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; In this section you will</div><ul>
+<li>Apply the four-step Expectation Architecture in a live conversation</li>
+<li>Practise the Alignment Dialogue and Score &rarr; Evaluate &rarr; Resolve sequence</li>
+<li>Experience the difference between communicating a target and establishing ownership of it</li>
+<li>Capture your three leader reflections as a commitment record</li>
+</ul></div>
+
+<div class="hbox" style="margin:22px 0;"><div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:12px;">Case Context</div><p style="font-family:'Cormorant Garamond',serif;font-size:1rem;line-height:1.8;margin-bottom:10px;"><strong>Success in Practice (Future):</strong> &ldquo;The most responsive and trusted partner in our market, delivering seamless execution and sustained value through collaborative excellence.&rdquo;</p><p style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;"><strong>Key Result:</strong> Cut customer complaint resolution time from 48 hours to 12 hours by Q3 2026.</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 1 &mdash; Identify Who You Are Establishing Expectations With</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Role / Function and why this person is critical</div><textarea class="ref-ta" placeholder="Role/Function: ...&#10;&#10;Why this person is critical for delivering the outcome: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 2 &mdash; Start With the Future</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Your statement connecting this expectation to the organisation&rsquo;s Future (SiP)</div><textarea class="ref-ta" placeholder="&#8220;As part of our goal to become [SiP Future]...&#10;&#10;This outcome matters because...&#8221;"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 3 &mdash; Clarify the Delivery Expectation</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">The specific outcome to be delivered (result terms, not activities)</div><textarea class="ref-ta" placeholder="&#8220;The outcome we need is...&#10;&#10;By [date/timeline]: ...&#8221;"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">How you will confirm success has been achieved</div><textarea class="ref-ta" placeholder="Success will be confirmed when: ...&#10;&#10;Evidence we will use: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 4 &mdash; Identify the Expectations Chain</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<table style="width:100%;border-collapse:collapse;font-size:13px;margin:14px 0;">
+<thead><tr>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Contributor / Function</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Chain Type</th>
+<th style="padding:10px 14px;text-align:left;font-size:9px;letter-spacing:2px;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);">Role in Delivering the Outcome</th>
+</tr></thead>
+<tbody>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Name/Function..."></td><td style="padding:10px 14px;"><select style="background:#0d1a17;border:1px solid rgba(26,122,106,.25);border-radius:2px;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:11px;padding:4px 8px;outline:none;"><option>Upline</option><option>Downline</option><option>External</option></select></td><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Their specific contribution..."></td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Name/Function..."></td><td style="padding:10px 14px;"><select style="background:#0d1a17;border:1px solid rgba(26,122,106,.25);border-radius:2px;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:11px;padding:4px 8px;outline:none;"><option>Upline</option><option>Downline</option><option>External</option></select></td><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Their specific contribution..."></td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Name/Function..."></td><td style="padding:10px 14px;"><select style="background:#0d1a17;border:1px solid rgba(26,122,106,.25);border-radius:2px;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:11px;padding:4px 8px;outline:none;"><option>Upline</option><option>Downline</option><option>External</option></select></td><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Their specific contribution..."></td></tr>
+<tr><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Name/Function..."></td><td style="padding:10px 14px;"><select style="background:#0d1a17;border:1px solid rgba(26,122,106,.25);border-radius:2px;color:rgba(255,255,255,.7);font-family:'Montserrat',sans-serif;font-size:11px;padding:4px 8px;outline:none;"><option>Upline</option><option>Downline</option><option>External</option></select></td><td style="padding:10px 14px;"><input style="background:transparent;border:none;border-bottom:1px solid rgba(26,122,106,.25);width:100%;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;padding:4px 0;outline:none;" placeholder="Their specific contribution..."></td></tr>
+</tbody></table>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Coordination required across these contributors</div><textarea class="ref-ta" placeholder="Coordination required: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 5 &mdash; Confirm Ownership &amp; Run the Alignment Dialogue</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;"><em>&ldquo;On a scale of 1&ndash;10, how aligned are you with the expectation for you to deliver this outcome?&rdquo;</em></p></div>
+<div style="display:flex;align-items:center;gap:16px;margin:16px 0;padding:16px 20px;background:rgba(26,122,106,.06);border:1px solid rgba(26,122,106,.2);border-radius:3px;">
+<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);flex-shrink:0;">Alignment Score</div>
+<input type="number" min="1" max="10" style="width:80px;background:#0d1a17;border:1px solid rgba(26,122,106,.3);border-radius:2px;color:var(--teall);font-family:'Montserrat',sans-serif;font-size:1.2rem;font-weight:700;text-align:center;padding:8px;outline:none;" placeholder="1-10">
+<div style="font-size:13px;color:rgba(255,255,255,.5);">/ 10</div>
+</div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Concerns or constraints raised during Evaluate</div><textarea class="ref-ta" placeholder="Concerns raised:&#10;1. &#10;2. &#10;3. "></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Actions agreed during Resolve &mdash; what will move alignment to 9 or 10?</div><textarea class="ref-ta" placeholder="&#8220;What would help move your alignment from [score] to a 9 or 10?&#8221;&#10;&#10;Actions agreed: ...&#10;&#10;Revised alignment score: ___/10"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 6 &mdash; Leader Reflection &amp; Commitment Record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">1. Alignment Rating &mdash; Where does commitment stand?</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Final score: ___/10 | This tells me: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">2. Primary Concern Identified &mdash; What surfaced?</div><textarea class="ref-ta" style="min-height:60px;" placeholder="The primary concern was: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">3. Action for Elevation &mdash; What will move alignment upward?</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Action: ... | Owner: ___ | By: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:14px 0;"><div class="ref-label">Overall Reflection &mdash; What did you learn from this conversation?</div><textarea class="ref-ta" placeholder="What I learned: ...&#10;&#10;How this approach would change expectation clarity in my organisation: ...&#10;&#10;My 5-day commitment: I will establish expectations with [person] regarding [outcome] by [date]."></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary</div><div class="acc-meta">Lens 6 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Setting communicates. Establishing secures ownership. The three conditions &mdash; Clarity, Capability, Commitment &mdash; must all be confirmed. The Expectations Chain and Alignment Dialogue are the mechanisms that close the gap.</p></div>
+<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Five mechanisms explain why expectation alignment determines execution outcomes: shifting instruction to ownership, reducing ambiguity, surfacing constraints early, strengthening accountability, and building the behavioural foundation of execution.</p></div>
+<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Every CXO function has a characteristic tendency to set rather than establish expectations. The first casualty is engagement; the deeper cost is diluted accountability. Surface alignment masks unresolved ownership beneath it.</p></div>
+<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The Expectation Architecture (Future &rarr; Clarify &rarr; Chain &rarr; Confirm Ownership) and the Alignment Dialogue (Score &rarr; Evaluate &rarr; Resolve) create a shared leadership discipline that transforms expectation-setting into a commitment practice.</p></div>
+</div>
+<div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;Strong performance cultures are not built by telling people what is expected. They are built by ensuring that expectations are mutually understood, realistically supported, and consciously accepted by the people responsible for delivering them.&rdquo;</em></p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';updateArc(0);}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function updateArc(n){document.querySelectorAll('.arc-seg').forEach((s,i)=>s.classList.toggle('active',i===n));}
+function showMod(n,tab){
+  document.querySelectorAll('.mod').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  if(tab)tab.classList.add('active');
+  else document.querySelectorAll('.tab-btn')[n].classList.add('active');
+  updateArc(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleP(c){c.classList.toggle('open');}
+function toggleSC(c){c.classList.toggle('open');}
+function showCXO(card,id){
+  const was=card.classList.contains('active');
+  document.querySelectorAll('.cm-card').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.cm-detail').forEach(d=>d.classList.remove('visible'));
+  if(!was){card.classList.add('active');document.getElementById(id).classList.add('visible');}
+}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+document.querySelectorAll('.sc-card').forEach((c,i)=>{if(i===0){c.classList.add('open');}});
+updateArc(0);
+</script>
+</body>
+</html>
