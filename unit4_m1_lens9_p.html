@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 4 - Module 1 - Lens 9 Participant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--teal:#1a7a6a;--teall:#22a08a;--gold:#c9a84c;}
+body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0a1614;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teall);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--teall);}
+.unit-header{background:linear-gradient(135deg,#0a1c18,#152e28);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teall);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:18px;}
+.arc-bar{display:flex;gap:2px;margin-bottom:14px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(34,160,138,.1);border:1px solid rgba(34,160,138,.25);color:var(--teall);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;}
+.tab-bar{max-width:1100px;margin:0 auto;padding:32px 40px 0;display:flex;gap:2px;overflow-x:auto;}
+.tab-btn{flex:1;min-width:110px;padding:12px 8px;text-align:center;background:#152420;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.tab-btn.active{background:#1a2e28;color:var(--teall);border-color:rgba(26,122,106,.3);border-bottom-color:#1a2e28;}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod{display:none;background:#1a2e28;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#091612,#122420);padding:32px 40px 24px;border-bottom:1px solid rgba(26,122,106,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.part-obj{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.25);border-left:4px solid var(--teal);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.part-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.part-obj ul{list-style:none;padding:0;}
+.part-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.part-obj li:last-child{border-bottom:none;}
+.part-obj li::before{content:"\2192";position:absolute;left:0;color:var(--teall);}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--teall);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--teall);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.esrg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.esrg-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.esrg-card:hover,.esrg-card.open{border-color:rgba(26,122,106,.4);}
+.esrg-head{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.esrg-meta{flex:1;}
+.esrg-code{font-size:26px;font-weight:700;font-family:"Cormorant Garamond",serif;color:var(--teall);margin-bottom:2px;}
+.esrg-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.esrg-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.esrg-card.open .esrg-arr{transform:rotate(180deg);color:var(--teall);}
+.esrg-bar{height:3px;background:rgba(26,122,106,.18);}
+.esrg-card.open .esrg-bar{background:var(--teal);}
+.esrg-body{display:none;padding:16px 18px;background:#091612;border-top:1px solid rgba(255,255,255,.05);}
+.esrg-card.open .esrg-body{display:block;}
+.esrg-body p,.esrg-body li{font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;}
+.esrg-body ul{padding-left:20px;margin-bottom:8px;}
+.esrg-body li{margin-bottom:4px;}
+.dim-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:12px 0 6px;}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#162e28;border-color:var(--teal);border-bottom-color:#162e28;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(34,160,138,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#091612;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;padding:20px;margin-bottom:12px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:10px;}
+.step-panel ul{padding-left:20px;margin-bottom:10px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:12px 0 8px;}
+.coc-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;margin-bottom:8px;transition:all .2s;}
+.coc-card:hover,.coc-card.open{border-color:rgba(26,122,106,.4);}
+.coc-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.coc-left{flex:1;}
+.coc-val{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.coc-def{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.coc-acronym{font-size:20px;font-weight:700;letter-spacing:4px;color:var(--teall);font-family:"Cormorant Garamond",serif;flex-shrink:0;margin:0 14px;}
+.coc-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.coc-card.open .coc-arr{transform:rotate(180deg);color:var(--teall);}
+.coc-body{display:none;padding:16px 18px;background:#091612;border-top:1px solid rgba(255,255,255,.05);}
+.coc-card.open .coc-body{display:block;}
+.coc-norm{font-size:12px;color:rgba(34,160,138,.8);letter-spacing:.5px;margin-bottom:10px;line-height:1.6;}
+.coc-body p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:8px;}
+.p-reflect{font-size:12px;color:rgba(34,160,138,.7);border-left:2px solid rgba(26,122,106,.4);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(26,122,106,.05);border-radius:0 3px 3px 0;}
+.sum-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.sum-tbl th{background:#162e28;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(26,122,106,.2);}
+.sum-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.sum-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:22%;}
+.sum-tbl td:nth-child(2){color:var(--teall);font-weight:700;width:10%;letter-spacing:2px;}
+.scanner-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:11px;}
+.scanner-tbl th{background:#162e28;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);padding:8px 10px;text-align:left;border-bottom:1px solid rgba(26,122,106,.2);}
+.scanner-tbl td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.rag-h{color:#ef9a9a;font-weight:700;} .rag-m{color:#fff59d;font-weight:700;}
+.check-y{color:#66bb6a;font-weight:700;text-align:center;} .check-n{color:rgba(255,255,255,.2);text-align:center;}
+.compass-flag{font-size:10px;color:var(--teall);font-weight:600;}
+.overlap-card{background:#121e1c;border-left:3px solid rgba(26,122,106,.5);border-radius:0 3px 3px 0;padding:14px 16px;margin-bottom:10px;}
+.overlap-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.overlap-card p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:8px;}
+.overlap-card ul{padding-left:20px;}
+.overlap-card li{font-size:13px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:4px;}
+.signal-box{font-size:13px;padding:10px 14px;background:rgba(26,122,106,.07);border-left:2px solid rgba(26,122,106,.3);border-radius:0 3px 3px 0;margin-top:10px;color:rgba(100,210,180,.8);font-style:italic;line-height:1.7;}
+.rag-table{width:100%;border-collapse:collapse;margin:14px 0;}
+.rag-table th{background:#162e28;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);padding:10px 14px;text-align:left;}
+.rag-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:rgba(255,255,255,.75);}
+.rag-table td:first-child{font-weight:600;color:rgba(255,255,255,.9);}
+.rag-amber{color:#fff59d;font-weight:700;} .rag-red{color:#ef9a9a;font-weight:700;}
+.compass-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;}
+.compass-tbl th{background:#162e28;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);padding:9px 12px;text-align:left;border-bottom:1px solid rgba(26,122,106,.2);}
+.compass-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.compass-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:26%;}
+.compass-tbl td:nth-child(2){color:var(--teall);width:18%;font-weight:600;}
+.vs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.vs-card{background:#121e1c;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;cursor:pointer;transition:all .2s;}
+.vs-card:hover{border-color:rgba(26,122,106,.3);}
+.vs-card.selected{border-color:var(--teal);background:rgba(26,122,106,.08);}
+.vs-type{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.vs-title{font-family:"Cormorant Garamond",serif;font-size:1.05rem;margin-bottom:10px;color:#fff;line-height:1.3;}
+.vs-values{font-size:11px;color:rgba(255,255,255,.4);line-height:2;}
+.hbox{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.ref-block{margin:14px 0;background:#121e1c;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(26,122,106,.4);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--teal);color:var(--teall);}
+.ex-out{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-left:4px solid var(--teal);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.ex-out-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.ex-out ul{list-style:none;padding:0;}
+.ex-out li{font-size:13px;color:rgba(255,255,255,.78);padding:6px 0 6px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.ex-out li:last-child{border-bottom:none;}
+.ex-out li::before{content:"\2192";position:absolute;left:0;color:var(--teall);}
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(26,122,106,.35);color:var(--teall);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(26,122,106,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+.gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#0d1816;border:1px solid rgba(26,122,106,.3);border-radius:4px;padding:40px 44px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.6rem;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(34,160,138,.6);margin-bottom:28px;}
+.gate-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#162e28;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;outline:none;margin-bottom:14px;}
+.gate-input:focus{border-color:rgba(26,122,106,.5);}
+.gate-btn{width:100%;background:var(--teal);color:#fff;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;padding:13px;border-radius:2px;cursor:pointer;}
+.gate-btn:hover{background:var(--teall);}
+.gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;}
+@media(max-width:900px){.esrg-grid,.vs-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Participant Portal</div>
+    <div class="gate-sub">Unit 4 &middot; Module 1 &middot; Lens 9</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Participant Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Enter Participant View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">Participant</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 4 &middot; Module 1 &middot; Lens 9</div>
+    <h1 class="unit-title">ESRG Alignment</h1>
+    <div class="unit-sub">Grounding &mdash; Enterprise &amp; Culture Alignment</div>
+    <p class="unit-desc">Grounding asks whether the organisation itself is built to sustain the performance it is being asked to deliver. ESRG Alignment ensures that Environment, Systems, Resources, and Governance are fully equipped to support consistent delivery.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Application<span>In Practice</span></div>
+    </div>
+  </div>
+</div>
+<div class="tab-bar">
+  <div class="tab-btn active" onclick="showMod(0,this)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="tab-btn" onclick="showMod(1,this)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="tab-btn" onclick="showMod(2,this)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="tab-btn" onclick="showMod(3,this)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="tab-btn" onclick="showMod(4,this)">Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<div class="mod active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>What is ESRG Alignment?</h2><p>The four domains that determine whether performance can be sustained over time.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Articulate why ESRG Alignment is the primary determinant of sustained execution</li>
+<li>Describe the Physical and Behavioural dimensions of Environment</li>
+<li>Explain why the Cultural Operating Code is the critical output of the Behavioural Environment</li>
+<li>Map the key alignment conditions for each of the four ESRG domains</li>
+</ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">ESRG Alignment &mdash; The Grounding Question</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb"><p>Enterprise alignment is one of the most decisive success factors in strategy execution. Performance is not sustained by strategy alone &mdash; it is sustained by the organisational system: the environment people work in, the systems they rely on, the resources they are given, and the governance structures that guide decisions.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" placeholder="Most strategies that survive the first quarter fail by the third. What does that tell you about where execution actually breaks down in your organisation?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Four ESRG Domains</div><div class="acc-meta">Select each to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="esrg-grid">
+<div class="esrg-card open" onclick="toggleESRG(this)">
+  <div class="esrg-head"><div class="esrg-meta"><div class="esrg-code">E</div><div class="esrg-name">Environment</div></div><div class="esrg-arr">&#9660;</div></div>
+  <div class="esrg-bar"></div>
+  <div class="esrg-body">
+    <div class="step-group"><div class="step-tabs">
+      <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Dim 1</div><div class="step-name">Physical</div></div>
+      <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Dim 2</div><div class="step-name">Behavioural</div></div>
+    </div>
+    <div class="step-panel active">
+      <div class="dim-label">Infrastructure</div><ul><li>Reliable connectivity, equipment and working spaces</li><li>Business continuity provisions</li></ul>
+      <div class="dim-label">Workspace Design</div><ul><li>Layout reducing delays between dependent roles &mdash; proximity is a performance variable</li><li>Visual signals reflecting current strategic priorities</li></ul>
+      <div class="dim-label">Operational Conditions</div><ul><li>Remote and hybrid staff participating equally &mdash; two-tier participation creates two-tier accountability</li></ul>
+    </div>
+    <div class="step-panel">
+      <div class="dim-label">Values</div><ul><li>Must be <strong>demonstrable</strong> &mdash; translated into observable behaviours</li><li>Embedded in <strong>360-degree feedback</strong> &mdash; assessing how, not only what</li><li>Enforced through <strong>consequences</strong> consistently regardless of seniority</li></ul>
+      <div class="dim-label">Cultural Operating Code</div><ul><li>For each value, a named acronym-based norm defining observable, repeatable behaviour</li><li>Explicit, modelled, reinforced, and reviewed periodically</li></ul>
+      <div class="dim-label">Psychological Conditions</div><ul><li>Psychological safety so people surface problems early rather than managing impressions</li><li>Culture is either taught or it defaults</li></ul>
+    </div></div>
+  </div>
+</div>
+<div class="esrg-card" onclick="toggleESRG(this)">
+  <div class="esrg-head"><div class="esrg-meta"><div class="esrg-code">S</div><div class="esrg-name">Systems</div></div><div class="esrg-arr">&#9660;</div></div>
+  <div class="esrg-bar"></div>
+  <div class="esrg-body"><ul><li>Core processes documented, current, and easy to find</li><li>A trusted single source of truth for key operational data</li><li>Teams can see where work sits in the end-to-end process</li><li>Systems communicate to eliminate duplicate work</li><li>Approvals simple, time-bound, and traceable within the system</li></ul></div>
+</div>
+<div class="esrg-card" onclick="toggleESRG(this)">
+  <div class="esrg-head"><div class="esrg-meta"><div class="esrg-code">R</div><div class="esrg-name">Resources</div></div><div class="esrg-arr">&#9660;</div></div>
+  <div class="esrg-bar"></div>
+  <div class="esrg-body"><ul><li>Staffing levels supporting normal and peak demand &mdash; burnout is a strategic risk</li><li>Skills matching current work requirements; talent planning anticipating future needs</li><li>Training accompanying every change in process, system, or strategic direction</li><li>Budget available for critical strategic initiatives</li><li>Teams able to signal unsustainable workloads early</li></ul></div>
+</div>
+<div class="esrg-card" onclick="toggleESRG(this)">
+  <div class="esrg-head"><div class="esrg-meta"><div class="esrg-code">G</div><div class="esrg-name">Governance</div></div><div class="esrg-arr">&#9660;</div></div>
+  <div class="esrg-bar"></div>
+  <div class="esrg-body"><ul><li>Each area of strategic work has a clearly assigned owner</li><li>Decision rights clearly defined, communicated, and understood at every level</li><li>Review forums making decisions &mdash; not only collecting status updates</li><li>Risk discussions accompanying performance discussions as a standard discipline</li><li>Consequences applied consistently regardless of seniority</li></ul></div>
+</div>
+</div>
+<div class="ref-block"><div class="ref-label">&#x270E; Self-Assessment &mdash; Which ESRG domain is most misaligned in your organisation?</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Domain: ___&#10;How long has this misalignment been visible?&#10;What has it cost in execution momentum?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why ESRG Alignment Drives Sustained Execution</h2><p>How each domain removes a specific category of friction &mdash; and two worked examples.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain how each ESRG domain contributes a specific enabling condition for sustained execution</li>
+<li>Connect the Cultural Operating Code to the behavioural dimension of Environment</li>
+<li>Read and interpret an ESRG Execution Scanner result &mdash; individual and consolidated</li>
+<li>Identify the three overlapping patterns in the worked example</li>
+</ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The ESRG Ignition Point</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">E</div><div class="step-name">Enable</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">S</div><div class="step-name">Streamline</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">R</div><div class="step-name">Resource</div></div>
+  <div class="step-tab" onclick="showStep(3,this)"><div class="step-num">G</div><div class="step-name">Govern</div></div>
+</div>
+<div class="step-panel active"><h5>Enable the Work &mdash; Physical &amp; Behavioural</h5><p>Values that are merely stated do not enable performance. Values that are demonstrable, measured, and enforced create a behavioural environment where conduct is as consequential as results. The Cultural Operating Code translates values into named, actionable norms &mdash; moving values from aspiration to operation. Psychological safety completes the enabling condition.</p></div>
+<div class="step-panel"><h5>Streamline the Flow</h5><p>Systems provide pathways through which information, tasks, and decisions move. When clear and reliable, teams can see where work sits, how it progresses, and what action is required. Streamlined systems make execution visible &mdash; and visibility is the precondition for accountability.</p></div>
+<div class="step-panel"><h5>Resource the Strategy</h5><p>Teams must possess the skills required, the capacity to sustain effort, and the tools to operate efficiently. Burnout degrades execution quality, accelerates talent exit, and erodes institutional knowledge that is often the organisation's most critical and least recoverable asset.</p></div>
+<div class="step-panel"><h5>Govern the Rhythm</h5><p>Governance provides the structure maintaining the rhythm of decisions, reviews, and accountability. The governance system must apply standards consistently regardless of seniority &mdash; leaders exempt from accountability destroy governance credibility faster than any single operational failure.</p>
+<div class="hbox"><p style="font-style:italic;font-family:'Cormorant Garamond';font-size:1.05rem;">"When all four conditions operate together, execution no longer depends on leadership attention. The organisation&rsquo;s operating system reinforces the work itself. That is Grounding."</p></div></div>
+</div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which enabling condition is weakest in your organisation right now &mdash; and what is the execution cost?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Worked Example 1 &mdash; The IBSL Cultural Operating Code</div><div class="acc-meta">6 values &middot; 6 norms</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>IBSL&rsquo;s values: <strong>Intentionality &middot; Integrity &middot; Collaboration &middot; Accountability &middot; Excellence &middot; Human-Centricity</strong></p>
+<div class="coc-card open" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Intentionality</div><div class="coc-def">Leading with purpose, clarity, and discipline</div></div><div class="coc-acronym">AIM</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">Act with purpose &middot; Interrogate assumptions &middot; Maintain the discipline</div><p>Intentionality is not enthusiasm &mdash; it is the discipline of knowing exactly why you are doing what you are doing, and holding that line when conditions make it inconvenient.</p><div class="p-reflect">Reflect: Before your last three major commitments &mdash; could you articulate the strategic purpose, the assumption you were making, and the standard you held yourself to?</div></div></div>
+<div class="coc-card" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Integrity</div><div class="coc-def">Consistency between words, behaviour, and outcomes</div></div><div class="coc-acronym">SAY</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">Say what you mean &middot; Act on what you say &middot; Yield the truth regardless of consequence</div><p>Integrity is about consistency between word, behaviour, and outcome &mdash; even when telling the truth is uncomfortable. What we say and what we do are the same thing. Always.</p><div class="p-reflect">Reflect: In your last performance review &mdash; did you name what was promised, what was delivered, and what the gap cost &mdash; before being asked?</div></div></div>
+<div class="coc-card" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Collaboration</div><div class="coc-def">Leveraging diversity of thought and collective intelligence</div></div><div class="coc-acronym">ONE</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">Own a shared outcome &middot; Navigate difference with respect &middot; Execute as a unified force</div><p>Collaboration is not a meeting. It is the decision to produce something together that no single function could produce alone. The result belongs to the team.</p><div class="p-reflect">Reflect: In your last cross-functional review &mdash; did you present the shared outcome, or only your function&rsquo;s contribution?</div></div></div>
+<div class="coc-card" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Accountability</div><div class="coc-def">Owning results and reinforcing transparency</div></div><div class="coc-acronym">OAR</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">Own it &middot; Act on it &middot; Report it</div><p>Accountability begins the moment a commitment is made. We do not manage impressions &mdash; we report the truth and fix the gap.</p><div class="p-reflect">Reflect: When did you last surface a gap before being asked &mdash; with the cause, the impact, and the recovery action already identified?</div></div></div>
+<div class="coc-card" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Excellence</div><div class="coc-def">Upholding rigour, learning, and measurable impact</div></div><div class="coc-acronym">SET</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">Set the standard &middot; Earn the evidence &middot; Transform through learning</div><p>Excellence is a daily discipline. Not about being the best in the room &mdash; about being better than last quarter, and proving it with evidence.</p><div class="p-reflect">Reflect: At your last review &mdash; could you answer: What standard did we set? What evidence do we have? What have we changed as a result?</div></div></div>
+<div class="coc-card" onclick="toggleCOC(this)"><div class="coc-head"><div class="coc-left"><div class="coc-val">Human-Centricity</div><div class="coc-def">Placing people at the core of leadership and execution</div></div><div class="coc-acronym">SEE</div><div class="coc-arr">&#9660;</div></div><div class="coc-body"><div class="coc-norm">See the person, not just the role &middot; Enable growth deliberately &middot; Ensure dignity in every interaction</div><p>Leadership serves people &mdash; not the other way around. We invest in growth. We protect dignity. We never reduce a person to their output.</p><div class="p-reflect">Reflect: In your last performance conversation &mdash; did you open with the person before moving to the result?</div></div></div>
+<table class="sum-tbl" style="margin-top:14px;"><thead><tr><th>Value</th><th>Acronym</th><th>Norm</th></tr></thead><tbody>
+<tr><td>Intentionality</td><td>AIM</td><td>Act with purpose. Interrogate assumptions. Maintain the discipline.</td></tr>
+<tr><td>Integrity</td><td>SAY</td><td>Say what you mean. Act on what you say. Yield the truth regardless of consequence.</td></tr>
+<tr><td>Collaboration</td><td>ONE</td><td>Own a shared outcome. Navigate difference with respect. Execute as a unified force.</td></tr>
+<tr><td>Accountability</td><td>OAR</td><td>Own it. Act on it. Report it.</td></tr>
+<tr><td>Excellence</td><td>SET</td><td>Set the standard. Earn the evidence. Transform through learning.</td></tr>
+<tr><td>Human-Centricity</td><td>SEE</td><td>See the person, not just the role. Enable growth deliberately. Ensure dignity in every interaction.</td></tr>
+</tbody></table>
+<div class="hbox"><p style="text-align:center;letter-spacing:3px;font-weight:700;color:var(--teall);">AIM &middot; SAY &middot; ONE &middot; OAR &middot; SET &middot; SEE</p></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Worked Example 2 &mdash; The ESRG Execution Scanner</div><div class="acc-meta">Q1 2026 &middot; 6 leaders</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Step 1</div><div class="step-name">Individual</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Step 2</div><div class="step-name">ESRG Pattern</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Step 3</div><div class="step-name">COMPASS</div></div>
+  <div class="step-tab" onclick="showStep(3,this)"><div class="step-num">Step 4</div><div class="step-name">Overlaps</div></div>
+  <div class="step-tab" onclick="showStep(4,this)"><div class="step-num">Step 5</div><div class="step-name">Consolidated</div></div>
+</div>
+<div class="step-panel active"><table class="scanner-tbl"><thead><tr><th>Leader</th><th>ESRG</th><th>Issue Observed</th><th>Severity</th><th>COMPASS</th></tr></thead><tbody>
+<tr><td><strong>Sarah (COO)</strong></td><td>G</td><td>Operations review forum &mdash; zero decisions in 4 months. Same 3 issues carried forward.</td><td class="rag-h">HIGH</td><td class="compass-flag">M &middot; C &middot; O</td></tr>
+<tr><td><strong>James (CPO)</strong></td><td>E</td><td>360 feedback completed but never actioned. Cultural signal: how you lead does not affect what happens to you.</td><td class="rag-h">HIGH</td><td class="compass-flag">O &middot; P &middot; S2</td></tr>
+<tr><td><strong>Priya (CFO)</strong></td><td>R</td><td>Q2 budget still reflects Q4 2024 priorities. Two initiatives underfunded by ~40%.</td><td class="rag-h">HIGH</td><td class="compass-flag">A &middot; P</td></tr>
+<tr><td><strong>David (CTO)</strong></td><td>S</td><td>Data across 3 platforms with no integration. Leadership deciding on 5&ndash;7 day old information.</td><td class="rag-h">HIGH</td><td class="compass-flag">S1 &middot; M &middot; S2</td></tr>
+<tr><td><strong>Amara (CSO)</strong></td><td>G</td><td>Decision rights at R500,000 threshold unclear. Vendor received contradictory instructions in same week.</td><td class="rag-m">MED</td><td class="compass-flag">C &middot; O &middot; M</td></tr>
+<tr><td><strong>Lebo (CMO)</strong></td><td>E</td><td>Cape Town hub excluded from real-time strategic decisions &mdash; all meetings default to Johannesburg time zones.</td><td class="rag-m">MED</td><td class="compass-flag">O &middot; P</td></tr>
+</tbody></table></div>
+<div class="step-panel"><table class="scanner-tbl"><thead><tr><th>ESRG</th><th>Sarah</th><th>James</th><th>Priya</th><th>David</th><th>Amara</th><th>Lebo</th><th>Pattern</th></tr></thead><tbody>
+<tr><td><strong>E</strong></td><td class="check-n">&mdash;</td><td class="rag-h check-y">HIGH</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="rag-m check-y">MED</td><td>WATCH</td></tr>
+<tr><td><strong>S</strong></td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="rag-h check-y">HIGH</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td>HIGH IN FUNCTION</td></tr>
+<tr><td><strong>R</strong></td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="rag-h check-y">HIGH</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td>HIGH IN FUNCTION</td></tr>
+<tr><td><strong>G</strong></td><td class="rag-h check-y">HIGH</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="rag-m check-y">MED</td><td class="check-n">&mdash;</td><td>WATCH</td></tr>
+</tbody></table></div>
+<div class="step-panel"><table class="scanner-tbl"><thead><tr><th>COMPASS Zone</th><th>Sa</th><th>Ja</th><th>Pr</th><th>Da</th><th>Am</th><th>Le</th><th>Flagged</th></tr></thead><tbody>
+<tr><td>C &middot; Clarity</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td>2</td></tr>
+<tr><td>O &middot; Alignment</td><td class="check-y">&#10003;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-y">&#10003;</td><td><strong class="rag-h">4 &#128308;</strong></td></tr>
+<tr><td>M &middot; Discipline</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td><strong class="rag-m">3 &#128993;</strong></td></tr>
+<tr><td>P &middot; People</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td><strong class="rag-m">3 &#128993;</strong></td></tr>
+<tr><td>A &middot; Resources</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td>1</td></tr>
+<tr><td>S1 &middot; Execution</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td>1</td></tr>
+<tr><td>S2 &middot; Sensing</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-y">&#10003;</td><td class="check-n">&mdash;</td><td class="check-n">&mdash;</td><td>2</td></tr>
+</tbody></table></div>
+<div class="step-panel">
+<div class="overlap-card"><div class="overlap-label">Overlap 1 &mdash; O &middot; Organisational Alignment: 4 of 6</div><ul><li>Sarah via G: decision forums not producing cross-functional resolution</li><li>James via E: values not enforced consistently &mdash; behavioural norms vary across functions</li><li>Amara via G: contradictory decision authority producing contradictory signals</li><li>Lebo via E: hub exclusion fragmenting team identity and participation</li></ul><div class="signal-box">Not one functional problem. Governance, culture, and infrastructure are simultaneously pulling functions apart.</div></div>
+<div class="overlap-card"><div class="overlap-label">Overlap 2 &mdash; M &middot; Management Discipline: 3 of 6</div><ul><li>Sarah via G: review forums not functioning as decision mechanisms</li><li>David via S: data latency means reviews conducted on stale information</li><li>Amara via G: unclear decision rights mean accountability cannot be cleanly assigned</li></ul><div class="signal-box">Not a leadership behaviour problem. A structural problem &mdash; forums broken, information delayed, authority ambiguous.</div></div>
+<div class="overlap-card"><div class="overlap-label">Overlap 3 &mdash; P &middot; People &amp; Capability: 3 of 6</div><ul><li>James via E: 360 unactioned signals no real investment in development</li><li>Priya via R: 40% underfunding means capability cannot be deployed where it exists</li><li>Lebo via E: hub exclusion constrains capable people structurally</li></ul><div class="signal-box">Not a training problem. Constrained at three points &mdash; funding, structure, and culture. A coordinated response across R, E, and G is required.</div></div>
+</div>
+<div class="step-panel">
+<table class="rag-table"><thead><tr><th>Element</th><th>Status</th></tr></thead><tbody>
+<tr><td>E &mdash; Environment</td><td class="rag-amber">&#128993; AMBER &mdash; EXECUTION WATCH</td></tr>
+<tr><td>S &mdash; Systems</td><td class="rag-amber">&#128993; AMBER &mdash; EXECUTION WATCH</td></tr>
+<tr><td>R &mdash; Resources</td><td class="rag-amber">&#128993; AMBER &mdash; EXECUTION WATCH</td></tr>
+<tr><td>G &mdash; Governance</td><td class="rag-amber">&#128993; AMBER &mdash; EXECUTION WATCH</td></tr>
+<tr><td><strong>OVERALL</strong></td><td class="rag-red">&#128308; RED &mdash; CRITICAL FRICTION DETECTED</td></tr>
+</tbody></table>
+<div class="signal-box">Six executives entered the session each holding one piece of the picture. None could see the full pattern alone. This is what collective intelligence looks like.</div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which of the three overlapping patterns is most recognisable in your context? Why?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0,null)">&larr; Awareness</button><button class="btn" onclick="showMod(2,null)">Extrapolating &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>Where Are the ESRG Friction Zones?</h2><p>Recognising the predictable friction patterns in each domain.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Identify the predictable friction patterns for each ESRG domain</li>
+<li>Distinguish physical environment friction from behavioural environment friction</li>
+<li>Recognise friction as organisational intelligence &mdash; not failure, but signal</li>
+<li>Connect specific friction patterns to the type of intervention required</li>
+</ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">E &mdash; Environment Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="dim-label">Physical Friction</div><p>Teams asked to work in new ways &mdash; cross-functional, faster, hybrid &mdash; yet workspaces still reflect older patterns. The execution cost is real and largely invisible in any performance report.</p>
+<div class="dim-label">Behavioural Friction</div><p>When stated values are not translated into observable behaviours and not embedded in performance measurement, they function as decoration. The absence of a Cultural Operating Code means cultural expectations remain implicit &mdash; interpreted differently by different people at different seniority levels. That inconsistency is friction.</p>
+<p>When psychological safety fails, execution issues surface too late. The organisation loses its most valuable early warning system: the willingness of people to tell the truth about what is actually happening.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which environmental friction pattern &mdash; physical or behavioural &mdash; is most present in your function right now? What is the execution cost?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">S &mdash; Systems Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb"><p>Workarounds invented to keep work moving become, over time, the de facto system. Data integrity is not a technical problem &mdash; it is an execution problem. When leaders spend more time debating the accuracy of information than interpreting what it means, systems are failing execution.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your organisation have workarounds become so normalised that they are now the de facto system?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">R &mdash; Resources Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb"><p>The assumption of readiness is itself a source of friction. Burnout is a strategic risk &mdash; it degrades execution quality, accelerates talent exit, and erodes institutional knowledge. The absence of a signal that workloads are unsustainable is not evidence that all is well. It is evidence that psychological safety is insufficient. Strategy follows resources: where the money goes is where the organisation&rsquo;s real priorities reside.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your strategy portfolio is there a gap between what you have committed to deliver and what you are actually resourced to achieve?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">G &mdash; Governance Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb"><p>Governance structures designed to control risk can begin to slow execution speed as strategy evolves. Selective enforcement &mdash; when high performers are exempt from accountability by virtue of results &mdash; delegitimises the governance system. A governance system that lacks legitimacy cannot sustain the execution discipline the strategy requires.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your governance system is selective enforcement visible? What signal is that sending to the rest of the organisation?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1,null)">&larr; Intelligence</button><button class="btn" onclick="showMod(3,null)">Integration Zone &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>Collective Intelligence of Execution</h2><p>The Execution Muscle Scan &mdash; transforming individual observations into collective intelligence about execution readiness.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why ESRG alignment requires collective commitment, not functional ownership in isolation</li>
+<li>Apply the four reflections to your own quarterly experience</li>
+<li>Use the COMPASS-ESRG connection to diagnose where friction is forming</li>
+<li>Contribute to the Enterprise ESRG Alignment Agenda</li>
+</ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Execution Muscle Scan &mdash; Four Reflections</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="hbox"><p style="font-family:'Cormorant Garamond';font-size:1.1rem;font-style:italic;">"Are the organisational conditions still supporting our ability to continue the climb?"</p></div>
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">E</div><div class="step-name">Environment</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">S</div><div class="step-name">Systems</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">R</div><div class="step-name">Resources</div></div>
+  <div class="step-tab" onclick="showStep(3,this)"><div class="step-num">G</div><div class="step-name">Governance</div></div>
+</div>
+<div class="step-panel active"><p>Can teams reach one another quickly? Are hybrid participants fully engaged &mdash; or experiencing two-tier participation? Are values being demonstrated &mdash; not stated, but demonstrated? Is the Cultural Operating Code being actively reinforced? Do people feel safe enough to surface execution problems early?</p><div class="hbox"><p style="font-style:italic;font-size:13px;">"Do the physical and behavioural conditions make it easy for people to collaborate, speak honestly, and advance the work?"</p></div></div>
+<div class="step-panel"><p>Are processes remaining clear and accessible &mdash; or have workarounds accumulated? Are data sources trusted across functions? Is workflow visibility sufficient &mdash; or is execution progress only visible through informal channels?</p><div class="hbox"><p style="font-style:italic;font-size:13px;">"Do our systems allow work, data, and decisions to move smoothly and visibly across the organisation?"</p></div></div>
+<div class="step-panel"><p>Do teams possess the skills required for the current phase? Are staffing levels sufficient? Is financial investment continuing to flow to strategic priorities? Can people signal unsustainable workloads early?</p><div class="hbox"><p style="font-style:italic;font-size:13px;">"Do our teams have the capability, capacity, and sustainability required to deliver the strategy over time &mdash; not only this quarter?"</p></div></div>
+<div class="step-panel"><p>Are decision rights clear at every level? Are review forums functioning as decision forums &mdash; or reverting to status update sessions? Are accountability standards applied consistently regardless of seniority or results?</p><div class="hbox"><p style="font-style:italic;font-size:13px;">"Are decisions, accountability, and ethical standards operating at the pace and consistency required to sustain execution?"</p></div></div>
+</div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The COMPASS-ESRG Connection</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<table class="compass-tbl"><thead><tr><th>COMPASS Zone</th><th>Primary ESRG</th><th>Friction Source</th></tr></thead><tbody>
+<tr><td>Clarity of Direction</td><td>Governance</td><td>Decision rights unclear; leadership avoiding trade-offs</td></tr>
+<tr><td>Organisational Alignment</td><td>Environment</td><td>Values misalignment; cultural norms fragmented</td></tr>
+<tr><td>Management Discipline</td><td>Governance</td><td>Review forums producing reports not decisions</td></tr>
+<tr><td>People &amp; Capability</td><td>Resources</td><td>Capability gaps; capacity constraints; sustainability failing</td></tr>
+<tr><td>Allocation of Resources</td><td>Resources</td><td>Budget following history not strategy</td></tr>
+<tr><td>Systems &amp; Execution</td><td>Systems</td><td>Legacy processes; data fragmentation; shadow systems</td></tr>
+<tr><td>Sensing &amp; Adaptation</td><td>Environment + Systems</td><td>Psychological safety absent; feedback loops broken</td></tr>
+</tbody></table>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Contribution to the Enterprise ESRG Alignment Agenda</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ref-block"><div class="ref-label">&#x270E; Your Individual ESRG Scanner Input</div><textarea class="ref-ta" style="min-height:100px;" placeholder="ESRG Element where I observed the most significant friction this quarter: ___&#10;Issue observed (one sentence): ___&#10;Severity (High / Medium / Low): ___&#10;COMPASS zones I believe are impacted: ___&#10;&#10;Why I am naming this now rather than absorbing it silently: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
+</div></div>
+<div class="mod" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Application &middot; In Practice</div><h2>Build the Cultural Operating Code</h2><p>Translating organisational values into observable, teachable, measurable norms.</p></div>
+<div class="mod-body">
+<div class="part-obj"><div class="part-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply the Values-to-Norms translation discipline to a real value set</li>
+<li>Produce COC norms that are observable, acronym-based, and pass the pressure test</li>
+<li>Present and defend a norm against the three tests</li>
+<li>Leave with a concrete commitment to use one norm in the next difficult leadership conversation</li>
+</ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Choose Your Value Set</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="vs-grid">
+<div class="vs-card selected" onclick="selectVS(this)"><div class="vs-type">Value Set A</div><div class="vs-title">The Governance-Led Organisation</div><div class="vs-values">Transparency<br>Courage<br>Service<br>Resilience<br>Innovation<br>Stewardship</div></div>
+<div class="vs-card" onclick="selectVS(this)"><div class="vs-type">Value Set B</div><div class="vs-title">The Performance-Led Organisation</div><div class="vs-values">Trust<br>Agility<br>Quality<br>Ownership<br>Growth<br>Inclusion</div></div>
+<div class="vs-card" onclick="selectVS(this)"><div class="vs-type">Value Set C</div><div class="vs-title">The Purpose-Led Organisation</div><div class="vs-values">Purpose<br>Integrity<br>Ubuntu<br>Excellence<br>Boldness<br>Care</div></div>
+</div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Exercise &mdash; 55 Minutes</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Part 1 &middot; 5 min</div><div class="step-name">Choose</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Part 2 &middot; 35 min</div><div class="step-name">Build</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Part 3 &middot; 15 min</div><div class="step-name">Challenge</div></div>
+</div>
+<div class="step-panel active"><h5>Choose Your Value Set</h5><p>Select one of the three value sets. Work through <strong>three values</strong> from your chosen set. Choose the three that feel most relevant or most challenging to translate. Present your <strong>strongest single norm</strong> to the full group.</p></div>
+<div class="step-panel"><h5>Build the COC &mdash; Three Steps Per Value</h5>
+<p><strong>Step 1 &mdash; Define the behaviour:</strong> What would a leader who genuinely lives this value do differently from one who only states it?</p>
+<p><strong>Step 2 &mdash; Build the acronym:</strong> Take the first letter of three action words. Each must be an observable action &mdash; a verb the leader performs, not a quality they possess.</p>
+<p><strong>Step 3 &mdash; Write the norm statement:</strong> One sentence specific enough that a new employee on Day 1 would know exactly what behaviour will be recognised and what will be corrected.</p>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 1</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 2</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 3</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div>
+<div class="step-panel"><h5>The COC Challenge &mdash; Present Your Strongest Norm</h5>
+<div class="overlap-card"><div class="overlap-label">Test 1 &mdash; The New Employee Test</div><p><em>"If a new employee read this norm on their first day, would they know exactly what behaviour will be recognised and what will be corrected?"</em></p></div>
+<div class="overlap-card"><div class="overlap-label">Test 2 &mdash; The Pressure Test</div><p><em>"Does this norm hold when a senior leader violates it? Or does it only apply to junior staff?"</em></p></div>
+<div class="overlap-card"><div class="overlap-label">Test 3 &mdash; The Mirror Test</div><p><em>"Would every person in this room be comfortable being assessed against this norm in their own 360-degree feedback?"</em></p></div>
+<div class="hbox"><p style="font-family:'Cormorant Garamond';font-size:1.05rem;font-style:italic;">"A Cultural Operating Code only becomes real the moment a leader uses it in a difficult conversation. Which norm from today will you use in your next difficult conversation &mdash; and when?"</p></div>
+</div></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Commitments</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="ex-out"><div class="ex-out-label">&#9670; Leave With These Three</div><ul>
+<li><strong>Three draft COC norms</strong> from your chosen value set &mdash; named, acronym-based, and observable</li>
+<li><strong>One test commitment</strong> &mdash; which norm will you reference in your next performance or accountability conversation?</li>
+<li><strong>A review date</strong> &mdash; when will you bring the draft COC to your team for pressure-testing?</li>
+</ul></div>
+<div class="ref-block"><div class="ref-label">&#x270E; My Commitment</div><textarea class="ref-ta" style="min-height:70px;" placeholder="The norm I will use in my next difficult conversation: ___&#10;The conversation it applies to: ___&#10;When: ___&#10;&#10;Review date to bring COC to my team: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; ESRG Alignment</div><div class="acc-meta">Lens 9 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sum-cards">
+<div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; The What</div><p>ESRG Alignment examines the four domains that collectively determine whether performance can be sustained. The Cultural Operating Code is the most important output of the Environment domain &mdash; values translated into named, acronym-based norms that become the behavioural architecture of the organisation.</p></div>
+<div class="sum-card"><div class="sum-card-label" style="color:var(--teall);">Intelligence &mdash; The Why</div><p>Each domain removes a specific category of friction. The ignition point of Grounding is when all four work together &mdash; as a coherent operating system that reinforces the strategy rather than resisting it. At that point execution no longer depends on heroic individual effort.</p></div>
+<div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; The Where</div><p>Execution friction is not random. Values misalignment and psychological safety failures in E; workarounds and data fragmentation in S; capability gaps and unsustainable workloads in R; selective accountability and absent leadership in G. These patterns are predictable &mdash; and therefore preventable.</p></div>
+<div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; The How</div><p>ESRG friction rarely stays within a single function. The Execution Muscle Scan transforms individual observations into collective intelligence. The Enterprise ESRG Alignment Agenda is a leadership instrument for proactive execution architecture &mdash; not a complaint register.</p></div>
+</div>
+<div class="hbox">
+<p style="font-family:'Cormorant Garamond';font-size:1.1rem;line-height:1.8;text-align:center;">Grounding is where strategy execution is sustained. The environment must enable. The systems must streamline. The resources must sustain. The governance must discipline. When all four are working together &mdash; the organisation does not just execute its strategy. It becomes capable of executing the next one, and the one after that.</p>
+<p style="text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-top:12px;">That is not a management competency. That is an organisational superpower.</p>
+</div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button></div>
+</div></div>
+</div>
+<script>
+const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n,tab){
+  document.querySelectorAll('.mod').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  if(tab)tab.classList.add('active');
+  else document.querySelectorAll('.tab-btn')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleESRG(c){c.classList.toggle('open');}
+function toggleCOC(c){c.classList.toggle('open');}
+function selectVS(card){document.querySelectorAll('.vs-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+</script>
+</body>
+</html>
