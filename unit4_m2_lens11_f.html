@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 4 - Module 2 - Lens 11 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(201,168,76,.3);}
+.step-tab.active{background:rgba(201,168,76,.15);border-color:var(--gold);border-bottom-color:rgba(201,168,76,.15);box-shadow:0 -2px 0 var(--gold) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--gold);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+.grav-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;margin-bottom:8px;transition:all .2s;}
+.grav-card:hover,.grav-card.open{border-color:rgba(201,168,76,.3);}
+.grav-head{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+.grav-num{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:3px 10px;flex-shrink:0;margin-right:14px;}
+.grav-left{flex:1;}
+.grav-name{font-family:"Cormorant Garamond",serif;font-size:1.15rem;color:#fff;}
+.grav-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;font-style:italic;}
+.grav-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.grav-card.open .grav-arr{transform:rotate(180deg);color:var(--gold);}
+.grav-bar{height:3px;background:rgba(201,168,76,.14);}
+.grav-card.open .grav-bar{background:var(--gold);}
+.grav-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.grav-card.open .grav-body{display:block;}
+.grav-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.85;margin-bottom:10px;}
+.grav-body strong{color:var(--gold);}
+.kiss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.kiss-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;transition:border-color .2s;}
+.kiss-card:hover{border-color:rgba(201,168,76,.25);}
+.kiss-letter{font-size:32px;font-weight:700;font-family:"Cormorant Garamond",serif;color:var(--gold);margin-bottom:6px;}
+.kiss-name{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:6px;}
+.kiss-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.7;font-style:italic;margin-bottom:8px;}
+.kiss-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;}
+.cxo-row{border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.cxo-head{display:flex;align-items:center;gap:14px;padding:14px 0;}
+.cxo-badge{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:4px 10px;flex-shrink:0;min-width:90px;text-align:center;}
+.cxo-zone{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.75);flex:1;}
+.cxo-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.cxo-row.open .cxo-arr{transform:rotate(180deg);color:var(--gold);}
+.cxo-body{display:none;padding:0 0 18px 104px;}
+.cxo-row.open .cxo-body{display:block;}
+.cxo-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px;}
+.cxo-col-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cxo-col-content{font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;}
+.cxo-kiss{font-size:12px;color:rgba(201,168,76,.75);line-height:1.7;}
+.tool-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:20px;margin-bottom:10px;cursor:pointer;transition:all .2s;}
+.tool-card:hover,.tool-card.open{border-color:rgba(201,168,76,.3);}
+.tool-head{display:flex;align-items:center;justify-content:space-between;}
+.tool-name{font-family:"Cormorant Garamond",serif;font-size:1.15rem;color:#fff;}
+.tool-lead{font-size:10px;color:rgba(201,168,76,.6);letter-spacing:1px;margin-top:4px;}
+.tool-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;}
+.tool-card.open .tool-arr{transform:rotate(180deg);color:var(--gold);}
+.tool-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);}
+.tool-card.open .tool-body{display:block;}
+.tool-body p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:8px;}
+.tool-body ul{padding-left:20px;margin-bottom:8px;}
+.tool-body li{font-size:13px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:4px;}
+.scenario-card{background:#151c15;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;margin-bottom:10px;cursor:pointer;transition:all .2s;}
+.scenario-card:hover{border-color:rgba(201,168,76,.3);}
+.scenario-card.selected{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.sc-badge{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.sc-grav{font-size:10px;color:rgba(255,255,255,.35);margin-bottom:8px;}
+.sc-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-bottom:8px;}
+.sc-body{display:none;font-size:13px;color:rgba(255,255,255,.65);line-height:1.8;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+.scenario-card.selected .sc-body{display:block;}
+.kiss-grid-resp{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.kiss-grid-resp th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.kiss-grid-resp td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.65);vertical-align:top;line-height:1.65;}
+.kiss-grid-resp td:first-child{font-weight:700;color:var(--gold);width:18%;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.closing-box{background:linear-gradient(135deg,#0d1f15,#1a3a2a);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:32px 36px;margin:20px 0;}
+.closing-box p{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:2;color:rgba(255,255,255,.82);margin-bottom:14px;}
+.closing-box p:last-child{margin-bottom:0;}
+.closing-final{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-align:center;margin-top:16px;}
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#151c15;border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+.gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#111811;border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:40px 44px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.6rem;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:28px;}
+.gate-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#1a2a1e;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;outline:none;margin-bottom:14px;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;background:var(--gold);color:#111811;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;padding:13px;border-radius:2px;cursor:pointer;}
+.gate-btn:hover{background:var(--gl);}
+.gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;}
+@media(max-width:900px){.kiss-grid,.cxo-cols{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 4 &middot; Module 2 &middot; Lens 11</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 4 &middot; Module 2 &middot; Lens 11</div>
+    <h1 class="unit-title">Sustaining Performance</h1>
+    <div class="unit-sub">Grounding &mdash; S2R&reg; Strategy2Results&reg; &mdash; Collective Intelligence for Execution</div>
+    <p class="unit-desc">Winning once demonstrates capability. Winning repeatedly demonstrates culture. This lens embeds the discipline that ensures results continue over time &mdash; countering Performance Gravity through the KISS framework and the S2R&reg; Collective Intelligence Review.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>Collective</span></div>
+      <div class="arc-seg ap">Application<span>KISS</span></div>
+    </div>
+  </div>
+</div>
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Guide<br><small style="font-size:8px;opacity:.5;">Facilitator</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)">Application<br><small style="font-size:8px;opacity:.5;">KISS</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Lens 11 &mdash; Session Overview</h2><p>The final lens of the S2R&reg; Strategy2Results&reg; programme. Orientation, facilitation questions, tone guidance, and session timing.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lens Intent</div>
+<p>Lens 11 is the closing lens of the entire S2R&reg; Strategy2Results&reg; programme. It does not introduce a new framework for its own sake &mdash; it answers the most important question the programme has built toward: now that execution momentum has been established, how is it kept?</p>
+<p>The central concept is <strong>Performance Gravity</strong> &mdash; the natural organisational force that pulls performance back toward average after periods of strong results. It operates invisibly, gradually, and through mechanisms that leaders mistake for stability: Momentum Illusion, Complexity Creep, and Leadership Drift. The antidote is <strong>KISS</strong> &mdash; Keep, Improve, Stop, Start &mdash; applied as a monthly individual discipline and quarterly collective leadership conversation.</p>
+<p>The Application exercise has two parts: a scenario-based KISS exercise grounded in specific CXO domains, and the Programme Commitment &mdash; the final exercise of the entire S2R&reg; journey, in which every leader publicly names their vulnerability and their commitment.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Name a time when your organisation achieved strong performance and then lost it. Was it a sudden failure or a gradual drift? What was the first sign &mdash; looking back?&rdquo;</em></li>
+<li><em>&ldquo;Which of the three Performance Gravity mechanisms &mdash; Momentum Illusion, Complexity Creep, or Leadership Drift &mdash; is most active in your organisation right now? What is the evidence?&rdquo;</em></li>
+<li><em>&ldquo;Which of the four KISS disciplines is your organisation strongest at? Which is it most consistently neglecting?&rdquo;</em></li>
+<li><em>&ldquo;If you ran the S2R&reg; Collective Intelligence Review today &mdash; ESRG, COMPASS, KISS, Health Thermometer &mdash; what would you expect each conversation to reveal?&rdquo;</em></li>
+<li><em>&ldquo;What is the single most important discipline from this programme that you are at risk of abandoning within ninety days of leaving this room?&rdquo;</em></li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>This is the final lens.</strong> The tone should feel like culmination, not addition. Resist the temptation to introduce new concepts. Performance Gravity and KISS are enough. The power of this lens is in the depth of their application, not the breadth of their content.</p>
+<p><strong>Watch for:</strong> leaders who intellectually agree with everything and cannot name a single specific instance of Performance Gravity in their own organisation. The scenario exercise should surface this. If a leader&rsquo;s KISS responses are general rather than specific, push: <em>&ldquo;Name the meeting. Name the process. Name the person. Which specifically?&rdquo;</em></p>
+<p><strong>The Programme Commitment is sacred.</strong> Do not rush it. Do not allow it to become a brief sharing exercise. Every leader should feel the weight of what they are naming. Capture every commitment visibly. Return to them at the end and ask: <em>&ldquo;Would you be comfortable if this group asked you about this commitment in ninety days?&rdquo;</em></p>
+<p><strong>Close with the Closing Statement.</strong> Read it, or have a leader read it. It is the final word of the programme and it earns every word in it.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Session Timing</div>
+<table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:6px;">
+<tr style="background:rgba(201,168,76,.1);"><td style="padding:8px 12px;font-weight:700;color:var(--gold);width:22%;">0:00 &ndash; 0:50</td><td style="padding:8px 12px;color:rgba(255,255,255,.8);">AWARENESS &mdash; Performance Gravity and the KISS framework</td></tr>
+<tr><td style="padding:8px 12px;font-weight:700;color:var(--gold);">0:50 &ndash; 1:35</td><td style="padding:8px 12px;color:rgba(255,255,255,.8);">INTELLIGENCE &mdash; Why sustaining requires a different discipline than achieving</td></tr>
+<tr style="background:rgba(201,168,76,.05);"><td style="padding:8px 12px;font-weight:700;color:var(--gold);">1:35 &ndash; 2:20</td><td style="padding:8px 12px;color:rgba(255,255,255,.8);">EXTRAPOLATING &mdash; The Alignment Brigade: where Performance Gravity pulls hardest</td></tr>
+<tr><td style="padding:8px 12px;font-weight:700;color:var(--gold);">2:20 &ndash; 3:00</td><td style="padding:8px 12px;color:rgba(255,255,255,.8);">INTEGRATION ZONE &mdash; The S2R&reg; Collective Intelligence Review</td></tr>
+<tr style="background:rgba(201,168,76,.05);"><td style="padding:8px 12px;font-weight:700;color:var(--gold);">3:00 &ndash; 3:30</td><td style="padding:8px 12px;color:rgba(255,255,255,.8);">APPLICATION &mdash; KISS Leadership Exercise + Programme Commitment</td></tr>
+</table>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Awareness &mdash; What &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>Performance Gravity &mdash; and the KISS Antidote</h2><p>Understanding the force that pulls organisations back toward average after periods of strong performance &mdash; and the four precise disciplines that counter it.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Define Performance Gravity and explain how it threatens sustained performance</li>
+<li>Identify and distinguish the three mechanisms through which Performance Gravity operates</li>
+<li>Articulate the four KISS disciplines and explain what each counters</li>
+<li>Understand KISS as a monthly individual and quarterly collective leadership rhythm</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Awareness</div>
+<p>Open with the facilitator script and give the room a moment to sit with the central idea: this is the most dangerous moment in any organisation&rsquo;s journey &mdash; the moment after the win. Ask the room to recall an organisation they know that performed brilliantly and then declined. Was it a sudden failure or a gradual drift? The answer is almost always the same.</p>
+<p>Work through each Performance Gravity mechanism slowly. These are not abstract concepts &mdash; they are happening right now in everyone&rsquo;s organisation. After each mechanism, ask: <em>&ldquo;Where do you see this in your function right now?&rdquo;</em> Do not rush past the Momentum Illusion card &mdash; this is the one most leaders have never named before but immediately recognise.</p>
+<p>When introducing KISS, emphasise that it is not new to this room &mdash; it was introduced earlier in the programme. In Lens 11 it reaches its most important application: the leadership discipline that determines whether the organisation sustains everything it has built.</p>
+</div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Facilitator Opening Script</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>You have done the hard work. You have clarified direction, unclogged the system, designed the performance architecture, established expectations, reviewed results, aligned your enterprise conditions, and measured the health of your organisation.</p>
+<p>And if you have done all of that with honesty and discipline, something real has happened. The organisation has begun to move with coordination. Results are appearing. Momentum is building.</p>
+<p>This is the moment most leadership programmes celebrate and close.</p>
+<p>We do not. Because this is precisely the moment where most organisations begin to lose what they have built &mdash; not through failure, not through crisis, but through the quiet, invisible force that pulls every organisation back toward the performance of the average.</p>
+<p>We call this force <strong>Performance Gravity.</strong> And understanding it &mdash; and building the discipline to resist it &mdash; is the final and most important leadership work of this programme.</p>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Performance Gravity &mdash; The Three Mechanisms</div><div class="acc-meta">Select each to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Performance Gravity is not failure. It is the natural organisational tendency to drift back toward average after periods of strong performance &mdash; not because leaders stop trying, but because success quietly erodes the very disciplines that produced it.</p>
+<div class="grav-card" onclick="toggleGrav(this)">
+  <div class="grav-head"><div class="grav-num">Mechanism 1</div><div class="grav-left"><div class="grav-name">Momentum Illusion</div><div class="grav-sub">The belief that past discipline is sustaining present performance</div></div><div class="grav-arr">&#9660;</div></div>
+  <div class="grav-bar"></div>
+  <div class="grav-body"><p>When an organisation achieves strong results, a dangerous misinterpretation follows. Leaders attribute ongoing performance to current capability rather than to the accumulated effect of past discipline. The organisation is still moving forward &mdash; but it is coasting on the energy of disciplines established months ago, not disciplines being actively maintained today. Meetings become slightly less structured. Accountability conversations become slightly less direct. Review cycles become slightly less rigorous. Together they represent the beginning of a performance decline that will only become visible in results six to twelve months later. By the time the numbers reveal the problem, the disciplines that produced the original results have already significantly weakened.</p></div>
+</div><div class="grav-card" onclick="toggleGrav(this)">
+  <div class="grav-head"><div class="grav-num">Mechanism 2</div><div class="grav-left"><div class="grav-name">Complexity Creep</div><div class="grav-sub">The accumulation of weight that once served a purpose and has since become drag</div></div><div class="grav-arr">&#9660;</div></div>
+  <div class="grav-bar"></div>
+  <div class="grav-body"><p>High-performing organisations attract initiatives. Success generates confidence, confidence generates ambition, and ambition generates proliferation. New projects are launched, new committees formed, new approval pathways added. Each addition appears justified at introduction. Collectively they create an organisation that is progressively heavier, slower, and more internally focused than it needs to be. Leaders know these things have become drag. But they are too busy managing the complexity to stop and remove it. Every unnecessary practice is not merely wasteful in isolation. It is a claim on the organisational attention that should be available for the practices that matter.</p></div>
+</div><div class="grav-card" onclick="toggleGrav(this)">
+  <div class="grav-head"><div class="grav-num">Mechanism 3</div><div class="grav-left"><div class="grav-name">Leadership Drift</div><div class="grav-sub">The gradual softening of the behavioural standards that produced the original results</div></div><div class="grav-arr">&#9660;</div></div>
+  <div class="grav-bar"></div>
+  <div class="grav-body"><p>The most dangerous form of Performance Gravity operates at the level of leadership behaviour. When organisations are performing well, the urgency that once made difficult leadership behaviours necessary begins to fade. The honest performance conversation becomes slightly more diplomatic. The accountability standard applied with discipline during rebuilding is applied slightly more flexibly when pressure is off. These are not conscious decisions. They are the natural human response to a perceived reduction in threat. And they are catastrophically expensive &mdash; because the behaviours leaders relax when performance is strong are precisely the behaviours that produced the strong performance in the first place.</p></div>
+</div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">KISS &mdash; The Antidote to Performance Gravity</div><div class="acc-meta">4 disciplines &middot; 4 decisions</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The discipline that counters Performance Gravity is a set of four precise decisions that every leader must make at the end of every performance cycle. KISS &mdash; Keep, Improve, Stop, Start &mdash; was introduced earlier in this programme as a simplicity principle. In Lens 11, it reaches its most important application.</p>
+<div class="kiss-grid"><div class="kiss-card"><div class="kiss-letter">K</div><div class="kiss-name">KEEP</div><div class="kiss-desc">What is working and must be protected</div><p>The discipline of Keep is the conscious decision to identify, name, and actively protect the practices, routines, behaviours, and systems producing reliable results. Effective practices are vulnerable &mdash; they depend on specific behaviours, rhythms, and leadership attention. When that attention is redirected, the practice quietly degrades. Keep requires leaders to make the implicit explicit: what specifically is producing this result, and what would we need to protect to ensure it continues? Keep is the antidote to Momentum Illusion.</p></div><div class="kiss-card"><div class="kiss-letter">I</div><div class="kiss-name">IMPROVE</div><div class="kiss-desc">What has shifted and requires recalibration</div><p>The discipline of Improve is the honest recognition that something which was working well is beginning to work less well &mdash; and that the gap between current and required performance is growing slowly enough to ignore but fast enough to be dangerous. It is the discipline of early correction: addressing drift when it is still a signal rather than waiting until it becomes a crisis. Every organisation has practices that were excellent six months ago and are merely adequate today. Improve prevents adequate from becoming insufficient.</p></div><div class="kiss-card"><div class="kiss-letter">S</div><div class="kiss-name">STOP</div><div class="kiss-desc">What is harming performance and must be eliminated</div><p>The discipline of Stop is the most difficult and most neglected of the four KISS disciplines. Stop requires leaders to identify and eliminate practices, meetings, processes, reporting requirements, and initiatives consuming organisational energy without producing commensurate value. The reason Stop is neglected: stopping things is harder than starting them. Starting generates visible activity and social reward. Stopping requires acknowledging a previous decision was wrong or at least no longer relevant. Stop is the direct antidote to Complexity Creep.</p></div><div class="kiss-card"><div class="kiss-letter">S</div><div class="kiss-name">START</div><div class="kiss-desc">What needs to be introduced to sustain the next level</div><p>The discipline of Start is the forward-facing investment that sustained performance requires. Start asks leaders: what is the organisation not yet capable of that future performance will require? It requires examining emerging strategic requirements, internal capability gaps, and leadership development needs. Start is the anticipatory discipline that distinguishes organisations that sustain performance from those that merely extend it temporarily. It is the investment in future fitness that current performance makes possible.</p></div></div>
+<div class="hbox" style="margin-top:14px;"><p>KISS is not a reflection template. It is a set of four leadership decisions &mdash; specific, named, and accountable &mdash; applied monthly at the individual level and quarterly as a collective executive discipline.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">&larr; Guide</button><button class="btn" onclick="showMod(2)">Intelligence &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why Sustaining Performance Requires a Different Discipline Than Achieving It</h2><p>The finite and infinite game distinction, Success Inertia, and the deep case for each KISS discipline.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Distinguish between the discipline of achieving performance and the discipline of sustaining it</li>
+<li>Explain why a continuously recalibrating environment makes Success Inertia the greatest threat to sustained performance</li>
+<li>Apply each KISS discipline with the specificity and honesty that the practice requires</li>
+<li>Understand why Stop is the most neglected and most important of the four disciplines</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Intelligence</div>
+<p>The finite vs infinite game distinction is the conceptual centrepiece of this section. Make it tangible: name a specific example of an organisation that treated sustaining performance like a finite game &mdash; declared victory, relaxed discipline, and paid the price. Kodak. Blockbuster. Nokia. Any one of them illustrates the point more powerfully than the concept alone.</p>
+<p>Success Inertia is the most important concept in this section. Ask the room: <em>&ldquo;What is your organisation&rsquo;s equivalent of the formula that won last year? And how confident are you that it is still the right formula for next year?&rdquo;</em></p>
+<p>When discussing the Stop discipline, expect resistance. Leaders know intellectually that they should stop things. They rarely do. The key facilitation question: <em>&ldquo;Name one meeting, one process, one report, one approval layer in your function that you know should be stopped. What is preventing you from stopping it today?&rdquo;</em></p>
+</div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Finite and Infinite Game</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Achieving performance is a <strong>finite game</strong>. It has a target, a timeline, and a finish line. The discipline required is intensity &mdash; concentrated effort toward a defined outcome within a specific window of time. When the target is reached, the game ends and success is declared.</p>
+<p>Sustaining performance is an <strong>infinite game</strong>. It has no finish line. The objective is not to win the game. It is to remain capable of playing &mdash; at an increasingly high level &mdash; as the rules, the terrain, and the competition continuously change.</p>
+<p>Leaders who approach sustaining performance with the orientation of achievers &mdash; who relax discipline after strong results, who declare the strategy complete once targets are met &mdash; are applying the correct discipline to the wrong game.</p>
+<div class="hbox"><p>The discipline of sustaining performance does not reward intensity. It rewards <strong>consistency</strong> &mdash; the unglamorous, unrewarded, structurally demanding practice of maintaining the standards and rhythms that produce results, not because the organisation is under pressure, but because the organisation has decided that this is simply how it operates.</p></div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Recalibrating Environment &mdash; and Success Inertia</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisations do not execute strategy in a static environment. At any given moment, the organisation is performing within a field of interacting forces &mdash; customer expectations, competitor behaviour, technology capability, regulatory conditions, supply dynamics, macroeconomic pressures, and internal culture. These forces evolve continuously and independently, yet their movements influence one another.</p>
+<p>The consequence is both simple and profound: <strong>the definition of good performance is constantly being recalibrated by the environment itself.</strong> What delivers strong results today may deliver only average results in six months &mdash; not because the organisation has done anything wrong, but because the environment has moved.</p>
+<p>The greatest threat to sustained performance is not failure. Failure is visible and urgent. The greatest threat is <strong>Success Inertia</strong> &mdash; the organisational conviction that the formula that produced today&rsquo;s win will produce tomorrow&rsquo;s survival.</p>
+<p>Success Inertia is Performance Gravity in its most advanced form. The organisations that sustain performance are those that develop the discipline of continuously examining whether they remain calibrated to the environment in which they must perform &mdash; not the environment in which they performed well in the past.</p>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Four KISS Disciplines in Depth</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">K</div><div class="step-name">Keep</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">I</div><div class="step-name">Improve</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">S</div><div class="step-name">Stop</div></div>
+  <div class="step-tab" onclick="showStep(3,this)"><div class="step-num">S</div><div class="step-name">Start</div></div>
+</div>
+<div class="step-panel active"><h5>Keep &mdash; The Discipline of Protection</h5><p>Most leaders underestimate how vulnerable effective practices are. An effective practice depends on a specific combination of leadership attention, team behaviour, structural support, and time investment. Remove or weaken any of these and the practice degrades &mdash; often without visible signal until the results decline.</p><p>Keep requires an audit of highest-value practices at the end of each performance cycle: <em>what specifically is producing this result, and what would need to be true to ensure it continues?</em> This surfaces three categories of at-risk practices: attention-dependent practices that degrade when leadership is redirected; resource-dependent practices vulnerable to budget pressure or talent loss; and culture-dependent practices that exist in behavioural choices and are directly vulnerable to Leadership Drift.</p></div>
+<div class="step-panel"><h5>Improve &mdash; The Discipline of Early Correction</h5><p>The most important word in the KISS Improve discipline is <em>early</em>. Every leader knows how to respond to clear failure. The discipline of Improve is responding to the signal before it becomes the crisis &mdash; noticing and acting on early signs that a practice is drifting, a standard is softening, or a system is losing effectiveness, at a point when the cost of correction is small rather than large.</p><p>This requires leaders to distinguish between a result that is acceptable and a trend that is declining. The quarter&rsquo;s results may be on target. But the quality of performance review conversations is slightly lower than three months ago. The number of issues being escalated has increased. Response times have lengthened by two days. None of these individually triggers concern. Together, they are the fingerprint of a system beginning to drift. The leadership cost of neglecting Improve: early corrections that would have cost a conversation become later interventions that cost a restructuring.</p></div>
+<div class="step-panel"><h5>Stop &mdash; The Discipline of Elimination</h5><p>Of the four KISS disciplines, Stop is the one most organisations understand intellectually and most consistently fail to practise. Every initiative launched has a sponsor, a team, a budget, and stakeholders whose interests are served by its continuation. To stop it requires confronting each of these stakeholders against the weight of existing investment and commitment.</p><p>The discipline of Stop requires leaders to apply a single ruthless question to every meeting, process, initiative, reporting requirement, approval layer, and committee they currently operate: <em>if we were designing this organisation today, knowing what we know, would we introduce this?</em> If the answer is no &mdash; and in most organisations the honest answer for a significant proportion of current practices is no &mdash; the next question is not whether to stop it but when and how. The organisations that sustain performance over long strategic cycles are distinguished not by how many things they do but by how precisely they select what they carry.</p></div>
+<div class="step-panel"><h5>Start &mdash; The Discipline of Anticipation</h5><p>The discipline of Start is the forward-facing investment that sustained performance requires. Start asks: <em>what is the organisation not yet capable of that future performance will require?</em> This is uncomfortable when current performance is strong. But the capability required six months from now needs to be built now &mdash; before it is required &mdash; if it is to be available when the need arrives.</p><p>Start requires examining three dimensions: <strong>emerging strategic requirements</strong> (what shifts in customer expectation, competitive positioning, or regulation are beginning to emerge?); <strong>internal capability gaps</strong> (where is the organisation stretching beyond current capacity in ways not yet crisis but becoming so?); and <strong>leadership development</strong> (which leaders are being prepared to sustain performance at the next level of scale and complexity?). Start is the investment in future fitness that current performance makes possible.</p></div>
+</div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">&larr; Awareness</button><button class="btn" onclick="showMod(3)">Extrapolating &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>The Alignment Brigade &mdash; Where Performance Gravity Pulls Hardest</h2><p>Each CXO role guards a specific execution stabiliser. Understanding the gravitational pull in each domain, the early warning signals, and the KISS response.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why performance drift rarely originates in a single place but emerges simultaneously across executive domains</li>
+<li>Map each CXO role to its specific gravitational pull and early warning signals</li>
+<li>Apply the KISS discipline to a specific executive domain with operational precision</li>
+<li>Operate collectively as an Alignment Brigade monitoring and correcting drift across the enterprise</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Extrapolating</div>
+<p>This section is most powerful when each CXO in the room reads their own domain row and responds to it honestly rather than abstractly. Ask each leader: <em>&ldquo;Read your row. Which of the early warning signals is already present in your function? Be specific.&rdquo;</em></p>
+<p>Watch for the tendency to describe drift in other functions while avoiding acknowledgement of drift in one&rsquo;s own. Gently redirect: <em>&ldquo;That&rsquo;s a useful observation about the CFO domain &mdash; and now tell me what is true for your own.&rdquo;</em></p>
+<p>The KISS column in each row is the bridge between diagnosis and action. Ensure the session does not end with a list of observed drift signals &mdash; each leader should leave Extrapolating with at least one specific KISS decision identified for their own domain.</p>
+</div>
+<p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.72);margin:18px 0 14px;">Performance drift rarely originates in a single place. It emerges simultaneously across functional stabilisers. The executive team therefore operates as an <strong>Alignment Brigade</strong> &mdash; each CXO acting as the guardian of a specific execution domain, monitoring for the early signals of Performance Gravity and applying KISS to restore sustained performance. Select each role to explore the drift pattern, signals, and KISS response.</p>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CEO</div><div class="cxo-zone">Strategic Coherence</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">The strategic narrative fragments. Business units interpret priorities differently. Initiatives proliferate without connection to intent. Executive conversations revisit fundamental direction questions that should be settled.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Leadership meetings reveal different interpretations of priorities. Teams emphasise activity over strategic outcomes. Initiatives compete for attention without a clear hierarchy.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the strategic narrative visible. Improve communication where interpretation is diverging. Stop initiatives not clearly connected to strategic intent. Start regular enterprise-wide strategic alignment conversations.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CFO</div><div class="cxo-zone">Capital Discipline</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Resource allocation responds to historical spending and internal influence. Strategic initiatives struggle for funding while established cost centres continue fully funded without scrutiny. Reviews focus on variance rather than strategic alignment.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Strategic initiatives underfunded while legacy activities fully resourced. Budget conversations focus on cost containment rather than strategic investment. Financial discipline reactive rather than anticipatory.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the discipline of connecting every resource allocation to strategic priority. Improve the rigour of zero-based reviews for legacy cost structures. Stop funding activities that cannot demonstrate strategic contribution. Start forward investment in capabilities future performance requires.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">COO</div><div class="cxo-zone">Execution Cadence</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Performance reviews become less rigorous. Escalation pathways slow. Issues addressed reactively rather than through structured systems. The weekly rhythm that maintained execution momentum becomes a reporting exercise.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Review meetings shortened or postponed. Operational issues persist across multiple cycles. Teams rely on ad hoc interventions. Response times on cross-functional requests lengthen.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the execution review rhythm &mdash; protect it explicitly from schedule pressure. Improve escalation protocols where resolution times have lengthened. Stop meetings that have become reporting rituals without decision output. Start structured early-warning reviews that detect drift before failure.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CHRO</div><div class="cxo-zone">Organisational Health</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Trust and clarity begin to erode. Misalignment between leadership behaviours and values reduces collaboration, openness, and accountability. Leaders become less direct. Teams begin protecting information.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Reduced willingness to surface problems early. Increased interpersonal friction. Performance conversations becoming less direct. Health Thermometer scores declining on Politics and Morale traits.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep behavioural standards of trust, accountability, and psychological safety explicitly visible. Improve directness and frequency of leadership performance conversations. Stop tolerating political behaviour or selective accountability at any seniority. Start active reinforcement of ACE-IT behaviours as a visible daily practice.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CTO / CIO</div><div class="cxo-zone">Technology Enablement</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Systems that once accelerated execution become bureaucratic infrastructure. Technology investments fall out of alignment with operational and strategic needs. New systems added without removing old ones. Integration gaps create manual workarounds.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Teams create and rely on manual workarounds. Fragmented data systems slow decision-making. Technology roadmaps drift from strategic priorities. Leaders spending time reconciling data rather than acting on it.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep systems genuinely accelerating decision-making. Improve integration where manual reconciliation has become routine. Stop maintaining legacy systems consuming resource without strategic contribution. Start investment in technology capabilities that next-phase strategy will require.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CMO</div><div class="cxo-zone">Market Intelligence</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Depth of customer intelligence declines as attention turns inward. Marketing continues but increasingly reflects yesterday&rsquo;s customer rather than today&rsquo;s requirements. Competitors begin responding faster to market shifts.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Customer satisfaction metrics decline subtly before visibly. Product adjustments lag behind shifting expectations. Competitors&rsquo; market responsiveness accelerates. Commercial teams reporting customer conversations revealing misalignment.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the customer intelligence loops built during the programme. Improve the frequency and depth of customer feedback integration into strategic decisions. Stop relying on historical customer data as proxy for current intelligence. Start systematic competitive monitoring and regular market recalibration at executive level.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CCO</div><div class="cxo-zone">Revenue Conversion</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Connection between market opportunity and revenue conversion weakens. Sales rigour softens as pipeline appears healthy and recent wins create confidence. Pipeline management becomes less structured. Win rates decline before revenue figures reveal the pattern.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Pipeline growth without proportional revenue. Declining win rates on competitive opportunities. Increasing sales cycle duration. Teams reporting increased customer price sensitivity &mdash; often a signal that value proposition communication has weakened.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the commercial disciplines of structured pipeline management and rigorous customer engagement. Improve value proposition communication where win rates are declining. Stop accepting pipeline volume as proxy for commercial health. Start systematic post-loss analysis before the pattern becomes a trend.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CPO</div><div class="cxo-zone">Supply Resilience</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Procurement decisions prioritise short-term cost reduction over strategic partnership, supply resilience, and continuity. Supplier base becomes fragmented. Critical dependencies develop without visibility.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Supplier reliability declines. Cost volatility increases. Critical supply concentrations develop without leadership awareness. Procurement conversations focus narrowly on price at expense of resilience.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep strategic supplier relationships providing resilience beyond unit cost. Improve visibility of supply chain concentrations and dependency risks. Stop procurement decisions driven purely by short-term cost optimisation. Start strategic sourcing conversations positioning procurement as competitive advantage.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CRO</div><div class="cxo-zone">Risk Intelligence</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Emerging risks are acknowledged but not integrated into executive decision-making. Risk conversations become compliance exercises. Proactive risk identification weakens as recent success reduces the emotional salience of threats.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Increasing operational surprises not anticipated by risk registers. Risk discussions that are reactive rather than anticipatory. Risk registers maintained but not influencing strategic choices. Decisions made without explicit risk assessment.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the discipline of integrating risk intelligence into every major strategic and operational decision. Improve the connection between the risk register and the executive decision-making agenda. Stop treating risk management as a governance requirement separate from strategic leadership. Start proactive scenario conversations examining what could go wrong before the environment proves current assumptions wrong.</div></div>
+  </div></div>
+</div><div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head"><div class="cxo-badge">CSO</div><div class="cxo-zone">Strategy Translation</div><div class="cxo-arr">&#9660;</div></div>
+  <div class="cxo-body"><div class="cxo-cols">
+    <div><div class="cxo-col-label">How Drift Emerges</div><div class="cxo-col-content">Strategic intent remains clear at executive level but operational translation becomes uneven. OKRs begin to drift from strategic objectives. Teams become operationally busy but strategically vague. The narrative connecting individual effort to direction &mdash; vivid during the programme &mdash; fades.</div></div>
+    <div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Teams struggle to connect operational priorities to strategic direction. OKRs begin to feel like performance management targets rather than strategic commitments. Execution conversations focus on activity rather than strategic outcome. The language of strategy disappears from operational reviews.</div></div>
+    <div><div class="cxo-col-label">KISS Response</div><div class="cxo-kiss">Keep the discipline of connecting every operational priority explicitly to strategic intent. Improve translation quality of strategy into OKRs and KPIs where the connection has become vague. Stop allowing operational reviews to become activity-reporting sessions without strategic context. Start regular strategy translation conversations reconnecting execution to direction at every level.</div></div>
+  </div></div>
+</div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Intelligence</button><button class="btn" onclick="showMod(4)">Integration Zone &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>The S2R&reg; Collective Intelligence Review</h2><p>The four instruments built across this programme brought together as a single integrated quarterly operating rhythm &mdash; the discipline through which the executive team detects drift early and sustains performance across strategic cycles.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why the S2R&reg; Collective Intelligence Review is an operating rhythm, not a reporting session</li>
+<li>Describe the sequence of four conversations and what each surfaces</li>
+<li>Understand how individual tool insights combine to produce collective execution intelligence</li>
+<li>Commit to the quarterly cadence of the Review as the mechanism that sustains performance over strategic cycles</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Integration Zone</div>
+<p>This section brings the entire programme together. The four tools are not new &mdash; every participant has used each of them. What is new is the structured conversation in which they operate together, at the same table, in the same session, producing a collective view that no individual tool and no individual function can produce alone.</p>
+<p>Emphasise the word <strong>quarterly</strong>. Not annually. Not when something goes wrong. Quarterly. The discipline of consistency is precisely what transforms these tools from useful instruments into a sustained performance system.</p>
+<p>Ask the room to commit to one collective decision before leaving: <em>&ldquo;When will you run your first S2R&reg; Collective Intelligence Review? Name the date. Name who leads each conversation. Name who captures the output.&rdquo;</em> If the group cannot name a date, the Review will not happen.</p>
+</div>
+<p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.72);margin:18px 0 14px;">Throughout this programme, four diagnostic instruments were built: the ESRG Scanner, the Enterprise COMPASS, the KISS Reflection, and the Organisational Health Thermometer. In Lens 11 they form a single integrated operating rhythm &mdash; the <strong>S2R&reg; Collective Intelligence Review</strong> &mdash; conducted quarterly by the executive team. Select each tool to understand its role in the Review.</p>
+<div class="tool-card" onclick="toggleTool(this)">
+  <div class="tool-head"><div><div class="tool-name">ESRG Scanner</div><div class="tool-lead">Led by: COO, CTO/CIO, CHRO, CFO &middot; Conversation: Diagnose the Operating Conditions</div></div><div class="tool-arr">&#9660;</div></div>
+  <div class="tool-body"><p>The executive team examines whether the organisation&rsquo;s Environment, Systems, Resources, and Governance conditions are enabling or constraining the delivery of key strategic outcomes. This conversation surfaces structural bottlenecks not visible within individual functions.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Key Questions</p><ul><li>Is the physical and behavioural environment enabling the collaboration and clarity that execution requires?</li><li>Are systems allowing work, data, and decisions to move smoothly across the organisation?</li><li>Do teams have the capability, capacity, and sustainability required to deliver the strategy?</li><li>Are decision rights clear, review forums functioning as decision mechanisms, and accountability standards applied consistently?</li></ul></div>
+</div><div class="tool-card" onclick="toggleTool(this)">
+  <div class="tool-head"><div><div class="tool-name">Enterprise COMPASS</div><div class="tool-lead">Led by: CEO, CSO &middot; Conversation: Align the Enterprise</div></div><div class="tool-arr">&#9660;</div></div>
+  <div class="tool-body"><p>The leadership team evaluates whether the organisation remains aligned across the seven critical execution zones &mdash; Strategic Direction, Organisational Alignment, Management Discipline, People and Capability, Resource Allocation, Sensing and Adaptation, and Systems and Execution.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Key Questions</p><ul><li>Are leaders at every level describing strategic priorities in consistent language?</li><li>Are the seven execution zones strengthening, stable, or showing signs of deterioration?</li><li>Where is the organisation&rsquo;s execution maturity advancing &mdash; and where is it at risk of regressing?</li></ul></div>
+</div><div class="tool-card" onclick="toggleTool(this)">
+  <div class="tool-head"><div><div class="tool-name">KISS Reflection</div><div class="tool-lead">Led by: All CXOs for their respective domains &middot; Conversation: Reinforce the Performance Discipline</div></div><div class="tool-arr">&#9660;</div></div>
+  <div class="tool-body"><p>Each executive shares the KISS reflection from their function: what is being Kept, Improved, Stopped, and Started. This conversation converts individual functional experience into collective enterprise learning. The value is not in the individual KISS statements &mdash; it is in the patterns that emerge when multiple reflections are examined together.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Key Questions</p><ul><li>What practice is this function Keeping &mdash; and what protection mechanism has been designed for it?</li><li>What has shifted and what early correction is being made?</li><li>What is being stopped &mdash; and what organisational weight does that release?</li><li>What is being started &mdash; and what future capability does that build?</li></ul></div>
+</div><div class="tool-card" onclick="toggleTool(this)">
+  <div class="tool-head"><div><div class="tool-name">Organisational Health Thermometer</div><div class="tool-lead">Led by: CHRO, CEO &middot; Conversation: Monitor the Behavioural Climate</div></div><div class="tool-arr">&#9660;</div></div>
+  <div class="tool-body"><p>The executive team reviews organisational health signals emerging across teams and functions. Health Thermometer readings from different parts of the organisation are shared and compared. Where early warning signals appear, leaders apply the ACE-IT behavioural guardrails to stabilise the environment and restore healthy execution conditions.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Key Questions</p><ul><li>Which teams are showing declining scores &mdash; and on which of the five health traits?</li><li>Where is variance between functions significant enough to indicate structural rather than individual issues?</li><li>Which ACE-IT guardrail is most urgently needed &mdash; and which leader needs to visibly model it?</li></ul></div>
+</div>
+<div class="hbox" style="margin-top:16px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;">When the S2R&reg; Collective Intelligence Review is conducted consistently, the organisation develops <strong>collective execution intelligence</strong> &mdash; the shared, real-time awareness of where performance is strengthening, where it is drifting, and what specific leadership action is required to sustain the trajectory. This is the outcome that the entire S2R&reg; Strategy2Results&reg; programme has been building toward.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Extrapolating</button><button class="btn" onclick="showMod(5)">Application &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Application &middot; KISS Leadership Exercise</div><h2>The KISS Leadership Exercise &mdash; and the Programme Commitment</h2><p>Part 1: Apply the KISS discipline to a real executive domain. Part 2: The final commitment of the S2R&reg; Strategy2Results&reg; programme.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply KISS to a specific CXO domain with the precision and honesty the discipline requires</li>
+<li>Distinguish which form of Performance Gravity is most active in each scenario</li>
+<li>Publicly name one specific vulnerability and one specific commitment before the group</li>
+<li>Close the S2R&reg; programme with a room full of witnessed, specific leadership commitments</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Application</div>
+<p><strong>Part 1 &mdash; The KISS Exercise (20 minutes):</strong> Leaders select the scenario closest to their reality. Emphasise the KISS response grid &mdash; push for specificity. If a leader writes &ldquo;improve communication&rdquo; in the Improve row, ask: <em>&ldquo;Which communication? Between which people? In which meeting? Changed how, specifically?&rdquo;</em> General answers reveal general thinking. Specific answers reveal genuine readiness to act.</p>
+<p><strong>Part 2 &mdash; The Programme Commitment (10 minutes):</strong> This is sacred. Do not rush. Do not allow it to become a brief sharing exercise. Read the context statement aloud before beginning. Every leader answers publicly. Capture every commitment visibly. After all commitments are made, ask the closing question: <em>&ldquo;Would you be comfortable if this group asked you about this commitment in ninety days?&rdquo;</em> Then read the Closing Statement.</p>
+</div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Part 1 &mdash; The KISS Leadership Exercise</div><div class="acc-meta">Select the scenario closest to your reality</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The four scenarios below each describe a real CXO domain where a specific form of Performance Gravity has begun to emerge. Your task is not to diagnose the problem &mdash; the problem is named. Your task is to apply the KISS discipline: to identify precisely what this leader should Keep, Improve, Stop, and Start, with the specificity that distinguishes a real decision from a general observation.</p>
+<div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 1</div>
+  <div class="sc-grav">Performance Gravity: Leadership Drift &middot; KISS Focus: Keep + Stop &middot; Domain: COO &mdash; Execution Cadence</div>
+  <div class="sc-title">The COO&rsquo;s Disappearing Rhythm</div>
+  <div class="sc-body"><p>The organisation delivered its strongest quarter in three years. The COO is proud &mdash; justifiably. The execution rhythm that produced the result was rigorous: weekly cross-functional reviews, clear escalation protocols, structured dashboard disciplines. Every leader knew where every initiative stood. Three months later, the results are still acceptable. But the rhythm has shifted. The weekly cross-functional review has moved to fortnightly &mdash; <em>&ldquo;the team is performing well, we don&rsquo;t need to meet as often.&rdquo;</em> Dashboard discipline has softened. The escalation protocol has not been formally changed, but issues sitting with teams for a week before reaching the COO&rsquo;s desk. The COO does not see this as a problem. The results are still acceptable. The urgency of the rebuilding period has passed.</p><p style="font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;">Coach this COO on the KISS discipline. What specifically should be Kept, Improved, Stopped, and Started?</p>
+  <table class="kiss-grid-resp" style="margin-top:12px;">
+  <tr><th>K &mdash; Keep</th><td></td></tr>
+  <tr><th>I &mdash; Improve</th><td></td></tr>
+  <tr><th>S &mdash; Stop</th><td></td></tr>
+  <tr><th>S &mdash; Start</th><td></td></tr>
+  </table></div>
+</div><div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 2</div>
+  <div class="sc-grav">Performance Gravity: Complexity Creep &middot; KISS Focus: Stop + Start &middot; Domain: CFO &mdash; Capital Discipline</div>
+  <div class="sc-title">The CFO&rsquo;s Legacy Budget</div>
+  <div class="sc-body"><p>The organisation is twelve months into a three-year strategy. The CFO oversaw a rigorous zero-based budgeting exercise that aligned resource allocation precisely with strategic priorities. The process was difficult and ultimately successful. But the environment has moved. Two of the three strategic priorities have evolved significantly. One has been deprioritised. New capabilities the strategy now requires &mdash; in digital infrastructure, in data analytics, in customer experience technology &mdash; are currently underfunded. Meanwhile the budget structures established at the start of the cycle operate largely unchanged. Legacy cost centres that were scrutinised twelve months ago have quietly re-established their original funding levels. The CFO is managing the budget competently. But the budget no longer reflects the strategy.</p><p style="font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;">Apply the KISS discipline to this CFO&rsquo;s domain. What must be Kept, Improved, Stopped, and Started?</p>
+  <table class="kiss-grid-resp" style="margin-top:12px;">
+  <tr><th>K &mdash; Keep</th><td></td></tr>
+  <tr><th>I &mdash; Improve</th><td></td></tr>
+  <tr><th>S &mdash; Stop</th><td></td></tr>
+  <tr><th>S &mdash; Start</th><td></td></tr>
+  </table></div>
+</div><div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 3</div>
+  <div class="sc-grav">Performance Gravity: Momentum Illusion &middot; KISS Focus: Improve + Start &middot; Domain: CMO &mdash; Market Intelligence</div>
+  <div class="sc-title">The CMO&rsquo;s Comfortable Intelligence</div>
+  <div class="sc-body"><p>The CMO leads a marketing function that performed exceptionally during the programme&rsquo;s first phase. Brand awareness improved. Customer acquisition costs declined. The marketing team built a reputation for commercial intelligence. But the customer intelligence that underpinned this performance was built eighteen months ago. The customer research, the segmentation model, the insight about customer needs &mdash; all of it reflects who the customer was then, not who the customer is now. The marketing team is executing with discipline. Campaigns are running. But the foundational intelligence the strategy rests on has not been meaningfully updated. Meanwhile two competitors have begun positioning in ways that suggest they are reading customer signals the CMO&rsquo;s team has not picked up.</p><p style="font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;">What is the CMO&rsquo;s KISS discipline response? Be specific on Improve and Start.</p>
+  <table class="kiss-grid-resp" style="margin-top:12px;">
+  <tr><th>K &mdash; Keep</th><td></td></tr>
+  <tr><th>I &mdash; Improve</th><td></td></tr>
+  <tr><th>S &mdash; Stop</th><td></td></tr>
+  <tr><th>S &mdash; Start</th><td></td></tr>
+  </table></div>
+</div><div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 4</div>
+  <div class="sc-grav">Performance Gravity: Success Inertia &middot; KISS Focus: Stop + Start + Improve &middot; Domain: CRO &mdash; Risk Intelligence</div>
+  <div class="sc-title">The CRO&rsquo;s Comfortable Risk Register</div>
+  <div class="sc-body"><p>The CRO has built what is widely regarded as the most comprehensive risk register in the organisation&rsquo;s history. It is current, well-maintained, clearly structured, and regularly reviewed by the board. The governance process has received consistently positive audit feedback. But the risk register has become the risk conversation. Rather than informing executive decision-making, it has become evidence that risk management is being done. Three strategic decisions taken in the past six months were made without explicit risk assessment in the executive conversation. The CRO was present in all three discussions but did not bring the risk lens to bear because the formal risk review was scheduled for the following week. Two of those decisions have since generated operational surprises that a structured risk conversation would likely have anticipated.</p><p style="font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;">Apply KISS to this CRO&rsquo;s domain. What specifically should Stop, Start, and Improve look like?</p>
+  <table class="kiss-grid-resp" style="margin-top:12px;">
+  <tr><th>K &mdash; Keep</th><td></td></tr>
+  <tr><th>I &mdash; Improve</th><td></td></tr>
+  <tr><th>S &mdash; Stop</th><td></td></tr>
+  <tr><th>S &mdash; Start</th><td></td></tr>
+  </table></div>
+</div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Part 2 &mdash; The Programme Commitment</div><div class="acc-meta">The final exercise of the S2R&reg; journey</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="closing-box">
+<p>You came into this programme with a strategy. You leave with something more durable.</p>
+<p>You leave with the understanding that strategy is not the organisation&rsquo;s ceiling &mdash; it is its direction. The ceiling is set by the conditions you create for the people who must deliver it: the clarity of the environment, the health of the culture, the rigour of the systems, the honesty of the conversations, and the consistency of the standards you hold even when no one is watching and the pressure is off.</p>
+<p>The S2R&reg; Strategy2Results&reg; framework is not a methodology you implement once. It is a leadership posture you inhabit continuously &mdash; reading the environment, maintaining the conditions, correcting early, protecting what works, eliminating what does not, and building what the next level of performance will require before it requires it.</p>
+<p>Performance Gravity is real. It is patient. And it never stops pulling. But so is leadership discipline &mdash; when it is chosen deliberately, maintained consistently, and renewed publicly by leaders who understand what they are building and why it matters.</p>
+</div>
+<p style="font-size:13px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.6);margin:16px 0 8px;">Three questions. Answered publicly. In this room.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Question 1</div><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,.88);">&ldquo;Where in my organisation is Performance Gravity already pulling &mdash; and which of the three mechanisms &mdash; Momentum Illusion, Complexity Creep, or Leadership Drift &mdash; is most active right now?&rdquo;</p><p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;">Be specific. Name the domain. Name the mechanism. Name the evidence already visible.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Question 2</div><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,.88);">&ldquo;Which of the four KISS disciplines am I most at risk of neglecting under pressure &mdash; and what is my honest reason for that?&rdquo;</p><p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;">The answer to this question is the single most important piece of self-knowledge a leader can carry out of this programme.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Question 3</div><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,.88);">&ldquo;What is the one commitment I am making to this team &mdash; specific, named, dated &mdash; before we leave this room?&rdquo;</p><p style="font-size:12px;color:rgba(255,255,255,.45);margin-top:6px;">Not a general intention. Not an aspiration. One commitment. A named action, with a named date, that this group will hold you to at the next review.</p></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; Sustaining Performance</div><div class="acc-meta">Lens 11 synthesis &middot; S2R&reg; Programme Close</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The final micro-climb of the S2R&reg; Strategy2Results&reg; programme addresses the question that no strategy programme asks but every organisation eventually faces: now that performance has been achieved, how is it kept?</p>
+<div class="sum-cards"><div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; The What</div><p>Performance Gravity is the natural force that pulls organisations back toward average after strong performance. It operates through three mechanisms: Momentum Illusion, Complexity Creep, and Leadership Drift. KISS &mdash; Keep, Improve, Stop, Start &mdash; provides the four precise decisions that counter each mechanism.</p></div><div class="sum-card"><div class="sum-card-label" style="color:var(--gold);">Intelligence &mdash; The Why</div><p>Sustaining performance is an infinite game requiring consistency, not a finite game requiring intensity. The greatest threat is Success Inertia &mdash; the conviction that yesterday&rsquo;s formula will produce tomorrow&rsquo;s survival. Stop and Start are the disciplines that interrupt it.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; The Where</div><p>Performance drift emerges simultaneously across ten executive domains. Each CXO is the guardian of a specific execution stabiliser, monitoring specific gravitational pull, reading early warning signals, and applying KISS to restore sustained performance before drift becomes deterioration.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; The How Collective</div><p>The S2R&reg; Collective Intelligence Review brings four instruments together in a quarterly operating rhythm: ESRG Scanner, Enterprise COMPASS, KISS Reflection, and Organisational Health Thermometer. When conducted consistently, it produces collective execution intelligence.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#f0a070;">Application &mdash; The How Individual</div><p>Four CXO scenarios ground KISS in real executive domains. The Programme Commitment closes the lens and the S2R&reg; journey: each leader publicly names their vulnerability, names the KISS discipline they are most at risk of neglecting, and makes one specific, dated, witnessed commitment.</p></div></div>
+<div class="closing-box" style="margin-top:20px;">
+<p>You have clarified direction so that your organisation knows where it is going. You have designed execution so that effort converts into results. You have established accountability so that standards have teeth. You have aligned your enterprise conditions so that the system supports the strategy. You have measured health so that you can hear the early signals. You have coached the difficult conversations that health requires. And now you have named the discipline that sustains everything you have built.</p>
+<p>Every organisation that has ever achieved something great and then lost it did not lose it through a single catastrophic failure. It lost it gradually &mdash; through the quiet accumulation of compromises that each felt individually justified, collectively devastating, and entirely avoidable.</p>
+<p>Performance Gravity is real. It is patient. And it never stops pulling. But so is leadership discipline &mdash; when it is chosen deliberately, maintained consistently, and renewed publicly by leaders who understand what they are building and why it matters.</p>
+<p><strong>That is the organisation you have the capability to become.</strong></p>
+<div class="closing-final">Keep climbing.</div>
+</div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">&larr; Integration Zone</button></div>
+</div></div>
+</div>
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleGrav(c){c.classList.toggle('open');}
+function toggleCXO(r){r.classList.toggle('open');}
+function toggleTool(c){c.classList.toggle('open');}
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+</script>
+</body>
+</html>
