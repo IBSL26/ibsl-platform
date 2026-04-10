@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Unit 4 - Module 1 - Lens 10 Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(201,168,76,.3);}
+.step-tab.active{background:rgba(201,168,76,.15);border-color:var(--gold);border-bottom-color:rgba(201,168,76,.15);box-shadow:0 -2px 0 var(--gold) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--gold);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Trait cards */
+.trait-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.trait-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.trait-card:hover,.trait-card.open{border-color:rgba(201,168,76,.3);}
+.trait-head{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.trait-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.trait-name{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:var(--gold);}
+.trait-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.trait-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.trait-card.open .trait-arr{transform:rotate(180deg);color:var(--gold);}
+.trait-bar{height:3px;background:rgba(201,168,76,.14);}
+.trait-card.open .trait-bar{background:var(--gold);}
+.trait-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.trait-card.open .trait-body{display:block;}
+.trait-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:8px;}
+/* CXO rows */
+.cxo-row{border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.cxo-head{display:flex;align-items:center;gap:14px;padding:16px 0;}
+.cxo-badge{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:4px 10px;flex-shrink:0;min-width:80px;text-align:center;}
+.cxo-domain{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:rgba(255,255,255,.8);flex:1;}
+.cxo-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.cxo-row.open .cxo-arr{transform:rotate(180deg);color:var(--gold);}
+.cxo-body{display:none;padding:0 0 20px 94px;}
+.cxo-row.open .cxo-body{display:block;}
+.cxo-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.cxo-col-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cxo-col-content{font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;}
+.cxo-risk{font-size:13px;color:rgba(255,200,100,.7);line-height:1.75;font-style:italic;}
+/* Thermometer */
+.thermo-intro{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:16px;}
+.thermo-scale{display:flex;gap:8px;margin:12px 0 20px;flex-wrap:wrap;}
+.scale-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:60px;}
+.scale-num{font-size:16px;font-weight:700;color:var(--gold);}
+.scale-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4);}
+.trait-section{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+.trait-section-head{padding:12px 16px;background:linear-gradient(135deg,#1a2a1e,#0f1a10);border-bottom:1px solid rgba(201,168,76,.15);}
+.trait-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.trait-section-max{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
+.thermo-row{display:grid;grid-template-columns:28px 1fr 80px;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);}
+.thermo-row:last-of-type{border-bottom:none;}
+.thermo-qnum{font-size:11px;font-weight:700;color:rgba(201,168,76,.5);text-align:center;}
+.thermo-stmt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.thermo-input{width:70px;background:#0f1a10;border:1px solid rgba(201,168,76,.3);border-radius:3px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:14px;font-weight:700;padding:8px;text-align:center;outline:none;transition:border-color .2s;}
+.thermo-input:focus{border-color:var(--gold);}
+.thermo-total-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(201,168,76,.06);border-top:1px solid rgba(201,168,76,.15);}
+.thermo-total-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.thermo-total-val{font-size:18px;font-weight:700;color:var(--gold);min-width:40px;text-align:right;}
+.grand-total-box{background:#0f1a10;border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:20px 24px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;}
+.grand-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.grand-score{font-size:36px;font-weight:700;color:var(--gold);}
+.grand-max{font-size:14px;color:rgba(255,255,255,.3);}
+.temp-display{padding:16px 20px;border-radius:4px;margin-top:12px;transition:all .3s;border:1px solid rgba(255,255,255,.1);}
+.temp-display-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.temp-display-value{font-size:18px;font-weight:700;}
+.temp-display-signal{font-size:12px;margin-top:4px;opacity:.8;}
+/* Scenario cards */
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.scenario-card{background:#151c15;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;cursor:pointer;transition:all .2s;}
+.scenario-card:hover{border-color:rgba(201,168,76,.3);}
+.scenario-card.selected{border-color:var(--gold);background:rgba(201,168,76,.07);}
+.sc-badge{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sc-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-bottom:6px;}
+.sc-trait{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:10px;}
+.sc-body{display:none;font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+.scenario-card.selected .sc-body{display:block;}
+.sc-task{font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;}
+/* ACE-IT stances */
+.aceit-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:8px;cursor:pointer;overflow:hidden;}
+.aceit-card.open{border-color:rgba(201,168,76,.3);}
+.aceit-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.aceit-letter{font-size:24px;font-weight:700;color:var(--gold);font-family:"Cormorant Garamond",serif;flex-shrink:0;width:32px;}
+.aceit-left{flex:1;}
+.aceit-name{font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;}
+.aceit-stance{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-style:italic;}
+.aceit-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.aceit-card.open .aceit-arr{transform:rotate(180deg);color:var(--gold);}
+.aceit-body{display:none;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.aceit-card.open .aceit-body{display:block;}
+.aceit-principle{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04);}
+.aceit-principle:last-child{border-bottom:none;}
+.aceit-p-label{padding:12px 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);background:rgba(201,168,76,.04);border-right:1px solid rgba(255,255,255,.05);}
+.aceit-p-content{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Hbox */
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Sum cards */
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+/* Gate */
+.gate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:999;display:flex;align-items:center;justify-content:center;}
+.gate-box{background:#111811;border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:40px 44px;width:100%;max-width:420px;}
+.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.6rem;color:#fff;margin-bottom:4px;}
+.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:28px;}
+.gate-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);display:block;margin-bottom:6px;}
+.gate-input{width:100%;background:#1a2a1e;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;outline:none;margin-bottom:14px;}
+.gate-input:focus{border-color:rgba(201,168,76,.4);}
+.gate-btn{width:100%;background:var(--gold);color:#111811;font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;padding:13px;border-radius:2px;cursor:pointer;}
+.gate-btn:hover{background:var(--gl);}
+.gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;}
+@media(max-width:900px){.trait-grid,.scenario-grid{grid-template-columns:1fr;}.cxo-cols{grid-template-columns:1fr;}.thermo-row{grid-template-columns:28px 1fr 70px;}}
+</style>
+</head>
+<body>
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-title">Facilitator Portal</div>
+    <div class="gate-sub">Unit 4 &middot; Module 1 &middot; Lens 10</div>
+    <label class="gate-label">Email Address</label>
+    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
+    <label class="gate-label">Facilitator Access Code</label>
+    <div style="position:relative;">
+      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
+      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
+    </div>
+    <div style="height:14px;"></div>
+    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+  </div>
+  <span class="nav-badge">&#128274; Facilitator</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Unit 4 &middot; Module 1 &middot; Lens 10</div>
+    <h1 class="unit-title">Organisational Health</h1>
+    <div class="unit-sub">Grounding &mdash; Enterprise &amp; Culture Alignment</div>
+    <p class="unit-desc">Organisational health is the internal condition that determines whether strategy can actually be executed. This lens builds leaders&rsquo; ability to recognise, diagnose, and actively maintain the health of the organisation as the foundation upon which all performance is built.</p>
+    <div class="arc-bar">
+      <div class="arc-seg aw">Awareness<span>What</span></div>
+      <div class="arc-seg in">Intelligence<span>Why</span></div>
+      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
+      <div class="arc-seg iz">Integration<span>How</span></div>
+      <div class="arc-seg ap">Application<span>ACE-IT</span></div>
+    </div>
+  </div>
+</div>
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)">Guide<br><small style="font-size:8px;opacity:.5;">Facilitator</small></div>
+  <div class="mod-tab" onclick="showMod(1)">Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)">Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)">Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)">Integration Zone<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)">Application<br><small style="font-size:8px;opacity:.5;">ACE-IT</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Lens 10 &mdash; Session Overview</h2><p>Orientation, facilitation questions, tone guidance, and session timing for the full lens.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lens Intent</div>
+<p>Lens 10 addresses the question beneath every strategy conversation but rarely asked directly: is the internal environment of this organisation actually capable of sustaining the performance it is being asked to deliver? Where Lens 9 examined the structural conditions (ESRG), Lens 10 examines the behavioural and cultural conditions &mdash; the human system that determines whether those structures actually work.</p>
+<p>The three core frameworks are: the <strong>Five Observable Health Traits</strong> (what healthy organisations look like), the <strong>Organisational Health Pyramid</strong> (how health is built from the inside outward), and the <strong>ACE-IT Coaching Model</strong> (how leaders intervene when health declines). The Extrapolating section introduces the live Health Thermometer diagnostic. The Application section is the centrepiece &mdash; protect the full 40 minutes.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Think of the best team environment you have ever been part of. What made it feel different from ordinary workplaces? That difference is what Lencioni calls organisational health.&rdquo;</em></li>
+<li><em>&ldquo;If trust shapes experiences, experiences shape beliefs, and beliefs shape actions &mdash; where in that chain would you say your organisation needs the most attention right now?&rdquo;</em></li>
+<li><em>&ldquo;Which of the five health traits is your organisation strongest on? Which is it most vulnerable on &mdash; and has that always been the case?&rdquo;</em></li>
+<li><em>&ldquo;When you look at the CXO Health Architecture table &mdash; which executive domain in this organisation is most actively stewarded, and which is most neglected?&rdquo;</em></li>
+<li><em>&ldquo;In the ACE-IT coaching exercise &mdash; which behaviour do you apply easily when conversations are comfortable, and which do you abandon when they become difficult? That gap is your development edge.&rdquo;</em></li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Watch for:</strong> leaders who intellectually agree with everything but struggle to name a specific health issue in their own organisation. The thermometer exercise should surface this. If someone scores themselves 85+ on all five traits, gently probe: <em>&ldquo;What would your team say if they completed the same thermometer about your function?&rdquo;</em></p>
+<p><strong>Watch for:</strong> the Application exercise becoming a discussion rather than a coaching practice. Leaders must actually conduct the conversation, not describe what they would say. Keep the pairs working and intervene if they slip into strategy conversation mode.</p>
+<p><strong>The COMPASS connection:</strong> If participants ask how this relates to Lens 8, the answer is precise. COMPASS identified <em>where</em> execution friction appears. The Health Pyramid explains <em>why</em> it appears. ACE-IT is <em>how</em> leaders respond. All three are the same diagnostic system at different levels of depth.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Awareness &mdash; What &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Awareness &middot; What</div><h2>What is Organisational Health?</h2><p>Introducing the five observable traits of healthy organisations and the Pyramid that explains how those traits are produced from the inside outward.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Define organisational health and articulate why it is the foundation of strategy execution</li>
+<li>Identify the five observable traits and recognise them in daily organisational behaviour</li>
+<li>Explain the Organisational Health Pyramid and the trust-to-results chain</li>
+<li>Connect the two models: traits as visible outcomes, pyramid as internal conditions</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Awareness</div>
+<p>Open with the Lencioni framing: organisational health is the greatest untapped competitive advantage in business. Ask the room to recall the best team environment they have experienced &mdash; then ask what made it different. That difference is organisational health.</p>
+<p>The Five Traits section is the &ldquo;what we see&rdquo; layer. Work through each card and invite leaders to rate their own organisation on each trait mentally. The Pyramid section is the &ldquo;why it happens&rdquo; layer &mdash; this is the conceptual breakthrough. Emphasise the sequencing: leaders cannot produce the visible traits directly. They can only build the conditions &mdash; trust, meaningful experience, sound belief &mdash; from which the traits emerge naturally.</p>
+<p>Close Awareness with the connecting statement: <em>The pyramid does not replace the traits &mdash; it explains them. The traits tell you what to look for. The pyramid tells you where to look when they are missing.</em></p>
+</div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Opening &mdash; Facilitator Script</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>There is a quality that the best organisations possess that is almost impossible to articulate in a strategy document, but unmistakable when you experience it. You feel it in meetings where people speak freely and challenge ideas without fear. You sense it in the ease of collaboration between teams that would otherwise be competing for resources. You notice it in the way difficult performance conversations happen quickly and honestly rather than being avoided until they become crises.</p>
+<p>Patrick Lencioni defines organisational health as the state in which an organisation is whole, consistent, and complete &mdash; where its management, operations, strategy, and culture fit together and make sense. This lens is about the discipline of measuring, understanding, and actively maintaining the health of the organisation &mdash; not as a culture programme separate from strategy, but as the infrastructure that determines whether everything else can actually work.</p>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Five Observable Traits</div><div class="acc-meta">Select each trait to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Healthy organisations display five observable traits. These are not aspirational slogans. They are patterns of behaviour that become visible in daily operations.</p>
+<div class="trait-grid">
+<div class="trait-card" onclick="toggleTrait(this)">
+  <div class="trait-head"><div><div class="trait-num">Trait 1</div><div class="trait-name">Minimal Politics</div><div class="trait-sub">Issues surface quickly and are addressed directly</div></div><div class="trait-arr">&#9660;</div></div>
+  <div class="trait-bar"></div>
+  <div class="trait-body"><p>In politically healthy organisations, issues surface quickly and are addressed directly. Leaders do not manage information to strengthen their own influence or protect functional territory. Discussions focus on what serves the enterprise best. Decisions are based on evidence and shared priorities rather than informal power dynamics.</p></div>
+</div>
+<div class="trait-card" onclick="toggleTrait(this)">
+  <div class="trait-head"><div><div class="trait-num">Trait 2</div><div class="trait-name">Minimal Confusion</div><div class="trait-sub">Clarity about direction, ownership, and decision authority</div></div><div class="trait-arr">&#9660;</div></div>
+  <div class="trait-bar"></div>
+  <div class="trait-body"><p>Clarity exists about direction, ownership, and decision authority. People know what the organisation is trying to achieve and how their role contributes to that outcome. They understand where responsibility begins and ends. This reduces the constant escalation that occurs when people are unsure who should decide or act.</p></div>
+</div>
+<div class="trait-card" onclick="toggleTrait(this)">
+  <div class="trait-head"><div><div class="trait-num">Trait 3</div><div class="trait-name">High Morale</div><div class="trait-sub">People remain engaged because they experience purpose and recognition</div></div><div class="trait-arr">&#9660;</div></div>
+  <div class="trait-bar"></div>
+  <div class="trait-body"><p>People remain engaged because they experience purpose and recognition. High morale does not mean work is always easy. It means people feel that their effort contributes to something meaningful and that their contribution is valued. When morale is strong, individuals invest discretionary energy.</p></div>
+</div>
+<div class="trait-card" onclick="toggleTrait(this)">
+  <div class="trait-head"><div><div class="trait-num">Trait 4</div><div class="trait-name">High Productivity</div><div class="trait-sub">Effort converts efficiently into results</div></div><div class="trait-arr">&#9660;</div></div>
+  <div class="trait-bar"></div>
+  <div class="trait-body"><p>In healthy organisations, effort converts efficiently into results. Work flows smoothly between teams. There is less duplication, fewer misunderstandings, and far less time correcting avoidable errors. Productivity increases not because people are working harder, but because the system itself is clean and coordinated.</p></div>
+</div>
+<div class="trait-card" onclick="toggleTrait(this)">
+  <div class="trait-head"><div><div class="trait-num">Trait 5</div><div class="trait-name">Low Turnover</div><div class="trait-sub">People choose to stay because the environment supports their growth</div></div><div class="trait-arr">&#9660;</div></div>
+  <div class="trait-bar"></div>
+  <div class="trait-body"><p>People choose to stay because the environment supports their growth and contribution. Institutional knowledge accumulates rather than constantly resetting through attrition. Relationships deepen. Execution capability strengthens over time.</p></div>
+</div></div>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;">When these five traits exist simultaneously, the organisation develops execution momentum &mdash; the ability to sustain performance without constant managerial pressure.</p></div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Organisational Health Pyramid</div><div class="acc-meta">How the traits are produced</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The five traits are only the visible surface of organisational health. The Organisational Health Pyramid explains how healthy organisations develop from the inside outward &mdash; and why addressing the visible traits directly, without addressing the foundations, never works.</p>
+<div class="step-group"><div class="step-tabs"><div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Trust</div><div class="step-name">The Foundation</div></div><div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Experiences</div><div class="step-name">Shaped by Trust</div></div><div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Beliefs</div><div class="step-name">Formed by Experiences</div></div><div class="step-tab" onclick="showStep(3,this)"><div class="step-num">Actions</div><div class="step-name">Driven by Beliefs</div></div><div class="step-tab" onclick="showStep(4,this)"><div class="step-num">Results</div><div class="step-name">The Visible Traits</div></div></div><div class="step-panel active"><h5>Trust &mdash; The Foundation</h5><p>Trust forms the emotional infrastructure of the organisation. It develops through consistent behaviour: keeping commitments, sharing credit, admitting mistakes, and communicating transparently about difficult realities. When trust is present, people feel safe to speak honestly and reveal concerns early. Without trust, individuals begin to protect themselves and communication becomes filtered and cautious.</p></div><div class="step-panel"><h5>Experiences &mdash; Shaped by Trust</h5><p>Every day, employees encounter leadership through meetings, feedback conversations, decisions, and recognition moments. These experiences quietly shape how people interpret the organisation. The way leaders respond to mistakes communicates whether learning is valued or punished. The way decisions are explained communicates whether fairness and transparency exist.</p></div><div class="step-panel"><h5>Beliefs &mdash; Formed by Experiences</h5><p>Employees form shared assumptions about the organisation. They decide whether leaders listen, whether effort is recognised, and whether honesty is safe. These beliefs become the internal narrative people carry about their workplace. Once formed, beliefs filter everything a person subsequently experiences &mdash; they see evidence that confirms what they already believe.</p></div><div class="step-panel"><h5>Actions &mdash; Driven by Beliefs</h5><p>When people believe their voice matters, they contribute ideas more freely. When they believe collaboration is valued, they share information openly. When they believe their effort will be recognised, they invest more energy in their work. Beliefs do not simply predict behaviour &mdash; they produce it, consistently and at scale across the organisation.</p></div><div class="step-panel"><h5>Results &mdash; The Visible Traits</h5><p>The five observable traits of healthy organisations are the natural outcomes of a healthy internal pyramid. Minimal politics, minimal confusion, high morale, high productivity, and low turnover are not cultural programmes. They are what appears when trust, experiences, beliefs, and actions are aligned and self-reinforcing.</p></div></div>
+<div class="hbox" style="margin-top:14px;"><p style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:1px;">Trust &rarr; Experiences &rarr; Beliefs &rarr; Actions &rarr; Results</p></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Connecting the Two Models</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Five Traits describe what we see when organisational health is strong. The Pyramid explains how those traits are produced. When trust erodes, the opposite pattern emerges: experiences create scepticism, beliefs become defensive, actions shift toward self-protection, and the visible traits deteriorate.</p>
+<ul><li>Politics increase as people stop trusting shared decisions</li><li>Confusion spreads as people stop communicating clearly</li><li>Morale declines as people stop believing their effort matters</li><li>Productivity drops as energy is absorbed by internal friction</li><li>Turnover rises as people stop believing the organisation is worth staying in</li></ul>
+<p>This is why organisational health cannot be repaired through policy changes or cultural messaging alone. Leaders must address the deep layers of the pyramid &mdash; where trust and experience are formed &mdash; before the visible traits begin to recover.</p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">&larr; Guide</button><button class="btn" onclick="showMod(2)">Intelligence &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Intelligence &middot; Why</div><h2>Why Organisational Health Determines the Performance Ceiling</h2><p>Understanding how health acts as the multiplier of every strategic system &mdash; and what organisations pay when health deteriorates.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Articulate why organisational health is the performance ceiling of strategy execution</li>
+<li>Describe what execution velocity looks like when health is strong</li>
+<li>Name the four hidden costs of poor organisational health</li>
+<li>Connect health deterioration to specific failure modes in strategic systems</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Intelligence</div>
+<p>The key insight for this section is the multiplier effect: organisational health does not sit alongside strategy &mdash; it multiplies or divides every strategic system. A strong strategy in an unhealthy organisation underperforms a moderate strategy in a healthy one. Make this concrete: ask leaders to think of a time when a good plan failed because the environment couldn&rsquo;t carry it.</p>
+<p>The Price of Poor Health section tends to land hardest. Pause after each cost and ask: <em>&ldquo;Where do you see this in your organisation right now?&rdquo;</em> The emotional fatigue point often produces the most honest response in the room.</p>
+</div>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;">Leaders do not create organisational health through statements about values. They create it through consistent behaviours that shape the experiences people have every day. Those experiences accumulate into beliefs. Those beliefs shape behaviour. And those behaviours ultimately determine whether the organisation becomes a place where strategy can truly come to life.</p></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">What We See &mdash; The Signals of Health</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When organisational health is strong, specific patterns become visible across the organisation. Issues surface quickly and are addressed directly. Leaders and teams focus on what serves the enterprise rather than defending functional territory. Clarity is evident &mdash; people understand the organisation&rsquo;s direction, their role in delivering it, and how decisions move through the system.</p>
+<p>Energy remains constructive. People stay engaged because they experience purpose, recognition, and belonging. Work moves efficiently. Teams collaborate effectively, communication flows clearly, and the organisation&rsquo;s effort converts reliably into results. Over time, talented people remain, relationships deepen, and institutional knowledge accumulates.</p>
+<div class="hbox"><p>Together &mdash; low politics, high clarity, strong morale, productive collaboration, and stable teams &mdash; these are the signals we recognise when organisational health is present. This is what can be described as <strong>execution velocity</strong>: the organisation&rsquo;s ability to convert strategic ambition into consistent, sustained performance.</p></div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">What We Create &mdash; The Conditions of Health</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The visible signals of organisational health emerge from the environment leaders create. At the foundation lies trust. Trust shapes the experiences people have in the organisation. Those experiences gradually form shared beliefs. Beliefs influence behaviour. Behaviours accumulate into the visible signals we observe across the organisation.</p>
+<p>In this way, organisational health is never created by statements about culture or values. It emerges from the conditions leaders consistently reinforce through their behaviour, their decisions, and the systems they design. When leaders intentionally create the right conditions, the visible signs of organisational health follow naturally.</p>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Price of Poor Health</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>An unhealthy organisation loses energy before it loses performance. Politics, bureaucracy, and mistrust slowly drain attention, collaboration, and initiative. The real costs often remain unseen until they become irreversible:</p>
+<ul>
+<li><strong>Time lost</strong> through unclear communication and repeated work &mdash; the visible cost of minimum-clarity execution</li>
+<li><strong>Quiet disengagement</strong> from capable employees &mdash; the hidden cost of missing the conditions that make discretionary effort sustainable</li>
+<li><strong>Declining trust</strong> as focus shifts from shared purpose to protection of turf &mdash; the structural cost of misaligned incentives and governance</li>
+<li><strong>Emotional fatigue</strong> as people move from contribution to self-preservation &mdash; the human cost of an environment that asks for commitment without reciprocating with safety</li>
+</ul>
+<div class="hbox"><p>When the health temperature drops, every performance system established earlier becomes less effective. OKRs are pursued with less energy. KPI reviews become defensive. ESRG alignment gaps widen. The strategy remains architecturally sound &mdash; but the human system that delivers it begins to break down.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">&larr; Awareness</button><button class="btn" onclick="showMod(3)">Extrapolating &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Extrapolating &middot; Where</div><h2>Where Are the Organisational Health Signals?</h2><p>Using the Organisational Health Thermometer to detect where health is strengthening or weakening &mdash; before results decline.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain how the Health Thermometer functions as an early-warning diagnostic instrument</li>
+<li>Complete the 20-statement individual assessment and interpret the temperature result</li>
+<li>Read the team consolidation view and identify trait variance as a signal in itself</li>
+<li>Connect the ACE-IT guardrails to specific temperature levels as the leadership response</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Extrapolating</div>
+<p>The thermometer is the most significant practical tool in this lens. Give participants 8&ndash;10 minutes to complete it individually and in silence &mdash; do not discuss while they are scoring. Once complete, collect scores and enter them into the Team Consolidation Excel before the Integration Zone discussion.</p>
+<p><strong>Watch the variance, not just the average.</strong> If two leaders score Trait 3 (High Morale) at 18 and 7 respectively, that 11-point variance tells you the organisation is not experiencing morale consistently. That inconsistency is as important as any individual score.</p>
+<p>If someone scores themselves 80+ across all five traits, use this question: <em>&ldquo;What would your team score you on if they completed this thermometer about your function &mdash; and would the number be the same?&rdquo;</em></p>
+</div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Organisational Health Thermometer</div><div class="acc-meta">Live interactive assessment</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p class="thermo-intro">Rate each statement honestly on a scale of 1 to 5. The thermometer auto-calculates your total and temperature reading.</p>
+<div class="thermo-scale"><div class="scale-item"><div class="scale-num">1</div><div class="scale-label">Never</div></div><div class="scale-item"><div class="scale-num">2</div><div class="scale-label">Rarely</div></div><div class="scale-item"><div class="scale-num">3</div><div class="scale-label">Sometimes</div></div><div class="scale-item"><div class="scale-num">4</div><div class="scale-label">Usually</div></div><div class="scale-item"><div class="scale-num">5</div><div class="scale-label">Always</div></div></div><div class="trait-section"><div class="trait-section-head"><div class="trait-section-title">TRAIT 1 &mdash; MINIMAL POLITICS</div><div class="trait-section-max">Max score: 20</div></div><div class="thermo-row"><div class="thermo-qnum">1</div><div class="thermo-stmt">Issues and concerns are raised openly in meetings rather than discussed in corridors afterwards.</div><input class="thermo-input" type="number" min="1" max="5" id="ft1q1" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">2</div><div class="thermo-stmt">Leaders share information freely rather than controlling it to strengthen their own position.</div><input class="thermo-input" type="number" min="1" max="5" id="ft1q2" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">3</div><div class="thermo-stmt">Decisions are guided by what serves the enterprise — not by individual or functional interest.</div><input class="thermo-input" type="number" min="1" max="5" id="ft1q3" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">4</div><div class="thermo-stmt">When conflicts arise between teams, they are resolved directly and honestly rather than through informal influence.</div><input class="thermo-input" type="number" min="1" max="5" id="ft1q4" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-total-row"><div class="thermo-total-label">Trait 1 Total</div><div><span id="ftrait1total" class="thermo-total-val">0</span><span style="font-size:12px;color:rgba(255,255,255,.3);"> / 20</span></div></div></div><div class="trait-section"><div class="trait-section-head"><div class="trait-section-title">TRAIT 2 &mdash; MINIMAL CONFUSION</div><div class="trait-section-max">Max score: 20</div></div><div class="thermo-row"><div class="thermo-qnum">1</div><div class="thermo-stmt">People understand the strategic direction and how their role contributes to it.</div><input class="thermo-input" type="number" min="1" max="5" id="ft2q1" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">2</div><div class="thermo-stmt">Decision authority is clear — people know who should decide what, at what level.</div><input class="thermo-input" type="number" min="1" max="5" id="ft2q2" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">3</div><div class="thermo-stmt">Responsibilities at the interfaces between teams are understood without constant escalation.</div><input class="thermo-input" type="number" min="1" max="5" id="ft2q3" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">4</div><div class="thermo-stmt">Priorities are stable and consistently communicated — people are not pulled in competing directions.</div><input class="thermo-input" type="number" min="1" max="5" id="ft2q4" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-total-row"><div class="thermo-total-label">Trait 2 Total</div><div><span id="ftrait2total" class="thermo-total-val">0</span><span style="font-size:12px;color:rgba(255,255,255,.3);"> / 20</span></div></div></div><div class="trait-section"><div class="trait-section-head"><div class="trait-section-title">TRAIT 3 &mdash; HIGH MORALE</div><div class="trait-section-max">Max score: 20</div></div><div class="thermo-row"><div class="thermo-qnum">1</div><div class="thermo-stmt">People invest discretionary effort — they go beyond the minimum because they believe in what we are doing.</div><input class="thermo-input" type="number" min="1" max="5" id="ft3q1" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">2</div><div class="thermo-stmt">Contribution is recognised and valued in ways that feel meaningful, not just performative.</div><input class="thermo-input" type="number" min="1" max="5" id="ft3q2" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">3</div><div class="thermo-stmt">Even during demanding periods, the environment sustains commitment rather than draining it.</div><input class="thermo-input" type="number" min="1" max="5" id="ft3q3" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">4</div><div class="thermo-stmt">People feel a genuine sense of belonging and purpose in this organisation.</div><input class="thermo-input" type="number" min="1" max="5" id="ft3q4" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-total-row"><div class="thermo-total-label">Trait 3 Total</div><div><span id="ftrait3total" class="thermo-total-val">0</span><span style="font-size:12px;color:rgba(255,255,255,.3);"> / 20</span></div></div></div><div class="trait-section"><div class="trait-section-head"><div class="trait-section-title">TRAIT 4 &mdash; HIGH PRODUCTIVITY</div><div class="trait-section-max">Max score: 20</div></div><div class="thermo-row"><div class="thermo-qnum">1</div><div class="thermo-stmt">Work flows smoothly between teams — handoffs are clean and coordination is efficient.</div><input class="thermo-input" type="number" min="1" max="5" id="ft4q1" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">2</div><div class="thermo-stmt">Meetings resolve issues and move work forward — they are not simply update exchanges.</div><input class="thermo-input" type="number" min="1" max="5" id="ft4q2" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">3</div><div class="thermo-stmt">Our systems and processes support collaboration rather than creating friction between teams.</div><input class="thermo-input" type="number" min="1" max="5" id="ft4q3" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">4</div><div class="thermo-stmt">Effort converts reliably into results — we do not lose significant output to rework or miscommunication.</div><input class="thermo-input" type="number" min="1" max="5" id="ft4q4" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-total-row"><div class="thermo-total-label">Trait 4 Total</div><div><span id="ftrait4total" class="thermo-total-val">0</span><span style="font-size:12px;color:rgba(255,255,255,.3);"> / 20</span></div></div></div><div class="trait-section"><div class="trait-section-head"><div class="trait-section-title">TRAIT 5 &mdash; LOW TURNOVER</div><div class="trait-section-max">Max score: 20</div></div><div class="thermo-row"><div class="thermo-qnum">1</div><div class="thermo-stmt">People with capability and institutional knowledge choose to stay and grow within this organisation.</div><input class="thermo-input" type="number" min="1" max="5" id="ft5q1" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">2</div><div class="thermo-stmt">Leadership behaviour creates an environment where long-term commitment feels worthwhile.</div><input class="thermo-input" type="number" min="1" max="5" id="ft5q2" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">3</div><div class="thermo-stmt">Knowledge is retained — it is not constantly lost when people move on.</div><input class="thermo-input" type="number" min="1" max="5" id="ft5q3" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-row"><div class="thermo-qnum">4</div><div class="thermo-stmt">Relationships deepen over time, strengthening our collective execution capability.</div><input class="thermo-input" type="number" min="1" max="5" id="ft5q4" oninput="updateThermo('f')" placeholder="—"></div><div class="thermo-total-row"><div class="thermo-total-label">Trait 5 Total</div><div><span id="ftrait5total" class="thermo-total-val">0</span><span style="font-size:12px;color:rgba(255,255,255,.3);"> / 20</span></div></div></div><div class="grand-total-box">
+  <div><div class="grand-label">Your Total Score</div></div>
+  <div style="display:flex;align-items:baseline;gap:6px;">
+    <div class="grand-score" id="fgrandtotal">0</div>
+    <div class="grand-max">/ 100</div>
+  </div>
+</div><div class="temp-display" id="ftempDisplay" style="background:rgba(255,255,255,.03);">
+  <div class="temp-display-label">Temperature Reading</div>
+  <div class="temp-display-value" id="ftempValue" style="color:rgba(255,255,255,.3);">Enter scores above</div>
+  <div class="temp-display-signal" id="ftempSignal" style="color:rgba(255,255,255,.3);">&nbsp;</div>
+</div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">ACE-IT Guardrail Priorities by Temperature</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When negative signals appear, leaders activate the ACE-IT behavioural guardrails as the leadership response system. Each temperature level has priority guardrails:</p>
+<table style="width:100%;border-collapse:collapse;font-size:13px;">
+<tr style="border-bottom:1px solid rgba(201,168,76,.2);"><td style="padding:10px 12px;color:#a5d6a7;font-weight:700;width:22%;">🟢 Healthy &amp; Thriving</td><td style="padding:10px 12px;color:rgba(255,255,255,.68);">Commitment + Transparency. Watch: Accountability &mdash; high performers can drift into complacency.</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 12px;color:#fff59d;font-weight:700;">🟡 Stable but Uneven</td><td style="padding:10px 12px;color:rgba(255,255,255,.68);">Engagement + Accountability. Watch: Transparency &mdash; pockets of confusion often trace to information gaps.</td></tr>
+<tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 12px;color:#ffcc80;font-weight:700;">🟠 Caution Zone</td><td style="padding:10px 12px;color:rgba(255,255,255,.68);">Integrity + Engagement + Transparency. All five guardrails are under pressure.</td></tr>
+<tr><td style="padding:10px 12px;color:#ef9a9a;font-weight:700;">🔴 Unhealthy</td><td style="padding:10px 12px;color:rgba(255,255,255,.68);">All five ACE-IT guardrails are critical. Begin with Accountability &mdash; leaders must own the diagnosis before rebuilding begins.</td></tr>
+</table>
+<div class="hbox" style="margin-top:12px;"><p>The Team Consolidation Excel captures all six participant scores, auto-averages by trait, flags high variance, and displays the team temperature. Enter individual scores before the Integration Zone discussion.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Intelligence</button><button class="btn" onclick="showMod(4)">Integration Zone &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Integration Zone &middot; Collective</div><h2>Cross-CXO Health Architecture</h2><p>Establishing a shared leadership contract for organisational health across the entire executive team &mdash; each role anchors a specific health domain.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Explain why organisational health is an executive system, not a departmental initiative</li>
+<li>Map each executive role to its specific health domain, commitment, and risk</li>
+<li>Identify which domains are most actively stewarded and which are most neglected in this organisation</li>
+<li>Define the collective executive commitment to maintaining the organisation&rsquo;s health temperature</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Integration Zone</div>
+<p>This session brings the team&rsquo;s consolidated thermometer score into the room for the first time. Open by revealing the team average and temperature. Then use the CXO Architecture as the discussion frame: <em>&ldquo;Based on our consolidated temperature, which of these executive domains needs the most deliberate attention before the next quarterly review?&rdquo;</em></p>
+<p>The most powerful facilitation moment here is asking each leader to name their own domain first &mdash; before commenting on others. Self-diagnosis builds the psychological safety required for honest collective conversation.</p>
+</div>
+<p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.72);margin:18px 0 14px;">Every executive role contributes to maintaining the organisation&rsquo;s health temperature. When these contributions operate in alignment, they reinforce the five foundational health traits. When leadership attention withdraws from any of these domains, organisational health begins to deteriorate. Select each role to see the commitment required and the risk if attention weakens.</p>
+
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CEO</div>
+    <div class="cxo-domain">Clarity of direction and leadership alignment</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Communicates strategic direction clearly and repeatedly. Ensures the executive team presents a unified message and demonstrates the behaviours expected throughout the organisation.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When the CEO does not maintain clear and consistent direction, leaders begin interpreting strategy differently. Conflicting priorities emerge, internal politics increase, and employees lose confidence in the organisation&rsquo;s direction.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CFO</div>
+    <div class="cxo-domain">Resource fairness and financial transparency</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures financial decisions clearly support strategic priorities and explains resource allocation decisions openly so that teams understand the logic behind them.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When financial decisions appear unclear or unfair, departments begin competing for resources. This competition creates political behaviour and damages trust in leadership decisions.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">COO</div>
+    <div class="cxo-domain">Operational clarity and execution discipline</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Establishes clear operational processes, decision-making routines, and execution standards so teams understand how work should flow across the organisation.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When operational systems are inconsistent or poorly coordinated, employees become unsure about priorities, responsibilities, and processes. Confusion slows execution and reduces morale.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CHRO</div>
+    <div class="cxo-domain">Psychological safety and talent experience</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures leadership behaviour supports trust, fairness, and a positive employee experience. Designs people systems that reinforce healthy leadership behaviour across the organisation.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When employee experience is neglected, trust in leadership declines. Employees disengage, morale drops, and talent retention becomes increasingly difficult.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CTO / CIO</div>
+    <div class="cxo-domain">Technology-enabled productivity</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures technology systems simplify work, improve collaboration, and remove unnecessary friction so employees can focus on productive activities.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When systems are complex or unreliable, employees spend excessive time managing technology rather than doing productive work. Frustration grows and productivity declines.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CMO</div>
+    <div class="cxo-domain">Purpose and organisational meaning</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures the organisation&rsquo;s brand message accurately reflects how the organisation operates internally, reinforcing pride and purpose among employees.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When the brand message does not match employees&rsquo; actual experience, employees become cynical and lose belief in the organisation&rsquo;s mission.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CCO</div>
+    <div class="cxo-domain">Commercial team health</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures commercial targets are supported by adequate tools, training, coaching, and operational support so teams can deliver results consistently.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When sales pressure is high but support is limited, commercial teams experience burnout and higher turnover, which ultimately damages revenue performance.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CPO</div>
+    <div class="cxo-domain">Operational fairness and cross-functional respect</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures procurement decisions follow transparent and fair processes so departments feel treated consistently and respectfully.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When procurement decisions appear inconsistent or biased, departments begin competing against each other and internal politics increase.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CRO</div>
+    <div class="cxo-domain">Safety to raise risks and concerns</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Designs risk governance processes that encourage employees to report concerns early without fear of punishment.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When employees fear reporting problems, important risks remain hidden until they become major crises that damage performance and trust.</div></div>
+    </div>
+  </div>
+</div>
+<div class="cxo-row" onclick="toggleCXO(this)">
+  <div class="cxo-head">
+    <div class="cxo-badge">CSO</div>
+    <div class="cxo-domain">Strategic coherence</div>
+    <div class="cxo-arr">&#9660;</div>
+  </div>
+  <div class="cxo-body">
+    <div class="cxo-cols">
+      <div><div class="cxo-col-label">Key Organisational Commitment</div><div class="cxo-col-content">Ensures the strategic narrative remains clear and understandable so employees can see how their work contributes to the organisation&rsquo;s direction.</div></div>
+      <div><div class="cxo-col-label">Health Risk if Attention Weakens</div><div class="cxo-risk">When strategy becomes unclear or disconnected from daily work, employees gradually disengage because they no longer understand how their efforts contribute to the organisation&rsquo;s goals.</div></div>
+    </div>
+  </div>
+</div>
+<div class="hbox" style="margin-top:16px;"><p>The Organisational Health Architecture demonstrates that organisational health is an executive system, not a departmental initiative. No single executive can build it alone &mdash; and no single executive&rsquo;s neglect leaves the rest of the system intact.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Extrapolating</button><button class="btn" onclick="showMod(5)">Application &rarr;</button></div>
+</div></div>
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Application &middot; ACE-IT Coaching Model</div><h2>ACE-IT as a Coaching Model</h2><p>Organisational health has been compromised. Choose a scenario and use the ACE-IT Coaching Protocol to prepare and conduct a real leadership conversation.</p></div>
+<div class="mod-body">
+<div class="fac-obj"><div class="fac-obj-label">&#9670; Learning Objectives</div><ul>
+<li>Apply the ACE-IT framework as a structured coaching model, not just a behavioural checklist</li>
+<li>Use the fifteen guiding principles to prepare a specific, honest coaching conversation</li>
+<li>Identify the ACE-IT behaviour most easily abandoned under conversational pressure</li>
+<li>Leave with one specific coaching commitment &mdash; named person, named topic, named date</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Guidance &mdash; Application</div>
+<p><strong>Protect the full 40 minutes.</strong> The most common facilitation failure in this exercise is allowing Part 2 to become a discussion about what leaders would say rather than an actual coaching practice. Keep pairs working. If a pair finishes early, ask: <em>&ldquo;Did you say the honest thing? Go again and say it.&rdquo;</em></p>
+<p>For the debrief question &mdash; which ACE-IT behaviour did you abandon? &mdash; expect most leaders to name Integrity or Transparency. These are the behaviours that require the most personal exposure. The value of naming them publicly is that the room holds each other accountable from that moment forward.</p>
+<p>Close with the commitment statement: each leader names the person, the topic, and the date. Write them on a visible surface. These commitments are the output of the lens &mdash; not the frameworks, not the thermometer score.</p>
+</div>
+<div class="hbox"><p>Organisational health is not maintained by a diagnostic. It is maintained by daily leadership behaviour. This exercise produces the most direct available intervention in organisational health: <strong>a conversation that actually happens.</strong></p></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Step 1 &mdash; Choose Your Scenario</div><div class="acc-meta">Select the one closest to your reality</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Read all four scenarios. Choose the one that most closely mirrors something happening in your organisation right now &mdash; or the one you find most challenging to navigate.</p>
+<div class="scenario-grid">
+<div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 1</div>
+  <div class="sc-title">The Corridor Consensus</div>
+  <div class="sc-trait">Health Traits Compromised: Minimal Politics · Minimal Confusion</div>
+  <div class="sc-body"><p>David is a senior manager with fifteen years in the organisation. He is articulate, well-liked, and performs well individually. In meetings he nods, agrees, and rarely challenges. Within forty-eight hours of every significant decision, he has quietly spoken to three or four colleagues, introduced doubt, and begun building an alternative view. Two strategic initiatives have stalled in the past quarter. When pressed, teams cite &ldquo;mixed signals from leadership.&rdquo; David is the source of those signals. He has never been directly confronted because he is careful, experienced, and his individual results remain strong. The dysfunction is visible to everyone except, apparently, David.</p><div class="sc-task">Your task: Coach David on his behaviour and its impact on the organisation&rsquo;s ability to execute.</div></div>
+</div>
+<div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 2</div>
+  <div class="sc-title">The Confusion Spiral</div>
+  <div class="sc-trait">Health Traits Compromised: Minimal Confusion · High Productivity</div>
+  <div class="sc-body"><p>Priya is a talented team lead with genuine potential. She manages a cross-functional delivery team responsible for three strategic initiatives simultaneously. Over the past two months she has received conflicting direction from three different executives &mdash; each of whom believes their initiative is the priority. Priya has not pushed back, has not escalated, and has told each executive separately that things are &ldquo;on track.&rdquo; Nothing is on track. Her team is exhausted, delivery is slipping across all three initiatives, and two team members have privately approached HR about workload. Priya is not failing because she lacks capability. She is failing because she has not yet learned to manage upward, hold boundaries, or surface the truth under pressure.</p><div class="sc-task">Your task: Coach Priya on how she needs to show up differently &mdash; both with her team and with senior leadership.</div></div>
+</div>
+<div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 3</div>
+  <div class="sc-title">The Quiet Exit</div>
+  <div class="sc-trait">Health Traits Compromised: High Morale · Low Turnover</div>
+  <div class="sc-body"><p>James was, eighteen months ago, your highest-energy performer. He led from the front, mentored junior colleagues, and brought ideas to every review. Something changed. He now arrives on time and leaves on time. He contributes when asked and not a moment beyond. His work is technically adequate. His discretionary effort has disappeared. Two of his peers have privately told you they think he is interviewing elsewhere. The real issue &mdash; which you suspect but have not addressed &mdash; is that six months ago he was passed over for a promotion he was promised, and the explanation he received was inadequate. He has never raised it formally. Neither have you.</p><div class="sc-task">Your task: Coach James. Begin by acknowledging what you know happened. Then coach him back into full contribution.</div></div>
+</div>
+<div class="scenario-card" onclick="selectScenario(this)">
+  <div class="sc-badge">Scenario 4</div>
+  <div class="sc-title">The Execution Drag</div>
+  <div class="sc-trait">Health Traits Compromised: High Productivity · Minimal Politics</div>
+  <div class="sc-body"><p>Fatima leads a cross-functional delivery team that has missed its quarterly commitments for three consecutive cycles. Each review produces a well-structured explanation &mdash; resourcing constraints, dependency delays, scope changes from other functions. The explanations are not false. But the pattern is. Fatima is intelligent, politically skilled, and has learned that a good explanation protects her better than an uncomfortable conversation with the functions causing the dependencies. She has stopped owning the outcome and started managing the narrative. Her team has picked up on this. Accountability within the team has softened accordingly.</p><div class="sc-task">Your task: Coach Fatima on the difference between explaining the problem and owning it &mdash; and what owning it actually requires from her.</div></div>
+</div></div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The ACE-IT Coaching Protocol</div><div class="acc-meta">15 guiding principles across 5 stances</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Before you enter the conversation, prepare your approach using the five coaching stances below. For each behaviour, complete: <em>&ldquo;In this conversation, [behaviour] means I will...&rdquo;</em></p>
+
+<div class="aceit-card" onclick="toggleACEIT(this)">
+  <div class="aceit-head">
+    <div class="aceit-letter">A</div>
+    <div class="aceit-left"><div class="aceit-name">ACCOUNTABILITY</div><div class="aceit-stance">Own the conversation before you expect them to own the problem</div></div>
+    <div class="aceit-arr">&#9660;</div>
+  </div>
+  <div class="aceit-body"><div class="aceit-principle"><div class="aceit-p-label">Name the pattern, not the person</div><div class="aceit-p-content">Describe the behaviour you have observed &mdash; not a character judgment. &ldquo;I have noticed that after decisions are made, the direction often changes informally&rdquo; not &ldquo;You undermine decisions.&rdquo;</div></div><div class="aceit-principle"><div class="aceit-p-label">Invite their version before offering yours</div><div class="aceit-p-content">Ask what they see before telling them what you see. Their answer will tell you whether this is a blind spot or a choice.</div></div><div class="aceit-principle"><div class="aceit-p-label">Define the ownership you are asking for</div><div class="aceit-p-content">Be specific about what &ldquo;owning this&rdquo; looks like. &ldquo;I need you to raise concerns in the room, not after it&rdquo; is ownership. &ldquo;I need you to be more accountable&rdquo; is not.</div></div></div>
+</div>
+<div class="aceit-card" onclick="toggleACEIT(this)">
+  <div class="aceit-head">
+    <div class="aceit-letter">C</div>
+    <div class="aceit-left"><div class="aceit-name">COMMITMENT</div><div class="aceit-stance">Ask for something real, not something comfortable</div></div>
+    <div class="aceit-arr">&#9660;</div>
+  </div>
+  <div class="aceit-body"><div class="aceit-principle"><div class="aceit-p-label">Press for specificity</div><div class="aceit-p-content">A commitment without a date, a measure, or a named action is not a commitment. &ldquo;I&rsquo;ll try to be more direct&rdquo; closes nothing. &ldquo;By next Friday&rsquo;s review, you will raise your concern in the room&rdquo; closes something.</div></div><div class="aceit-principle"><div class="aceit-p-label">Test the commitment</div><div class="aceit-p-content">Before the conversation ends, ask: &ldquo;What will get in the way of this?&rdquo; Their answer tells you whether the commitment is real or performative.</div></div><div class="aceit-principle"><div class="aceit-p-label">Close the loop explicitly</div><div class="aceit-p-content">Agree how and when you will follow up. State it aloud. A commitment with no follow-up mechanism is a wish.</div></div></div>
+</div>
+<div class="aceit-card" onclick="toggleACEIT(this)">
+  <div class="aceit-head">
+    <div class="aceit-letter">E</div>
+    <div class="aceit-left"><div class="aceit-name">ENGAGEMENT</div><div class="aceit-stance">Create the conditions for honesty, not compliance</div></div>
+    <div class="aceit-arr">&#9660;</div>
+  </div>
+  <div class="aceit-body"><div class="aceit-principle"><div class="aceit-p-label">Ask more than you tell</div><div class="aceit-p-content">The ratio in a coaching conversation should be 70% questions, 30% statements. If you are talking more than they are, you are not coaching &mdash; you are instructing.</div></div><div class="aceit-principle"><div class="aceit-p-label">Listen for what is not being said</div><div class="aceit-p-content">The hesitation, the qualifier, the deflection is often the real information. &ldquo;Things are generally fine&rdquo; from someone who has stopped contributing is not fine. Pause and go deeper.</div></div><div class="aceit-principle"><div class="aceit-p-label">Acknowledge before advancing</div><div class="aceit-p-content">People cannot receive direction until they feel heard. Reflect back what you have heard before moving to what needs to change.</div></div></div>
+</div>
+<div class="aceit-card" onclick="toggleACEIT(this)">
+  <div class="aceit-head">
+    <div class="aceit-letter">I</div>
+    <div class="aceit-left"><div class="aceit-name">INTEGRITY</div><div class="aceit-stance">Say the honest thing, especially when it is uncomfortable</div></div>
+    <div class="aceit-arr">&#9660;</div>
+  </div>
+  <div class="aceit-body"><div class="aceit-principle"><div class="aceit-p-label">Name what you have been avoiding</div><div class="aceit-p-content">If you have been softening the message across previous conversations, this is the moment to stop. Name the real issue clearly and without apology.</div></div><div class="aceit-principle"><div class="aceit-p-label">Separate observation from interpretation</div><div class="aceit-p-content">&ldquo;I have noticed X&rdquo; is integrity. &ldquo;I think you are Y&rdquo; is judgment. Ground every difficult statement in what you have directly observed.</div></div><div class="aceit-principle"><div class="aceit-p-label">Hold the standard without holding a grudge</div><div class="aceit-p-content">Name the gap between expectation and behaviour &mdash; then focus entirely forward. The purpose is alignment for the future, not accountability for the past.</div></div></div>
+</div>
+<div class="aceit-card" onclick="toggleACEIT(this)">
+  <div class="aceit-head">
+    <div class="aceit-letter">T</div>
+    <div class="aceit-left"><div class="aceit-name">TRANSPARENCY</div><div class="aceit-stance">Share your context so they can trust your intention</div></div>
+    <div class="aceit-arr">&#9660;</div>
+  </div>
+  <div class="aceit-body"><div class="aceit-principle"><div class="aceit-p-label">Explain the why behind the conversation</div><div class="aceit-p-content">People engage better when they understand the reason for the discussion. &ldquo;I am having this conversation because I believe you are capable of more&rdquo; lands differently than silence.</div></div><div class="aceit-principle"><div class="aceit-p-label">Acknowledge your own role</div><div class="aceit-p-content">If leadership behaviour contributed to this situation &mdash; unclear direction, broken promises, inadequate feedback &mdash; name it. This is not weakness. It is the integrity that makes the conversation credible.</div></div><div class="aceit-principle"><div class="aceit-p-label">Be honest about stakes</div><div class="aceit-p-content">If there are consequences attached to this conversation continuing to go unresolved, say so clearly and early. A person cannot make a real choice without real information.</div></div></div>
+</div>
+</div></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Exercise &mdash; 40 Minutes</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group"><div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Part 1 &middot; 10 min</div><div class="step-name">Choose &amp; Prepare</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Part 2 &middot; 20 min</div><div class="step-name">Coach in Pairs</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Part 3 &middot; 10 min</div><div class="step-name">Debrief</div></div>
+</div>
+<div class="step-panel active"><h5>Choose and Prepare &mdash; Individual</h5><p>Read all four scenarios. Choose the one closest to your reality. Using the ACE-IT Coaching Protocol, complete the preparation sentence for each of the five behaviours: <em>&ldquo;In this conversation, [behaviour] means I will...&rdquo;</em></p></div>
+<div class="step-panel"><h5>Coach in Pairs</h5><p>One leader coaches, one plays the team member. Ten minutes each direction. The coaching partner&rsquo;s role is not to advise &mdash; it is to play the scenario honestly. After ten minutes, switch. The coach becomes the team member.</p><p>If a pair finishes early: did you say the honest thing? Go again and say it without softening.</p></div>
+<div class="step-panel"><h5>Debrief in the Room</h5><p>Each leader answers one question aloud:</p><div class="hbox"><p style="font-style:italic;font-family:'Cormorant Garamond';font-size:1.05rem;">&ldquo;Which ACE-IT behaviour did you find easiest to apply &mdash; and which did you abandon or soften when the conversation became uncomfortable?&rdquo;</p></div><p>Then each leader completes the commitment statement: <em>&ldquo;The conversation I am committing to have is with [role], about [topic], before [date].&rdquo;</em></p></div>
+</div>
+<div class="hbox" style="margin-top:12px;"><p style="font-family:'Cormorant Garamond';font-size:1.05rem;font-style:italic;">&ldquo;The gap between the ACE-IT behaviour you apply when conversations are comfortable and the one you abandon when they become difficult &mdash; that gap is not a coaching gap. That is your leadership development edge. The health of your organisation lives in that gap.&rdquo;</p></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; Organisational Health</div><div class="acc-meta">Lens 10 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health is where the entire S2R programme finds its human foundation. Direction without health produces strategies that no one believes in. Influence without health produces change that no one sustains. Grounding without health produces systems that no one trusts enough to use honestly.</p>
+<div class="sum-cards"><div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; The What</div><p>Leaders recognise what organisational health is and how it becomes visible in everyday behaviour. Five observable traits &mdash; minimal politics, minimal confusion, high morale, high productivity, low turnover &mdash; are the visible outcomes of the Organisational Health Pyramid. Trust shapes experiences. Experiences shape beliefs. Beliefs shape actions. Actions produce the visible traits.</p></div><div class="sum-card"><div class="sum-card-label" style="color:var(--gold);">Intelligence &mdash; The Why</div><p>Organisational health is the performance ceiling of strategy execution. Even the most carefully designed strategy underperforms in an unhealthy environment. Health functions as the multiplier of every strategic system. When health is strong, execution accelerates. When health deteriorates, OKRs, KPIs, and ESRG alignment all lose effectiveness.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; The Where</div><p>The Health Thermometer detects where signals are emerging at the team level &mdash; early, before results decline. Variance across participants is as important as the average. The ACE-IT guardrails provide the leadership response system, prioritised by temperature level.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; The How Collective</div><p>Every executive role anchors a specific health domain. No single executive can build organisational health alone, and no single executive&rsquo;s neglect leaves the rest of the system intact. The CXO Health Architecture transforms organisational health from an abstract concept into a clearly defined shared leadership responsibility.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#f0a070;">Application &mdash; The How Individual</div><p>The ACE-IT Coaching Model translates the lens into practice. Four scenarios, each with health traits compromised. Fifteen guiding principles across five coaching stances. Leaders choose the scenario closest to their reality and use ACE-IT to prepare and conduct the conversation. The gap between the ACE-IT behaviour applied in comfortable conversations and the one abandoned in difficult ones &mdash; that gap is the leadership development edge.</p></div></div>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;text-align:center;">The organisation that invests in its health is not making a cultural choice separate from its strategic ambitions. It is making the most direct available investment in its ability to execute those ambitions &mdash; consistently, sustainably, and at pace.</p>
+<p style="text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-top:12px;">That is not a people programme. That is a performance strategy.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">&larr; Integration Zone</button></div>
+</div></div>
+</div>
+<script>
+const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
+function gateSubmit(){
+  const em=document.getElementById('gateEmail').value.trim();
+  const co=document.getElementById('gateCode').value.trim().toUpperCase();
+  const er=document.getElementById('gateError');
+  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
+  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
+  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
+}
+function toggleGateCode(){
+  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
+  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
+  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleTrait(c){c.classList.toggle('open');}
+function toggleCXO(r){r.classList.toggle('open');}
+function toggleACEIT(c){c.classList.toggle('open');}
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+function updateThermo(prefix){
+  let grand=0;
+  const temps=[
+    {min:80,label:'🟢 Healthy & Thriving',signal:'Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.',bg:'rgba(27,94,32,.25)',color:'#a5d6a7'},
+    {min:60,label:'🟡 Stable but Uneven',signal:'Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.',bg:'rgba(123,96,0,.2)',color:'#fff59d'},
+    {min:40,label:'🟠 Caution Zone',signal:'Signs of mistrust, fatigue, or unclear direction beginning to surface. Immediate leadership attention needed.',bg:'rgba(230,81,0,.2)',color:'#ffcc80'},
+    {min:20,label:'🔴 Unhealthy',signal:'High politics, low trust, and rising turnover risk. Leadership credibility is at stake.',bg:'rgba(183,28,28,.2)',color:'#ef9a9a'},
+  ];
+  for(let t=1;t<=5;t++){
+    let sum=0;
+    for(let q=1;q<=4;q++){
+      const v=parseInt(document.getElementById(prefix+'t'+t+'q'+q).value)||0;
+      sum+=Math.min(5,Math.max(0,v));
+    }
+    document.getElementById(prefix+'trait'+t+'total').textContent=sum;
+    grand+=sum;
+  }
+  document.getElementById(prefix+'grandtotal').textContent=grand;
+  const disp=document.getElementById(prefix+'tempDisplay');
+  const val=document.getElementById(prefix+'tempValue');
+  const sig=document.getElementById(prefix+'tempSignal');
+  const match=temps.find(t=>grand>=t.min)||null;
+  if(grand>0&&match){
+    disp.style.background=match.bg;
+    disp.style.border='1px solid '+match.color;
+    val.textContent=match.label;
+    val.style.color=match.color;
+    sig.textContent=match.signal;
+    sig.style.color=match.color;
+  } else {
+    disp.style.background='rgba(255,255,255,.03)';
+    disp.style.border='1px solid rgba(255,255,255,.1)';
+    val.textContent='Enter scores above';
+    val.style.color='rgba(255,255,255,.3)';
+    sig.textContent='\u00a0';
+    sig.style.color='rgba(255,255,255,.3)';
+  }
+}
+</script>
+</body>
+</html>
