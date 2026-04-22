@@ -1326,9 +1326,6 @@ async function validateAccess() {
     email: email,
     password: password
   });
-console.log('1. authData after sign-in:', authData);
-  const sessionCheck = await supabaseClient.auth.getSession();
-  console.log('2. getSession() returns:', sessionCheck);
 
   if (authError) {
     error.textContent = 'Invalid email or password. Please try again or contact info@ibsleadership.com for help.';
@@ -1337,7 +1334,6 @@ console.log('1. authData after sign-in:', authData);
   }
 
   // Login succeeded — look up this user's role from the profiles table
-console.log('3. About to query profiles. Current session:', await supabaseClient.auth.getSession());
   const { data: profile, error: profileError } = await supabaseClient
     .from('profiles')
     .select('role, full_name')
