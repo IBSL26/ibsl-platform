@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBSL | Strategy2Result® Digital Platform</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1296,68 +1297,54 @@
     document.getElementById('loginOverlay').style.display='flex';
     document.body.style.overflow = 'hidden';
   }
+// === Supabase connection ===
+const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_iDRudWR0-LoS5_qFDRLzXw_ed2LrEaQ';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  
 
-  function validateAccess() {
-    var code = document.getElementById('modalCode').value.trim();
-    var email = document.getElementById('modalEmail').value.trim();
-    var error = document.getElementById('modalError');
-    // ── Valid codes (no fixed expiry — 90 days counted from first use) ──
-    var validCodes = {
-      'Facilitator Access': [
-        'IBSL-FAC-2025', 'FAC-LEAD-001', 'S2R-CTRL-77', 'IBSL-SYNTH-F', 'FACILITATOR-X'
-      ],
-      'Participant Access': [
-        'IBSL-S2R-2025', 'S2R-PART-001', 'CESI-JOIN-42', 'IBSL-GUIDE-P', 'PARTICIPANT-X'
-      ]
-    };
+async function validateAccess() {
+  var email = document.getElementById('modalEmail').value.trim();
+  var password = document.getElementById('modalCode').value.trim();
+  var error = document.getElementById('modalError');
 
-    if (!email || !code) {
-      error.textContent = 'Please enter your email and access code.';
-      error.style.display = 'block';
-      return;
-    }
-
-    var codes = validCodes[currentRole] || [];
-    var isValid = codes.indexOf(code) !== -1;
-
-    if (!isValid) {
-      error.textContent = 'Invalid access code. Please contact info@ibsleadership.com to request one.';
-      error.style.display = 'block';
-      return;
-    }
-
-    // ── 90-day window from first use ──
-    var ACCESS_DAYS = 90;
-    var storageKey  = 'ibsl_first_use_' + code;
-    var today       = new Date(); today.setHours(0, 0, 0, 0);
-    var firstUseStr = localStorage.getItem(storageKey);
-
-    if (!firstUseStr) {
-      // First time this code has been used — record today
-      localStorage.setItem(storageKey, today.toISOString());
-      firstUseStr = today.toISOString();
-    }
-
-    var firstUse  = new Date(firstUseStr); firstUse.setHours(0, 0, 0, 0);
-    var msPerDay  = 1000 * 60 * 60 * 24;
-    var daysUsed  = Math.floor((today - firstUse) / msPerDay);
-    var daysLeft  = ACCESS_DAYS - daysUsed;
-
-    if (daysLeft <= 0) {
-      error.textContent = 'Your 90-day access period has expired. Please contact info@ibsleadership.com to renew.';
-      error.style.display = 'block';
-      return;
-    }
-
-    // ── Access granted ──
-    error.style.display = 'none';
-    var daysMsg = daysLeft === ACCESS_DAYS
-      ? 'Access period begins today · 90 days remaining'
-      : daysLeft + ' day' + (daysLeft !== 1 ? 's' : '') + ' remaining in your access period';
-    closeModal();
-    showPortal(currentRole, daysMsg);
+  if (!email || !password) {
+    error.textContent = 'Please enter your email and password.';
+    error.style.display = 'block';
+    return;
   }
 
+  // Attempt Supabase login
+  const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if (authError) {
+    error.textContent = 'Invalid email or password. Please try again or contact info@ibsleadership.com for help.';
+    error.style.display = 'block';
+    return;
+  }
+
+  // Login succeeded — look up this user's role from the profiles table
+  const { data: profile, error: profileError } = await supabaseClient
+    .from('profiles')
+    .select('role, full_name')
+    .eq('id', authData.user.id)
+    .single();
+
+  if (profileError || !profile) {
+    error.textContent = 'Your account has no profile. Please contact info@ibsleadership.com.';
+    error.style.display = 'block';
+    return;
+  }
+
+  // Set the role and open the portal
+  error.style.display = 'none';
+  currentRole = profile.role === 'participant' ? 'Participant Access' : 'Facilitator Access';
+  closeModal();
+  showPortal(currentRole, 'Welcome, ' + profile.full_name);
+}
   function closeModal() {
     document.getElementById('loginOverlay').style.display='none';
     document.body.style.overflow = '';
