@@ -1140,6 +1140,37 @@
   </div>
 </div>
 
+<!-- ─── FORGOT PASSWORD MODAL ─── -->
+<div class="login-overlay" id="forgotPasswordOverlay" style="display:none;">
+  <div class="login-modal">
+    <button class="modal-close" onclick="closeForgotPassword()">✕</button>
+    <h2 class="modal-title" id="forgotTitle">Reset password</h2>
+    <p class="modal-role">S2R® Portal</p>
+    <div id="forgotFormState">
+      <p style="color:rgba(255,255,255,0.6);font-size:12px;line-height:1.7;margin-bottom:16px;text-align:center;">
+        Enter the email address associated with your account. We'll send you a link to reset your password.
+      </p>
+      <input type="email" class="modal-input" id="forgotEmail" placeholder="Email address" />
+      <p id="forgotError" style="color:#e74c3c;font-size:11px;margin-bottom:8px;display:none;"></p>
+      <button class="modal-btn" onclick="sendResetEmail()" id="forgotSendBtn">Send reset link</button>
+    </div>
+    <div id="forgotSuccessState" style="display:none;text-align:center;">
+      <div style="font-size:48px;color:#2a7a7a;margin:10px 0 14px;">📧</div>
+      <p style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.7;margin-bottom:14px;">
+        If an account exists with that email, we've sent you a reset link.
+      </p>
+      <p style="color:rgba(255,255,255,0.5);font-size:12px;line-height:1.7;margin-bottom:22px;">
+        Check your inbox (and spam folder) and click the link to set a new password.
+      </p>
+      <button class="modal-btn" onclick="closeForgotPassword()">Return to Home</button>
+    </div>
+    <hr class="modal-divider" />
+    <p class="modal-note">
+      Need help? Contact <a href="mailto:info@ibsleadership.com" style="color:#c9a84c;">info@ibsleadership.com</a>
+    </p>
+  </div>
+</div>
+
 <!-- ─── LOGIN MODAL ─── -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-modal">
@@ -1153,6 +1184,9 @@
       <button type="button" onclick="toggleCode()" id="toggleBtn" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.35);font-size:11px;font-family:Montserrat,sans-serif;font-weight:600;letter-spacing:1px;padding:4px;transition:color 0.2s;" title="Show / hide code">SHOW</button>
     </div>
     <p id="modalError" style="color:#e74c3c;font-size:11px;margin-bottom:8px;display:none;">Invalid access code. Please try again.</p>
+    <div style="text-align:right;margin-bottom:14px;">
+      <a href="#" onclick="openForgotPassword();return false;" style="color:rgba(255,255,255,0.55);font-size:11px;font-family:Montserrat,sans-serif;letter-spacing:0.5px;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#c9a84c'" onmouseout="this.style.color='rgba(255,255,255,0.55)'">Forgot password?</a>
+    </div>
     <button class="modal-btn" onclick="validateAccess()">Authenticate &amp; Enter</button>
     <hr class="modal-divider" />
     <p class="modal-note">
@@ -1463,6 +1497,71 @@ function getDeviceLabel() {
 function closeDeviceOverlay() {
   document.getElementById('deviceOverlay').style.display = 'none';
   document.body.style.overflow = '';
+}
+
+// ─── B.4 FORGOT PASSWORD ───
+function openForgotPassword() {
+  // Hide the login modal, open the forgot modal, reset its state
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('forgotFormState').style.display = 'block';
+  document.getElementById('forgotSuccessState').style.display = 'none';
+  document.getElementById('forgotError').style.display = 'none';
+  document.getElementById('forgotEmail').value = '';
+  document.getElementById('forgotPasswordOverlay').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() { document.getElementById('forgotEmail').focus(); }, 100);
+}
+
+function closeForgotPassword() {
+  document.getElementById('forgotPasswordOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function sendResetEmail() {
+  var email = document.getElementById('forgotEmail').value.trim();
+  var errorEl = document.getElementById('forgotError');
+  var btn = document.getElementById('forgotSendBtn');
+
+  errorEl.style.display = 'none';
+  errorEl.textContent = '';
+
+  if (!email || email.indexOf('@') === -1) {
+    errorEl.textContent = 'Please enter a valid email address.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    var { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/reset-password.html'
+    });
+    // Note: Supabase intentionally returns success even if email doesn't exist
+    // (security — don't reveal whether an account exists). We show the same
+    // message regardless.
+    if (error) {
+      console.error('Reset email error:', error);
+      // Only rate-limit errors are surfaced to the user; other errors go silent
+      if (error.message && error.message.toLowerCase().indexOf('rate') > -1) {
+        errorEl.textContent = 'Too many requests. Please wait a few minutes and try again.';
+        errorEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send reset link';
+        return;
+      }
+    }
+    // Show success state regardless of whether email exists
+    document.getElementById('forgotFormState').style.display = 'none';
+    document.getElementById('forgotSuccessState').style.display = 'block';
+  } catch (err) {
+    console.error('Reset email exception:', err);
+    errorEl.textContent = 'Something went wrong. Please try again or contact info@ibsleadership.com.';
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send reset link';
+  }
 }
 
 async function validateAccess() {
