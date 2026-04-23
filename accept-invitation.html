@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Accept Invitation — S2R® Portal</title>
+
+<!-- Copyright protection -->
+<meta name="copyright" content="© 2026 IBSLeadership. All rights reserved. S2R® and Strategy2Results® are registered trademarks. Unauthorised reproduction prohibited." />
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --gold: #c9a84c;
+    --teal: #2a7a7a;
+    --green-dark: #0d1f15;
+    --green-mid: #1a3a2a;
+    --green-card: #1c2a1e;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-mid) 60%, #0f2419 100%);
+    color: rgba(255,255,255,0.85);
+    overflow-x: hidden;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 20px;
+  }
+  .container {
+    width: 100%;
+    max-width: 560px;
+    background: var(--green-card);
+    border: 1px solid rgba(42,122,122,0.35);
+    border-radius: 6px;
+    padding: 48px 44px;
+    position: relative;
+  }
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+    border-radius: 6px 6px 0 0;
+  }
+
+  .brand-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 2rem;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    margin: 28px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.8);
+    margin-bottom: 18px;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="email"], input[type="password"] {
+    width: 100%;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px;
+    padding: 12px 14px;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    color: #fff;
+    transition: border-color 0.2s;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+  input:read-only, input[readonly] {
+    background: rgba(255,255,255,0.02);
+    color: rgba(255,255,255,0.45);
+    cursor: not-allowed;
+    border-color: rgba(255,255,255,0.06);
+  }
+  .field-hint {
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 4px;
+  }
+
+  .review-framing {
+    background: rgba(42,122,122,0.08);
+    border-left: 3px solid var(--teal);
+    padding: 14px 16px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .review-framing p {
+    font-size: 12px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .btn {
+    display: block;
+    width: 100%;
+    background: var(--teal);
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 24px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  .btn:hover:not(:disabled) { background: #35a0a0; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .error-msg {
+    background: rgba(231,76,60,0.1);
+    border-left: 3px solid #e74c3c;
+    padding: 12px 16px;
+    border-radius: 2px;
+    color: #ff9d9d;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .success-msg {
+    background: rgba(39,174,96,0.1);
+    border-left: 3px solid #27ae60;
+    padding: 12px 16px;
+    border-radius: 2px;
+    color: #8fd4a8;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  .loading-state, .invalid-state, .form-state, .done-state {
+    display: none;
+  }
+  .loading-state.active, .invalid-state.active, .form-state.active, .done-state.active {
+    display: block;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(42,122,122,0.2);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .loading-state, .done-state { text-align: center; padding: 40px 0; }
+
+  .footer-note {
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 32px;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ═══ LOADING STATE ═══ -->
+  <div class="loading-state active" id="loadingState">
+    <div class="spinner"></div>
+    <p style="margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Verifying your invitation...</p>
+  </div>
+
+  <!-- ═══ INVALID / ERROR STATE ═══ -->
+  <div class="invalid-state" id="invalidState">
+    <p class="brand-label">S2R® Portal</p>
+    <h1>Something's not right</h1>
+    <p class="subtitle" id="invalidMessage">We couldn't find a pending invitation for this email. Please contact your administrator.</p>
+    <a href="https://ibslportal.netlify.app" style="display:inline-block;color:var(--teal);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;margin-top:20px;">← Return to Portal Home</a>
+  </div>
+
+  <!-- ═══ MAIN FORM STATE ═══ -->
+  <div class="form-state" id="formState">
+
+    <p class="brand-label">S2R® Portal · Onboarding</p>
+    <h1 id="greeting">Welcome</h1>
+    <p class="subtitle">
+      You've been invited to join the Strategy2Results® programme on the IBSLeadership platform.
+      Take a moment to review your details and set your password to complete your registration.
+    </p>
+
+    <div class="review-framing">
+      <p><strong style="color:#fff;">Review your details before continuing.</strong> Your administrator pre-filled these. You can edit your name and organisation below if anything needs correcting. Once you complete registration, these details become your profile.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-label">Your Details</p>
+
+    <div class="field">
+      <label class="field-label" for="fullName">Full Name</label>
+      <input type="text" id="fullName" placeholder="Your full name" />
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="emailDisplay">Email</label>
+      <input type="email" id="emailDisplay" readonly />
+      <p class="field-hint">Your invitation was sent to this email. It cannot be changed here.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="organisation">Organisation</label>
+      <input type="text" id="organisation" placeholder="Your organisation" />
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="roleDisplay">Role</label>
+      <input type="text" id="roleDisplay" readonly />
+      <p class="field-hint">Your role was set by your administrator.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="cohortDisplay">Cohort</label>
+      <input type="text" id="cohortDisplay" readonly />
+    </div>
+
+    <hr class="divider" />
+
+    <p class="section-label">Set Your Password</p>
+
+    <div class="field">
+      <label class="field-label" for="password">Password</label>
+      <input type="password" id="password" placeholder="At least 8 characters" />
+      <p class="field-hint">Minimum 8 characters. Choose something memorable but not easy to guess.</p>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="passwordConfirm">Confirm Password</label>
+      <input type="password" id="passwordConfirm" placeholder="Re-enter your password" />
+    </div>
+
+    <p id="errorMsg" class="error-msg"></p>
+    <p id="successMsg" class="success-msg"></p>
+
+    <button class="btn" id="submitBtn" onclick="completeRegistration()">Complete Registration →</button>
+  </div>
+
+  <!-- ═══ DONE STATE ═══ -->
+  <div class="done-state" id="doneState">
+    <div style="font-size:48px;color:var(--teal);margin-bottom:20px;">✓</div>
+    <h1 style="font-size:1.5rem;margin-bottom:12px;">Registration Complete</h1>
+    <p class="subtitle">Taking you to the Portal...</p>
+  </div>
+
+  <p class="footer-note">© 2026 IBSLeadership · S2R® Strategy2Results®</p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+  });
+
+  // State containers
+  let currentInvitation = null;
+  let currentUser = null;
+
+  function showState(stateName) {
+    ['loadingState', 'invalidState', 'formState', 'doneState'].forEach(function(id) {
+      document.getElementById(id).classList.remove('active');
+    });
+    document.getElementById(stateName).classList.add('active');
+  }
+
+  function showInvalid(message) {
+    document.getElementById('invalidMessage').textContent = message;
+    showState('invalidState');
+  }
+
+  function roleDisplayName(role) {
+    if (role === 'facilitator') return 'Facilitator';
+    if (role === 'participant') return 'Participant';
+    return role;
+  }
+
+  // On page load: verify session, find pending invitation, populate form
+  async function init() {
+    try {
+      // Wait a moment for Supabase to process the magic link URL fragment
+      await new Promise(function(r) { setTimeout(r, 500); });
+
+      // Get current session
+      var { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+
+      if (sessionError || !sessionData || !sessionData.session) {
+        showInvalid('Your invitation link is invalid or has expired. Please contact your administrator for a new invitation.');
+        return;
+      }
+
+      currentUser = sessionData.session.user;
+
+      // Look up pending invitation for this user's email
+      var { data: invitations, error: inviteErr } = await supabaseClient
+        .from('invitations')
+        .select('*')
+        .eq('email', currentUser.email)
+        .eq('status', 'pending')
+        .limit(1);
+
+      if (inviteErr) {
+        console.error('Invitation lookup error:', inviteErr);
+        showInvalid('We ran into a problem verifying your invitation. Please contact your administrator.');
+        return;
+      }
+
+      if (!invitations || invitations.length === 0) {
+        showInvalid('We couldn\'t find a pending invitation for this email. Please contact your administrator.');
+        return;
+      }
+
+      currentInvitation = invitations[0];
+
+      // Populate form
+      document.getElementById('greeting').textContent = 'Welcome, ' + currentInvitation.full_name.split(' ')[0];
+      document.getElementById('fullName').value = currentInvitation.full_name;
+      document.getElementById('emailDisplay').value = currentInvitation.email;
+      document.getElementById('organisation').value = currentInvitation.organisation;
+      document.getElementById('roleDisplay').value = roleDisplayName(currentInvitation.role);
+      document.getElementById('cohortDisplay').value = currentInvitation.cohort || 'To be assigned';
+
+      showState('formState');
+
+    } catch (err) {
+      console.error('Init error:', err);
+      showInvalid('Something went wrong loading your invitation. Please try the link again or contact your administrator.');
+    }
+  }
+
+  async function completeRegistration() {
+    var errEl = document.getElementById('errorMsg');
+    var okEl = document.getElementById('successMsg');
+    var btn = document.getElementById('submitBtn');
+
+    errEl.style.display = 'none';
+    okEl.style.display = 'none';
+
+    var fullName = document.getElementById('fullName').value.trim();
+    var organisation = document.getElementById('organisation').value.trim();
+    var password = document.getElementById('password').value;
+    var passwordConfirm = document.getElementById('passwordConfirm').value;
+
+    // Validation
+    if (!fullName) {
+      errEl.textContent = 'Please enter your full name.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!organisation) {
+      errEl.textContent = 'Please enter your organisation.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (password.length < 8) {
+      errEl.textContent = 'Your password must be at least 8 characters.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (password !== passwordConfirm) {
+      errEl.textContent = 'Your passwords don\'t match. Please re-enter them.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Setting up your account...';
+
+    try {
+      // 1. Update the user's password
+      var { error: pwErr } = await supabaseClient.auth.updateUser({
+        password: password
+      });
+      if (pwErr) throw pwErr;
+
+      // 2. Upsert the profile
+      var { error: profileErr } = await supabaseClient
+        .from('profiles')
+        .upsert({
+          id: currentUser.id,
+          email: currentInvitation.email,
+          full_name: fullName,
+          role: currentInvitation.role,
+          organisation: organisation,
+          cohort: currentInvitation.cohort || null
+        }, {
+          onConflict: 'id'
+        });
+      if (profileErr) throw profileErr;
+
+      // 3. Mark invitation as accepted
+      var { error: inviteUpdateErr } = await supabaseClient
+        .from('invitations')
+        .update({
+          status: 'accepted',
+          accepted_at: new Date().toISOString()
+        })
+        .eq('id', currentInvitation.id);
+      if (inviteUpdateErr) throw inviteUpdateErr;
+
+      // Success — show done state, then redirect
+      showState('doneState');
+      setTimeout(function() {
+        window.location.href = '/welcome.html';
+      }, 2000);
+
+    } catch (err) {
+      console.error('Registration error:', err);
+      errEl.textContent = err.message || 'Something went wrong completing your registration. Please try again.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Complete Registration →';
+    }
+  }
+
+  // Allow Enter key to submit (when in form state)
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('formState').classList.contains('active')) {
+      completeRegistration();
+    }
+  });
+
+  // Go!
+  init();
+</script>
+
+</body>
+</html>
