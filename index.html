@@ -1121,6 +1121,25 @@
   </div>
 </div>
 
+<!-- ─── DEVICE CONFIRMATION PENDING ─── -->
+<div class="login-overlay" id="deviceOverlay" style="display:none;">
+  <div class="login-modal" style="text-align:center;">
+    <div style="font-size:48px;color:#2a7a7a;margin-bottom:14px;">📧</div>
+    <h2 class="modal-title">Check your email</h2>
+    <p style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.7;margin-bottom:18px;">
+      We've detected a new device trying to log in to your S2R® account.
+      For security, we've sent a confirmation link to your email.
+    </p>
+    <p style="color:rgba(255,255,255,0.5);font-size:12px;line-height:1.7;margin-bottom:22px;">
+      Click the link in the email to confirm this device, then come back and log in again.
+    </p>
+    <button class="modal-btn" onclick="closeDeviceOverlay()">Return to Home</button>
+    <p style="color:rgba(255,255,255,0.3);font-size:10px;margin-top:16px;">
+      If you didn't attempt this login, please contact info@ibsleadership.com immediately.
+    </p>
+  </div>
+</div>
+
 <!-- ─── LOGIN MODAL ─── -->
 <div class="login-overlay" id="loginOverlay">
   <div class="login-modal">
@@ -1406,6 +1425,46 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
 });
   
 
+// ─── DEVICE FINGERPRINT (B.3 device binding) ───
+function getDeviceFingerprint() {
+  var signals = [
+    navigator.userAgent || '',
+    navigator.language || '',
+    screen.width + 'x' + screen.height,
+    screen.colorDepth || '',
+    new Date().getTimezoneOffset(),
+    navigator.hardwareConcurrency || '',
+    navigator.platform || ''
+  ].join('|');
+  var hash = 5381;
+  for (var i = 0; i < signals.length; i++) {
+    hash = ((hash << 5) + hash) + signals.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(36);
+}
+
+function getDeviceLabel() {
+  var ua = navigator.userAgent || '';
+  var browser = 'Unknown';
+  if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) browser = 'Chrome';
+  else if (ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1) browser = 'Safari';
+  else if (ua.indexOf('Firefox') > -1) browser = 'Firefox';
+  else if (ua.indexOf('Edg') > -1) browser = 'Edge';
+  var os = 'Unknown OS';
+  if (ua.indexOf('Windows') > -1) os = 'Windows';
+  else if (ua.indexOf('Mac') > -1) os = 'Mac';
+  else if (ua.indexOf('Linux') > -1) os = 'Linux';
+  else if (ua.indexOf('Android') > -1) os = 'Android';
+  else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) os = 'iOS';
+  return browser + ' on ' + os + ' · ' + screen.width + '×' + screen.height;
+}
+
+function closeDeviceOverlay() {
+  document.getElementById('deviceOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
 async function validateAccess() {
   var email = document.getElementById('modalEmail').value.trim();
   var password = document.getElementById('modalCode').value.trim();
@@ -1444,6 +1503,56 @@ async function validateAccess() {
 
   // Route based on role: admin → admin console, facilitator → facilitator hub, participant → participant portal
   error.style.display = 'none';
+
+  // ─── B.3 DEVICE BINDING CHECK (skips for admin) ───
+  if (profile.role === 'facilitator' || profile.role === 'participant') {
+    try {
+      var fp = getDeviceFingerprint();
+      var label = getDeviceLabel();
+      var { data: checkResult, error: checkErr } = await supabaseClient.rpc('check_device', { p_fingerprint: fp });
+      if (checkErr) {
+        console.error('Device check error:', checkErr);
+        // Fail-open: if the check itself errors, let them in rather than lock them out.
+        // Logged to console so admin can investigate if needed.
+      } else if (checkResult === 'new') {
+        // Unknown device — create pending record and send confirmation email
+        var { data: token, error: reqErr } = await supabaseClient.rpc('request_device_confirmation', {
+          p_fingerprint: fp,
+          p_device_label: label
+        });
+        if (reqErr) {
+          console.error('Device confirmation request error:', reqErr);
+          error.textContent = 'We couldn\'t verify this device. Please try again or contact info@ibsleadership.com.';
+          error.style.display = 'block';
+          await supabaseClient.auth.signOut();
+          return;
+        }
+        // Send magic link to email with confirm-device URL
+        await supabaseClient.auth.signInWithOtp({
+          email: email,
+          options: { emailRedirectTo: window.location.origin + '/confirm-device.html?token=' + token }
+        });
+        // Sign out of the current session — user must confirm device first
+        await supabaseClient.auth.signOut();
+        closeModal();
+        document.getElementById('deviceOverlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        return;
+      } else if (checkResult === 'pending') {
+        // A pending confirmation already exists
+        await supabaseClient.auth.signOut();
+        closeModal();
+        document.getElementById('deviceOverlay').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        return;
+      }
+      // If 'trusted' or 'first' — proceed normally
+    } catch (err) {
+      console.error('Device binding exception:', err);
+      // Fail-open on exception
+    }
+  }
+
   closeModal();
   if (profile.role === 'admin') {
     currentRole = 'Admin Access';
