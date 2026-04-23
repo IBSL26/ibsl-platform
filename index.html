@@ -970,10 +970,20 @@
       </div>
 
     </div>
+
+    <!-- Second row: Invite Someone (action card, not a view) -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:20px;">
+      <div style="background:#1c2a1e;border:1px solid rgba(42,122,122,0.3);border-radius:4px;padding:32px 28px;position:relative;grid-column:span 2;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#2a7a7a;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#2a7a7a;font-family:Montserrat,sans-serif;margin-bottom:10px;">ONBOARDING</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Invite Someone</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;font-family:Montserrat,sans-serif;margin-bottom:16px;">Invite a new facilitator or participant to the S2R® Portal. They will receive an email with a single-use link to set their password and complete their registration.</p>
+        <a href="#" onclick="openInviteModal();return false;" style="display:inline-block;background:#2a7a7a;color:#fff;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Send Invitation →</a>
+      </div>
+    </div>
+
   </div>
 </div>
-
-<!-- ─── PORTAL VIEW (shown after authentication) ─── -->
 <div id="portalView" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#0d1f15 0%,#1a3a2a 60%,#0f2419 100%);z-index:200;overflow-y:auto;padding:60px 40px;">
   <!-- Admin "View as" banner — only visible when admin is viewing -->
   <div id="adminBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:210;background:#c9a84c;color:#1c1c1c;padding:10px 24px;align-items:center;justify-content:space-between;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">
@@ -1129,6 +1139,37 @@
     <p class="modal-note">
       Access is restricted to enrolled participants and licensed facilitators.<br>
       Contact <a id="contactEmail" href="#"></a> for credentials.
+    </p>
+  </div>
+</div>
+
+<!-- ─── INVITE SOMEONE MODAL (admin only) ─── -->
+<div class="login-overlay" id="inviteOverlay">
+  <div class="login-modal" style="max-width:480px;">
+    <button class="modal-close" onclick="closeInviteModal()">✕</button>
+    <h2 class="modal-title" style="color:#2a7a7a;">Invite Someone</h2>
+    <p class="modal-role">Send a single-use registration link</p>
+
+    <input type="text" class="modal-input" id="inviteName" placeholder="Full name" />
+    <input type="email" class="modal-input" id="inviteEmail" placeholder="Email address" />
+    <input type="text" class="modal-input" id="inviteOrg" placeholder="Organisation" />
+
+    <select class="modal-input" id="inviteRole" style="cursor:pointer;">
+      <option value="">Select role...</option>
+      <option value="facilitator">Facilitator</option>
+      <option value="participant">Participant</option>
+    </select>
+
+    <input type="text" class="modal-input" id="inviteCohort" placeholder="Cohort (e.g., Triumphant College Q3 2026)" />
+
+    <p id="inviteError" style="color:#e74c3c;font-size:11px;margin-bottom:8px;display:none;"></p>
+    <p id="inviteSuccess" style="color:#27ae60;font-size:11px;margin-bottom:8px;display:none;"></p>
+
+    <button class="modal-btn" id="inviteSendBtn" onclick="sendInvitation()" style="background:#2a7a7a;color:#fff;">Send Invitation</button>
+
+    <hr class="modal-divider" />
+    <p class="modal-note">
+      The invitee will receive a single-use email link. When they click it, they will confirm their details and set their password. Their registration is complete once they enter the Portal.
     </p>
   </div>
 </div>
@@ -1420,13 +1461,124 @@ async function validateAccess() {
     document.body.style.overflow = '';
   }
 
+  // ─── INVITE MODAL (admin only) ───
+  function openInviteModal() {
+    // Reset form
+    document.getElementById('inviteName').value = '';
+    document.getElementById('inviteEmail').value = '';
+    document.getElementById('inviteOrg').value = '';
+    document.getElementById('inviteRole').value = '';
+    document.getElementById('inviteCohort').value = '';
+    document.getElementById('inviteError').style.display = 'none';
+    document.getElementById('inviteSuccess').style.display = 'none';
+    document.getElementById('inviteSendBtn').disabled = false;
+    document.getElementById('inviteSendBtn').textContent = 'Send Invitation';
+    document.getElementById('inviteOverlay').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeInviteModal() {
+    document.getElementById('inviteOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  async function sendInvitation() {
+    var name   = document.getElementById('inviteName').value.trim();
+    var email  = document.getElementById('inviteEmail').value.trim().toLowerCase();
+    var org    = document.getElementById('inviteOrg').value.trim();
+    var role   = document.getElementById('inviteRole').value;
+    var cohort = document.getElementById('inviteCohort').value.trim();
+    var errEl  = document.getElementById('inviteError');
+    var okEl   = document.getElementById('inviteSuccess');
+    var btn    = document.getElementById('inviteSendBtn');
+
+    errEl.style.display = 'none';
+    okEl.style.display  = 'none';
+
+    // Validation
+    if (!name || !email || !org || !role) {
+      errEl.textContent = 'Please fill in name, email, organisation and role.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      // 1. Record the invitation in the invitations table
+      var { data: inviteRow, error: inviteErr } = await supabaseClient
+        .from('invitations')
+        .insert([{
+          email: email,
+          full_name: name,
+          organisation: org,
+          role: role,
+          cohort: cohort || null,
+          status: 'pending'
+        }])
+        .select()
+        .single();
+
+      if (inviteErr) {
+        // If email is already invited, Supabase will throw a unique-constraint error
+        if (inviteErr.message && inviteErr.message.toLowerCase().indexOf('duplicate') !== -1) {
+          throw new Error('This email has already been invited. Please check the invitations list.');
+        }
+        throw inviteErr;
+      }
+
+      // 2. Send the magic link email via Supabase Auth
+      var redirectUrl = window.location.origin + '/accept-invitation.html';
+      var { error: otpErr } = await supabaseClient.auth.signInWithOtp({
+        email: email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: redirectUrl
+        }
+      });
+
+      if (otpErr) throw otpErr;
+
+      okEl.textContent = 'Invitation sent to ' + email + '. They will receive an email shortly.';
+      okEl.style.display = 'block';
+      btn.textContent = 'Invitation Sent ✓';
+
+      // Auto-close after 2.5s
+      setTimeout(function() {
+        closeInviteModal();
+      }, 2500);
+
+    } catch (err) {
+      console.error('Invitation error:', err);
+      errEl.textContent = (err.message || 'Something went wrong. Please try again.');
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Invitation';
+    }
+  }
+
+  // Click outside / Escape closes invite modal
+  document.getElementById('inviteOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeInviteModal();
+  });
+
   document.getElementById('loginOverlay').addEventListener('click', function(e) {
     if (e.target === this) closeModal();
   });
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'Enter') validateAccess();
+    var inviteOpen = document.getElementById('inviteOverlay').style.display === 'flex';
+    if (e.key === 'Escape') {
+      if (inviteOpen) closeInviteModal();
+      else closeModal();
+    }
+    if (e.key === 'Enter' && !inviteOpen) validateAccess();
   });
 
   function toggleCode() {
