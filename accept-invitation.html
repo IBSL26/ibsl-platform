@@ -448,14 +448,9 @@
         });
       if (profileErr) throw profileErr;
 
-      // 3. Mark invitation as accepted
-      var { error: inviteUpdateErr } = await supabaseClient
-        .from('invitations')
-        .update({
-          status: 'accepted',
-          accepted_at: new Date().toISOString()
-        })
-        .eq('id', currentInvitation.id);
+      // 3. Mark invitation as accepted via SECURITY DEFINER RPC
+      // (bypasses RLS cleanly; function validates caller owns the invitation)
+      var { error: inviteUpdateErr } = await supabaseClient.rpc('accept_my_invitation');
       if (inviteUpdateErr) throw inviteUpdateErr;
 
       // Success — show done state, then redirect
