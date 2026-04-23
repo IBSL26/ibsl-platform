@@ -272,6 +272,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 @media print{.unit-nav,.mod-tabs,.mod-nav,.export-actions,.reflection-save{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;}}
 .cost-body{display:none!important;}.cost-open .cost-body{display:block!important;}
 </style>
+
+<!-- Stage C.1: central filing (Supabase persistence) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
+
 </head>
 <body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
 <nav class="unit-nav">
@@ -280,7 +285,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="nav-brand"><strong>IBSL</strong>Strategy2Result®</div>
   </div>
   <span class="nav-badge">Participant View</span>
-  <a href="index.html" class="nav-back">← Back to Platform</a>
+  <a href="index_0.html" class="nav-back">← Back to Platform</a>
 </nav>
 <div class="unit-header">
   <div class="uh-inner">
@@ -949,38 +954,67 @@ function calcT(){
     else if(ov>=25)lvl='Emerging Awareness';
     lel.textContent=lvl;
   }
-  // Save to localStorage
+  // Save assessment to Supabase (Stage C.1)
   var data={tots:tots,ov:ov,ts:new Date().toISOString()};
-  localStorage.setItem('ibsl_assessment',JSON.stringify(data));
+  if(window.S2R){S2R.save('u1_foundations','assessment',data);}
 }
 function tInterp(el){el.classList.toggle('open');}
 
-// Load saved reflections
-window.addEventListener('load',function(){
-  document.querySelectorAll('.reflection-textarea').forEach(function(ta){
-    var saved=localStorage.getItem('ibsl_ref_'+ta.id);
-    if(saved)ta.value=saved;
-  });
-  document.querySelectorAll('.portfolio-textarea').forEach(function(ta){
-    var saved=localStorage.getItem('ibsl_port_'+ta.id);
-    if(saved)ta.value=saved;
-  });
-  // Load assessment if saved
-  var aData=localStorage.getItem('ibsl_assessment');
-  if(aData){try{var d=JSON.parse(aData);for(var c=0;c<5;c++){for(var s=0;s<4;s++){var el=document.getElementById('s'+(c+1)+'_'+(s+1));if(el&&d.tots)el.value=Math.round(d.tots[c]/4);}}}catch(e){}}
+// Load saved responses from Supabase (Stage C.1)
+window.addEventListener('load',async function(){
+  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  try{
+    var responses=await S2R.loadAll('u1_foundations');
+    // Populate reflections
+    document.querySelectorAll('.reflection-textarea').forEach(function(ta){
+      if(responses[ta.id]!==undefined&&responses[ta.id]!==null){
+        ta.value=responses[ta.id];
+      }
+    });
+    // Populate portfolio
+    document.querySelectorAll('.portfolio-textarea').forEach(function(ta){
+      if(responses[ta.id]!==undefined&&responses[ta.id]!==null){
+        ta.value=responses[ta.id];
+      }
+    });
+    // Populate assessment (lossy reconstruction as in original: tots[c]/4)
+    var aData=responses['assessment'];
+    if(aData&&aData.tots){
+      for(var c=0;c<5;c++){
+        for(var s=0;s<4;s++){
+          var el=document.getElementById('s'+(c+1)+'_'+(s+1));
+          if(el)el.value=Math.round(aData.tots[c]/4);
+        }
+      }
+      // Trigger recalc to refresh displayed totals
+      if(typeof calcT==='function')calcT();
+    }
+  }catch(err){
+    console.error('[unit1_P] Failed to load responses:',err);
+  }
 });
 
-function saveRef(rid){
+async function saveRef(rid){
   var ta=document.getElementById(rid);
-  localStorage.setItem('ibsl_ref_'+rid,ta.value);
   var msg=document.getElementById(rid+'-saved');
-  if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
+  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  var result=await S2R.save('u1_foundations',rid,ta.value);
+  if(result.ok){
+    if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
+  }else{
+    alert('Could not save your reflection. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
+  }
 }
-function savePort(pid){
+async function savePort(pid){
   var ta=document.getElementById(pid);
-  localStorage.setItem('ibsl_port_'+pid,ta.value);
   var msg=document.getElementById(pid+'-msg');
-  if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
+  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  var result=await S2R.save('u1_foundations',pid,ta.value);
+  if(result.ok){
+    if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
+  }else{
+    alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
+  }
 }
 
 function getResultsText(){
@@ -1093,37 +1127,21 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-function sendToFacilitator() {
-  var refs = [];
-  var prompts = document.querySelectorAll('.reflection-prompt');
-  var textareas = document.querySelectorAll('.reflection-textarea');
-  prompts.forEach(function(p, i) {
-    var ta = textareas[i];
-    if (ta && ta.value.trim()) {
-      refs.push('REFLECTION ' + (i+1) + ':\n' + p.textContent.trim() + '\n\nYOUR RESPONSE:\n' + ta.value.trim());
-    }
-  });
-  // Also include portfolio artefact
-  ['port_1','port_2','port_3'].forEach(function(id, i) {
-    var el = document.getElementById(id);
-    if (el && el.value.trim()) {
-      var labels = ['What Has Shifted','Commitment to Action','Development Priority'];
-      refs.push('PORTFOLIO -- ' + labels[i] + ':\n' + el.value.trim());
-    }
-  });
-  if (refs.length === 0) {
-    alert('No reflections saved yet. Complete at least one reflection box before sending.');
+async function sendToFacilitator() {
+  if(!window.S2R){
+    alert('The save system is not yet ready. Please reload the page and try again.');
     return;
   }
-  var score = document.getElementById('ov-score');
-  var level = document.getElementById('ov-level');
-  var summary = refs.join('\n\n' + '-'.repeat(60) + '\n\n');
-  if (score && score.textContent !== '0') {
-    summary += '\n\n' + '-'.repeat(60) + '\n\nASSESSMENT RESULTS:\nFive Commitments Score: ' + score.textContent + ' / 100 (' + (level ? level.textContent : '') + ')';
+  // Confirm before sending
+  if(!confirm('Submit your Unit 1 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
+    return;
   }
-  var subject = encodeURIComponent('S2R(R) Unit 1 -- Participant Reflections');
-  var body = encodeURIComponent('Dear Facilitator,\n\nPlease find my Unit 1 reflections and portfolio artefact below.\n\nDate submitted: ' + new Date().toLocaleDateString() + '\n\n' + '='.repeat(60) + '\n\n' + summary + '\n\n' + '='.repeat(60) + '\n\nKind regards');
-  window.open('mailto:info@ibsleadership.com?subject=' + subject + '&body=' + body);
+  var result = await S2R.submit('u1_foundations');
+  if(result.ok){
+    alert('✓ Submitted to your facilitator.\n\n' + result.message);
+  }else{
+    alert('Could not submit to your facilitator.\n\n' + result.message);
+  }
 }
 
 
