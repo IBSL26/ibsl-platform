@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Confirm Device — S2R® Portal</title>
+
+<meta name="copyright" content="© 2026 IBSLeadership. All rights reserved. S2R® and Strategy2Results® are registered trademarks. Unauthorised reproduction prohibited." />
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --gold: #c9a84c;
+    --teal: #2a7a7a;
+    --green-dark: #0d1f15;
+    --green-mid: #1a3a2a;
+    --green-card: #1c2a1e;
+    --danger: #e74c3c;
+  }
+  html, body {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(160deg, var(--green-dark) 0%, var(--green-mid) 60%, #0f2419 100%);
+    color: rgba(255,255,255,0.85);
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .container {
+    width: 100%;
+    max-width: 560px;
+    background: var(--green-card);
+    border: 1px solid rgba(42,122,122,0.35);
+    border-radius: 6px;
+    padding: 48px 44px;
+    position: relative;
+    text-align: center;
+  }
+  .container::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--teal);
+    border-radius: 6px 6px 0 0;
+  }
+
+  .brand-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 18px;
+  }
+  .icon {
+    font-size: 52px;
+    margin-bottom: 14px;
+    line-height: 1;
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .message {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.75;
+    margin-bottom: 26px;
+  }
+  .device-info {
+    background: rgba(42,122,122,0.08);
+    border-left: 3px solid var(--teal);
+    padding: 14px 18px;
+    border-radius: 2px;
+    margin: 18px 0 26px;
+    text-align: left;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+  }
+  .device-info strong {
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .btn {
+    display: inline-block;
+    background: var(--teal);
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 14px 34px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+    margin: 4px;
+  }
+  .btn:hover:not(:disabled) { background: #35a0a0; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-danger {
+    background: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+  }
+  .btn-danger:hover { background: rgba(231,76,60,0.1); }
+
+  .footer-note {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    margin-top: 28px;
+    letter-spacing: 1px;
+  }
+
+  /* State management */
+  .state { display: none; }
+  .state.active { display: block; }
+
+  .spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(42,122,122,0.2);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Loading -->
+  <div class="state active" id="loadingState">
+    <p class="brand-label">S2R® Portal · Device Confirmation</p>
+    <div class="spinner"></div>
+    <p style="margin-top:18px;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Verifying your device...</p>
+  </div>
+
+  <!-- Error: no session -->
+  <div class="state" id="noSessionState">
+    <p class="brand-label">S2R® Portal</p>
+    <div class="icon" style="color:var(--danger);">✕</div>
+    <h1>Session not found</h1>
+    <p class="message">This confirmation link needs an active session to verify. Please return to the Portal home and try logging in again.</p>
+    <a href="/" class="btn">← Return to Portal</a>
+  </div>
+
+  <!-- Error: invalid/expired token -->
+  <div class="state" id="invalidState">
+    <p class="brand-label">S2R® Portal</p>
+    <div class="icon" style="color:var(--danger);">⚠</div>
+    <h1>Link not valid</h1>
+    <p class="message">This confirmation link is no longer valid. It may have been used already, or the request may have expired. Please return to the Portal home and log in again to receive a new confirmation link.</p>
+    <a href="/" class="btn">← Return to Portal</a>
+  </div>
+
+  <!-- Confirm / Report -->
+  <div class="state" id="decisionState">
+    <p class="brand-label">S2R® Portal · Device Confirmation</p>
+    <div class="icon" style="color:var(--teal);">🔒</div>
+    <h1>Confirm this device?</h1>
+    <p class="message">
+      A new device is requesting access to your S2R® account. If this was you, confirm below to trust this device going forward.
+    </p>
+    <div class="device-info" id="deviceInfo">
+      <strong>Device:</strong> <span id="deviceLabel">loading...</span>
+    </div>
+    <p class="message" style="margin-bottom:22px;">
+      If you did <strong style="color:var(--danger);">not</strong> initiate this login, someone may be attempting to access your account. Report it below.
+    </p>
+    <button class="btn" id="confirmBtn" onclick="confirmDevice()">✓ Yes, it's me</button>
+    <button class="btn btn-danger" onclick="reportUnauthorised()">Report unauthorised</button>
+    <p class="footer-note">© 2026 IBSLeadership · S2R® Strategy2Results®</p>
+  </div>
+
+  <!-- Success -->
+  <div class="state" id="successState">
+    <p class="brand-label">S2R® Portal</p>
+    <div class="icon" style="color:var(--teal);">✓</div>
+    <h1>Device confirmed</h1>
+    <p class="message">This device is now trusted on your S2R® account. You can return to the Portal home and log in normally.</p>
+    <a href="/" class="btn">Return to Portal →</a>
+    <p class="footer-note">© 2026 IBSLeadership · S2R® Strategy2Results®</p>
+  </div>
+
+  <!-- Reported -->
+  <div class="state" id="reportedState">
+    <p class="brand-label">S2R® Portal</p>
+    <div class="icon" style="color:var(--danger);">⚠</div>
+    <h1>Report received</h1>
+    <p class="message">
+      Thank you for reporting this. We've blocked this login attempt and notified your administrator. For additional security, you should change your password as soon as possible by contacting <strong>info@ibsleadership.com</strong>.
+    </p>
+    <a href="/" class="btn">Return to Portal</a>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
+  });
+
+  let currentToken = null;
+
+  function showState(name) {
+    ['loadingState', 'noSessionState', 'invalidState', 'decisionState', 'successState', 'reportedState']
+      .forEach(function(id) { document.getElementById(id).classList.remove('active'); });
+    document.getElementById(name).classList.add('active');
+  }
+
+  function getDeviceLabel() {
+    var ua = navigator.userAgent || '';
+    var browser = 'Unknown';
+    if (ua.indexOf('Chrome') > -1 && ua.indexOf('Edg') === -1) browser = 'Chrome';
+    else if (ua.indexOf('Safari') > -1 && ua.indexOf('Chrome') === -1) browser = 'Safari';
+    else if (ua.indexOf('Firefox') > -1) browser = 'Firefox';
+    else if (ua.indexOf('Edg') > -1) browser = 'Edge';
+    var os = 'Unknown OS';
+    if (ua.indexOf('Windows') > -1) os = 'Windows';
+    else if (ua.indexOf('Mac') > -1) os = 'Mac';
+    else if (ua.indexOf('Linux') > -1) os = 'Linux';
+    else if (ua.indexOf('Android') > -1) os = 'Android';
+    else if (ua.indexOf('iPhone') > -1 || ua.indexOf('iPad') > -1) os = 'iOS';
+    return browser + ' on ' + os + ' · ' + screen.width + '×' + screen.height;
+  }
+
+  async function init() {
+    try {
+      // Extract token from URL
+      var params = new URLSearchParams(window.location.search);
+      currentToken = params.get('token');
+      if (!currentToken) {
+        showState('invalidState');
+        return;
+      }
+
+      // Wait a moment for Supabase to process magic link if present in URL hash
+      await new Promise(function(r) { setTimeout(r, 800); });
+
+      // Verify active session
+      var { data: sess, error: sessErr } = await supabaseClient.auth.getSession();
+      if (sessErr || !sess || !sess.session) {
+        showState('noSessionState');
+        return;
+      }
+
+      // Show decision screen with device info
+      document.getElementById('deviceLabel').textContent = getDeviceLabel();
+      showState('decisionState');
+    } catch (err) {
+      console.error('Init error:', err);
+      showState('invalidState');
+    }
+  }
+
+  async function confirmDevice() {
+    var btn = document.getElementById('confirmBtn');
+    btn.disabled = true;
+    btn.textContent = 'Confirming...';
+
+    try {
+      var { data: result, error: err } = await supabaseClient.rpc('confirm_device_by_token', { p_token: currentToken });
+      if (err) {
+        console.error('Confirm error:', err);
+        showState('invalidState');
+        return;
+      }
+      if (result === 'confirmed') {
+        showState('successState');
+        // Sign out afterwards — user should return to home and log in fresh with password
+        setTimeout(async function() {
+          await supabaseClient.auth.signOut();
+        }, 500);
+      } else {
+        showState('invalidState');
+      }
+    } catch (err) {
+      console.error('Confirm exception:', err);
+      showState('invalidState');
+    }
+  }
+
+  async function reportUnauthorised() {
+    // For now: sign out, show reported state. Admin notification will come in Stage C.
+    try {
+      await supabaseClient.auth.signOut();
+    } catch (e) {}
+    showState('reportedState');
+  }
+
+  init();
+</script>
+
+</body>
+</html>
