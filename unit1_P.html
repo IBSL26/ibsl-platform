@@ -998,8 +998,8 @@ async function saveRef(rid){
   var ta=document.getElementById(rid);
   var msg=document.getElementById(rid+'-saved');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
-  var result=await S2R.save('u1_foundations',rid,ta.value);
-  if(result.ok){
+  var ok=await S2R.save('u1_foundations',rid,ta.value);
+  if(ok){
     if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
   }else{
     alert('Could not save your reflection. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
@@ -1009,8 +1009,8 @@ async function savePort(pid){
   var ta=document.getElementById(pid);
   var msg=document.getElementById(pid+'-msg');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
-  var result=await S2R.save('u1_foundations',pid,ta.value);
-  if(result.ok){
+  var ok=await S2R.save('u1_foundations',pid,ta.value);
+  if(ok){
     if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
   }else{
     alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
