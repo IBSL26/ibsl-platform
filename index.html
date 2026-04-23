@@ -923,8 +923,63 @@
 <body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
 
 
+<!-- ─── ADMIN VIEW (shown after admin authentication) ─── -->
+<div id="adminView" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#0d1f15 0%,#1a3a2a 60%,#0f2419 100%);z-index:200;overflow-y:auto;padding:60px 40px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:28px;">
+      <div>
+        <p style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin-bottom:8px;">ADMIN CONSOLE</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#fff;margin:0;" id="adminWelcome">Welcome</h2>
+      </div>
+      <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);font-family:Montserrat,sans-serif;margin-bottom:0;">IBSLeadership · S2R® Platform</p>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button onclick="signOut()" style="background:none;border:1px solid rgba(201,168,76,0.4);color:#c9a84c;font-family:Montserrat,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;padding:8px 18px;cursor:pointer;border-radius:2px;">Sign Out</button>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:48px;">
+      You are logged in as Administrator. From here you can enter the platform as a Facilitator or Participant to see what they see, or access the administration tools (coming in a later stage of the build).
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;opacity:0.6;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:rgba(201,168,76,0.4);border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,0.7);font-family:Montserrat,sans-serif;margin-bottom:10px;">ADMINISTRATION</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Cohort &amp; Platform Controls</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;font-family:Montserrat,sans-serif;margin-bottom:16px;">Create cohorts, invite participants and facilitators, review progress, and produce completion reports.</p>
+        <span style="display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;">Coming in Stage D</span>
+      </div>
+
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:10px;">FACILITATOR VIEW</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Control Hub</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;font-family:Montserrat,sans-serif;margin-bottom:16px;">Enter the platform as a facilitator would see it. Useful for briefing facilitators and spot-checking the experience.</p>
+        <a href="#" onclick="adminViewAs('Facilitator Access');return false;" style="display:inline-block;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">View as Facilitator →</a>
+      </div>
+
+      <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:32px 28px;position:relative;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#c9a84c;border-radius:4px 4px 0 0;"></div>
+        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#c9a84c;font-family:Montserrat,sans-serif;margin-bottom:10px;">PARTICIPANT VIEW</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:6px;">Journey Portal</h3>
+        <p style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.7;font-family:Montserrat,sans-serif;margin-bottom:16px;">Enter the platform as a participant would see it. Useful for understanding the learner experience and troubleshooting.</p>
+        <a href="#" onclick="adminViewAs('Participant Access');return false;" style="display:inline-block;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">View as Participant →</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- ─── PORTAL VIEW (shown after authentication) ─── -->
 <div id="portalView" style="display:none;position:fixed;inset:0;background:linear-gradient(160deg,#0d1f15 0%,#1a3a2a 60%,#0f2419 100%);z-index:200;overflow-y:auto;padding:60px 40px;">
+  <!-- Admin "View as" banner — only visible when admin is viewing -->
+  <div id="adminBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:210;background:#c9a84c;color:#1c1c1c;padding:10px 24px;align-items:center;justify-content:space-between;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">
+    <span id="adminBannerText">You are viewing as Facilitator</span>
+    <button onclick="returnToAdmin()" style="background:#1c1c1c;color:#c9a84c;border:none;padding:6px 14px;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;">← Return to Admin Console</button>
+  </div>
   <div style="max-width:900px;margin:0 auto;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;border-bottom:1px solid rgba(201,168,76,0.2);padding-bottom:28px;">
       <div>
@@ -1346,11 +1401,19 @@ async function validateAccess() {
     return;
   }
 
-  // Set the role and open the portal
+  // Route based on role: admin → admin console, facilitator → facilitator hub, participant → participant portal
   error.style.display = 'none';
-  currentRole = profile.role === 'participant' ? 'Participant Access' : 'Facilitator Access';
   closeModal();
-  showPortal(currentRole, 'Welcome, ' + profile.full_name);
+  if (profile.role === 'admin') {
+    currentRole = 'Admin Access';
+    showAdminPortal('Welcome, ' + profile.full_name);
+  } else if (profile.role === 'participant') {
+    currentRole = 'Participant Access';
+    showPortal(currentRole, 'Welcome, ' + profile.full_name);
+  } else {
+    currentRole = 'Facilitator Access';
+    showPortal(currentRole, 'Welcome, ' + profile.full_name);
+  }
 }
   function closeModal() {
     document.getElementById('loginOverlay').style.display='none';
@@ -1400,6 +1463,39 @@ async function validateAccess() {
     sessionStorage.setItem('ibsl_portal_days', daysMsg);
   }
 
+  function showAdminPortal(welcomeMsg) {
+    document.getElementById('adminWelcome').textContent = welcomeMsg;
+    document.getElementById('adminView').style.display = 'block';
+    document.getElementById('portalView').style.display = 'none';
+    document.getElementById('adminBanner').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+    window.scrollTo(0, 0);
+    sessionStorage.setItem('ibsl_portal_role', 'Admin Access');
+    sessionStorage.setItem('ibsl_portal_days', welcomeMsg);
+    sessionStorage.removeItem('ibsl_admin_viewing_as');
+  }
+
+  function adminViewAs(role) {
+    currentRole = role;
+    document.getElementById('adminView').style.display = 'none';
+    var banner = document.getElementById('adminBanner');
+    banner.style.display = 'flex';
+    document.getElementById('adminBannerText').textContent =
+      'You are viewing as ' + (role === 'Facilitator Access' ? 'Facilitator' : 'Participant');
+    var welcomeMsg = sessionStorage.getItem('ibsl_portal_days') || 'Admin view';
+    showPortal(role, welcomeMsg);
+    sessionStorage.setItem('ibsl_admin_viewing_as', role);
+  }
+
+  function returnToAdmin() {
+    document.getElementById('adminBanner').style.display = 'none';
+    document.getElementById('portalView').style.display = 'none';
+    sessionStorage.removeItem('ibsl_admin_viewing_as');
+    currentRole = 'Admin Access';
+    var welcomeMsg = sessionStorage.getItem('ibsl_portal_days') || 'Welcome';
+    showAdminPortal(welcomeMsg);
+  }
+
   function openUnit1() {
     var isFac = currentRole === 'Facilitator Access';
     window.location.href = isFac ? 'unit1_F.html' : 'unit1_P.html';
@@ -1433,18 +1529,40 @@ async function validateAccess() {
 
   function signOut() {
     document.getElementById('portalView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'none';
+    var banner = document.getElementById('adminBanner');
+    if (banner) banner.style.display = 'none';
     document.body.style.overflow = '';
     sessionStorage.removeItem('ibsl_portal_role');
     sessionStorage.removeItem('ibsl_portal_days');
+    sessionStorage.removeItem('ibsl_admin_viewing_as');
+    if (typeof supabaseClient !== 'undefined' && supabaseClient.auth) {
+      supabaseClient.auth.signOut();
+    }
   }
 
   // ── Auto-restore portal when returning from a module ──
   (function() {
     var role = sessionStorage.getItem('ibsl_portal_role');
     var days = sessionStorage.getItem('ibsl_portal_days');
+    var adminViewingAs = sessionStorage.getItem('ibsl_admin_viewing_as');
     if (role && days) {
       currentRole = role;
-      showPortal(role, days);
+      if (role === 'Admin Access' && !adminViewingAs) {
+        showAdminPortal(days);
+      } else if (adminViewingAs) {
+        // Admin was in view-as mode - restore that view with the banner
+        currentRole = adminViewingAs;
+        showPortal(adminViewingAs, days);
+        var banner = document.getElementById('adminBanner');
+        if (banner) {
+          banner.style.display = 'flex';
+          document.getElementById('adminBannerText').textContent =
+            'You are viewing as ' + (adminViewingAs === 'Facilitator Access' ? 'Facilitator' : 'Participant');
+        }
+      } else {
+        showPortal(role, days);
+      }
     }
   })();
 
