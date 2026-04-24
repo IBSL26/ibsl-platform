@@ -16,7 +16,842 @@
     --gold-light: #e8c96a;
     --gold-pale: #f5e8c0;
     --charcoal: #1c1c1c;
+    --white: #ffffff;<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Facilitator Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --forest: #1a3a2a;
+    --forest-mid: #22472f;
+    --forest-dark: #0f2419;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e8c0;
+    --charcoal: #1c1c1c;
     --white: #ffffff;
+    --cream: #faf8f3;
+    --ash: #9ca3af;
+    --banner-amber: #f4c542;
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(160deg, #0d1f15 0%, #1a3a2a 60%, #0f2419 100%);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── ADMIN-VIEW BANNER (only when ?adminView=1) ─── */
+  .admin-banner {
+    display: none;
+    background: var(--banner-amber);
+    color: var(--charcoal);
+    padding: 10px 24px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .admin-banner.shown { display: flex; }
+  .admin-banner .banner-text { flex: 1; }
+  .admin-banner .return-btn {
+    background: var(--charcoal);
+    color: var(--banner-amber);
+    border: none;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  .admin-banner .return-btn:hover { background: #000; }
+
+  /* ─── TOP STRIP ─── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+    background: rgba(15, 36, 25, 0.6);
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .topbar-title .pillar {
+    color: var(--gold);
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .user-block {
+    text-align: right;
+  }
+  .user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .user-email {
+    font-size: 11px;
+    color: var(--ash);
+    margin-top: 2px;
+  }
+  .signout-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 9px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .signout-btn:hover {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    flex: 1;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .main-inner {
+    width: 100%;
+    max-width: 1100px;
+  }
+  .welcome {
+    margin-bottom: 40px;
+  }
+  .welcome h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .welcome p {
+    font-size: 14px;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+  }
+
+  .placeholder-card {
+    background: rgba(34, 71, 47, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 8px;
+    padding: 60px 40px;
+    text-align: center;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .placeholder-card .phase-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--forest-dark);
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .placeholder-card h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .placeholder-card p {
+    font-size: 14px;
+    color: var(--ash);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 28px 40px;
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 1px;
+  }
+  .content-library-link {
+    color: var(--ash);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: not-allowed;
+    opacity: 0.55;
+    text-decoration: none;
+  }
+  .footer-mark {
+    letter-spacing: 1.2px;
+  }
+
+  /* ─── LOADING STATE ─── */
+  .loading {
+    position: fixed;
+    inset: 0;
+    background: var(--forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 9999;
+  }
+  .loading.hidden { display: none; }
+
+  /* ─── F2: COHORT SECTION ─── */
+  .cohort-section { margin-top: 8px; }
+  .section-heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.3);
+    position: relative;
+  }
+  .section-heading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+  }
+
+  .cohort-loading {
+    padding: 40px;
+    text-align: center;
+    color: var(--ash);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cohort-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 1000px) {
+    .cohort-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .cohort-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── F2: COHORT CARD ─── */
+  .cohort-card {
+    background: rgba(34, 71, 47, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 8px;
+    padding: 22px 22px 18px 22px;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 220px;
+  }
+  .cohort-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+  .cohort-card:active { transform: translateY(0); }
+
+  .cohort-card-badge {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    background: #c0392b;
+    color: var(--white);
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .status-pill {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .status-pill.status-active    { background: rgba(39, 174, 96, 0.2); color: #4fd88a; border: 1px solid rgba(39, 174, 96, 0.5); }
+  .status-pill.status-draft     { background: rgba(155, 155, 155, 0.2); color: #c5c5c5; border: 1px solid rgba(155, 155, 155, 0.4); }
+  .status-pill.status-completed { background: rgba(74, 144, 226, 0.18); color: #8ab6e8; border: 1px solid rgba(74, 144, 226, 0.45); }
+  .status-pill.status-archived  { background: rgba(123, 100, 63, 0.2); color: #b39b6c; border: 1px solid rgba(123, 100, 63, 0.4); }
+
+  .cohort-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .cohort-org {
+    font-size: 12px;
+    color: var(--gold-pale);
+    letter-spacing: 0.8px;
+    margin-top: -6px;
+  }
+  .cohort-dates {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+  }
+
+  .count-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid rgba(201, 168, 76, 0.12);
+  }
+  .count-tile {
+    text-align: center;
+  }
+  .count-tile .count-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .count-tile .count-label {
+    display: block;
+    margin-top: 4px;
+    font-size: 9px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cohort-click-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 16px;
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    opacity: 0.6;
+  }
+
+  /* ─── F2: EMPTY STATE ─── */
+  .empty-state-card {
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px dashed rgba(201, 168, 76, 0.35);
+    border-radius: 8px;
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .empty-state-card .empty-icon {
+    width: 54px;
+    height: 54px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    margin: 0 auto 18px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 24px;
+    font-weight: 300;
+  }
+  .empty-state-card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .empty-state-card p {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.6;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* ─── F2: ERROR STATE ─── */
+  .error-card {
+    background: rgba(192, 57, 43, 0.12);
+    border: 1px solid rgba(192, 57, 43, 0.45);
+    border-radius: 8px;
+    padding: 36px;
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .error-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffa599;
+    margin-bottom: 10px;
+  }
+  .error-card p {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .error-card .retry-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 8px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  .error-card .retry-btn:hover { background: var(--gold); color: var(--forest-dark); }
+
+  /* ─── F2: TOAST ─── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--forest-mid);
+    color: var(--white);
+    border: 1px solid var(--gold);
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+    max-width: 340px;
+  }
+  .toast.shown { opacity: 1; transform: translateY(0); }
+
+</style>
+</head>
+<body>
+
+<!-- ─── LOADING OVERLAY (shown until guard resolves) ─── -->
+<div id="loadingOverlay" class="loading">Loading dashboard…</div>
+
+<!-- ─── ADMIN-VIEW BANNER ─── -->
+<div id="adminBanner" class="admin-banner">
+  <span class="banner-text">Admin View — You are viewing as Facilitator</span>
+  <button class="return-btn" id="returnToAdminBtn">Return to Admin</button>
+</div>
+
+<!-- ─── TOPBAR ─── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-mark">S2R</div>
+    <div class="topbar-title">
+      Facilitator Dashboard
+      <span class="pillar">IBSLEADERSHIP</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="user-block">
+      <div class="user-name" id="userName">—</div>
+      <div class="user-email" id="userEmail">—</div>
+    </div>
+    <button class="signout-btn" id="signOutBtn">Sign Out</button>
+  </div>
+</header>
+
+<!-- ─── MAIN ─── -->
+<main>
+  <div class="main-inner">
+    <div class="welcome">
+      <h1 id="welcomeHeading">Welcome</h1>
+      <p>Your cohort overview is below. Clicking a cohort opens its participant roster (coming in F3). Messaging, document review, and private notes follow as Phase 2 progresses.</p>
+    </div>
+
+    <!-- ─── F2: COHORT SECTION (populated by loadFacilitatorCohorts) ─── -->
+    <section class="cohort-section" id="cohortSection" style="display:none;">
+      <h2 class="section-heading">Your Cohorts</h2>
+      <div id="cohortList">
+        <div class="cohort-loading">Loading cohorts…</div>
+      </div>
+    </section>
+
+    <!-- ─── F2: TOAST (used for "coming in F3" click feedback) ─── -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <a href="#" class="content-library-link" onclick="return false;" title="Wired in F2">Content Library — coming soon</a>
+  <span class="footer-mark">© 2026 IBSLeadership · Strategy2Results®</span>
+</footer>
+
+<script>
+  // ─── F1: SUPABASE CLIENT ───
+  const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+  });
+
+  // ─── F1: DETECT ADMIN-VIEW MODE FROM URL ───
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdminView = urlParams.get('adminView') === '1';
+
+  // ─── F1: SESSION + ROLE GUARD ───
+  (async function guard() {
+    try {
+      // 1. Check session
+      const { data: sessionData, error: sessionErr } = await supabaseClient.auth.getSession();
+      if (sessionErr || !sessionData || !sessionData.session) {
+        console.log('[F1] No active session — redirecting to sign-in');
+        window.location.replace('index.html');
+        return;
+      }
+      const user = sessionData.session.user;
+
+      // 2. Look up role
+      const { data: profile, error: profileErr } = await supabaseClient
+        .from('profiles')
+        .select('id, full_name, role')
+        .eq('id', user.id)
+        .single();
+
+      if (profileErr || !profile) {
+        console.error('[F1] Profile lookup failed:', profileErr);
+        window.location.replace('index.html');
+        return;
+      }
+
+      // 3. Branch by role + adminView flag
+      const role = profile.role;
+      const allowedAsFacilitator = (role === 'facilitator');
+      const allowedAsAdminView   = (role === 'admin' && isAdminView);
+
+      if (!allowedAsFacilitator && !allowedAsAdminView) {
+        // Participant, or admin without ?adminView=1 — send back to index.html
+        console.log('[F1] Role "' + role + '" not allowed here (adminView=' + isAdminView + ') — redirecting');
+        window.location.replace('index.html');
+        return;
+      }
+
+      // 4. Render the page for this user
+      document.getElementById('userName').textContent = profile.full_name || '—';
+      document.getElementById('userEmail').textContent = user.email || '—';
+      document.getElementById('welcomeHeading').textContent = 'Welcome, ' + (profile.full_name || 'Facilitator');
+
+      // 5. Admin-view mode — show yellow banner, do NOT log a login event
+      if (isAdminView) {
+        document.getElementById('adminBanner').classList.add('shown');
+        console.log('[F1] Admin-view mode detected, banner shown');
+      } else {
+        // 6. Real facilitator login — log the event
+        console.log('[F1] Facilitator session confirmed, logging login event');
+        const { data: logId, error: logErr } = await supabaseClient.rpc('log_activity', {
+          p_event_type: 'login',
+          p_event_detail: { role: 'facilitator', surface: 'dashboard_F' },
+          p_cohort_id: null
+        });
+        if (logErr) {
+          console.error('[F1] log_activity failed:', logErr);
+        } else {
+          console.log('[F1] log_activity returned uuid ' + logId);
+        }
+      }
+
+      // 7. Hide loading overlay
+      document.getElementById('loadingOverlay').classList.add('hidden');
+
+      // 8. F2: show the cohort section and load the list
+      document.getElementById('cohortSection').style.display = 'block';
+      loadFacilitatorCohorts();
+
+    } catch (err) {
+      console.error('[F1] Guard exception:', err);
+      window.location.replace('index.html');
+    }
+  })();
+
+  // ─── F1: SIGN OUT ───
+  document.getElementById('signOutBtn').addEventListener('click', async function() {
+    try {
+      // Log the logout BEFORE signing out so the auth.uid() still resolves
+      if (!isAdminView) {
+        try {
+          await supabaseClient.rpc('log_activity', {
+            p_event_type: 'logout',
+            p_event_detail: { role: 'facilitator', surface: 'dashboard_F' },
+            p_cohort_id: null
+          });
+        } catch (e) {
+          console.error('[F1] logout log failed (non-blocking):', e);
+        }
+      }
+      // Clear any lingering portal state
+      sessionStorage.removeItem('ibsl_portal_role');
+      sessionStorage.removeItem('ibsl_portal_days');
+      sessionStorage.removeItem('ibsl_admin_viewing_as');
+      await supabaseClient.auth.signOut();
+      window.location.replace('index.html');
+    } catch (err) {
+      console.error('[F1] Sign out error:', err);
+      window.location.replace('index.html');
+    }
+  });
+
+  // ─── F1: RETURN TO ADMIN (only present when adminView banner is shown) ───
+  document.getElementById('returnToAdminBtn').addEventListener('click', function() {
+    // The admin's session is still valid; index.html's auto-restore block reads
+    // sessionStorage ibsl_portal_role='Admin Access' and shows the admin console.
+    // Ensure no lingering view-as flag from prior in-page flow.
+    sessionStorage.removeItem('ibsl_admin_viewing_as');
+    window.location.href = 'index.html';
+  });
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F2: COHORT OVERVIEW
+  // ═══════════════════════════════════════════════════════════════════
+
+  async function loadFacilitatorCohorts() {
+    const list = document.getElementById('cohortList');
+    list.innerHTML = '<div class="cohort-loading">Loading cohorts…</div>';
+    console.log('[F2] Loading facilitator cohorts');
+    try {
+      const { data, error } = await supabaseClient.rpc('get_facilitator_cohorts');
+      if (error) {
+        console.error('[F2] get_facilitator_cohorts error:', error);
+        renderErrorState();
+        return;
+      }
+      console.log('[F2] Received ' + (data ? data.length : 0) + ' cohort(s)');
+      if (!data || data.length === 0) {
+        renderEmptyState();
+      } else {
+        renderCohorts(data);
+      }
+    } catch (err) {
+      console.error('[F2] Unexpected exception:', err);
+      renderErrorState();
+    }
+  }
+
+  function renderCohorts(cohorts) {
+    const grid = document.createElement('div');
+    grid.className = 'cohort-grid';
+    cohorts.forEach(function(c) {
+      grid.appendChild(cohortCardEl(c));
+    });
+    const list = document.getElementById('cohortList');
+    list.innerHTML = '';
+    list.appendChild(grid);
+  }
+
+  function cohortCardEl(c) {
+    const card = document.createElement('div');
+    card.className = 'cohort-card';
+    card.setAttribute('data-cohort-id', c.cohort_id);
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', 'Open ' + c.cohort_name);
+
+    // Badge (only if pending > 0)
+    const pending = Number(c.pending_review_count || 0);
+    let badgeHtml = '';
+    if (pending > 0) {
+      badgeHtml = '<div class="cohort-card-badge" title="' + pending + ' pending review">' + pending + '</div>';
+    }
+
+    // Status pill class
+    const statusClass = 'status-' + String(c.status || 'draft').toLowerCase();
+    const statusText  = String(c.status || 'draft').toUpperCase();
+
+    const participants = Number(c.participant_count || 0);
+    const reviewed     = Number(c.reviewed_count || 0);
+
+    card.innerHTML =
+      badgeHtml +
+      '<span class="status-pill ' + statusClass + '">' + escapeHtml(statusText) + '</span>' +
+      '<div class="cohort-name">' + escapeHtml(c.cohort_name) + '</div>' +
+      '<div class="cohort-org">' + escapeHtml(c.organisation_name || '—') + '</div>' +
+      '<div class="cohort-dates">' + formatDateRange(c) + '</div>' +
+      '<div class="count-tiles">' +
+        '<div class="count-tile"><span class="count-value">' + participants + ' / 22</span><span class="count-label">Participants</span></div>' +
+        '<div class="count-tile"><span class="count-value">' + pending + '</span><span class="count-label">Pending review</span></div>' +
+        '<div class="count-tile"><span class="count-value">' + reviewed + '</span><span class="count-label">Reviewed</span></div>' +
+      '</div>' +
+      '<span class="cohort-click-hint">Click to open →</span>';
+
+    card.addEventListener('click', function() {
+      handleCohortClick(c);
+    });
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCohortClick(c);
+      }
+    });
+
+    return card;
+  }
+
+  function handleCohortClick(c) {
+    console.log('[F2] Cohort clicked: ' + c.cohort_name + ' (' + c.cohort_id + ')');
+    // F3 will replace this with: window.location.href = 'dashboard_F.html?cohort=' + c.cohort_id;
+    showToast('Roster view coming in F3 — ' + c.cohort_name);
+  }
+
+  function renderEmptyState() {
+    const html =
+      '<div class="empty-state-card">' +
+        '<div class="empty-icon">○</div>' +
+        '<h3>No cohorts yet</h3>' +
+        '<p>Your administrator will assign you to a cohort and it will appear here. If you believe this is an error, please contact <strong>projects@ibsleadership.com</strong>.</p>' +
+      '</div>';
+    document.getElementById('cohortList').innerHTML = html;
+  }
+
+  function renderErrorState() {
+    const list = document.getElementById('cohortList');
+    list.innerHTML =
+      '<div class="error-card">' +
+        '<h3>Couldn\'t load your cohorts</h3>' +
+        '<p>Please refresh the page. If the problem persists, contact <strong>projects@ibsleadership.com</strong>.</p>' +
+        '<button class="retry-btn" id="retryBtn">Try again</button>' +
+      '</div>';
+    document.getElementById('retryBtn').addEventListener('click', loadFacilitatorCohorts);
+  }
+
+  function formatDateRange(c) {
+    const type = String(c.cohort_type || '').toLowerCase();
+    const fmt = function(d) {
+      if (!d) return null;
+      const dt = new Date(d);
+      if (isNaN(dt)) return null;
+      return dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+    if (type === 'rolling') {
+      const started = fmt(c.start_date) || fmt(c.created_at);
+      return started ? 'Rolling enrolment · started ' + started : 'Rolling enrolment';
+    }
+    const s = fmt(c.start_date);
+    const e = fmt(c.end_date);
+    if (s && e) return s + ' → ' + e;
+    if (s)      return 'Starts ' + s;
+    if (e)      return 'Ends ' + e;
+    return 'Dates to be confirmed';
+  }
+
+  // Small HTML-escape helper — cohort names, org names are user-visible text
+  function escapeHtml(s) {
+    if (s === null || s === undefined) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Toast — auto-dismiss after 3 seconds, re-showable
+  let toastTimer = null;
+  function showToast(message) {
+    const t = document.getElementById('toast');
+    t.textContent = message;
+    t.classList.add('shown');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() {
+      t.classList.remove('shown');
+    }, 3000);
+  }
+</script>
+
+</body>
+</html>
+
     --cream: #faf8f3;
     --ash: #9ca3af;
     --banner-amber: #f4c542;
