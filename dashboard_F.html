@@ -494,6 +494,248 @@
   }
   .toast.shown { opacity: 1; transform: translateY(0); }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     F3: ROSTER VIEW
+     ═══════════════════════════════════════════════════════════════════ */
+
+  .roster-section { margin-top: 8px; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 8px 0;
+    margin-bottom: 22px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+  .back-link:hover { color: var(--gold-light); }
+
+  .roster-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    flex-wrap: wrap;
+  }
+  .roster-header-left {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .roster-cohort-name {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .roster-cohort-meta {
+    font-size: 13px;
+    color: var(--gold-pale);
+    letter-spacing: 0.5px;
+  }
+  .roster-cohort-meta .meta-sep {
+    color: var(--ash);
+    margin: 0 10px;
+  }
+  .roster-summary {
+    font-size: 12px;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+    text-align: right;
+  }
+  .roster-summary strong {
+    color: var(--gold);
+    font-size: 16px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ─── F3: LEGEND ─── */
+  .roster-legend {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-swatch {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .legend-swatch.sw-locked    { background: #4a4a4a; border: 1px solid #6b6b6b; }
+  .legend-swatch.sw-unlocked  { background: var(--gold); }
+  .legend-swatch.sw-submitted { background: #2eb3a8; }
+  .legend-swatch.sw-completed { background: #27ae60; }
+
+  /* ─── F3: PARTICIPANT ROWS ─── */
+  .participant-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 18px 20px;
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .participant-row:hover {
+    background: rgba(34, 71, 47, 0.55);
+    border-color: rgba(201, 168, 76, 0.28);
+  }
+
+  .participant-identity {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .participant-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .participant-meta {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+  }
+  .participant-meta .meta-sep {
+    margin: 0 6px;
+    color: rgba(156, 163, 175, 0.5);
+  }
+  .participant-meta .org-name {
+    color: var(--gold-pale);
+  }
+  .participant-meta .meta-dates {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    color: var(--ash);
+    opacity: 0.8;
+  }
+
+  /* ─── F3: DOT STRIP ─── */
+  .dot-strip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .dot-strip .unit-sep {
+    width: 1px;
+    height: 14px;
+    background: rgba(201, 168, 76, 0.25);
+    margin: 0 3px;
+  }
+  .lens-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: default;
+    position: relative;
+    border: 1px solid transparent;
+    transition: transform 0.1s ease, box-shadow 0.15s ease;
+  }
+  .lens-dot.state-locked    { background: #4a4a4a; border-color: #6b6b6b; }
+  .lens-dot.state-unlocked  { background: var(--gold); box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15); }
+  .lens-dot.state-submitted { background: #2eb3a8; cursor: pointer; }
+  .lens-dot.state-completed { background: #27ae60; cursor: pointer; }
+  .lens-dot.state-submitted:hover,
+  .lens-dot.state-completed:hover {
+    transform: scale(1.25);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  }
+  .lens-dot:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ─── F3: TOOLTIP (pure CSS) ─── */
+  .lens-dot::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--charcoal);
+    color: var(--white);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+    border: 1px solid rgba(201, 168, 76, 0.35);
+  }
+  .lens-dot:hover::after,
+  .lens-dot:focus::after {
+    opacity: 1;
+  }
+
+  /* ─── F3: ACCESS DENIED / NOT FOUND ─── */
+  .access-denied-card {
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px dashed rgba(201, 168, 76, 0.35);
+    border-radius: 8px;
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  .access-denied-card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .access-denied-card p {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .access-denied-card .back-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 8px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  .access-denied-card .back-btn:hover { background: var(--gold); color: var(--forest-dark); }
+
 </style>
 </head>
 <body>
@@ -538,6 +780,14 @@
       <h2 class="section-heading">Your Cohorts</h2>
       <div id="cohortList">
         <div class="cohort-loading">Loading cohorts…</div>
+      </div>
+    </section>
+
+    <!-- ─── F3: ROSTER SECTION (populated by loadCohortParticipants when ?cohort=UUID) ─── -->
+    <section class="roster-section" id="rosterSection" style="display:none;">
+      <button class="back-link" id="backToGrid" type="button">← Back to cohorts</button>
+      <div id="rosterContent">
+        <div class="cohort-loading">Loading participants…</div>
       </div>
     </section>
 
@@ -628,15 +878,42 @@
       // 7. Hide loading overlay
       document.getElementById('loadingOverlay').classList.add('hidden');
 
-      // 8. F2: show the cohort section and load the list
-      document.getElementById('cohortSection').style.display = 'block';
-      loadFacilitatorCohorts();
+      // 8. F3: Route based on URL — show roster view or cohort grid
+      routeToView();
 
     } catch (err) {
       console.error('[F1] Guard exception:', err);
       window.location.replace('index.html');
     }
   })();
+
+  // ─── F3: URL ROUTING ───
+  function getCohortIdFromUrl() {
+    return new URLSearchParams(window.location.search).get('cohort');
+  }
+
+  function routeToView() {
+    const cohortId = getCohortIdFromUrl();
+    if (cohortId) {
+      // Roster view
+      console.log('[F3] Routing to roster view for cohort ' + cohortId);
+      document.getElementById('cohortSection').style.display = 'none';
+      document.getElementById('rosterSection').style.display = 'block';
+      // Hide the generic welcome when in roster (roster has its own header)
+      document.querySelector('.welcome').style.display = 'none';
+      loadCohortParticipants(cohortId);
+    } else {
+      // Cohort grid view
+      console.log('[F3] Routing to cohort grid view');
+      document.getElementById('rosterSection').style.display = 'none';
+      document.getElementById('cohortSection').style.display = 'block';
+      document.querySelector('.welcome').style.display = '';
+      loadFacilitatorCohorts();
+    }
+  }
+
+  // Back/forward browser buttons change the URL — re-route naturally
+  window.addEventListener('popstate', routeToView);
 
   // ─── F1: SIGN OUT ───
   document.getElementById('signOutBtn').addEventListener('click', async function() {
@@ -761,9 +1038,12 @@
   }
 
   function handleCohortClick(c) {
-    console.log('[F2] Cohort clicked: ' + c.cohort_name + ' (' + c.cohort_id + ')');
-    // F3 will replace this with: window.location.href = 'dashboard_F.html?cohort=' + c.cohort_id;
-    showToast('Roster view coming in F3 — ' + c.cohort_name);
+    console.log('[F3] Cohort clicked: ' + c.cohort_name + ' (' + c.cohort_id + ')');
+    // F3: navigate to the roster view for this cohort. The popstate handler and
+    // routeToView() on the next load take care of rendering. Preserve ?adminView=1 if present.
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    const newUrl = 'dashboard_F.html?cohort=' + encodeURIComponent(c.cohort_id) + adminFlag;
+    window.location.href = newUrl;
   }
 
   function renderEmptyState() {
@@ -828,6 +1108,232 @@
     toastTimer = setTimeout(function() {
       t.classList.remove('shown');
     }, 3000);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F3: COHORT ROSTER VIEW
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Back-to-grid button — navigates to dashboard_F.html (no ?cohort param)
+  document.getElementById('backToGrid').addEventListener('click', function() {
+    const adminFlag = isAdminView ? '?adminView=1' : '';
+    window.location.href = 'dashboard_F.html' + adminFlag;
+  });
+
+  async function loadCohortParticipants(cohortId) {
+    const content = document.getElementById('rosterContent');
+    content.innerHTML = '<div class="cohort-loading">Loading participants…</div>';
+    console.log('[F3] Loading participants for cohort ' + cohortId);
+
+    // Fetch the cohort metadata (for the header) and the participants in parallel
+    try {
+      const [cohortMetaResult, participantsResult] = await Promise.all([
+        supabaseClient.rpc('get_facilitator_cohorts'),
+        supabaseClient.rpc('get_cohort_participants', { p_cohort_id: cohortId })
+      ]);
+
+      if (participantsResult.error) {
+        console.error('[F3] get_cohort_participants error:', participantsResult.error);
+        renderAccessDenied();
+        return;
+      }
+
+      // Find this cohort in the caller's list (to get name, org, status for the header)
+      let cohort = null;
+      if (cohortMetaResult.data && cohortMetaResult.data.length) {
+        cohort = cohortMetaResult.data.find(function(x) { return x.cohort_id === cohortId; });
+      }
+      // If admin-view and the cohort isn't in the caller's own list, we can still render
+      // the roster — but the header will fall back to a minimal label.
+      const participants = participantsResult.data || [];
+
+      if (!cohort && participants.length === 0) {
+        // Either cohort doesn't exist, or caller has no access, and no participants
+        // returned — treat as access denied.
+        console.log('[F3] Cohort not accessible / not found');
+        renderAccessDenied();
+        return;
+      }
+
+      console.log('[F3] Received ' + participants.length + ' participant(s)');
+      renderRoster(cohort, participants);
+    } catch (err) {
+      console.error('[F3] Unexpected exception:', err);
+      renderAccessDenied();
+    }
+  }
+
+  function renderRoster(cohort, participants) {
+    const content = document.getElementById('rosterContent');
+    content.innerHTML = '';
+
+    // ─── Header ───
+    const header = document.createElement('div');
+    header.className = 'roster-header';
+
+    const headerLeft = document.createElement('div');
+    headerLeft.className = 'roster-header-left';
+    const cohortName = (cohort && cohort.cohort_name) || 'Cohort Roster';
+    const cohortOrg  = (cohort && cohort.organisation_name) || '';
+    const cohortStatus = (cohort && cohort.status) ? cohort.status.toUpperCase() : '';
+    const statusClass = 'status-' + (cohort && cohort.status ? cohort.status.toLowerCase() : 'draft');
+    const dateRange = cohort ? formatDateRange(cohort) : '';
+
+    headerLeft.innerHTML =
+      '<div class="roster-cohort-name">' + escapeHtml(cohortName) + '</div>' +
+      '<div class="roster-cohort-meta">' +
+        (cohortOrg ? escapeHtml(cohortOrg) : '') +
+        (cohortOrg && cohortStatus ? '<span class="meta-sep">·</span>' : '') +
+        (cohortStatus ? '<span class="status-pill ' + statusClass + '">' + escapeHtml(cohortStatus) + '</span>' : '') +
+        (dateRange ? '<span class="meta-sep">·</span>' + escapeHtml(dateRange) : '') +
+      '</div>';
+
+    const headerRight = document.createElement('div');
+    headerRight.className = 'roster-summary';
+    headerRight.innerHTML = '<strong>' + participants.length + ' / 22</strong>Participants';
+
+    header.appendChild(headerLeft);
+    header.appendChild(headerRight);
+    content.appendChild(header);
+
+    // ─── Legend ───
+    const legend = document.createElement('div');
+    legend.className = 'roster-legend';
+    legend.innerHTML =
+      '<span class="legend-item"><span class="legend-swatch sw-locked"></span>Locked</span>' +
+      '<span class="legend-item"><span class="legend-swatch sw-unlocked"></span>Unlocked</span>' +
+      '<span class="legend-item"><span class="legend-swatch sw-submitted"></span>Submitted</span>' +
+      '<span class="legend-item"><span class="legend-swatch sw-completed"></span>Completed</span>';
+    content.appendChild(legend);
+
+    // ─── Empty state ───
+    if (participants.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state-card';
+      empty.innerHTML =
+        '<div class="empty-icon">○</div>' +
+        '<h3>No participants in this cohort yet</h3>' +
+        '<p>Your administrator will invite participants and they will appear here. For assistance, contact <strong>projects@ibsleadership.com</strong>.</p>';
+      content.appendChild(empty);
+      return;
+    }
+
+    // ─── Participant rows ───
+    participants.forEach(function(p) {
+      content.appendChild(participantRowEl(p));
+    });
+  }
+
+  function participantRowEl(p) {
+    const row = document.createElement('div');
+    row.className = 'participant-row';
+    row.setAttribute('data-participant-id', p.participant_id);
+
+    // Identity block
+    const identity = document.createElement('div');
+    identity.className = 'participant-identity';
+    const joinedStr   = formatShortDate(p.joined_at) || '—';
+    const activityStr = formatShortDate(p.last_activity_at);
+    const activityLine = activityStr ? 'Last activity ' + activityStr : 'No activity yet';
+    identity.innerHTML =
+      '<div class="participant-name">' + escapeHtml(p.full_name || 'Participant') + '</div>' +
+      '<div class="participant-meta">' +
+        escapeHtml(p.email || '') +
+        (p.organisation_name && p.organisation_name !== '—'
+          ? '<span class="meta-sep">·</span><span class="org-name">' + escapeHtml(p.organisation_name) + '</span>'
+          : '') +
+        '<span class="meta-dates">Joined ' + escapeHtml(joinedStr) + ' · ' + escapeHtml(activityLine) + '</span>' +
+      '</div>';
+
+    // Dot strip
+    const dots = document.createElement('div');
+    dots.className = 'dot-strip';
+    const states = Array.isArray(p.lens_states) ? p.lens_states : [];
+    let lastUnit = null;
+    states.forEach(function(ls) {
+      // Visual separator between units
+      if (lastUnit !== null && ls.unit !== lastUnit) {
+        const sep = document.createElement('span');
+        sep.className = 'unit-sep';
+        sep.setAttribute('aria-hidden', 'true');
+        dots.appendChild(sep);
+      }
+      lastUnit = ls.unit;
+      dots.appendChild(lensDotEl(ls, p));
+    });
+
+    row.appendChild(identity);
+    row.appendChild(dots);
+    return row;
+  }
+
+  function lensDotEl(lensState, participant) {
+    const dot = document.createElement('span');
+    const status = String(lensState.status || 'locked').toLowerCase();
+    dot.className = 'lens-dot state-' + status;
+    dot.setAttribute('data-lens-id', lensState.lens_id);
+    dot.setAttribute('data-status', status);
+
+    const tooltip = (lensState.lens_title || lensState.lens_id) + ' — ' + capitalize(status);
+    dot.setAttribute('data-tooltip', tooltip);
+    dot.setAttribute('aria-label', tooltip);
+
+    // Clickable only for submitted or completed
+    if (status === 'submitted' || status === 'completed') {
+      dot.setAttribute('role', 'button');
+      dot.setAttribute('tabindex', '0');
+      dot.addEventListener('click', function(e) {
+        e.stopPropagation();
+        handleLensDotClick(lensState, participant);
+      });
+      dot.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleLensDotClick(lensState, participant);
+        }
+      });
+    }
+    return dot;
+  }
+
+  function handleLensDotClick(lensState, participant) {
+    console.log('[F3] Lens dot clicked: ' + participant.full_name + ' · ' + lensState.lens_id + ' (' + lensState.status + ')');
+    // F4 will replace this with a navigation into the submission review view
+    showToast('Submission review coming in F4 — ' + (lensState.lens_title || lensState.lens_id));
+  }
+
+  function renderAccessDenied() {
+    const content = document.getElementById('rosterContent');
+    content.innerHTML =
+      '<div class="access-denied-card">' +
+        '<h3>Cohort not found or access denied</h3>' +
+        '<p>This cohort either does not exist or you do not have permission to view it. Please return to your cohort list.</p>' +
+        '<button class="back-btn" id="adReturnBtn">← Back to cohorts</button>' +
+      '</div>';
+    const btn = document.getElementById('adReturnBtn');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        const adminFlag = isAdminView ? '?adminView=1' : '';
+        window.location.href = 'dashboard_F.html' + adminFlag;
+      });
+    }
+  }
+
+  // Compact date: "23 Apr" or "23 Apr 2026" if the year isn't the current year
+  function formatShortDate(d) {
+    if (!d) return null;
+    const dt = new Date(d);
+    if (isNaN(dt)) return null;
+    const now = new Date();
+    const sameYear = dt.getFullYear() === now.getFullYear();
+    return dt.toLocaleDateString('en-GB',
+      sameYear ? { day: '2-digit', month: 'short' }
+               : { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function capitalize(s) {
+    if (!s) return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 </script>
 
