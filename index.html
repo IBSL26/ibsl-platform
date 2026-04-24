@@ -1660,8 +1660,9 @@ async function validateAccess() {
     currentRole = 'Participant Access';
     showPortal(currentRole, 'Welcome, ' + profile.full_name);
   } else {
+    // F1: Facilitator signs in → redirect to dedicated dashboard page
     currentRole = 'Facilitator Access';
-    showPortal(currentRole, 'Welcome, ' + profile.full_name);
+    window.location.href = 'dashboard_F.html';
   }
 }
   function closeModal() {
@@ -1837,6 +1838,13 @@ async function validateAccess() {
 
   function adminViewAs(role) {
     currentRole = role;
+    sessionStorage.setItem('ibsl_admin_viewing_as', role);
+    if (role === 'Facilitator Access') {
+      // F1: Admin "View as Facilitator" → redirect to dedicated dashboard with admin flag
+      window.location.href = 'dashboard_F.html?adminView=1';
+      return;
+    }
+    // Participant view-as: unchanged in-page overlay behaviour
     document.getElementById('adminView').style.display = 'none';
     var banner = document.getElementById('adminBanner');
     banner.style.display = 'flex';
@@ -1844,7 +1852,6 @@ async function validateAccess() {
       'You are viewing as ' + (role === 'Facilitator Access' ? 'Facilitator' : 'Participant');
     var welcomeMsg = sessionStorage.getItem('ibsl_portal_days') || 'Admin view';
     showPortal(role, welcomeMsg);
-    sessionStorage.setItem('ibsl_admin_viewing_as', role);
   }
 
   function returnToAdmin() {
