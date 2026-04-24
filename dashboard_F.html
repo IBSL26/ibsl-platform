@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Facilitator Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --forest: #1a3a2a;
+    --forest-mid: #22472f;
+    --forest-dark: #0f2419;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e8c0;
+    --charcoal: #1c1c1c;
+    --white: #ffffff;
+    --cream: #faf8f3;
+    --ash: #9ca3af;
+    --banner-amber: #f4c542;
+  }
+
+  html, body { height: 100%; }
+  body {
+    font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(160deg, #0d1f15 0%, #1a3a2a 60%, #0f2419 100%);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ─── ADMIN-VIEW BANNER (only when ?adminView=1) ─── */
+  .admin-banner {
+    display: none;
+    background: var(--banner-amber);
+    color: var(--charcoal);
+    padding: 10px 24px;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .admin-banner.shown { display: flex; }
+  .admin-banner .banner-text { flex: 1; }
+  .admin-banner .return-btn {
+    background: var(--charcoal);
+    color: var(--banner-amber);
+    border: none;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  .admin-banner .return-btn:hover { background: #000; }
+
+  /* ─── TOP STRIP ─── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+    background: rgba(15, 36, 25, 0.6);
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--gold);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .topbar-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+  .topbar-title .pillar {
+    color: var(--gold);
+    font-weight: 500;
+    margin-left: 10px;
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .user-block {
+    text-align: right;
+  }
+  .user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .user-email {
+    font-size: 11px;
+    color: var(--ash);
+    margin-top: 2px;
+  }
+  .signout-btn {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 9px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .signout-btn:hover {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+
+  /* ─── MAIN ─── */
+  main {
+    flex: 1;
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .main-inner {
+    width: 100%;
+    max-width: 1100px;
+  }
+  .welcome {
+    margin-bottom: 40px;
+  }
+  .welcome h1 {
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--white);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+  .welcome p {
+    font-size: 14px;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+  }
+
+  .placeholder-card {
+    background: rgba(34, 71, 47, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 8px;
+    padding: 60px 40px;
+    text-align: center;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+  }
+  .placeholder-card .phase-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--forest-dark);
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .placeholder-card h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--white);
+    letter-spacing: 0.5px;
+  }
+  .placeholder-card p {
+    font-size: 14px;
+    color: var(--ash);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 28px 40px;
+    border-top: 1px solid rgba(201, 168, 76, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 1px;
+  }
+  .content-library-link {
+    color: var(--ash);
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: not-allowed;
+    opacity: 0.55;
+    text-decoration: none;
+  }
+  .footer-mark {
+    letter-spacing: 1.2px;
+  }
+
+  /* ─── LOADING STATE ─── */
+  .loading {
+    position: fixed;
+    inset: 0;
+    background: var(--forest-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    z-index: 9999;
+  }
+  .loading.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ─── LOADING OVERLAY (shown until guard resolves) ─── -->
+<div id="loadingOverlay" class="loading">Loading dashboard…</div>
+
+<!-- ─── ADMIN-VIEW BANNER ─── -->
+<div id="adminBanner" class="admin-banner">
+  <span class="banner-text">Admin View — You are viewing as Facilitator</span>
+  <button class="return-btn" id="returnToAdminBtn">Return to Admin</button>
+</div>
+
+<!-- ─── TOPBAR ─── -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="brand-mark">S2R</div>
+    <div class="topbar-title">
+      Facilitator Dashboard
+      <span class="pillar">IBSLEADERSHIP</span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="user-block">
+      <div class="user-name" id="userName">—</div>
+      <div class="user-email" id="userEmail">—</div>
+    </div>
+    <button class="signout-btn" id="signOutBtn">Sign Out</button>
+  </div>
+</header>
+
+<!-- ─── MAIN ─── -->
+<main>
+  <div class="main-inner">
+    <div class="welcome">
+      <h1 id="welcomeHeading">Welcome</h1>
+      <p>Your cohort overview, submission queue, and messaging centre will appear here as Phase 2 is completed.</p>
+    </div>
+
+    <div class="placeholder-card">
+      <span class="phase-tag">Phase 2 · F2</span>
+      <h2>Cohort overview — coming in F2</h2>
+      <p>The next build step adds your cohort list, participant rosters with the 11-lens dot grid, submission review, messaging, document review, and private facilitator notes. F1 establishes the landing page; F2 fills it in.</p>
+    </div>
+  </div>
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <a href="#" class="content-library-link" onclick="return false;" title="Wired in F2">Content Library — coming soon</a>
+  <span class="footer-mark">© 2026 IBSLeadership · Strategy2Results®</span>
+</footer>
+
+<script>
+  // ─── F1: SUPABASE CLIENT ───
+  const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+  });
+
+  // ─── F1: DETECT ADMIN-VIEW MODE FROM URL ───
+  const urlParams = new URLSearchParams(window.location.search);
+  const isAdminView = urlParams.get('adminView') === '1';
+
+  // ─── F1: SESSION + ROLE GUARD ───
+  (async function guard() {
+    try {
+      // 1. Check session
+      const { data: sessionData, error: sessionErr } = await supabaseClient.auth.getSession();
+      if (sessionErr || !sessionData || !sessionData.session) {
+        console.log('[F1] No active session — redirecting to sign-in');
+        window.location.replace('index.html');
+        return;
+      }
+      const user = sessionData.session.user;
+
+      // 2. Look up role
+      const { data: profile, error: profileErr } = await supabaseClient
+        .from('profiles')
+        .select('id, full_name, role')
+        .eq('id', user.id)
+        .single();
+
+      if (profileErr || !profile) {
+        console.error('[F1] Profile lookup failed:', profileErr);
+        window.location.replace('index.html');
+        return;
+      }
+
+      // 3. Branch by role + adminView flag
+      const role = profile.role;
+      const allowedAsFacilitator = (role === 'facilitator');
+      const allowedAsAdminView   = (role === 'admin' && isAdminView);
+
+      if (!allowedAsFacilitator && !allowedAsAdminView) {
+        // Participant, or admin without ?adminView=1 — send back to index.html
+        console.log('[F1] Role "' + role + '" not allowed here (adminView=' + isAdminView + ') — redirecting');
+        window.location.replace('index.html');
+        return;
+      }
+
+      // 4. Render the page for this user
+      document.getElementById('userName').textContent = profile.full_name || '—';
+      document.getElementById('userEmail').textContent = user.email || '—';
+      document.getElementById('welcomeHeading').textContent = 'Welcome, ' + (profile.full_name || 'Facilitator');
+
+      // 5. Admin-view mode — show yellow banner, do NOT log a login event
+      if (isAdminView) {
+        document.getElementById('adminBanner').classList.add('shown');
+        console.log('[F1] Admin-view mode detected, banner shown');
+      } else {
+        // 6. Real facilitator login — log the event
+        console.log('[F1] Facilitator session confirmed, logging login event');
+        const { data: logId, error: logErr } = await supabaseClient.rpc('log_activity', {
+          p_event_type: 'login',
+          p_event_detail: { role: 'facilitator', surface: 'dashboard_F' },
+          p_cohort_id: null
+        });
+        if (logErr) {
+          console.error('[F1] log_activity failed:', logErr);
+        } else {
+          console.log('[F1] log_activity returned uuid ' + logId);
+        }
+      }
+
+      // 7. Hide loading overlay
+      document.getElementById('loadingOverlay').classList.add('hidden');
+
+    } catch (err) {
+      console.error('[F1] Guard exception:', err);
+      window.location.replace('index.html');
+    }
+  })();
+
+  // ─── F1: SIGN OUT ───
+  document.getElementById('signOutBtn').addEventListener('click', async function() {
+    try {
+      // Log the logout BEFORE signing out so the auth.uid() still resolves
+      if (!isAdminView) {
+        try {
+          await supabaseClient.rpc('log_activity', {
+            p_event_type: 'logout',
+            p_event_detail: { role: 'facilitator', surface: 'dashboard_F' },
+            p_cohort_id: null
+          });
+        } catch (e) {
+          console.error('[F1] logout log failed (non-blocking):', e);
+        }
+      }
+      // Clear any lingering portal state
+      sessionStorage.removeItem('ibsl_portal_role');
+      sessionStorage.removeItem('ibsl_portal_days');
+      sessionStorage.removeItem('ibsl_admin_viewing_as');
+      await supabaseClient.auth.signOut();
+      window.location.replace('index.html');
+    } catch (err) {
+      console.error('[F1] Sign out error:', err);
+      window.location.replace('index.html');
+    }
+  });
+
+  // ─── F1: RETURN TO ADMIN (only present when adminView banner is shown) ───
+  document.getElementById('returnToAdminBtn').addEventListener('click', function() {
+    // The admin's session is still valid; index.html's auto-restore block reads
+    // sessionStorage ibsl_portal_role='Admin Access' and shows the admin console.
+    // Ensure no lingering view-as flag from prior in-page flow.
+    sessionStorage.removeItem('ibsl_admin_viewing_as');
+    window.location.href = 'index.html';
+  });
+</script>
+
+</body>
+</html>
