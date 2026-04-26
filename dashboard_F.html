@@ -1734,6 +1734,22 @@
   function getInboxFlagFromUrl() {
     return new URLSearchParams(window.location.search).get('inbox') === '1';
   }
+  // F8-6: Pick the back-target for the review view. If the user arrived via the
+  // inbox (?inbox=1), return them to the inbox; otherwise return them to the
+  // cohort roster. Used by both the on-page back-link click and the post-commit
+  // redirect helper.
+  function getReviewBackUrl() {
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    if (getInboxFlagFromUrl()) {
+      return 'dashboard_F.html?inbox=1' + adminFlag;
+    }
+    const cohortId = getCohortIdFromUrl();
+    if (cohortId) {
+      return 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + adminFlag;
+    }
+    // Fallback: malformed URL with no anchor — drop to the cohort grid
+    return 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
+  }
 
   function routeToView() {
     const cohortId     = getCohortIdFromUrl();
@@ -1756,6 +1772,8 @@
       document.getElementById('inboxSection').style.display = 'none';
       document.getElementById('reviewSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
+      // F8-6: Back-link label reflects where the user came from
+      document.getElementById('backToRoster').textContent = inboxFlag ? '← Back to inbox' : '← Back to roster';
       loadSubmissionReview(submissionId);
       return;
     }
@@ -2521,16 +2539,11 @@
   // Content rendering follows in HTML-F4-2; feedback box in HTML-F4-3.
   // ═══════════════════════════════════════════════════════════════════
 
-  // Back-to-roster button — navigates back to ?cohort=<uuid> (preserves adminView)
+  // Back-link from review view — F8-6: returns to inbox if user arrived via the
+  // inbox, otherwise to cohort roster. Element id remains 'backToRoster' for
+  // historical reasons; the visible label is set in routeToView().
   document.getElementById('backToRoster').addEventListener('click', function() {
-    const cohortId = getCohortIdFromUrl();
-    const adminFlag = isAdminView ? '&adminView=1' : '';
-    if (cohortId) {
-      window.location.href = 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + adminFlag;
-    } else {
-      // Should not happen if URL is well-formed; safe fallback to grid
-      window.location.href = 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
-    }
+    window.location.href = getReviewBackUrl();
   });
 
   function loadSubmissionReview(submissionId) {
@@ -3629,13 +3642,9 @@
   }
 
   function goBackToRoster() {
-    const cohortId = getCohortIdFromUrl();
-    const adminFlag = isAdminView ? '&adminView=1' : '';
-    if (cohortId) {
-      window.location.href = 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + adminFlag;
-    } else {
-      window.location.href = 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
-    }
+    // F8-6: function name preserved for historical reasons; actual destination
+    // is determined by getReviewBackUrl() which honours the ?inbox=1 origin marker.
+    window.location.href = getReviewBackUrl();
   }
 
   // ─── Final helpers ───
