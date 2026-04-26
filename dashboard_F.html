@@ -686,6 +686,31 @@
     50%      { box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.28); }
   }
 
+  /* ─── F12: facilitator-notes count badge on roster row.
+       data-count="0" hides the badge so the same DOM node can be flipped
+       to visible by the optimistic-increment path on first add. ─── */
+  .notes-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 8px;
+    border-radius: 9px;
+    background: rgba(201, 168, 76, 0.16);
+    border: 1px solid rgba(201, 168, 76, 0.34);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .notes-count-badge[data-count="0"] {
+    display: none;
+  }
+
   /* ─── F12: facilitator-notes block, toggle chevron, and collapsible panel ─── */
   .participant-block {
     margin-bottom: 10px;
@@ -2663,6 +2688,19 @@
     return '<span class="activity-pip" title="' + escapeHtml(tooltip) + '" aria-label="' + escapeHtml(tooltip) + '"></span>';
   }
 
+  // F12: build notes-count badge HTML for a participant. Always emits the
+  // element (even at 0) so addFacilitatorNote can increment in place; CSS
+  // hides via [data-count="0"]. Coerces note_count defensively in case
+  // PostgREST ever returns bigint as string for very large values.
+  function notesCountBadgeHtml(p) {
+    const raw = p && p.note_count;
+    const count = (typeof raw === 'number') ? raw : (Number(raw) || 0);
+    const tooltip = count === 1 ? '1 facilitator note' : count + ' facilitator notes';
+    return '<span class="notes-count-badge" data-count="' + count + '"' +
+           ' title="' + escapeHtml(tooltip) + '"' +
+           ' aria-label="' + escapeHtml(tooltip) + '">' + count + '</span>';
+  }
+
   function participantRowEl(p, cohortId) {
     // F12: each participant occupies a vertical block — the visible row plus a
     // collapsible notes panel below. The block is the unit returned to the roster.
@@ -2690,7 +2728,7 @@
     const activityStr = formatShortDate(p.last_activity_at);
     const activityLine = activityStr ? 'Last activity ' + activityStr : 'No activity yet';
     identity.innerHTML =
-      '<div class="participant-name">' + getActivityPipHtml(p) + escapeHtml(p.full_name || 'Participant') + '</div>' +
+      '<div class="participant-name">' + getActivityPipHtml(p) + escapeHtml(p.full_name || 'Participant') + notesCountBadgeHtml(p) + '</div>' +
       '<div class="participant-meta">' +
         escapeHtml(p.email || '') +
         (p.organisation_name && p.organisation_name !== '—'
@@ -2956,6 +2994,22 @@
 
       textareaEl.value = '';
       updateCharCount(panelEl);
+
+      // F12: optimistic increment of the row-level note-count badge. Source of
+      // truth is data-count (drives [data-count="0"] hide rule); textContent
+      // is kept in sync. Walks up to .participant-block (panel's parent) to
+      // reach the badge in .participant-row > .participant-identity > .participant-name.
+      const blockEl = panelEl.parentElement;
+      const badgeEl = blockEl ? blockEl.querySelector('.notes-count-badge') : null;
+      if (badgeEl) {
+        const current = parseInt(badgeEl.getAttribute('data-count') || '0', 10);
+        const next    = (Number.isFinite(current) ? current : 0) + 1;
+        const tooltip = next === 1 ? '1 facilitator note' : next + ' facilitator notes';
+        badgeEl.setAttribute('data-count', String(next));
+        badgeEl.textContent = String(next);
+        badgeEl.setAttribute('title', tooltip);
+        badgeEl.setAttribute('aria-label', tooltip);
+      }
 
       console.log('[F12] add_facilitator_note success:', data.note_id);
     } catch (err) {
