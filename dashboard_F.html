@@ -749,6 +749,146 @@
     font-style: italic;
   }
 
+  /* ─── F12: notes list, item, and add-form ─── */
+  .notes-panel-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .notes-list[data-state="loading"],
+  .notes-list[data-state="empty"],
+  .notes-list[data-state="error"] {
+    font-size: 12px;
+    color: var(--ash);
+    opacity: 0.85;
+    font-style: italic;
+    padding: 4px 0;
+  }
+  .notes-list[data-state="error"] {
+    color: #e8b4a8;
+    opacity: 0.95;
+    font-style: normal;
+  }
+  .notes-list[data-state="populated"] {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .note-item {
+    background: rgba(15, 32, 22, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.10);
+    border-radius: 4px;
+    padding: 8px 12px;
+  }
+  .note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .note-author {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    letter-spacing: 0.2px;
+  }
+  .note-time {
+    font-size: 10px;
+    color: var(--ash);
+    opacity: 0.7;
+    white-space: nowrap;
+    cursor: help;
+  }
+  .note-body {
+    font-size: 13px;
+    color: var(--white);
+    line-height: 1.45;
+    white-space: pre-wrap;       /* preserve newlines authored in the textarea */
+    word-wrap: break-word;
+  }
+  .notes-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .notes-add-textarea {
+    width: 100%;
+    min-height: 60px;
+    resize: vertical;
+    background: rgba(15, 32, 22, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    border-radius: 4px;
+    color: var(--white);
+    font: inherit;
+    font-size: 13px;
+    line-height: 1.45;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .notes-add-textarea::placeholder {
+    color: var(--ash);
+    opacity: 0.55;
+  }
+  .notes-add-textarea:focus {
+    outline: none;
+    border-color: rgba(201, 168, 76, 0.55);
+    background: rgba(15, 32, 22, 0.7);
+  }
+  .notes-add-textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .notes-add-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .notes-add-error {
+    flex: 1 1 auto;
+    font-size: 11px;
+    color: #e8b4a8;
+    visibility: hidden;
+  }
+  .notes-add-error.shown {
+    visibility: visible;
+  }
+  .notes-add-charcount {
+    font-size: 10px;
+    color: var(--ash);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+  .notes-add-charcount.over {
+    color: #e8b4a8;
+    opacity: 1;
+  }
+  .notes-add-btn {
+    flex-shrink: 0;
+    background: var(--gold);
+    color: #1a2e1f;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .notes-add-btn:hover:not(:disabled) {
+    background: #d8b859;
+  }
+  .notes-add-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
   .participant-meta {
     font-size: 11px;
     color: var(--ash);
@@ -2455,7 +2595,7 @@
 
     // ─── Participant rows ───
     participants.forEach(function(p) {
-      content.appendChild(participantRowEl(p));
+      content.appendChild(participantRowEl(p, cohort && cohort.cohort_id));
     });
   }
 
@@ -2523,7 +2663,7 @@
     return '<span class="activity-pip" title="' + escapeHtml(tooltip) + '" aria-label="' + escapeHtml(tooltip) + '"></span>';
   }
 
-  function participantRowEl(p) {
+  function participantRowEl(p, cohortId) {
     // F12: each participant occupies a vertical block — the visible row plus a
     // collapsible notes panel below. The block is the unit returned to the roster.
     const block = document.createElement('div');
@@ -2580,12 +2720,28 @@
     row.appendChild(identity);
     row.appendChild(dots);
 
-    // F12: notes panel — content arrives in HTML-F12-2. Placeholder for now so we
-    // can verify the expand mechanism in isolation before wiring the data layer.
+    // F12: notes panel — full structure (list + add form). Initial state is
+    // 'loading' but no fetch fires until the toggle is opened the first time.
     const panel = document.createElement('div');
     panel.className = 'participant-notes-panel';
     panel.setAttribute('data-participant-id', p.participant_id);
-    panel.innerHTML = '<span class="notes-panel-placeholder">Notes panel — content arrives in HTML-F12-2.</span>';
+    panel.setAttribute('data-cohort-id', cohortId || '');
+    panel.setAttribute('data-loaded', 'false');
+    panel.innerHTML =
+      '<div class="notes-panel-inner">' +
+        '<div class="notes-list" data-state="loading">' +
+          '<div class="notes-loading">Loading notes…</div>' +
+        '</div>' +
+        '<form class="notes-add-form">' +
+          '<textarea class="notes-add-textarea" maxlength="4000" rows="3" ' +
+                    'placeholder="Add a private note about this participant — visible only to facilitators of this cohort."></textarea>' +
+          '<div class="notes-add-meta">' +
+            '<span class="notes-add-error" role="alert"></span>' +
+            '<span class="notes-add-charcount">0 / 4000</span>' +
+            '<button type="submit" class="notes-add-btn">Add note</button>' +
+          '</div>' +
+        '</form>' +
+      '</div>';
 
     // F12: toggle wiring. Stop propagation so future row-level click handlers
     // (e.g. open-roster-detail) don't fire when the chevron is clicked.
@@ -2594,11 +2750,223 @@
       const isOpen = toggle.classList.toggle('is-open');
       panel.classList.toggle('is-open', isOpen);
       toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      // Lazy-load on first open. Subsequent opens reuse the in-DOM state;
+      // the add path keeps the list in sync directly without refetching.
+      if (isOpen && panel.getAttribute('data-loaded') !== 'true') {
+        if (!cohortId) {
+          const listEl = panel.querySelector('.notes-list');
+          listEl.setAttribute('data-state', 'error');
+          listEl.innerHTML = '<div class="notes-error">Cohort context unavailable. Try reloading the roster.</div>';
+          return;
+        }
+        loadFacilitatorNotes(p.participant_id, cohortId, panel);
+      }
+    });
+
+    // F12: char counter — updates on every keystroke.
+    const textareaEl = panel.querySelector('.notes-add-textarea');
+    textareaEl.addEventListener('input', function() {
+      updateCharCount(panel);
+    });
+
+    // F12: form submit — POST via add_facilitator_note.
+    const formEl = panel.querySelector('.notes-add-form');
+    formEl.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!cohortId) return;
+      addFacilitatorNote(p.participant_id, cohortId, panel);
     });
 
     block.appendChild(row);
     block.appendChild(panel);
     return block;
+  }
+
+  // ─── F12: facilitator-notes helpers ───────────────────────────────
+  // loadFacilitatorNotes — fetches notes for (participant, cohort) and renders.
+  // Called once on first chevron-open per row; subsequent toggles reuse DOM.
+  async function loadFacilitatorNotes(participantId, cohortId, panelEl) {
+    const listEl = panelEl.querySelector('.notes-list');
+    listEl.setAttribute('data-state', 'loading');
+    listEl.innerHTML = '<div class="notes-loading">Loading notes…</div>';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('list_facilitator_notes', {
+        p_participant_id: participantId,
+        p_cohort_id:      cohortId
+      });
+
+      if (error) {
+        console.error('[F12] list_facilitator_notes RPC error:', error);
+        listEl.setAttribute('data-state', 'error');
+        listEl.innerHTML = '<div class="notes-error">Couldn\u2019t load notes. Try closing and reopening this row.</div>';
+        return;
+      }
+
+      panelEl.setAttribute('data-loaded', 'true');
+      renderNotesList(data || [], listEl);
+    } catch (err) {
+      console.error('[F12] list_facilitator_notes exception:', err);
+      listEl.setAttribute('data-state', 'error');
+      listEl.innerHTML = '<div class="notes-error">Network error \u2014 please try again.</div>';
+    }
+  }
+
+  // renderNotesList — internal: swaps list state and DOM contents based on data.
+  function renderNotesList(notes, listEl) {
+    if (!Array.isArray(notes) || notes.length === 0) {
+      listEl.setAttribute('data-state', 'empty');
+      listEl.innerHTML = '<div class="notes-empty">No notes yet for this cohort. Add the first one below.</div>';
+      return;
+    }
+    listEl.setAttribute('data-state', 'populated');
+    listEl.innerHTML = '';
+    notes.forEach(function(n) { listEl.appendChild(noteItemEl(n)); });
+  }
+
+  // noteItemEl — single .note-item with author, timestamp, body. textContent on
+  // the body so that pre-wrap CSS handles newlines without an XSS risk.
+  function noteItemEl(note) {
+    const item = document.createElement('div');
+    item.className = 'note-item';
+    item.setAttribute('data-note-id', note.note_id || '');
+
+    const header = document.createElement('div');
+    header.className = 'note-header';
+    const isoTitle = note.created_at ? escapeHtml(note.created_at) : '';
+    header.innerHTML =
+      '<span class="note-author">' + escapeHtml(note.author_full_name || 'Unknown') + '</span>' +
+      '<span class="note-time" title="' + isoTitle + '">' + escapeHtml(formatNoteTimestamp(note.created_at)) + '</span>';
+
+    const body = document.createElement('div');
+    body.className = 'note-body';
+    body.textContent = note.body || '';
+
+    item.appendChild(header);
+    item.appendChild(body);
+    return item;
+  }
+
+  // formatNoteTimestamp — relative copy tuned for notes ("just now" vs F8's "just submitted").
+  function formatNoteTimestamp(iso) {
+    if (!iso) return '\u2014';
+    const dt = new Date(iso);
+    if (isNaN(dt)) return '\u2014';
+    const diffSec = Math.round((Date.now() - dt.getTime()) / 1000);
+    if (diffSec < 60) return 'just now';
+    const diffMin = Math.round(diffSec / 60);
+    if (diffMin < 60)   return diffMin + ' minute' + (diffMin === 1 ? '' : 's') + ' ago';
+    const diffHr = Math.round(diffMin / 60);
+    if (diffHr < 24)    return diffHr  + ' hour'   + (diffHr  === 1 ? '' : 's') + ' ago';
+    const diffDay = Math.round(diffHr / 24);
+    if (diffDay < 14)   return diffDay + ' day'    + (diffDay === 1 ? '' : 's') + ' ago';
+    const diffWeek = Math.round(diffDay / 7);
+    if (diffWeek < 8)   return diffWeek + ' week'  + (diffWeek === 1 ? '' : 's') + ' ago';
+    const diffMonth = Math.round(diffDay / 30);
+    if (diffMonth < 12) return diffMonth + ' month' + (diffMonth === 1 ? '' : 's') + ' ago';
+    const diffYear = Math.round(diffDay / 365);
+    return diffYear + ' year' + (diffYear === 1 ? '' : 's') + ' ago';
+  }
+
+  // updateCharCount — keystroke handler; flips .over class past 4000.
+  function updateCharCount(panelEl) {
+    const ta    = panelEl.querySelector('.notes-add-textarea');
+    const count = panelEl.querySelector('.notes-add-charcount');
+    if (!ta || !count) return;
+    const n = (ta.value || '').length;
+    count.textContent = n + ' / 4000';
+    count.classList.toggle('over', n > 4000);
+  }
+
+  // addFacilitatorNote — POST via add_facilitator_note. On success, optimistic
+  // append to the in-DOM list using Carol's name from #userName. Five error
+  // codes mapped to friendly copy; PG-level errors and network exceptions
+  // surface as a generic message with full detail in console.
+  async function addFacilitatorNote(participantId, cohortId, panelEl) {
+    const formEl     = panelEl.querySelector('.notes-add-form');
+    const textareaEl = formEl.querySelector('.notes-add-textarea');
+    const btnEl      = formEl.querySelector('.notes-add-btn');
+    const errorEl    = formEl.querySelector('.notes-add-error');
+    const listEl     = panelEl.querySelector('.notes-list');
+
+    const body = (textareaEl.value || '').trim();
+    errorEl.textContent = '';
+    errorEl.classList.remove('shown');
+
+    // Client-side guards mirror the server's validation order.
+    if (!body) {
+      errorEl.textContent = 'Note cannot be empty.';
+      errorEl.classList.add('shown');
+      textareaEl.focus();
+      return;
+    }
+    if (body.length > 4000) {
+      errorEl.textContent = 'Note is too long (max 4000 characters).';
+      errorEl.classList.add('shown');
+      return;
+    }
+
+    btnEl.disabled       = true;
+    textareaEl.disabled  = true;
+    btnEl.textContent    = 'Adding\u2026';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('add_facilitator_note', {
+        p_participant_id: participantId,
+        p_cohort_id:      cohortId,
+        p_body:           body
+      });
+
+      if (error) {
+        console.error('[F12] add_facilitator_note RPC error:', error);
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.classList.add('shown');
+        return;
+      }
+
+      if (!data || data.success !== true) {
+        const code = (data && data.error_code) ? data.error_code : 'unknown_error';
+        console.warn('[F12] add_facilitator_note returned not-success:', code, data);
+        let msg = 'Couldn\u2019t add note. Please try again.';
+        if      (code === 'body_required')              msg = 'Note cannot be empty.';
+        else if (code === 'body_too_long')              msg = 'Note is too long (max 4000 characters).';
+        else if (code === 'not_authorised')             msg = 'You do not have permission to add notes for this participant in this cohort.';
+        else if (code === 'participant_not_in_cohort') msg = 'This participant is no longer in the cohort.';
+        else if (code === 'not_authenticated')          msg = 'Your session has expired. Please sign in again.';
+        errorEl.textContent = msg;
+        errorEl.classList.add('shown');
+        return;
+      }
+
+      // Success — optimistic append. Author name read from page DOM (set in F1).
+      const authorName = (document.getElementById('userName') && document.getElementById('userName').textContent) || 'You';
+      const newNote = {
+        note_id:          data.note_id,
+        body:             body,
+        created_at:       data.created_at,
+        author_full_name: authorName
+      };
+      // If list was empty/loading/error before, swap to populated.
+      if (listEl.getAttribute('data-state') !== 'populated') {
+        listEl.setAttribute('data-state', 'populated');
+        listEl.innerHTML = '';
+      }
+      // Insert at top — newest-first ordering matches list_facilitator_notes ORDER BY.
+      listEl.insertBefore(noteItemEl(newNote), listEl.firstChild);
+
+      textareaEl.value = '';
+      updateCharCount(panelEl);
+
+      console.log('[F12] add_facilitator_note success:', data.note_id);
+    } catch (err) {
+      console.error('[F12] add_facilitator_note exception:', err);
+      errorEl.textContent = 'Network error \u2014 please try again.';
+      errorEl.classList.add('shown');
+    } finally {
+      btnEl.disabled      = false;
+      textareaEl.disabled = false;
+      btnEl.textContent   = 'Add note';
+    }
   }
 
   function lensDotEl(lensState, participant) {
