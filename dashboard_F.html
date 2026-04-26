@@ -1194,6 +1194,31 @@
     cursor: not-allowed;
   }
 
+  /* ─── F7: RETURN-FOR-REVISION (tertiary action — dashed border signals "different direction") ─── */
+  .btn-commit-return {
+    background: transparent;
+    color: #c5c5c5;
+    border: 1px dashed rgba(244, 197, 66, 0.55);
+    padding: 11px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .btn-commit-return:hover:not(:disabled) {
+    border-color: #f4c542;
+    color: #f4c542;
+    border-style: solid;
+  }
+  .btn-commit-return:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   /* ─── F5: COMMITTED FEEDBACK (read-only display when review_status='reviewed') ─── */
   .committed-feedback {
     margin-top: 12px;
@@ -1382,7 +1407,7 @@
       <div class="commit-modal">
         <h3 class="commit-modal-title" id="commitModalTitle">Confirm review</h3>
         <p class="commit-modal-body" id="commitModalBody">…</p>
-        <p class="commit-modal-detail" id="commitModalDetail">Reviews are durable. To send a submission back without committing, use Return for Revision (coming in F7).</p>
+        <p class="commit-modal-detail" id="commitModalDetail">Reviews are durable. To send a submission back without committing, use Return for revision instead.</p>
         <div class="commit-modal-error" id="commitModalError" role="alert"></div>
         <div class="commit-modal-actions">
           <button type="button" class="btn-modal-cancel" id="commitModalCancel">Cancel</button>
@@ -1401,6 +1426,20 @@
         <div class="commit-modal-actions">
           <button type="button" class="btn-modal-cancel" id="cohortUnlockModalCancel">Cancel</button>
           <button type="button" class="btn-modal-confirm" id="cohortUnlockModalConfirm">Confirm unlock</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── F7: RETURN-FOR-REVISION CONFIRMATION MODAL ─── -->
+    <div class="commit-modal-backdrop" id="revisionModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="revisionModalTitle" aria-hidden="true">
+      <div class="commit-modal">
+        <h3 class="commit-modal-title" id="revisionModalTitle">Return for revision</h3>
+        <p class="commit-modal-body" id="revisionModalBody">…</p>
+        <p class="commit-modal-detail" id="revisionModalDetail">The participant will receive your feedback and be able to revise their submission. The next lens stays locked.</p>
+        <div class="commit-modal-error" id="revisionModalError" role="alert"></div>
+        <div class="commit-modal-actions">
+          <button type="button" class="btn-modal-cancel" id="revisionModalCancel">Cancel</button>
+          <button type="button" class="btn-modal-confirm" id="revisionModalConfirm">Return for revision</button>
         </div>
       </div>
     </div>
@@ -2542,8 +2581,8 @@
       meta.className = 'committed-feedback-meta';
       const reviewedAtStr = formatReviewedAt(submission.reviewed_at);
       meta.textContent = reviewedAtStr
-        ? 'Reviewed on ' + reviewedAtStr + '. Return for Revision (F7) will allow re-opening this submission.'
-        : 'This submission has been reviewed. Return for Revision (F7) will allow re-opening it.';
+        ? 'Reviewed on ' + reviewedAtStr + '.'
+        : 'This submission has been reviewed.';
       wrap.appendChild(meta);
 
       return wrap;
@@ -2592,15 +2631,24 @@
     secondaryBtn.textContent = 'Mark as reviewed only';
     actions.appendChild(secondaryBtn);
 
+    // ─── F7: TERTIARY ACTION — RETURN FOR REVISION ───
+    const returnBtn = document.createElement('button');
+    returnBtn.type = 'button';
+    returnBtn.id = 'commitReturnBtn';
+    returnBtn.className = 'btn-commit-return';
+    returnBtn.textContent = 'Return for revision';
+    actions.appendChild(returnBtn);
+
     wrap.appendChild(actions);
 
     const help = document.createElement('p');
     help.className = 'feedback-help';
-    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Committing is durable — Return for Revision (coming in F7) will be the way to send a submission back without committing.';
+    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Reviewing is durable. Return for revision sends the submission back to the participant with your feedback and keeps the next lens locked.';
     wrap.appendChild(help);
 
     wireFeedbackAutosave(textarea, indicator, submissionId);
     wireCommitActions(textarea, primaryBtn, secondaryBtn, submissionId, participantName, lensTitle);
+    wireRevisionAction(textarea, returnBtn, submissionId, participantName, lensTitle);
     return wrap;
   }
 
@@ -2733,7 +2781,7 @@
       bodyEl.innerHTML =
         'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong>, ' +
         'mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed, and unlock the next lens.';
-      detailEl.textContent = 'Reviews are durable. Return for Revision (coming in F7) is the way to send a submission back without committing.';
+      detailEl.textContent = 'Reviews are durable. Return for revision is the way to send a submission back without committing.';
     } else {
       titleEl.textContent = 'Mark as reviewed only';
       bodyEl.innerHTML =
@@ -2928,6 +2976,219 @@
                : { day: '2-digit', month: 'short', year: 'numeric' });
     const timeStr = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
     return dateStr + ' at ' + timeStr;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F7: RETURN FOR REVISION (return_for_revision RPC + confirmation modal)
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Module-level handles for active modal handlers — closeRevisionModal
+  // detaches them by reference. Cleared on close.
+  let revisionModalEscHandler      = null;
+  let revisionModalBackdropHandler = null;
+  let revisionModalConfirmHandler  = null;
+  let revisionModalCancelHandler   = null;
+  let revisionInFlight             = false;
+
+  function wireRevisionAction(textareaEl, returnBtn, submissionId, participantName, lensTitle) {
+    const safeParticipant = participantName || 'the participant';
+    const safeLens        = lensTitle || 'this lens';
+
+    returnBtn.addEventListener('click', function() {
+      if (commitInFlight || revisionInFlight) return;
+      const feedbackBody = textareaEl.value;
+      // Client-side mirror of the function's feedback_required guard. Cheaper
+      // and more responsive than a round-trip to discover the same thing.
+      if (!feedbackBody || feedbackBody.trim() === '') {
+        showToast('Please type feedback before returning for revision.');
+        textareaEl.focus();
+        return;
+      }
+      openRevisionModal(safeParticipant, safeLens, submissionId, function() {
+        return textareaEl.value;
+      });
+    });
+  }
+
+  function openRevisionModal(participantName, lensTitle, submissionId, getFeedbackBody) {
+    const backdrop   = document.getElementById('revisionModalBackdrop');
+    const titleEl    = document.getElementById('revisionModalTitle');
+    const bodyEl     = document.getElementById('revisionModalBody');
+    const detailEl   = document.getElementById('revisionModalDetail');
+    const errorEl    = document.getElementById('revisionModalError');
+    const confirmBtn = document.getElementById('revisionModalConfirm');
+    const cancelBtn  = document.getElementById('revisionModalCancel');
+    if (!backdrop || !confirmBtn || !cancelBtn) return;
+
+    // Reset modal state from any prior open
+    errorEl.classList.remove('shown');
+    errorEl.textContent = '';
+    confirmBtn.disabled = false;
+    cancelBtn.disabled  = false;
+    confirmBtn.textContent = 'Return for revision';
+
+    titleEl.textContent = 'Return for revision';
+    bodyEl.innerHTML =
+      'This will send your feedback to <strong>' + escapeHtml(participantName) + '</strong> ' +
+      'and re-open <strong>' + escapeHtml(lensTitle) + '</strong> for them to revise. ' +
+      'The next lens will <strong>not</strong> be unlocked.';
+    detailEl.textContent = 'The participant will receive your feedback and be able to revise their submission. The next lens stays locked.';
+
+    revisionModalConfirmHandler = function() {
+      if (revisionInFlight) return;
+      commitReturnRevision(submissionId, getFeedbackBody());
+    };
+    revisionModalCancelHandler = function() {
+      if (revisionInFlight) return;
+      closeRevisionModal();
+    };
+    revisionModalEscHandler = function(e) {
+      if (e.key === 'Escape' && !revisionInFlight) closeRevisionModal();
+    };
+    revisionModalBackdropHandler = function(e) {
+      if (e.target === backdrop && !revisionInFlight) closeRevisionModal();
+    };
+
+    confirmBtn.addEventListener('click', revisionModalConfirmHandler);
+    cancelBtn.addEventListener('click', revisionModalCancelHandler);
+    document.addEventListener('keydown', revisionModalEscHandler);
+    backdrop.addEventListener('click', revisionModalBackdropHandler);
+
+    backdrop.classList.add('shown');
+    backdrop.setAttribute('aria-hidden', 'false');
+    confirmBtn.focus();
+  }
+
+  function closeRevisionModal() {
+    const backdrop   = document.getElementById('revisionModalBackdrop');
+    const confirmBtn = document.getElementById('revisionModalConfirm');
+    const cancelBtn  = document.getElementById('revisionModalCancel');
+    if (!backdrop) return;
+
+    backdrop.classList.remove('shown');
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    if (revisionModalConfirmHandler && confirmBtn) {
+      confirmBtn.removeEventListener('click', revisionModalConfirmHandler);
+      revisionModalConfirmHandler = null;
+    }
+    if (revisionModalCancelHandler && cancelBtn) {
+      cancelBtn.removeEventListener('click', revisionModalCancelHandler);
+      revisionModalCancelHandler = null;
+    }
+    if (revisionModalEscHandler) {
+      document.removeEventListener('keydown', revisionModalEscHandler);
+      revisionModalEscHandler = null;
+    }
+    if (revisionModalBackdropHandler) {
+      backdrop.removeEventListener('click', revisionModalBackdropHandler);
+      revisionModalBackdropHandler = null;
+    }
+  }
+
+  async function commitReturnRevision(submissionId, feedbackBody) {
+    const confirmBtn   = document.getElementById('revisionModalConfirm');
+    const cancelBtn    = document.getElementById('revisionModalCancel');
+    const errorEl      = document.getElementById('revisionModalError');
+    const primaryBtn   = document.getElementById('commitPrimaryBtn');
+    const secondaryBtn = document.getElementById('commitSecondaryBtn');
+    const returnBtn    = document.getElementById('commitReturnBtn');
+
+    // Cancel any pending feedback autosave — the body we send IS the freshest
+    // text, and the function NULLs the draft column anyway.
+    if (feedbackDebounceTimer) {
+      clearTimeout(feedbackDebounceTimer);
+      feedbackDebounceTimer = null;
+    }
+
+    revisionInFlight    = true;
+    confirmBtn.disabled = true;
+    cancelBtn.disabled  = true;
+    if (primaryBtn)   primaryBtn.disabled   = true;
+    if (secondaryBtn) secondaryBtn.disabled = true;
+    if (returnBtn)    returnBtn.disabled    = true;
+    confirmBtn.textContent = 'Returning…';
+    errorEl.classList.remove('shown');
+    errorEl.textContent = '';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('return_for_revision', {
+        p_submission_id: submissionId,
+        p_feedback:      feedbackBody
+      });
+
+      if (error) {
+        console.error('[F7] return_for_revision RPC error:', error);
+        showRevisionError(errorEl, 'Something went wrong reaching the server. Please try again.');
+        unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, /*keepConfirmDisabled*/ false);
+        return;
+      }
+
+      if (!data || data.ok !== true) {
+        const code = data && data.error ? data.error : 'unknown_error';
+        console.warn('[F7] return_for_revision returned not-ok:', code, data);
+
+        if (code === 'feedback_required') {
+          showRevisionError(errorEl,
+            'Feedback is required when returning a submission for revision. Please type your feedback before confirming.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, /*keepConfirmDisabled*/ true);
+        } else if (code === 'not_authorised') {
+          showRevisionError(errorEl, 'You no longer have permission to act on this submission. Returning to the roster.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, true);
+          setTimeout(goBackToRoster, 2000);
+        } else if (code === 'submission_not_found') {
+          showRevisionError(errorEl, 'This submission could not be found. It may have been removed.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, true);
+          setTimeout(goBackToRoster, 2000);
+        } else if (code === 'invalid_state') {
+          showRevisionError(errorEl,
+            'This submission is in an unexpected state (' + escapeHtml(String(data.current_status || '')) + ') and cannot be returned right now.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, true);
+        } else if (code === 'not_authenticated') {
+          showRevisionError(errorEl, 'Your session has expired. Please sign in again.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, true);
+        } else {
+          showRevisionError(errorEl, 'Unexpected response (' + escapeHtml(String(code)) + '). Please try again or contact support.');
+          unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, false);
+        }
+        return;
+      }
+
+      // ─── ok:true success path ───────────────────────────────────────
+      console.log('[F7] return_for_revision success:', data);
+      const participantLabel = data.participant_name || 'the participant';
+      const message = data.feedback_updated
+        ? 'Feedback updated for ' + participantLabel + '. They keep editing access.'
+        : 'Submission returned to ' + participantLabel + ' for revision.';
+      closeRevisionModal();
+      revisionInFlight = false;
+      showToast(message);
+      // Brief pause so the toast registers, then redirect to roster.
+      setTimeout(goBackToRoster, 1500);
+
+    } catch (err) {
+      console.error('[F7] return_for_revision exception:', err);
+      showRevisionError(errorEl, 'Network error — please try again.');
+      unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, false);
+    }
+  }
+
+  function showRevisionError(errorEl, message) {
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.add('shown');
+  }
+
+  function unlockRevisionButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, returnBtn, keepConfirmDisabled) {
+    revisionInFlight = false;
+    if (cancelBtn)  cancelBtn.disabled = false;
+    if (confirmBtn) {
+      confirmBtn.disabled = !!keepConfirmDisabled;
+      confirmBtn.textContent = 'Return for revision';
+    }
+    if (primaryBtn)   primaryBtn.disabled   = false;
+    if (secondaryBtn) secondaryBtn.disabled = false;
+    if (returnBtn)    returnBtn.disabled    = false;
   }
 
   // ═══════════════════════════════════════════════════════════════════
