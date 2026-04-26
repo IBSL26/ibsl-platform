@@ -758,6 +758,255 @@
     color: var(--gold-pale);
   }
 
+  /* ─── F4-2: REVIEW HEADER ─── */
+  .review-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+    flex-wrap: wrap;
+  }
+  .review-header-left {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .review-lens-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .review-lens-meta {
+    font-size: 13px;
+    color: var(--gold-pale);
+    letter-spacing: 0.5px;
+  }
+  .review-lens-meta .meta-sep {
+    color: var(--ash);
+    margin: 0 10px;
+  }
+  .review-header-right {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 200px;
+  }
+  .review-timestamp {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── F4-2: STATUS PILL VARIANTS (review_status mapping) ─── */
+  .review-status-pill {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .review-status-pill.rs-submitted { background: rgba(46, 179, 168, 0.18); color: #6ed5cb; border: 1px solid rgba(46, 179, 168, 0.5); }
+  .review-status-pill.rs-reviewed  { background: rgba(39, 174, 96, 0.2);   color: #4fd88a; border: 1px solid rgba(39, 174, 96, 0.5); }
+  .review-status-pill.rs-revision  { background: rgba(244, 197, 66, 0.18); color: #f4c542; border: 1px solid rgba(244, 197, 66, 0.5); }
+  .review-status-pill.rs-unknown   { background: rgba(155, 155, 155, 0.18); color: #c5c5c5; border: 1px solid rgba(155, 155, 155, 0.4); }
+
+  /* ─── F4-2: PARTICIPANT + COHORT META CARD ─── */
+  .review-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 720px) {
+    .review-meta-grid { grid-template-columns: 1fr; }
+  }
+  .review-meta-cell .review-meta-label {
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .review-meta-cell .review-meta-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 2px;
+    line-height: 1.3;
+  }
+  .review-meta-cell .review-meta-detail {
+    font-size: 12px;
+    color: var(--gold-pale);
+    letter-spacing: 0.3px;
+  }
+
+  /* ─── F4-2: RESPONSE BODY ─── */
+  .review-body {
+    max-width: 820px;
+  }
+  .review-body-heading {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+  }
+  .response-module {
+    margin-bottom: 32px;
+  }
+  .response-module:last-child { margin-bottom: 0; }
+  .response-module-heading {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold-pale);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed rgba(201, 168, 76, 0.18);
+  }
+  .response-field {
+    margin-bottom: 18px;
+  }
+  .response-field:last-child { margin-bottom: 0; }
+  .response-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.8px;
+    margin-bottom: 6px;
+  }
+  .response-text {
+    font-size: 14px;
+    color: var(--white);
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    background: rgba(0, 0, 0, 0.18);
+    border-left: 2px solid rgba(201, 168, 76, 0.5);
+    padding: 12px 16px;
+    border-radius: 0 4px 4px 0;
+  }
+  .response-empty-inline {
+    display: inline-block;
+    padding: 8px 14px;
+    font-size: 12px;
+    color: var(--ash);
+    font-style: italic;
+    opacity: 0.8;
+  }
+  .response-list {
+    margin: 6px 0 0 20px;
+    color: var(--white);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .response-list li {
+    margin-bottom: 4px;
+  }
+  .response-nested {
+    border-left: 1px dashed rgba(201, 168, 76, 0.25);
+    padding-left: 14px;
+    margin-top: 6px;
+  }
+  .response-empty-card {
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px dashed rgba(201, 168, 76, 0.25);
+    border-radius: 6px;
+    padding: 36px 28px;
+    text-align: center;
+    color: var(--ash);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  /* ─── F4-2: FIVE COMMITMENTS PANEL (adaptive) ─── */
+  .fc-panel {
+    background: linear-gradient(135deg, rgba(34, 71, 47, 0.55) 0%, rgba(26, 58, 42, 0.55) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 8px;
+    padding: 22px 26px;
+    margin-bottom: 28px;
+  }
+  .fc-panel-heading {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .fc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .fc-cell {
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 5px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .fc-cell .fc-label {
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .fc-cell .fc-score {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .fc-overall-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201, 168, 76, 0.18);
+  }
+  .fc-overall-label {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .fc-overall-score {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+  }
+  .fc-band {
+    padding: 4px 12px;
+    background: var(--gold);
+    color: var(--forest-dark);
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+
 </style>
 </head>
 <body>
@@ -1432,18 +1681,451 @@
   });
 
   function loadSubmissionReview(submissionId) {
-    // HTML-F4-1 placeholder. HTML-F4-2 will replace this with a call to
-    // get_submission_for_review() and proper rendering of payload, participant,
-    // lens, cohort, and feedback state.
+    // HTML-F4-2: fetch via get_submission_for_review() and render the bundle.
+    // HTML-F4-3 will add the feedback draft autosave box.
+    const content = document.getElementById('reviewContent');
+    content.innerHTML = '<div class="cohort-loading">Loading submission…</div>';
+    console.log('[F4] Loading submission review for ' + submissionId);
+
+    supabaseClient.rpc('get_submission_for_review', { p_submission_id: submissionId })
+      .then(function(result) {
+        if (result.error) {
+          console.error('[F4] get_submission_for_review error:', result.error);
+          renderReviewError(submissionId);
+          return;
+        }
+        const bundle = result.data;
+        // Function returns {} silently on access denied OR not found
+        if (!bundle || typeof bundle !== 'object' || Object.keys(bundle).length === 0) {
+          console.log('[F4] Empty bundle — access denied or submission not found');
+          renderReviewAccessDenied();
+          return;
+        }
+        console.log('[F4] Bundle received, rendering. Access role: ' + bundle.access);
+        renderReviewBundle(bundle, submissionId);
+      })
+      .catch(function(err) {
+        console.error('[F4] Unexpected exception:', err);
+        renderReviewError(submissionId);
+      });
+  }
+
+  // ─── F4-2: BUNDLE RENDERING ───
+  function renderReviewBundle(bundle, submissionId) {
+    const content = document.getElementById('reviewContent');
+    const submission  = bundle.submission  || {};
+    const participant = bundle.participant || {};
+    const lens        = bundle.lens        || {};
+    const cohort      = bundle.cohort      || {};
+    const payload     = submission.payload || {};
+
+    // ─── Header ───
+    const lensTitle = lens.title || lens.id || 'Submission';
+    const lensMeta = buildLensMetaLine(lens);
+    const pill = statusPillData(submission.review_status);
+    const submittedAtStr = formatSubmittedAt(submission.submitted_at);
+
+    const header = document.createElement('div');
+    header.className = 'review-header';
+    header.innerHTML =
+      '<div class="review-header-left">' +
+        '<div class="review-lens-title">' + escapeHtml(lensTitle) + '</div>' +
+        (lensMeta ? '<div class="review-lens-meta">' + lensMeta + '</div>' : '') +
+      '</div>' +
+      '<div class="review-header-right">' +
+        '<span class="review-status-pill ' + pill.className + '">' + escapeHtml(pill.label) + '</span>' +
+        (submittedAtStr ? '<div class="review-timestamp">Submitted ' + escapeHtml(submittedAtStr) + '</div>' : '') +
+      '</div>';
+
+    // ─── Participant + Cohort meta card ───
+    const metaGrid = document.createElement('div');
+    metaGrid.className = 'review-meta-grid';
+    const participantName  = participant.full_name || 'Participant';
+    const participantEmail = participant.email || '';
+    const participantOrg   = participant.organisation || '';
+    const participantDetail = [participantEmail, participantOrg].filter(Boolean).join(' · ');
+    const cohortName = cohort.name || 'Cohort';
+
+    metaGrid.innerHTML =
+      '<div class="review-meta-cell">' +
+        '<div class="review-meta-label">Participant</div>' +
+        '<div class="review-meta-value">' + escapeHtml(participantName) + '</div>' +
+        (participantDetail ? '<div class="review-meta-detail">' + escapeHtml(participantDetail) + '</div>' : '') +
+      '</div>' +
+      '<div class="review-meta-cell">' +
+        '<div class="review-meta-label">Cohort</div>' +
+        '<div class="review-meta-value">' + escapeHtml(cohortName) + '</div>' +
+      '</div>';
+
+    // ─── Review body (Five Commitments + Responses) ───
+    const body = document.createElement('div');
+    body.className = 'review-body';
+
+    // Five Commitments adaptive detection
+    const fc = detectFiveCommitments(payload);
+    if (fc) {
+      console.log('[F4] Five Commitments structure detected — rendering panel');
+      body.appendChild(renderFiveCommitmentsPanel(fc));
+    }
+
+    // Responses
+    const responseHeader = document.createElement('h2');
+    responseHeader.className = 'review-body-heading';
+    responseHeader.textContent = 'Participant Response';
+    body.appendChild(responseHeader);
+
+    const responsesEl = renderResponses(payload, lens.id);
+    body.appendChild(responsesEl);
+
+    // Submission ID footer (small reference for support / debugging)
+    const idRef = document.createElement('div');
+    idRef.className = 'review-id-ref';
+    idRef.innerHTML = 'Submission ID: <code>' + escapeHtml(submissionId) + '</code>';
+
+    // Compose
+    content.innerHTML = '';
+    content.appendChild(header);
+    content.appendChild(metaGrid);
+    content.appendChild(body);
+    content.appendChild(idRef);
+  }
+
+  function buildLensMetaLine(lens) {
+    const parts = [];
+    if (lens.unit !== null && lens.unit !== undefined) parts.push('Unit ' + escapeHtml(String(lens.unit)));
+    if (lens.module !== null && lens.module !== undefined) parts.push('Module ' + escapeHtml(String(lens.module)));
+    if (lens.id) parts.push('<code style="font-family:Menlo,Consolas,monospace; font-size:11px; opacity:0.7;">' + escapeHtml(lens.id) + '</code>');
+    if (parts.length === 0) return '';
+    return parts.join('<span class="meta-sep">·</span>');
+  }
+
+  // ─── F4-2: STATUS PILL MAPPING ───
+  // pending and submitted both map to TEAL "SUBMITTED" — see roadmap PATCH-PARTICIPANT-1
+  // for the participant-side bug that leaves rows at default 'pending' instead of 'submitted'.
+  function statusPillData(reviewStatus) {
+    const status = String(reviewStatus || '').toLowerCase();
+    if (status === 'pending' || status === 'submitted') {
+      return { className: 'rs-submitted', label: 'Submitted' };
+    }
+    if (status === 'reviewed' || status === 'completed') {
+      return { className: 'rs-reviewed', label: 'Reviewed' };
+    }
+    if (status === 'pending_revision' || status === 'revision' || status === 'returned') {
+      return { className: 'rs-revision', label: 'Returned for revision' };
+    }
+    return { className: 'rs-unknown', label: status || 'Unknown' };
+  }
+
+  // ─── F4-2: TIMESTAMP FORMATTING ───
+  function formatSubmittedAt(iso) {
+    if (!iso) return null;
+    const dt = new Date(iso);
+    if (isNaN(dt)) return null;
+    const datePart = dt.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+    const timePart = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return datePart + ' · ' + timePart;
+  }
+
+  // ─── F4-2: RESPONSE RENDERER (generic walker + per-lens override registry) ───
+  // Per architectural call: hybrid renderer. Generic walker handles all lenses.
+  // Module-pattern keys (r_m{N}_*) get grouped by module heading. Per-lens
+  // overrides can be added later (Phase 5 lens migrations) by extending the
+  // RESPONSE_OVERRIDES registry. Empty for now — walker handles Foundation.
+  const RESPONSE_OVERRIDES = {
+    // 'u1_foundations': renderFoundationResponses,  // Phase 5 polish point
+  };
+
+  function renderResponses(payload, lensId) {
+    const responses = payload && payload.responses;
+    if (!responses || typeof responses !== 'object') {
+      const empty = document.createElement('div');
+      empty.className = 'response-empty-card';
+      empty.textContent = 'No response content was submitted.';
+      return empty;
+    }
+
+    // Per-lens override path (none yet)
+    if (lensId && RESPONSE_OVERRIDES[lensId]) {
+      return RESPONSE_OVERRIDES[lensId](responses);
+    }
+
+    // Generic walker: group by module pattern when present
+    return renderGenericResponses(responses);
+  }
+
+  function renderGenericResponses(responses) {
+    // Filter __-prefixed keys (system markers, not content)
+    const visibleKeys = Object.keys(responses).filter(function(k) { return !k.startsWith('__'); });
+
+    if (visibleKeys.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'response-empty-card';
+      empty.textContent = 'No response content was provided.';
+      return empty;
+    }
+
+    // Bucket by module-pattern (r_m{N}_*); non-conforming keys go to '_other'
+    const buckets = {};
+    visibleKeys.forEach(function(key) {
+      const match = key.match(/^r_m(\d+)_(.+)$/);
+      const bucket = match ? match[1] : '_other';
+      const fieldName = match ? match[2] : key;
+      if (!buckets[bucket]) buckets[bucket] = [];
+      buckets[bucket].push({ key: key, fieldName: fieldName, value: responses[key] });
+    });
+
+    const wrap = document.createElement('div');
+
+    // Sort module bucket keys numerically; '_other' last
+    const moduleNums = Object.keys(buckets)
+      .filter(function(k) { return k !== '_other'; })
+      .sort(function(a, b) { return Number(a) - Number(b); });
+
+    moduleNums.forEach(function(num) {
+      const moduleEl = document.createElement('div');
+      moduleEl.className = 'response-module';
+      const heading = document.createElement('h3');
+      heading.className = 'response-module-heading';
+      heading.textContent = 'Module ' + num;
+      moduleEl.appendChild(heading);
+      buckets[num].forEach(function(entry) {
+        moduleEl.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+      });
+      wrap.appendChild(moduleEl);
+    });
+
+    if (buckets['_other']) {
+      const moduleEl = document.createElement('div');
+      moduleEl.className = 'response-module';
+      // Only show "Other" heading if there were also numbered modules — otherwise
+      // (lens uses no module pattern at all) just render fields without a heading
+      if (moduleNums.length > 0) {
+        const heading = document.createElement('h3');
+        heading.className = 'response-module-heading';
+        heading.textContent = 'Other';
+        moduleEl.appendChild(heading);
+      }
+      buckets['_other'].forEach(function(entry) {
+        moduleEl.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+      });
+      wrap.appendChild(moduleEl);
+    }
+
+    return wrap;
+  }
+
+  function renderFieldEntry(fieldName, value, depth) {
+    depth = depth || 0;
+    const wrap = document.createElement('div');
+    wrap.className = 'response-field';
+
+    const label = document.createElement('div');
+    label.className = 'response-label';
+    label.textContent = humanizeFieldName(fieldName);
+    wrap.appendChild(label);
+
+    wrap.appendChild(renderValue(value, depth));
+    return wrap;
+  }
+
+  function renderValue(value, depth) {
+    // Empty / null
+    if (value === null || value === undefined || value === '') {
+      const e = document.createElement('span');
+      e.className = 'response-empty-inline';
+      e.textContent = '— not provided —';
+      return e;
+    }
+    // String — preserve line breaks via CSS
+    if (typeof value === 'string') {
+      const t = document.createElement('div');
+      t.className = 'response-text';
+      t.textContent = value;  // textContent → no XSS
+      return t;
+    }
+    // Number / boolean
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      const t = document.createElement('div');
+      t.className = 'response-text';
+      t.textContent = String(value);
+      return t;
+    }
+    // Array
+    if (Array.isArray(value)) {
+      if (value.length === 0) {
+        const e = document.createElement('span');
+        e.className = 'response-empty-inline';
+        e.textContent = '— empty list —';
+        return e;
+      }
+      const ul = document.createElement('ul');
+      ul.className = 'response-list';
+      value.forEach(function(item) {
+        const li = document.createElement('li');
+        if (item !== null && typeof item === 'object') {
+          li.appendChild(renderValue(item, depth + 1));
+        } else {
+          li.textContent = String(item);
+        }
+        ul.appendChild(li);
+      });
+      return ul;
+    }
+    // Nested object
+    if (typeof value === 'object') {
+      if (depth >= 3) {
+        const t = document.createElement('div');
+        t.className = 'response-text';
+        t.textContent = '[nested data — depth limit reached]';
+        return t;
+      }
+      const wrap = document.createElement('div');
+      wrap.className = 'response-nested';
+      Object.keys(value).forEach(function(k) {
+        if (k.startsWith('__')) return;
+        wrap.appendChild(renderFieldEntry(k, value[k], depth + 1));
+      });
+      return wrap;
+    }
+    // Fallback
+    const t = document.createElement('div');
+    t.className = 'response-text';
+    t.textContent = String(value);
+    return t;
+  }
+
+  // Turn 'r_m1_intent' → 'Intent', 'leadership_strengths' → 'Leadership Strengths'
+  function humanizeFieldName(name) {
+    if (!name) return '';
+    let s = String(name);
+    s = s.replace(/^r_m\d+_/, '');  // strip module-prefix if present
+    s = s.replace(/^r_/, '');        // strip bare response prefix
+    s = s.replace(/_/g, ' ');
+    s = s.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
+    return s;
+  }
+
+  // ─── F4-2: FIVE COMMITMENTS ADAPTIVE DETECTION ───
+  // Looks for known shapes; renders panel if found. No-op when absent.
+  // Foundation's Test E payload doesn't carry it; first lens that does will trigger.
+  function detectFiveCommitments(payload) {
+    if (!payload || typeof payload !== 'object') return null;
+    const candidates = [
+      payload.five_commitments,
+      payload.fiveCommitments,
+      payload.responses && payload.responses.five_commitments,
+      payload.responses && payload.responses.fiveCommitments
+    ];
+    for (let i = 0; i < candidates.length; i++) {
+      const c = candidates[i];
+      if (c && typeof c === 'object' && !Array.isArray(c)) {
+        const keys = Object.keys(c);
+        const hasOverall = keys.indexOf('overall') !== -1 || keys.indexOf('total') !== -1;
+        const hasCommitments = keys.some(function(k) { return /^c\d+$/i.test(k) || /^commitment/i.test(k); });
+        if (hasOverall || hasCommitments) return c;
+      }
+    }
+    return null;
+  }
+
+  function renderFiveCommitmentsPanel(fc) {
+    const panel = document.createElement('div');
+    panel.className = 'fc-panel';
+
+    const heading = document.createElement('div');
+    heading.className = 'fc-panel-heading';
+    heading.textContent = 'Five Commitments — Self-Score';
+    panel.appendChild(heading);
+
+    // Score grid: per-commitment scores (any keys matching c1..cN or commitmentX)
+    const scoreKeys = Object.keys(fc).filter(function(k) {
+      return /^c\d+$/i.test(k) || /^commitment\d+$/i.test(k) || /^commitment_\d+$/i.test(k);
+    }).sort();
+
+    if (scoreKeys.length > 0) {
+      const grid = document.createElement('div');
+      grid.className = 'fc-grid';
+      scoreKeys.forEach(function(k) {
+        const cell = document.createElement('div');
+        cell.className = 'fc-cell';
+        const labelEl = document.createElement('div');
+        labelEl.className = 'fc-label';
+        labelEl.textContent = humanizeFieldName(k);
+        const scoreEl = document.createElement('div');
+        scoreEl.className = 'fc-score';
+        scoreEl.textContent = String(fc[k]);
+        cell.appendChild(labelEl);
+        cell.appendChild(scoreEl);
+        grid.appendChild(cell);
+      });
+      panel.appendChild(grid);
+    }
+
+    // Overall row
+    const overall = (fc.overall !== undefined) ? fc.overall : fc.total;
+    const band    = fc.band || fc.tier || fc.level;
+    if (overall !== undefined || band) {
+      const row = document.createElement('div');
+      row.className = 'fc-overall-row';
+      if (overall !== undefined) {
+        const lbl = document.createElement('span');
+        lbl.className = 'fc-overall-label';
+        lbl.textContent = 'Overall';
+        const val = document.createElement('span');
+        val.className = 'fc-overall-score';
+        val.textContent = String(overall);
+        row.appendChild(lbl);
+        row.appendChild(val);
+      }
+      if (band) {
+        const bandEl = document.createElement('span');
+        bandEl.className = 'fc-band';
+        bandEl.textContent = String(band);
+        row.appendChild(bandEl);
+      }
+      panel.appendChild(row);
+    }
+
+    return panel;
+  }
+
+  // ─── F4-2: ACCESS-DENIED / NOT-FOUND CARDS ───
+  function renderReviewAccessDenied() {
     const content = document.getElementById('reviewContent');
     content.innerHTML =
-      '<div class="placeholder-card">' +
-        '<span class="phase-tag">F4 · Phase 2</span>' +
-        '<h2>Submission Review</h2>' +
-        '<p>Routing and back/forward navigation are in place. Reading the submission, rendering the participant\'s response, and the feedback box are coming in HTML-F4-2 and HTML-F4-3.</p>' +
-        '<p class="review-id-ref">Submission ID: <code>' + escapeHtml(submissionId) + '</code></p>' +
+      '<div class="access-denied-card">' +
+        '<h3>Submission not found or access denied</h3>' +
+        '<p>This submission either does not exist, has been removed, or you do not have permission to view it. Please return to the roster.</p>' +
+        '<button class="back-btn" id="reviewAdReturnBtn">← Back to roster</button>' +
       '</div>';
-    console.log('[F4] Placeholder shown for submission ' + submissionId);
+    const btn = document.getElementById('reviewAdReturnBtn');
+    if (btn) {
+      btn.addEventListener('click', goBackToRoster);
+    }
+  }
+
+  function renderReviewError(submissionId) {
+    const content = document.getElementById('reviewContent');
+    content.innerHTML =
+      '<div class="error-card">' +
+        '<h3>Couldn\'t load this submission</h3>' +
+        '<p>Please refresh the page. If the problem persists, contact <strong>projects@ibsleadership.com</strong>.</p>' +
+        '<button class="retry-btn" id="reviewRetryBtn">Try again</button>' +
+      '</div>';
+    const btn = document.getElementById('reviewRetryBtn');
+    if (btn) {
+      btn.addEventListener('click', function() { loadSubmissionReview(submissionId); });
+    }
+  }
+
+  function goBackToRoster() {
+    const cohortId = getCohortIdFromUrl();
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    if (cohortId) {
+      window.location.href = 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + adminFlag;
+    } else {
+      window.location.href = 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
+    }
   }
 
   // ─── Final helpers ───
