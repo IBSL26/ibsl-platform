@@ -1386,6 +1386,128 @@
   .btn-modal-cancel:hover:not(:disabled) { color: var(--white); border-color: var(--white); }
   .btn-modal-cancel:disabled { opacity: 0.4; cursor: not-allowed; }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     F8: CROSS-COHORT INBOX VIEW
+     ═══════════════════════════════════════════════════════════════════ */
+
+  .inbox-section { margin-top: 8px; }
+
+  .inbox-header {
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  }
+  .inbox-heading {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .inbox-summary {
+    font-size: 13px;
+    color: var(--gold-pale);
+    letter-spacing: 0.5px;
+  }
+  .inbox-summary .meta-sep {
+    color: var(--ash);
+    margin: 0 10px;
+  }
+
+  .inbox-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 20px;
+    background: rgba(34, 71, 47, 0.4);
+    border: 1px solid rgba(201, 168, 76, 0.12);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+  }
+  .inbox-row:hover {
+    background: rgba(34, 71, 47, 0.55);
+    border-color: rgba(201, 168, 76, 0.35);
+    transform: translateY(-1px);
+  }
+  .inbox-row:active { transform: translateY(0); }
+  .inbox-row:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .inbox-row-identity {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .inbox-row-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .inbox-row-meta {
+    font-size: 12px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+  }
+  .inbox-row-meta .org-name {
+    color: var(--gold-pale);
+  }
+  .inbox-row-meta .meta-sep {
+    margin: 0 8px;
+    color: rgba(156, 163, 175, 0.5);
+  }
+  .inbox-row-meta .lens-title {
+    color: var(--white);
+  }
+
+  .inbox-row-right {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 140px;
+  }
+  .inbox-row-time {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+  }
+
+  /* Mobile: stack right side under identity */
+  @media (max-width: 640px) {
+    .inbox-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .inbox-row-right {
+      flex-direction: row;
+      align-items: center;
+      min-width: 0;
+      gap: 12px;
+    }
+  }
+
+  /* "+N more" tail link when soft cap exceeded */
+  .inbox-tail-link {
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: rgba(34, 71, 47, 0.3);
+    border: 1px dashed rgba(201, 168, 76, 0.25);
+    border-radius: 6px;
+    text-align: center;
+    color: var(--ash);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+  }
+
 </style>
 </head>
 <body>
@@ -1907,13 +2029,192 @@
   }
 
   // ═══════════════════════════════════════════════════════════════════
-  // F8: CROSS-COHORT INBOX (stub — content rendering arrives in HTML-F8-3)
+  // F8: CROSS-COHORT INBOX
   // ═══════════════════════════════════════════════════════════════════
 
+  const INBOX_SOFT_CAP = 50;
+
+  // Back-link from inbox view → cohort grid (preserves adminView)
+  document.getElementById('backToGridFromInbox').addEventListener('click', function() {
+    const adminFlag = isAdminView ? '?adminView=1' : '';
+    window.location.href = 'dashboard_F.html' + adminFlag;
+  });
+
   async function loadFacilitatorInbox() {
-    console.log('[F8] loadFacilitatorInbox stub — content rendering pending HTML-F8-3');
-    // Placeholder: inboxContent currently shows the loading div.
-    // HTML-F8-3 replaces this stub with the real fetch + render.
+    const content = document.getElementById('inboxContent');
+    content.innerHTML = '<div class="cohort-loading">Loading inbox…</div>';
+    console.log('[F8] Loading cross-cohort inbox');
+
+    try {
+      const { data, error } = await supabaseClient.rpc('get_facilitator_inbox');
+      if (error) {
+        console.error('[F8] get_facilitator_inbox error:', error);
+        renderInboxError();
+        return;
+      }
+      const rows = data || [];
+      console.log('[F8] Inbox returned ' + rows.length + ' pending submission(s)');
+      renderInbox(rows);
+    } catch (err) {
+      console.error('[F8] Unexpected exception:', err);
+      renderInboxError();
+    }
+  }
+
+  function renderInbox(rows) {
+    const content = document.getElementById('inboxContent');
+    content.innerHTML = '';
+
+    // Header — heading + summary line
+    const header = document.createElement('div');
+    header.className = 'inbox-header';
+
+    const heading = document.createElement('div');
+    heading.className = 'inbox-heading';
+    heading.textContent = 'Cross-Cohort Inbox';
+    header.appendChild(heading);
+
+    const summary = document.createElement('div');
+    summary.className = 'inbox-summary';
+    summary.innerHTML = buildInboxSummary(rows);
+    header.appendChild(summary);
+
+    content.appendChild(header);
+
+    // Empty state — same .empty-state-card visual as F2
+    if (rows.length === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state-card';
+      empty.innerHTML =
+        '<div class="empty-icon">✓</div>' +
+        '<h3>Inbox is clear</h3>' +
+        '<p>All submissions across your cohorts have been reviewed. New submissions will appear here.</p>';
+      content.appendChild(empty);
+      return;
+    }
+
+    // Apply soft cap — "+N more" tail link if exceeded
+    const capped   = rows.slice(0, INBOX_SOFT_CAP);
+    const overflow = rows.length - capped.length;
+
+    capped.forEach(function(r) {
+      content.appendChild(inboxRowEl(r));
+    });
+
+    if (overflow > 0) {
+      const tail = document.createElement('div');
+      tail.className = 'inbox-tail-link';
+      tail.textContent = '+ ' + overflow + ' more pending submission' + (overflow === 1 ? '' : 's') +
+                         ' — open the cohorts directly to review.';
+      content.appendChild(tail);
+    }
+  }
+
+  function buildInboxSummary(rows) {
+    if (rows.length === 0) return 'Nothing waiting on you.';
+    const cohortIds = new Set();
+    rows.forEach(function(r) { cohortIds.add(r.cohort_id); });
+    const cohortCount = cohortIds.size;
+    const submissionStr = rows.length + ' pending submission' + (rows.length === 1 ? '' : 's');
+    const cohortStr     = 'across ' + cohortCount + ' cohort' + (cohortCount === 1 ? '' : 's');
+    return submissionStr + '<span class="meta-sep">·</span>' + cohortStr;
+  }
+
+  function inboxRowEl(r) {
+    const row = document.createElement('div');
+    row.className = 'inbox-row';
+    row.setAttribute('data-submission-id', r.submission_id);
+    row.setAttribute('role', 'button');
+    row.setAttribute('tabindex', '0');
+    row.setAttribute('aria-label',
+      'Open ' + (r.lens_title || r.lens_id || 'submission') + ' from ' + (r.participant_name || 'participant'));
+
+    // Identity block — name + (org · cohort · lens) meta line
+    const identity = document.createElement('div');
+    identity.className = 'inbox-row-identity';
+
+    const orgPart = (r.participant_organisation && r.participant_organisation !== '—')
+      ? '<span class="org-name">' + escapeHtml(r.participant_organisation) + '</span><span class="meta-sep">·</span>'
+      : '';
+    const cohortPart = '<span>' + escapeHtml(r.cohort_name || '—') + '</span>';
+    const lensPart   = '<span class="meta-sep">·</span><span class="lens-title">' +
+                       escapeHtml(r.lens_title || r.lens_id || 'Lens') + '</span>';
+
+    identity.innerHTML =
+      '<div class="inbox-row-name">' + escapeHtml(r.participant_name || 'Participant') + '</div>' +
+      '<div class="inbox-row-meta">' + orgPart + cohortPart + lensPart + '</div>';
+    row.appendChild(identity);
+
+    // Right block — status pill + relative time
+    const right = document.createElement('div');
+    right.className = 'inbox-row-right';
+    const pill = statusPillData(r.review_status);
+    right.innerHTML =
+      '<span class="review-status-pill ' + pill.className + '">' + escapeHtml(pill.label) + '</span>' +
+      '<span class="inbox-row-time">' + escapeHtml(formatTimeAgo(r.submitted_at)) + '</span>';
+    row.appendChild(right);
+
+    row.addEventListener('click', function() {
+      handleInboxRowClick(r);
+    });
+    row.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleInboxRowClick(r);
+      }
+    });
+
+    return row;
+  }
+
+  function handleInboxRowClick(r) {
+    console.log('[F8→F4] Inbox row clicked: submission=' + r.submission_id +
+                ' lens=' + r.lens_id + ' participant=' + (r.participant_name || ''));
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    // ?inbox=1 marker stays in the URL so HTML-F8-6's back-link logic returns
+    // the user to the inbox rather than the cohort roster.
+    const newUrl = 'dashboard_F.html?inbox=1' +
+                   '&cohort=' + encodeURIComponent(r.cohort_id) +
+                   '&submission=' + encodeURIComponent(r.submission_id) +
+                   adminFlag;
+    window.location.href = newUrl;
+  }
+
+  function renderInboxError() {
+    const content = document.getElementById('inboxContent');
+    content.innerHTML =
+      '<div class="error-card">' +
+        '<h3>Couldn\'t load your inbox</h3>' +
+        '<p>Please refresh the page. If the problem persists, contact <strong>projects@ibsleadership.com</strong>.</p>' +
+        '<button class="retry-btn" id="inboxRetryBtn">Try again</button>' +
+      '</div>';
+    const btn = document.getElementById('inboxRetryBtn');
+    if (btn) {
+      btn.addEventListener('click', loadFacilitatorInbox);
+    }
+  }
+
+  // F8: relative time formatter — "5 minutes ago", "2 hours ago", "3 days ago"
+  function formatTimeAgo(iso) {
+    if (!iso) return '—';
+    const dt = new Date(iso);
+    if (isNaN(dt)) return '—';
+    const now = new Date();
+    const diffMs  = now.getTime() - dt.getTime();
+    const diffSec = Math.round(diffMs / 1000);
+    if (diffSec < 60)   return 'just submitted';
+    const diffMin = Math.round(diffSec / 60);
+    if (diffMin < 60)   return diffMin + ' minute' + (diffMin === 1 ? '' : 's') + ' ago';
+    const diffHr = Math.round(diffMin / 60);
+    if (diffHr < 24)    return diffHr + ' hour'  + (diffHr === 1 ? '' : 's')  + ' ago';
+    const diffDay = Math.round(diffHr / 24);
+    if (diffDay < 14)   return diffDay + ' day'   + (diffDay === 1 ? '' : 's')  + ' ago';
+    const diffWeek = Math.round(diffDay / 7);
+    if (diffWeek < 8)   return diffWeek + ' week' + (diffWeek === 1 ? '' : 's') + ' ago';
+    const diffMonth = Math.round(diffDay / 30);
+    if (diffMonth < 12) return diffMonth + ' month' + (diffMonth === 1 ? '' : 's') + ' ago';
+    const diffYear = Math.round(diffDay / 365);
+    return diffYear + ' year' + (diffYear === 1 ? '' : 's') + ' ago';
   }
 
   // ═══════════════════════════════════════════════════════════════════
