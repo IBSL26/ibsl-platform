@@ -1768,7 +1768,33 @@
     return 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
   }
 
-  function routeToView() {
+  // F9: ensure the "since last visit" baseline is set on first entry to the
+  // dashboard by ANY route — grid, roster, review, or inbox. Idempotent within
+  // a tab session: subsequent calls (popstate, deep-link revisit) hit the
+  // sessionStorage early-return and skip the RPC. Errors leave sessionStorage
+  // unset so the next route entry retries naturally.
+  async function ensureLastVisitBaseline() {
+    if (sessionStorage.getItem('ibsl_dash_last_visit_at') !== null) {
+      return; // already established this session
+    }
+    try {
+      const { data, error } = await supabaseClient.rpc('mark_facilitator_visit');
+      if (error) {
+        console.error('[F9] mark_facilitator_visit error:', error);
+        return;
+      }
+      sessionStorage.setItem('ibsl_dash_last_visit_at', data || '');
+      console.log('[F9] Last-visit baseline: ' + (data || '(none — first visit)'));
+    } catch (err) {
+      console.error('[F9] Unexpected exception in mark_facilitator_visit:', err);
+    }
+  }
+
+  async function routeToView() {
+    // F9: establish the "since last visit" baseline once per tab session before
+    // any route handler runs. Awaited so renderRoster has the baseline ready.
+    await ensureLastVisitBaseline();
+
     const cohortId     = getCohortIdFromUrl();
     const submissionId = getSubmissionIdFromUrl();
     const inboxFlag    = getInboxFlagFromUrl();
@@ -1877,14 +1903,10 @@
     list.innerHTML = '<div class="cohort-loading">Loading cohorts…</div>';
     console.log('[F2] Loading facilitator cohorts');
     try {
-      // F9: fetch cohort grid + inbox count + visit-stamp in parallel.
-      // mark_facilitator_visit returns the OLD last_facilitator_visit_at
-      // (the baseline for "since last visit" comparisons) and atomically
-      // bumps the row to NOW() for the next session.
-      const [cohortsResult, inboxResult, visitResult] = await Promise.all([
+      // F8: fetch cohort grid + inbox count in parallel — single round-trip latency
+      const [cohortsResult, inboxResult] = await Promise.all([
         supabaseClient.rpc('get_facilitator_cohorts'),
-        supabaseClient.rpc('get_facilitator_inbox'),
-        supabaseClient.rpc('mark_facilitator_visit')
+        supabaseClient.rpc('get_facilitator_inbox')
       ]);
 
       // Cohort grid (F2)
@@ -1909,17 +1931,6 @@
         const inboxData = inboxResult.data || [];
         console.log('[F8] Inbox count: ' + inboxData.length);
         updateInboxChip(inboxData.length);
-      }
-
-      // F9: persist OLD last-visit timestamp for roster activity-pip comparison.
-      // Only write on success; a transient RPC failure preserves any prior
-      // session baseline rather than blowing it away.
-      if (visitResult.error) {
-        console.error('[F9] mark_facilitator_visit error:', visitResult.error);
-      } else {
-        const oldVisit = visitResult.data; // null on first-ever visit, else ISO timestamp
-        sessionStorage.setItem('ibsl_dash_last_visit_at', oldVisit || '');
-        console.log('[F9] Last-visit baseline: ' + (oldVisit || '(none — first visit)'));
       }
     } catch (err) {
       console.error('[F2] Unexpected exception:', err);
