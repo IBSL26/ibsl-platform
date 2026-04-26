@@ -1402,6 +1402,14 @@
       </div>
     </section>
 
+    <!-- ─── F8: CROSS-COHORT INBOX SECTION (populated by loadFacilitatorInbox when ?inbox=1) ─── -->
+    <section class="inbox-section" id="inboxSection" style="display:none;">
+      <button class="back-link" id="backToGridFromInbox" type="button">← Back to cohorts</button>
+      <div id="inboxContent">
+        <div class="cohort-loading">Loading inbox…</div>
+      </div>
+    </section>
+
     <!-- ─── F5: COMMIT CONFIRMATION MODAL ─── -->
     <div class="commit-modal-backdrop" id="commitModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="commitModalTitle" aria-hidden="true">
       <div class="commit-modal">
@@ -1540,17 +1548,21 @@
     }
   })();
 
-  // ─── F3 / F4: URL ROUTING ───
+  // ─── F3 / F4 / F8: URL ROUTING ───
   function getCohortIdFromUrl() {
     return new URLSearchParams(window.location.search).get('cohort');
   }
   function getSubmissionIdFromUrl() {
     return new URLSearchParams(window.location.search).get('submission');
   }
+  function getInboxFlagFromUrl() {
+    return new URLSearchParams(window.location.search).get('inbox') === '1';
+  }
 
   function routeToView() {
     const cohortId     = getCohortIdFromUrl();
     const submissionId = getSubmissionIdFromUrl();
+    const inboxFlag    = getInboxFlagFromUrl();
 
     // Malformed URL: ?submission without ?cohort — silent redirect to grid
     if (submissionId && !cohortId) {
@@ -1560,11 +1572,12 @@
       return;
     }
 
-    // Review view (F4): cohort + submission both present
+    // Review view (F4): cohort + submission both present (inbox=1 may also be present as origin marker)
     if (submissionId && cohortId) {
-      console.log('[F4] Routing to review view: cohort=' + cohortId + ' submission=' + submissionId);
+      console.log('[F4] Routing to review view: cohort=' + cohortId + ' submission=' + submissionId + (inboxFlag ? ' (from inbox)' : ''));
       document.getElementById('cohortSection').style.display = 'none';
       document.getElementById('rosterSection').style.display = 'none';
+      document.getElementById('inboxSection').style.display = 'none';
       document.getElementById('reviewSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
       loadSubmissionReview(submissionId);
@@ -1576,9 +1589,22 @@
       console.log('[F3] Routing to roster view for cohort ' + cohortId);
       document.getElementById('cohortSection').style.display = 'none';
       document.getElementById('reviewSection').style.display = 'none';
+      document.getElementById('inboxSection').style.display = 'none';
       document.getElementById('rosterSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
       loadCohortParticipants(cohortId);
+      return;
+    }
+
+    // Inbox view (F8): inbox=1 with no cohort
+    if (inboxFlag) {
+      console.log('[F8] Routing to cross-cohort inbox view');
+      document.getElementById('cohortSection').style.display = 'none';
+      document.getElementById('rosterSection').style.display = 'none';
+      document.getElementById('reviewSection').style.display = 'none';
+      document.getElementById('inboxSection').style.display = 'block';
+      document.querySelector('.welcome').style.display = 'none';
+      loadFacilitatorInbox();
       return;
     }
 
@@ -1586,6 +1612,7 @@
     console.log('[F2] Routing to cohort grid view');
     document.getElementById('rosterSection').style.display = 'none';
     document.getElementById('reviewSection').style.display = 'none';
+    document.getElementById('inboxSection').style.display = 'none';
     document.getElementById('cohortSection').style.display = 'block';
     document.querySelector('.welcome').style.display = '';
     loadFacilitatorCohorts();
@@ -1787,6 +1814,16 @@
     toastTimer = setTimeout(function() {
       t.classList.remove('shown');
     }, 3000);
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F8: CROSS-COHORT INBOX (stub — content rendering arrives in HTML-F8-3)
+  // ═══════════════════════════════════════════════════════════════════
+
+  async function loadFacilitatorInbox() {
+    console.log('[F8] loadFacilitatorInbox stub — content rendering pending HTML-F8-3');
+    // Placeholder: inboxContent currently shows the loading div.
+    // HTML-F8-3 replaces this stub with the real fetch + render.
   }
 
   // ═══════════════════════════════════════════════════════════════════
