@@ -736,6 +736,28 @@
   }
   .access-denied-card .back-btn:hover { background: var(--gold); color: var(--forest-dark); }
 
+  /* ═══════════════════════════════════════════════════════════════════
+     F4: SUBMISSION REVIEW VIEW (HTML-F4-1: routing & shell only)
+     Content rendering follows in HTML-F4-2; feedback box in HTML-F4-3.
+     ═══════════════════════════════════════════════════════════════════ */
+
+  .review-section { margin-top: 8px; }
+
+  .review-id-ref {
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--ash);
+    opacity: 0.6;
+    letter-spacing: 0.3px;
+  }
+  .review-id-ref code {
+    font-family: 'Menlo', 'Consolas', monospace;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 1px 6px;
+    border-radius: 3px;
+    color: var(--gold-pale);
+  }
+
 </style>
 </head>
 <body>
@@ -772,7 +794,7 @@
   <div class="main-inner">
     <div class="welcome">
       <h1 id="welcomeHeading">Welcome</h1>
-      <p>Your cohort overview is below. Clicking a cohort opens its participant roster (coming in F3). Messaging, document review, and private notes follow as Phase 2 progresses.</p>
+      <p>Your cohort overview is below. Clicking a cohort opens its participant roster; clicking a submitted lens dot opens that submission for review. Messaging, document review, and private notes follow as Phase 2 progresses.</p>
     </div>
 
     <!-- ─── F2: COHORT SECTION (populated by loadFacilitatorCohorts) ─── -->
@@ -788,6 +810,14 @@
       <button class="back-link" id="backToGrid" type="button">← Back to cohorts</button>
       <div id="rosterContent">
         <div class="cohort-loading">Loading participants…</div>
+      </div>
+    </section>
+
+    <!-- ─── F4: REVIEW SECTION (populated by loadSubmissionReview when ?cohort=X&submission=Y) ─── -->
+    <section class="review-section" id="reviewSection" style="display:none;">
+      <button class="back-link" id="backToRoster" type="button">← Back to roster</button>
+      <div id="reviewContent">
+        <div class="cohort-loading">Loading submission…</div>
       </div>
     </section>
 
@@ -887,29 +917,55 @@
     }
   })();
 
-  // ─── F3: URL ROUTING ───
+  // ─── F3 / F4: URL ROUTING ───
   function getCohortIdFromUrl() {
     return new URLSearchParams(window.location.search).get('cohort');
   }
+  function getSubmissionIdFromUrl() {
+    return new URLSearchParams(window.location.search).get('submission');
+  }
 
   function routeToView() {
-    const cohortId = getCohortIdFromUrl();
+    const cohortId     = getCohortIdFromUrl();
+    const submissionId = getSubmissionIdFromUrl();
+
+    // Malformed URL: ?submission without ?cohort — silent redirect to grid
+    if (submissionId && !cohortId) {
+      console.log('[F4] Malformed URL: ?submission without ?cohort — redirecting to cohort grid');
+      const adminFlag = isAdminView ? '?adminView=1' : '';
+      window.location.replace('dashboard_F.html' + adminFlag);
+      return;
+    }
+
+    // Review view (F4): cohort + submission both present
+    if (submissionId && cohortId) {
+      console.log('[F4] Routing to review view: cohort=' + cohortId + ' submission=' + submissionId);
+      document.getElementById('cohortSection').style.display = 'none';
+      document.getElementById('rosterSection').style.display = 'none';
+      document.getElementById('reviewSection').style.display = 'block';
+      document.querySelector('.welcome').style.display = 'none';
+      loadSubmissionReview(submissionId);
+      return;
+    }
+
+    // Roster view (F3): cohort only
     if (cohortId) {
-      // Roster view
       console.log('[F3] Routing to roster view for cohort ' + cohortId);
       document.getElementById('cohortSection').style.display = 'none';
+      document.getElementById('reviewSection').style.display = 'none';
       document.getElementById('rosterSection').style.display = 'block';
-      // Hide the generic welcome when in roster (roster has its own header)
       document.querySelector('.welcome').style.display = 'none';
       loadCohortParticipants(cohortId);
-    } else {
-      // Cohort grid view
-      console.log('[F3] Routing to cohort grid view');
-      document.getElementById('rosterSection').style.display = 'none';
-      document.getElementById('cohortSection').style.display = 'block';
-      document.querySelector('.welcome').style.display = '';
-      loadFacilitatorCohorts();
+      return;
     }
+
+    // Cohort grid view (F2): default
+    console.log('[F2] Routing to cohort grid view');
+    document.getElementById('rosterSection').style.display = 'none';
+    document.getElementById('reviewSection').style.display = 'none';
+    document.getElementById('cohortSection').style.display = 'block';
+    document.querySelector('.welcome').style.display = '';
+    loadFacilitatorCohorts();
   }
 
   // Back/forward browser buttons change the URL — re-route naturally
@@ -1296,10 +1352,49 @@
     return dot;
   }
 
-  function handleLensDotClick(lensState, participant) {
-    console.log('[F3] Lens dot clicked: ' + participant.full_name + ' · ' + lensState.lens_id + ' (' + lensState.status + ')');
-    // F4 will replace this with a navigation into the submission review view
-    showToast('Submission review coming in F4 — ' + (lensState.lens_title || lensState.lens_id));
+  async function handleLensDotClick(lensState, participant) {
+    console.log('[F3→F4] Lens dot clicked: ' + participant.full_name + ' · ' + lensState.lens_id + ' (' + lensState.status + ')');
+    const cohortId = getCohortIdFromUrl();
+    if (!cohortId) {
+      console.error('[F3→F4] No cohort in URL — cannot resolve submission');
+      showToast('Could not open submission — please refresh the roster.');
+      return;
+    }
+    // Look up the submission_id from (cohort, participant, lens). The submissions
+    // RLS policy submissions_facilitator_read permits this for facilitators of the cohort.
+    const submissionId = await findSubmissionId(cohortId, participant.participant_id, lensState.lens_id);
+    if (!submissionId) {
+      console.warn('[F3→F4] No submission row found for participant=' + participant.participant_id + ' lens=' + lensState.lens_id);
+      showToast('Submission not found — it may have been removed. Please refresh.');
+      return;
+    }
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    const newUrl = 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) +
+                   '&submission=' + encodeURIComponent(submissionId) + adminFlag;
+    window.location.href = newUrl;
+  }
+
+  // ─── F4: SUBMISSION_ID LOOKUP (from cohort + participant + lens tuple) ───
+  async function findSubmissionId(cohortId, participantId, lensId) {
+    try {
+      const { data, error } = await supabaseClient
+        .from('submissions')
+        .select('id')
+        .eq('cohort_id', cohortId)
+        .eq('profile_id', participantId)
+        .eq('lens_id', lensId)
+        .order('submitted_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) {
+        console.error('[F4] findSubmissionId error:', error);
+        return null;
+      }
+      return data ? data.id : null;
+    } catch (err) {
+      console.error('[F4] findSubmissionId exception:', err);
+      return null;
+    }
   }
 
   function renderAccessDenied() {
@@ -1319,7 +1414,39 @@
     }
   }
 
-  // Compact date: "23 Apr" or "23 Apr 2026" if the year isn't the current year
+  // ═══════════════════════════════════════════════════════════════════
+  // F4: SUBMISSION REVIEW VIEW (HTML-F4-1: routing & shell only)
+  // Content rendering follows in HTML-F4-2; feedback box in HTML-F4-3.
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Back-to-roster button — navigates back to ?cohort=<uuid> (preserves adminView)
+  document.getElementById('backToRoster').addEventListener('click', function() {
+    const cohortId = getCohortIdFromUrl();
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    if (cohortId) {
+      window.location.href = 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + adminFlag;
+    } else {
+      // Should not happen if URL is well-formed; safe fallback to grid
+      window.location.href = 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
+    }
+  });
+
+  function loadSubmissionReview(submissionId) {
+    // HTML-F4-1 placeholder. HTML-F4-2 will replace this with a call to
+    // get_submission_for_review() and proper rendering of payload, participant,
+    // lens, cohort, and feedback state.
+    const content = document.getElementById('reviewContent');
+    content.innerHTML =
+      '<div class="placeholder-card">' +
+        '<span class="phase-tag">F4 · Phase 2</span>' +
+        '<h2>Submission Review</h2>' +
+        '<p>Routing and back/forward navigation are in place. Reading the submission, rendering the participant\'s response, and the feedback box are coming in HTML-F4-2 and HTML-F4-3.</p>' +
+        '<p class="review-id-ref">Submission ID: <code>' + escapeHtml(submissionId) + '</code></p>' +
+      '</div>';
+    console.log('[F4] Placeholder shown for submission ' + submissionId);
+  }
+
+  // ─── Final helpers ───
   function formatShortDate(d) {
     if (!d) return null;
     const dt = new Date(d);
