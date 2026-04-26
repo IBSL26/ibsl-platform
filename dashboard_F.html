@@ -699,6 +699,88 @@
     opacity: 1;
   }
 
+  /* ─── F6: LENS COLUMN HEADERS (cohort-wide unlock) ─── */
+  .lens-header-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 4px 20px 10px;
+    margin-bottom: 4px;
+  }
+  .lens-header-filler {
+    flex: 1 1 auto;
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.4px;
+    text-align: right;
+    padding-right: 4px;
+    opacity: 0.85;
+    text-transform: uppercase;
+  }
+  .lens-header-strip {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .lens-header-strip .unit-sep {
+    width: 1px;
+    height: 12px;
+    background: rgba(201, 168, 76, 0.25);
+    margin: 0 3px;
+  }
+  .lens-header-btn {
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(201, 168, 76, 0.45);
+    background: transparent;
+    color: var(--gold);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .lens-header-btn:hover {
+    background: rgba(201, 168, 76, 0.18);
+    transform: scale(1.18);
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.25);
+  }
+  .lens-header-btn:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .lens-header-btn::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--charcoal);
+    color: var(--white);
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 100;
+    border: 1px solid rgba(201, 168, 76, 0.35);
+  }
+  .lens-header-btn:hover::after,
+  .lens-header-btn:focus::after {
+    opacity: 1;
+  }
+
   /* ─── F3: ACCESS DENIED / NOT FOUND ─── */
   .access-denied-card {
     background: rgba(34, 71, 47, 0.4);
@@ -1309,6 +1391,20 @@
       </div>
     </div>
 
+    <!-- ─── F6: COHORT-WIDE UNLOCK CONFIRMATION MODAL ─── -->
+    <div class="commit-modal-backdrop" id="cohortUnlockModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="cohortUnlockModalTitle" aria-hidden="true">
+      <div class="commit-modal">
+        <h3 class="commit-modal-title" id="cohortUnlockModalTitle">Unlock for whole cohort</h3>
+        <p class="commit-modal-body" id="cohortUnlockModalBody">…</p>
+        <p class="commit-modal-detail" id="cohortUnlockModalDetail">Cohort-wide unlocks are durable. Reverting requires per-participant action.</p>
+        <div class="commit-modal-error" id="cohortUnlockModalError" role="alert"></div>
+        <div class="commit-modal-actions">
+          <button type="button" class="btn-modal-cancel" id="cohortUnlockModalCancel">Cancel</button>
+          <button type="button" class="btn-modal-confirm" id="cohortUnlockModalConfirm">Confirm unlock</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ─── F2: TOAST (used for "coming in F3" click feedback) ─── -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
   </div>
@@ -1762,10 +1858,61 @@
       return;
     }
 
+    // ─── F6: Lens column header row (click to unlock for whole cohort) ───
+    content.appendChild(buildLensHeaderRow(participants));
+
     // ─── Participant rows ───
     participants.forEach(function(p) {
       content.appendChild(participantRowEl(p));
     });
+  }
+
+  // ─── F6: LENS COLUMN HEADER BUILDER ───
+  // Builds a row of small clickable buttons aligned with the dot strip below.
+  // Each button represents one lens; clicking opens the cohort-wide unlock modal.
+  function buildLensHeaderRow(participants) {
+    const row = document.createElement('div');
+    row.className = 'lens-header-row';
+
+    const filler = document.createElement('div');
+    filler.className = 'lens-header-filler';
+    filler.textContent = 'Click a lens to unlock for whole cohort →';
+    row.appendChild(filler);
+
+    const strip = document.createElement('div');
+    strip.className = 'lens-header-strip';
+
+    // Use any participant's lens_states as the catalogue (all are identical, in teaching order)
+    const sample = (participants[0] && Array.isArray(participants[0].lens_states))
+      ? participants[0].lens_states
+      : [];
+
+    let lastUnit = null;
+    sample.forEach(function(ls, idx) {
+      if (lastUnit !== null && ls.unit !== lastUnit) {
+        const sep = document.createElement('span');
+        sep.className = 'unit-sep';
+        sep.setAttribute('aria-hidden', 'true');
+        strip.appendChild(sep);
+      }
+      lastUnit = ls.unit;
+
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'lens-header-btn';
+      btn.textContent = String(idx + 1);
+      const tooltip = 'Unlock ' + (ls.lens_title || ls.lens_id) + ' for whole cohort';
+      btn.setAttribute('data-tooltip', tooltip);
+      btn.setAttribute('aria-label', tooltip);
+      btn.setAttribute('data-lens-id', ls.lens_id);
+      btn.addEventListener('click', function() {
+        handleLensColumnClick(ls.lens_id, ls.lens_title || ls.lens_id, participants);
+      });
+      strip.appendChild(btn);
+    });
+
+    row.appendChild(strip);
+    return row;
   }
 
   function participantRowEl(p) {
@@ -2818,6 +2965,200 @@
     if (!s) return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F6: COHORT-WIDE LOCKSTEP UNLOCK
+  // ═══════════════════════════════════════════════════════════════════
+
+  let cohortUnlockInFlight = false;
+  let cohortUnlockBackdropHandler = null;
+  let cohortUnlockKeyHandler = null;
+
+  // Called when the facilitator clicks a lens-header-btn above the dot grid.
+  // Computes the locked/skipped breakdown from the in-memory participants list,
+  // then opens the confirmation modal.
+  function handleLensColumnClick(lensId, lensTitle, participants) {
+    console.log('[F6] Lens column clicked: ' + lensId + ' (' + lensTitle + ')');
+
+    let lockedCount  = 0;
+    let alreadyAhead = 0;
+    const total = participants.length;
+
+    participants.forEach(function(p) {
+      const states = Array.isArray(p.lens_states) ? p.lens_states : [];
+      const match = states.find(function(s) { return s.lens_id === lensId; });
+      const status = (match && match.status) ? String(match.status).toLowerCase() : 'locked';
+      if (status === 'locked') {
+        lockedCount += 1;
+      } else {
+        alreadyAhead += 1;
+      }
+    });
+
+    const cohortId = getCohortIdFromUrl();
+    if (!cohortId) {
+      console.error('[F6] No cohort in URL — cannot proceed');
+      showToast('Could not identify cohort — please refresh.');
+      return;
+    }
+
+    openCohortUnlockModal(cohortId, lensId, lensTitle, total, lockedCount, alreadyAhead);
+  }
+
+  function openCohortUnlockModal(cohortId, lensId, lensTitle, total, lockedCount, alreadyAhead) {
+    const backdrop  = document.getElementById('cohortUnlockModalBackdrop');
+    const bodyEl    = document.getElementById('cohortUnlockModalBody');
+    const errorEl   = document.getElementById('cohortUnlockModalError');
+    const cancelBtn = document.getElementById('cohortUnlockModalCancel');
+    const confirmBtn = document.getElementById('cohortUnlockModalConfirm');
+
+    // Compose the modal body
+    let bodyHtml = 'Unlock <strong>' + escapeHtml(lensTitle) + '</strong> for this cohort?<br><br>';
+    if (lockedCount > 0) {
+      bodyHtml += '<strong>' + lockedCount + '</strong> participant' + (lockedCount === 1 ? '' : 's') +
+                  ' currently locked on this lens — will be unlocked.<br>';
+    }
+    if (alreadyAhead > 0) {
+      bodyHtml += '<strong>' + alreadyAhead + '</strong> participant' + (alreadyAhead === 1 ? '' : 's') +
+                  ' already at or past this lens — no change.';
+    }
+    if (lockedCount === 0 && alreadyAhead === 0) {
+      bodyHtml += 'No participants in this cohort.';
+    }
+    bodyEl.innerHTML = bodyHtml;
+
+    errorEl.textContent = '';
+    errorEl.style.display = 'none';
+
+    // Disable confirm if there's nothing to do
+    const nothingToUnlock = (lockedCount === 0);
+    confirmBtn.disabled = nothingToUnlock;
+    confirmBtn.textContent = nothingToUnlock ? 'Nothing to unlock' : 'Confirm unlock';
+    cancelBtn.disabled = false;
+
+    // Wire confirm (clone-replace to clear any prior listener)
+    const newConfirm = confirmBtn.cloneNode(true);
+    confirmBtn.parentNode.replaceChild(newConfirm, confirmBtn);
+    newConfirm.addEventListener('click', function() {
+      commitCohortUnlock(cohortId, lensId, lensTitle);
+    });
+
+    // Wire cancel (clone-replace)
+    const newCancel = cancelBtn.cloneNode(true);
+    cancelBtn.parentNode.replaceChild(newCancel, cancelBtn);
+    newCancel.addEventListener('click', function() {
+      if (!cohortUnlockInFlight) closeCohortUnlockModal();
+    });
+
+    // ESC + backdrop click
+    cohortUnlockKeyHandler = function(e) {
+      if (e.key === 'Escape' && !cohortUnlockInFlight) closeCohortUnlockModal();
+    };
+    cohortUnlockBackdropHandler = function(e) {
+      if (e.target === backdrop && !cohortUnlockInFlight) closeCohortUnlockModal();
+    };
+    document.addEventListener('keydown', cohortUnlockKeyHandler);
+    backdrop.addEventListener('click', cohortUnlockBackdropHandler);
+
+    backdrop.classList.add('shown');
+    backdrop.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeCohortUnlockModal() {
+    const backdrop = document.getElementById('cohortUnlockModalBackdrop');
+    backdrop.classList.remove('shown');
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    if (cohortUnlockKeyHandler) {
+      document.removeEventListener('keydown', cohortUnlockKeyHandler);
+      cohortUnlockKeyHandler = null;
+    }
+    if (cohortUnlockBackdropHandler) {
+      backdrop.removeEventListener('click', cohortUnlockBackdropHandler);
+      cohortUnlockBackdropHandler = null;
+    }
+  }
+
+  async function commitCohortUnlock(cohortId, lensId, lensTitle) {
+    const errorEl    = document.getElementById('cohortUnlockModalError');
+    const confirmBtn = document.getElementById('cohortUnlockModalConfirm');
+    const cancelBtn  = document.getElementById('cohortUnlockModalCancel');
+
+    cohortUnlockInFlight = true;
+    confirmBtn.disabled = true;
+    cancelBtn.disabled = true;
+    confirmBtn.textContent = 'Unlocking…';
+    errorEl.textContent = '';
+    errorEl.style.display = 'none';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('unlock_lens_for_cohort', {
+        p_cohort_id: cohortId,
+        p_lens_id:   lensId
+      });
+
+      if (error) {
+        console.error('[F6] unlock_lens_for_cohort RPC error:', error);
+        showCohortUnlockError(errorEl, 'Something went wrong reaching the server. Please try again.');
+        cohortUnlockInFlight = false;
+        cancelBtn.disabled = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Confirm unlock';
+        return;
+      }
+
+      if (!data || data.ok !== true) {
+        const code = (data && data.error) ? data.error : 'unknown';
+        console.warn('[F6] unlock_lens_for_cohort returned not-ok:', code, data);
+        if (code === 'not_authorised') {
+          showCohortUnlockError(errorEl, 'You do not have permission to unlock for this cohort.');
+        } else if (code === 'lens_not_found') {
+          showCohortUnlockError(errorEl, 'Could not find that lens. Please refresh and try again.');
+        } else if (code === 'not_authenticated') {
+          showCohortUnlockError(errorEl, 'Your session has expired. Please sign in again.');
+        } else {
+          showCohortUnlockError(errorEl, 'Unexpected response (' + escapeHtml(String(code)) + '). Please try again or contact support.');
+        }
+        cohortUnlockInFlight = false;
+        cancelBtn.disabled = false;
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Confirm unlock';
+        return;
+      }
+
+      // Success
+      console.log('[F6] unlock_lens_for_cohort success:', data);
+      const unlocked = data.unlocked_count || 0;
+      const skipped  = data.skipped_count  || 0;
+      let toastMsg;
+      if (unlocked > 0) {
+        toastMsg = 'Unlocked ' + lensTitle + ' for ' + unlocked + ' participant' + (unlocked === 1 ? '' : 's') + '.';
+        if (skipped > 0) {
+          toastMsg += ' (' + skipped + ' already at or past this lens.)';
+        }
+      } else {
+        toastMsg = 'No participants needed unlocking — all already at or past this lens.';
+      }
+      closeCohortUnlockModal();
+      showToast(toastMsg);
+
+      // Refresh the dot grid in place so the newly-unlocked dots flip from grey to gold.
+      loadCohortParticipants(cohortId);
+    } catch (err) {
+      console.error('[F6] unlock_lens_for_cohort exception:', err);
+      showCohortUnlockError(errorEl, 'Network error — please try again.');
+      cohortUnlockInFlight = false;
+      cancelBtn.disabled = false;
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = 'Confirm unlock';
+    }
+  }
+
+  function showCohortUnlockError(errorEl, message) {
+    errorEl.textContent = message;
+    errorEl.style.display = 'block';
+  }
+
 </script>
 
 </body>
