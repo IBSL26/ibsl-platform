@@ -685,6 +685,70 @@
     0%, 100% { box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.18); }
     50%      { box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.28); }
   }
+
+  /* ─── F12: facilitator-notes block, toggle chevron, and collapsible panel ─── */
+  .participant-block {
+    margin-bottom: 10px;
+  }
+  .participant-block .participant-row {
+    margin-bottom: 0; /* row spacing is owned by .participant-block */
+  }
+  .notes-toggle {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    background: transparent;
+    color: var(--gold);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: transform 0.18s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .notes-toggle:hover {
+    background: rgba(201, 168, 76, 0.08);
+    border-color: rgba(201, 168, 76, 0.55);
+  }
+  .notes-toggle:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .notes-toggle.is-open {
+    transform: rotate(90deg);
+    background: rgba(201, 168, 76, 0.14);
+    border-color: rgba(201, 168, 76, 0.55);
+  }
+  .participant-notes-panel {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: rgba(34, 71, 47, 0.25);
+    border-left: 2px solid rgba(201, 168, 76, 0.35);
+    border-right: 1px solid rgba(201, 168, 76, 0.08);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.08);
+    border-radius: 0 0 6px 6px;
+    margin-top: -6px;     /* visually attach to the row above */
+    margin-left: 14px;
+    padding: 0 20px;
+    transition: max-height 0.25s ease, padding 0.25s ease, opacity 0.2s ease;
+  }
+  .participant-notes-panel.is-open {
+    max-height: 1200px;
+    padding: 16px 20px 18px;
+    opacity: 1;
+  }
+  .notes-panel-placeholder {
+    font-size: 12px;
+    color: var(--ash);
+    opacity: 0.7;
+    font-style: italic;
+  }
+
   .participant-meta {
     font-size: 11px;
     color: var(--ash);
@@ -2460,9 +2524,24 @@
   }
 
   function participantRowEl(p) {
+    // F12: each participant occupies a vertical block — the visible row plus a
+    // collapsible notes panel below. The block is the unit returned to the roster.
+    const block = document.createElement('div');
+    block.className = 'participant-block';
+    block.setAttribute('data-participant-id', p.participant_id);
+
     const row = document.createElement('div');
     row.className = 'participant-row';
     row.setAttribute('data-participant-id', p.participant_id);
+
+    // F12: notes-toggle chevron — leftmost element in the row, before identity.
+    // Click flips .is-open on toggle + panel; CSS handles the rotate + slide.
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'notes-toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Toggle facilitator notes for ' + (p.full_name || 'participant'));
+    toggle.textContent = '\u25B8'; // ▸
 
     // Identity block
     const identity = document.createElement('div');
@@ -2497,9 +2576,29 @@
       dots.appendChild(lensDotEl(ls, p));
     });
 
+    row.appendChild(toggle);
     row.appendChild(identity);
     row.appendChild(dots);
-    return row;
+
+    // F12: notes panel — content arrives in HTML-F12-2. Placeholder for now so we
+    // can verify the expand mechanism in isolation before wiring the data layer.
+    const panel = document.createElement('div');
+    panel.className = 'participant-notes-panel';
+    panel.setAttribute('data-participant-id', p.participant_id);
+    panel.innerHTML = '<span class="notes-panel-placeholder">Notes panel — content arrives in HTML-F12-2.</span>';
+
+    // F12: toggle wiring. Stop propagation so future row-level click handlers
+    // (e.g. open-roster-detail) don't fire when the chevron is clicked.
+    toggle.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = toggle.classList.toggle('is-open');
+      panel.classList.toggle('is-open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    block.appendChild(row);
+    block.appendChild(panel);
+    return block;
   }
 
   function lensDotEl(lensState, participant) {
