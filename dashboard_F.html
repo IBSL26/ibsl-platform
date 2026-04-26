@@ -269,6 +269,53 @@
     background: var(--gold);
   }
 
+  /* F8: cross-cohort inbox chip */
+  .inbox-chip-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 14px;
+  }
+  .inbox-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid rgba(201, 168, 76, 0.5);
+    border-radius: 20px;
+    background: rgba(201, 168, 76, 0.05);
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .inbox-chip:hover {
+    background: rgba(201, 168, 76, 0.15);
+    border-color: var(--gold);
+  }
+  .inbox-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    background: #c0392b;
+    color: var(--white);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .inbox-chip-badge.is-zero {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--ash);
+  }
+
   .cohort-loading {
     padding: 40px;
     text-align: center;
@@ -1380,6 +1427,13 @@
 
     <!-- ─── F2: COHORT SECTION (populated by loadFacilitatorCohorts) ─── -->
     <section class="cohort-section" id="cohortSection" style="display:none;">
+      <!-- ─── F8: Cross-cohort inbox entry chip ─── -->
+      <div class="inbox-chip-row">
+        <a class="inbox-chip" id="inboxChip" href="#" role="button" aria-label="Open cross-cohort inbox">
+          <span>Inbox</span>
+          <span class="inbox-chip-badge is-zero" id="inboxChipBadge">0</span>
+        </a>
+      </div>
       <h2 class="section-heading">Your Cohorts</h2>
       <div id="cohortList">
         <div class="cohort-loading">Loading cohorts…</div>
@@ -1666,23 +1720,59 @@
     list.innerHTML = '<div class="cohort-loading">Loading cohorts…</div>';
     console.log('[F2] Loading facilitator cohorts');
     try {
-      const { data, error } = await supabaseClient.rpc('get_facilitator_cohorts');
-      if (error) {
-        console.error('[F2] get_facilitator_cohorts error:', error);
+      // F8: fetch cohort grid + inbox count in parallel — single round-trip latency
+      const [cohortsResult, inboxResult] = await Promise.all([
+        supabaseClient.rpc('get_facilitator_cohorts'),
+        supabaseClient.rpc('get_facilitator_inbox')
+      ]);
+
+      // Cohort grid (F2)
+      if (cohortsResult.error) {
+        console.error('[F2] get_facilitator_cohorts error:', cohortsResult.error);
         renderErrorState();
-        return;
-      }
-      console.log('[F2] Received ' + (data ? data.length : 0) + ' cohort(s)');
-      if (!data || data.length === 0) {
-        renderEmptyState();
       } else {
-        renderCohorts(data);
+        const data = cohortsResult.data;
+        console.log('[F2] Received ' + (data ? data.length : 0) + ' cohort(s)');
+        if (!data || data.length === 0) {
+          renderEmptyState();
+        } else {
+          renderCohorts(data);
+        }
+      }
+
+      // Inbox chip count (F8) — non-blocking on cohort grid render
+      if (inboxResult.error) {
+        console.error('[F8] get_facilitator_inbox error:', inboxResult.error);
+        updateInboxChip(0); // safe fallback
+      } else {
+        const inboxData = inboxResult.data || [];
+        console.log('[F8] Inbox count: ' + inboxData.length);
+        updateInboxChip(inboxData.length);
       }
     } catch (err) {
       console.error('[F2] Unexpected exception:', err);
       renderErrorState();
+      updateInboxChip(0);
     }
   }
+
+  // F8: inbox chip helper + click wire
+  function updateInboxChip(count) {
+    const badge = document.getElementById('inboxChipBadge');
+    if (!badge) return;
+    badge.textContent = String(count);
+    if (count > 0) {
+      badge.classList.remove('is-zero');
+    } else {
+      badge.classList.add('is-zero');
+    }
+  }
+
+  document.getElementById('inboxChip').addEventListener('click', function(ev) {
+    ev.preventDefault();
+    const adminFlag = isAdminView ? '&adminView=1' : '';
+    window.location.href = 'dashboard_F.html?inbox=1' + adminFlag;
+  });
 
   function renderCohorts(cohorts) {
     const grid = document.createElement('div');
