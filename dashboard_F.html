@@ -1059,6 +1059,179 @@
     opacity: 0.85;
   }
 
+  /* ─── F5: COMMIT ACTIONS (review_submission button row) ─── */
+  .commit-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .btn-commit-primary {
+    background: var(--gold);
+    color: var(--forest-dark);
+    border: 1px solid var(--gold);
+    padding: 11px 22px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-commit-primary:hover:not(:disabled) {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+  .btn-commit-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-commit-secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 11px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .btn-commit-secondary:hover:not(:disabled) {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+  .btn-commit-secondary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ─── F5: COMMITTED FEEDBACK (read-only display when review_status='reviewed') ─── */
+  .committed-feedback {
+    margin-top: 12px;
+    padding: 16px 18px;
+    background: rgba(39, 174, 96, 0.08);
+    border: 1px solid rgba(39, 174, 96, 0.32);
+    border-radius: 4px;
+    color: var(--white);
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .committed-feedback.is-empty {
+    color: var(--ash);
+    font-style: italic;
+    opacity: 0.75;
+  }
+  .committed-feedback-meta {
+    margin-top: 10px;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    color: var(--ash);
+    font-style: italic;
+  }
+
+  /* ─── F5: CONFIRMATION MODAL ─── */
+  .commit-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 18, 12, 0.72);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .commit-modal-backdrop.shown { display: flex; }
+  .commit-modal {
+    background: var(--forest-mid);
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 6px;
+    max-width: 520px;
+    width: 100%;
+    padding: 26px 28px 22px;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+    color: var(--white);
+  }
+  .commit-modal-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: var(--gold-pale);
+    margin: 0 0 14px;
+  }
+  .commit-modal-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--white);
+    margin: 0 0 8px;
+  }
+  .commit-modal-body strong { color: var(--gold-pale); font-weight: 600; }
+  .commit-modal-detail {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ash);
+    margin: 0 0 18px;
+    font-style: italic;
+  }
+  .commit-modal-error {
+    margin: 12px 0 0;
+    padding: 10px 12px;
+    background: rgba(255, 165, 153, 0.1);
+    border: 1px solid rgba(255, 165, 153, 0.4);
+    border-radius: 3px;
+    color: #ffa599;
+    font-size: 12px;
+    line-height: 1.5;
+    display: none;
+  }
+  .commit-modal-error.shown { display: block; }
+  .commit-modal-actions {
+    margin-top: 22px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn-modal-confirm {
+    background: var(--gold);
+    color: var(--forest-dark);
+    border: 1px solid var(--gold);
+    padding: 10px 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .btn-modal-confirm:hover:not(:disabled) { background: var(--gold-light); }
+  .btn-modal-confirm:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-modal-cancel {
+    background: transparent;
+    color: var(--ash);
+    border: 1px solid rgba(156, 163, 175, 0.4);
+    padding: 10px 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 3px;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+  .btn-modal-cancel:hover:not(:disabled) { color: var(--white); border-color: var(--white); }
+  .btn-modal-cancel:disabled { opacity: 0.4; cursor: not-allowed; }
+
 </style>
 </head>
 <body>
@@ -1121,6 +1294,20 @@
         <div class="cohort-loading">Loading submission…</div>
       </div>
     </section>
+
+    <!-- ─── F5: COMMIT CONFIRMATION MODAL ─── -->
+    <div class="commit-modal-backdrop" id="commitModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="commitModalTitle" aria-hidden="true">
+      <div class="commit-modal">
+        <h3 class="commit-modal-title" id="commitModalTitle">Confirm review</h3>
+        <p class="commit-modal-body" id="commitModalBody">…</p>
+        <p class="commit-modal-detail" id="commitModalDetail">Reviews are durable. To send a submission back without committing, use Return for Revision (coming in F7).</p>
+        <div class="commit-modal-error" id="commitModalError" role="alert"></div>
+        <div class="commit-modal-actions">
+          <button type="button" class="btn-modal-cancel" id="commitModalCancel">Cancel</button>
+          <button type="button" class="btn-modal-confirm" id="commitModalConfirm">Confirm</button>
+        </div>
+      </div>
+    </div>
 
     <!-- ─── F2: TOAST (used for "coming in F3" click feedback) ─── -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1839,7 +2026,7 @@
     content.appendChild(header);
     content.appendChild(metaGrid);
     content.appendChild(body);
-    content.appendChild(buildFeedbackSection(submission, submissionId));
+    content.appendChild(buildFeedbackSection(submission, submissionId, participantName, lensTitle));
     content.appendChild(idRef);
   }
 
@@ -2178,14 +2365,45 @@
   const FEEDBACK_DEBOUNCE_MS = 2000;
   let feedbackDebounceTimer = null;
 
-  function buildFeedbackSection(submission, submissionId) {
+  function buildFeedbackSection(submission, submissionId, participantName, lensTitle) {
     const wrap = document.createElement('div');
     wrap.className = 'feedback-section';
 
     const heading = document.createElement('h2');
     heading.className = 'review-body-heading';
-    heading.textContent = 'Your Feedback (Draft)';
     wrap.appendChild(heading);
+
+    // ─── Branch on review_status ─────────────────────────────────────
+    const status = String(submission.review_status || '').toLowerCase();
+
+    if (status === 'reviewed') {
+      // ─── Already-reviewed: read-only committed feedback display ───
+      heading.textContent = 'Committed Feedback';
+
+      const feedbackText = submission.facilitator_feedback || '';
+      const display = document.createElement('div');
+      display.className = 'committed-feedback';
+      if (feedbackText.trim() === '') {
+        display.classList.add('is-empty');
+        display.textContent = '(No feedback was recorded for this submission.)';
+      } else {
+        display.textContent = feedbackText;
+      }
+      wrap.appendChild(display);
+
+      const meta = document.createElement('div');
+      meta.className = 'committed-feedback-meta';
+      const reviewedAtStr = formatReviewedAt(submission.reviewed_at);
+      meta.textContent = reviewedAtStr
+        ? 'Reviewed on ' + reviewedAtStr + '. Return for Revision (F7) will allow re-opening this submission.'
+        : 'This submission has been reviewed. Return for Revision (F7) will allow re-opening it.';
+      wrap.appendChild(meta);
+
+      return wrap;
+    }
+
+    // ─── Pending path: editable textarea + autosave + commit buttons ───
+    heading.textContent = 'Your Feedback (Draft)';
 
     const textarea = document.createElement('textarea');
     textarea.id = 'feedbackDraftBox';
@@ -2209,12 +2427,33 @@
       showSaveIndicator(indicator, submission.feedback_draft_updated_at, 'saved');
     }
 
+    // ─── F5: COMMIT ACTIONS ───
+    const actions = document.createElement('div');
+    actions.className = 'commit-actions';
+
+    const primaryBtn = document.createElement('button');
+    primaryBtn.type = 'button';
+    primaryBtn.id = 'commitPrimaryBtn';
+    primaryBtn.className = 'btn-commit-primary';
+    primaryBtn.textContent = 'Mark as reviewed and unlock next lens';
+    actions.appendChild(primaryBtn);
+
+    const secondaryBtn = document.createElement('button');
+    secondaryBtn.type = 'button';
+    secondaryBtn.id = 'commitSecondaryBtn';
+    secondaryBtn.className = 'btn-commit-secondary';
+    secondaryBtn.textContent = 'Mark as reviewed only';
+    actions.appendChild(secondaryBtn);
+
+    wrap.appendChild(actions);
+
     const help = document.createElement('p');
     help.className = 'feedback-help';
-    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. The "Mark as reviewed and unlock next lens" button (coming in F5) will commit your feedback and advance the participant.';
+    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Committing is durable — Return for Revision (coming in F7) will be the way to send a submission back without committing.';
     wrap.appendChild(help);
 
     wireFeedbackAutosave(textarea, indicator, submissionId);
+    wireCommitActions(textarea, primaryBtn, secondaryBtn, submissionId, participantName, lensTitle);
     return wrap;
   }
 
@@ -2290,6 +2529,261 @@
         el.textContent = '';
     }
   }
+
+  // ═══════════════════════════════════════════════════════════════════
+  // F5: REVIEW COMMIT (review_submission RPC + confirmation modal)
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Module-level handle for the active modal handlers, so closeCommitModal
+  // can detach them without ambiguity. Cleared on close.
+  let commitModalEscHandler = null;
+  let commitModalBackdropHandler = null;
+  let commitModalConfirmHandler = null;
+  let commitModalCancelHandler = null;
+  let commitInFlight = false;
+
+  function wireCommitActions(textareaEl, primaryBtn, secondaryBtn, submissionId, participantName, lensTitle) {
+    // participantName and lensTitle are passed in from renderReviewBundle so we
+    // don't depend on the DOM structure of the meta grid (which F10–F12 may
+    // restructure when threaded messaging and notes panels arrive).
+    const safeParticipant = participantName || 'the participant';
+    const safeLens = lensTitle || 'this lens';
+
+    primaryBtn.addEventListener('click', function() {
+      if (commitInFlight) return;
+      openCommitModal('unlock', safeParticipant, safeLens, submissionId, function() {
+        return textareaEl.value;
+      });
+    });
+
+    secondaryBtn.addEventListener('click', function() {
+      if (commitInFlight) return;
+      openCommitModal('reviewed_only', safeParticipant, safeLens, submissionId, function() {
+        return textareaEl.value;
+      });
+    });
+  }
+
+  function openCommitModal(mode, participantName, lensTitle, submissionId, getFeedbackBody) {
+    const backdrop = document.getElementById('commitModalBackdrop');
+    const titleEl  = document.getElementById('commitModalTitle');
+    const bodyEl   = document.getElementById('commitModalBody');
+    const detailEl = document.getElementById('commitModalDetail');
+    const errorEl  = document.getElementById('commitModalError');
+    const confirmBtn = document.getElementById('commitModalConfirm');
+    const cancelBtn  = document.getElementById('commitModalCancel');
+    if (!backdrop || !confirmBtn || !cancelBtn) return;
+
+    // Reset modal state from any prior open
+    errorEl.classList.remove('shown');
+    errorEl.textContent = '';
+    confirmBtn.disabled = false;
+    cancelBtn.disabled = false;
+    confirmBtn.textContent = 'Confirm';
+
+    if (mode === 'unlock') {
+      titleEl.textContent = 'Mark as reviewed and unlock next lens';
+      bodyEl.innerHTML =
+        'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong>, ' +
+        'mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed, and unlock the next lens.';
+      detailEl.textContent = 'Reviews are durable. Return for Revision (coming in F7) is the way to send a submission back without committing.';
+    } else {
+      titleEl.textContent = 'Mark as reviewed only';
+      bodyEl.innerHTML =
+        'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong> ' +
+        'and mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed. ' +
+        'The next lens will <strong>not</strong> be unlocked.';
+      detailEl.textContent = 'Use this when the participant should not yet proceed — for example, when you want to discuss the feedback live before unlocking.';
+    }
+
+    // Attach handlers
+    commitModalConfirmHandler = function() {
+      if (commitInFlight) return;
+      commitReview(submissionId, getFeedbackBody(), mode === 'unlock');
+    };
+    commitModalCancelHandler = function() {
+      if (commitInFlight) return;
+      closeCommitModal();
+    };
+    commitModalEscHandler = function(e) {
+      if (e.key === 'Escape' && !commitInFlight) closeCommitModal();
+    };
+    commitModalBackdropHandler = function(e) {
+      if (e.target === backdrop && !commitInFlight) closeCommitModal();
+    };
+
+    confirmBtn.addEventListener('click', commitModalConfirmHandler);
+    cancelBtn.addEventListener('click', commitModalCancelHandler);
+    document.addEventListener('keydown', commitModalEscHandler);
+    backdrop.addEventListener('click', commitModalBackdropHandler);
+
+    backdrop.classList.add('shown');
+    backdrop.setAttribute('aria-hidden', 'false');
+    confirmBtn.focus();
+  }
+
+  function closeCommitModal() {
+    const backdrop = document.getElementById('commitModalBackdrop');
+    const confirmBtn = document.getElementById('commitModalConfirm');
+    const cancelBtn  = document.getElementById('commitModalCancel');
+    if (!backdrop) return;
+
+    backdrop.classList.remove('shown');
+    backdrop.setAttribute('aria-hidden', 'true');
+
+    if (commitModalConfirmHandler && confirmBtn) {
+      confirmBtn.removeEventListener('click', commitModalConfirmHandler);
+      commitModalConfirmHandler = null;
+    }
+    if (commitModalCancelHandler && cancelBtn) {
+      cancelBtn.removeEventListener('click', commitModalCancelHandler);
+      commitModalCancelHandler = null;
+    }
+    if (commitModalEscHandler) {
+      document.removeEventListener('keydown', commitModalEscHandler);
+      commitModalEscHandler = null;
+    }
+    if (commitModalBackdropHandler) {
+      backdrop.removeEventListener('click', commitModalBackdropHandler);
+      commitModalBackdropHandler = null;
+    }
+  }
+
+  async function commitReview(submissionId, feedbackBody, unlockNext) {
+    const confirmBtn = document.getElementById('commitModalConfirm');
+    const cancelBtn  = document.getElementById('commitModalCancel');
+    const errorEl    = document.getElementById('commitModalError');
+    const primaryBtn   = document.getElementById('commitPrimaryBtn');
+    const secondaryBtn = document.getElementById('commitSecondaryBtn');
+
+    // Cancel any pending feedback autosave — the body we send IS the freshest
+    // text, and the function NULLs the draft column anyway.
+    if (feedbackDebounceTimer) {
+      clearTimeout(feedbackDebounceTimer);
+      feedbackDebounceTimer = null;
+    }
+
+    commitInFlight = true;
+    confirmBtn.disabled = true;
+    cancelBtn.disabled = true;
+    if (primaryBtn) primaryBtn.disabled = true;
+    if (secondaryBtn) secondaryBtn.disabled = true;
+    confirmBtn.textContent = 'Committing…';
+    errorEl.classList.remove('shown');
+    errorEl.textContent = '';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('review_submission', {
+        p_submission_id: submissionId,
+        p_feedback: feedbackBody,
+        p_unlock_next: unlockNext
+      });
+
+      if (error) {
+        console.error('[F5] review_submission RPC error:', error);
+        showCommitError(errorEl, 'Something went wrong reaching the server. Please try again.');
+        unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, /*keepConfirmDisabled*/ false);
+        return;
+      }
+
+      if (!data || data.ok !== true) {
+        const code = data && data.error ? data.error : 'unknown_error';
+        console.warn('[F5] review_submission returned not-ok:', code, data);
+
+        if (code === 'already_reviewed') {
+          showCommitError(errorEl,
+            'This submission has already been reviewed. Refresh the page to see the current state.');
+          // Re-enable Cancel only — confirming again won't help
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, /*keepConfirmDisabled*/ true);
+        } else if (code === 'not_authorised') {
+          showCommitError(errorEl, 'You no longer have permission to review this submission. Returning to the roster.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
+          setTimeout(goBackToRoster, 2000);
+        } else if (code === 'submission_not_found') {
+          showCommitError(errorEl, 'This submission could not be found. It may have been removed.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
+          setTimeout(goBackToRoster, 2000);
+        } else if (code === 'invalid_state') {
+          showCommitError(errorEl,
+            'This submission is in an unexpected state (' + escapeHtml(String(data.current_status || '')) + ') and cannot be reviewed right now.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
+        } else if (code === 'ambiguous_successor') {
+          showCommitError(errorEl,
+            'The next lens cannot be determined automatically — multiple successors are configured. Please contact support before continuing.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
+        } else if (code === 'not_authenticated') {
+          showCommitError(errorEl, 'Your session has expired. Please sign in again.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
+        } else {
+          showCommitError(errorEl, 'Unexpected response (' + escapeHtml(String(code)) + '). Please try again or contact support.');
+          unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, false);
+        }
+        return;
+      }
+
+      // ─── ok:true success path ───────────────────────────────────────
+      console.log('[F5] review_submission success:', data);
+      const message = buildCommitSuccessToast(data, unlockNext);
+      closeCommitModal();
+      commitInFlight = false;
+      showToast(message);
+      // Brief pause so the toast registers, then redirect to roster where
+      // the dot grid re-fetches via get_cohort_participants().
+      setTimeout(goBackToRoster, 1500);
+
+    } catch (err) {
+      console.error('[F5] review_submission exception:', err);
+      showCommitError(errorEl, 'Network error — please try again.');
+      unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, false);
+    }
+  }
+
+  function buildCommitSuccessToast(data, unlockNext) {
+    if (!unlockNext) {
+      return 'Reviewed. Unlock held — participant cannot proceed yet.';
+    }
+    if (data.next_lens_unlocked === true) {
+      const nextTitle = data.next_lens_title || 'Next lens';
+      return 'Reviewed. ' + nextTitle + ' is now unlocked.';
+    }
+    if (data.next_lens_was_already_unlocked === true) {
+      return 'Reviewed. Next lens was already unlocked.';
+    }
+    // unlock_next was true but no successor existed (final lens of the curriculum)
+    return 'Reviewed. This is the final lens — no further unlock.';
+  }
+
+  function showCommitError(errorEl, message) {
+    if (!errorEl) return;
+    errorEl.textContent = message;
+    errorEl.classList.add('shown');
+  }
+
+  function unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, keepConfirmDisabled) {
+    commitInFlight = false;
+    if (cancelBtn) cancelBtn.disabled = false;
+    if (confirmBtn) {
+      confirmBtn.disabled = !!keepConfirmDisabled;
+      confirmBtn.textContent = 'Confirm';
+    }
+    if (primaryBtn) primaryBtn.disabled = false;
+    if (secondaryBtn) secondaryBtn.disabled = false;
+  }
+
+  function formatReviewedAt(iso) {
+    if (!iso) return null;
+    const dt = new Date(iso);
+    if (isNaN(dt)) return null;
+    const now = new Date();
+    const sameYear = dt.getFullYear() === now.getFullYear();
+    const dateStr = dt.toLocaleDateString('en-GB',
+      sameYear ? { day: '2-digit', month: 'short' }
+               : { day: '2-digit', month: 'short', year: 'numeric' });
+    const timeStr = dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+    return dateStr + ' at ' + timeStr;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
 
   function formatSaveTime(iso) {
     if (!iso) return '';
