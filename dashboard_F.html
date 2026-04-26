@@ -668,6 +668,23 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  /* ─── F9: activity pip — "new since last visit" indicator ─── */
+  .activity-pip {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-right: 8px;
+    vertical-align: middle;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.18);
+    animation: pipPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pipPulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.18); }
+    50%      { box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.28); }
+  }
   .participant-meta {
     font-size: 11px;
     color: var(--ash);
@@ -1860,10 +1877,14 @@
     list.innerHTML = '<div class="cohort-loading">Loading cohorts…</div>';
     console.log('[F2] Loading facilitator cohorts');
     try {
-      // F8: fetch cohort grid + inbox count in parallel — single round-trip latency
-      const [cohortsResult, inboxResult] = await Promise.all([
+      // F9: fetch cohort grid + inbox count + visit-stamp in parallel.
+      // mark_facilitator_visit returns the OLD last_facilitator_visit_at
+      // (the baseline for "since last visit" comparisons) and atomically
+      // bumps the row to NOW() for the next session.
+      const [cohortsResult, inboxResult, visitResult] = await Promise.all([
         supabaseClient.rpc('get_facilitator_cohorts'),
-        supabaseClient.rpc('get_facilitator_inbox')
+        supabaseClient.rpc('get_facilitator_inbox'),
+        supabaseClient.rpc('mark_facilitator_visit')
       ]);
 
       // Cohort grid (F2)
@@ -1888,6 +1909,17 @@
         const inboxData = inboxResult.data || [];
         console.log('[F8] Inbox count: ' + inboxData.length);
         updateInboxChip(inboxData.length);
+      }
+
+      // F9: persist OLD last-visit timestamp for roster activity-pip comparison.
+      // Only write on success; a transient RPC failure preserves any prior
+      // session baseline rather than blowing it away.
+      if (visitResult.error) {
+        console.error('[F9] mark_facilitator_visit error:', visitResult.error);
+      } else {
+        const oldVisit = visitResult.data; // null on first-ever visit, else ISO timestamp
+        sessionStorage.setItem('ibsl_dash_last_visit_at', oldVisit || '');
+        console.log('[F9] Last-visit baseline: ' + (oldVisit || '(none — first visit)'));
       }
     } catch (err) {
       console.error('[F2] Unexpected exception:', err);
@@ -2400,6 +2432,22 @@
     return row;
   }
 
+  // F9: build activity-pip HTML for a participant, comparing their
+  // last_activity_at against the sessionStorage "since last visit" baseline
+  // set on dashboard grid load. Returns empty string when:
+  //   - no baseline (first-ever visit, or sessionStorage cleared)
+  //   - participant has never been active
+  //   - participant's activity is at or before the baseline
+  function getActivityPipHtml(p) {
+    const baseline = sessionStorage.getItem('ibsl_dash_last_visit_at');
+    if (!baseline) return ''; // first visit or cleared session — no comparison
+    if (!p.last_activity_at) return ''; // participant has no activity at all
+    // Both are ISO 8601 strings; lexicographic compare is equivalent to chronological.
+    if (p.last_activity_at <= baseline) return '';
+    const tooltip = 'New activity since your last visit (' + formatShortDate(baseline) + ')';
+    return '<span class="activity-pip" title="' + escapeHtml(tooltip) + '" aria-label="' + escapeHtml(tooltip) + '"></span>';
+  }
+
   function participantRowEl(p) {
     const row = document.createElement('div');
     row.className = 'participant-row';
@@ -2412,7 +2460,7 @@
     const activityStr = formatShortDate(p.last_activity_at);
     const activityLine = activityStr ? 'Last activity ' + activityStr : 'No activity yet';
     identity.innerHTML =
-      '<div class="participant-name">' + escapeHtml(p.full_name || 'Participant') + '</div>' +
+      '<div class="participant-name">' + getActivityPipHtml(p) + escapeHtml(p.full_name || 'Participant') + '</div>' +
       '<div class="participant-meta">' +
         escapeHtml(p.email || '') +
         (p.organisation_name && p.organisation_name !== '—'
