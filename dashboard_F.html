@@ -3161,6 +3161,21 @@
     }
   }
 
+  // ─── F11: supporting-documents helpers ───────────────────────────────
+  // formatDocumentSize — human-readable byte-count formatter for the
+  // .document-size span in the document header. Files in submission_documents
+  // are capped at 20 MB by the bucket policy and the documents.size_bytes
+  // CHECK, so the practical range is bytes-to-20MB. Returns em-dash for
+  // missing or invalid input rather than throwing — the caller renders this
+  // into innerHTML and an empty/NaN result would surface as "undefined".
+  function formatDocumentSize(bytes) {
+    const n = Number(bytes);
+    if (!Number.isFinite(n) || n < 0) return '\u2014';
+    if (n < 1024)         return n + ' B';
+    if (n < 1024 * 1024)  return Math.round(n / 1024) + ' KB';
+    return (n / (1024 * 1024)).toFixed(1) + ' MB';
+  }
+
   function lensDotEl(lensState, participant) {
     const dot = document.createElement('span');
     const status = String(lensState.status || 'locked').toLowerCase();
