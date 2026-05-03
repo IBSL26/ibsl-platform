@@ -1382,6 +1382,144 @@
     margin-left: auto;
   }
 
+  /* ─── F11: SUPPORTING DOCUMENTS — section sits between participant response and feedback.
+       Same width / top-separator language as .feedback-section so the three review-view
+       blocks (response, documents, feedback) share a vertical rhythm. ─── */
+  .documents-section {
+    max-width: 820px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201, 168, 76, 0.18);
+  }
+  .documents-section-heading {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 18px 0;
+  }
+
+  /* ─── F11: documents list state machine — mirrors F12 .notes-list[data-state] pattern.
+       loading / empty / error all render the same italic-ash treatment; populated swaps
+       to a vertical flex stack of .document-item cards. ─── */
+  .documents-list[data-state="loading"],
+  .documents-list[data-state="empty"],
+  .documents-list[data-state="error"] {
+    font-size: 13px;
+    color: var(--ash);
+    opacity: 0.85;
+    font-style: italic;
+    padding: 6px 0;
+  }
+  .documents-list[data-state="error"] {
+    color: #e8b4a8;
+    opacity: 0.95;
+    font-style: normal;
+  }
+  .documents-list[data-state="populated"] {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* ─── F11: document item — header row + body (iframe OR download block).
+       overflow:hidden so the iframe and download block tuck cleanly under the header
+       without breaking the rounded corners. ─── */
+  .document-item {
+    background: rgba(15, 32, 22, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .document-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(34, 71, 47, 0.45);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.10);
+  }
+  .document-filename {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .document-size {
+    font-size: 11px;
+    color: var(--ash);
+    opacity: 0.8;
+    flex-shrink: 0;
+  }
+  .document-type-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.14);
+    border: 1px solid rgba(201, 168, 76, 0.30);
+    border-radius: 3px;
+    padding: 3px 7px;
+    flex-shrink: 0;
+  }
+  .document-uploaded-at {
+    font-size: 11px;
+    color: var(--ash);
+    opacity: 0.7;
+    flex-shrink: 0;
+    cursor: help;
+  }
+
+  /* ─── F11: inline iframe preview (PDF, PNG, JPG) — auto-expanded per Q2a,
+       fixed 600px height per Q2b. Charcoal background avoids a white flash while
+       the signed-URL response loads. ─── */
+  .document-preview-iframe {
+    display: block;
+    width: 100%;
+    height: 600px;
+    border: 0;
+    background: var(--charcoal);
+  }
+
+  /* ─── F11: download block for non-previewable types (DOCX, XLSX, PPTX) ─── */
+  .document-download-block {
+    padding: 22px 14px;
+    text-align: center;
+  }
+  .document-download-link {
+    display: inline-block;
+    padding: 10px 22px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--forest-dark);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .document-download-link:hover {
+    background: var(--gold-light);
+    border-color: var(--gold-light);
+  }
+  .document-download-link:focus-visible {
+    outline: 2px solid var(--gold-light);
+    outline-offset: 2px;
+  }
+  .document-download-hint {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--ash);
+    opacity: 0.7;
+  }
+
   /* ─── F4-3: FEEDBACK DRAFT (textarea + autosave indicator) ─── */
   .feedback-section {
     max-width: 820px;
