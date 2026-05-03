@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>S2R® Portal · Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ===========================================================
+       S2R® Portal — Admin Dashboard
+       File: dashboard_A.html  ·  Phase 3 Cluster A1
+       Theme: navy + IBSL gold  ·  refined operational density
+       =========================================================== */
+
+    :root {
+      /* Surfaces */
+      --bg-primary:    #0a1628;
+      --bg-secondary:  #142036;
+      --bg-tertiary:   #1e2d47;
+      --bg-elevated:   #243352;
+
+      /* Accent (IBSL gold, unchanged across surfaces) */
+      --accent-primary: #c9a84c;
+      --accent-hover:   #d4b65a;
+      --accent-muted:   #8a7434;
+
+      /* Text */
+      --text-primary:    #e8eef7;
+      --text-secondary:  #9eb0c9;
+      --text-tertiary:   #6b7d96;
+      --text-on-accent:  #0a1628;
+
+      /* Semantic states */
+      --state-success: #4ade80;
+      --state-warning: #fbbf24;
+      --state-danger:  #f87171;
+      --state-info:    #60a5fa;
+
+      /* Borders */
+      --border-subtle:  #243352;
+      --border-default: #324968;
+      --border-strong:  #4a6485;
+
+      /* Layout constants */
+      --nav-width: 220px;
+      --topbar-height: 56px;
+      --content-max: 1280px;
+
+      /* Type scale */
+      --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ====== App shell ====== */
+
+    #app {
+      display: grid;
+      grid-template-columns: var(--nav-width) 1fr;
+      grid-template-rows: var(--topbar-height) 1fr;
+      grid-template-areas:
+        "nav topbar"
+        "nav main";
+      min-height: 100vh;
+    }
+
+    /* ====== Left nav ====== */
+
+    .nav {
+      grid-area: nav;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .nav__brand {
+      padding: 18px 20px 22px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav__brand-mark {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent-primary);
+    }
+
+    .nav__brand-sub {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+    }
+
+    .nav__list {
+      list-style: none;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .nav__item a {
+      display: flex;
+      align-items: center;
+      padding: 9px 20px;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+      transition: background 120ms, color 120ms, border-color 120ms;
+    }
+
+    .nav__item a:hover {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+    }
+
+    .nav__item--active a {
+      background: var(--bg-tertiary);
+      border-left-color: var(--accent-primary);
+      color: var(--text-primary);
+    }
+
+    .nav__footer {
+      margin-top: auto;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+    }
+
+    /* ====== Topbar ====== */
+
+    .topbar {
+      grid-area: topbar;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar__breadcrumb {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .topbar__breadcrumb-current {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .topbar__breadcrumb-sep {
+      color: var(--text-tertiary);
+    }
+
+    .topbar__user {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .topbar__email {
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .topbar__signout {
+      background: transparent;
+      border: 1px solid var(--border-default);
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      transition: border-color 120ms, color 120ms;
+    }
+
+    .topbar__signout:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* ====== Main content ====== */
+
+    .main {
+      grid-area: main;
+      padding: 28px 32px 60px;
+      overflow-x: auto;
+    }
+
+    .main__inner {
+      max-width: var(--content-max);
+      margin: 0 auto;
+    }
+
+    /* View visibility — toggled by router */
+    .view { display: none; }
+    .view--active { display: block; }
+
+    /* ====== View headers ====== */
+
+    .view-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      margin-bottom: 22px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .view-header__title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .view-header__sub {
+      font-size: 12.5px;
+      color: var(--text-tertiary);
+      margin-top: 4px;
+    }
+
+    /* ====== Buttons ====== */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid transparent;
+      transition: background 120ms, border-color 120ms, color 120ms;
+      white-space: nowrap;
+    }
+
+    .btn--primary {
+      background: var(--accent-primary);
+      color: var(--text-on-accent);
+    }
+
+    .btn--primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: var(--border-default);
+    }
+
+    .btn--ghost:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    /* ====== Stub view (Coming soon) ====== */
+
+    .stub {
+      padding: 48px 24px;
+      text-align: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      color: var(--text-secondary);
+    }
+
+    .stub__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .stub__sub {
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+
+    .stub__cluster {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 10px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--accent-primary);
+    }
+
+    /* ====== Cohorts view placeholder content ====== */
+
+    .placeholder-card {
+      padding: 28px 24px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      color: var(--text-secondary);
+    }
+
+    .placeholder-card__title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .placeholder-card__body {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .placeholder-card__body code {
+      font-family: var(--font-mono);
+      background: var(--bg-elevated);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 12px;
+      color: var(--accent-primary);
+    }
+
+    /* ====== Loading + error overlays ====== */
+
+    .boot-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--bg-primary);
+      z-index: 100;
+      transition: opacity 200ms;
+    }
+
+    .boot-overlay--hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .boot-spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--border-default);
+      border-top-color: var(--accent-primary);
+      border-radius: 50%;
+      animation: boot-spin 700ms linear infinite;
+    }
+
+    @keyframes boot-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .boot-message {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.02em;
+    }
+
+    /* ====== Toast (used by router for permission errors) ====== */
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      max-width: 360px;
+      padding: 12px 16px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-left: 3px solid var(--state-danger);
+      border-radius: 4px;
+      font-size: 13px;
+      color: var(--text-primary);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      z-index: 200;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 200ms, transform 200ms;
+    }
+
+    .toast--shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ====== Responsive (collapse nav on narrow screens — defer full mobile to later cluster) ====== */
+
+    @media (max-width: 880px) {
+      :root { --nav-width: 64px; }
+      .nav__brand-sub,
+      .nav__item a span { display: none; }
+      .nav__brand { padding: 16px 0; align-items: center; }
+      .nav__brand-mark { font-size: 16px; }
+      .nav__item a { justify-content: center; padding: 11px 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Boot overlay shown until auth check resolves -->
+  <div id="boot" class="boot-overlay">
+    <div class="boot-spinner"></div>
+    <div class="boot-message" id="bootMessage">Verifying admin session…</div>
+  </div>
+
+  <div id="app" hidden>
+    <!-- Left navigation -->
+    <aside class="nav" aria-label="Admin navigation">
+      <div class="nav__brand">
+        <div class="nav__brand-mark">S2R® Admin</div>
+        <div class="nav__brand-sub">Strategy2Results</div>
+      </div>
+      <ul class="nav__list" role="list">
+        <li class="nav__item" data-nav="cohorts"><a href="?view=cohorts"><span>Cohorts</span></a></li>
+        <li class="nav__item" data-nav="users"><a href="?view=users"><span>Users</span></a></li>
+        <li class="nav__item" data-nav="invitations"><a href="?view=invitations"><span>Invitations</span></a></li>
+        <li class="nav__item" data-nav="organisations"><a href="?view=organisations"><span>Organisations</span></a></li>
+        <li class="nav__item" data-nav="reports"><a href="?view=reports"><span>Reports</span></a></li>
+        <li class="nav__item" data-nav="health"><a href="?view=health"><span>Health</span></a></li>
+        <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
+        <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
+      </ul>
+      <div class="nav__footer">Phase 3 · Cluster A1</div>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar__breadcrumb">
+        <span class="topbar__breadcrumb-root">Admin</span>
+        <span class="topbar__breadcrumb-sep">›</span>
+        <span class="topbar__breadcrumb-current" id="breadcrumbCurrent">Cohorts</span>
+      </div>
+      <div class="topbar__user">
+        <span class="topbar__email" id="topbarEmail">—</span>
+        <button class="topbar__signout" id="signoutBtn">Sign out</button>
+      </div>
+    </header>
+
+    <!-- Main content area, one section per view -->
+    <main class="main">
+      <div class="main__inner">
+
+        <!-- Cohorts view (Cluster A1) -->
+        <section class="view" id="view-cohorts" data-view="cohorts">
+          <div class="view-header">
+            <div>
+              <h1 class="view-header__title">Cohorts</h1>
+              <div class="view-header__sub">Create, edit, archive, and manage cohort memberships</div>
+            </div>
+            <div>
+              <a href="?view=cohorts&amp;cohort=new" class="btn btn--primary">+ New cohort</a>
+            </div>
+          </div>
+
+          <div class="placeholder-card">
+            <div class="placeholder-card__title">Cohorts shell ready</div>
+            <div class="placeholder-card__body">
+              The list view, create/edit form, facilitator/participant pickers, and archive actions land in subsequent A1-UI build steps. The shell is wired to <code>get_admin_cohort_list</code> and the nine A1 RPCs already verified server-side.
+            </div>
+          </div>
+        </section>
+
+        <!-- Stubbed views for A2–A10. Each cluster replaces its stub when its work begins. -->
+        <section class="view" id="view-users" data-view="users">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Users</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">User management — coming soon</div>
+            <div class="stub__sub">List, search, promote, suspend, deactivate, resend invite</div>
+            <div class="stub__cluster">CLUSTER A2</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-invitations" data-view="invitations">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Invitations</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Invitations &amp; provisioning — coming soon</div>
+            <div class="stub__sub">CSV bulk invite, single invite, expiry tracking</div>
+            <div class="stub__cluster">CLUSTER A3</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-organisations" data-view="organisations">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Organisations</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Organisation view — coming soon</div>
+            <div class="stub__sub">Cross-cohort delegate tracking</div>
+            <div class="stub__cluster">CLUSTER A4</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-reports" data-view="reports">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Reports</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Completion reports — coming soon</div>
+            <div class="stub__sub">Word and PDF download per cohort with full lens history</div>
+            <div class="stub__cluster">CLUSTER A5</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-health" data-view="health">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Health</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Platform health tiles — coming soon</div>
+            <div class="stub__sub">Auto-refreshing aggregates from activity_log</div>
+            <div class="stub__cluster">CLUSTER A6</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-activity" data-view="activity">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Activity log</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Activity log viewer — coming soon</div>
+            <div class="stub__sub">Filterable, exportable audit trail</div>
+            <div class="stub__cluster">CLUSTER A7</div>
+          </div>
+        </section>
+
+        <section class="view" id="view-support" data-view="support">
+          <div class="view-header">
+            <div><h1 class="view-header__title">Support</h1></div>
+          </div>
+          <div class="stub">
+            <div class="stub__title">Support view — coming soon</div>
+            <div class="stub__sub">Per-user diagnostic panel for troubleshooting</div>
+            <div class="stub__cluster">CLUSTER A8</div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ===========================================================
+       S2R® Portal — Admin Dashboard runtime
+       Responsibilities at A1-UI-A:
+         · Init supabase client (exposed as window.supabase)
+         · Verify session and admin role on load
+         · Soft-redirect non-admin sessions to their correct surface
+         · URL-based view router (?view=…)
+         · Sign-out
+       =========================================================== */
+
+    // -----------------------------------------------------------
+    // Supabase config
+    // -----------------------------------------------------------
+    // NOTE: Replace SUPABASE_ANON_KEY with the same anon key used in
+    // index.html and dashboard_F.html. The URL is fixed.
+    const SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+    const SUPABASE_ANON_KEY = '__SUPABASE_ANON_KEY__';
+
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Re-expose as window.supabase to keep parity with dashboard_F.html
+    // for DevTools debugging muscle memory.
+    window.supabase = sb;
+
+    // -----------------------------------------------------------
+    // Boot — auth + role check, then render
+    // -----------------------------------------------------------
+    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support'];
+    const VIEW_TITLES = {
+      cohorts: 'Cohorts',
+      users: 'Users',
+      invitations: 'Invitations',
+      organisations: 'Organisations',
+      reports: 'Reports',
+      health: 'Health',
+      activity: 'Activity log',
+      support: 'Support'
+    };
+
+    function showBootMessage(msg) {
+      const el = document.getElementById('bootMessage');
+      if (el) el.textContent = msg;
+    }
+
+    function hideBoot() {
+      const boot = document.getElementById('boot');
+      const app = document.getElementById('app');
+      app.hidden = false;
+      boot.classList.add('boot-overlay--hidden');
+      setTimeout(() => boot.remove(), 240);
+    }
+
+    function softRedirect(url, reason) {
+      showBootMessage(reason || 'Redirecting…');
+      setTimeout(() => { window.location.replace(url); }, 200);
+    }
+
+    async function boot() {
+      // 1. Check session
+      const { data: { user }, error: userErr } = await sb.auth.getUser();
+      if (userErr || !user) {
+        softRedirect('index.html', 'No active session — returning to login');
+        return;
+      }
+
+      // 2. Role check via profiles
+      const { data: profile, error: profileErr } = await sb
+        .from('profiles')
+        .select('id, full_name, email, role')
+        .eq('id', user.id)
+        .single();
+
+      if (profileErr || !profile) {
+        softRedirect('index.html', 'Could not verify role — returning to login');
+        return;
+      }
+
+      // 3. Route by role
+      if (profile.role === 'facilitator') {
+        softRedirect('dashboard_F.html', 'Routing to facilitator dashboard');
+        return;
+      }
+      if (profile.role === 'participant') {
+        softRedirect('index.html', 'Participants do not have access to this surface');
+        return;
+      }
+      if (profile.role !== 'admin') {
+        softRedirect('index.html', 'Unrecognised role — returning to login');
+        return;
+      }
+
+      // 4. Admin confirmed — render
+      document.getElementById('topbarEmail').textContent = profile.email || user.email || '—';
+      hideBoot();
+      handleRoute();
+      window.addEventListener('popstate', handleRoute);
+    }
+
+    // -----------------------------------------------------------
+    // View router
+    // -----------------------------------------------------------
+    function handleRoute() {
+      const params = new URLSearchParams(window.location.search);
+      let view = params.get('view') || 'cohorts';
+      if (!VIEW_IDS.includes(view)) view = 'cohorts';
+
+      // Toggle view sections
+      document.querySelectorAll('.view').forEach(el => {
+        el.classList.toggle('view--active', el.dataset.view === view);
+      });
+
+      // Toggle nav active state
+      document.querySelectorAll('.nav__item').forEach(el => {
+        el.classList.toggle('nav__item--active', el.dataset.nav === view);
+      });
+
+      // Update breadcrumb
+      const crumb = document.getElementById('breadcrumbCurrent');
+      if (crumb) crumb.textContent = VIEW_TITLES[view] || view;
+
+      // Update page title
+      document.title = `${VIEW_TITLES[view] || view} · S2R® Admin`;
+    }
+
+    // -----------------------------------------------------------
+    // Sign-out
+    // -----------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('signoutBtn');
+      if (btn) {
+        btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          await sb.auth.signOut();
+          window.location.replace('index.html');
+        });
+      }
+    });
+
+    // -----------------------------------------------------------
+    // Toast helper (shared, used by future RPC error handlers)
+    // -----------------------------------------------------------
+    window.showToast = function showToast(message, durationMs) {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.textContent = message;
+      document.body.appendChild(t);
+      requestAnimationFrame(() => t.classList.add('toast--shown'));
+      setTimeout(() => {
+        t.classList.remove('toast--shown');
+        setTimeout(() => t.remove(), 240);
+      }, durationMs || 4000);
+    };
+
+    // -----------------------------------------------------------
+    // Boot
+    // -----------------------------------------------------------
+    boot();
+  </script>
+</body>
+</html>
