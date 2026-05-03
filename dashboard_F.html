@@ -3176,6 +3176,31 @@
     return (n / (1024 * 1024)).toFixed(1) + ' MB';
   }
 
+  // loadSubmissionDocuments — fetches the document list for a submission via
+  // the list_submission_documents RPC. Returns a status envelope so the
+  // renderer can distinguish between success (with possibly-empty array) and
+  // RPC error. The RPC itself silently returns empty for unauthorised callers
+  // (matches list_facilitator_notes pattern), so an empty documents array
+  // here means either "no documents uploaded" OR "caller unauthorised" —
+  // both render the same empty state to the facilitator, which is correct:
+  // a facilitator who shouldn't see this submission shouldn't be reviewing
+  // it in the first place.
+  async function loadSubmissionDocuments(submissionId) {
+    try {
+      const { data, error } = await supabaseClient.rpc('list_submission_documents', {
+        p_submission_id: submissionId
+      });
+      if (error) {
+        console.error('[F11] list_submission_documents RPC error:', error);
+        return { status: 'error', documents: [] };
+      }
+      return { status: 'success', documents: Array.isArray(data) ? data : [] };
+    } catch (err) {
+      console.error('[F11] list_submission_documents exception:', err);
+      return { status: 'error', documents: [] };
+    }
+  }
+
   function lensDotEl(lensState, participant) {
     const dot = document.createElement('span');
     const status = String(lensState.status || 'locked').toLowerCase();
