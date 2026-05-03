@@ -711,6 +711,33 @@
     display: none;
   }
 
+  /* ─── F10-7B: unread-message badge on roster row.
+       Mirrors F12 notes-count-badge dimensions for layout consistency, but uses
+       teal tint to distinguish "unread participant message" from "facilitator
+       note" (gold) at a glance. data-count="0" hides via CSS so the badge can
+       update in place if Phase 5 ever adds incremental refresh. ─── */
+  .unread-message-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: 6px;
+    border-radius: 9px;
+    background: rgba(26, 122, 106, 0.22);
+    border: 1px solid rgba(26, 122, 106, 0.48);
+    color: #5fbfa9;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+  .unread-message-badge[data-count="0"] {
+    display: none;
+  }
+
   /* ─── F12: facilitator-notes block, toggle chevron, and collapsible panel ─── */
   .participant-block {
     margin-bottom: 10px;
@@ -3058,6 +3085,27 @@
            ' aria-label="' + escapeHtml(tooltip) + '">' + count + '</span>';
   }
 
+  // F10-7B: build unread-message badge HTML for a participant. Counts
+  // come from get_cohort_participants.unread_message_count (added in
+  // SCHEMA-F10-7B-1) — messages on this participant's submissions in
+  // this cohort that postdate the facilitator's last_read_at, with
+  // self-exclusion and hidden-message exclusion already enforced server-
+  // side. Always emits the element (even at 0) so the same DOM node can
+  // be flipped to visible by any future incremental refresh path; CSS
+  // hides via [data-count="0"]. Caps display at "99+" per Q-7B-3 to keep
+  // the badge narrow; the data-count attribute carries the true integer.
+  function unreadMessagesBadgeHtml(p) {
+    const raw = p && p.unread_message_count;
+    const count = (typeof raw === 'number') ? raw : (Number(raw) || 0);
+    const display = count > 99 ? '99+' : String(count);
+    const tooltip = count === 1
+      ? '1 unread message from this participant'
+      : count + ' unread messages from this participant';
+    return '<span class="unread-message-badge" data-count="' + count + '"' +
+           ' title="' + escapeHtml(tooltip) + '"' +
+           ' aria-label="' + escapeHtml(tooltip) + '">' + escapeHtml(display) + '</span>';
+  }
+
   function participantRowEl(p, cohortId) {
     // F12: each participant occupies a vertical block — the visible row plus a
     // collapsible notes panel below. The block is the unit returned to the roster.
@@ -3085,7 +3133,7 @@
     const activityStr = formatShortDate(p.last_activity_at);
     const activityLine = activityStr ? 'Last activity ' + activityStr : 'No activity yet';
     identity.innerHTML =
-      '<div class="participant-name">' + getActivityPipHtml(p) + escapeHtml(p.full_name || 'Participant') + notesCountBadgeHtml(p) + '</div>' +
+      '<div class="participant-name">' + getActivityPipHtml(p) + escapeHtml(p.full_name || 'Participant') + notesCountBadgeHtml(p) + unreadMessagesBadgeHtml(p) + '</div>' +
       '<div class="participant-meta">' +
         escapeHtml(p.email || '') +
         (p.organisation_name && p.organisation_name !== '—'
