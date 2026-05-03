@@ -1520,6 +1520,225 @@
     opacity: 0.7;
   }
 
+  /* ─── F10: MESSAGE THREAD — facilitator/participant exchange on a submission.
+         Sits below feedback in renderReviewBundle (Q7). State machine mirrors
+         F11/F12 .thread-list[data-state]. Author distinction by left-border
+         accent: gold = facilitator, teal = participant. ──────────────────── */
+  .thread-section {
+    max-width: 820px;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(201, 168, 76, 0.18);
+  }
+  .thread-section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--gold-pale);
+    margin: 0 0 4px 0;
+  }
+  .thread-section-sub {
+    font-size: 12px;
+    color: var(--ash);
+    opacity: 0.75;
+    margin: 0 0 18px 0;
+  }
+
+  /* state machine — loading / empty / error / populated */
+  .thread-list[data-state="loading"],
+  .thread-list[data-state="empty"],
+  .thread-list[data-state="error"] {
+    font-size: 12px;
+    color: var(--ash);
+    opacity: 0.85;
+    font-style: italic;
+    padding: 6px 0;
+  }
+  .thread-list[data-state="error"] {
+    color: #e8b4a8;
+    opacity: 0.95;
+    font-style: normal;
+  }
+  .thread-list[data-state="populated"] {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 6px;
+    margin-bottom: 18px;
+  }
+
+  /* message item — author-tinted left border; full row uses muted forest bg */
+  .message-item {
+    background: rgba(15, 32, 22, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.10);
+    border-left-width: 3px;
+    border-radius: 4px;
+    padding: 12px 14px;
+  }
+  .message-item.from-facilitator {
+    border-left-color: var(--gold);
+  }
+  .message-item.from-participant {
+    border-left-color: #1a7a6a;
+  }
+  .message-item.is-hidden {           /* admin-only view of soft-deleted msgs */
+    opacity: 0.55;
+    font-style: italic;
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .message-author-block {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .message-author {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--gold-pale);
+    letter-spacing: 0.2px;
+  }
+  .message-role {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 2px 6px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+  .message-role.role-facilitator {
+    color: var(--gold);
+    border-color: rgba(201, 168, 76, 0.55);
+    background: rgba(201, 168, 76, 0.08);
+  }
+  .message-role.role-participant {
+    color: #6dbfa8;
+    border-color: rgba(26, 122, 106, 0.65);
+    background: rgba(26, 122, 106, 0.10);
+  }
+  .message-role.role-admin {
+    color: #e8b4a8;
+    border-color: rgba(232, 180, 168, 0.55);
+    background: rgba(232, 180, 168, 0.08);
+  }
+  .message-time {
+    font-size: 10px;
+    color: var(--ash);
+    opacity: 0.7;
+    white-space: nowrap;
+    cursor: help;
+  }
+  .message-body {
+    font-size: 13px;
+    color: var(--white);
+    line-height: 1.5;
+    white-space: pre-wrap;       /* Q12: preserve line breaks in plain text */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;     /* long URLs wrap rather than horizontal-scroll */
+  }
+  .message-body a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .message-body a:hover {
+    color: var(--gold-light);
+  }
+
+  /* compose form — sits below the populated list */
+  .thread-compose {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .thread-compose-textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    background: rgba(15, 32, 22, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    border-radius: 4px;
+    color: var(--white);
+    font: inherit;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .thread-compose-textarea::placeholder {
+    color: var(--ash);
+    opacity: 0.55;
+  }
+  .thread-compose-textarea:focus {
+    outline: none;
+    border-color: rgba(201, 168, 76, 0.55);
+    background: rgba(15, 32, 22, 0.7);
+  }
+  .thread-compose-textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .thread-compose-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .thread-compose-error {
+    flex: 1 1 auto;
+    font-size: 11px;
+    color: #e8b4a8;
+    visibility: hidden;
+  }
+  .thread-compose-error.shown {
+    visibility: visible;
+  }
+  .thread-compose-charcount {
+    font-size: 10px;
+    color: var(--ash);
+    opacity: 0.7;
+    font-variant-numeric: tabular-nums;
+  }
+  .thread-compose-charcount.warn {     /* JS toggles at 3500 chars */
+    color: var(--gold);
+    opacity: 1;
+  }
+  .thread-compose-charcount.over {     /* JS toggles at 3900 chars */
+    color: #e8b4a8;
+    opacity: 1;
+  }
+  .thread-compose-btn {
+    flex-shrink: 0;
+    background: var(--gold);
+    color: #1a2e1f;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: background 0.15s ease, opacity 0.15s ease;
+  }
+  .thread-compose-btn:hover:not(:disabled) {
+    background: #d8b859;
+  }
+  .thread-compose-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
   /* ─── F4-3: FEEDBACK DRAFT (textarea + autosave indicator) ─── */
   .feedback-section {
     max-width: 820px;
@@ -3368,6 +3587,376 @@
     return section;
   }
 
+  // ─── F10: message-thread helpers ─────────────────────────────────────
+  // loadSubmissionMessages — fetches the conversation thread for a given
+  // submission via list_submission_messages RPC. The RPC raises explicit
+  // exceptions for the three known failure modes (not_authenticated,
+  // submission_not_found, not_authorised); we pattern-match on
+  // error.message to map them onto distinct envelope statuses so the
+  // renderer can show user-facing copy that fits the cause.
+  // Anything we don't recognise (network drop, unexpected SQLSTATE) falls
+  // through to status:'error'.
+  async function loadSubmissionMessages(submissionId) {
+    try {
+      const { data, error } = await supabaseClient.rpc('list_submission_messages', {
+        p_submission_id: submissionId
+      });
+      if (error) {
+        const msg = (error.message || '').toLowerCase();
+        if (msg.indexOf('not_authenticated')   !== -1) {
+          console.warn('[F10] list_submission_messages: caller not authenticated');
+          return { status: 'auth_required', messages: [] };
+        }
+        if (msg.indexOf('submission_not_found') !== -1) {
+          console.warn('[F10] list_submission_messages: submission not found', submissionId);
+          return { status: 'not_found', messages: [] };
+        }
+        if (msg.indexOf('not_authorised')      !== -1) {
+          console.warn('[F10] list_submission_messages: caller not authorised for submission', submissionId);
+          return { status: 'forbidden', messages: [] };
+        }
+        console.error('[F10] list_submission_messages RPC error:', error);
+        return { status: 'error', messages: [] };
+      }
+      return { status: 'success', messages: Array.isArray(data) ? data : [] };
+    } catch (err) {
+      console.error('[F10] list_submission_messages exception:', err);
+      return { status: 'error', messages: [] };
+    }
+  }
+
+  // renderMessageThread — keys off the envelope from loadSubmissionMessages
+  // and swaps the .thread-list state + DOM. Mirrors F11's
+  // renderDocumentsList / F12's renderNotesList state-machine pattern.
+  // The four error statuses each render distinct user-facing copy because
+  // they have different recovery actions: auth_required → re-login;
+  // not_found → refresh roster; forbidden → contact admin; error → retry.
+  function renderMessageThread(listEl, result) {
+    const status = result && result.status;
+    const messages = (result && Array.isArray(result.messages)) ? result.messages : [];
+
+    if (status === 'auth_required') {
+      listEl.setAttribute('data-state', 'error');
+      listEl.textContent = 'Your session has expired. Please refresh the page to sign in again.';
+      return;
+    }
+    if (status === 'not_found') {
+      listEl.setAttribute('data-state', 'error');
+      listEl.textContent = 'This submission could not be found. It may have been removed \u2014 please refresh the roster.';
+      return;
+    }
+    if (status === 'forbidden') {
+      listEl.setAttribute('data-state', 'error');
+      listEl.textContent = 'You no longer have access to this conversation.';
+      return;
+    }
+    if (status !== 'success') {
+      listEl.setAttribute('data-state', 'error');
+      listEl.textContent = 'Couldn\u2019t load the conversation. Try refreshing the page.';
+      return;
+    }
+
+    if (messages.length === 0) {
+      listEl.setAttribute('data-state', 'empty');
+      listEl.textContent = 'No messages yet. Start the conversation below.';
+      return;
+    }
+
+    listEl.setAttribute('data-state', 'populated');
+    listEl.innerHTML = '';
+    messages.forEach(function(m) { listEl.appendChild(messageItemEl(m)); });
+  }
+
+  // messageItemEl — single .message-item row. Author tint comes from the
+  // role on profiles (facilitator vs participant); admin posts get their
+  // own pill but ride the facilitator border (admins moderate from the
+  // facilitator side and shouldn't be visually mistaken for participants).
+  // Body is built via formatMessageBody so URLs auto-link without trusting
+  // raw text into innerHTML \u2014 see XSS note in formatMessageBody.
+  function messageItemEl(message) {
+    const item = document.createElement('div');
+    item.className = 'message-item';
+    item.setAttribute('data-message-id', message.id || '');
+
+    const role = (message.author_role || '').toLowerCase();
+    if (role === 'facilitator' || role === 'admin') {
+      item.classList.add('from-facilitator');
+    } else {
+      item.classList.add('from-participant');
+    }
+    if (message.hidden_at) {
+      item.classList.add('is-hidden');     // admin-only view of soft-deleted
+    }
+
+    // header: author block (name + role pill) and timestamp
+    const header = document.createElement('div');
+    header.className = 'message-header';
+
+    const authorBlock = document.createElement('div');
+    authorBlock.className = 'message-author-block';
+
+    const authorEl = document.createElement('span');
+    authorEl.className = 'message-author';
+    authorEl.textContent = message.author_name || 'Unknown';
+
+    const roleEl = document.createElement('span');
+    roleEl.className = 'message-role role-' + (role || 'participant');
+    roleEl.textContent = role ? role.charAt(0).toUpperCase() + role.slice(1) : 'Participant';
+
+    authorBlock.appendChild(authorEl);
+    authorBlock.appendChild(roleEl);
+
+    const timeEl = document.createElement('span');
+    timeEl.className = 'message-time';
+    if (message.created_at) {
+      timeEl.setAttribute('title', message.created_at);
+      timeEl.textContent = formatNoteTimestamp(message.created_at);
+    } else {
+      timeEl.textContent = '\u2014';
+    }
+
+    header.appendChild(authorBlock);
+    header.appendChild(timeEl);
+
+    // body: plain-text + auto-linked URLs (Q12)
+    const body = document.createElement('div');
+    body.className = 'message-body';
+    formatMessageBody(message.body || '', body);
+
+    item.appendChild(header);
+    item.appendChild(body);
+    return item;
+  }
+
+  // formatMessageBody — Q12 auto-linking. Takes plain text + a target
+  // element, and appends a mix of text nodes and <a> element nodes onto
+  // the target. Never sets innerHTML, so a body like
+  //   "see <script>alert(1)</script> here"
+  // renders as literal text \u2014 the angle brackets are escaped by the
+  // DOM API via createTextNode/textContent.
+  // URL detection is scoped to http(s):// so naked-domain false positives
+  // ("lens-3.html in unit2") don't get linkified. The trailing punctuation
+  // strip handles the common case of a URL at the end of a sentence:
+  // "check https://example.com." \u2014 the period is excluded from the link.
+  function formatMessageBody(text, targetEl) {
+    if (!text) return;
+    const re = /https?:\/\/[^\s<>"]+/g;
+    let lastIndex = 0;
+    let match;
+    while ((match = re.exec(text)) !== null) {
+      let url = match[0];
+      // Strip trailing sentence punctuation that was likely not part of the URL.
+      let trailing = '';
+      while (url.length > 0 && '.,;:!?)]}\u2019\u201D'.indexOf(url.charAt(url.length - 1)) !== -1) {
+        trailing = url.charAt(url.length - 1) + trailing;
+        url = url.slice(0, -1);
+      }
+      if (url.length === 0) continue;
+
+      // Pre-URL plain text
+      if (match.index > lastIndex) {
+        targetEl.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
+      }
+
+      // The URL itself as <a>
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = url;
+      targetEl.appendChild(a);
+
+      // Trailing punctuation stays as plain text
+      if (trailing) {
+        targetEl.appendChild(document.createTextNode(trailing));
+      }
+      lastIndex = match.index + match[0].length;
+    }
+    // Tail (post-last-URL or whole-string when no URLs found)
+    if (lastIndex < text.length) {
+      targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+    }
+  }
+
+  // postMessage — sends a new message via the post_message RPC and, on
+  // success, re-fetches the thread to show ground truth. Two reasons we
+  // refetch instead of optimistic-append (vs F12's pattern):
+  //   (1) post_message returns {success, message_id} only, no created_at.
+  //   (2) Multi-party threads benefit: a participant reply that arrived
+  //       between load and post appears automatically on refetch.
+  // The populated DOM stays in place during the refetch; the new list
+  // swaps in atomically when it lands, so there's no loading flicker.
+  async function postMessage(submissionId, sectionEl) {
+    const formEl     = sectionEl.querySelector('.thread-compose');
+    const textareaEl = formEl.querySelector('.thread-compose-textarea');
+    const btnEl      = formEl.querySelector('.thread-compose-btn');
+    const errorEl    = formEl.querySelector('.thread-compose-error');
+    const listEl     = sectionEl.querySelector('.thread-list');
+
+    const body = (textareaEl.value || '').trim();
+    errorEl.textContent = '';
+    errorEl.classList.remove('shown');
+
+    // Client-side guards mirror server validation order.
+    if (!body) {
+      errorEl.textContent = 'Message cannot be empty.';
+      errorEl.classList.add('shown');
+      textareaEl.focus();
+      return;
+    }
+    if (body.length > 4000) {
+      errorEl.textContent = 'Message is too long (max 4000 characters).';
+      errorEl.classList.add('shown');
+      return;
+    }
+
+    btnEl.disabled      = true;
+    textareaEl.disabled = true;
+    btnEl.textContent   = 'Sending\u2026';
+
+    try {
+      const { data, error } = await supabaseClient.rpc('post_message', {
+        p_submission_id: submissionId,
+        p_body:          body
+      });
+
+      if (error) {
+        console.error('[F10] post_message RPC error:', error);
+        errorEl.textContent = 'Something went wrong. Please try again.';
+        errorEl.classList.add('shown');
+        return;
+      }
+
+      if (!data || data.success !== true) {
+        const code = (data && data.error_code) ? data.error_code : 'unknown_error';
+        console.warn('[F10] post_message returned not-success:', code, data);
+        let msg = 'Couldn\u2019t send message. Please try again.';
+        if      (code === 'body_required')        msg = 'Message cannot be empty.';
+        else if (code === 'body_too_long')        msg = 'Message is too long (max 4000 characters).';
+        else if (code === 'not_authorised')       msg = 'You do not have permission to post on this submission.';
+        else if (code === 'submission_not_found') msg = 'This submission no longer exists.';
+        else if (code === 'cohort_not_active')    msg = 'This cohort is no longer active. Posting is closed.';
+        else if (code === 'not_authenticated')    msg = 'Your session has expired. Please sign in again.';
+        errorEl.textContent = msg;
+        errorEl.classList.add('shown');
+        return;
+      }
+
+      // Success path — clear textarea, refresh thread.
+      textareaEl.value = '';
+      updateThreadCharCount(sectionEl);
+      console.log('[F10] post_message success:', data.message_id);
+
+      const result = await loadSubmissionMessages(submissionId);
+      renderMessageThread(listEl, result);
+    } catch (err) {
+      console.error('[F10] post_message exception:', err);
+      errorEl.textContent = 'Network error \u2014 please try again.';
+      errorEl.classList.add('shown');
+    } finally {
+      btnEl.disabled      = false;
+      textareaEl.disabled = false;
+      btnEl.textContent   = 'Send';
+    }
+  }
+
+  // updateThreadCharCount — keeps "N / 4000" current and toggles the
+  // visual escalation: neutral 0\u20133499 \u2192 warn (gold) 3500\u20133899
+  // \u2192 over (red) 3900+. The DB CHECK still hard-blocks at 4000;
+  // these thresholds are purely UX so the user can see the wall coming.
+  function updateThreadCharCount(sectionEl) {
+    const textareaEl = sectionEl.querySelector('.thread-compose-textarea');
+    const counterEl  = sectionEl.querySelector('.thread-compose-charcount');
+    if (!textareaEl || !counterEl) return;
+    const len = (textareaEl.value || '').length;
+    counterEl.textContent = len + ' / 4000';
+    counterEl.classList.remove('warn', 'over');
+    if      (len > 3900) counterEl.classList.add('over');
+    else if (len > 3500) counterEl.classList.add('warn');
+  }
+
+  // markThreadRead — fire-and-forget UPSERT into submission_thread_state,
+  // advancing the caller's last_read_at pointer for this submission. The
+  // user-visible effect is that any roster-pip indicator (HTML-F10-7-B)
+  // clears on next reload. We swallow errors quietly because a failed
+  // mark-read has zero functional impact \u2014 messages still display,
+  // posting still works, and the worst outcome is a stale pip until the
+  // next successful call. The async/no-await convention matches: the
+  // caller doesn't need to know whether this succeeded.
+  async function markThreadRead(submissionId) {
+    try {
+      const { data, error } = await supabaseClient.rpc('mark_thread_read', {
+        p_submission_id: submissionId
+      });
+      if (error) {
+        console.warn('[F10] mark_thread_read RPC error (non-fatal):', error);
+        return;
+      }
+      if (!data || data.success !== true) {
+        const code = (data && data.error_code) ? data.error_code : 'unknown';
+        console.warn('[F10] mark_thread_read returned not-success (non-fatal):', code);
+      }
+    } catch (err) {
+      console.warn('[F10] mark_thread_read exception (non-fatal):', err);
+    }
+  }
+
+  // buildMessageSection — returns the thread <section> synchronously so
+  // renderReviewBundle (Q7: below feedback) can appendChild without await.
+  // The section starts in 'loading' state; the async load runs in the
+  // background and renderMessageThread swaps the list into its final state
+  // when the RPC resolves. The compose form is interactive from the moment
+  // the section is appended \u2014 the facilitator can start typing while
+  // historical messages are still loading. Mirrors F11's buildDocumentsSection.
+  function buildMessageSection(submissionId) {
+    const section = document.createElement('section');
+    section.className = 'thread-section';
+    section.setAttribute('data-submission-id', submissionId);
+    section.innerHTML =
+      '<h2 class="thread-section-heading">Conversation</h2>' +
+      '<p class="thread-section-sub">Messages between you and the participant on this submission.</p>' +
+      '<div class="thread-list" data-state="loading">Loading conversation\u2026</div>' +
+      '<form class="thread-compose">' +
+        '<textarea class="thread-compose-textarea" maxlength="4000" rows="3" ' +
+                  'placeholder="Write a message to the participant\u2026"></textarea>' +
+        '<div class="thread-compose-meta">' +
+          '<span class="thread-compose-error" role="alert"></span>' +
+          '<span class="thread-compose-charcount">0 / 4000</span>' +
+          '<button type="submit" class="thread-compose-btn">Send</button>' +
+        '</div>' +
+      '</form>';
+
+    const listEl     = section.querySelector('.thread-list');
+    const formEl     = section.querySelector('.thread-compose');
+    const textareaEl = section.querySelector('.thread-compose-textarea');
+
+    // Char counter \u2014 update on every keystroke.
+    textareaEl.addEventListener('input', function() {
+      updateThreadCharCount(section);
+    });
+
+    // Form submit \u2014 POST via post_message; refetches thread on success.
+    formEl.addEventListener('submit', function(e) {
+      e.preventDefault();
+      postMessage(submissionId, section);
+    });
+
+    // Async load. loadSubmissionMessages swallows its own errors, but the
+    // defensive catch matches F11's pattern in case supabaseClient itself
+    // is missing or some other unexpected throw escapes.
+    loadSubmissionMessages(submissionId).then(function(result) {
+      renderMessageThread(listEl, result);
+      // Advance the read pointer once the user has the thread on screen.
+      // Fire-and-forget; failure is logged at warn level only.
+      markThreadRead(submissionId);
+    }).catch(function(err) {
+      console.error('[F10] buildMessageSection unexpected throw:', err);
+      renderMessageThread(listEl, { status: 'error', messages: [] });
+    });
+
+    return section;
+  }
+
   function lensDotEl(lensState, participant) {
     const dot = document.createElement('span');
     const status = String(lensState.status || 'locked').toLowerCase();
@@ -3580,6 +4169,7 @@
     content.appendChild(body);
     content.appendChild(buildDocumentsSection(submissionId));
     content.appendChild(buildFeedbackSection(submission, submissionId, participantName, lensTitle));
+    content.appendChild(buildMessageSection(submissionId));
     content.appendChild(idRef);
   }
 
