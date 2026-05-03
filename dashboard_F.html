@@ -3201,6 +3201,129 @@
     }
   }
 
+  // documentTypeMeta — maps a MIME type from the bucket whitelist to its
+  // display label and whether the type renders inline. The DB CHECK and
+  // bucket policy guarantee mime_type is one of these six; the default
+  // branch is purely defensive against future whitelist changes that
+  // forget to update this map.
+  function documentTypeMeta(mimeType) {
+    switch (mimeType) {
+      case 'application/pdf':                                                          return { label: 'PDF',  previewable: true  };
+      case 'image/png':                                                                return { label: 'PNG',  previewable: true  };
+      case 'image/jpeg':                                                               return { label: 'JPG',  previewable: true  };
+      case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':  return { label: 'DOCX', previewable: false };
+      case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':        return { label: 'XLSX', previewable: false };
+      case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':return { label: 'PPTX', previewable: false };
+      default:                                                                         return { label: 'FILE', previewable: false };
+    }
+  }
+
+  // documentItemEl — builds one .document-item card from a single row of
+  // list_submission_documents output. Header carries filename, relative
+  // upload time (reusing F12's formatNoteTimestamp for tone parity with
+  // the notes pane), human-readable size, and type label. Body is either
+  // the iframe preview (PDF / PNG / JPG per Q2a/Q2b: auto-expanded, fixed
+  // 600px) or the download block (DOCX / XLSX / PPTX per Q2c).
+  function documentItemEl(doc) {
+    const meta       = documentTypeMeta(doc.mime_type);
+    const filename   = doc.filename || 'document';
+    const sizeStr    = formatDocumentSize(doc.size_bytes);
+    const uploadedAt = doc.uploaded_at;
+    const isoTitle   = uploadedAt ? new Date(uploadedAt).toISOString() : '';
+    const relTime    = uploadedAt ? formatNoteTimestamp(uploadedAt) : '';
+    const signedUrl  = doc.signed_url || '';
+
+    let bodyHtml;
+    if (meta.previewable && signedUrl) {
+      bodyHtml =
+        '<iframe class="document-preview-iframe" ' +
+                'src="'   + escapeHtml(signedUrl) + '" ' +
+                'title="' + escapeHtml(filename)  + ' preview"></iframe>';
+    } else if (signedUrl) {
+      bodyHtml =
+        '<div class="document-download-block">' +
+          '<a class="document-download-link" ' +
+              'href="'     + escapeHtml(signedUrl) + '" ' +
+              'target="_blank" rel="noopener" ' +
+              'download="' + escapeHtml(filename)  + '">' +
+            'Download ' + escapeHtml(meta.label) +
+          '</a>' +
+          '<div class="document-download-hint">Opens in a new tab.</div>' +
+        '</div>';
+    } else {
+      // Defensive: signed_url should always be present, but render a graceful
+      // fallback rather than a broken iframe / unclickable button.
+      bodyHtml =
+        '<div class="document-download-block">' +
+          '<div class="document-download-hint">Preview unavailable.</div>' +
+        '</div>';
+    }
+
+    const item = document.createElement('div');
+    item.className = 'document-item';
+    item.innerHTML =
+      '<div class="document-header">' +
+        '<span class="document-filename" title="' + escapeHtml(filename) + '">' + escapeHtml(filename) + '</span>' +
+        (relTime
+          ? '<span class="document-uploaded-at" title="' + escapeHtml(isoTitle) + '">' + escapeHtml(relTime) + '</span>'
+          : '') +
+        '<span class="document-size">' + escapeHtml(sizeStr) + '</span>' +
+        '<span class="document-type-label">' + escapeHtml(meta.label) + '</span>' +
+      '</div>' +
+      bodyHtml;
+    return item;
+  }
+
+  // renderDocumentsList — populates the .documents-list element based on the
+  // fetch result. Drives the four-state machine via data-state attribute
+  // (loading / error / empty / populated) which the F11 CSS keys off.
+  function renderDocumentsList(listEl, fetchResult) {
+    listEl.innerHTML = '';
+    if (fetchResult.status === 'error') {
+      listEl.setAttribute('data-state', 'error');
+      listEl.textContent = 'Could not load documents. Please refresh the page.';
+      return;
+    }
+    const docs = fetchResult.documents || [];
+    if (docs.length === 0) {
+      listEl.setAttribute('data-state', 'empty');
+      listEl.textContent = 'No documents uploaded.';
+      return;
+    }
+    listEl.setAttribute('data-state', 'populated');
+    for (const doc of docs) {
+      listEl.appendChild(documentItemEl(doc));
+    }
+  }
+
+  // buildDocumentsSection — returns the documents <section> synchronously
+  // so renderReviewBundle can appendChild without await. The section starts
+  // in 'loading' state; the async load runs in the background and swaps the
+  // list into its final state when the RPC resolves. Q3 = (a): URLs minted
+  // once on view load; if the facilitator leaves the tab open for >1 hour
+  // and clicks Preview, expiry is recovered with a page refresh.
+  function buildDocumentsSection(submissionId) {
+    const section = document.createElement('section');
+    section.className = 'documents-section';
+    section.innerHTML =
+      '<h2 class="documents-section-heading">Supporting Documents</h2>' +
+      '<div class="documents-list" data-state="loading">Loading documents\u2026</div>';
+
+    const listEl = section.querySelector('.documents-list');
+
+    loadSubmissionDocuments(submissionId).then(function (result) {
+      renderDocumentsList(listEl, result);
+    }).catch(function (err) {
+      // Defensive — loadSubmissionDocuments swallows its own errors, but
+      // if it ever throws (e.g. supabaseClient itself missing), surface
+      // the error state rather than leaving 'loading' on screen forever.
+      console.error('[F11] buildDocumentsSection unexpected throw:', err);
+      renderDocumentsList(listEl, { status: 'error', documents: [] });
+    });
+
+    return section;
+  }
+
   function lensDotEl(lensState, participant) {
     const dot = document.createElement('span');
     const status = String(lensState.status || 'locked').toLowerCase();
