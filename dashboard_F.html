@@ -3219,45 +3219,23 @@
   }
 
   // documentItemEl — builds one .document-item card from a single row of
-  // list_submission_documents output. Header carries filename, relative
-  // upload time (reusing F12's formatNoteTimestamp for tone parity with
-  // the notes pane), human-readable size, and type label. Body is either
-  // the iframe preview (PDF / PNG / JPG per Q2a/Q2b: auto-expanded, fixed
-  // 600px) or the download block (DOCX / XLSX / PPTX per Q2c).
+  // list_submission_documents output. Header is rendered synchronously
+  // (filename, relative upload time, size, type label). Body is rendered
+  // asynchronously: the RPC returns storage_path; this function mints a
+  // 1-hour signed URL via the JS SDK and swaps the placeholder for the
+  // iframe (PDF / PNG / JPG per Q2a/Q2b — auto-expanded, fixed 600px) or
+  // the download block (DOCX / XLSX / PPTX per Q2c).
+  // Per-item async lifecycle: a URL minting failure on one document leaves
+  // an inline "Could not generate preview link" message and doesn't taint
+  // the rest of the list.
   function documentItemEl(doc) {
-    const meta       = documentTypeMeta(doc.mime_type);
-    const filename   = doc.filename || 'document';
-    const sizeStr    = formatDocumentSize(doc.size_bytes);
-    const uploadedAt = doc.uploaded_at;
-    const isoTitle   = uploadedAt ? new Date(uploadedAt).toISOString() : '';
-    const relTime    = uploadedAt ? formatNoteTimestamp(uploadedAt) : '';
-    const signedUrl  = doc.signed_url || '';
-
-    let bodyHtml;
-    if (meta.previewable && signedUrl) {
-      bodyHtml =
-        '<iframe class="document-preview-iframe" ' +
-                'src="'   + escapeHtml(signedUrl) + '" ' +
-                'title="' + escapeHtml(filename)  + ' preview"></iframe>';
-    } else if (signedUrl) {
-      bodyHtml =
-        '<div class="document-download-block">' +
-          '<a class="document-download-link" ' +
-              'href="'     + escapeHtml(signedUrl) + '" ' +
-              'target="_blank" rel="noopener" ' +
-              'download="' + escapeHtml(filename)  + '">' +
-            'Download ' + escapeHtml(meta.label) +
-          '</a>' +
-          '<div class="document-download-hint">Opens in a new tab.</div>' +
-        '</div>';
-    } else {
-      // Defensive: signed_url should always be present, but render a graceful
-      // fallback rather than a broken iframe / unclickable button.
-      bodyHtml =
-        '<div class="document-download-block">' +
-          '<div class="document-download-hint">Preview unavailable.</div>' +
-        '</div>';
-    }
+    const meta        = documentTypeMeta(doc.mime_type);
+    const filename    = doc.filename || 'document';
+    const sizeStr     = formatDocumentSize(doc.size_bytes);
+    const uploadedAt  = doc.uploaded_at;
+    const isoTitle    = uploadedAt ? new Date(uploadedAt).toISOString() : '';
+    const relTime     = uploadedAt ? formatNoteTimestamp(uploadedAt) : '';
+    const storagePath = doc.storage_path || '';
 
     const item = document.createElement('div');
     item.className = 'document-item';
@@ -3270,7 +3248,73 @@
         '<span class="document-size">' + escapeHtml(sizeStr) + '</span>' +
         '<span class="document-type-label">' + escapeHtml(meta.label) + '</span>' +
       '</div>' +
-      bodyHtml;
+      '<div class="document-body-placeholder" style="padding:18px 14px;text-align:center;font-size:12px;color:var(--ash);opacity:0.7;font-style:italic;">Generating preview\u2026</div>';
+
+    // No storage path on the row: render graceful fallback now and skip the
+    // async URL minting entirely. Defensive — list_submission_documents
+    // always returns storage_path, but a zero-length string would slip past
+    // the column-NOT-NULL guard if the row was hand-crafted.
+    if (!storagePath) {
+      const placeholder = item.querySelector('.document-body-placeholder');
+      placeholder.outerHTML =
+        '<div class="document-download-block">' +
+          '<div class="document-download-hint">Preview unavailable.</div>' +
+        '</div>';
+      return item;
+    }
+
+    // Mint a signed URL via the JS SDK; on resolve, replace the placeholder
+    // with the iframe or download block. createSignedUrl returns
+    // { data: { signedUrl }, error }. Errors are surfaced as a graceful
+    // inline message rather than thrown.
+    supabaseClient.storage
+      .from('submission_documents')
+      .createSignedUrl(storagePath, 3600)
+      .then(function (result) {
+        const placeholder = item.querySelector('.document-body-placeholder');
+        if (!placeholder) return;
+
+        if (result.error || !result.data || !result.data.signedUrl) {
+          console.error('[F11] createSignedUrl error for', storagePath, result.error);
+          placeholder.outerHTML =
+            '<div class="document-download-block">' +
+              '<div class="document-download-hint">Could not generate preview link.</div>' +
+            '</div>';
+          return;
+        }
+
+        const signedUrl = result.data.signedUrl;
+        let bodyHtml;
+        if (meta.previewable) {
+          bodyHtml =
+            '<iframe class="document-preview-iframe" ' +
+                    'src="'   + escapeHtml(signedUrl) + '" ' +
+                    'title="' + escapeHtml(filename)  + ' preview"></iframe>';
+        } else {
+          bodyHtml =
+            '<div class="document-download-block">' +
+              '<a class="document-download-link" ' +
+                  'href="'     + escapeHtml(signedUrl) + '" ' +
+                  'target="_blank" rel="noopener" ' +
+                  'download="' + escapeHtml(filename)  + '">' +
+                'Download ' + escapeHtml(meta.label) +
+              '</a>' +
+              '<div class="document-download-hint">Opens in a new tab.</div>' +
+            '</div>';
+        }
+        placeholder.outerHTML = bodyHtml;
+      })
+      .catch(function (err) {
+        console.error('[F11] createSignedUrl exception for', storagePath, err);
+        const placeholder = item.querySelector('.document-body-placeholder');
+        if (placeholder) {
+          placeholder.outerHTML =
+            '<div class="document-download-block">' +
+              '<div class="document-download-hint">Could not generate preview link.</div>' +
+            '</div>';
+        }
+      });
+
     return item;
   }
 
