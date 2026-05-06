@@ -1104,6 +1104,179 @@
     margin-bottom: 12px;
   }
 
+  
+  /* ════════════════════════════════════════════════════════════════
+     A1-UI-E: Cohort create/edit form
+     ════════════════════════════════════════════════════════════════ */
+
+  .form-card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: rgba(34,71,47,0.30);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 36px 40px;
+  }
+
+  .form-row {
+    margin-bottom: 24px;
+  }
+  .form-row:last-child { margin-bottom: 0; }
+
+  .form-label {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 10px;
+  }
+  .form-label__required {
+    color: var(--gold);
+    margin-left: 4px;
+  }
+
+  .form-input,
+  .form-select {
+    display: block;
+    width: 100%;
+    background: var(--forest-deepest);
+    border: 1px solid var(--border-default);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 11px 14px;
+    border-radius: 3px;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+  .form-input:focus,
+  .form-select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--forest-dark);
+  }
+  .form-input::placeholder {
+    color: rgba(255,255,255,0.30);
+  }
+  .form-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1L6 6L11 1' stroke='%23c9a84c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+  }
+  .form-select option {
+    background: var(--forest-dark);
+    color: var(--white);
+  }
+
+  .form-help {
+    font-size: 11px;
+    color: rgba(255,255,255,0.50);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* Field-level error message */
+  .form-error-inline {
+    color: var(--state-danger);
+    font-size: 12px;
+    margin-top: 6px;
+    display: none;
+  }
+  .form-row--error .form-input,
+  .form-row--error .form-select {
+    border-color: var(--state-danger);
+  }
+  .form-row--error .form-error-inline {
+    display: block;
+  }
+
+  /* Segmented pill control (Type, Status) */
+  .form-pills {
+    display: inline-flex;
+    background: var(--forest-deepest);
+    border: 1px solid var(--border-default);
+    border-radius: 3px;
+    padding: 3px;
+  }
+  .form-pill {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,0.60);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 9px 16px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .form-pill:hover {
+    color: var(--white);
+  }
+  .form-pill--active {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+
+  /* Action row (Cancel + Save) */
+  .form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-subtle);
+  }
+  .btn--ghost {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: rgba(255,255,255,0.72);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 12px 22px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .btn--ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .btn[disabled],
+  .btn--ghost[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Server-error banner above form */
+  .form-server-error {
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.30);
+    border-left: 3px solid var(--state-danger);
+    border-radius: 3px;
+    padding: 14px 22px;
+    color: var(--white);
+    font-size: 13px;
+    margin-bottom: 24px;
+    display: none;
+  }
+  .form-server-error--shown { display: block; }
+
+  /* Hidden helper for fields conditionally hidden (e.g. End date for rolling) */
+  .form-row--hidden { display: none; }
+
   </style>
 </head>
 <body>
@@ -1193,6 +1366,12 @@
             <!-- States rendered here by JS: skeleton | detail | not-found | error -->
           </div>
         </section>
+        <section class="view" id="view-cohort-form" data-view="cohort-form">
+          <div id="cohortFormContainer">
+            <!-- States rendered here by JS: skeleton (edit-prefill) | form | error -->
+          </div>
+        </section>
+
 
 
         <!-- Stubbed views for A2–A10. Each cluster replaces its stub when its work begins. -->
@@ -2107,13 +2286,6 @@
         setCohortViewMode('list');
         return;
       }
-      // Special: cohort=new is the create form (lands in A1-UI-E). Route to
-      // toast for now and bounce back to list view; do not enter detail mode.
-      if (cohortParam === 'new') {
-        setCohortViewMode('list');
-        window.showToast('Create-cohort form lands in A1-UI-E.');
-        return;
-      }
       // Detail mode: a UUID is present.
       if (cohortParam) {
         setCohortViewMode('detail');
@@ -2124,6 +2296,464 @@
       }
       // Plain list mode.
       setCohortViewMode('list');
+    };
+
+
+
+    // -----------------------------------------------------------
+    // A1-UI-E: Cohort create/edit form — state machine + render + submit
+    // -----------------------------------------------------------
+    const cohortFormState = {
+      mode:           null,    // 'create' | 'edit'
+      cohortId:       null,    // for edit
+      loading:        false,   // true while we fetch existing cohort or org list
+      submitting:     false,
+      organisations:  null,    // cached picklist [{id, name}, ...]
+      // Form values (live state)
+      values: {
+        name:            '',
+        cohort_type:     'fixed',
+        status:          'draft',
+        organisation_id: '',
+        start_date:      '',
+        end_date:        '',
+      },
+      // Field errors keyed by field name
+      errors: {},
+      // Top-level server-error message
+      serverError: null,
+    };
+
+    // Reset form state to defaults (used when entering create mode).
+    function resetCohortFormState() {
+      cohortFormState.mode = null;
+      cohortFormState.cohortId = null;
+      cohortFormState.loading = false;
+      cohortFormState.submitting = false;
+      cohortFormState.values = {
+        name:            '',
+        cohort_type:     'fixed',
+        status:          'draft',
+        organisation_id: '',
+        start_date:      '',
+        end_date:        '',
+      };
+      cohortFormState.errors = {};
+      cohortFormState.serverError = null;
+    }
+
+    // Fetch the organisations picklist once and cache it.
+    async function ensureOrganisationsLoaded() {
+      if (cohortFormState.organisations !== null) return;
+      try {
+        const { data, error } = await sb.rpc('get_organisations_picklist');
+        if (error) {
+          cohortFormState.organisations = [];
+          cohortFormState.serverError = 'Could not load organisations: ' + (error.message || 'unknown error');
+          return;
+        }
+        cohortFormState.organisations = Array.isArray(data) ? data : [];
+      } catch (e) {
+        cohortFormState.organisations = [];
+        cohortFormState.serverError = 'Could not load organisations: ' + (e.message || 'network error');
+      }
+    }
+
+    // Render the entire form HTML based on current state.
+    function renderCohortFormHtml() {
+      const v = cohortFormState.values;
+      const errs = cohortFormState.errors;
+      const isFixed = v.cohort_type === 'fixed';
+      const orgs = cohortFormState.organisations || [];
+      const isEdit = cohortFormState.mode === 'edit';
+
+      const orgOptions = ['<option value="">— Select organisation —</option>']
+        .concat(orgs.map(o =>
+          `<option value="${o.id}" ${v.organisation_id === o.id ? 'selected' : ''}>${escapeHtml(o.name)}</option>`
+        )).join('');
+
+      const pillBtn = (filterName, value, label, currentValue) =>
+        `<button type="button" class="form-pill ${currentValue === value ? 'form-pill--active' : ''}" data-field="${filterName}" data-value="${value}">${label}</button>`;
+
+      const errClass = (field) => errs[field] ? 'form-row--error' : '';
+      const errMsg = (field) => `<div class="form-error-inline">${escapeHtml(errs[field] || '')}</div>`;
+
+      const serverErrShown = cohortFormState.serverError ? 'form-server-error--shown' : '';
+
+      const submitLabel = isEdit ? 'Save changes' : 'Create cohort';
+      const submitDisabled = cohortFormState.submitting ? 'disabled' : '';
+      const cancelHref = isEdit ? `?view=cohorts&cohort=${cohortFormState.cohortId}` : '?view=cohorts';
+
+      return `
+        <button type="button" class="detail-back" id="formBackBtn">← Back to ${isEdit ? 'cohort' : 'Cohorts'}</button>
+
+        <div class="view-header">
+          <div>
+            <div class="view-header__kicker">${isEdit ? 'Edit cohort' : 'New cohort'}</div>
+            <h1 class="view-header__title">${isEdit ? escapeHtml(v.name || 'Edit cohort') : 'Create a cohort'}</h1>
+            <div class="view-header__sub">${isEdit ? 'Adjust the basics. Membership and archive actions live on the detail page.' : 'A cohort groups participants and facilitators for one programme delivery.'}</div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-server-error ${serverErrShown}" id="formServerError">
+            ${escapeHtml(cohortFormState.serverError || '')}
+          </div>
+
+          <form id="cohortForm" novalidate>
+            <div class="form-row ${errClass('name')}">
+              <label class="form-label" for="fieldName">Cohort name<span class="form-label__required">*</span></label>
+              <input class="form-input" id="fieldName" name="name" type="text" maxlength="200" value="${escapeHtml(v.name)}" placeholder="e.g. Standard Bank · CESI Q3 2026" autocomplete="off">
+              <div class="form-help">A short, descriptive name. Visible to facilitators and participants.</div>
+              ${errMsg('name')}
+            </div>
+
+            <div class="form-row ${errClass('cohort_type')}">
+              <label class="form-label">Type<span class="form-label__required">*</span></label>
+              <div class="form-pills" role="tablist" aria-label="Cohort type">
+                ${pillBtn('cohort_type', 'fixed',   'Fixed',   v.cohort_type)}
+                ${pillBtn('cohort_type', 'rolling', 'Rolling', v.cohort_type)}
+              </div>
+              <div class="form-help">Fixed cohorts have a defined start and end date. Rolling cohorts admit participants on an open-ended basis.</div>
+              ${errMsg('cohort_type')}
+            </div>
+
+            <div class="form-row ${errClass('status')}">
+              <label class="form-label">Status<span class="form-label__required">*</span></label>
+              <div class="form-pills" role="tablist" aria-label="Cohort status">
+                ${pillBtn('status', 'draft',  'Draft',  v.status)}
+                ${pillBtn('status', 'active', 'Active', v.status)}
+                ${pillBtn('status', 'closed', 'Closed', v.status)}
+              </div>
+              <div class="form-help">Drafts are hidden from facilitators. Set to Active when ready to invite participants.</div>
+              ${errMsg('status')}
+            </div>
+
+            <div class="form-row ${errClass('organisation_id')}">
+              <label class="form-label" for="fieldOrg">Organisation</label>
+              <select class="form-select" id="fieldOrg" name="organisation_id">
+                ${orgOptions}
+              </select>
+              <div class="form-help">Optional. Tag this cohort to a corporate client or partner organisation.</div>
+              ${errMsg('organisation_id')}
+            </div>
+
+            <div class="form-row ${errClass('start_date')}">
+              <label class="form-label" for="fieldStart">Start date${isFixed ? '<span class="form-label__required">*</span>' : ''}</label>
+              <input class="form-input" id="fieldStart" name="start_date" type="date" value="${escapeHtml(v.start_date || '')}">
+              ${errMsg('start_date')}
+            </div>
+
+            <div class="form-row ${isFixed ? '' : 'form-row--hidden'} ${errClass('end_date')}" id="endDateRow">
+              <label class="form-label" for="fieldEnd">End date<span class="form-label__required">*</span></label>
+              <input class="form-input" id="fieldEnd" name="end_date" type="date" value="${escapeHtml(v.end_date || '')}">
+              ${errMsg('end_date')}
+            </div>
+
+            <div class="form-actions">
+              <a class="btn--ghost" href="${cancelHref}" id="formCancelBtn">Cancel</a>
+              <button type="submit" class="btn btn--primary" id="formSubmitBtn" ${submitDisabled}>${submitLabel}</button>
+            </div>
+          </form>
+        </div>
+      `;
+    }
+
+    // Render whatever state the form view is in.
+    function renderCohortForm() {
+      const container = document.getElementById('cohortFormContainer');
+      if (!container) return;
+      if (cohortFormState.loading) {
+        container.innerHTML = `
+          <div class="detail-skel">
+            <div class="detail-skel__card">
+              <div class="detail-skel__bar" style="width:40%;"></div>
+              <div class="detail-skel__bar" style="width:60%;"></div>
+              <div class="detail-skel__bar" style="width:50%;"></div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      container.innerHTML = renderCohortFormHtml();
+      wireCohortFormEventsOnce();
+    }
+
+    // Wire form-internal event handlers (re-bound after each render).
+    function wireCohortFormEventsOnce() {
+      // Back button → return to list (for create) or detail (for edit)
+      const back = document.getElementById('formBackBtn');
+      if (back) {
+        back.addEventListener('click', () => {
+          const target = cohortFormState.mode === 'edit' && cohortFormState.cohortId
+            ? `?view=cohorts&cohort=${cohortFormState.cohortId}`
+            : '?view=cohorts';
+          history.pushState({}, '', target);
+          handleRoute();
+        });
+      }
+      // Cancel link uses href, browser handles it; nothing to wire here.
+
+      // Pill click — update value and re-render (shows/hides end_date when type changes)
+      document.querySelectorAll('.form-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const field = pill.dataset.field;
+          const value = pill.dataset.value;
+          if (cohortFormState.values[field] === value) return;
+          cohortFormState.values[field] = value;
+          // Clear any error on this field; user is interacting with it.
+          delete cohortFormState.errors[field];
+          renderCohortForm();
+        });
+      });
+
+      // Text/date input live-update (don't re-render — just store value)
+      ['fieldName', 'fieldStart', 'fieldEnd'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', () => {
+          const fieldName = el.name;
+          cohortFormState.values[fieldName] = el.value;
+          // Clear error inline as user types
+          if (cohortFormState.errors[fieldName]) {
+            delete cohortFormState.errors[fieldName];
+            const row = el.closest('.form-row');
+            if (row) row.classList.remove('form-row--error');
+            const inlineErr = row ? row.querySelector('.form-error-inline') : null;
+            if (inlineErr) inlineErr.style.display = 'none';
+          }
+        });
+      });
+
+      // Organisation select
+      const orgSel = document.getElementById('fieldOrg');
+      if (orgSel) {
+        orgSel.addEventListener('change', () => {
+          cohortFormState.values.organisation_id = orgSel.value;
+          delete cohortFormState.errors.organisation_id;
+        });
+      }
+
+      // Submit
+      const form = document.getElementById('cohortForm');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          await submitCohortForm();
+        });
+      }
+    }
+
+    // Validate values; return errors object.
+    function validateCohortForm() {
+      const v = cohortFormState.values;
+      const errs = {};
+      if (!v.name || v.name.trim().length < 3) {
+        errs.name = 'Name must be at least 3 characters.';
+      }
+      if (!['fixed', 'rolling'].includes(v.cohort_type)) {
+        errs.cohort_type = 'Pick a type.';
+      }
+      if (!['draft', 'active', 'closed'].includes(v.status)) {
+        errs.status = 'Pick a status.';
+      }
+      if (v.cohort_type === 'fixed') {
+        if (!v.start_date) {
+          errs.start_date = 'Start date is required for fixed cohorts.';
+        }
+        if (!v.end_date) {
+          errs.end_date = 'End date is required for fixed cohorts.';
+        }
+        if (v.start_date && v.end_date && v.end_date < v.start_date) {
+          errs.end_date = 'End date must be on or after the start date.';
+        }
+      }
+      return errs;
+    }
+
+    // Submit form — calls admin_create_cohort or admin_edit_cohort.
+    async function submitCohortForm() {
+      cohortFormState.serverError = null;
+      cohortFormState.errors = validateCohortForm();
+      if (Object.keys(cohortFormState.errors).length > 0) {
+        renderCohortForm();
+        return;
+      }
+      cohortFormState.submitting = true;
+      renderCohortForm();
+
+      const v = cohortFormState.values;
+      // null out date fields appropriately for rolling
+      const startDate = v.start_date || null;
+      const endDate = v.cohort_type === 'rolling' ? null : (v.end_date || null);
+      const orgId = v.organisation_id || null;
+
+      try {
+        let result;
+        if (cohortFormState.mode === 'create') {
+          result = await sb.rpc('admin_create_cohort', {
+            p_name:            v.name.trim(),
+            p_cohort_type:     v.cohort_type,
+            p_organisation_id: orgId,
+            p_start_date:      startDate,
+            p_end_date:        endDate,
+            p_status:          v.status,
+          });
+        } else {
+          result = await sb.rpc('admin_edit_cohort', {
+            p_cohort_id:       cohortFormState.cohortId,
+            p_name:            v.name.trim(),
+            p_cohort_type:     v.cohort_type,
+            p_organisation_id: orgId,
+            p_start_date:      startDate,
+            p_end_date:        endDate,
+            p_status:          v.status,
+          });
+        }
+        cohortFormState.submitting = false;
+        if (result.error) {
+          cohortFormState.serverError = result.error.message || 'Save failed.';
+          renderCohortForm();
+          return;
+        }
+        // Success.
+        if (cohortFormState.mode === 'create') {
+          // Try to extract new cohort id from result.data if returned.
+          // admin_create_cohort returns the new row's id (verified yesterday).
+          let newId = null;
+          if (result.data) {
+            if (typeof result.data === 'string') {
+              newId = result.data;
+            } else if (Array.isArray(result.data) && result.data[0]) {
+              newId = result.data[0].id || result.data[0];
+            } else if (result.data.id) {
+              newId = result.data.id;
+            }
+          }
+          window.showToast('Cohort created.');
+          // Force the list to re-fetch on next view of cohorts list
+          cohortListState.loaded = false;
+          if (newId) {
+            history.pushState({}, '', `?view=cohorts&cohort=${newId}`);
+          } else {
+            history.pushState({}, '', '?view=cohorts');
+          }
+          handleRoute();
+        } else {
+          window.showToast('Cohort updated.');
+          cohortListState.loaded = false;
+          // Force the detail to re-fetch
+          cohortDetailState.currentId = null;
+          history.pushState({}, '', `?view=cohorts&cohort=${cohortFormState.cohortId}`);
+          handleRoute();
+        }
+      } catch (e) {
+        cohortFormState.submitting = false;
+        cohortFormState.serverError = e.message || 'Network error.';
+        renderCohortForm();
+      }
+    }
+
+    // Toggle to form-view mode (called by router).
+    function setCohortFormViewMode() {
+      const list   = document.getElementById('view-cohorts');
+      const detail = document.getElementById('view-cohort-detail');
+      const form   = document.getElementById('view-cohort-form');
+      if (list)   list.classList.remove('view--active');
+      if (detail) detail.classList.remove('view--active');
+      if (form)   form.classList.add('view--active');
+    }
+
+    // Enter create mode.
+    async function enterCreateCohortMode() {
+      resetCohortFormState();
+      cohortFormState.mode = 'create';
+      cohortFormState.loading = true;
+      renderCohortForm();
+      await ensureOrganisationsLoaded();
+      cohortFormState.loading = false;
+      renderCohortForm();
+    }
+
+    // Enter edit mode for an existing cohort.
+    async function enterEditCohortMode(cohortId) {
+      resetCohortFormState();
+      cohortFormState.mode = 'edit';
+      cohortFormState.cohortId = cohortId;
+      cohortFormState.loading = true;
+      renderCohortForm();
+      await ensureOrganisationsLoaded();
+      // Fetch the cohort detail bundle to pre-fill values
+      try {
+        const { data, error } = await sb.rpc('get_admin_cohort_detail', { p_cohort_id: cohortId });
+        if (error) {
+          cohortFormState.loading = false;
+          if ((error.message || '').includes('cohort_not_found') || error.code === 'P0002') {
+            cohortFormState.serverError = 'Cohort not found.';
+          } else {
+            cohortFormState.serverError = error.message || 'Could not load cohort.';
+          }
+          renderCohortForm();
+          return;
+        }
+        const c = data && data.cohort ? data.cohort : null;
+        if (c) {
+          cohortFormState.values = {
+            name:            c.name || '',
+            cohort_type:     c.cohort_type || 'fixed',
+            status:          c.status || 'draft',
+            organisation_id: c.organisation_id || '',
+            start_date:      c.start_date || '',
+            end_date:        c.end_date || '',
+          };
+        }
+      } catch (e) {
+        cohortFormState.serverError = e.message || 'Network error.';
+      }
+      cohortFormState.loading = false;
+      renderCohortForm();
+    }
+
+    // Hook handleRoute again — third wrap, this time for A1-UI-E. Each wrap
+    // calls the previous one then adds its own conditional. This keeps each
+    // cluster's routing logic isolated.
+    const _origHandleRoute_uiE = handleRoute;
+    handleRoute = function patchedHandleRouteForForm() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view') || 'cohorts';
+      const cohortParam = params.get('cohort');
+      const editParam = params.get('edit');
+
+      // Form mode kicks in when cohort=new OR (cohort=<uuid> AND edit=1).
+      if (view === 'cohorts' && (cohortParam === 'new' || (cohortParam && editParam === '1'))) {
+        // Don't call previous handleRoute (which would route to detail/list).
+        // Instead, route to form mode directly.
+        // Still update breadcrumb + nav active via the original first-wrap (it
+        // sets breadcrumb to "Cohorts" which is the right ancestor).
+        // We only call the very-first handleRoute (the original one before any
+        // wraps) so it just sets breadcrumb + page title + view toggle, and
+        // then we override the view toggle.
+        document.querySelectorAll('.view').forEach(el => {
+          el.classList.toggle('view--active', el.dataset.view === 'cohorts');
+        });
+        document.querySelectorAll('.nav__item').forEach(el => {
+          el.classList.toggle('nav__item--active', el.dataset.nav === 'cohorts');
+        });
+        const crumb = document.getElementById('breadcrumbCurrent');
+        if (crumb) crumb.textContent = cohortParam === 'new' ? 'Cohorts · New' : 'Cohorts · Edit';
+        document.title = (cohortParam === 'new' ? 'New cohort' : 'Edit cohort') + ' · S2R® Admin';
+        setCohortFormViewMode();
+        if (cohortParam === 'new') {
+          if (cohortFormState.mode !== 'create') enterCreateCohortMode();
+        } else {
+          if (cohortFormState.mode !== 'edit' || cohortFormState.cohortId !== cohortParam) {
+            enterEditCohortMode(cohortParam);
+          }
+        }
+        return;
+      }
+      // Otherwise, defer to the previous router (which handles list/detail).
+      _origHandleRoute_uiE.apply(this, arguments);
     };
 
 
