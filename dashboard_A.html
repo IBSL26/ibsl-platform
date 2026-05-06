@@ -1716,6 +1716,12 @@
           </div>
         </section>
 
+        <section class="view" id="view-user-detail" data-view="user-detail">
+          <div id="userDetailContainer">
+            <!-- States rendered here by JS: skeleton | detail | not-found | error -->
+          </div>
+        </section>
+
         <section class="view" id="view-invitations" data-view="invitations">
           <div class="view-header">
             <div><div class="view-header__kicker">Provisioning</div>
@@ -3800,7 +3806,11 @@
         if (!action) return;
         e.preventDefault();
         if (action === 'view-detail') {
-          window.showToast('User detail — A2-UI-B coming next', 3000);
+          const userId = item.dataset.id;
+          if (userId) {
+            history.pushState({}, '', `?view=users&user=${userId}`);
+            handleRoute();
+          }
         } else if (action === 'edit') {
           window.showToast('Edit user — A2-UI-C coming next', 3000);
         } else if (action === 'suspend') {
@@ -3846,6 +3856,323 @@
       if (view === 'users' && !userListState.loaded) {
         loadUserList();
       }
+    };
+
+
+    // -----------------------------------------------------------
+    // A2-UI-B: User detail view — state machine, loader, renderer
+    // -----------------------------------------------------------
+    const userDetailState = {
+      currentId: null,
+      loading:   false,
+      data:      null,
+      error:     null,
+    };
+
+    // Format a membership status pill.
+    function userMembershipStatusHtml(m) {
+      if (m.cohort_archived_at) {
+        return `<span class="cohort-name__archived-tag">Archived</span>`;
+      }
+      return `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="status-pip status-pip--active"></span><span style="color:rgba(255,255,255,0.7);font-size:12px;">Active</span></span>`;
+    }
+
+    // One row in the cohort memberships table.
+    function userMembershipRowHtml(m) {
+      return `
+        <tr>
+          <td><span class="cohort-name">${escapeHtml(m.cohort_name)}</span></td>
+          <td><span class="type-badge">${escapeHtml(m.role_in_cohort)}</span></td>
+          <td class="cell-secondary">${escapeHtml(m.cohort_type || '')}</td>
+          <td class="cell-secondary">${fmtDateTime(m.joined_at)}</td>
+          <td>${userMembershipStatusHtml(m)}</td>
+        </tr>
+      `;
+    }
+
+    // Render the user detail bundle into HTML.
+    function renderUserDetailHtml(bundle) {
+      const u = bundle.user;
+      const memberships = bundle.cohort_memberships || [];
+      const isSelf = u.id === userListState.callerUserId;
+      const isBootstrap = u.id === BOOTSTRAP_ADMIN_UUID;
+      const isFacilitator = u.role === 'facilitator';
+
+      const suspendedBanner = u.suspended ? `
+        <div style="background:rgba(196,90,77,0.18);border:1px solid rgba(196,90,77,0.45);border-radius:6px;padding:14px 18px;margin-bottom:24px;color:#e9a99c;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div><strong>Suspended</strong> · This user cannot sign in.</div>
+          ${(isSelf || isBootstrap) ? '' : `<button type="button" data-action="unsuspend-user-from-detail" data-id="${u.id}" style="background:transparent;border:1px solid rgba(196,90,77,0.55);color:#e9a99c;padding:6px 14px;border-radius:4px;font-family:Montserrat,sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Unsuspend</button>`}
+        </div>
+      ` : '';
+
+      const deviceBoundValue = u.device_bound
+        ? `Yes · confirmed ${fmtDateTime(u.device_confirmed_at)}`
+        : 'Not yet bound';
+
+      const lastVisitItem = isFacilitator ? `
+        <div class="basics-grid__item">
+          <div class="basics-grid__label">Last facilitator visit</div>
+          <div class="basics-grid__value basics-grid__value--muted">${u.last_facilitator_visit_at ? fmtDateTime(u.last_facilitator_visit_at) : '— never —'}</div>
+        </div>
+      ` : '';
+
+      const orgValue = u.organisation_name
+        ? `<div class="basics-grid__value">${escapeHtml(u.organisation_name)}</div>`
+        : `<div class="basics-grid__value basics-grid__value--muted">— none —</div>`;
+
+      const selfTag = isSelf
+        ? `<span class="cohort-name__archived-tag" style="background:rgba(201,168,76,0.18);color:#c9a84c;border-color:rgba(201,168,76,0.4);margin-left:10px;">You</span>`
+        : '';
+
+      const membershipsBody = memberships.length === 0
+        ? '<div class="people-list__empty">No cohort memberships.</div>'
+        : `
+          <div class="cohort-table-wrap" style="margin-top:0;">
+            <table class="cohort-table">
+              <thead>
+                <tr>
+                  <th>Cohort</th>
+                  <th>Role</th>
+                  <th>Type</th>
+                  <th>Joined</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>${memberships.map(userMembershipRowHtml).join('')}</tbody>
+            </table>
+          </div>
+        `;
+
+      return `
+        <button type="button" class="detail-back" id="userDetailBackBtn">← Back to Users</button>
+
+        <div class="view-header">
+          <div>
+            <div class="view-header__kicker">User detail</div>
+            <h1 class="view-header__title">${escapeHtml(u.full_name)}${selfTag}</h1>
+            <div class="view-header__sub">${escapeHtml(u.role)} · ${escapeHtml(u.email)}</div>
+          </div>
+          <div>
+            <button type="button" class="btn btn--primary" data-action="edit-user-from-detail" data-id="${u.id}">Edit user</button>
+          </div>
+        </div>
+
+        ${suspendedBanner}
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Basics</div>
+          </div>
+          <div class="basics-grid">
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Name</div>
+              <div class="basics-grid__value basics-grid__value--serif">${escapeHtml(u.full_name)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Email</div>
+              <div class="basics-grid__value">${escapeHtml(u.email)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Role</div>
+              <div class="basics-grid__value">${escapeHtml(u.role)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Organisation</div>
+              ${orgValue}
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Status</div>
+              <div class="basics-grid__value">${u.suspended ? 'Suspended' : 'Active'}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Device bound</div>
+              <div class="basics-grid__value basics-grid__value--muted">${deviceBoundValue}</div>
+            </div>
+            ${lastVisitItem}
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Created</div>
+              <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(u.created_at)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Last modified</div>
+              <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(u.updated_at)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Cohort memberships</div>
+              <div class="detail-card__count">${memberships.length} ${memberships.length === 1 ? 'membership' : 'memberships'}</div>
+            </div>
+          </div>
+          ${membershipsBody}
+        </div>
+      `;
+    }
+
+    function userDetailSkeletonHtml() {
+      return `
+        <div style="padding:32px 0;">
+          <div class="skeleton-bar" style="width:120px;height:14px;margin-bottom:24px;"></div>
+          <div class="skeleton-bar" style="width:60%;height:32px;margin-bottom:32px;"></div>
+          <div class="skeleton-bar" style="width:100%;height:200px;margin-bottom:24px;"></div>
+          <div class="skeleton-bar" style="width:100%;height:160px;"></div>
+        </div>
+      `;
+    }
+
+    function renderUserDetail() {
+      const container = document.getElementById('userDetailContainer');
+      if (!container) return;
+      if (userDetailState.loading) {
+        container.innerHTML = userDetailSkeletonHtml();
+        return;
+      }
+      if (userDetailState.error === 'user_not_found') {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="userDetailBackBtn">← Back to Users</button>
+          <div class="empty-state">
+            <div class="empty-state__title">User not found</div>
+            <div class="empty-state__body">This user may have been removed, or the link is wrong.</div>
+            <button type="button" class="btn btn--primary empty-state__cta" id="userDetailBackCta">Back to Users</button>
+          </div>
+        `;
+        return;
+      }
+      if (userDetailState.error) {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="userDetailBackBtn">← Back to Users</button>
+          <div class="error-state">
+            <div class="error-state__title">Could not load user</div>
+            <div class="error-state__body">${escapeHtml(userDetailState.error)}</div>
+          </div>
+        `;
+        return;
+      }
+      if (!userDetailState.data) {
+        container.innerHTML = userDetailSkeletonHtml();
+        return;
+      }
+      container.innerHTML = renderUserDetailHtml(userDetailState.data);
+    }
+
+    async function loadUserDetail(userId) {
+      userDetailState.currentId = userId;
+      userDetailState.loading = true;
+      userDetailState.data = null;
+      userDetailState.error = null;
+      renderUserDetail();
+      // Capture caller id once (mirrors loadUserList)
+      if (!userListState.callerUserId) {
+        try {
+          const { data: { user } } = await sb.auth.getUser();
+          userListState.callerUserId = user ? user.id : null;
+        } catch (e) {
+          userListState.callerUserId = null;
+        }
+      }
+      try {
+        const { data, error } = await sb.rpc('get_admin_user_detail', { p_user_id: userId });
+        if (userDetailState.currentId !== userId) return;
+        userDetailState.loading = false;
+        if (error) {
+          if (error.code === 'P0001' && /not found/i.test(error.message || '')) {
+            userDetailState.error = 'user_not_found';
+          } else {
+            userDetailState.error = error.message || 'RPC failed.';
+          }
+          renderUserDetail();
+          return;
+        }
+        userDetailState.data = data;
+        renderUserDetail();
+      } catch (e) {
+        if (userDetailState.currentId !== userId) return;
+        userDetailState.loading = false;
+        userDetailState.error = e.message || 'Network error.';
+        renderUserDetail();
+      }
+    }
+
+    // Toggle which view section is visible (users list vs user detail).
+    function setUserViewMode(mode) {
+      const list   = document.getElementById('view-users');
+      const detail = document.getElementById('view-user-detail');
+      if (!list || !detail) return;
+      if (mode === 'detail') {
+        list.classList.remove('view--active');
+        detail.classList.add('view--active');
+      } else {
+        detail.classList.remove('view--active');
+        list.classList.add('view--active');
+      }
+    }
+
+    // Wire delegated click handlers on the user detail container.
+    function wireUserDetail() {
+      const container = document.getElementById('userDetailContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target.closest('#userDetailBackBtn') || e.target.id === 'userDetailBackCta') {
+          history.pushState({}, '', '?view=users');
+          handleRoute();
+          return;
+        }
+        const actionEl = e.target.closest('[data-action]');
+        if (actionEl) {
+          const action = actionEl.dataset.action;
+          if (action === 'edit-user-from-detail') {
+            window.showToast('Edit user — A2-UI-C coming next', 3000);
+          } else if (action === 'unsuspend-user-from-detail') {
+            window.showToast('Unsuspend user — A2-UI-D coming next', 3000);
+          }
+        }
+      });
+    }
+
+    // Wire row click in the users list to navigate to detail.
+    function wireUserRowClick() {
+      const container = document.getElementById('userListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target.closest('.kebab')) return;
+        if (e.target.closest('a')) return;
+        if (e.target.closest('button')) return;
+        const tr = e.target.closest('tr[data-row-kind="user"]');
+        if (!tr) return;
+        const id = tr.dataset.rowId;
+        if (!id) return;
+        history.pushState({}, '', `?view=users&user=${id}`);
+        handleRoute();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireUserDetail();
+      wireUserRowClick();
+    });
+
+    // Hook handleRoute again so detail mode kicks in when ?view=users&user=<uuid> is set. Fifth wrap.
+    const _origHandleRoute_uiB2 = handleRoute;
+    handleRoute = function patchedHandleRouteForUserDetail() {
+      _origHandleRoute_uiB2.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      const userParam = params.get('user');
+      if (view !== 'users') {
+        setUserViewMode('list');
+        return;
+      }
+      if (userParam) {
+        setUserViewMode('detail');
+        if (userDetailState.currentId !== userParam) {
+          loadUserDetail(userParam);
+        }
+        return;
+      }
+      setUserViewMode('list');
     };
 
 
