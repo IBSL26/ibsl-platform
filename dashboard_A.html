@@ -812,6 +812,298 @@
     .cohort-table .col-facilitators { display: none; }
   }
 
+  
+  /* ════════════════════════════════════════════════════════════════
+     A1-UI-D: Cohort detail page
+     ════════════════════════════════════════════════════════════════ */
+
+  /* Back link in detail-view header */
+  .detail-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 0;
+    color: var(--gold);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    margin-bottom: 14px;
+    padding: 0;
+  }
+  .detail-back:hover { color: var(--gold-light); }
+
+  /* Archived banner */
+  .detail-banner-archived {
+    background: rgba(156,163,175,0.10);
+    border: 1px solid rgba(156,163,175,0.30);
+    border-left: 3px solid var(--ash);
+    border-radius: 3px;
+    padding: 14px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .detail-banner-archived__text {
+    font-size: 12px;
+    color: rgba(255,255,255,0.78);
+  }
+  .detail-banner-archived__text strong {
+    color: var(--ash);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 10px;
+    margin-right: 12px;
+  }
+
+  /* Detail card containers */
+  .detail-card {
+    background: rgba(34,71,47,0.30);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-bottom: 22px;
+  }
+  .detail-card__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .detail-card__title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -0.2px;
+  }
+  .detail-card__count {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .detail-card__action {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .detail-card__action:hover {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+
+  /* Basics grid (label-value pairs) */
+  .basics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px 36px;
+  }
+  .basics-grid__item {
+    min-width: 0;
+  }
+  .basics-grid__label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 6px;
+  }
+  .basics-grid__value {
+    font-size: 15px;
+    color: var(--white);
+    line-height: 1.4;
+    word-wrap: break-word;
+  }
+  .basics-grid__value--serif {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .basics-grid__value--muted {
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* Two-column row for facilitators + participants */
+  .people-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 900px) {
+    .people-row { grid-template-columns: 1fr; }
+  }
+
+  /* People list */
+  .people-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .people-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .people-list__item:last-child { border-bottom: 0; }
+  .people-list__main {
+    min-width: 0;
+    flex: 1;
+  }
+  .people-list__name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .people-list__meta {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .people-list__suspended {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--state-warning);
+    border: 1px solid var(--state-warning);
+    padding: 2px 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+  .people-list__remove {
+    background: transparent;
+    border: 0;
+    color: var(--ash);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 2px;
+    transition: color 0.18s ease, background 0.18s ease;
+    flex-shrink: 0;
+  }
+  .people-list__remove:hover {
+    color: var(--state-danger);
+    background: rgba(248,113,113,0.10);
+  }
+  .people-list__empty {
+    padding: 14px 0;
+    font-style: italic;
+    color: rgba(255,255,255,0.45);
+    font-size: 13px;
+  }
+
+  /* Danger zone (archive/unarchive) */
+  .danger-zone {
+    background: rgba(248,113,113,0.04);
+    border: 1px solid rgba(248,113,113,0.20);
+    border-radius: 4px;
+    padding: 22px 28px;
+    margin-top: 28px;
+  }
+  .danger-zone__title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--state-danger);
+    margin-bottom: 10px;
+  }
+  .danger-zone__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .danger-zone__copy {
+    font-size: 13px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.5;
+  }
+  .danger-zone__btn {
+    background: transparent;
+    border: 1px solid var(--state-danger);
+    color: var(--state-danger);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .danger-zone__btn:hover {
+    background: var(--state-danger);
+    color: var(--white);
+  }
+
+  /* Detail skeleton */
+  .detail-skel {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .detail-skel__card {
+    background: rgba(34,71,47,0.20);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 28px 32px;
+  }
+  .detail-skel__bar {
+    height: 14px;
+    background: linear-gradient(90deg,
+      rgba(201,168,76,0.05) 0%,
+      rgba(201,168,76,0.15) 50%,
+      rgba(201,168,76,0.05) 100%);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    margin-bottom: 12px;
+  }
+
   </style>
 </head>
 <body>
@@ -896,6 +1188,12 @@
             <!-- States rendered here by JS: skeleton | table | empty-system | empty-filters | error -->
           </div>
         </section>
+        <section class="view" id="view-cohort-detail" data-view="cohort-detail">
+          <div id="cohortDetailContainer">
+            <!-- States rendered here by JS: skeleton | detail | not-found | error -->
+          </div>
+        </section>
+
 
         <!-- Stubbed views for A2–A10. Each cluster replaces its stub when its work begins. -->
         <section class="view" id="view-users" data-view="users">
@@ -1458,8 +1756,9 @@
         const tr = e.target.closest('tr[data-row-id]');
         if (!tr) return;
         const id = tr.dataset.rowId;
-        // A1-UI-D will deliver the cohort detail page; for now show toast.
-        window.showToast('Cohort detail view lands in A1-UI-D.');
+        // A1-UI-D: navigate to detail view (state-machine handled in patched handleRoute)
+        history.pushState({}, '', `?view=cohorts&cohort=${id}`);
+        handleRoute();
       });
       // Also delegate the "Clear filters" CTA inside the empty-filtered state.
       container.addEventListener('click', (e) => {
@@ -1493,6 +1792,338 @@
       if (view === 'cohorts' && !cohortListState.loaded) {
         loadCohortList();
       }
+    };
+
+
+
+    // -----------------------------------------------------------
+    // A1-UI-D: Cohort detail view — state machine, loader, renderer
+    // -----------------------------------------------------------
+    const cohortDetailState = {
+      currentId: null,   // UUID currently being shown
+      loading:   false,
+      data:      null,   // last successfully fetched bundle
+      error:     null,
+    };
+
+    // Format a date as "23 Apr 2026".
+    function fmtDayFull(dateStr) {
+      if (!dateStr) return '—';
+      const d = new Date(dateStr + 'T00:00:00Z');
+      const day = d.getUTCDate();
+      const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
+      return `${day} ${mon} ${d.getUTCFullYear()}`;
+    }
+
+    // Format a timestamptz to "23 Apr 2026 · 14:30".
+    function fmtDateTime(ts) {
+      if (!ts) return '—';
+      const d = new Date(ts);
+      const day = d.getDate();
+      const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      const yr  = d.getFullYear();
+      const hh  = String(d.getHours()).padStart(2, '0');
+      const mm  = String(d.getMinutes()).padStart(2, '0');
+      return `${day} ${mon} ${yr} · ${hh}:${mm}`;
+    }
+
+    // Render one person row.
+    function personRowHtml(p, role) {
+      const name = escapeHtml(p.full_name || '(no name)');
+      const email = escapeHtml(p.email || '');
+      const org = p.organisation_name ? escapeHtml(p.organisation_name) : '—';
+      const suspendedTag = p.suspended ? '<span class="people-list__suspended">Suspended</span>' : '';
+      const meta = `${email}${org !== '—' ? ' · ' + org : ''} · joined ${fmtDayFull(p.joined_at ? p.joined_at.slice(0, 10) : null)}`;
+      return `
+        <li class="people-list__item">
+          <div class="people-list__main">
+            <div class="people-list__name" title="${name}">${name}${suspendedTag}</div>
+            <div class="people-list__meta" title="${escapeHtml(meta)}">${meta}</div>
+          </div>
+          <button type="button" class="people-list__remove" data-action="remove-${role}" data-profile-id="${p.profile_id}">Remove</button>
+        </li>
+      `;
+    }
+
+    // Render the detail HTML from the bundle.
+    function renderCohortDetailHtml(bundle) {
+      const c = bundle.cohort;
+      const facs = bundle.facilitators || [];
+      const parts = bundle.participants || [];
+      const isArchived = !!c.archived_at;
+      const isFixed = c.cohort_type === 'fixed';
+
+      const archivedBanner = isArchived
+        ? `
+          <div class="detail-banner-archived">
+            <div class="detail-banner-archived__text">
+              <strong>Archived</strong> on ${fmtDateTime(c.archived_at)}
+            </div>
+            <button type="button" class="detail-card__action" data-action="unarchive">Unarchive</button>
+          </div>
+        `
+        : '';
+
+      const datesValue = isFixed
+        ? `${fmtDayFull(c.start_date)} → ${fmtDayFull(c.end_date)}`
+        : (c.start_date ? `Rolling · since ${fmtDayFull(c.start_date)}` : 'Rolling');
+
+      const facsList = facs.length > 0
+        ? `<ul class="people-list">${facs.map(f => personRowHtml(f, 'facilitator')).join('')}</ul>`
+        : '<div class="people-list__empty">No facilitators assigned.</div>';
+
+      const partsList = parts.length > 0
+        ? `<ul class="people-list">${parts.map(p => personRowHtml(p, 'participant')).join('')}</ul>`
+        : '<div class="people-list__empty">No participants enrolled.</div>';
+
+      const dangerZone = !isArchived ? `
+        <div class="danger-zone">
+          <div class="danger-zone__title">Danger zone</div>
+          <div class="danger-zone__row">
+            <div class="danger-zone__copy">
+              Archiving freezes this cohort. Membership cannot be changed and the cohort is hidden from default lists. Reversible.
+            </div>
+            <button type="button" class="danger-zone__btn" data-action="archive">Archive cohort</button>
+          </div>
+        </div>
+      ` : '';
+
+      return `
+        <button type="button" class="detail-back" id="detailBackBtn">← Back to Cohorts</button>
+
+        <div class="view-header">
+          <div>
+            <div class="view-header__kicker">Cohort detail</div>
+            <h1 class="view-header__title">${escapeHtml(c.name)}</h1>
+            <div class="view-header__sub">${escapeHtml(c.organisation_name || '—')} · ${c.cohort_type} · ${c.status}</div>
+          </div>
+          <div>
+            <a class="btn btn--primary" href="?view=cohorts&cohort=${c.id}&edit=1">Edit cohort</a>
+          </div>
+        </div>
+
+        ${archivedBanner}
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Basics</div>
+          </div>
+          <div class="basics-grid">
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Name</div>
+              <div class="basics-grid__value basics-grid__value--serif">${escapeHtml(c.name)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Organisation</div>
+              <div class="basics-grid__value ${c.organisation_name ? '' : 'basics-grid__value--muted'}">${escapeHtml(c.organisation_name || '— none —')}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Type</div>
+              <div class="basics-grid__value">${c.cohort_type}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Status</div>
+              <div class="basics-grid__value">${c.status}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">${isFixed ? 'Schedule' : 'Started'}</div>
+              <div class="basics-grid__value">${datesValue}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Created</div>
+              <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(c.created_at)}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Last modified</div>
+              <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(c.updated_at)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="people-row">
+          <div class="detail-card">
+            <div class="detail-card__head">
+              <div>
+                <div class="detail-card__title">Facilitators</div>
+                <div class="detail-card__count">${facs.length} assigned</div>
+              </div>
+              <button type="button" class="detail-card__action" data-action="add-facilitator">+ Add</button>
+            </div>
+            ${facsList}
+          </div>
+          <div class="detail-card">
+            <div class="detail-card__head">
+              <div>
+                <div class="detail-card__title">Participants</div>
+                <div class="detail-card__count">${parts.length} of 22</div>
+              </div>
+              <button type="button" class="detail-card__action" data-action="add-participant">+ Add</button>
+            </div>
+            ${partsList}
+          </div>
+        </div>
+
+        ${dangerZone}
+      `;
+    }
+
+    // Render whatever state the detail view is in.
+    function renderCohortDetail() {
+      const container = document.getElementById('cohortDetailContainer');
+      if (!container) return;
+
+      if (cohortDetailState.loading) {
+        container.innerHTML = `
+          <div class="detail-skel">
+            <div class="detail-skel__card">
+              <div class="detail-skel__bar" style="width:50%;"></div>
+              <div class="detail-skel__bar" style="width:30%;"></div>
+            </div>
+            <div class="detail-skel__card">
+              <div class="detail-skel__bar" style="width:80%;"></div>
+              <div class="detail-skel__bar" style="width:60%;"></div>
+              <div class="detail-skel__bar" style="width:40%;"></div>
+            </div>
+            <div class="detail-skel__card">
+              <div class="detail-skel__bar" style="width:70%;"></div>
+              <div class="detail-skel__bar" style="width:50%;"></div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      if (cohortDetailState.error === 'cohort_not_found') {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="detailBackBtn">← Back to Cohorts</button>
+          <div class="empty-state">
+            <div class="empty-state__title">Cohort not found</div>
+            <div class="empty-state__body">This cohort UUID doesn't match any record. It may have been deleted, or the link is wrong.</div>
+            <button type="button" class="btn btn--primary empty-state__cta" id="detailBackCta">← Back to Cohorts</button>
+          </div>
+        `;
+        return;
+      }
+      if (cohortDetailState.error) {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="detailBackBtn">← Back to Cohorts</button>
+          <div class="error-state">
+            <div class="error-state__title">Could not load cohort detail</div>
+            <div class="error-state__body">${escapeHtml(cohortDetailState.error)}</div>
+          </div>
+        `;
+        return;
+      }
+      if (!cohortDetailState.data) {
+        container.innerHTML = '';
+        return;
+      }
+      container.innerHTML = renderCohortDetailHtml(cohortDetailState.data);
+    }
+
+    // Fetch the bundle for a given cohort id.
+    async function loadCohortDetail(cohortId) {
+      cohortDetailState.currentId = cohortId;
+      cohortDetailState.loading = true;
+      cohortDetailState.data = null;
+      cohortDetailState.error = null;
+      renderCohortDetail();
+      try {
+        const { data, error } = await sb.rpc('get_admin_cohort_detail', { p_cohort_id: cohortId });
+        // If the user navigated away mid-flight, drop this result.
+        if (cohortDetailState.currentId !== cohortId) return;
+        cohortDetailState.loading = false;
+        if (error) {
+          // Postgres P0002 surfaces as a structured error from PostgREST; the
+          // message includes 'cohort_not_found' raised by the function.
+          if ((error.message || '').includes('cohort_not_found') ||
+              (error.code === 'P0002')) {
+            cohortDetailState.error = 'cohort_not_found';
+          } else {
+            cohortDetailState.error = error.message || 'RPC failed.';
+          }
+          renderCohortDetail();
+          return;
+        }
+        cohortDetailState.data = data;
+        renderCohortDetail();
+      } catch (e) {
+        if (cohortDetailState.currentId !== cohortId) return;
+        cohortDetailState.loading = false;
+        cohortDetailState.error = e.message || 'Network error.';
+        renderCohortDetail();
+      }
+    }
+
+    // Toggle which view section is visible (cohorts list vs cohort detail).
+    function setCohortViewMode(mode) {
+      const list   = document.getElementById('view-cohorts');
+      const detail = document.getElementById('view-cohort-detail');
+      if (!list || !detail) return;
+      if (mode === 'detail') {
+        list.classList.remove('view--active');
+        detail.classList.add('view--active');
+      } else {
+        detail.classList.remove('view--active');
+        list.classList.add('view--active');
+      }
+    }
+
+    // Wire delegated click handlers on the detail container.
+    function wireCohortDetail() {
+      const container = document.getElementById('cohortDetailContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        // Back to list (button or empty-state CTA)
+        if (e.target.closest('#detailBackBtn') || e.target.id === 'detailBackCta') {
+          history.pushState({}, '', '?view=cohorts');
+          handleRoute();
+          return;
+        }
+        // Action buttons that route to clusters not yet built
+        const actionEl = e.target.closest('[data-action]');
+        if (actionEl) {
+          const action = actionEl.dataset.action;
+          if (action === 'add-facilitator' || action === 'remove-facilitator' ||
+              action === 'add-participant' || action === 'remove-participant') {
+            window.showToast('Membership pickers land in A1-UI-F.');
+          } else if (action === 'archive' || action === 'unarchive') {
+            window.showToast(`${action === 'archive' ? 'Archive' : 'Unarchive'} action lands in A1-UI-G.`);
+          }
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', wireCohortDetail);
+
+    // Re-hook handleRoute so detail mode kicks in when ?cohort=<uuid> is set.
+    // (We previously wrapped it once for A1-UI-C; wrap it again here for A1-UI-D.)
+    const _origHandleRoute_uiD = handleRoute;
+    handleRoute = function patchedHandleRouteForDetail() {
+      _origHandleRoute_uiD.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view') || 'cohorts';
+      const cohortParam = params.get('cohort');
+      // Only act when the cohorts area is the active top-level view.
+      if (view !== 'cohorts') {
+        setCohortViewMode('list');
+        return;
+      }
+      // Special: cohort=new is the create form (lands in A1-UI-E). Route to
+      // toast for now and bounce back to list view; do not enter detail mode.
+      if (cohortParam === 'new') {
+        setCohortViewMode('list');
+        window.showToast('Create-cohort form lands in A1-UI-E.');
+        return;
+      }
+      // Detail mode: a UUID is present.
+      if (cohortParam) {
+        setCohortViewMode('detail');
+        if (cohortDetailState.currentId !== cohortParam) {
+          loadCohortDetail(cohortParam);
+        }
+        return;
+      }
+      // Plain list mode.
+      setCohortViewMode('list');
     };
 
 
