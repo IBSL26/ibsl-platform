@@ -529,7 +529,7 @@
   .cohort-table-wrap {
     border: 1px solid var(--border-subtle);
     border-radius: 4px;
-    overflow: hidden;
+    overflow-x: auto;
     background: rgba(34,71,47,0.25);
   }
   .cohort-table {
@@ -545,21 +545,25 @@
     letter-spacing: 2.5px;
     text-transform: uppercase;
     text-align: left;
-    padding: 14px 16px;
+    padding: 14px 12px;
     border-bottom: 1px solid var(--border-default);
     white-space: nowrap;
   }
   .cohort-table tbody td {
-    padding: 16px;
+    padding: 14px 12px;
     border-bottom: 1px solid var(--border-subtle);
     color: var(--white);
     vertical-align: middle;
+  }
+  .cohort-table thead th + th,
+  .cohort-table tbody td + td {
+    /* keep horizontal padding consistent on inner cells */
   }
   .cohort-table {
     table-layout: auto;
   }
   .cohort-table .cell-secondary {
-    min-width: 90px;
+    min-width: 80px;
   }
   .cohort-table tbody tr {
     transition: background 0.18s ease;
@@ -593,9 +597,19 @@
     font-size: 17px;
     font-weight: 400;
     color: var(--white);
-    line-height: 1.25;
-    display: inline-block;
-    min-width: 200px;
+    line-height: 1.3;
+    display: block;
+    min-width: 180px;
+    max-width: 280px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .col-facilitators {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .cohort-name__archived-tag {
     display: inline-block;
@@ -1228,12 +1242,12 @@
       return `
         <tr data-row-id="${row.id}" class="${isArchived ? 'is-archived' : ''}">
           <td><span class="status-pip status-pip--${row.status}" title="${row.status}"></span></td>
-          <td><span class="cohort-name">${escapeHtml(row.name)}</span>${archivedTag}</td>
-          <td class="col-organisation cell-secondary">${escapeHtml(row.organisation_name || '—')}</td>
+          <td><span class="cohort-name" title="${escapeHtml(row.name)}">${escapeHtml(row.name)}</span>${archivedTag}</td>
+          <td class="col-organisation cell-secondary" title="${escapeHtml(row.organisation_name || '')}">${escapeHtml(row.organisation_name || '—')}</td>
           <td class="col-type"><span class="type-badge">${row.cohort_type}</span></td>
           <td class="col-dates cell-secondary">${dates}</td>
           <td>${pcountHtml}</td>
-          <td class="col-facilitators cell-secondary">${facName}</td>
+          <td class="col-facilitators cell-secondary" title="${escapeHtml(row.first_facilitator_name || '')}${row.facilitator_count > 1 ? ' (+' + (row.facilitator_count - 1) + ' more)' : ''}">${facName}</td>
           <td class="cell-secondary">${fmtRelative(row.updated_at)}</td>
           <td>${kebabHtml(row)}</td>
         </tr>
