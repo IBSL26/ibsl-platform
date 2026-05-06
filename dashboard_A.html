@@ -2367,7 +2367,7 @@
       const orgs = cohortFormState.organisations || [];
       const isEdit = cohortFormState.mode === 'edit';
 
-      const orgOptions = ['<option value="">— Select organisation —</option>']
+      const orgOptions = ['<option value="">— None (open-enrolment / mixed) —</option>']
         .concat(orgs.map(o =>
           `<option value="${o.id}" ${v.organisation_id === o.id ? 'selected' : ''}>${escapeHtml(o.name)}</option>`
         )).join('');
@@ -2376,7 +2376,9 @@
         `<button type="button" class="form-pill ${currentValue === value ? 'form-pill--active' : ''}" data-field="${filterName}" data-value="${value}">${label}</button>`;
 
       const errClass = (field) => errs[field] ? 'form-row--error' : '';
-      const errMsg = (field) => `<div class="form-error-inline">${escapeHtml(errs[field] || '')}</div>`;
+      const errMsg = (field) => errs[field]
+        ? `<div class="form-error-inline" style="display:block;">${escapeHtml(errs[field])}</div>`
+        : `<div class="form-error-inline"></div>`;
 
       const serverErrShown = cohortFormState.serverError ? 'form-server-error--shown' : '';
 
@@ -2434,7 +2436,7 @@
               <select class="form-select" id="fieldOrg" name="organisation_id">
                 ${orgOptions}
               </select>
-              <div class="form-help">Optional. Tag this cohort to a corporate client or partner organisation.</div>
+              <div class="form-help">Optional. Tag a single sponsoring client (e.g. Standard Bank). Leave blank for open-enrolment, public masterclass, or mixed-organisation cohorts.</div>
               ${errMsg('organisation_id')}
             </div>
 
