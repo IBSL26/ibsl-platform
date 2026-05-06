@@ -1687,13 +1687,32 @@
         <!-- Stubbed views for A2–A10. Each cluster replaces its stub when its work begins. -->
         <section class="view" id="view-users" data-view="users">
           <div class="view-header">
-            <div><div class="view-header__kicker">User management</div>
-              <h1 class="view-header__title">Users</h1></div>
+            <div>
+              <div class="view-header__kicker">User management</div>
+              <h1 class="view-header__title">Users</h1>
+              <div class="view-header__sub">View, search, edit roles, suspend or unsuspend platform users</div>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">User management — coming soon</div>
-            <div class="stub__sub">List, search, promote, suspend, deactivate, resend invite</div>
-            <div class="stub__cluster">CLUSTER A2</div>
+
+          <div class="filter-bar" id="userFilters">
+            <div class="filter-group">
+              <span class="filter-group__label">Role</span>
+              <div class="filter-pills" role="tablist" aria-label="Role filter">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="role" data-value="all">All</button>
+                <button type="button" class="filter-pill" data-filter="role" data-value="admin">Admin</button>
+                <button type="button" class="filter-pill" data-filter="role" data-value="facilitator">Facilitator</button>
+                <button type="button" class="filter-pill" data-filter="role" data-value="participant">Participant</button>
+              </div>
+            </div>
+            <div class="filter-group" style="flex:1 1 280px;">
+              <span class="filter-group__label">Search</span>
+              <input type="search" id="userSearchInput" placeholder="Name or email..." aria-label="Search users by name or email"
+                     style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:320px;outline:none;">
+            </div>
+          </div>
+
+          <div id="userListContainer">
+            <!-- States rendered here by JS: skeleton | table | empty-system | empty-filters | error -->
           </div>
         </section>
 
@@ -1774,7 +1793,7 @@
   </div>
 
   <!-- Supabase JS -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.umd.js"></script>
   <script>
     /* ===========================================================
        S2R® Portal — Admin Dashboard runtime
@@ -3546,6 +3565,288 @@
         window.showToast(e.message || 'Network error.');
       }
     }
+
+
+    // -----------------------------------------------------------
+    // A2-UI-A: Users list view — state machine, loader, renderer
+    // -----------------------------------------------------------
+    const userListState = {
+      filters: { role: 'all' },
+      searchQuery: '',
+      searchDebounceTimer: null,
+      loaded: false,
+      lastRows: null,
+      callerUserId: null,
+    };
+
+    const BOOTSTRAP_ADMIN_UUID = 'cbfb5faa-5ebb-4010-b66d-c80fcbbe8a23';
+
+    // Build kebab menu HTML for a user row.
+    function userKebabHtml(row) {
+      const isSelf = row.id === userListState.callerUserId;
+      const isBootstrap = row.id === BOOTSTRAP_ADMIN_UUID;
+      const items = [];
+      // View detail — stubbed until A2-UI-B
+      items.push(`<button type="button" class="kebab__item" data-action="view-detail" data-id="${row.id}">View detail</button>`);
+      // Edit — stubbed until A2-UI-C; allowed for self for name/org changes (RPC enforces role guards)
+      items.push(`<button type="button" class="kebab__item" data-action="edit" data-id="${row.id}">Edit</button>`);
+      // Suspend / Unsuspend — stubbed until A2-UI-D; UI guards mirror RPC guards
+      if (row.suspended) {
+        items.push(`<button type="button" class="kebab__item" data-action="unsuspend" data-id="${row.id}">Unsuspend</button>`);
+      } else if (isSelf) {
+        items.push(`<button type="button" class="kebab__item" disabled aria-disabled="true" title="Cannot suspend your own account" style="opacity:0.4;cursor:not-allowed;">Suspend</button>`);
+      } else if (isBootstrap) {
+        items.push(`<button type="button" class="kebab__item" disabled aria-disabled="true" title="Bootstrap admin is protected" style="opacity:0.4;cursor:not-allowed;">Suspend</button>`);
+      } else {
+        items.push(`<button type="button" class="kebab__item kebab__item--danger" data-action="suspend" data-id="${row.id}">Suspend</button>`);
+      }
+      return `
+        <div class="kebab" data-kebab>
+          <button type="button" class="kebab__btn" aria-haspopup="true" aria-expanded="false" aria-label="Row actions">⋯</button>
+          <div class="kebab__menu" role="menu">
+            ${items.join('\n')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Build one user row.
+    function userRowHtml(row) {
+      const isSelf = row.id === userListState.callerUserId;
+      const roleBadge = `<span class="type-badge">${escapeHtml(row.role)}</span>`;
+      const statusPill = row.suspended
+        ? `<span class="status-pip" style="background:#c45a4d" title="Suspended"></span>`
+        : `<span class="status-pip status-pip--active" title="Active"></span>`;
+      const orgName = row.organisation_name || '—';
+      const cohortCount = row.active_cohort_count || 0;
+      const selfTag = isSelf
+        ? `<span class="cohort-name__archived-tag" style="background:rgba(201,168,76,0.18);color:#c9a84c;border-color:rgba(201,168,76,0.4)">You</span>`
+        : '';
+      return `
+        <tr data-row-id="${row.id}" data-row-kind="user">
+          <td>${statusPill}</td>
+          <td><span class="cohort-name" title="${escapeHtml(row.full_name)}">${escapeHtml(row.full_name)}</span>${selfTag}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.email)}">${escapeHtml(row.email)}</td>
+          <td>${roleBadge}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.organisation_name || '')}">${escapeHtml(orgName)}</td>
+          <td class="cell-secondary">${cohortCount}</td>
+          <td>${userKebabHtml(row)}</td>
+        </tr>
+      `;
+    }
+
+    // User table shell.
+    function userTableHtml(bodyHtml) {
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Organisation</th>
+                <th>Cohorts</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function userSkeletonHtml() {
+      const cell = (w) => `<td><div class="skeleton-bar" style="width:${w}"></div></td>`;
+      const skelRow = `<tr class="skeleton-row">${cell('10px')}${cell('70%')}${cell('80%')}${cell('40px')}${cell('60%')}${cell('20px')}${cell('20px')}</tr>`;
+      return userTableHtml(skelRow.repeat(3));
+    }
+
+    function userEmptyHtml(kind) {
+      if (kind === 'system') {
+        return `
+          <div class="empty-state">
+            <div class="empty-state__title">No users yet</div>
+            <div class="empty-state__body">Users are provisioned via invitations. Use the Invitations view (A3) once it is available.</div>
+          </div>
+        `;
+      }
+      return `
+        <div class="empty-state">
+          <div class="empty-state__title">No users match these filters</div>
+          <div class="empty-state__body">Try a different role filter, or clear your search to see everything.</div>
+          <button type="button" class="btn btn--primary empty-state__cta" id="userClearFiltersBtn">Clear filters</button>
+        </div>
+      `;
+    }
+
+    function userErrorHtml(message) {
+      return `
+        <div class="error-state">
+          <div class="error-state__title">Could not load users</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    // Apply current role filter and search query to a row array.
+    function filterUserRows(rows) {
+      const f = userListState.filters;
+      const q = userListState.searchQuery.trim().toLowerCase();
+      return rows.filter(r => {
+        if (f.role !== 'all' && r.role !== f.role) return false;
+        if (q) {
+          const haystack = ((r.full_name || '') + ' ' + (r.email || '')).toLowerCase();
+          if (haystack.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderUserList() {
+      const container = document.getElementById('userListContainer');
+      if (!container) return;
+      if (!userListState.loaded) {
+        container.innerHTML = userSkeletonHtml();
+        return;
+      }
+      if (userListState.lastRows === null) {
+        container.innerHTML = userErrorHtml('No data returned.');
+        return;
+      }
+      if (userListState.lastRows.length === 0) {
+        container.innerHTML = userEmptyHtml('system');
+        return;
+      }
+      const filtered = filterUserRows(userListState.lastRows);
+      if (filtered.length === 0) {
+        container.innerHTML = userEmptyHtml('filtered');
+        return;
+      }
+      container.innerHTML = userTableHtml(filtered.map(userRowHtml).join(''));
+    }
+
+    async function loadUserList() {
+      const container = document.getElementById('userListContainer');
+      if (!container) return;
+      if (!userListState.loaded) container.innerHTML = userSkeletonHtml();
+      // Capture caller id once for self-guard UI
+      if (!userListState.callerUserId) {
+        try {
+          const { data: { user } } = await sb.auth.getUser();
+          userListState.callerUserId = user ? user.id : null;
+        } catch (e) {
+          userListState.callerUserId = null;
+        }
+      }
+      try {
+        const { data, error } = await sb.rpc('get_admin_user_list', {
+          p_role_filter: null,
+          p_search: null,
+        });
+        if (error) {
+          container.innerHTML = userErrorHtml(error.message || 'RPC failed.');
+          return;
+        }
+        userListState.lastRows = Array.isArray(data) ? data : [];
+        userListState.loaded = true;
+        renderUserList();
+      } catch (e) {
+        container.innerHTML = userErrorHtml(e.message || 'Network error.');
+      }
+    }
+
+    function wireUserFilters() {
+      const bar = document.getElementById('userFilters');
+      if (!bar) return;
+      bar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill');
+        if (!pill) return;
+        const filterName = pill.dataset.filter;
+        const value = pill.dataset.value;
+        if (!filterName || !value) return;
+        if (userListState.filters[filterName] === value) return;
+        userListState.filters[filterName] = value;
+        bar.querySelectorAll(`.filter-pill[data-filter="${filterName}"]`).forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+        renderUserList();
+      });
+    }
+
+    function wireUserSearch() {
+      const input = document.getElementById('userSearchInput');
+      if (!input) return;
+      input.addEventListener('input', (e) => {
+        const v = e.target.value;
+        if (userListState.searchDebounceTimer) clearTimeout(userListState.searchDebounceTimer);
+        userListState.searchDebounceTimer = setTimeout(() => {
+          userListState.searchQuery = v;
+          renderUserList();
+        }, 250);
+      });
+    }
+
+    // User-row kebab actions: stubbed until A2-UI-B/-C/-D land.
+    // Scoped via data-row-kind="user" so cohort-row clicks aren't intercepted.
+    function wireUserKebabActions() {
+      document.addEventListener('click', (e) => {
+        const item = e.target.closest('.kebab__item');
+        if (!item) return;
+        const tr = e.target.closest('tr[data-row-kind="user"]');
+        if (!tr) return;
+        const action = item.dataset.action;
+        if (!action) return;
+        e.preventDefault();
+        if (action === 'view-detail') {
+          window.showToast('User detail — A2-UI-B coming next', 3000);
+        } else if (action === 'edit') {
+          window.showToast('Edit user — A2-UI-C coming next', 3000);
+        } else if (action === 'suspend') {
+          window.showToast('Suspend user — A2-UI-D coming next', 3000);
+        } else if (action === 'unsuspend') {
+          window.showToast('Unsuspend user — A2-UI-D coming next', 3000);
+        }
+        document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
+      });
+    }
+
+    // Clear-filters CTA inside the empty-filtered state.
+    function wireUserClearFilters() {
+      const container = document.getElementById('userListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'userClearFiltersBtn') {
+          userListState.filters = { role: 'all' };
+          userListState.searchQuery = '';
+          const searchInput = document.getElementById('userSearchInput');
+          if (searchInput) searchInput.value = '';
+          document.querySelectorAll('#userFilters .filter-pill').forEach(p => {
+            p.classList.toggle('filter-pill--active', p.dataset.value === 'all');
+          });
+          renderUserList();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireUserFilters();
+      wireUserSearch();
+      wireUserKebabActions();
+      wireUserClearFilters();
+    });
+
+    // Hook handleRoute so users view loads its list on activation. Fourth wrap.
+    const _origHandleRoute_uiA2 = handleRoute;
+    handleRoute = function patchedHandleRouteForUsers() {
+      _origHandleRoute_uiA2.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'users' && !userListState.loaded) {
+        loadUserList();
+      }
+    };
 
 
     // -----------------------------------------------------------
