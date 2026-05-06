@@ -466,7 +466,331 @@
     .topbar__breadcrumb-root,
     .topbar__breadcrumb-sep { display: none; }
   }
-</style>
+
+  /* ════════════════════════════════════════════════════════════════
+     A1-UI-C: Cohorts list view
+     ════════════════════════════════════════════════════════════════ */
+
+  /* ─── Filter bar ─── */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 28px;
+    padding: 18px 22px;
+    background: rgba(34,71,47,0.30);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+  }
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .filter-group__label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ash);
+    white-space: nowrap;
+  }
+  .filter-pills {
+    display: inline-flex;
+    background: var(--forest-deepest);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    padding: 2px;
+  }
+  .filter-pill {
+    background: transparent;
+    border: 0;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .filter-pill:hover {
+    color: var(--white);
+  }
+  .filter-pill--active {
+    background: var(--gold);
+    color: var(--forest-dark);
+  }
+
+  /* ─── Cohort table ─── */
+  .cohort-table-wrap {
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    background: rgba(34,71,47,0.25);
+  }
+  .cohort-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .cohort-table thead th {
+    background: var(--forest-deepest);
+    color: var(--ash);
+    font-weight: 700;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    text-align: left;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-default);
+    white-space: nowrap;
+  }
+  .cohort-table tbody td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--white);
+    vertical-align: middle;
+  }
+  .cohort-table tbody tr {
+    transition: background 0.18s ease;
+    cursor: pointer;
+  }
+  .cohort-table tbody tr:hover {
+    background: rgba(201,168,76,0.05);
+  }
+  .cohort-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .cohort-table tbody tr.is-archived {
+    opacity: 0.55;
+  }
+
+  /* Status pip cell */
+  .status-pip {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+  .status-pip--draft  { background: #9ca3af; }
+  .status-pip--active { background: var(--gold); box-shadow: 0 0 0 2px rgba(201,168,76,0.18); }
+  .status-pip--closed { background: var(--forest-light); }
+
+  /* Name cell — primary visual emphasis */
+  .cohort-name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+  }
+  .cohort-name__archived-tag {
+    display: inline-block;
+    margin-left: 8px;
+    font-family: var(--font-sans);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--ash);
+    border: 1px solid var(--ash);
+    padding: 2px 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+
+  /* Type badge */
+  .type-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 2px;
+    border: 1px solid var(--border-default);
+    color: rgba(255,255,255,0.75);
+  }
+
+  /* Participant count with mini progress */
+  .pcount {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-variant-numeric: tabular-nums;
+  }
+  .pcount__bar {
+    width: 48px;
+    height: 4px;
+    background: var(--forest-deepest);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .pcount__fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  /* Last modified — secondary text */
+  .cell-secondary {
+    color: rgba(255,255,255,0.62);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  /* Kebab menu */
+  .kebab {
+    position: relative;
+    display: inline-block;
+  }
+  .kebab__btn {
+    background: transparent;
+    border: 0;
+    color: var(--ash);
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 2px;
+    font-size: 18px;
+    line-height: 1;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .kebab__btn:hover {
+    background: rgba(201,168,76,0.10);
+    color: var(--gold);
+  }
+  .kebab__menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 180px;
+    background: var(--forest-dark);
+    border: 1px solid var(--border-default);
+    border-radius: 3px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    z-index: 50;
+    display: none;
+    margin-top: 4px;
+    overflow: hidden;
+  }
+  .kebab__menu--open {
+    display: block;
+  }
+  .kebab__item {
+    display: block;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    text-align: left;
+    padding: 10px 14px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.78);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+  }
+  .kebab__item:hover {
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+  }
+  .kebab__item--danger {
+    color: var(--state-danger);
+  }
+  .kebab__item--danger:hover {
+    background: rgba(248,113,113,0.10);
+    color: var(--state-danger);
+  }
+
+  /* Skeleton loader rows */
+  .skeleton-row td {
+    padding: 18px 16px;
+  }
+  .skeleton-bar {
+    height: 12px;
+    background: linear-gradient(90deg,
+      rgba(201,168,76,0.05) 0%,
+      rgba(201,168,76,0.15) 50%,
+      rgba(201,168,76,0.05) 100%);
+    background-size: 200% 100%;
+    border-radius: 2px;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+  }
+  @keyframes skeleton-shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* Empty state */
+  .empty-state {
+    background: rgba(34,71,47,0.25);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 64px 40px;
+    text-align: center;
+  }
+  .empty-state__title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 14px;
+    letter-spacing: -0.3px;
+  }
+  .empty-state__body {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.6);
+    max-width: 440px;
+    margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .empty-state__cta {
+    display: inline-block;
+  }
+
+  /* Error state */
+  .error-state {
+    background: rgba(248,113,113,0.06);
+    border: 1px solid rgba(248,113,113,0.30);
+    border-left: 3px solid var(--state-danger);
+    border-radius: 3px;
+    padding: 22px 26px;
+    color: rgba(255,255,255,0.85);
+  }
+  .error-state__title {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--state-danger);
+    margin-bottom: 8px;
+  }
+  .error-state__body {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Responsive collapse — narrow viewports hide low-priority columns */
+  @media (max-width: 1100px) {
+    .cohort-table .col-dates,
+    .cohort-table .col-organisation { display: none; }
+  }
+  @media (max-width: 800px) {
+    .cohort-table .col-type,
+    .cohort-table .col-facilitators { display: none; }
+  }
+
+  </style>
 </head>
 <body>
   <!-- Boot overlay shown until auth check resolves -->
@@ -526,11 +850,28 @@
             </div>
           </div>
 
-          <div class="placeholder-card">
-            <div class="placeholder-card__title">Cohorts shell ready</div>
-            <div class="placeholder-card__body">
-              The list view, create/edit form, facilitator/participant pickers, and archive actions land in subsequent A1-UI build steps. The shell is wired to <code>get_admin_cohort_list</code> and the nine A1 RPCs already verified server-side.
+          <div class="filter-bar" id="cohortFilters">
+            <div class="filter-group">
+              <span class="filter-group__label">Lifecycle</span>
+              <div class="filter-pills" role="tablist" aria-label="Lifecycle filter">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="lifecycle" data-value="all">All</button>
+                <button type="button" class="filter-pill" data-filter="lifecycle" data-value="draft">Draft</button>
+                <button type="button" class="filter-pill" data-filter="lifecycle" data-value="active">Active</button>
+                <button type="button" class="filter-pill" data-filter="lifecycle" data-value="closed">Closed</button>
+              </div>
             </div>
+            <div class="filter-group">
+              <span class="filter-group__label">Archive</span>
+              <div class="filter-pills" role="tablist" aria-label="Archive filter">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="archive" data-value="active">Active only</button>
+                <button type="button" class="filter-pill" data-filter="archive" data-value="archived">Archived only</button>
+                <button type="button" class="filter-pill" data-filter="archive" data-value="all">All</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="cohortListContainer">
+            <!-- States rendered here by JS: skeleton | table | empty-system | empty-filters | error -->
           </div>
         </section>
 
@@ -777,6 +1118,361 @@
         setTimeout(() => t.remove(), 240);
       }, durationMs || 4000);
     };
+
+
+    // -----------------------------------------------------------
+    // A1-UI-C: Cohorts list view — state machine, loader, renderer
+    // -----------------------------------------------------------
+    const cohortListState = {
+      filters: { lifecycle: 'all', archive: 'active' },
+      loaded: false,        // true once initial fetch resolves at least once
+      lastRows: null,       // last successfully fetched array
+    };
+
+    // Format a date as "23 Apr" or "23 Apr 2026" depending on context.
+    function fmtDay(dateStr, includeYear) {
+      if (!dateStr) return '';
+      const d = new Date(dateStr + 'T00:00:00Z');
+      const day = d.getUTCDate();
+      const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()];
+      return includeYear ? `${day} ${mon} ${d.getUTCFullYear()}` : `${day} ${mon}`;
+    }
+
+    // Format a fixed-cohort date range per Q7.
+    function fmtDateRange(start, end) {
+      if (!start && !end) return '—';
+      if (!end) return fmtDay(start, true);
+      const sY = new Date(start + 'T00:00:00Z').getUTCFullYear();
+      const eY = new Date(end + 'T00:00:00Z').getUTCFullYear();
+      if (sY === eY) {
+        return `${fmtDay(start, false)} → ${fmtDay(end, true)}`;
+      }
+      return `${fmtDay(start, true)} → ${fmtDay(end, true)}`;
+    }
+
+    // Format a rolling-cohort start per Q7.
+    function fmtRollingSince(start) {
+      if (!start) return 'Rolling';
+      const sY = new Date(start + 'T00:00:00Z').getUTCFullYear();
+      const nowY = new Date().getUTCFullYear();
+      return `Rolling · since ${fmtDay(start, sY !== nowY)}`;
+    }
+
+    // Format updated_at as "2h ago", "3d ago", "12 Apr".
+    function fmtRelative(ts) {
+      if (!ts) return '—';
+      const then = new Date(ts);
+      const now = new Date();
+      const diffMs = now - then;
+      const diffMin = Math.floor(diffMs / 60000);
+      if (diffMin < 1) return 'just now';
+      if (diffMin < 60) return `${diffMin}m ago`;
+      const diffH = Math.floor(diffMin / 60);
+      if (diffH < 24) return `${diffH}h ago`;
+      const diffD = Math.floor(diffH / 24);
+      if (diffD < 14) return `${diffD}d ago`;
+      // Older — show the date.
+      const sameYear = then.getUTCFullYear() === now.getUTCFullYear();
+      return fmtDay(then.toISOString().slice(0, 10), !sameYear);
+    }
+
+    // Build a kebab menu's HTML for a row.
+    function kebabHtml(row) {
+      const isArchived = !!row.archived_at;
+      const items = [
+        `<a class="kebab__item" href="?view=cohorts&cohort=${row.id}">Open detail</a>`,
+        `<a class="kebab__item" href="?view=cohorts&cohort=${row.id}&edit=1">Edit</a>`,
+      ];
+      if (isArchived) {
+        items.push(`<button type="button" class="kebab__item" data-action="unarchive" data-id="${row.id}">Unarchive</button>`);
+      } else {
+        items.push(`<button type="button" class="kebab__item kebab__item--danger" data-action="archive" data-id="${row.id}">Archive</button>`);
+      }
+      return `
+        <div class="kebab" data-kebab>
+          <button type="button" class="kebab__btn" aria-haspopup="true" aria-expanded="false" aria-label="Row actions">⋯</button>
+          <div class="kebab__menu" role="menu">
+            ${items.join('\n')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Build one table row.
+    function rowHtml(row) {
+      const isArchived = !!row.archived_at;
+      const archivedTag = isArchived ? '<span class="cohort-name__archived-tag">Archived</span>' : '';
+      const dates = row.cohort_type === 'rolling'
+        ? fmtRollingSince(row.start_date)
+        : fmtDateRange(row.start_date, row.end_date);
+      const facName = row.first_facilitator_name
+        ? (row.facilitator_count > 1
+            ? `${escapeHtml(row.first_facilitator_name)} +${row.facilitator_count - 1}`
+            : escapeHtml(row.first_facilitator_name))
+        : '—';
+      const pcountPct = Math.min(100, Math.round((row.participant_count / 22) * 100));
+      const pcountHtml = `
+        <div class="pcount">
+          <span>${row.participant_count} / 22</span>
+          <div class="pcount__bar"><div class="pcount__fill" style="width:${pcountPct}%"></div></div>
+        </div>
+      `;
+      return `
+        <tr data-row-id="${row.id}" class="${isArchived ? 'is-archived' : ''}">
+          <td><span class="status-pip status-pip--${row.status}" title="${row.status}"></span></td>
+          <td><span class="cohort-name">${escapeHtml(row.name)}</span>${archivedTag}</td>
+          <td class="col-organisation cell-secondary">${escapeHtml(row.organisation_name || '—')}</td>
+          <td class="col-type"><span class="type-badge">${row.cohort_type}</span></td>
+          <td class="col-dates cell-secondary">${dates}</td>
+          <td>${pcountHtml}</td>
+          <td class="col-facilitators cell-secondary">${facName}</td>
+          <td class="cell-secondary">${fmtRelative(row.updated_at)}</td>
+          <td>${kebabHtml(row)}</td>
+        </tr>
+      `;
+    }
+
+    // Minimal HTML escape for any text we drop into table cells.
+    function escapeHtml(s) {
+      if (s == null) return '';
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // Build the table shell (header + tbody).
+    function tableHtml(bodyHtml) {
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Cohort</th>
+                <th class="col-organisation">Organisation</th>
+                <th class="col-type">Type</th>
+                <th class="col-dates">Dates</th>
+                <th>Participants</th>
+                <th class="col-facilitators">Facilitators</th>
+                <th>Last modified</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // Build skeleton placeholder rows (3).
+    function skeletonHtml() {
+      const cell = (w) => `<td><div class="skeleton-bar" style="width:${w}"></div></td>`;
+      const skelRow = `<tr class="skeleton-row">
+        ${cell('10px')}${cell('70%')}${cell('60%')}${cell('50px')}${cell('80%')}${cell('60%')}${cell('60%')}${cell('50%')}${cell('20px')}
+      </tr>`;
+      return tableHtml(skelRow.repeat(3));
+    }
+
+    // Empty-state HTML — distinguishes "no cohorts at all" from "no matches".
+    function emptyHtml(kind) {
+      if (kind === 'system') {
+        return `
+          <div class="empty-state">
+            <div class="empty-state__title">No cohorts yet</div>
+            <div class="empty-state__body">Cohorts are how groups of participants progress through the programme together. Create your first one to invite facilitators and participants.</div>
+            <a class="btn btn--primary empty-state__cta" href="?view=cohorts&cohort=new">+ Create your first cohort</a>
+          </div>
+        `;
+      }
+      return `
+        <div class="empty-state">
+          <div class="empty-state__title">No cohorts match these filters</div>
+          <div class="empty-state__body">Try a broader filter combination, or clear filters to see everything.</div>
+          <button type="button" class="btn btn--primary empty-state__cta" id="clearFiltersBtn">Clear filters</button>
+        </div>
+      `;
+    }
+
+    // Error-state HTML.
+    function errorHtml(message) {
+      return `
+        <div class="error-state">
+          <div class="error-state__title">Could not load cohorts</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    // Apply current filters to a row array.
+    function filterRows(rows) {
+      const f = cohortListState.filters;
+      return rows.filter(r => {
+        if (f.lifecycle !== 'all' && r.status !== f.lifecycle) return false;
+        const isArch = !!r.archived_at;
+        if (f.archive === 'active'   && isArch)  return false;
+        if (f.archive === 'archived' && !isArch) return false;
+        return true;
+      });
+    }
+
+    // Render whatever state the list is in.
+    function renderCohortList() {
+      const container = document.getElementById('cohortListContainer');
+      if (!container) return;
+
+      if (!cohortListState.loaded) {
+        container.innerHTML = skeletonHtml();
+        return;
+      }
+      if (cohortListState.lastRows === null) {
+        // Should not reach here when loaded=true, but defensive.
+        container.innerHTML = errorHtml('No data returned.');
+        return;
+      }
+      if (cohortListState.lastRows.length === 0) {
+        container.innerHTML = emptyHtml('system');
+        return;
+      }
+      const filtered = filterRows(cohortListState.lastRows);
+      if (filtered.length === 0) {
+        container.innerHTML = emptyHtml('filtered');
+        return;
+      }
+      container.innerHTML = tableHtml(filtered.map(rowHtml).join(''));
+    }
+
+    // Fetch cohorts from get_admin_cohort_list and render.
+    async function loadCohortList() {
+      const container = document.getElementById('cohortListContainer');
+      if (!container) return;
+      // Show skeleton on first load only; subsequent filter changes are
+      // client-side and don't trigger re-fetch.
+      if (!cohortListState.loaded) {
+        container.innerHTML = skeletonHtml();
+      }
+      try {
+        const { data, error } = await sb.rpc('get_admin_cohort_list');
+        if (error) {
+          container.innerHTML = errorHtml(error.message || 'RPC failed.');
+          return;
+        }
+        cohortListState.lastRows = Array.isArray(data) ? data : [];
+        cohortListState.loaded = true;
+        renderCohortList();
+      } catch (e) {
+        container.innerHTML = errorHtml(e.message || 'Network error.');
+      }
+    }
+
+    // Wire the filter pills (event delegation on the filter bar).
+    function wireFilters() {
+      const bar = document.getElementById('cohortFilters');
+      if (!bar) return;
+      bar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill');
+        if (!pill) return;
+        const filterName = pill.dataset.filter;
+        const value = pill.dataset.value;
+        if (!filterName || !value) return;
+        if (cohortListState.filters[filterName] === value) return;
+        cohortListState.filters[filterName] = value;
+        // Update visual active state within this group only.
+        bar.querySelectorAll(`.filter-pill[data-filter="${filterName}"]`).forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+        renderCohortList();
+      });
+    }
+
+    // Wire kebab menu open/close (event delegation on the document).
+    function wireKebabs() {
+      // Open / close on click of the trigger button.
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.kebab__btn');
+        if (btn) {
+          e.stopPropagation();
+          const menu = btn.nextElementSibling;
+          const isOpen = menu.classList.contains('kebab__menu--open');
+          // Close all other open kebab menus first.
+          document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
+          if (!isOpen) {
+            menu.classList.add('kebab__menu--open');
+            btn.setAttribute('aria-expanded', 'true');
+          } else {
+            btn.setAttribute('aria-expanded', 'false');
+          }
+          return;
+        }
+        // Click inside an open kebab menu — let the link/button do its thing
+        // and close the menu (unless it's a real <a> we want to follow).
+        const menuItem = e.target.closest('.kebab__item');
+        if (menuItem) {
+          // Archive/unarchive actions land in A1-UI-G; for now just toast.
+          const action = menuItem.dataset.action;
+          if (action) {
+            e.preventDefault();
+            window.showToast(`${action === 'archive' ? 'Archive' : 'Unarchive'} action lands in A1-UI-G.`);
+          }
+          document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
+          return;
+        }
+        // Click anywhere else — close any open kebab.
+        document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
+      });
+    }
+
+    // Wire row click → navigate to cohort detail (Q4 = Option C).
+    function wireRowClick() {
+      const container = document.getElementById('cohortListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        // Skip if click landed inside a kebab (button or menu) or on a link.
+        if (e.target.closest('.kebab')) return;
+        if (e.target.closest('a')) return;
+        if (e.target.closest('button')) return;
+        const tr = e.target.closest('tr[data-row-id]');
+        if (!tr) return;
+        const id = tr.dataset.rowId;
+        // A1-UI-D will deliver the cohort detail page; for now show toast.
+        window.showToast('Cohort detail view lands in A1-UI-D.');
+      });
+      // Also delegate the "Clear filters" CTA inside the empty-filtered state.
+      container.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'clearFiltersBtn') {
+          cohortListState.filters = { lifecycle: 'all', archive: 'all' };
+          document.querySelectorAll('#cohortFilters .filter-pill').forEach(p => {
+            p.classList.toggle('filter-pill--active',
+              (p.dataset.filter === 'lifecycle' && p.dataset.value === 'all') ||
+              (p.dataset.filter === 'archive'   && p.dataset.value === 'all'));
+          });
+          renderCohortList();
+        }
+      });
+    }
+
+    // Initialise once on DOM ready (filters and kebab wiring are global; the
+    // first list load fires from handleRoute when 'cohorts' is the active view).
+    document.addEventListener('DOMContentLoaded', () => {
+      wireFilters();
+      wireKebabs();
+      wireRowClick();
+    });
+
+    // Hook handleRoute so that when the cohorts view becomes active the list
+    // loads. We patch by monkey-wrapping the original to avoid touching its body.
+    const _origHandleRoute = handleRoute;
+    handleRoute = function patchedHandleRoute() {
+      _origHandleRoute.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view') || 'cohorts';
+      if (view === 'cohorts' && !cohortListState.loaded) {
+        loadCohortList();
+      }
+    };
+
 
     // -----------------------------------------------------------
     // Boot
