@@ -1277,6 +1277,227 @@
   /* Hidden helper for fields conditionally hidden (e.g. End date for rolling) */
   .form-row--hidden { display: none; }
 
+  
+  /* ════════════════════════════════════════════════════════════════
+     A1-UI-F: Modal picker + inline remove-confirm
+     ════════════════════════════════════════════════════════════════ */
+
+  /* Backdrop overlay */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(2px);
+    z-index: 100;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    overflow-y: auto;
+  }
+  .modal-backdrop--shown { display: flex; }
+
+  /* Modal dialog */
+  .modal-dialog {
+    background: var(--forest-dark);
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    width: 560px;
+    max-width: calc(100% - 40px);
+    max-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .modal-head {
+    padding: 22px 28px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+  }
+  .modal-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--white);
+    letter-spacing: -0.2px;
+  }
+  .modal-close {
+    background: transparent;
+    border: 0;
+    color: var(--ash);
+    cursor: pointer;
+    font-size: 22px;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 2px;
+    transition: color 0.18s ease, background 0.18s ease;
+  }
+  .modal-close:hover {
+    color: var(--white);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Search row */
+  .modal-search {
+    padding: 18px 28px 14px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .modal-search__input {
+    width: 100%;
+    background: var(--forest-deepest);
+    border: 1px solid var(--border-default);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 3px;
+  }
+  .modal-search__input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .modal-search__input::placeholder {
+    color: rgba(255, 255, 255, 0.30);
+  }
+
+  /* Body — scrollable list */
+  .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+    min-height: 200px;
+  }
+
+  /* Picker list */
+  .picker-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .picker-list__item {
+    padding: 14px 28px;
+    border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: background 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .picker-list__item:last-child { border-bottom: 0; }
+  .picker-list__item:hover {
+    background: rgba(201, 168, 76, 0.06);
+  }
+  .picker-list__main {
+    min-width: 0;
+    flex: 1;
+  }
+  .picker-list__name {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .picker-list__meta {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.55);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .picker-list__suspended {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--state-warning);
+    border: 1px solid var(--state-warning);
+    padding: 2px 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+  }
+  .picker-list__cta {
+    flex-shrink: 0;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* Empty / loading / error inside modal */
+  .picker-empty,
+  .picker-loading,
+  .picker-error {
+    padding: 32px 28px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .picker-error {
+    color: var(--state-danger);
+  }
+
+  /* Inline remove-confirm row replacement (people_list) */
+  .people-list__confirm {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .people-list__confirm-text {
+    font-size: 11px;
+    color: var(--state-danger);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .people-list__confirm-yes {
+    background: var(--state-danger);
+    border: 0;
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .people-list__confirm-yes:hover {
+    opacity: 0.9;
+  }
+  .people-list__confirm-no {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: rgba(255, 255, 255, 0.72);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .people-list__confirm-no:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
   </style>
 </head>
 <body>
@@ -2258,13 +2479,40 @@
           handleRoute();
           return;
         }
-        // Action buttons that route to clusters not yet built
+        // Confirm-yes click on a remove confirmation row
+        const yesBtn = e.target.closest('[data-confirm-yes]');
+        if (yesBtn) {
+          const [role, profileId] = yesBtn.dataset.confirmYes.split('|');
+          // Find display name from the surrounding row
+          const row = yesBtn.closest('.people-list__item');
+          const nameEl = row ? row.querySelector('.people-list__name') : null;
+          const displayName = nameEl ? nameEl.textContent.trim() : 'Member';
+          submitMemberRemoval(role, profileId, displayName);
+          return;
+        }
+        // Cancel click on a remove confirmation row
+        const noBtn = e.target.closest('[data-confirm-no]');
+        if (noBtn) {
+          const [role, profileId] = noBtn.dataset.confirmNo.split('|');
+          const row = noBtn.closest('.people-list__item');
+          if (row) toggleRemoveConfirmRow(row, role, profileId);
+          return;
+        }
+        // Standard action buttons
         const actionEl = e.target.closest('[data-action]');
         if (actionEl) {
           const action = actionEl.dataset.action;
-          if (action === 'add-facilitator' || action === 'remove-facilitator' ||
-              action === 'add-participant' || action === 'remove-participant') {
-            window.showToast('Membership pickers land in A1-UI-F.');
+          if (action === 'add-facilitator') {
+            openFacilitatorPicker();
+          } else if (action === 'add-participant') {
+            openParticipantPicker();
+          } else if (action === 'remove-facilitator' || action === 'remove-participant') {
+            const role = action === 'remove-facilitator' ? 'facilitator' : 'participant';
+            const profileId = actionEl.dataset.profileId;
+            const row = actionEl.closest('.people-list__item');
+            const nameEl = row ? row.querySelector('.people-list__name') : null;
+            const displayName = nameEl ? nameEl.textContent.trim() : 'Member';
+            if (row && profileId) toggleRemoveConfirmRow(row, role, profileId, displayName);
           } else if (action === 'archive' || action === 'unarchive') {
             window.showToast(`${action === 'archive' ? 'Archive' : 'Unarchive'} action lands in A1-UI-G.`);
           }
@@ -2759,10 +3007,299 @@
     };
 
 
+
+    // -----------------------------------------------------------
+    // A1-UI-F: Membership picker modal + inline remove-confirm
+    // -----------------------------------------------------------
+    const memberPickerState = {
+      mode:       null,    // 'facilitator' | 'participant'
+      cohortId:   null,    // current cohort context
+      candidates: null,    // last fetched array
+      loading:    false,
+      error:      null,
+      search:     '',
+      submitting: false,   // true while an admin_assign / admin_add is in flight
+    };
+
+    // Track which row is in "confirm remove?" state. Map<profileId, role>
+    const removeConfirmState = new Set();   // entries are `${role}|${profileId}`
+
+    // Open modal in facilitator-picker mode.
+    async function openFacilitatorPicker() {
+      if (!cohortDetailState.data || !cohortDetailState.data.cohort) return;
+      memberPickerState.mode = 'facilitator';
+      memberPickerState.cohortId = cohortDetailState.data.cohort.id;
+      memberPickerState.candidates = null;
+      memberPickerState.loading = true;
+      memberPickerState.error = null;
+      memberPickerState.search = '';
+      memberPickerState.submitting = false;
+      showMemberModal('Add a facilitator');
+      try {
+        const { data, error } = await sb.rpc('get_facilitator_picklist', { p_cohort_id: memberPickerState.cohortId });
+        memberPickerState.loading = false;
+        if (error) {
+          memberPickerState.error = error.message || 'Could not load facilitators.';
+        } else {
+          memberPickerState.candidates = Array.isArray(data) ? data : [];
+        }
+        renderMemberModalBody();
+      } catch (e) {
+        memberPickerState.loading = false;
+        memberPickerState.error = e.message || 'Network error.';
+        renderMemberModalBody();
+      }
+    }
+
+    // Open modal in participant-picker mode.
+    async function openParticipantPicker() {
+      if (!cohortDetailState.data || !cohortDetailState.data.cohort) return;
+      memberPickerState.mode = 'participant';
+      memberPickerState.cohortId = cohortDetailState.data.cohort.id;
+      memberPickerState.candidates = null;
+      memberPickerState.loading = true;
+      memberPickerState.error = null;
+      memberPickerState.search = '';
+      memberPickerState.submitting = false;
+      showMemberModal('Add a participant');
+      try {
+        const { data, error } = await sb.rpc('get_participant_picklist', { p_cohort_id: memberPickerState.cohortId });
+        memberPickerState.loading = false;
+        if (error) {
+          memberPickerState.error = error.message || 'Could not load participants.';
+        } else {
+          memberPickerState.candidates = Array.isArray(data) ? data : [];
+        }
+        renderMemberModalBody();
+      } catch (e) {
+        memberPickerState.loading = false;
+        memberPickerState.error = e.message || 'Network error.';
+        renderMemberModalBody();
+      }
+    }
+
+    function showMemberModal(titleText) {
+      const modal = document.getElementById('memberModal');
+      if (!modal) return;
+      const title = document.getElementById('memberModalTitle');
+      if (title) title.textContent = titleText;
+      const search = document.getElementById('memberModalSearch');
+      if (search) search.value = '';
+      modal.classList.add('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'false');
+      // Focus the search input for keyboard-first UX
+      requestAnimationFrame(() => { if (search) search.focus(); });
+      renderMemberModalBody();
+    }
+
+    function hideMemberModal() {
+      const modal = document.getElementById('memberModal');
+      if (!modal) return;
+      modal.classList.remove('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'true');
+      memberPickerState.mode = null;
+      memberPickerState.candidates = null;
+      memberPickerState.search = '';
+      memberPickerState.submitting = false;
+    }
+
+    function renderMemberModalBody() {
+      const body = document.getElementById('memberModalBody');
+      if (!body) return;
+      if (memberPickerState.loading) {
+        body.innerHTML = '<div class="picker-loading">Loading...</div>';
+        return;
+      }
+      if (memberPickerState.error) {
+        body.innerHTML = `<div class="picker-error">${escapeHtml(memberPickerState.error)}</div>`;
+        return;
+      }
+      const candidates = memberPickerState.candidates || [];
+      if (candidates.length === 0) {
+        const noun = memberPickerState.mode === 'facilitator' ? 'facilitators' : 'participants';
+        body.innerHTML = `<div class="picker-empty">No eligible ${noun} available.<br>${memberPickerState.mode === 'facilitator' ? 'All facilitators are already assigned to this cohort.' : 'All participants in the system are already enrolled in a cohort.'}</div>`;
+        return;
+      }
+      // Apply search filter (client-side)
+      const q = (memberPickerState.search || '').trim().toLowerCase();
+      const filtered = q
+        ? candidates.filter(c =>
+            (c.full_name || '').toLowerCase().includes(q) ||
+            (c.email || '').toLowerCase().includes(q))
+        : candidates;
+      if (filtered.length === 0) {
+        body.innerHTML = `<div class="picker-empty">No matches for "${escapeHtml(memberPickerState.search)}".</div>`;
+        return;
+      }
+      body.innerHTML = `
+        <ul class="picker-list">
+          ${filtered.map(c => {
+            const susp = c.suspended ? '<span class="picker-list__suspended">Suspended</span>' : '';
+            const meta = `${escapeHtml(c.email || '')}${c.organisation_name ? ' · ' + escapeHtml(c.organisation_name) : ''}`;
+            return `
+              <li class="picker-list__item" data-profile-id="${c.profile_id}" data-name="${escapeHtml(c.full_name || '')}" tabindex="0">
+                <div class="picker-list__main">
+                  <div class="picker-list__name">${escapeHtml(c.full_name || '(no name)')}${susp}</div>
+                  <div class="picker-list__meta">${meta}</div>
+                </div>
+                <div class="picker-list__cta">+ Add</div>
+              </li>
+            `;
+          }).join('')}
+        </ul>
+      `;
+    }
+
+    // Submit picker selection — calls add/assign RPC.
+    async function submitMemberSelection(profileId, displayName) {
+      if (memberPickerState.submitting) return;
+      memberPickerState.submitting = true;
+      const cohortId = memberPickerState.cohortId;
+      const isFacilitator = memberPickerState.mode === 'facilitator';
+      try {
+        const { error } = isFacilitator
+          ? await sb.rpc('admin_assign_facilitator', { p_cohort_id: cohortId, p_facilitator_id: profileId })
+          : await sb.rpc('admin_add_participant',  { p_cohort_id: cohortId, p_participant_id: profileId });
+        memberPickerState.submitting = false;
+        if (error) {
+          memberPickerState.error = error.message || 'Save failed.';
+          renderMemberModalBody();
+          return;
+        }
+        hideMemberModal();
+        window.showToast(`${displayName} added.`);
+        // Refetch detail bundle so the cards update
+        if (cohortDetailState.currentId === cohortId) {
+          cohortDetailState.currentId = null;   // force re-fetch
+          loadCohortDetail(cohortId);
+        }
+        // Invalidate the list cache so participant counts/facilitator names refresh
+        cohortListState.loaded = false;
+      } catch (e) {
+        memberPickerState.submitting = false;
+        memberPickerState.error = e.message || 'Network error.';
+        renderMemberModalBody();
+      }
+    }
+
+    // Wire modal interactions once at boot.
+    function wireMemberModal() {
+      const modal = document.getElementById('memberModal');
+      if (!modal) return;
+      // Close button
+      const closeBtn = document.getElementById('memberModalCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', hideMemberModal);
+      // Click on backdrop (but not on dialog) closes
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideMemberModal();
+      });
+      // Esc closes
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+          hideMemberModal();
+        }
+      });
+      // Search input
+      const search = document.getElementById('memberModalSearch');
+      if (search) {
+        search.addEventListener('input', () => {
+          memberPickerState.search = search.value;
+          renderMemberModalBody();
+        });
+      }
+      // Click on a picker-list item (delegated)
+      const body = document.getElementById('memberModalBody');
+      if (body) {
+        body.addEventListener('click', (e) => {
+          const item = e.target.closest('.picker-list__item');
+          if (!item) return;
+          const profileId = item.dataset.profileId;
+          const name = item.dataset.name || 'Member';
+          if (profileId) submitMemberSelection(profileId, name);
+        });
+      }
+    }
+    document.addEventListener('DOMContentLoaded', wireMemberModal);
+
+    // Submit a remove (facilitator or participant). Called after confirm-yes.
+    async function submitMemberRemoval(role, profileId, displayName) {
+      const cohortId = cohortDetailState.currentId;
+      if (!cohortId) return;
+      try {
+        const { error } = role === 'facilitator'
+          ? await sb.rpc('admin_remove_facilitator', { p_cohort_id: cohortId, p_facilitator_id: profileId })
+          : await sb.rpc('admin_remove_participant',  { p_cohort_id: cohortId, p_participant_id: profileId });
+        if (error) {
+          window.showToast(error.message || 'Remove failed.');
+          return;
+        }
+        window.showToast(`${displayName || 'Member'} removed.`);
+        // Refetch detail bundle
+        cohortDetailState.currentId = null;
+        loadCohortDetail(cohortId);
+        // Invalidate list cache
+        cohortListState.loaded = false;
+      } catch (e) {
+        window.showToast(e.message || 'Network error.');
+      }
+      removeConfirmState.delete(`${role}|${profileId}`);
+    }
+
+    // Swap a row's button area between [Remove] and [Confirm? · Cancel].
+    function toggleRemoveConfirmRow(rowEl, role, profileId, displayName) {
+      const key = `${role}|${profileId}`;
+      const isOpen = removeConfirmState.has(key);
+      if (!isOpen) {
+        removeConfirmState.add(key);
+        // Replace the Remove button with a confirm row
+        const btn = rowEl.querySelector('.people-list__remove');
+        if (!btn) return;
+        const confirmRow = document.createElement('span');
+        confirmRow.className = 'people-list__confirm';
+        confirmRow.dataset.confirmFor = key;
+        confirmRow.innerHTML = `
+          <span class="people-list__confirm-text">Confirm?</span>
+          <button type="button" class="people-list__confirm-yes" data-confirm-yes="${role}|${profileId}">Yes, remove</button>
+          <button type="button" class="people-list__confirm-no" data-confirm-no="${role}|${profileId}">Cancel</button>
+        `;
+        btn.parentNode.replaceChild(confirmRow, btn);
+      } else {
+        // User clicked Cancel — restore the Remove button
+        removeConfirmState.delete(key);
+        const confirmRow = rowEl.querySelector(`[data-confirm-for="${key}"]`);
+        if (!confirmRow) return;
+        const restoredBtn = document.createElement('button');
+        restoredBtn.type = 'button';
+        restoredBtn.className = 'people-list__remove';
+        restoredBtn.dataset.action = `remove-${role}`;
+        restoredBtn.dataset.profileId = profileId;
+        restoredBtn.textContent = 'Remove';
+        confirmRow.parentNode.replaceChild(restoredBtn, confirmRow);
+      }
+    }
+
+
     // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
     boot();
   </script>
-</body>
+
+    <!-- A1-UI-F: shared member picker modal -->
+    <div class="modal-backdrop" id="memberModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="memberModalTitle">Add member</div>
+          <button type="button" class="modal-close" id="memberModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-search">
+          <input type="text" class="modal-search__input" id="memberModalSearch" placeholder="Search by name or email...">
+        </div>
+        <div class="modal-body" id="memberModalBody">
+          <!-- States: loading | list | empty | error -->
+        </div>
+      </div>
+    </div>
+
+  </body>
 </html>
