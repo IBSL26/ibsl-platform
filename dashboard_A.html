@@ -1498,6 +1498,95 @@
     color: var(--gold);
   }
 
+  
+  /* ════════════════════════════════════════════════════════════════
+     A1-UI-G: Confirm modal (used for archive)
+     ════════════════════════════════════════════════════════════════ */
+
+  /* Reuses .modal-backdrop / .modal-dialog / .modal-head / .modal-close
+     classes from A1-UI-F. Adds confirm-specific styles. */
+  .confirm-body {
+    padding: 22px 28px 24px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .confirm-body strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+  .confirm-actions {
+    padding: 18px 28px 22px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  .btn--danger {
+    background: var(--state-danger);
+    border: 1px solid var(--state-danger);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.18s ease;
+  }
+  .btn--danger:hover { opacity: 0.88; }
+  .btn--danger[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+  /* Inline confirm row used for unarchive on the archived banner */
+  .banner-confirm {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .banner-confirm__text {
+    font-size: 11px;
+    color: var(--white);
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .banner-confirm__yes {
+    background: var(--gold);
+    border: 0;
+    color: var(--forest-dark);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .banner-confirm__yes:hover { opacity: 0.88; }
+  .banner-confirm__no {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: rgba(255, 255, 255, 0.72);
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+  .banner-confirm__no:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
   </style>
 </head>
 <body>
@@ -2130,11 +2219,29 @@
         // and close the menu (unless it's a real <a> we want to follow).
         const menuItem = e.target.closest('.kebab__item');
         if (menuItem) {
-          // Archive/unarchive actions land in A1-UI-G; for now just toast.
+          // Archive/unarchive actions from the list-view kebab
           const action = menuItem.dataset.action;
-          if (action) {
+          if (action === 'archive' || action === 'unarchive') {
             e.preventDefault();
-            window.showToast(`${action === 'archive' ? 'Archive' : 'Unarchive'} action lands in A1-UI-G.`);
+            const cohortId = menuItem.dataset.id;
+            // Find the cohort name from the row for nicer copy
+            const tr = document.querySelector(`tr[data-row-id="${cohortId}"]`);
+            const nameEl = tr ? tr.querySelector('.cohort-name') : null;
+            const cohortName = nameEl ? nameEl.textContent.trim() : '';
+            if (action === 'archive') {
+              confirmAndArchive(cohortId, cohortName);
+            } else {
+              // Inline confirm doesn't apply here; do a quick confirm modal too
+              showConfirmModal({
+                title: 'Unarchive this cohort?',
+                body: `Unarchiving <strong>${escapeHtml(cohortName || 'this cohort')}</strong> restores it to default lists and re-enables membership changes.`,
+                proceedLabel: 'Unarchive cohort',
+                onProceed: () => submitUnarchive(cohortId),
+              });
+            }
+          } else if (action) {
+            // Other kebab actions handled by their own <a href> — let the browser navigate
+            // (Open detail / Edit links). No preventDefault.
           }
           document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
           return;
@@ -2498,6 +2605,21 @@
           if (row) toggleRemoveConfirmRow(row, role, profileId);
           return;
         }
+        // Unarchive inline-confirm Yes
+        const unarchiveYes = e.target.closest('[data-confirm-unarchive-yes]');
+        if (unarchiveYes) {
+          const c = cohortDetailState.data && cohortDetailState.data.cohort;
+          if (c) submitUnarchive(c.id);
+          return;
+        }
+        // Unarchive inline-confirm No (Cancel)
+        const unarchiveNo = e.target.closest('[data-confirm-unarchive-no]');
+        if (unarchiveNo) {
+          const c = cohortDetailState.data && cohortDetailState.data.cohort;
+          const banner = unarchiveNo.closest('.detail-banner-archived');
+          if (c && banner) toggleUnarchiveConfirmRow(banner, c.id, c.name);
+          return;
+        }
         // Standard action buttons
         const actionEl = e.target.closest('[data-action]');
         if (actionEl) {
@@ -2513,8 +2635,14 @@
             const nameEl = row ? row.querySelector('.people-list__name') : null;
             const displayName = nameEl ? nameEl.textContent.trim() : 'Member';
             if (row && profileId) toggleRemoveConfirmRow(row, role, profileId, displayName);
-          } else if (action === 'archive' || action === 'unarchive') {
-            window.showToast(`${action === 'archive' ? 'Archive' : 'Unarchive'} action lands in A1-UI-G.`);
+          } else if (action === 'archive') {
+            const c = cohortDetailState.data && cohortDetailState.data.cohort;
+            if (c) confirmAndArchive(c.id, c.name);
+          } else if (action === 'unarchive') {
+            const c = cohortDetailState.data && cohortDetailState.data.cohort;
+            if (!c) return;
+            const banner = actionEl.closest('.detail-banner-archived');
+            if (banner) toggleUnarchiveConfirmRow(banner, c.id, c.name);
           }
         }
       });
@@ -3279,6 +3407,147 @@
     }
 
 
+
+    // -----------------------------------------------------------
+    // A1-UI-G: Archive / unarchive — confirm modal + RPC handlers
+    // -----------------------------------------------------------
+    let confirmModalCallback = null;   // function called when user confirms
+
+    // Show a confirm modal. opts: {title, body (HTML allowed), proceedLabel, onProceed}
+    function showConfirmModal(opts) {
+      const modal  = document.getElementById('confirmModal');
+      const title  = document.getElementById('confirmModalTitle');
+      const body   = document.getElementById('confirmModalBody');
+      const procBt = document.getElementById('confirmModalProceedBtn');
+      if (!modal || !title || !body || !procBt) return;
+      title.textContent = opts.title || 'Confirm action';
+      body.innerHTML = opts.body || 'Are you sure you want to proceed?';
+      procBt.textContent = opts.proceedLabel || 'Confirm';
+      procBt.disabled = false;
+      confirmModalCallback = opts.onProceed || null;
+      modal.classList.add('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideConfirmModal() {
+      const modal = document.getElementById('confirmModal');
+      if (!modal) return;
+      modal.classList.remove('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'true');
+      confirmModalCallback = null;
+    }
+
+    function wireConfirmModal() {
+      const modal  = document.getElementById('confirmModal');
+      if (!modal) return;
+      const closeBt  = document.getElementById('confirmModalCloseBtn');
+      const cancelBt = document.getElementById('confirmModalCancelBtn');
+      const procBt   = document.getElementById('confirmModalProceedBtn');
+      if (closeBt)  closeBt.addEventListener('click', hideConfirmModal);
+      if (cancelBt) cancelBt.addEventListener('click', hideConfirmModal);
+      if (procBt) {
+        procBt.addEventListener('click', async () => {
+          if (typeof confirmModalCallback === 'function') {
+            procBt.disabled = true;
+            try {
+              await confirmModalCallback();
+            } finally {
+              hideConfirmModal();
+            }
+          } else {
+            hideConfirmModal();
+          }
+        });
+      }
+      // Click on backdrop
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideConfirmModal();
+      });
+      // Esc key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+          hideConfirmModal();
+        }
+      });
+    }
+    document.addEventListener('DOMContentLoaded', wireConfirmModal);
+
+    // Confirm + archive a cohort.
+    function confirmAndArchive(cohortId, cohortName) {
+      showConfirmModal({
+        title: 'Archive this cohort?',
+        body: `Archiving <strong>${escapeHtml(cohortName || 'this cohort')}</strong> freezes its membership and hides it from default lists. Facilitators and participants will no longer see it on their dashboards.<br><br>This is reversible — you can unarchive at any time from the archived view.`,
+        proceedLabel: 'Archive cohort',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('admin_archive_cohort', { p_cohort_id: cohortId });
+            if (error) {
+              window.showToast(error.message || 'Archive failed.');
+              return;
+            }
+            window.showToast('Cohort archived.');
+            // Invalidate caches so list and detail re-fetch
+            cohortListState.loaded = false;
+            // If we're on the detail page for this cohort, refetch
+            if (cohortDetailState.currentId === cohortId) {
+              cohortDetailState.currentId = null;
+              loadCohortDetail(cohortId);
+            } else {
+              // We're on the list page; force handleRoute so it re-renders
+              handleRoute();
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
+    // Inline-unarchive: replace the archived banner's Unarchive button with
+    // an inline confirm row, same pattern as people_list remove confirm.
+    function toggleUnarchiveConfirmRow(bannerEl, cohortId, cohortName) {
+      const existingConfirm = bannerEl.querySelector('.banner-confirm');
+      if (existingConfirm) {
+        // User clicked Cancel — restore the original Unarchive button
+        const restoredBtn = document.createElement('button');
+        restoredBtn.type = 'button';
+        restoredBtn.className = 'detail-card__action';
+        restoredBtn.dataset.action = 'unarchive';
+        restoredBtn.textContent = 'Unarchive';
+        existingConfirm.parentNode.replaceChild(restoredBtn, existingConfirm);
+        return;
+      }
+      const btn = bannerEl.querySelector('[data-action="unarchive"]');
+      if (!btn) return;
+      const confirmRow = document.createElement('span');
+      confirmRow.className = 'banner-confirm';
+      confirmRow.innerHTML = `
+        <span class="banner-confirm__text">Unarchive?</span>
+        <button type="button" class="banner-confirm__yes" data-confirm-unarchive-yes>Yes, unarchive</button>
+        <button type="button" class="banner-confirm__no" data-confirm-unarchive-no>Cancel</button>
+      `;
+      btn.parentNode.replaceChild(confirmRow, btn);
+    }
+
+    async function submitUnarchive(cohortId) {
+      try {
+        const { error } = await sb.rpc('admin_unarchive_cohort', { p_cohort_id: cohortId });
+        if (error) {
+          window.showToast(error.message || 'Unarchive failed.');
+          return;
+        }
+        window.showToast('Cohort unarchived.');
+        cohortListState.loaded = false;
+        if (cohortDetailState.currentId === cohortId) {
+          cohortDetailState.currentId = null;
+          loadCohortDetail(cohortId);
+        }
+      } catch (e) {
+        window.showToast(e.message || 'Network error.');
+      }
+    }
+
+
     // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
@@ -3297,6 +3566,24 @@
         </div>
         <div class="modal-body" id="memberModalBody">
           <!-- States: loading | list | empty | error -->
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- A1-UI-G: shared confirm modal (archive) -->
+    <div class="modal-backdrop" id="confirmModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="confirmModalTitle">Confirm action</div>
+          <button type="button" class="modal-close" id="confirmModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="confirm-body" id="confirmModalBody">
+          Are you sure you want to proceed?
+        </div>
+        <div class="confirm-actions">
+          <button type="button" class="btn--ghost" id="confirmModalCancelBtn">Cancel</button>
+          <button type="button" class="btn--danger" id="confirmModalProceedBtn">Confirm</button>
         </div>
       </div>
     </div>
