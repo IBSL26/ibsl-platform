@@ -4162,7 +4162,12 @@
       const view = params.get('view');
       const userParam = params.get('user');
       if (view !== 'users') {
-        setUserViewMode('list');
+        // We're not on the users area at all. Only ensure the user-detail
+        // subview is not lingering active from a previous navigation. Don't
+        // touch view-users itself — the original handleRoute already toggled
+        // it correctly based on data-view matching.
+        const detailEl = document.getElementById('view-user-detail');
+        if (detailEl) detailEl.classList.remove('view--active');
         return;
       }
       if (userParam) {
