@@ -1377,8 +1377,10 @@
      edit form. Default .modal-body has zero horizontal padding because picker
      lists supply their own. The user edit form is rendered as direct form-row
      children, so it needs its own horizontal breathing room and a stable
-     scrollbar gutter so the scrollbar doesn't crop the right edge of inputs. */
-  #userEditModalBody {
+     scrollbar gutter so the scrollbar doesn't crop the right edge of inputs.
+     A3-UI-B: same treatment for the invitation create modal. */
+  #userEditModalBody,
+  #invitationCreateModalBody {
     padding: 18px 28px 24px;
     scrollbar-gutter: stable;
   }
@@ -5036,6 +5038,17 @@
               window.showToast(data.error || 'Resend failed.');
               return;
             }
+            // A3-UI-B: also re-send the magic-link email. RPC success already
+            // bumped expiry; this fires the actual email so the invitee gets
+            // a fresh link. Email errors are non-fatal — invitation is still
+            // valid in DB; we just surface it so admin knows to retry.
+            const emailResult = await sb.auth.signInWithOtp({ email: email });
+            if (emailResult.error) {
+              window.showToast('Expiry extended, but email failed: ' + (emailResult.error.message || 'unknown error'));
+              invitationListState.loaded = false;
+              loadInvitationList();
+              return;
+            }
             window.showToast('Invitation resent.');
             invitationListState.loaded = false;
             loadInvitationList();
@@ -5073,7 +5086,7 @@
       const single = document.getElementById('invitationSingleBtn');
       const bulk   = document.getElementById('invitationBulkBtn');
       if (single) single.addEventListener('click', () => {
-        window.showToast('Single invite — A3-UI-B coming next', 3000);
+        openInvitationCreateModal();
       });
       if (bulk) bulk.addEventListener('click', () => {
         window.showToast('Bulk invite (CSV) — A3-UI-C coming after UI-B', 3000);
@@ -5101,6 +5114,383 @@
         loadInvitationList();
       }
     };
+
+
+    // ===========================================================
+    // A3-UI-B: Single invite modal — form, validation, submit + email
+    // ===========================================================
+    // Sub-clusters in this block:
+    //   A3-UI-B-1  modal HTML (in markup) + scoped padding (CSS extended above)
+    //   A3-UI-B-2  state object + render
+    //   A3-UI-B-3  load helpers (orgs + active cohorts) on modal open
+    //   A3-UI-B-4  validate + submit (FUNC-1 RPC, then signInWithOtp)
+    //   A3-UI-B-5  wire CTA + close handlers (CTA wired in UI-A above; close wired below)
+    // ===========================================================
+
+    const invitationCreateFormState = {
+      loading:      false,    // loading orgs + cohorts on first open
+      submitting:   false,    // RPC + email send in flight
+      serverError:  null,
+      errors:       {},       // per-field validation errors
+      values:       { full_name: '', email: '', role: 'participant', cohort_id: null, organisation_id: null, personal_message: '' },
+      orgs:         null,     // cached organisations list
+      cohorts:      null,     // cached active cohorts list
+    };
+
+    function openInvitationCreateModal() {
+      // Reset state
+      invitationCreateFormState.loading = true;
+      invitationCreateFormState.submitting = false;
+      invitationCreateFormState.serverError = null;
+      invitationCreateFormState.errors = {};
+      invitationCreateFormState.values = { full_name: '', email: '', role: 'participant', cohort_id: null, organisation_id: null, personal_message: '' };
+
+      const modal = document.getElementById('invitationCreateModal');
+      if (modal) {
+        modal.classList.add('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      renderInvitationCreateForm();
+      // Load picklists if not already cached
+      if (!invitationCreateFormState.orgs || !invitationCreateFormState.cohorts) {
+        loadInvitationCreateLookups();
+      } else {
+        invitationCreateFormState.loading = false;
+        renderInvitationCreateForm();
+      }
+    }
+
+    function closeInvitationCreateModal() {
+      const modal = document.getElementById('invitationCreateModal');
+      if (modal) {
+        modal.classList.remove('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    // ------------------ A3-UI-B-3: load orgs + active cohorts ------------------
+
+    async function loadInvitationCreateLookups() {
+      try {
+        // Orgs — direct table read; admin-readable RLS already in place.
+        const orgsResp = await sb.from('organisations').select('id, name').order('name', { ascending: true });
+        if (orgsResp.error) {
+          invitationCreateFormState.loading = false;
+          invitationCreateFormState.serverError = 'Failed to load organisations: ' + (orgsResp.error.message || 'unknown error');
+          renderInvitationCreateForm();
+          return;
+        }
+        invitationCreateFormState.orgs = orgsResp.data || [];
+
+        // Cohorts — only non-archived per Q-A3-UI-B-3.
+        const cohortsResp = await sb.from('cohorts').select('id, name').is('archived_at', null).order('name', { ascending: true });
+        if (cohortsResp.error) {
+          invitationCreateFormState.loading = false;
+          invitationCreateFormState.serverError = 'Failed to load cohorts: ' + (cohortsResp.error.message || 'unknown error');
+          renderInvitationCreateForm();
+          return;
+        }
+        invitationCreateFormState.cohorts = cohortsResp.data || [];
+
+        invitationCreateFormState.loading = false;
+        renderInvitationCreateForm();
+      } catch (e) {
+        invitationCreateFormState.loading = false;
+        invitationCreateFormState.serverError = e.message || 'Network error.';
+        renderInvitationCreateForm();
+      }
+    }
+
+    // ------------------ A3-UI-B-2: render ------------------
+
+    function renderInvitationCreateForm() {
+      const body = document.getElementById('invitationCreateModalBody');
+      if (!body) return;
+      if (invitationCreateFormState.loading) {
+        body.innerHTML = '<div style="padding:32px 0;text-align:center;color:rgba(255,255,255,0.5);font-family:Montserrat,sans-serif;font-size:13px;letter-spacing:1px;">Loading…</div>';
+        return;
+      }
+      if (invitationCreateFormState.serverError && !invitationCreateFormState.orgs) {
+        body.innerHTML = `<div class="form-server-error form-server-error--shown">${escapeHtml(invitationCreateFormState.serverError)}</div><div class="form-actions" style="margin-top:18px;"><button type="button" class="btn--ghost" id="invitationCreateCancelBtn">Close</button></div>`;
+        wireInvitationCreateFormHandlers();
+        return;
+      }
+      body.innerHTML = renderInvitationCreateFormHtml();
+      wireInvitationCreateFormHandlers();
+      setTimeout(() => {
+        const nameInput = document.getElementById('invitationCreateFieldName');
+        if (nameInput && document.activeElement !== nameInput) nameInput.focus();
+      }, 50);
+    }
+
+    function renderInvitationCreateFormHtml() {
+      const v = invitationCreateFormState.values;
+      const errs = invitationCreateFormState.errors;
+
+      const errClass = (field) => errs[field] ? 'form-row--error' : '';
+      const errMsg = (field) => errs[field]
+        ? `<div class="form-error-inline" style="display:block;color:#e9a99c;">${escapeHtml(errs[field])}</div>`
+        : `<div class="form-error-inline"></div>`;
+
+      const pillBtn = (field, value, label, currentValue) =>
+        `<button type="button" class="form-pill ${currentValue === value ? 'form-pill--active' : ''}" data-field="${field}" data-value="${value}">${label}</button>`;
+
+      const orgOptions = ['<option value="">— none —</option>']
+        .concat((invitationCreateFormState.orgs || []).map(o =>
+          `<option value="${o.id}" ${v.organisation_id === o.id ? 'selected' : ''}>${escapeHtml(o.name)}</option>`
+        )).join('');
+
+      const cohortOptions = ['<option value="">— none —</option>']
+        .concat((invitationCreateFormState.cohorts || []).map(c =>
+          `<option value="${c.id}" ${v.cohort_id === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`
+        )).join('');
+
+      const serverErrShown = invitationCreateFormState.serverError ? 'form-server-error--shown' : '';
+      const submitDisabled = invitationCreateFormState.submitting ? 'disabled' : '';
+      const submitLabel = invitationCreateFormState.submitting ? 'Sending…' : 'Send invitation';
+
+      return `
+        <div class="form-server-error ${serverErrShown}" id="invitationCreateServerError">
+          ${escapeHtml(invitationCreateFormState.serverError || '')}
+        </div>
+
+        <form id="invitationCreateForm" novalidate>
+          <div class="form-row ${errClass('full_name')}">
+            <label class="form-label" for="invitationCreateFieldName">Full name<span class="form-label__required">*</span></label>
+            <input class="form-input" id="invitationCreateFieldName" name="full_name" type="text" maxlength="200" value="${escapeHtml(v.full_name)}" autocomplete="off">
+            ${errMsg('full_name')}
+          </div>
+
+          <div class="form-row ${errClass('email')}">
+            <label class="form-label" for="invitationCreateFieldEmail">Email<span class="form-label__required">*</span></label>
+            <input class="form-input" id="invitationCreateFieldEmail" name="email" type="email" maxlength="200" value="${escapeHtml(v.email)}" autocomplete="off">
+            ${errMsg('email')}
+          </div>
+
+          <div class="form-row ${errClass('role')}">
+            <label class="form-label">Role<span class="form-label__required">*</span></label>
+            <div class="form-pills" role="tablist" aria-label="Role">
+              ${pillBtn('role', 'admin',       'Admin',       v.role)}
+              ${pillBtn('role', 'facilitator', 'Facilitator', v.role)}
+              ${pillBtn('role', 'participant', 'Participant', v.role)}
+            </div>
+            ${errMsg('role')}
+          </div>
+
+          <div class="form-row ${errClass('cohort_id')}">
+            <label class="form-label" for="invitationCreateFieldCohort">Cohort</label>
+            <select class="form-select" id="invitationCreateFieldCohort" name="cohort_id">
+              ${cohortOptions}
+            </select>
+            <div class="form-help">Optional. The cohort this user will join when they accept. Only active cohorts are listed.</div>
+            ${errMsg('cohort_id')}
+          </div>
+
+          <div class="form-row ${errClass('organisation_id')}">
+            <label class="form-label" for="invitationCreateFieldOrg">Organisation</label>
+            <select class="form-select" id="invitationCreateFieldOrg" name="organisation_id">
+              ${orgOptions}
+            </select>
+            <div class="form-help">Optional. The user's primary organisation affiliation.</div>
+            ${errMsg('organisation_id')}
+          </div>
+
+          <div class="form-row ${errClass('personal_message')}">
+            <label class="form-label" for="invitationCreateFieldMsg">Personal message</label>
+            <textarea class="form-input" id="invitationCreateFieldMsg" name="personal_message" rows="3" maxlength="500" style="font-family:Montserrat,sans-serif;font-size:13px;line-height:1.5;resize:vertical;">${escapeHtml(v.personal_message)}</textarea>
+            <div class="form-help">Optional. Stored on the invitation record. The default email template doesn't yet interpolate this — A3-OPEN-2 covers the template work.</div>
+            ${errMsg('personal_message')}
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn--ghost" id="invitationCreateCancelBtn">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="invitationCreateSubmitBtn" ${submitDisabled}>${submitLabel}</button>
+          </div>
+        </form>
+      `;
+    }
+
+    // ------------------ A3-UI-B-5: handler wiring ------------------
+
+    function wireInvitationCreateFormHandlers() {
+      const form = document.getElementById('invitationCreateForm');
+      const cancel = document.getElementById('invitationCreateCancelBtn');
+      const closeBtn = document.getElementById('invitationCreateModalCloseBtn');
+
+      if (cancel) cancel.addEventListener('click', closeInvitationCreateModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeInvitationCreateModal);
+
+      if (form) {
+        // Role pills
+        form.querySelectorAll('.form-pill[data-field="role"]').forEach(p => {
+          p.addEventListener('click', () => {
+            invitationCreateFormState.values.role = p.dataset.value;
+            // re-render to update active state
+            renderInvitationCreateForm();
+          });
+        });
+        // Inputs — bind to state on input
+        const bind = (id, key, transform) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('input', () => {
+            invitationCreateFormState.values[key] = transform ? transform(el.value) : el.value;
+            // Clear inline error on edit
+            if (invitationCreateFormState.errors[key]) {
+              delete invitationCreateFormState.errors[key];
+              const row = el.closest('.form-row');
+              if (row) row.classList.remove('form-row--error');
+              const inlineErr = row && row.querySelector('.form-error-inline');
+              if (inlineErr) { inlineErr.style.display = ''; inlineErr.textContent = ''; }
+            }
+          });
+        };
+        bind('invitationCreateFieldName',  'full_name');
+        bind('invitationCreateFieldEmail', 'email');
+        bind('invitationCreateFieldMsg',   'personal_message');
+
+        // Selects
+        const orgSel = document.getElementById('invitationCreateFieldOrg');
+        if (orgSel) orgSel.addEventListener('change', () => {
+          invitationCreateFormState.values.organisation_id = orgSel.value || null;
+        });
+        const cohortSel = document.getElementById('invitationCreateFieldCohort');
+        if (cohortSel) cohortSel.addEventListener('change', () => {
+          invitationCreateFormState.values.cohort_id = cohortSel.value || null;
+        });
+
+        // Submit
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          submitInvitationCreate();
+        });
+      }
+
+      // Backdrop click to close — register once per render is fine (idempotent
+      // listener add not safe; use a flag on the modal element)
+      const modal = document.getElementById('invitationCreateModal');
+      if (modal && !modal.dataset.backdropWired) {
+        modal.dataset.backdropWired = '1';
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeInvitationCreateModal();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+            closeInvitationCreateModal();
+          }
+        });
+      }
+    }
+
+    // ------------------ A3-UI-B-4: validate + submit ------------------
+
+    function validateInvitationCreate() {
+      const errs = {};
+      const v = invitationCreateFormState.values;
+      const name = (v.full_name || '').trim();
+      const email = (v.email || '').trim();
+      if (!name) errs.full_name = 'Full name is required.';
+      if (!email) {
+        errs.email = 'Email is required.';
+      } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
+        errs.email = 'Email format looks invalid.';
+      }
+      if (!['admin', 'facilitator', 'participant'].includes(v.role)) {
+        errs.role = 'Pick a role.';
+      }
+      return errs;
+    }
+
+    async function submitInvitationCreate() {
+      // Client-side validation first
+      const errs = validateInvitationCreate();
+      if (Object.keys(errs).length > 0) {
+        invitationCreateFormState.errors = errs;
+        renderInvitationCreateForm();
+        return;
+      }
+
+      invitationCreateFormState.submitting = true;
+      invitationCreateFormState.serverError = null;
+      renderInvitationCreateForm();
+
+      const v = invitationCreateFormState.values;
+      const emailNorm = (v.email || '').trim().toLowerCase();
+
+      try {
+        // Step 1 — write the invitation row via FUNC-1
+        const rpcResult = await sb.rpc('admin_create_invitation', {
+          p_email:            emailNorm,
+          p_full_name:        v.full_name.trim(),
+          p_role:             v.role,
+          p_cohort_id:        v.cohort_id || null,
+          p_organisation_id:  v.organisation_id || null,
+          p_personal_message: (v.personal_message || '').trim() || null,
+        });
+
+        if (rpcResult.error) {
+          invitationCreateFormState.submitting = false;
+          invitationCreateFormState.serverError = rpcResult.error.message || 'Save failed.';
+          renderInvitationCreateForm();
+          return;
+        }
+        const data = rpcResult.data;
+        if (!data || data.ok === false) {
+          invitationCreateFormState.submitting = false;
+          // Map structured RPC errors to friendly UI messages where useful
+          const code = data && data.error;
+          let msg = 'Could not create invitation.';
+          if (code === 'pending_invitation_exists')      msg = 'A pending invitation already exists for this email and cohort.';
+          else if (code === 'cohort_not_found_or_archived') msg = 'Selected cohort no longer exists or has been archived.';
+          else if (code === 'organisation_not_found')   msg = 'Selected organisation no longer exists.';
+          else if (code === 'email_invalid')            msg = 'Server rejected the email format.';
+          else if (code === 'not_authorised')           msg = 'Your account does not have permission to invite users.';
+          else if (code)                                msg = 'Could not create invitation: ' + code;
+          invitationCreateFormState.serverError = msg;
+          renderInvitationCreateForm();
+          return;
+        }
+
+        // Step 2 — send the magic-link email via Supabase Auth
+        const emailResult = await sb.auth.signInWithOtp({ email: emailNorm });
+        if (emailResult.error) {
+          // Invitation row exists but email send failed. Don't pretend it
+          // succeeded — surface the error so admin knows to retry resend.
+          invitationCreateFormState.submitting = false;
+          invitationCreateFormState.serverError = 'Invitation saved, but email failed to send: ' + (emailResult.error.message || 'unknown error') + '. Use Resend on the row to retry the email.';
+          renderInvitationCreateForm();
+          // Refresh list so the invitation row IS visible (it exists in DB)
+          invitationListState.loaded = false;
+          // Switch to Pending tab so admin sees the row
+          setInvitationStatusTab('pending');
+          return;
+        }
+
+        // Both succeeded
+        closeInvitationCreateModal();
+        window.showToast('Invitation sent.');
+        // Switch to Pending tab and refresh — per Q-A3-UI-B-5
+        setInvitationStatusTab('pending');
+      } catch (e) {
+        invitationCreateFormState.submitting = false;
+        invitationCreateFormState.serverError = e.message || 'Network error.';
+        renderInvitationCreateForm();
+      }
+    }
+
+    // Helper: programmatically switch the Pending tab pill and re-fetch list.
+    function setInvitationStatusTab(value) {
+      invitationCreateFormState; // (no-op reference)
+      invitationListState.filters.status = value;
+      const bar = document.getElementById('invitationFilters');
+      if (bar) {
+        bar.querySelectorAll(`.filter-pill[data-filter="status"]`).forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+      }
+      invitationListState.loaded = false;
+      loadInvitationList();
+    }
 
 
     // -----------------------------------------------------------
@@ -5151,6 +5541,19 @@
           <button type="button" class="modal-close" id="userEditModalCloseBtn" aria-label="Close">×</button>
         </div>
         <div class="modal-body" id="userEditModalBody">
+          <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- A3-UI-B: single invite modal -->
+    <div class="modal-backdrop" id="invitationCreateModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="invitationCreateModalTitle">Invite user</div>
+          <button type="button" class="modal-close" id="invitationCreateModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" id="invitationCreateModalBody">
           <!-- Form rendered here by JS -->
         </div>
       </div>
