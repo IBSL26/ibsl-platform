@@ -3812,7 +3812,8 @@
             handleRoute();
           }
         } else if (action === 'edit') {
-          window.showToast('Edit user — A2-UI-C coming next', 3000);
+          const userId = item.dataset.id;
+          if (userId) openUserEditModal(userId);
         } else if (action === 'suspend') {
           window.showToast('Suspend user — A2-UI-D coming next', 3000);
         } else if (action === 'unsuspend') {
@@ -4124,7 +4125,8 @@
         if (actionEl) {
           const action = actionEl.dataset.action;
           if (action === 'edit-user-from-detail') {
-            window.showToast('Edit user — A2-UI-C coming next', 3000);
+            const userId = actionEl.dataset.id;
+            if (userId) openUserEditModal(userId);
           } else if (action === 'unsuspend-user-from-detail') {
             window.showToast('Unsuspend user — A2-UI-D coming next', 3000);
           }
@@ -4182,6 +4184,339 @@
 
 
     // -----------------------------------------------------------
+    // A2-UI-C: Edit user form (modal-based)
+    // -----------------------------------------------------------
+    const userEditFormState = {
+      userId:           null,
+      loading:          false,
+      submitting:       false,
+      serverError:      null,
+      errors:           {},
+      values:           { full_name: '', role: 'participant', organisation_id: null },
+      prefill:          null,   // original user object (for reference)
+      orgs:             null,   // cached organisations picklist
+      hasActiveCohorts: false,
+    };
+
+    function openUserEditModal(userId) {
+      if (!userId) return;
+      userEditFormState.userId = userId;
+      userEditFormState.loading = true;
+      userEditFormState.submitting = false;
+      userEditFormState.serverError = null;
+      userEditFormState.errors = {};
+      userEditFormState.values = { full_name: '', role: 'participant', organisation_id: null };
+      userEditFormState.prefill = null;
+      userEditFormState.hasActiveCohorts = false;
+
+      const modal = document.getElementById('userEditModal');
+      if (modal) {
+        modal.classList.add('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      renderUserEditForm();
+      loadUserEditPrefill(userId);
+    }
+
+    function closeUserEditModal() {
+      const modal = document.getElementById('userEditModal');
+      if (modal) {
+        modal.classList.remove('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+      userEditFormState.userId = null;
+    }
+
+    async function loadUserEditPrefill(userId) {
+      try {
+        // Capture caller id once for self-detection
+        if (!userListState.callerUserId) {
+          try {
+            const { data: { user } } = await sb.auth.getUser();
+            userListState.callerUserId = user ? user.id : null;
+          } catch (e) {
+            userListState.callerUserId = null;
+          }
+        }
+        // Fetch user detail
+        const { data: detail, error: detailErr } = await sb.rpc('get_admin_user_detail', { p_user_id: userId });
+        if (userEditFormState.userId !== userId) return;
+        if (detailErr) {
+          userEditFormState.loading = false;
+          userEditFormState.serverError = detailErr.message || 'Failed to load user.';
+          renderUserEditForm();
+          return;
+        }
+        const u = detail.user;
+        userEditFormState.prefill = u;
+        userEditFormState.values = {
+          full_name:       u.full_name || '',
+          role:            u.role,
+          organisation_id: u.organisation_id || null,
+        };
+        userEditFormState.hasActiveCohorts = (detail.cohort_memberships || [])
+          .some(m => m.cohort_archived_at === null);
+
+        // Fetch orgs picklist if not cached
+        if (!userEditFormState.orgs) {
+          const { data: orgs, error: orgsErr } = await sb.rpc('get_organisations_picklist');
+          if (userEditFormState.userId !== userId) return;
+          if (orgsErr) {
+            userEditFormState.loading = false;
+            userEditFormState.serverError = orgsErr.message || 'Failed to load organisations.';
+            renderUserEditForm();
+            return;
+          }
+          userEditFormState.orgs = Array.isArray(orgs) ? orgs : [];
+        }
+
+        userEditFormState.loading = false;
+        renderUserEditForm();
+      } catch (e) {
+        if (userEditFormState.userId !== userId) return;
+        userEditFormState.loading = false;
+        userEditFormState.serverError = e.message || 'Network error.';
+        renderUserEditForm();
+      }
+    }
+
+    function renderUserEditForm() {
+      const body = document.getElementById('userEditModalBody');
+      if (!body) return;
+      if (userEditFormState.loading) {
+        body.innerHTML = '<div style="padding:32px 0;text-align:center;color:rgba(255,255,255,0.5);font-family:Montserrat,sans-serif;font-size:13px;letter-spacing:1px;">Loading…</div>';
+        return;
+      }
+      if (userEditFormState.serverError && !userEditFormState.prefill) {
+        body.innerHTML = `<div class="form-server-error form-server-error--shown">${escapeHtml(userEditFormState.serverError)}</div><div class="form-actions" style="margin-top:18px;"><button type="button" class="btn--ghost" id="userEditCancelBtn">Close</button></div>`;
+        return;
+      }
+      body.innerHTML = renderUserEditFormHtml();
+      // Focus the name input on first render
+      setTimeout(() => {
+        const nameInput = document.getElementById('userEditFieldName');
+        if (nameInput && document.activeElement !== nameInput) nameInput.focus();
+      }, 50);
+    }
+
+    function renderUserEditFormHtml() {
+      const v = userEditFormState.values;
+      const u = userEditFormState.prefill;
+      const errs = userEditFormState.errors;
+      const isSelf = u && u.id === userListState.callerUserId;
+      const isBootstrap = u && u.id === BOOTSTRAP_ADMIN_UUID;
+      const hasActive = userEditFormState.hasActiveCohorts;
+      const roleLocked = isSelf || isBootstrap || hasActive;
+
+      let roleLockReason = '';
+      if (isSelf) roleLockReason = 'You cannot change your own role.';
+      else if (isBootstrap) roleLockReason = 'Bootstrap admin role is protected.';
+      else if (hasActive) roleLockReason = 'This user has active cohort memberships. Remove from cohort(s) before changing role.';
+
+      const errClass = (field) => errs[field] ? 'form-row--error' : '';
+      const errMsg = (field) => errs[field]
+        ? `<div class="form-error-inline" style="display:block;color:#e9a99c;">${escapeHtml(errs[field])}</div>`
+        : `<div class="form-error-inline"></div>`;
+
+      const pillBtn = (field, value, label, currentValue, disabled) =>
+        `<button type="button" class="form-pill ${currentValue === value ? 'form-pill--active' : ''}" data-field="${field}" data-value="${value}" ${disabled ? 'disabled aria-disabled="true" style="opacity:0.4;cursor:not-allowed;"' : ''}>${label}</button>`;
+
+      const orgOptions = ['<option value="">— none —</option>']
+        .concat((userEditFormState.orgs || []).map(o =>
+          `<option value="${o.id}" ${v.organisation_id === o.id ? 'selected' : ''}>${escapeHtml(o.name)}</option>`
+        )).join('');
+
+      const serverErrShown = userEditFormState.serverError ? 'form-server-error--shown' : '';
+      const submitDisabled = userEditFormState.submitting ? 'disabled' : '';
+      const submitLabel = userEditFormState.submitting ? 'Saving…' : 'Save changes';
+
+      return `
+        <div class="form-server-error ${serverErrShown}" id="userEditServerError">
+          ${escapeHtml(userEditFormState.serverError || '')}
+        </div>
+
+        <form id="userEditForm" novalidate>
+          <div class="form-row">
+            <label class="form-label">Email</label>
+            <div style="font-size:14px;color:rgba(255,255,255,0.85);font-family:Montserrat,sans-serif;padding:11px 14px;background:rgba(255,255,255,0.04);border-radius:3px;border:1px solid var(--border-default);">${escapeHtml(u.email)}</div>
+            <div class="form-help">Read-only. Email changes require a separate flow.</div>
+          </div>
+
+          <div class="form-row ${errClass('full_name')}">
+            <label class="form-label" for="userEditFieldName">Full name<span class="form-label__required">*</span></label>
+            <input class="form-input" id="userEditFieldName" name="full_name" type="text" maxlength="200" value="${escapeHtml(v.full_name)}" autocomplete="off">
+            ${errMsg('full_name')}
+          </div>
+
+          <div class="form-row ${errClass('role')}">
+            <label class="form-label">Role<span class="form-label__required">*</span></label>
+            <div class="form-pills" role="tablist" aria-label="User role">
+              ${pillBtn('role', 'admin',       'Admin',       v.role, roleLocked)}
+              ${pillBtn('role', 'facilitator', 'Facilitator', v.role, roleLocked)}
+              ${pillBtn('role', 'participant', 'Participant', v.role, roleLocked)}
+            </div>
+            ${roleLockReason ? `<div class="form-help" style="color:rgba(201,168,76,0.65);">${escapeHtml(roleLockReason)}</div>` : ''}
+            ${errMsg('role')}
+          </div>
+
+          <div class="form-row ${errClass('organisation_id')}">
+            <label class="form-label" for="userEditFieldOrg">Organisation</label>
+            <select class="form-select" id="userEditFieldOrg" name="organisation_id">
+              ${orgOptions}
+            </select>
+            <div class="form-help">Optional. The user's primary organisation affiliation.</div>
+            ${errMsg('organisation_id')}
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn--ghost" id="userEditCancelBtn">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="userEditSubmitBtn" ${submitDisabled}>${submitLabel}</button>
+          </div>
+        </form>
+      `;
+    }
+
+    function wireUserEditModal() {
+      const modal = document.getElementById('userEditModal');
+      if (!modal) return;
+
+      // Header close (×) button
+      const closeBtn = document.getElementById('userEditModalCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', closeUserEditModal);
+
+      // Backdrop click closes; clicks inside dialog do not bubble out
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeUserEditModal();
+          return;
+        }
+        // Cancel button (rendered inside body)
+        if (e.target.id === 'userEditCancelBtn') {
+          closeUserEditModal();
+          return;
+        }
+        // Pill click — toggle active value
+        const pill = e.target.closest('.form-pill');
+        if (pill && !pill.disabled) {
+          const field = pill.dataset.field;
+          const value = pill.dataset.value;
+          if (field && value && userEditFormState.values[field] !== value) {
+            userEditFormState.values[field] = value;
+            // Clear any field error and re-render to update pill state
+            if (userEditFormState.errors[field]) delete userEditFormState.errors[field];
+            renderUserEditForm();
+          }
+        }
+      });
+
+      // Live input updates (no full re-render to preserve cursor)
+      modal.addEventListener('input', (e) => {
+        const t = e.target;
+        if (t.id === 'userEditFieldName') {
+          userEditFormState.values.full_name = t.value;
+          if (userEditFormState.errors.full_name) {
+            delete userEditFormState.errors.full_name;
+            const row = t.closest('.form-row');
+            if (row) row.classList.remove('form-row--error');
+          }
+        }
+      });
+
+      modal.addEventListener('change', (e) => {
+        const t = e.target;
+        if (t.id === 'userEditFieldOrg') {
+          userEditFormState.values.organisation_id = t.value || null;
+        }
+      });
+
+      // Form submit
+      modal.addEventListener('submit', (e) => {
+        if (e.target.id === 'userEditForm') {
+          e.preventDefault();
+          submitUserEdit();
+        }
+      });
+    }
+
+    async function submitUserEdit() {
+      const v = userEditFormState.values;
+      const u = userEditFormState.prefill;
+      if (!u) return;
+
+      // Local validation
+      const errors = {};
+      const trimmedName = (v.full_name || '').trim();
+      if (trimmedName.length === 0) {
+        errors.full_name = 'Full name is required.';
+      } else if (trimmedName.length > 200) {
+        errors.full_name = 'Full name must be 200 characters or fewer.';
+      }
+      if (!['admin','facilitator','participant'].includes(v.role)) {
+        errors.role = 'Invalid role.';
+      }
+      if (Object.keys(errors).length > 0) {
+        userEditFormState.errors = errors;
+        renderUserEditForm();
+        return;
+      }
+
+      // No-op shortcut: if nothing changed, just close
+      const noChange =
+        trimmedName === (u.full_name || '') &&
+        v.role === u.role &&
+        (v.organisation_id || null) === (u.organisation_id || null);
+      if (noChange) {
+        closeUserEditModal();
+        return;
+      }
+
+      userEditFormState.submitting = true;
+      userEditFormState.serverError = null;
+      renderUserEditForm();
+
+      try {
+        const { error } = await sb.rpc('admin_edit_user', {
+          p_user_id:        u.id,
+          p_full_name:      trimmedName,
+          p_role:           v.role,
+          p_organisation_id: v.organisation_id || null,
+        });
+
+        if (error) {
+          userEditFormState.submitting = false;
+          userEditFormState.serverError = error.message || 'Save failed.';
+          renderUserEditForm();
+          return;
+        }
+
+        // Success path
+        const editedId = u.id;
+        closeUserEditModal();
+        window.showToast('User updated', 3000);
+
+        // Invalidate list cache and re-fetch if list is currently shown
+        userListState.loaded = false;
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('view') === 'users' && !params.get('user')) {
+          loadUserList();
+        }
+
+        // If detail is currently shown for this user, re-fetch
+        if (userDetailState.currentId === editedId) {
+          userDetailState.currentId = null;
+          loadUserDetail(editedId);
+        }
+      } catch (e) {
+        userEditFormState.submitting = false;
+        userEditFormState.serverError = e.message || 'Network error.';
+        renderUserEditForm();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', wireUserEditModal);
+
+
+    // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
     boot();
@@ -4217,6 +4552,19 @@
         <div class="confirm-actions">
           <button type="button" class="btn--ghost" id="confirmModalCancelBtn">Cancel</button>
           <button type="button" class="btn--danger" id="confirmModalProceedBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- A2-UI-C: edit user modal -->
+    <div class="modal-backdrop" id="userEditModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="userEditModalTitle">Edit user</div>
+          <button type="button" class="modal-close" id="userEditModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" id="userEditModalBody">
+          <!-- Form rendered here by JS -->
         </div>
       </div>
     </div>
