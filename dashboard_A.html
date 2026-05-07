@@ -3538,6 +3538,72 @@
       });
     }
 
+    // A2-UI-D: Confirm + suspend a user. Mirrors confirmAndArchive's shape:
+    // showConfirmModal with an onProceed that calls the RPC and refreshes
+    // list + detail on success. Server-side guards (self / bootstrap /
+    // is_admin) are authoritative; UI guards are belt-and-braces.
+    function confirmAndSuspend(userId, userName) {
+      showConfirmModal({
+        title: 'Suspend this user?',
+        body: `Suspending <strong>${escapeHtml(userName || 'this user')}</strong> prevents them from signing in. Their data is preserved and they can be unsuspended at any time.<br><br>This action is reversible.`,
+        proceedLabel: 'Suspend user',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('admin_suspend_user', { p_user_id: userId });
+            if (error) {
+              window.showToast(error.message || 'Suspend failed.');
+              return;
+            }
+            window.showToast('User suspended.');
+            // Invalidate list cache and re-fetch if list is currently shown
+            userListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'users' && !params.get('user')) {
+              loadUserList();
+            }
+            // If detail is currently shown for this user, re-fetch
+            if (userDetailState.currentId === userId) {
+              userDetailState.currentId = null;
+              loadUserDetail(userId);
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
+    // A2-UI-D: Confirm + unsuspend a user. Same shape as confirmAndSuspend
+    // but calls admin_unsuspend_user and uses non-danger phrasing.
+    function confirmAndUnsuspend(userId, userName) {
+      showConfirmModal({
+        title: 'Unsuspend this user?',
+        body: `Unsuspending <strong>${escapeHtml(userName || 'this user')}</strong> restores their ability to sign in. They will regain access immediately on next sign-in.`,
+        proceedLabel: 'Unsuspend user',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('admin_unsuspend_user', { p_user_id: userId });
+            if (error) {
+              window.showToast(error.message || 'Unsuspend failed.');
+              return;
+            }
+            window.showToast('User unsuspended.');
+            userListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'users' && !params.get('user')) {
+              loadUserList();
+            }
+            if (userDetailState.currentId === userId) {
+              userDetailState.currentId = null;
+              loadUserDetail(userId);
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
     // Inline-unarchive: replace the archived banner's Unarchive button with
     // an inline confirm row, same pattern as people_list remove confirm.
     function toggleUnarchiveConfirmRow(bannerEl, cohortId, cohortName) {
@@ -3825,9 +3891,15 @@
           const userId = item.dataset.id;
           if (userId) openUserEditModal(userId);
         } else if (action === 'suspend') {
-          window.showToast('Suspend user — A2-UI-D coming next', 3000);
+          const userId = item.dataset.id;
+          const row = userId ? userListState.lastRows.find(r => r.id === userId) : null;
+          const userName = row ? (row.full_name || row.email) : null;
+          if (userId) confirmAndSuspend(userId, userName);
         } else if (action === 'unsuspend') {
-          window.showToast('Unsuspend user — A2-UI-D coming next', 3000);
+          const userId = item.dataset.id;
+          const row = userId ? userListState.lastRows.find(r => r.id === userId) : null;
+          const userName = row ? (row.full_name || row.email) : null;
+          if (userId) confirmAndUnsuspend(userId, userName);
         }
         document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
       });
@@ -4138,7 +4210,10 @@
             const userId = actionEl.dataset.id;
             if (userId) openUserEditModal(userId);
           } else if (action === 'unsuspend-user-from-detail') {
-            window.showToast('Unsuspend user — A2-UI-D coming next', 3000);
+            const userId = actionEl.dataset.id;
+            const u = userDetailState.data && userDetailState.data.user;
+            const userName = u ? (u.full_name || u.email) : null;
+            if (userId) confirmAndUnsuspend(userId, userName);
           }
         }
       });
