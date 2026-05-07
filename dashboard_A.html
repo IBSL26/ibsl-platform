@@ -1597,6 +1597,40 @@
     color: var(--gold);
   }
 
+  /* A3-UI-A: expiry-countdown chip colours.
+     Green ≥7d, amber 1–6d, red ≤24h or already expired. */
+  .expiry-chip {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  .expiry-chip--ok    { background: rgba(108, 174, 132, 0.18); color: #8ec9a3; border: 1px solid rgba(108,174,132,0.35); }
+  .expiry-chip--warn  { background: rgba(201, 168, 76, 0.18);  color: #c9a84c; border: 1px solid rgba(201,168,76,0.35); }
+  .expiry-chip--soon  { background: rgba(217, 134, 80, 0.18);  color: #d99e6c; border: 1px solid rgba(217,134,80,0.40); }
+  .expiry-chip--gone  { background: rgba(196, 90, 77, 0.20);   color: #e9a99c; border: 1px solid rgba(196,90,77,0.45); }
+
+  /* A3-UI-A: status pill (Pending / Accepted / Expired / Revoked) — used in the
+     "All" tab where rows can be any state. */
+  .inv-status {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 2px;
+  }
+  .inv-status--pending  { background: rgba(108, 174, 132, 0.15); color: #8ec9a3; }
+  .inv-status--accepted { background: rgba(255, 255, 255, 0.08); color: rgba(255,255,255,0.7); }
+  .inv-status--expired  { background: rgba(217, 134, 80, 0.15);  color: #d99e6c; }
+  .inv-status--revoked  { background: rgba(196, 90, 77, 0.15);   color: #e9a99c; }
+
   </style>
 </head>
 <body>
@@ -1734,13 +1768,37 @@
 
         <section class="view" id="view-invitations" data-view="invitations">
           <div class="view-header">
-            <div><div class="view-header__kicker">Provisioning</div>
-              <h1 class="view-header__title">Invitations</h1></div>
+            <div>
+              <div class="view-header__kicker">Provisioning</div>
+              <h1 class="view-header__title">Invitations</h1>
+              <div class="view-header__sub">Send, track, resend, and revoke invitations to the platform</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button type="button" class="btn btn--primary" id="invitationSingleBtn">+ Invite user</button>
+              <button type="button" class="btn btn--primary" id="invitationBulkBtn" style="background:transparent;border:1px solid var(--gold);color:var(--gold);">Bulk invite (CSV)</button>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">Invitations &amp; provisioning — coming soon</div>
-            <div class="stub__sub">CSV bulk invite, single invite, expiry tracking</div>
-            <div class="stub__cluster">CLUSTER A3</div>
+
+          <div class="filter-bar" id="invitationFilters">
+            <div class="filter-group">
+              <span class="filter-group__label">Status</span>
+              <div class="filter-pills" role="tablist" aria-label="Invitation status filter">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="status" data-value="pending">Pending</button>
+                <button type="button" class="filter-pill" data-filter="status" data-value="accepted">Accepted</button>
+                <button type="button" class="filter-pill" data-filter="status" data-value="expired">Expired</button>
+                <button type="button" class="filter-pill" data-filter="status" data-value="revoked">Revoked</button>
+                <button type="button" class="filter-pill" data-filter="status" data-value="all">All</button>
+              </div>
+            </div>
+            <div class="filter-group" style="flex:1 1 280px;">
+              <span class="filter-group__label">Search</span>
+              <input type="search" id="invitationSearchInput" placeholder="Name or email..." aria-label="Search invitations by name or email"
+                     style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:320px;outline:none;">
+            </div>
+          </div>
+
+          <div id="invitationListContainer">
+            <!-- States rendered here by JS: skeleton | table | empty-system | empty-filters | error -->
           </div>
         </section>
 
@@ -4599,6 +4657,450 @@
     }
 
     document.addEventListener('DOMContentLoaded', wireUserEditModal);
+
+
+    // ===========================================================
+    // A3-UI-A: Invitations list view
+    // ===========================================================
+    // Sub-clusters in this block:
+    //   A3-UI-A-1  route hook + view shell (HTML in markup, hook below)
+    //   A3-UI-A-2  sub-tab pills + state plumbing
+    //   A3-UI-A-3  table render bound to admin_list_invitations RPC
+    //   A3-UI-A-4  kebab actions wired to admin_revoke_invitation /
+    //              admin_resend_invitation
+    //   A3-UI-A-5  "Invite user" / "Bulk invite (CSV)" CTAs (stubs until UI-B/C)
+    // ===========================================================
+
+    const invitationListState = {
+      filters: { status: 'pending' },   // default tab
+      searchQuery: '',
+      searchDebounceTimer: null,
+      loaded: false,
+      lastRows: null,
+    };
+
+    // ------------------ A3-UI-A: helpers ------------------
+
+    // Format an absolute date as "in 3 days" / "27 days ago" / "today".
+    // Relative direction is derived from sign of (target - now).
+    function fmtRelative(ts) {
+      if (!ts) return '—';
+      const target = new Date(ts).getTime();
+      const now = Date.now();
+      const diffMs = target - now;
+      const absMs = Math.abs(diffMs);
+      const day = 86400000;
+      const hour = 3600000;
+      const minute = 60000;
+      let phrase;
+      if (absMs < minute) {
+        phrase = 'now';
+      } else if (absMs < hour) {
+        const m = Math.round(absMs / minute);
+        phrase = m === 1 ? 'a minute' : m + ' minutes';
+      } else if (absMs < day) {
+        const h = Math.round(absMs / hour);
+        phrase = h === 1 ? 'an hour' : h + ' hours';
+      } else if (absMs < 30 * day) {
+        const d = Math.round(absMs / day);
+        phrase = d === 1 ? 'a day' : d + ' days';
+      } else {
+        const mo = Math.round(absMs / (30 * day));
+        phrase = mo === 1 ? 'a month' : mo + ' months';
+      }
+      if (phrase === 'now') return 'just now';
+      return diffMs >= 0 ? 'in ' + phrase : phrase + ' ago';
+    }
+
+    // Bucket an expires_at timestamp for chip colour selection.
+    function expiryBucket(expiresAtIso) {
+      if (!expiresAtIso) return 'gone';
+      const ms = new Date(expiresAtIso).getTime() - Date.now();
+      const day = 86400000;
+      if (ms <= 0)        return 'gone';
+      if (ms <= day)      return 'soon';
+      if (ms <= 7 * day)  return 'warn';
+      return 'ok';
+    }
+
+    // Pretty-format the inv status pill.
+    function invStatusPillHtml(computedStatus) {
+      const cls = 'inv-status inv-status--' + computedStatus;
+      const label = computedStatus.charAt(0).toUpperCase() + computedStatus.slice(1);
+      return `<span class="${cls}">${escapeHtml(label)}</span>`;
+    }
+
+    // ------------------ A3-UI-A-3: table rendering ------------------
+
+    // Build the kebab menu HTML for an invitation row. Actions are scoped by
+    // the row's current computed_status — only pending rows can be resent or
+    // revoked; expired rows can be resent (which extends expiry); accepted
+    // and revoked rows are read-only.
+    function invitationKebabHtml(row) {
+      const items = [];
+      if (row.computed_status === 'pending') {
+        items.push(`<button type="button" class="kebab__item" data-action="inv-resend" data-id="${row.id}">Resend</button>`);
+        items.push(`<button type="button" class="kebab__item kebab__item--danger" data-action="inv-revoke" data-id="${row.id}">Revoke</button>`);
+      } else if (row.computed_status === 'expired') {
+        items.push(`<button type="button" class="kebab__item" data-action="inv-resend" data-id="${row.id}">Resend (extend expiry)</button>`);
+      } else {
+        // accepted / revoked — no actions, but keep menu structure for layout
+        items.push(`<button type="button" class="kebab__item" disabled aria-disabled="true" style="opacity:0.4;cursor:not-allowed;">No actions available</button>`);
+      }
+      return `
+        <div class="kebab" data-kebab>
+          <button type="button" class="kebab__btn" aria-haspopup="true" aria-expanded="false" aria-label="Row actions">⋯</button>
+          <div class="kebab__menu" role="menu">
+            ${items.join('\n')}
+          </div>
+        </div>
+      `;
+    }
+
+    // Build one invitation row. Column composition shifts per active tab.
+    function invitationRowHtml(row, activeTab) {
+      const nameCell = `
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <span class="cohort-name" title="${escapeHtml(row.full_name)}">${escapeHtml(row.full_name)}</span>
+          <span class="cell-secondary" style="font-size:11.5px;color:rgba(255,255,255,0.55);" title="${escapeHtml(row.email)}">${escapeHtml(row.email)}</span>
+        </div>
+      `;
+      const roleBadge   = `<span class="type-badge">${escapeHtml(row.role)}</span>`;
+      const cohortName  = row.cohort_name ? escapeHtml(row.cohort_name) : '—';
+      const orgName     = row.organisation_name ? escapeHtml(row.organisation_name) : '—';
+      const inviterName = row.invited_by_name ? escapeHtml(row.invited_by_name) : '—';
+      const sentRel     = `<span title="${escapeHtml(fmtDateTime(row.created_at))}">${escapeHtml(fmtRelative(row.created_at))}</span>`;
+
+      // Per-tab right-side column
+      let rightCell;
+      if (activeTab === 'pending' || (activeTab === 'all' && row.computed_status === 'pending')) {
+        const bucket = expiryBucket(row.expires_at);
+        rightCell = `<span class="expiry-chip expiry-chip--${bucket}" title="${escapeHtml(fmtDateTime(row.expires_at))}">${escapeHtml(fmtRelative(row.expires_at))}</span>`;
+      } else if (row.computed_status === 'accepted') {
+        rightCell = `<span class="cell-secondary" title="${escapeHtml(fmtDateTime(row.accepted_at))}">${escapeHtml(fmtRelative(row.accepted_at))}</span>`;
+      } else if (row.computed_status === 'expired') {
+        rightCell = `<span class="expiry-chip expiry-chip--gone" title="${escapeHtml(fmtDateTime(row.expires_at))}">${escapeHtml(fmtRelative(row.expires_at))}</span>`;
+      } else if (row.computed_status === 'revoked') {
+        rightCell = `<span class="cell-secondary" title="${escapeHtml(fmtDateTime(row.revoked_at))}">${escapeHtml(fmtRelative(row.revoked_at))}</span>`;
+      } else {
+        rightCell = '—';
+      }
+
+      // For the "All" tab we slot a status pill in column 1 and shift everything right
+      const statusCell = activeTab === 'all'
+        ? `<td>${invStatusPillHtml(row.computed_status)}</td>`
+        : '';
+
+      return `
+        <tr data-row-id="${row.id}" data-row-kind="invitation">
+          ${statusCell}
+          <td>${nameCell}</td>
+          <td>${roleBadge}</td>
+          <td class="cell-secondary">${cohortName}</td>
+          <td class="cell-secondary">${orgName}</td>
+          <td class="cell-secondary">${inviterName}</td>
+          <td class="cell-secondary">${sentRel}</td>
+          <td>${rightCell}</td>
+          <td>${invitationKebabHtml(row)}</td>
+        </tr>
+      `;
+    }
+
+    // Table shell. Column header set varies per active tab.
+    function invitationTableHtml(bodyHtml, activeTab) {
+      const statusHeader = activeTab === 'all' ? '<th>Status</th>' : '';
+      const rightHeader  = activeTab === 'pending' ? 'Expires'
+                         : activeTab === 'accepted' ? 'Accepted'
+                         : activeTab === 'expired'  ? 'Expired'
+                         : activeTab === 'revoked'  ? 'Revoked'
+                         : 'When';
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                ${statusHeader}
+                <th>Name</th>
+                <th>Role</th>
+                <th>Cohort</th>
+                <th>Organisation</th>
+                <th>Invited by</th>
+                <th>Sent</th>
+                <th>${escapeHtml(rightHeader)}</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function invitationSkeletonHtml(activeTab) {
+      const cell = (w) => `<td><div class="skeleton-bar" style="width:${w}"></div></td>`;
+      const statusCell = activeTab === 'all' ? cell('40px') : '';
+      const skelRow = `<tr class="skeleton-row">${statusCell}${cell('70%')}${cell('40px')}${cell('60%')}${cell('60%')}${cell('60%')}${cell('40%')}${cell('50%')}${cell('20px')}</tr>`;
+      return invitationTableHtml(skelRow.repeat(3), activeTab);
+    }
+
+    function invitationEmptyHtml(kind, activeTab) {
+      if (kind === 'system') {
+        const tabCopy = {
+          pending:  { title: 'No pending invitations',  body: 'When you invite users, they will appear here with an expiry countdown until they sign up.' },
+          accepted: { title: 'No accepted invitations', body: 'Once an invitee signs up via their magic link, they will appear here.' },
+          expired:  { title: 'No expired invitations',  body: 'Invitations that pass their 30-day expiry without being accepted will appear here.' },
+          revoked:  { title: 'No revoked invitations',  body: 'Invitations you cancel before acceptance will appear here for audit.' },
+          all:      { title: 'No invitations yet',      body: 'Click "Invite user" to send your first invitation.' },
+        }[activeTab] || { title: 'No invitations', body: '' };
+        return `
+          <div class="empty-state">
+            <div class="empty-state__title">${escapeHtml(tabCopy.title)}</div>
+            <div class="empty-state__body">${escapeHtml(tabCopy.body)}</div>
+          </div>
+        `;
+      }
+      // filtered-empty (search query yielded nothing within the active tab)
+      return `
+        <div class="empty-state">
+          <div class="empty-state__title">No invitations match your search</div>
+          <div class="empty-state__body">Try a different search term, or clear the search to see everything in this tab.</div>
+          <button type="button" class="btn btn--primary empty-state__cta" id="invitationClearFiltersBtn">Clear search</button>
+        </div>
+      `;
+    }
+
+    function invitationErrorHtml(message) {
+      return `
+        <div class="error-state">
+          <div class="error-state__title">Could not load invitations</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    // Apply current search query to a row array. Status filtering is handled
+    // server-side via the RPC's p_status_filter param, so we re-fetch on tab
+    // change rather than client-side filter; search is client-side debounced.
+    function filterInvitationRows(rows) {
+      const q = invitationListState.searchQuery.trim().toLowerCase();
+      if (!q) return rows;
+      return rows.filter(r =>
+        (r.email && r.email.toLowerCase().includes(q)) ||
+        (r.full_name && r.full_name.toLowerCase().includes(q))
+      );
+    }
+
+    function renderInvitationList() {
+      const container = document.getElementById('invitationListContainer');
+      if (!container) return;
+      const activeTab = invitationListState.filters.status;
+      if (!invitationListState.loaded) {
+        container.innerHTML = invitationSkeletonHtml(activeTab);
+        return;
+      }
+      if (invitationListState.lastRows === null) {
+        container.innerHTML = invitationErrorHtml('Unexpected state.');
+        return;
+      }
+      if (invitationListState.lastRows.length === 0) {
+        container.innerHTML = invitationEmptyHtml('system', activeTab);
+        return;
+      }
+      const filtered = filterInvitationRows(invitationListState.lastRows);
+      if (filtered.length === 0) {
+        container.innerHTML = invitationEmptyHtml('filtered', activeTab);
+        return;
+      }
+      const body = filtered.map(r => invitationRowHtml(r, activeTab)).join('\n');
+      container.innerHTML = invitationTableHtml(body, activeTab);
+    }
+
+    // RPC fetch — re-fetches on tab change and on initial activation.
+    async function loadInvitationList() {
+      const container = document.getElementById('invitationListContainer');
+      if (!container) return;
+      const activeTab = invitationListState.filters.status;
+      container.innerHTML = invitationSkeletonHtml(activeTab);
+      try {
+        const params = {
+          p_status_filter: activeTab === 'all' ? null : activeTab,
+          p_cohort_filter: null,
+          p_search: null,    // search is applied client-side from lastRows
+        };
+        const { data, error } = await sb.rpc('admin_list_invitations', params);
+        if (error) {
+          container.innerHTML = invitationErrorHtml(error.message || 'RPC failed.');
+          return;
+        }
+        invitationListState.lastRows = Array.isArray(data) ? data : [];
+        invitationListState.loaded = true;
+        renderInvitationList();
+      } catch (e) {
+        container.innerHTML = invitationErrorHtml(e.message || 'Network error.');
+      }
+    }
+
+    // ------------------ A3-UI-A-2: tab and search wiring ------------------
+
+    function wireInvitationFilters() {
+      const bar = document.getElementById('invitationFilters');
+      if (!bar) return;
+      bar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill');
+        if (!pill) return;
+        const filterName = pill.dataset.filter;
+        const value = pill.dataset.value;
+        if (!filterName || !value) return;
+        if (invitationListState.filters[filterName] === value) return;
+        invitationListState.filters[filterName] = value;
+        bar.querySelectorAll(`.filter-pill[data-filter="${filterName}"]`).forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+        // Status filter is server-side — re-fetch
+        if (filterName === 'status') {
+          invitationListState.loaded = false;
+          loadInvitationList();
+        } else {
+          renderInvitationList();
+        }
+      });
+    }
+
+    function wireInvitationSearch() {
+      const input = document.getElementById('invitationSearchInput');
+      if (!input) return;
+      input.addEventListener('input', (e) => {
+        const v = e.target.value;
+        if (invitationListState.searchDebounceTimer) clearTimeout(invitationListState.searchDebounceTimer);
+        invitationListState.searchDebounceTimer = setTimeout(() => {
+          invitationListState.searchQuery = v;
+          renderInvitationList();
+        }, 250);
+      });
+    }
+
+    function wireInvitationClearFilters() {
+      const container = document.getElementById('invitationListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'invitationClearFiltersBtn') {
+          invitationListState.searchQuery = '';
+          const searchInput = document.getElementById('invitationSearchInput');
+          if (searchInput) searchInput.value = '';
+          renderInvitationList();
+        }
+      });
+    }
+
+    // ------------------ A3-UI-A-4: kebab actions (revoke / resend) ------------------
+
+    function confirmAndRevokeInvitation(invitationId, email) {
+      showConfirmModal({
+        title: 'Revoke this invitation?',
+        body: `Revoking the invitation to <strong>${escapeHtml(email || 'this address')}</strong> means the magic link in any email already sent will no longer work. Their record stays in the audit log.<br><br>This action cannot be undone — you would need to send a new invitation.`,
+        proceedLabel: 'Revoke invitation',
+        onProceed: async () => {
+          try {
+            const { data, error } = await sb.rpc('admin_revoke_invitation', { p_invitation_id: invitationId });
+            if (error) {
+              window.showToast(error.message || 'Revoke failed.');
+              return;
+            }
+            if (data && data.ok === false) {
+              window.showToast(data.error || 'Revoke failed.');
+              return;
+            }
+            window.showToast('Invitation revoked.');
+            invitationListState.loaded = false;
+            loadInvitationList();
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
+    function confirmAndResendInvitation(invitationId, email) {
+      showConfirmModal({
+        title: 'Resend this invitation?',
+        body: `Resending the invitation to <strong>${escapeHtml(email || 'this address')}</strong> extends the expiry by another 30 days from now and re-sends the magic-link email.`,
+        proceedLabel: 'Resend invitation',
+        onProceed: async () => {
+          try {
+            const { data, error } = await sb.rpc('admin_resend_invitation', { p_invitation_id: invitationId });
+            if (error) {
+              window.showToast(error.message || 'Resend failed.');
+              return;
+            }
+            if (data && data.ok === false) {
+              window.showToast(data.error || 'Resend failed.');
+              return;
+            }
+            window.showToast('Invitation resent.');
+            invitationListState.loaded = false;
+            loadInvitationList();
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
+    function wireInvitationKebabActions() {
+      document.addEventListener('click', (e) => {
+        const item = e.target.closest('.kebab__item');
+        if (!item) return;
+        const tr = e.target.closest('tr[data-row-kind="invitation"]');
+        if (!tr) return;
+        const action = item.dataset.action;
+        if (!action) return;
+        e.preventDefault();
+        const invitationId = item.dataset.id;
+        const row = invitationId ? (invitationListState.lastRows || []).find(r => r.id === invitationId) : null;
+        const email = row ? row.email : null;
+        if (action === 'inv-revoke' && invitationId) {
+          confirmAndRevokeInvitation(invitationId, email);
+        } else if (action === 'inv-resend' && invitationId) {
+          confirmAndResendInvitation(invitationId, email);
+        }
+        document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
+      });
+    }
+
+    // ------------------ A3-UI-A-5: header CTAs (stubs until UI-B / UI-C) ------------------
+
+    function wireInvitationHeaderCtas() {
+      const single = document.getElementById('invitationSingleBtn');
+      const bulk   = document.getElementById('invitationBulkBtn');
+      if (single) single.addEventListener('click', () => {
+        window.showToast('Single invite — A3-UI-B coming next', 3000);
+      });
+      if (bulk) bulk.addEventListener('click', () => {
+        window.showToast('Bulk invite (CSV) — A3-UI-C coming after UI-B', 3000);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireInvitationFilters();
+      wireInvitationSearch();
+      wireInvitationClearFilters();
+      wireInvitationKebabActions();
+      wireInvitationHeaderCtas();
+    });
+
+    // ------------------ A3-UI-A-1: route hook ------------------
+    // Sixth wrap of handleRoute. Loads the list when invitations view becomes
+    // active and not yet loaded. Status filter changes re-fetch via the
+    // filter wiring above, not via this hook.
+    const _origHandleRoute_uiA3 = handleRoute;
+    handleRoute = function patchedHandleRouteForInvitations() {
+      _origHandleRoute_uiA3.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'invitations' && !invitationListState.loaded) {
+        loadInvitationList();
+      }
+    };
 
 
     // -----------------------------------------------------------
