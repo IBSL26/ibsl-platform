@@ -1378,11 +1378,46 @@
      lists supply their own. The user edit form is rendered as direct form-row
      children, so it needs its own horizontal breathing room and a stable
      scrollbar gutter so the scrollbar doesn't crop the right edge of inputs.
-     A3-UI-B: same treatment for the invitation create modal. */
+     A3-UI-B: same treatment for the invitation create modal.
+     A3-UI-C: same treatment for the bulk invite modal. */
   #userEditModalBody,
-  #invitationCreateModalBody {
+  #invitationCreateModalBody,
+  #invitationBulkModalBody {
     padding: 18px 28px 24px;
     scrollbar-gutter: stable;
+  }
+
+  /* A3-UI-C: bulk result row colours and progress bar */
+  .bulk-result-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 1fr;
+    gap: 12px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border-subtle);
+    font-family: Montserrat, sans-serif;
+    font-size: 12.5px;
+    align-items: center;
+  }
+  .bulk-result-row:last-child { border-bottom: 0; }
+  .bulk-result-row__icon { font-weight: 700; font-size: 14px; }
+  .bulk-result-row--ok    { color: rgba(255,255,255,0.85); }
+  .bulk-result-row--ok    .bulk-result-row__icon { color: #8ec9a3; }
+  .bulk-result-row--fail  { color: rgba(255,255,255,0.85); }
+  .bulk-result-row--fail  .bulk-result-row__icon { color: #e9a99c; }
+  .bulk-result-row--fail  .bulk-result-row__reason { color: #e9a99c; font-size: 11.5px; }
+
+  .bulk-progress {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+    height: 8px;
+    margin-top: 10px;
+  }
+  .bulk-progress__bar {
+    background: var(--gold);
+    height: 100%;
+    transition: width 0.18s ease;
   }
 
   /* Picker list */
@@ -5089,7 +5124,7 @@
         openInvitationCreateModal();
       });
       if (bulk) bulk.addEventListener('click', () => {
-        window.showToast('Bulk invite (CSV) — A3-UI-C coming after UI-B', 3000);
+        openInvitationBulkModal();
       });
     }
 
@@ -5493,6 +5528,480 @@
     }
 
 
+    // ===========================================================
+    // A3-UI-C: Bulk invite modal — CSV paste, FUNC-5, sequential email send
+    // ===========================================================
+    // Sub-clusters in this block:
+    //   A3-UI-C-1  modal HTML (in markup) + scoped padding (CSS extended above)
+    //   A3-UI-C-2  state + render (form / progress / results)
+    //   A3-UI-C-3  CSV parser + cohort dropdown loader
+    //   A3-UI-C-4  submit pipeline: parse → admin_bulk_invite → sequential
+    //              signInWithOtp per created row → results panel
+    //   A3-UI-C-5  CTA wiring (above) + close handlers
+    // ===========================================================
+
+    const invitationBulkFormState = {
+      stage:          'form',     // 'form' | 'sending' | 'results'
+      loadingCohorts: false,
+      cohorts:        null,
+      cohortId:       null,
+      csvText:        '',
+      parseErrors:    [],         // client-side parse issues (header / column count)
+      rpcError:       null,
+      submitting:     false,
+      // results
+      createdCount:   0,
+      failedCount:    0,
+      resultRows:     [],         // raw FUNC-5 results with our email send status added
+      // progress (during sending)
+      progressTotal:  0,
+      progressDone:   0,
+    };
+
+    function openInvitationBulkModal() {
+      // Reset
+      invitationBulkFormState.stage = 'form';
+      invitationBulkFormState.loadingCohorts = true;
+      invitationBulkFormState.cohortId = null;
+      invitationBulkFormState.csvText = '';
+      invitationBulkFormState.parseErrors = [];
+      invitationBulkFormState.rpcError = null;
+      invitationBulkFormState.submitting = false;
+      invitationBulkFormState.createdCount = 0;
+      invitationBulkFormState.failedCount = 0;
+      invitationBulkFormState.resultRows = [];
+      invitationBulkFormState.progressTotal = 0;
+      invitationBulkFormState.progressDone = 0;
+
+      const modal = document.getElementById('invitationBulkModal');
+      if (modal) {
+        modal.classList.add('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      renderInvitationBulkBody();
+      // Cohorts may be cached from UI-B; reuse if present
+      if (invitationCreateFormState.cohorts && invitationCreateFormState.cohorts.length > 0) {
+        invitationBulkFormState.cohorts = invitationCreateFormState.cohorts;
+        invitationBulkFormState.loadingCohorts = false;
+        renderInvitationBulkBody();
+      } else {
+        loadInvitationBulkCohorts();
+      }
+    }
+
+    function closeInvitationBulkModal() {
+      const modal = document.getElementById('invitationBulkModal');
+      if (modal) {
+        modal.classList.remove('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    async function loadInvitationBulkCohorts() {
+      try {
+        const r = await sb.from('cohorts').select('id, name').is('archived_at', null).order('name', { ascending: true });
+        if (r.error) {
+          invitationBulkFormState.loadingCohorts = false;
+          invitationBulkFormState.rpcError = 'Failed to load cohorts: ' + (r.error.message || 'unknown error');
+          renderInvitationBulkBody();
+          return;
+        }
+        invitationBulkFormState.cohorts = r.data || [];
+        // Cache to UI-B's state too so we don't re-fetch
+        invitationCreateFormState.cohorts = r.data || [];
+        invitationBulkFormState.loadingCohorts = false;
+        renderInvitationBulkBody();
+      } catch (e) {
+        invitationBulkFormState.loadingCohorts = false;
+        invitationBulkFormState.rpcError = e.message || 'Network error.';
+        renderInvitationBulkBody();
+      }
+    }
+
+    // ------------------ A3-UI-C-3: CSV parser ------------------
+
+    // Minimal CSV parser. Supports quoted fields. Treats the first non-empty
+    // line as header. Returns {rows: [{email, full_name, role, organisation_name}],
+    // errors: [{line, error}]}.
+    function parseInviteCsv(text) {
+      const errors = [];
+      const rows = [];
+      const lines = (text || '').replace(/\r\n/g, '\n').split('\n').filter(l => l.trim() !== '');
+      if (lines.length === 0) {
+        errors.push({ line: 0, error: 'No content. Paste at least a header row plus one invitee.' });
+        return { rows, errors };
+      }
+      if (lines.length === 1) {
+        errors.push({ line: 0, error: 'Only header row found. Add at least one invitee row.' });
+        return { rows, errors };
+      }
+
+      // Tokeniser handling double-quoted fields with comma + quote escapes
+      const splitCsvLine = (line) => {
+        const out = [];
+        let cur = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+          const ch = line[i];
+          if (inQuotes) {
+            if (ch === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+            else if (ch === '"') { inQuotes = false; }
+            else { cur += ch; }
+          } else {
+            if (ch === ',') { out.push(cur); cur = ''; }
+            else if (ch === '"' && cur === '') { inQuotes = true; }
+            else { cur += ch; }
+          }
+        }
+        out.push(cur);
+        return out.map(s => s.trim());
+      };
+
+      const headerCols = splitCsvLine(lines[0]).map(h => h.toLowerCase().trim());
+      const required = ['email', 'full_name', 'role'];
+      const missing = required.filter(c => !headerCols.includes(c));
+      if (missing.length > 0) {
+        errors.push({ line: 1, error: 'Header is missing required column(s): ' + missing.join(', ') });
+        return { rows, errors };
+      }
+      const idx = {
+        email:             headerCols.indexOf('email'),
+        full_name:         headerCols.indexOf('full_name'),
+        role:              headerCols.indexOf('role'),
+        organisation_name: headerCols.indexOf('organisation_name'),
+      };
+
+      for (let i = 1; i < lines.length; i++) {
+        const cells = splitCsvLine(lines[i]);
+        if (cells.length < 3) {
+          errors.push({ line: i + 1, error: 'Too few columns (need at least email, full_name, role).' });
+          continue;
+        }
+        rows.push({
+          email:             (cells[idx.email] || '').trim().toLowerCase(),
+          full_name:         (cells[idx.full_name] || '').trim(),
+          role:              (cells[idx.role] || '').trim().toLowerCase(),
+          organisation_name: idx.organisation_name >= 0 ? (cells[idx.organisation_name] || '').trim() : null,
+        });
+      }
+      return { rows, errors };
+    }
+
+    // ------------------ A3-UI-C-2: render ------------------
+
+    function renderInvitationBulkBody() {
+      const body = document.getElementById('invitationBulkModalBody');
+      if (!body) return;
+      const s = invitationBulkFormState;
+      if (s.loadingCohorts) {
+        body.innerHTML = '<div style="padding:32px 0;text-align:center;color:rgba(255,255,255,0.5);font-family:Montserrat,sans-serif;font-size:13px;letter-spacing:1px;">Loading…</div>';
+        return;
+      }
+      if (s.stage === 'form') {
+        body.innerHTML = renderInvitationBulkFormHtml();
+        wireInvitationBulkFormHandlers();
+        return;
+      }
+      if (s.stage === 'sending') {
+        body.innerHTML = renderInvitationBulkSendingHtml();
+        // No interactive wiring during sending
+        return;
+      }
+      if (s.stage === 'results') {
+        body.innerHTML = renderInvitationBulkResultsHtml();
+        wireInvitationBulkResultsHandlers();
+        return;
+      }
+    }
+
+    function renderInvitationBulkFormHtml() {
+      const s = invitationBulkFormState;
+      const cohortOptions = ['<option value="">— pick a cohort —</option>']
+        .concat((s.cohorts || []).map(c =>
+          `<option value="${c.id}" ${s.cohortId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`
+        )).join('');
+
+      const errorBlock = s.rpcError
+        ? `<div class="form-server-error form-server-error--shown" style="margin-bottom:14px;">${escapeHtml(s.rpcError)}</div>`
+        : '';
+
+      const parseErrorsBlock = (s.parseErrors && s.parseErrors.length > 0)
+        ? `<div class="form-server-error form-server-error--shown" style="margin-bottom:14px;">
+             <strong>CSV parse errors:</strong><br>
+             ${s.parseErrors.map(e => 'Line ' + escapeHtml(String(e.line)) + ': ' + escapeHtml(e.error)).join('<br>')}
+           </div>`
+        : '';
+
+      const exampleCsv = `email, full_name, role, organisation_name
+john@acme.com, John Smith, participant, Acme Corp
+jane@beta.io, Jane Doe, facilitator, Beta Industries
+sam@gamma.org, Sam Lee, participant,`;
+
+      const submitDisabled = s.submitting ? 'disabled' : '';
+      const submitLabel = s.submitting ? 'Processing…' : 'Send bulk invitations';
+
+      return `
+        ${errorBlock}
+        ${parseErrorsBlock}
+
+        <div class="form-row">
+          <label class="form-label" for="invitationBulkCohortSelect">Cohort<span class="form-label__required">*</span></label>
+          <select class="form-select" id="invitationBulkCohortSelect">
+            ${cohortOptions}
+          </select>
+          <div class="form-help">All invitees in this batch will be invited into the chosen cohort. Only active cohorts shown.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="form-label" for="invitationBulkCsvTextarea">CSV data<span class="form-label__required">*</span></label>
+          <div class="form-help" style="margin-bottom:8px;">
+            Paste a CSV with these columns. Header row required. <strong>email</strong>, <strong>full_name</strong>, and <strong>role</strong> are required; <strong>organisation_name</strong> is optional. Role must be one of <code>admin</code>, <code>facilitator</code>, <code>participant</code>. Up to 200 rows per batch.
+          </div>
+          <pre style="background:rgba(255,255,255,0.04);border:1px solid var(--border-subtle);border-radius:3px;padding:10px 14px;font-size:12px;font-family:'Courier New',monospace;color:rgba(255,255,255,0.6);overflow-x:auto;margin-bottom:10px;line-height:1.5;">${escapeHtml(exampleCsv)}</pre>
+          <textarea class="form-input" id="invitationBulkCsvTextarea" rows="10" style="font-family:'Courier New',monospace;font-size:12.5px;line-height:1.5;resize:vertical;" placeholder="Paste your CSV here, including the header row...">${escapeHtml(s.csvText)}</textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn--ghost" id="invitationBulkCancelBtn">Cancel</button>
+          <button type="button" class="btn btn--primary" id="invitationBulkSubmitBtn" ${submitDisabled}>${submitLabel}</button>
+        </div>
+      `;
+    }
+
+    function renderInvitationBulkSendingHtml() {
+      const s = invitationBulkFormState;
+      const pct = s.progressTotal > 0 ? Math.round((s.progressDone / s.progressTotal) * 100) : 0;
+      return `
+        <div style="padding:24px 0;text-align:center;">
+          <div style="font-family:Montserrat,sans-serif;font-size:13px;color:rgba(255,255,255,0.85);margin-bottom:8px;">
+            Sending invitation emails… ${escapeHtml(String(s.progressDone))} of ${escapeHtml(String(s.progressTotal))}
+          </div>
+          <div class="bulk-progress" style="margin:14px auto 6px;max-width:420px;">
+            <div class="bulk-progress__bar" style="width:${pct}%;"></div>
+          </div>
+          <div style="font-family:Montserrat,sans-serif;font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.5px;">
+            Please don't close this window until sending completes.
+          </div>
+        </div>
+      `;
+    }
+
+    function renderInvitationBulkResultsHtml() {
+      const s = invitationBulkFormState;
+      const rowsHtml = (s.resultRows || []).map(r => {
+        if (r.ok) {
+          const emailNote = r.email_send_failed
+            ? ` <span style="color:#d99e6c;">(invitation saved, email failed: ${escapeHtml(r.email_error || 'unknown')})</span>`
+            : '';
+          return `
+            <div class="bulk-result-row bulk-result-row--ok">
+              <div class="bulk-result-row__icon">✓</div>
+              <div>${escapeHtml(r.email || '(no email)')}</div>
+              <div>created${emailNote}</div>
+            </div>`;
+        }
+        return `
+          <div class="bulk-result-row bulk-result-row--fail">
+            <div class="bulk-result-row__icon">✗</div>
+            <div>${escapeHtml(r.email || '(row ' + r.row + ')')}</div>
+            <div class="bulk-result-row__reason">${escapeHtml(r.error || 'failed')}</div>
+          </div>`;
+      }).join('');
+
+      const summary = `
+        <div style="font-family:Cormorant Garamond,serif;font-size:20px;color:#fff;margin-bottom:6px;letter-spacing:-0.2px;">
+          ${s.createdCount} of ${s.createdCount + s.failedCount} created
+        </div>
+        <div style="font-family:Montserrat,sans-serif;font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:18px;">
+          ${s.failedCount > 0 ? s.failedCount + ' row(s) failed validation. Fix your CSV and re-paste the failed rows to retry.' : 'All rows created successfully.'}
+        </div>
+      `;
+
+      return `
+        ${summary}
+        <div style="border:1px solid var(--border-subtle);border-radius:4px;max-height:340px;overflow-y:auto;">
+          ${rowsHtml || '<div style="padding:14px;font-family:Montserrat,sans-serif;font-size:13px;color:rgba(255,255,255,0.5);">No results to display.</div>'}
+        </div>
+        <div class="form-actions" style="margin-top:18px;">
+          <button type="button" class="btn--ghost" id="invitationBulkResultsBackBtn">Send another batch</button>
+          <button type="button" class="btn btn--primary" id="invitationBulkResultsDoneBtn">Done</button>
+        </div>
+      `;
+    }
+
+    // ------------------ A3-UI-C: handler wiring ------------------
+
+    function wireInvitationBulkFormHandlers() {
+      const cancel = document.getElementById('invitationBulkCancelBtn');
+      const closeBtn = document.getElementById('invitationBulkModalCloseBtn');
+      const submit = document.getElementById('invitationBulkSubmitBtn');
+      const cohortSelect = document.getElementById('invitationBulkCohortSelect');
+      const textarea = document.getElementById('invitationBulkCsvTextarea');
+
+      if (cancel) cancel.addEventListener('click', closeInvitationBulkModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeInvitationBulkModal);
+
+      if (cohortSelect) cohortSelect.addEventListener('change', () => {
+        invitationBulkFormState.cohortId = cohortSelect.value || null;
+      });
+
+      if (textarea) textarea.addEventListener('input', () => {
+        invitationBulkFormState.csvText = textarea.value;
+      });
+
+      if (submit) submit.addEventListener('click', submitInvitationBulk);
+
+      // Backdrop + Esc
+      const modal = document.getElementById('invitationBulkModal');
+      if (modal && !modal.dataset.backdropWired) {
+        modal.dataset.backdropWired = '1';
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal && invitationBulkFormState.stage !== 'sending') {
+            closeInvitationBulkModal();
+          }
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape'
+              && modal.classList.contains('modal-backdrop--shown')
+              && invitationBulkFormState.stage !== 'sending') {
+            closeInvitationBulkModal();
+          }
+        });
+      }
+    }
+
+    function wireInvitationBulkResultsHandlers() {
+      const back = document.getElementById('invitationBulkResultsBackBtn');
+      const done = document.getElementById('invitationBulkResultsDoneBtn');
+      if (back) back.addEventListener('click', () => {
+        // Reset to form stage but keep cohort dropdown loaded
+        invitationBulkFormState.stage = 'form';
+        invitationBulkFormState.csvText = '';
+        invitationBulkFormState.rpcError = null;
+        invitationBulkFormState.parseErrors = [];
+        invitationBulkFormState.createdCount = 0;
+        invitationBulkFormState.failedCount = 0;
+        invitationBulkFormState.resultRows = [];
+        renderInvitationBulkBody();
+      });
+      if (done) done.addEventListener('click', () => {
+        closeInvitationBulkModal();
+        // Switch list to Pending tab and refresh so newly created rows are visible
+        setInvitationStatusTab('pending');
+      });
+    }
+
+    // ------------------ A3-UI-C-4: submit pipeline ------------------
+
+    async function submitInvitationBulk() {
+      const s = invitationBulkFormState;
+      // Reset error state
+      s.rpcError = null;
+      s.parseErrors = [];
+
+      // Validate cohort selection
+      if (!s.cohortId) {
+        s.rpcError = 'Please pick a cohort before submitting.';
+        renderInvitationBulkBody();
+        return;
+      }
+      // Parse CSV
+      const parsed = parseInviteCsv(s.csvText);
+      if (parsed.errors.length > 0) {
+        s.parseErrors = parsed.errors;
+        renderInvitationBulkBody();
+        return;
+      }
+      if (parsed.rows.length === 0) {
+        s.rpcError = 'No invitee rows parsed from CSV.';
+        renderInvitationBulkBody();
+        return;
+      }
+      if (parsed.rows.length > 200) {
+        s.rpcError = 'Too many rows: ' + parsed.rows.length + '. Maximum is 200 per batch.';
+        renderInvitationBulkBody();
+        return;
+      }
+
+      // Switch to sending stage
+      s.submitting = true;
+      s.stage = 'sending';
+      s.progressTotal = parsed.rows.length;
+      s.progressDone = 0;
+      renderInvitationBulkBody();
+
+      try {
+        // Step 1 — bulk RPC
+        const rpc = await sb.rpc('admin_bulk_invite', {
+          p_cohort_id: s.cohortId,
+          p_rows:      parsed.rows,
+        });
+
+        if (rpc.error) {
+          s.submitting = false;
+          s.stage = 'form';
+          s.rpcError = rpc.error.message || 'Bulk invite failed.';
+          renderInvitationBulkBody();
+          return;
+        }
+        const data = rpc.data;
+        if (!data || data.ok === false) {
+          s.submitting = false;
+          s.stage = 'form';
+          const code = data && data.error;
+          let msg = 'Bulk invite failed.';
+          if (code === 'cohort_not_found_or_archived') msg = 'Selected cohort no longer exists or has been archived.';
+          else if (code === 'rows_empty')               msg = 'No rows to process.';
+          else if (code === 'rows_too_many')            msg = 'Too many rows. Maximum is 200 per batch.';
+          else if (code === 'rows_must_be_array')       msg = 'Internal error: rows malformed.';
+          else if (code === 'not_authorised')           msg = 'Your account does not have permission to bulk invite.';
+          else if (code)                                msg = 'Bulk invite failed: ' + code;
+          s.rpcError = msg;
+          renderInvitationBulkBody();
+          return;
+        }
+
+        // Step 2 — sequential email send for each created row
+        const results = (data.results || []).slice();
+        s.createdCount = data.created_count || 0;
+        s.failedCount  = data.failed_count || 0;
+        // Total progress = created rows that need an email; failed rows are
+        // already counted in failedCount and don't get a send attempt
+        const toSend = results.filter(r => r.ok);
+        s.progressTotal = toSend.length;
+        s.progressDone = 0;
+        renderInvitationBulkBody();
+
+        for (let i = 0; i < toSend.length; i++) {
+          const r = toSend[i];
+          try {
+            const er = await sb.auth.signInWithOtp({ email: r.email });
+            if (er.error) {
+              r.email_send_failed = true;
+              r.email_error = er.error.message || 'unknown';
+            }
+          } catch (e) {
+            r.email_send_failed = true;
+            r.email_error = e.message || 'network error';
+          }
+          s.progressDone = i + 1;
+          renderInvitationBulkBody();
+        }
+
+        // Step 3 — show results panel
+        s.submitting = false;
+        s.stage = 'results';
+        s.resultRows = results;
+        renderInvitationBulkBody();
+      } catch (e) {
+        s.submitting = false;
+        s.stage = 'form';
+        s.rpcError = e.message || 'Network error.';
+        renderInvitationBulkBody();
+      }
+    }
+
+
     // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
@@ -5555,6 +6064,19 @@
         </div>
         <div class="modal-body" id="invitationCreateModalBody">
           <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- A3-UI-C: bulk invite modal -->
+    <div class="modal-backdrop" id="invitationBulkModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog" style="width:680px;max-width:calc(100% - 40px);">
+        <div class="modal-head">
+          <div class="modal-title" id="invitationBulkModalTitle">Bulk invite</div>
+          <button type="button" class="modal-close" id="invitationBulkModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" id="invitationBulkModalBody">
+          <!-- Form / progress / results rendered here by JS -->
         </div>
       </div>
     </div>
