@@ -1668,6 +1668,278 @@
   .inv-status--expired  { background: rgba(217, 134, 80, 0.15);  color: #d99e6c; }
   .inv-status--revoked  { background: rgba(196, 90, 77, 0.15);   color: #e9a99c; }
 
+  /* ─── A5-UI-B: Completion Reports — render styles ─── */
+  .report-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .report-back-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+  .report-back-link:hover { color: var(--gold); }
+
+  .report-page {
+    background: rgba(34,71,47,0.18);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 40px 48px;
+  }
+
+  .report-header {
+    margin-bottom: 28px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .report-kicker {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .report-title {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.15;
+    margin: 0 0 6px 0;
+  }
+  .report-sub {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+  }
+  .suspended-tag {
+    display: inline-block;
+    margin-left: 14px;
+    padding: 4px 10px;
+    background: rgba(196,90,77,0.18);
+    color: #e9a99c;
+    border: 1px solid rgba(196,90,77,0.4);
+    border-radius: 2px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    vertical-align: middle;
+    font-weight: 700;
+  }
+
+  .report-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 36px;
+    padding: 22px 24px;
+    background: rgba(15,36,25,0.5);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+  }
+  .report-summary__num {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .report-summary__denom {
+    color: rgba(255,255,255,0.45);
+    font-size: 20px;
+  }
+  .report-summary__label {
+    margin-top: 8px;
+    color: rgba(255,255,255,0.6);
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .report-summary__sub {
+    color: var(--white);
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .report-cohort {
+    margin-bottom: 36px;
+    padding: 26px 30px;
+    background: rgba(15,36,25,0.32);
+    border: 1px solid var(--border-subtle);
+    border-radius: 3px;
+  }
+  .report-cohort__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .report-cohort__name {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    color: var(--white);
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .report-cohort__meta {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+  }
+  .report-cohort__progress {
+    margin-bottom: 22px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.4px;
+  }
+  .report-cohort__bar {
+    margin-top: 6px;
+    height: 5px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .report-cohort__bar-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  .report-foundations {
+    margin-bottom: 22px;
+    padding: 14px 18px;
+    background: rgba(0,0,0,0.18);
+    border: 1px dashed var(--border-default);
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+  .report-foundations__label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .report-foundations__title {
+    font-family: var(--font-serif);
+    font-size: 17px;
+    color: var(--white);
+  }
+  .report-foundations__status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .report-lens-table-wrap { overflow-x: auto; }
+  .report-lens-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .report-lens-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 10px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .report-lens-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .report-lens-table tr:last-child td { border-bottom: none; }
+  .report-lens-title {
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--white);
+  }
+  .report-lens-seq {
+    color: rgba(255,255,255,0.5);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .lens-pip {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .lens-pip--completed { background: var(--green-unlock); }
+  .lens-pip--submitted { background: var(--gold); box-shadow: 0 0 0 2px rgba(201,168,76,0.18); }
+  .lens-pip--unlocked  { background: rgba(255,255,255,0.35); }
+  .lens-pip--locked    { background: transparent; border: 1px dashed rgba(255,255,255,0.3); width: 7px; height: 7px; }
+
+  .lens-status { color: rgba(255,255,255,0.85); font-size: 12px; }
+  .lens-date {
+    color: rgba(255,255,255,0.45);
+    margin-left: 6px;
+    font-size: 11px;
+  }
+
+  .report-no-cohorts {
+    padding: 36px;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    border: 1px dashed var(--border-default);
+    border-radius: 3px;
+  }
+
+  .report-footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+    text-align: right;
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.6px;
+  }
+
+  .report-error {
+    padding: 56px 32px;
+    text-align: center;
+    background: rgba(34,71,47,0.18);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+  }
+  .report-error__title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .report-error__body {
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 720px) {
+    .report-page { padding: 24px; }
+    .report-summary { grid-template-columns: repeat(2, 1fr); }
+    .report-foundations { grid-template-columns: 1fr; }
+  }
+
   </style>
 </head>
 <body>
@@ -1694,7 +1966,6 @@
         <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
         <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
       </ul>
-      <div class="nav__footer">Phase 3 · Cluster A1</div>
     </aside>
 
     <!-- Topbar -->
@@ -1877,6 +2148,13 @@
 
           <div id="reportsPickerContainer">
             <!-- States rendered here by JS: skeleton | table | empty | error -->
+          </div>
+        </section>
+
+        <!-- A5-UI-B: Participant report render view (sub-view of reports) -->
+        <section class="view" id="view-report-participant" data-view="report-participant">
+          <div id="reportParticipantContainer">
+            <!-- States rendered here by JS: skeleton | report | error -->
           </div>
         </section>
 
@@ -6248,8 +6526,8 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
-    // Picker row clicks. A5-UI-B/C will replace this stub with navigation
-    // + report render. Scoped via data-row-kind^="reports-".
+    // Picker row clicks. Participant rows now navigate to the rendered report (A5-UI-B).
+    // Cohort rows remain stubbed until A5-UI-C lands.
     function wireReportsRowClicks() {
       document.addEventListener('click', (e) => {
         const tr = e.target.closest('tr[data-row-kind^="reports-"]');
@@ -6257,8 +6535,14 @@ sam@gamma.org, Sam Lee, participant,`;
         const id = tr.dataset.rowId;
         if (!id) return;
         const kind = tr.dataset.rowKind;
-        const type = kind === 'reports-participant' ? 'participant' : 'cohort';
-        if (window.showToast) window.showToast(`Selected ${type} · ${id} — report rendering arrives in A5-UI-B/C.`);
+        if (kind === 'reports-participant') {
+          history.pushState({}, '', `?view=reports&type=participant&id=${id}`);
+          handleRoute();
+          return;
+        }
+        if (kind === 'reports-cohort') {
+          if (window.showToast) window.showToast(`Cohort report — coming in A5-UI-C.`);
+        }
       });
     }
 
@@ -6292,6 +6576,288 @@ sam@gamma.org, Sam Lee, participant,`;
         const axis = reportsPickerState.axis;
         if (!reportsPickerState.loaded[axis]) {
           loadReportsPicker(axis);
+        }
+      }
+    };
+
+
+    // -----------------------------------------------------------
+    // A5-UI-B: Participant Completion Report — render
+    // Renders inside view-report-participant when URL has
+    // ?view=reports&type=participant&id=UUID.
+    // Sidebar 'reports' nav stays highlighted; breadcrumb gains a sub-segment.
+    // -----------------------------------------------------------
+    const reportParticipantState = {
+      currentId: null,
+      loading:   false,
+      data:      null,
+      error:     null,    // 'access-denied' | 'not-found' | string | null
+    };
+
+    // Absolute date "23 Apr 2026" — distinct from fmtDay which only includes year on demand.
+    function fmtAbsoluteDate(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      const day = d.getDate();
+      const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      return `${day} ${mon} ${d.getFullYear()}`;
+    }
+
+    function fmtAbsoluteDateTime(iso) {
+      if (!iso) return '';
+      const d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return `${fmtAbsoluteDate(iso)} · ${hh}:${mm}`;
+    }
+
+    function lensStatusLabel(status) {
+      if (status === 'completed') return 'Completed';
+      if (status === 'submitted') return 'Pending review';
+      if (status === 'unlocked')  return 'In progress';
+      return 'Locked';
+    }
+
+    function lensStatusDate(lens) {
+      if (!lens) return '';
+      if (lens.completed_at) return fmtAbsoluteDate(lens.completed_at);
+      if (lens.submitted_at) return fmtAbsoluteDate(lens.submitted_at);
+      if (lens.unlocked_at)  return fmtAbsoluteDate(lens.unlocked_at);
+      return '';
+    }
+
+    function participantReportSkeletonHtml() {
+      return `
+        <div class="report-action-row no-print">
+          <a href="?view=reports" class="report-back-link">← Back to Completion Reports</a>
+        </div>
+        <div class="report-page">
+          <div class="report-header">
+            <div class="skeleton-bar" style="width:40%;height:14px;margin-bottom:14px;"></div>
+            <div class="skeleton-bar" style="width:60%;height:36px;margin-bottom:10px;"></div>
+            <div class="skeleton-bar" style="width:30%;height:14px;"></div>
+          </div>
+          <div class="report-summary">
+            <div><div class="skeleton-bar" style="width:60%;height:30px;margin-bottom:8px;"></div><div class="skeleton-bar" style="width:80%;height:10px;"></div></div>
+            <div><div class="skeleton-bar" style="width:60%;height:30px;margin-bottom:8px;"></div><div class="skeleton-bar" style="width:80%;height:10px;"></div></div>
+            <div><div class="skeleton-bar" style="width:60%;height:30px;margin-bottom:8px;"></div><div class="skeleton-bar" style="width:80%;height:10px;"></div></div>
+            <div><div class="skeleton-bar" style="width:60%;height:30px;margin-bottom:8px;"></div><div class="skeleton-bar" style="width:80%;height:10px;"></div></div>
+          </div>
+          <div class="report-cohort">
+            <div class="skeleton-bar" style="width:50%;height:24px;margin-bottom:14px;"></div>
+            <div class="skeleton-bar" style="width:30%;height:12px;margin-bottom:18px;"></div>
+            <div class="skeleton-bar" style="width:100%;height:60px;margin-bottom:18px;"></div>
+            <div class="skeleton-bar" style="width:100%;height:240px;"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function participantReportErrorHtml(kind) {
+      let title, body;
+      if (kind === 'access-denied') {
+        title = 'You do not have access to this report';
+        body  = 'Only admins or facilitators sharing a cohort with this participant can view their completion report.';
+      } else if (kind === 'not-found') {
+        title = 'Participant not found';
+        body  = 'The requested participant could not be located. They may have been removed.';
+      } else {
+        title = 'Could not load report';
+        body  = kind || 'Network error.';
+      }
+      return `
+        <div class="report-action-row no-print">
+          <a href="?view=reports" class="report-back-link">← Back to Completion Reports</a>
+        </div>
+        <div class="report-error">
+          <div class="report-error__title">${escapeHtml(title)}</div>
+          <div class="report-error__body">${escapeHtml(body)}</div>
+          <a href="?view=reports" class="btn btn--primary">Return to picker</a>
+        </div>
+      `;
+    }
+
+    function participantFoundationsRowHtml(f) {
+      if (!f) return '';
+      const status = f.status || 'locked';
+      const dateText = lensStatusDate(f);
+      return `
+        <div class="report-foundations">
+          <div class="report-foundations__label">Programme Orientation</div>
+          <div class="report-foundations__title">${escapeHtml(f.title || 'Foundations')}</div>
+          <div class="report-foundations__status">
+            <span class="lens-pip lens-pip--${status}"></span>
+            <span class="lens-status">${lensStatusLabel(status)}</span>
+            ${dateText ? `<span class="lens-date">${dateText}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    function participantLensRowHtml(lens) {
+      const status = lens.status || 'locked';
+      const seq    = (lens.sequence != null) ? `Lens ${lens.sequence}` : '—';
+      const dateText = lensStatusDate(lens);
+      return `
+        <tr>
+          <td><span class="report-lens-seq">${escapeHtml(seq)}</span></td>
+          <td><span class="report-lens-title">${escapeHtml(lens.title || '')}</span></td>
+          <td><span class="lens-pip lens-pip--${status}"></span><span class="lens-status">${lensStatusLabel(status)}</span></td>
+          <td class="cell-secondary">${dateText || '—'}</td>
+        </tr>
+      `;
+    }
+
+    function participantCohortBlockHtml(c) {
+      const isArchived = !!c.archived_at;
+      const archivedTag = isArchived ? '<span class="cohort-name__archived-tag">Archived</span>' : '';
+      const statusPip = `<span class="status-pip status-pip--${c.status}" title="${c.status}"></span>`;
+      const dates = (c.cohort_type === 'rolling')
+        ? fmtRollingSince(c.start_date)
+        : fmtDateRange(c.start_date, c.end_date);
+      const cs = c.cohort_summary || { completed_count: 0, total: 11, completion_percentage: 0 };
+      const pct = Math.min(100, Math.max(0, parseFloat(cs.completion_percentage) || 0));
+      const lensRows = (c.lenses || []).map(participantLensRowHtml).join('');
+      return `
+        <div class="report-cohort">
+          <div class="report-cohort__header">
+            <div>
+              ${statusPip}
+              <span class="report-cohort__name">${escapeHtml(c.name || '—')}</span>
+              ${archivedTag}
+              <span class="type-badge">${escapeHtml(c.cohort_type || '')}</span>
+            </div>
+            <div class="report-cohort__meta">${dates}</div>
+          </div>
+          <div class="report-cohort__progress">
+            <span>${cs.completed_count} of ${cs.total} lenses (${cs.completion_percentage}%)</span>
+            <div class="report-cohort__bar"><div class="report-cohort__bar-fill" style="width:${pct}%"></div></div>
+          </div>
+          ${participantFoundationsRowHtml(c.foundations)}
+          <div class="report-lens-table-wrap">
+            <table class="report-lens-table">
+              <thead>
+                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Date</th></tr>
+              </thead>
+              <tbody>${lensRows}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    function participantReportTemplateHtml(report) {
+      const p = report.participant || {};
+      const s = report.summary || {};
+      const cohorts = Array.isArray(report.cohorts) ? report.cohorts : [];
+      const suspendedTag = p.suspended ? '<span class="suspended-tag">Suspended</span>' : '';
+      const completionWindow = (s.first_completion_at && s.latest_completion_at)
+        ? (s.first_completion_at === s.latest_completion_at
+            ? fmtAbsoluteDate(s.first_completion_at)
+            : `${fmtAbsoluteDate(s.first_completion_at)} → ${fmtAbsoluteDate(s.latest_completion_at)}`)
+        : '—';
+      const cohortHtml = cohorts.length === 0
+        ? `<div class="report-no-cohorts">This participant is not currently enrolled in any cohorts.</div>`
+        : cohorts.map(participantCohortBlockHtml).join('');
+      const cohortPlural = (s.cohort_count === 1) ? 'cohort' : 'cohorts';
+      return `
+        <div class="report-action-row no-print">
+          <a href="?view=reports" class="report-back-link">← Back to Completion Reports</a>
+        </div>
+        <div class="report-page">
+          <div class="report-header">
+            <div class="report-kicker">PARTICIPANT REPORT</div>
+            <h1 class="report-title">${escapeHtml(p.full_name || '—')}${suspendedTag}</h1>
+            <div class="report-sub">${escapeHtml(p.email || '')}</div>
+          </div>
+          <div class="report-summary">
+            <div>
+              <div class="report-summary__num">${s.completed_count || 0} <span class="report-summary__denom">/ ${s.total_lens_slots || 0}</span></div>
+              <div class="report-summary__label">Lenses completed</div>
+            </div>
+            <div>
+              <div class="report-summary__num">${(s.completion_percentage != null) ? s.completion_percentage : 0}%</div>
+              <div class="report-summary__label">Overall completion</div>
+            </div>
+            <div>
+              <div class="report-summary__num">${s.cohort_count || 0}</div>
+              <div class="report-summary__label">${cohortPlural}</div>
+            </div>
+            <div>
+              <div class="report-summary__label">Completion window</div>
+              <div class="report-summary__sub">${completionWindow}</div>
+            </div>
+          </div>
+          ${cohortHtml}
+          <div class="report-footer">Generated ${fmtAbsoluteDateTime(report.generated_at)}</div>
+        </div>
+      `;
+    }
+
+    function renderParticipantReport() {
+      const container = document.getElementById('reportParticipantContainer');
+      if (!container) return;
+      if (reportParticipantState.loading) {
+        container.innerHTML = participantReportSkeletonHtml();
+        return;
+      }
+      if (reportParticipantState.error) {
+        container.innerHTML = participantReportErrorHtml(reportParticipantState.error);
+        return;
+      }
+      if (!reportParticipantState.data) {
+        container.innerHTML = participantReportErrorHtml('No data returned.');
+        return;
+      }
+      container.innerHTML = participantReportTemplateHtml(reportParticipantState.data);
+    }
+
+    async function loadParticipantReport(userId) {
+      reportParticipantState.currentId = userId;
+      reportParticipantState.loading   = true;
+      reportParticipantState.data      = null;
+      reportParticipantState.error     = null;
+      renderParticipantReport();
+      try {
+        const { data, error } = await sb.rpc('get_participant_completion_report', { p_profile_id: userId });
+        reportParticipantState.loading = false;
+        if (error) {
+          if (error.code === '42501')      reportParticipantState.error = 'access-denied';
+          else if (error.code === 'P0002') reportParticipantState.error = 'not-found';
+          else                             reportParticipantState.error = error.message || 'RPC failed.';
+        } else {
+          reportParticipantState.data = data || null;
+        }
+        renderParticipantReport();
+      } catch (e) {
+        reportParticipantState.loading = false;
+        reportParticipantState.error   = e.message || 'Network error.';
+        renderParticipantReport();
+      }
+    }
+
+    // Hook handleRoute — eighth wrap. When URL is ?view=reports&type=participant&id=X,
+    // override the view toggle to show view-report-participant instead of view-reports,
+    // keep 'reports' sidebar item highlighted, set sub-breadcrumb, trigger load if id changed.
+    const _origHandleRoute_uiB = handleRoute;
+    handleRoute = function patchedHandleRouteForReportParticipant() {
+      _origHandleRoute_uiB.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view !== 'reports') return;
+      const type = params.get('type');
+      const id   = params.get('id');
+      if (type === 'participant' && id) {
+        document.querySelectorAll('.view').forEach(el => {
+          el.classList.toggle('view--active', el.dataset.view === 'report-participant');
+        });
+        const crumb = document.getElementById('breadcrumbCurrent');
+        if (crumb) crumb.textContent = 'Completion Reports · Participant report';
+        document.title = 'Participant report · S2R® Admin';
+        if (reportParticipantState.currentId !== id) {
+          loadParticipantReport(id);
         }
       }
     };
