@@ -3084,7 +3084,14 @@
       const cohortParam = params.get('cohort');
       // Only act when the cohorts area is the active top-level view.
       if (view !== 'cohorts') {
-        setCohortViewMode('list');
+        // Not on the cohorts area. Only reset the cohort-detail sub-view if it
+        // was lingering active from a previous navigation. Don't touch
+        // view-cohorts itself — the original handleRoute already toggled it
+        // correctly based on data-view matching. (Mirrors A2-UI-B's pattern;
+        // the prior call to setCohortViewMode('list') here was forcing
+        // view-cohorts back to active on every non-cohorts route — PATCH-A1UID-1.)
+        const detailEl = document.getElementById('view-cohort-detail');
+        if (detailEl) detailEl.classList.remove('view--active');
         return;
       }
       // Detail mode: a UUID is present.
