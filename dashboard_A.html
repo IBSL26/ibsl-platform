@@ -2027,6 +2027,169 @@
     .report-participant-block__email { margin-left: 0; display: block; margin-top: 4px; }
   }
 
+  /* ─── A5-UI-D: Download PDF button (visible on screen, hidden in print) ─── */
+  .btn-print {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: rgba(255,255,255,0.85);
+    padding: 8px 16px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+  .btn-print:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ─── A5-UI-D: Print stylesheet — applies to participant + cohort reports ─── */
+  @media print {
+    /* Hide all non-report chrome */
+    .nav, .topbar, .boot-overlay, .modal-backdrop, .no-print { display: none !important; }
+    .main::before { display: none !important; }
+
+    /* Reset layout: collapse the grid so .main fills the page */
+    #app {
+      display: block !important;
+      min-height: 0 !important;
+    }
+    .main {
+      background: #fff !important;
+      overflow: visible !important;
+    }
+    .main__inner { padding: 0 !important; margin: 0 !important; max-width: none !important; }
+
+    /* Force light palette */
+    body, #app, .main, .view, .report-page, .report-cohort, .report-participant-block,
+    .report-foundations, .report-summary, .report-error {
+      background: #fff !important;
+      color: #222 !important;
+    }
+    .report-page { padding: 0 !important; border: none !important; }
+
+    /* Editorial typography — dark text on light */
+    .report-title, .report-cohort__name, .report-participant-block__name,
+    .report-error__title, .report-lens-title, .report-foundations__title,
+    .report-summary__num {
+      color: #111 !important;
+    }
+    .report-kicker { color: #444 !important; }
+    .report-sub, .report-cohort__meta, .report-header-meta, .report-header-meta__sep,
+    .report-summary__label, .report-summary__sub,
+    .report-cohort__progress, .report-participant-block__progress,
+    .report-participant-block__email, .lens-status, .lens-date,
+    .report-lens-seq, .report-footer, .report-no-cohorts, .report-no-participants {
+      color: #555 !important;
+    }
+    .report-summary__denom { color: #888 !important; }
+
+    /* Summary strip: light card */
+    .report-summary {
+      background: #fafafa !important;
+      border: 1px solid #ddd !important;
+    }
+
+    /* Per-block containers: subtle borders, no fills */
+    .report-cohort, .report-participant-block {
+      background: #fff !important;
+      border: 1px solid #ddd !important;
+    }
+
+    /* Headers / dividers */
+    .report-header { border-bottom: 1px solid #ccc !important; }
+    .report-footer { border-top: 1px solid #ccc !important; color: #777 !important; }
+
+    /* Foundations row: light dashed */
+    .report-foundations {
+      background: #fafafa !important;
+      border: 1px dashed #aaa !important;
+    }
+    .report-foundations__label { color: #444 !important; }
+
+    /* Pips: monochrome (text labels remain authoritative) */
+    .lens-pip--completed { background: #111 !important; box-shadow: none !important; }
+    .lens-pip--submitted { background: #555 !important; box-shadow: none !important; }
+    .lens-pip--unlocked  { background: #aaa !important; box-shadow: none !important; }
+    .lens-pip--locked    { background: #fff !important; border: 1px solid #aaa !important; }
+
+    /* Status pip in editorial header */
+    .status-pip { background: #555 !important; box-shadow: none !important; }
+    .status-pip--draft  { background: #aaa !important; }
+    .status-pip--active { background: #444 !important; }
+    .status-pip--closed { background: #888 !important; }
+
+    /* Progress bars: monochrome */
+    .report-cohort__bar, .report-participant-block__bar {
+      background: #eee !important;
+      border: 1px solid #ddd !important;
+    }
+    .report-cohort__bar-fill, .report-participant-block__bar-fill {
+      background: #555 !important;
+    }
+
+    /* Type badge */
+    .type-badge {
+      border-color: #aaa !important;
+      color: #444 !important;
+      background: #fff !important;
+    }
+
+    /* Tags */
+    .suspended-tag {
+      background: #fff !important;
+      color: #a23d2f !important;
+      border-color: #a23d2f !important;
+    }
+    .report-archived-tag, .cohort-name__archived-tag {
+      background: #fff !important;
+      color: #555 !important;
+      border-color: #999 !important;
+    }
+
+    /* Lens table */
+    .report-lens-table th {
+      color: #444 !important;
+      border-bottom: 1px solid #999 !important;
+    }
+    .report-lens-table td {
+      border-bottom: 1px solid #eee !important;
+      color: #222 !important;
+    }
+    .report-lens-table tr:last-child td { border-bottom: none !important; }
+
+    /* Page-break behaviour */
+    .report-cohort + .report-cohort,
+    .report-participant-block + .report-participant-block {
+      page-break-before: always;
+      break-before: page;
+    }
+    .report-foundations,
+    .report-lens-table tr {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .report-lens-table thead { display: table-header-group; }
+
+    /* @page: generous margins; let user/printer pick paper size */
+    @page {
+      margin: 1.5cm;
+    }
+
+    /* Ensure Cormorant prints with weight rather than as a thin web hairline */
+    .report-title, .report-error__title,
+    .report-cohort__name, .report-participant-block__name,
+    .report-lens-title, .report-foundations__title,
+    .report-summary__num {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -6868,6 +7031,7 @@ sam@gamma.org, Sam Lee, participant,`;
       return `
         <div class="report-action-row no-print">
           <a href="?view=reports" class="report-back-link">← Back to Completion Reports</a>
+          <button type="button" class="btn-print" onclick="window.print()">↓ Download PDF</button>
         </div>
         <div class="report-page">
           <div class="report-header">
@@ -7098,6 +7262,7 @@ sam@gamma.org, Sam Lee, participant,`;
       return `
         <div class="report-action-row no-print">
           <a href="?view=reports" class="report-back-link">← Back to Completion Reports</a>
+          <button type="button" class="btn-print" onclick="window.print()">↓ Download PDF</button>
         </div>
         <div class="report-page">
           <div class="report-header">
