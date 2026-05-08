@@ -1689,7 +1689,7 @@
         <li class="nav__item" data-nav="users"><a href="?view=users"><span>Users</span></a></li>
         <li class="nav__item" data-nav="invitations"><a href="?view=invitations"><span>Invitations</span></a></li>
         <li class="nav__item" data-nav="organisations"><a href="?view=organisations"><span>Organisations</span></a></li>
-        <li class="nav__item" data-nav="reports"><a href="?view=reports"><span>Reports</span></a></li>
+        <li class="nav__item" data-nav="reports"><a href="?view=reports"><span>Completion Reports</span></a></li>
         <li class="nav__item" data-nav="health"><a href="?view=health"><span>Health</span></a></li>
         <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
         <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
@@ -1853,13 +1853,30 @@
 
         <section class="view" id="view-reports" data-view="reports">
           <div class="view-header">
-            <div><div class="view-header__kicker">Reporting</div>
-              <h1 class="view-header__title">Reports</h1></div>
+            <div>
+              <div class="view-header__kicker">Reporting</div>
+              <h1 class="view-header__title">Completion Reports</h1>
+              <div class="view-header__sub">View per-participant or per-cohort lens completion progress across the programme</div>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">Completion reports — coming soon</div>
-            <div class="stub__sub">Word and PDF download per cohort with full lens history</div>
-            <div class="stub__cluster">CLUSTER A5</div>
+
+          <div class="filter-bar" id="reportsFilters">
+            <div class="filter-group">
+              <span class="filter-group__label">Report type</span>
+              <div class="filter-pills" role="tablist" aria-label="Report axis">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="axis" data-value="participant">By participant</button>
+                <button type="button" class="filter-pill" data-filter="axis" data-value="cohort">By cohort</button>
+              </div>
+            </div>
+            <div class="filter-group" style="flex:1 1 280px;">
+              <span class="filter-group__label">Search</span>
+              <input type="search" id="reportsSearchInput" placeholder="Name, email, organisation, or cohort..." aria-label="Search picker"
+                     style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:320px;outline:none;">
+            </div>
+          </div>
+
+          <div id="reportsPickerContainer">
+            <!-- States rendered here by JS: skeleton | table | empty | error -->
           </div>
         </section>
 
@@ -1938,7 +1955,7 @@
       users: 'Users',
       invitations: 'Invitations',
       organisations: 'Organisations',
-      reports: 'Reports',
+      reports: 'Completion Reports',
       health: 'Health',
       activity: 'Activity log',
       support: 'Support'
@@ -6000,6 +6017,284 @@ sam@gamma.org, Sam Lee, participant,`;
         renderInvitationBulkBody();
       }
     }
+
+
+    // -----------------------------------------------------------
+    // A5-UI-A: Completion Reports picker — axis toggle, list, select
+    // Reuses get_admin_user_list (filtered to role='participant' client-side)
+    // and get_admin_cohort_list. Row click is stubbed; A5-UI-B/C will
+    // replace with navigation + render.
+    // -----------------------------------------------------------
+    const reportsPickerState = {
+      axis: 'participant',                                            // 'participant' | 'cohort'
+      searchQuery: '',
+      searchDebounceTimer: null,
+      loaded:     { participant: false, cohort: false },
+      rowsByAxis: { participant: null,  cohort: null  },
+    };
+
+    function reportsParticipantTableHtml(bodyHtml) {
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Organisation</th>
+                <th>Active cohorts</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function reportsCohortTableHtml(bodyHtml) {
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Cohort</th>
+                <th>Organisation</th>
+                <th>Type</th>
+                <th>Participants</th>
+                <th>Facilitators</th>
+                <th style="width:48px;"></th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function reportsSkeletonHtml(axis) {
+      const cell = (w) => `<td><div class="skeleton-bar" style="width:${w}"></div></td>`;
+      if (axis === 'participant') {
+        const skelRow = `<tr class="skeleton-row">${cell('70%')}${cell('80%')}${cell('60%')}${cell('30px')}${cell('20px')}</tr>`;
+        return reportsParticipantTableHtml(skelRow.repeat(3));
+      }
+      const skelRow = `<tr class="skeleton-row">${cell('10px')}${cell('70%')}${cell('60%')}${cell('40px')}${cell('40px')}${cell('60%')}${cell('20px')}</tr>`;
+      return reportsCohortTableHtml(skelRow.repeat(3));
+    }
+
+    function reportsEmptyHtml(axis, kind) {
+      const noun = axis === 'participant' ? 'participants' : 'cohorts';
+      if (kind === 'system') {
+        return `
+          <div class="empty-state">
+            <div class="empty-state__title">No ${noun} yet</div>
+            <div class="empty-state__body">A report needs at least one ${noun.slice(0, -1)} in the system.</div>
+          </div>
+        `;
+      }
+      return `
+        <div class="empty-state">
+          <div class="empty-state__title">No ${noun} match your search</div>
+          <div class="empty-state__body">Try a different search term, or clear the search to see everything.</div>
+          <button type="button" class="btn btn--primary empty-state__cta" id="reportsClearSearchBtn">Clear search</button>
+        </div>
+      `;
+    }
+
+    function reportsErrorHtml(message) {
+      return `
+        <div class="error-state">
+          <div class="error-state__title">Could not load picker</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    function reportsParticipantRowHtml(row) {
+      const cohortCount = row.active_cohort_count || 0;
+      return `
+        <tr data-row-id="${row.id}" data-row-kind="reports-participant" style="cursor:pointer;">
+          <td><span class="cohort-name" title="${escapeHtml(row.full_name)}">${escapeHtml(row.full_name)}</span></td>
+          <td class="cell-secondary" title="${escapeHtml(row.email || '')}">${escapeHtml(row.email || '')}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.organisation_name || '')}">${escapeHtml(row.organisation_name || '—')}</td>
+          <td class="cell-secondary">${cohortCount}</td>
+          <td class="cell-secondary" style="text-align:right;color:rgba(255,255,255,0.5);">›</td>
+        </tr>
+      `;
+    }
+
+    function reportsCohortRowHtml(row) {
+      const isArchived = !!row.archived_at;
+      const archivedTag = isArchived ? '<span class="cohort-name__archived-tag">Archived</span>' : '';
+      const facName = row.first_facilitator_name
+        ? (row.facilitator_count > 1
+            ? `${escapeHtml(row.first_facilitator_name)} +${row.facilitator_count - 1}`
+            : escapeHtml(row.first_facilitator_name))
+        : '—';
+      return `
+        <tr data-row-id="${row.id}" data-row-kind="reports-cohort" class="${isArchived ? 'is-archived' : ''}" style="cursor:pointer;">
+          <td><span class="status-pip status-pip--${row.status}" title="${row.status}"></span></td>
+          <td><span class="cohort-name" title="${escapeHtml(row.name)}">${escapeHtml(row.name)}</span>${archivedTag}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.organisation_name || '')}">${escapeHtml(row.organisation_name || '—')}</td>
+          <td><span class="type-badge">${row.cohort_type}</span></td>
+          <td class="cell-secondary">${row.participant_count || 0}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.first_facilitator_name || '')}">${facName}</td>
+          <td class="cell-secondary" style="text-align:right;color:rgba(255,255,255,0.5);">›</td>
+        </tr>
+      `;
+    }
+
+    // Apply axis-aware client-side search filter.
+    function filterReportsRows(rows) {
+      const q = reportsPickerState.searchQuery.trim().toLowerCase();
+      if (!q) return rows;
+      const axis = reportsPickerState.axis;
+      return rows.filter(r => {
+        if (axis === 'participant') {
+          const haystack = ((r.full_name || '') + ' ' + (r.email || '') + ' ' + (r.organisation_name || '')).toLowerCase();
+          return haystack.indexOf(q) !== -1;
+        }
+        const haystack = ((r.name || '') + ' ' + (r.organisation_name || '') + ' ' + (r.first_facilitator_name || '')).toLowerCase();
+        return haystack.indexOf(q) !== -1;
+      });
+    }
+
+    function renderReportsPicker() {
+      const container = document.getElementById('reportsPickerContainer');
+      if (!container) return;
+      const axis = reportsPickerState.axis;
+      if (!reportsPickerState.loaded[axis]) {
+        container.innerHTML = reportsSkeletonHtml(axis);
+        return;
+      }
+      const rows = reportsPickerState.rowsByAxis[axis];
+      if (rows === null) {
+        container.innerHTML = reportsErrorHtml('No data returned.');
+        return;
+      }
+      // Participant axis: only role='participant' is reportable.
+      let baseRows = rows;
+      if (axis === 'participant') {
+        baseRows = rows.filter(r => r.role === 'participant');
+      }
+      if (baseRows.length === 0) {
+        container.innerHTML = reportsEmptyHtml(axis, 'system');
+        return;
+      }
+      const filtered = filterReportsRows(baseRows);
+      if (filtered.length === 0) {
+        container.innerHTML = reportsEmptyHtml(axis, 'filtered');
+        return;
+      }
+      const rowFn = axis === 'participant' ? reportsParticipantRowHtml : reportsCohortRowHtml;
+      const tableFn = axis === 'participant' ? reportsParticipantTableHtml : reportsCohortTableHtml;
+      container.innerHTML = tableFn(filtered.map(rowFn).join(''));
+    }
+
+    async function loadReportsPicker(axis) {
+      const container = document.getElementById('reportsPickerContainer');
+      if (!container) return;
+      if (!reportsPickerState.loaded[axis]) container.innerHTML = reportsSkeletonHtml(axis);
+      try {
+        const { data, error } = axis === 'participant'
+          ? await sb.rpc('get_admin_user_list', { p_role_filter: null, p_search: null })
+          : await sb.rpc('get_admin_cohort_list');
+        if (error) {
+          container.innerHTML = reportsErrorHtml(error.message || 'RPC failed.');
+          return;
+        }
+        reportsPickerState.rowsByAxis[axis] = Array.isArray(data) ? data : [];
+        reportsPickerState.loaded[axis] = true;
+        if (reportsPickerState.axis === axis) renderReportsPicker();
+      } catch (e) {
+        container.innerHTML = reportsErrorHtml(e.message || 'Network error.');
+      }
+    }
+
+    function wireReportsFilters() {
+      const bar = document.getElementById('reportsFilters');
+      if (!bar) return;
+      bar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill');
+        if (!pill) return;
+        const filterName = pill.dataset.filter;
+        const value = pill.dataset.value;
+        if (filterName !== 'axis' || !value) return;
+        if (reportsPickerState.axis === value) return;
+        reportsPickerState.axis = value;
+        bar.querySelectorAll('.filter-pill[data-filter="axis"]').forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+        // Lazy-load on first visit to this axis; otherwise re-render from cache.
+        if (!reportsPickerState.loaded[value]) {
+          loadReportsPicker(value);
+        } else {
+          renderReportsPicker();
+        }
+      });
+    }
+
+    function wireReportsSearch() {
+      const input = document.getElementById('reportsSearchInput');
+      if (!input) return;
+      input.addEventListener('input', (e) => {
+        const v = e.target.value;
+        if (reportsPickerState.searchDebounceTimer) clearTimeout(reportsPickerState.searchDebounceTimer);
+        reportsPickerState.searchDebounceTimer = setTimeout(() => {
+          reportsPickerState.searchQuery = v;
+          renderReportsPicker();
+        }, 250);
+      });
+    }
+
+    // Picker row clicks. A5-UI-B/C will replace this stub with navigation
+    // + report render. Scoped via data-row-kind^="reports-".
+    function wireReportsRowClicks() {
+      document.addEventListener('click', (e) => {
+        const tr = e.target.closest('tr[data-row-kind^="reports-"]');
+        if (!tr) return;
+        const id = tr.dataset.rowId;
+        if (!id) return;
+        const kind = tr.dataset.rowKind;
+        const type = kind === 'reports-participant' ? 'participant' : 'cohort';
+        if (window.showToast) window.showToast(`Selected ${type} · ${id} — report rendering arrives in A5-UI-B/C.`);
+      });
+    }
+
+    function wireReportsClearSearch() {
+      const container = document.getElementById('reportsPickerContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'reportsClearSearchBtn') {
+          reportsPickerState.searchQuery = '';
+          const searchInput = document.getElementById('reportsSearchInput');
+          if (searchInput) searchInput.value = '';
+          renderReportsPicker();
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireReportsFilters();
+      wireReportsSearch();
+      wireReportsRowClicks();
+      wireReportsClearSearch();
+    });
+
+    // Hook handleRoute so the reports picker loads on first activation. Seventh wrap.
+    const _origHandleRoute_uiA5 = handleRoute;
+    handleRoute = function patchedHandleRouteForReports() {
+      _origHandleRoute_uiA5.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'reports') {
+        const axis = reportsPickerState.axis;
+        if (!reportsPickerState.loaded[axis]) {
+          loadReportsPicker(axis);
+        }
+      }
+    };
 
 
     // -----------------------------------------------------------
