@@ -5169,7 +5169,36 @@
       });
     }
 
-    // Inline-unarchive: replace the archived banner's Unarchive button with
+    // A2-OPEN-3: Confirm + manual deactivate. Sets deactivated_at, wipes
+    // trusted devices, auto-revokes pending outbound invitations.
+    // Reactivation uses the existing confirmAndReactivate / reactivate_user path.
+    function confirmAndDeactivate(userId, userName) {
+      showConfirmModal({
+        title: 'Deactivate this user?',
+        body: `Deactivating <strong>${escapeHtml(userName || 'this user')}</strong> prevents them from signing in. ` +
+              `Their trusted devices will be wiped and any pending outbound invitations they sent will be auto-revoked. ` +
+              `Their data and cohort memberships are preserved.<br><br>` +
+              `This is reversible — use Reactivate to restore access, or the user can self-reactivate on next sign-in.`,
+        proceedLabel: 'Deactivate user',
+        isDanger: true,
+        onProceed: async () => {
+          try {
+            const { data, error } = await sb.rpc('admin_deactivate_user', { p_user_id: userId });
+            if (error) { window.showToast(error.message || 'Deactivation failed.'); return; }
+            if (data && data.ok === false) {
+              window.showToast(data.error === 'cannot_deactivate_self' ? 'You cannot deactivate your own account.' : 'Deactivation failed.');
+              return;
+            }
+            const inv = data && data.invitations_auto_revoked ? ` ${data.invitations_auto_revoked} invitation(s) auto-revoked.` : '';
+            window.showToast(`User deactivated.${inv}`);
+            userListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'users' && !params.get('user')) loadUserList();
+            if (userDetailState.currentId === userId) { userDetailState.currentId = null; loadUserDetail(userId); }
+          } catch (e) { window.showToast(e.message || 'Network error.'); }
+        },
+      });
+    }
     // an inline confirm row, same pattern as people_list remove confirm.
     function toggleUnarchiveConfirmRow(bannerEl, cohortId, cohortName) {
       const existingConfirm = bannerEl.querySelector('.banner-confirm');
@@ -5609,8 +5638,11 @@
             <h1 class="view-header__title">${escapeHtml(u.full_name)}${selfTag}</h1>
             <div class="view-header__sub">${escapeHtml(u.role)} · ${escapeHtml(u.email)}</div>
           </div>
-          <div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
             <button type="button" class="btn btn--primary" data-action="edit-user-from-detail" data-id="${u.id}">Edit user</button>
+            ${(!isSelf && !isBootstrap && !u.suspended && !u.deactivated_at)
+              ? `<button type="button" class="btn btn--danger" style="font-size:12px;" data-action="deactivate-user-from-detail" data-id="${u.id}">Deactivate</button>`
+              : ''}
           </div>
         </div>
 
@@ -5794,6 +5826,11 @@
             const u = userDetailState.data && userDetailState.data.user;
             const userName = u ? (u.full_name || u.email) : null;
             if (userId) confirmAndReactivate(userId, userName);
+          } else if (action === 'deactivate-user-from-detail') {
+            const userId = actionEl.dataset.id;
+            const u = userDetailState.data && userDetailState.data.user;
+            const userName = u ? (u.full_name || u.email) : null;
+            if (userId) confirmAndDeactivate(userId, userName);
           }
         }
       });
