@@ -2489,6 +2489,68 @@
     }
   }
 
+  /* ─── A8-UI-A: Support view — search & status pill styles ─── */
+  .support-search-bar {
+    margin-bottom: 24px;
+  }
+  .support-search-bar__field {
+    position: relative;
+    max-width: 480px;
+  }
+  .support-search-bar__input {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    background: var(--charcoal);
+    color: var(--white);
+    border: 1px solid var(--border-default);
+    border-radius: 2px;
+    padding: 12px 14px;
+    width: 100%;
+  }
+  .support-search-bar__input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .support-search-bar__input::placeholder {
+    color: rgba(255,255,255,0.40);
+  }
+  .support-search-bar__hint {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  /* Status pills — active (green) / banned (red) / deleted (grey) / unconfirmed (amber) */
+  .support-status {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+    text-transform: capitalize;
+  }
+  .support-status--active       { background: rgba(108,174,132,0.18); color: #8ec9a3; border: 1px solid rgba(108,174,132,0.35); }
+  .support-status--banned       { background: rgba(196,90,77,0.20);   color: #e9a99c; border: 1px solid rgba(196,90,77,0.45); }
+  .support-status--deleted      { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
+  .support-status--unconfirmed  { background: rgba(217,134,80,0.18);  color: #d99e6c; border: 1px solid rgba(217,134,80,0.40); }
+  /* Initial state shown when query length < 2 */
+  .support-prompt-state {
+    background: rgba(34,71,47,0.18);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    padding: 48px 40px;
+    text-align: center;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
   </style>
 </head>
 <body>
@@ -2816,15 +2878,25 @@
           </div>
         </section>
 
+        <!-- A8-UI-A: Support view — search & per-user diagnostic panel -->
         <section class="view" id="view-support" data-view="support">
           <div class="view-header">
-            <div><div class="view-header__kicker">Support</div>
-              <h1 class="view-header__title">Support</h1></div>
+            <div>
+              <div class="view-header__kicker">Support troubleshooting</div>
+              <h1 class="view-header__title">User support</h1>
+              <div class="view-header__sub">Per-user diagnostic panel — devices, submissions, responses, recent activity.</div>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">Support view — coming soon</div>
-            <div class="stub__sub">Per-user diagnostic panel for troubleshooting</div>
-            <div class="stub__cluster">CLUSTER A8</div>
+
+          <div class="support-search-bar">
+            <div class="support-search-bar__field">
+              <input type="text" class="support-search-bar__input" id="supportSearchInput" placeholder="Search by name or email…" autocomplete="off">
+              <div class="support-search-bar__hint">Type at least 2 characters · matches name or email · up to 20 results</div>
+            </div>
+          </div>
+
+          <div id="supportSearchContainer">
+            <!-- States rendered here by JS: prompt | skeleton | results | empty | error -->
           </div>
         </section>
 
@@ -9812,6 +9884,200 @@ sam@gamma.org, Sam Lee, participant,`;
         if (!activityListState.loaded) {
           loadActivityList();
         }
+      }
+    };
+
+
+    // -----------------------------------------------------------
+    // A8-UI-A: Support view — search & user picker
+    //
+    // Lightweight state for the support search landing screen. Holds the
+    // last query and the rendered results so re-entering the view from
+    // elsewhere preserves context. Detail rendering (per-user panel) is
+    // handled by A8-UI-B.
+    // -----------------------------------------------------------
+    const supportSearchState = {
+      query: '',
+      results: null,
+      loaded: false,
+      error: null,
+      debounceTimer: null,
+      inflightToken: 0,
+    };
+
+    function renderSupportPrompt() {
+      const container = document.getElementById('supportSearchContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="support-prompt-state">
+          Start typing to find a user.<br>
+          Search is across all users — active, banned, deleted, or unconfirmed.
+        </div>
+      `;
+    }
+
+    function renderSupportSkeleton() {
+      const container = document.getElementById('supportSearchContainer');
+      if (!container) return;
+      const skel = Array.from({ length: 4 }, () => `
+        <tr class="skeleton-row">
+          <td><div style="height:12px;width:140px;background:rgba(255,255,255,0.06);border-radius:2px;"></div></td>
+          <td><div style="height:12px;width:200px;background:rgba(255,255,255,0.06);border-radius:2px;"></div></td>
+          <td><div style="height:12px;width:80px;background:rgba(255,255,255,0.06);border-radius:2px;"></div></td>
+          <td><div style="height:12px;width:60px;background:rgba(255,255,255,0.06);border-radius:2px;"></div></td>
+          <td><div style="height:12px;width:80px;background:rgba(255,255,255,0.06);border-radius:2px;"></div></td>
+        </tr>
+      `).join('');
+      container.innerHTML = `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead><tr>
+              <th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th>
+            </tr></thead>
+            <tbody>${skel}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSupportResults(rows) {
+      const container = document.getElementById('supportSearchContainer');
+      if (!container) return;
+      if (!rows || rows.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state__title">No users match this search</div>
+            <div class="empty-state__body">Try a different name, email substring, or a shorter query. Search matches anywhere in the name or email.</div>
+          </div>
+        `;
+        return;
+      }
+      const rowHtml = rows.map(r => {
+        const safeName = escapeHtml(r.full_name || '(no name)');
+        const safeEmail = escapeHtml(r.email || '—');
+        const roleBadge = `<span class="type-badge">${escapeHtml(r.role || '—')}</span>`;
+        const status = (r.status || 'active').toLowerCase();
+        const statusPill = `<span class="support-status support-status--${status}">${escapeHtml(status)}</span>`;
+        const lastSeen = r.last_sign_in_at ? fmtRelative(r.last_sign_in_at) : '—';
+        return `
+          <tr data-row-id="${r.profile_id}" data-action="open-support">
+            <td><span class="cohort-name" title="${safeName}">${safeName}</span></td>
+            <td class="cell-secondary">${safeEmail}</td>
+            <td>${roleBadge}</td>
+            <td>${statusPill}</td>
+            <td class="cell-secondary">${lastSeen}</td>
+          </tr>
+        `;
+      }).join('');
+      container.innerHTML = `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead><tr>
+              <th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last sign-in</th>
+            </tr></thead>
+            <tbody>${rowHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderSupportError(message) {
+      const container = document.getElementById('supportSearchContainer');
+      if (!container) return;
+      container.innerHTML = `
+        <div class="error-state">
+          <div class="error-state__title">Could not search users</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    async function loadSupportSearch(query) {
+      const trimmed = (query || '').trim();
+      supportSearchState.query = trimmed;
+      if (trimmed.length < 2) {
+        supportSearchState.results = null;
+        supportSearchState.loaded = false;
+        supportSearchState.error = null;
+        renderSupportPrompt();
+        return;
+      }
+      const myToken = ++supportSearchState.inflightToken;
+      renderSupportSkeleton();
+      try {
+        const { data, error } = await sb.rpc('admin_search_users_for_support', {
+          p_query: trimmed,
+        });
+        // Drop results if a newer search has started in the meantime.
+        if (myToken !== supportSearchState.inflightToken) return;
+        if (error) {
+          supportSearchState.error = error.message || 'Unknown error';
+          renderSupportError(supportSearchState.error);
+          return;
+        }
+        supportSearchState.results = data || [];
+        supportSearchState.loaded = true;
+        supportSearchState.error = null;
+        renderSupportResults(supportSearchState.results);
+      } catch (e) {
+        if (myToken !== supportSearchState.inflightToken) return;
+        supportSearchState.error = (e && e.message) ? e.message : 'Unknown error';
+        renderSupportError(supportSearchState.error);
+      }
+    }
+
+    function wireSupportSearch() {
+      const input = document.getElementById('supportSearchInput');
+      const container = document.getElementById('supportSearchContainer');
+      if (!input || !container) return;
+
+      // Restore prior query if re-entering the view from elsewhere
+      if (supportSearchState.query) {
+        input.value = supportSearchState.query;
+        if (supportSearchState.loaded && supportSearchState.results) {
+          renderSupportResults(supportSearchState.results);
+        } else if (supportSearchState.error) {
+          renderSupportError(supportSearchState.error);
+        } else {
+          renderSupportPrompt();
+        }
+      } else {
+        renderSupportPrompt();
+      }
+
+      // Avoid double-binding when the route hook fires repeatedly
+      if (input.dataset.wired === '1') return;
+      input.dataset.wired = '1';
+
+      input.addEventListener('input', () => {
+        const val = input.value;
+        if (supportSearchState.debounceTimer) clearTimeout(supportSearchState.debounceTimer);
+        supportSearchState.debounceTimer = setTimeout(() => {
+          loadSupportSearch(val);
+        }, 300);
+      });
+
+      // Row click → navigate to per-user panel (A8-UI-B will handle render)
+      container.addEventListener('click', (ev) => {
+        const tr = ev.target.closest('tr[data-action="open-support"]');
+        if (!tr) return;
+        const id = tr.dataset.rowId;
+        if (!id) return;
+        const url = `?view=support&user=${encodeURIComponent(id)}`;
+        window.history.pushState({}, '', url);
+        handleRoute();
+      });
+    }
+
+    // Route hook: on entering /support, ensure the search UI is wired and
+    // restore prior state. A8-UI-B will branch on the `user` param.
+    const _origHandleRoute_uiA8 = handleRoute;
+    handleRoute = function patchedHandleRouteForSupport() {
+      _origHandleRoute_uiA8.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'support') {
+        wireSupportSearch();
       }
     };
 
