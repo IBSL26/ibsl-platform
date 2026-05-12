@@ -11854,15 +11854,18 @@ sam@gamma.org, Sam Lee, participant,`;
         if (error) throw error;
         _adminMfaState.enrollFactorId = data.id;
         const qrEl = document.getElementById('adminMfaFQr');
-        const svgStr = data.totp.qr_code;
-        const img = document.createElement('img');
-        img.src = svgStr.startsWith('data:')
-          ? svgStr
-          : 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
-        img.alt = 'QR code';
-        img.style.cssText = 'display:block;margin:0 auto;width:180px;height:180px;';
-        qrEl.innerHTML = '';
-        qrEl.appendChild(img);
+        qrEl.innerHTML = data.totp.qr_code;
+        const svg = qrEl.querySelector('svg');
+        if (svg) {
+          const origW = svg.getAttribute('width') || '0';
+          const origH = svg.getAttribute('height') || '0';
+          if (!svg.getAttribute('viewBox') && parseFloat(origW) > 0) {
+            svg.setAttribute('viewBox', `0 0 ${origW} ${origH}`);
+          }
+          svg.removeAttribute('width');
+          svg.removeAttribute('height');
+          svg.style.cssText = 'display:block;width:100%;height:100%;';
+        }
         document.getElementById('adminMfaFSecret').textContent = data.totp.secret;
         setTimeout(() => { const c = document.getElementById('adminMfaFCode'); if (c) c.focus(); }, 100);
       } catch(e) {
@@ -12121,7 +12124,7 @@ sam@gamma.org, Sam Lee, participant,`;
               <p style="margin:0 0 12px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.65;">
                 Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.
               </p>
-              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:10px;margin:0 auto 12px;width:200px;height:200px;display:flex;align-items:center;justify-content:center;"></div>
+              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:0;margin:0 auto 12px;width:210px;height:210px;overflow:hidden;"></div>
               <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:3px;">Can't scan? Enter this key manually:</p>
               <p id="adminMfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:16px;font-family:monospace;"></p>
               <div class="form-group">
