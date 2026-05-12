@@ -5564,12 +5564,12 @@
       _startMfaEnrolment();
     }
     const modal = document.getElementById('mfaModal');
-    if (modal) { modal.setAttribute('aria-hidden', 'false'); modal.classList.add('modal-backdrop--shown'); }
+    if (modal) { modal.setAttribute('aria-hidden', 'false'); modal.classList.add('shown'); }
   }
 
   function closeMfaModal() {
     const modal = document.getElementById('mfaModal');
-    if (modal) { modal.setAttribute('aria-hidden', 'true'); modal.classList.remove('modal-backdrop--shown'); }
+    if (modal) { modal.setAttribute('aria-hidden', 'true'); modal.classList.remove('shown'); }
   }
 
   function _showMfaManageState() {
@@ -5673,7 +5673,7 @@
     if (disBtn)    disBtn.addEventListener('click', disableMfa);
     if (codeInput) codeInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitMfaFEnrolment(); });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal && modal.classList.contains('modal-backdrop--shown')) closeMfaModal();
+      if (e.key === 'Escape' && modal && modal.classList.contains('shown')) closeMfaModal();
     });
   }
 
