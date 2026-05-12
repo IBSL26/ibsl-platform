@@ -3284,18 +3284,27 @@
 
     // ── P4-1: Change password ─────────────────────────────────────────
     let _currentUserEmail = '';
+    let _chpwFactorId     = null;
+    let _chpwChallengeId  = null;
+    let _chpwNewPw        = '';
 
     const chpwState = { busy: false };
 
     function openChpwModal() {
-      chpwState.busy = false;
+      chpwState.busy   = false;
+      _chpwFactorId    = null;
+      _chpwChallengeId = null;
+      _chpwNewPw       = '';
       const modal = document.getElementById('chpwModal');
       if (!modal) return;
-      document.getElementById('chpwCurrent').value = '';
-      document.getElementById('chpwNew').value = '';
-      document.getElementById('chpwConfirm').value = '';
-      document.getElementById('chpwError').textContent = '';
-      document.getElementById('chpwSubmitBtn').disabled = false;
+      document.getElementById('chpwCurrent').value        = '';
+      document.getElementById('chpwNew').value            = '';
+      document.getElementById('chpwConfirm').value        = '';
+      document.getElementById('chpwError').textContent    = '';
+      document.getElementById('chpwError').style.display  = 'none';
+      document.getElementById('chpwSubmitBtn').disabled   = false;
+      document.getElementById('chpwScreen1').style.display = '';
+      document.getElementById('chpwScreen2').style.display = 'none';
       modal.setAttribute('aria-hidden', 'false');
       modal.classList.add('modal-backdrop--shown');
       document.getElementById('chpwCurrent').focus();
@@ -3306,8 +3315,14 @@
       if (!modal) return;
       modal.setAttribute('aria-hidden', 'true');
       modal.classList.remove('modal-backdrop--shown');
+      _chpwFactorId    = null;
+      _chpwChallengeId = null;
+      _chpwNewPw       = '';
+      document.getElementById('chpwScreen1').style.display = '';
+      document.getElementById('chpwScreen2').style.display = 'none';
     }
 
+    // Phase 1 – validate inputs, verify current password, initiate MFA challenge
     async function submitChpw() {
       if (chpwState.busy) return;
       const currentPw  = document.getElementById('chpwCurrent').value;
@@ -3315,25 +3330,25 @@
       const confirmPw  = document.getElementById('chpwConfirm').value;
       const errorEl    = document.getElementById('chpwError');
       const submitBtn  = document.getElementById('chpwSubmitBtn');
-      errorEl.textContent = '';
+      errorEl.textContent  = '';
       errorEl.style.display = 'none';
 
       function showErr(msg) { errorEl.textContent = msg; errorEl.style.display = 'block'; }
 
       // Client-side validation
       if (!currentPw)                    { showErr('Please enter your current password.'); return; }
-      if (newPw.length < 10)              { showErr('New password must be at least 10 characters.'); return; }
-      if (!/[A-Z]/.test(newPw))           { showErr('New password must contain at least one uppercase letter.'); return; }
-      if (!/[a-z]/.test(newPw))           { showErr('New password must contain at least one lowercase letter.'); return; }
-      if (!/[0-9]/.test(newPw))           { showErr('New password must contain at least one number.'); return; }
-      if (newPw === currentPw)            { showErr('New password must differ from current password.'); return; }
-      if (newPw !== confirmPw)            { showErr('Passwords do not match.'); return; }
+      if (newPw.length < 10)             { showErr('New password must be at least 10 characters.'); return; }
+      if (!/[A-Z]/.test(newPw))          { showErr('New password must contain at least one uppercase letter.'); return; }
+      if (!/[a-z]/.test(newPw))          { showErr('New password must contain at least one lowercase letter.'); return; }
+      if (!/[0-9]/.test(newPw))          { showErr('New password must contain at least one number.'); return; }
+      if (newPw === currentPw)           { showErr('New password must differ from current password.'); return; }
+      if (newPw !== confirmPw)           { showErr('Passwords do not match.'); return; }
 
-      chpwState.busy = true;
+      chpwState.busy  = true;
       submitBtn.disabled = true;
 
       try {
-        // Step 1: verify current password
+        // Step 1: verify current password via re-auth (creates fresh AAL1 session)
         const emailForReAuth = _currentUserEmail
           || (document.getElementById('topbarEmail') || {}).textContent
           || '';
@@ -3345,49 +3360,119 @@
           email:    emailForReAuth,
           password: currentPw,
         });
-        if (reAuthErr) {
-          showErr('Current password is incorrect.');
+        if (reAuthErr) { showErr('Current password is incorrect.'); return; }
+
+        _chpwNewPw = newPw;
+
+        // Step 2: check for enrolled MFA factors
+        const { data: factorsData } = await sb.auth.mfa.listFactors();
+        const totpFactors = factorsData?.totp || [];
+
+        if (!totpFactors.length) {
+          // No MFA enrolled — session is AAL1 which is sufficient; update directly
+          await _finishPasswordUpdate(false);
           return;
         }
 
-        // Step 2: update password
-        const { error: updateErr } = await sb.auth.updateUser({ password: newPw });
-        if (updateErr) {
-          showErr('Could not update password: ' + (updateErr.message || 'Unknown error'));
-          return;
-        }
+        // Step 3: initiate TOTP challenge to restore AAL2
+        _chpwFactorId = totpFactors[0].id;
+        const { data: challengeData, error: challengeErr } = await sb.auth.mfa.challenge({ factorId: _chpwFactorId });
+        if (challengeErr) { showErr('MFA challenge failed: ' + (challengeErr.message || 'Unknown error')); return; }
+        _chpwChallengeId = challengeData.id;
 
-        // Step 3: log to activity_log
-        await sb.rpc('log_activity', {
-          p_event_type:   'password_changed',
-          p_event_detail: { surface: 'dashboard_A', role: 'admin' },
-          p_cohort_id:    null,
-        });
+        // Advance to Phase 2 (TOTP entry)
+        document.getElementById('chpwScreen1').style.display = 'none';
+        document.getElementById('chpwScreen2').style.display = '';
+        document.getElementById('chpwTotp').value = '';
+        document.getElementById('chpwTotpError').textContent   = '';
+        document.getElementById('chpwTotpError').style.display = 'none';
+        document.getElementById('chpwTotpSubmitBtn').disabled  = false;
+        document.getElementById('chpwTotp').focus();
 
-        closeChpwModal();
-        window.showToast('Password changed successfully.');
       } catch (e) {
         showErr('Unexpected error: ' + (e && e.message ? e.message : 'Unknown error'));
       } finally {
-        chpwState.busy = false;
+        chpwState.busy     = false;
         submitBtn.disabled = false;
       }
     }
 
+    // Phase 2 – verify TOTP code, elevate to AAL2, then update password
+    async function submitChpwTotp() {
+      if (chpwState.busy) return;
+      const code      = (document.getElementById('chpwTotp').value || '').replace(/\s/g, '');
+      const errorEl   = document.getElementById('chpwTotpError');
+      const submitBtn = document.getElementById('chpwTotpSubmitBtn');
+      errorEl.textContent  = '';
+      errorEl.style.display = 'none';
+
+      function showErr(msg) { errorEl.textContent = msg; errorEl.style.display = 'block'; }
+
+      if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
+        showErr('Please enter the 6-digit code from your authenticator app.');
+        return;
+      }
+
+      chpwState.busy     = true;
+      submitBtn.disabled = true;
+
+      try {
+        const { error: verifyErr } = await sb.auth.mfa.verify({
+          factorId:    _chpwFactorId,
+          challengeId: _chpwChallengeId,
+          code,
+        });
+        if (verifyErr) { showErr('Incorrect code. Please try again.'); return; }
+
+        await _finishPasswordUpdate(true);
+      } catch (e) {
+        showErr('Unexpected error: ' + (e && e.message ? e.message : 'Unknown error'));
+      } finally {
+        chpwState.busy     = false;
+        submitBtn.disabled = false;
+      }
+    }
+
+    // Shared final step: updateUser + activity log + close
+    async function _finishPasswordUpdate(fromMfa) {
+      const errorEl = document.getElementById(fromMfa ? 'chpwTotpError' : 'chpwError');
+      function showErr(msg) { errorEl.textContent = msg; errorEl.style.display = 'block'; }
+
+      const { error: updateErr } = await sb.auth.updateUser({ password: _chpwNewPw });
+      if (updateErr) { showErr('Could not update password: ' + (updateErr.message || 'Unknown error')); return; }
+
+      await sb.rpc('log_activity', {
+        p_event_type:   'password_changed',
+        p_event_detail: { surface: 'dashboard_A', role: 'admin' },
+        p_cohort_id:    null,
+      });
+
+      closeChpwModal();
+      window.showToast('Password changed successfully.');
+    }
+
     function _wireChpwModal() {
-      const modal     = document.getElementById('chpwModal');
-      const closeBtn  = document.getElementById('chpwCloseBtn');
-      const cancelBtn = document.getElementById('chpwCancelBtn');
-      const submitBtn = document.getElementById('chpwSubmitBtn');
-      const openBtn   = document.getElementById('chpwBtn');
-      if (openBtn)   openBtn.addEventListener('click',   openChpwModal);
-      if (closeBtn)  closeBtn.addEventListener('click',  closeChpwModal);
-      if (cancelBtn) cancelBtn.addEventListener('click', closeChpwModal);
-      if (submitBtn) submitBtn.addEventListener('click', submitChpw);
+      const modal          = document.getElementById('chpwModal');
+      const closeBtn       = document.getElementById('chpwCloseBtn');
+      const cancelBtn      = document.getElementById('chpwCancelBtn');
+      const submitBtn      = document.getElementById('chpwSubmitBtn');
+      const openBtn        = document.getElementById('chpwBtn');
+      const totpCancelBtn  = document.getElementById('chpwTotpCancelBtn');
+      const totpSubmitBtn  = document.getElementById('chpwTotpSubmitBtn');
+      if (openBtn)        openBtn.addEventListener('click',   openChpwModal);
+      if (closeBtn)       closeBtn.addEventListener('click',  closeChpwModal);
+      if (cancelBtn)      cancelBtn.addEventListener('click', closeChpwModal);
+      if (submitBtn)      submitBtn.addEventListener('click', submitChpw);
+      if (totpCancelBtn)  totpCancelBtn.addEventListener('click', closeChpwModal);
+      if (totpSubmitBtn)  totpSubmitBtn.addEventListener('click', submitChpwTotp);
       if (modal) {
         modal.addEventListener('keydown', e => {
           if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) closeChpwModal();
-          if (e.key === 'Enter'  && modal.classList.contains('modal-backdrop--shown')) submitChpw();
+          if (e.key === 'Enter'  && modal.classList.contains('modal-backdrop--shown')) {
+            const s2 = document.getElementById('chpwScreen2');
+            if (s2 && s2.style.display !== 'none') submitChpwTotp();
+            else submitChpw();
+          }
         });
       }
     }
@@ -12054,24 +12139,44 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="modal-title">Change password</div>
           <button type="button" class="modal-close" id="chpwCloseBtn" aria-label="Close">×</button>
         </div>
-        <div class="modal-body" style="padding:22px 28px 8px;">
-          <div class="form-group" style="margin-bottom:16px;">
-            <label class="form-label" for="chpwCurrent">Current password</label>
-            <input type="password" class="form-input" id="chpwCurrent" autocomplete="current-password" placeholder="Enter current password">
+        <!-- Screen 1: password fields -->
+        <div id="chpwScreen1">
+          <div class="modal-body" style="padding:22px 28px 8px;">
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label" for="chpwCurrent">Current password</label>
+              <input type="password" class="form-input" id="chpwCurrent" autocomplete="current-password" placeholder="Enter current password">
+            </div>
+            <div class="form-group" style="margin-bottom:16px;">
+              <label class="form-label" for="chpwNew">New password</label>
+              <input type="password" class="form-input" id="chpwNew" autocomplete="new-password" placeholder="Min 10 chars, upper, lower, number">
+            </div>
+            <div class="form-group" style="margin-bottom:8px;">
+              <label class="form-label" for="chpwConfirm">Confirm new password</label>
+              <input type="password" class="form-input" id="chpwConfirm" autocomplete="new-password" placeholder="Repeat new password">
+            </div>
+            <div class="form-error-inline" id="chpwError" style="min-height:18px;margin-bottom:4px;"></div>
           </div>
-          <div class="form-group" style="margin-bottom:16px;">
-            <label class="form-label" for="chpwNew">New password</label>
-            <input type="password" class="form-input" id="chpwNew" autocomplete="new-password" placeholder="Min 10 chars, upper, lower, number">
+          <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+            <button type="button" class="btn--ghost" id="chpwCancelBtn">Cancel</button>
+            <button type="button" class="btn btn--primary" id="chpwSubmitBtn">Change password</button>
           </div>
-          <div class="form-group" style="margin-bottom:8px;">
-            <label class="form-label" for="chpwConfirm">Confirm new password</label>
-            <input type="password" class="form-input" id="chpwConfirm" autocomplete="new-password" placeholder="Repeat new password">
-          </div>
-          <div class="form-error-inline" id="chpwError" style="min-height:18px;margin-bottom:4px;"></div>
         </div>
-        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
-          <button type="button" class="btn--ghost" id="chpwCancelBtn">Cancel</button>
-          <button type="button" class="btn btn--primary" id="chpwSubmitBtn">Change password</button>
+        <!-- Screen 2: MFA verification (shown after current-password confirmed) -->
+        <div id="chpwScreen2" style="display:none;">
+          <div class="modal-body" style="padding:22px 28px 8px;">
+            <p style="margin:0 0 16px;font-size:13px;color:var(--text-secondary,#555);line-height:1.5;">
+              Your account uses two-factor authentication. Enter the 6-digit code from your authenticator app to confirm this change.
+            </p>
+            <div class="form-group" style="margin-bottom:8px;">
+              <label class="form-label" for="chpwTotp">Authenticator code</label>
+              <input type="text" class="form-input" id="chpwTotp" autocomplete="one-time-code" placeholder="000000" maxlength="6" inputmode="numeric" style="letter-spacing:0.15em;">
+            </div>
+            <div class="form-error-inline" id="chpwTotpError" style="min-height:18px;margin-bottom:4px;"></div>
+          </div>
+          <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+            <button type="button" class="btn--ghost" id="chpwTotpCancelBtn">Cancel</button>
+            <button type="button" class="btn btn--primary" id="chpwTotpSubmitBtn">Verify &amp; change</button>
+          </div>
         </div>
       </div>
     </div>
