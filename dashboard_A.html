@@ -2834,6 +2834,7 @@
         <a class="topbar__back" href="index.html">← Admin Portal</a>
         <span class="topbar__email" id="topbarEmail">—</span>
         <button class="topbar__chpw" id="chpwBtn">Change password</button>
+        <button class="topbar__chpw" id="adminMfaBtn" style="display:none;">Set up 2FA</button>
         <button class="topbar__signout" id="signoutBtn">Sign out</button>
       </div>
     </header>
@@ -3433,6 +3434,7 @@
       hideBoot();
       handleRoute();
       window.addEventListener('popstate', handleRoute);
+      updateAdminMfaButtonLabel();
     }
 
     // -----------------------------------------------------------
@@ -11795,6 +11797,138 @@ sam@gamma.org, Sam Lee, participant,`;
     // Boot
     // -----------------------------------------------------------
     boot();
+
+    // ─── P4-POLISH-4: Admin 2FA enrolment & management ───────────
+    const _adminMfaState = { factors: [], enrollFactorId: null, busy: false };
+
+    async function updateAdminMfaButtonLabel() {
+      const btn = document.getElementById('adminMfaBtn');
+      if (!btn) return;
+      try {
+        const { data } = await sb.auth.mfa.listFactors();
+        _adminMfaState.factors = (data && data.totp) ? data.totp.filter(f => f.status === 'verified') : [];
+      } catch(e) { _adminMfaState.factors = []; }
+      btn.textContent = _adminMfaState.factors.length > 0 ? 'Manage 2FA' : 'Set up 2FA';
+      btn.style.display = '';
+    }
+
+    function openAdminMfaModal() {
+      if (_adminMfaState.factors.length > 0) {
+        _showAdminMfaManageState();
+      } else {
+        _startAdminMfaEnrolment();
+      }
+      const modal = document.getElementById('adminMfaModal');
+      if (modal) { modal.setAttribute('aria-hidden', 'false'); modal.classList.add('modal-backdrop--shown'); }
+    }
+
+    function closeAdminMfaModal() {
+      const modal = document.getElementById('adminMfaModal');
+      if (modal) { modal.setAttribute('aria-hidden', 'true'); modal.classList.remove('modal-backdrop--shown'); }
+    }
+
+    function _showAdminMfaManageState() {
+      document.getElementById('adminMfaEnrolState').style.display  = 'none';
+      document.getElementById('adminMfaManageState').style.display = '';
+      const f = _adminMfaState.factors[0];
+      const nameEl = document.getElementById('adminMfaFactorName');
+      if (nameEl) nameEl.textContent = f ? (f.friendly_name || 'Authenticator app') : '—';
+      document.getElementById('adminMfaDisableErr').textContent = '';
+    }
+
+    async function _startAdminMfaEnrolment() {
+      document.getElementById('adminMfaManageState').style.display = 'none';
+      document.getElementById('adminMfaEnrolState').style.display  = '';
+      document.getElementById('adminMfaFStep1').style.display      = '';
+      document.getElementById('adminMfaFStep2').style.display      = 'none';
+      document.getElementById('adminMfaFQr').innerHTML             = '<p style="color:rgba(255,255,255,0.5);font-size:12px;text-align:center;">Loading QR code…</p>';
+      document.getElementById('adminMfaFSecret').textContent       = '';
+      document.getElementById('adminMfaFCode').value               = '';
+      document.getElementById('adminMfaFError').textContent        = '';
+      try {
+        const { data, error } = await sb.auth.mfa.enroll({
+          factorType: 'totp',
+          issuer: 'IBSL S2R® Portal',
+          friendlyName: 'Admin authenticator',
+        });
+        if (error) throw error;
+        _adminMfaState.enrollFactorId = data.id;
+        document.getElementById('adminMfaFQr').innerHTML     = data.totp.qr_code;
+        document.getElementById('adminMfaFSecret').textContent = data.totp.secret;
+        setTimeout(() => { const c = document.getElementById('adminMfaFCode'); if (c) c.focus(); }, 100);
+      } catch(e) {
+        document.getElementById('adminMfaFQr').innerHTML = '<p style="color:#e9a99c;font-size:12px;text-align:center;">Could not load QR code. Please try again.</p>';
+      }
+    }
+
+    async function submitAdminMfaEnrolment() {
+      if (_adminMfaState.busy) return;
+      const code  = (document.getElementById('adminMfaFCode').value || '').trim();
+      const errEl = document.getElementById('adminMfaFError');
+      const btn   = document.getElementById('adminMfaFEnrolBtn');
+      errEl.textContent = '';
+      if (code.length !== 6 || !/^\d+$/.test(code)) { errEl.textContent = 'Please enter a valid 6-digit code.'; return; }
+      _adminMfaState.busy = true; btn.disabled = true; btn.textContent = 'Verifying…';
+      try {
+        const { data: ch, error: chErr } = await sb.auth.mfa.challenge({ factorId: _adminMfaState.enrollFactorId });
+        if (chErr) throw chErr;
+        const { error: vErr } = await sb.auth.mfa.verify({ factorId: _adminMfaState.enrollFactorId, challengeId: ch.id, code });
+        if (vErr) throw vErr;
+        try { await sb.rpc('log_activity', { p_event_type: '2fa_enabled', p_event_detail: { surface: 'dashboard_A' }, p_cohort_id: null }); } catch(e) {}
+        _adminMfaState.factors = [{ id: _adminMfaState.enrollFactorId, friendly_name: 'Admin authenticator', status: 'verified' }];
+        document.getElementById('adminMfaBtn').textContent = 'Manage 2FA';
+        document.getElementById('adminMfaFBackupKey').textContent = document.getElementById('adminMfaFSecret').textContent;
+        document.getElementById('adminMfaFStep1').style.display = 'none';
+        document.getElementById('adminMfaFStep2').style.display = '';
+      } catch(e) {
+        errEl.textContent = 'Invalid code — please check your authenticator and try again.';
+        document.getElementById('adminMfaFCode').value = '';
+        document.getElementById('adminMfaFCode').focus();
+      } finally {
+        _adminMfaState.busy = false; btn.disabled = false; btn.textContent = 'Confirm & Enable 2FA';
+      }
+    }
+
+    async function disableAdminMfa() {
+      if (_adminMfaState.busy) return;
+      const f   = _adminMfaState.factors[0];
+      const btn = document.getElementById('adminMfaDisableBtn');
+      const err = document.getElementById('adminMfaDisableErr');
+      if (!f) return;
+      _adminMfaState.busy = true; btn.disabled = true; btn.textContent = 'Disabling…';
+      try {
+        const { error } = await sb.auth.mfa.unenroll({ factorId: f.id });
+        if (error) throw error;
+        try { await sb.rpc('log_activity', { p_event_type: '2fa_disabled', p_event_detail: { surface: 'dashboard_A' }, p_cohort_id: null }); } catch(e) {}
+        _adminMfaState.factors = [];
+        document.getElementById('adminMfaBtn').textContent = 'Set up 2FA';
+        closeAdminMfaModal();
+      } catch(e) {
+        err.textContent = (e && e.message) || 'Could not disable 2FA. Please try again.';
+      } finally {
+        _adminMfaState.busy = false; btn.disabled = false; btn.textContent = 'Disable 2FA';
+      }
+    }
+
+    function _wireAdminMfaModal() {
+      const btn      = document.getElementById('adminMfaBtn');
+      const closeBtn = document.getElementById('adminMfaCloseBtn');
+      const enrolBtn = document.getElementById('adminMfaFEnrolBtn');
+      const disBtn   = document.getElementById('adminMfaDisableBtn');
+      const codeInp  = document.getElementById('adminMfaFCode');
+      const modal    = document.getElementById('adminMfaModal');
+      if (btn)      btn.addEventListener('click', openAdminMfaModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeAdminMfaModal);
+      if (enrolBtn) enrolBtn.addEventListener('click', submitAdminMfaEnrolment);
+      if (disBtn)   disBtn.addEventListener('click', disableAdminMfa);
+      if (codeInp)  codeInp.addEventListener('keydown', e => { if (e.key === 'Enter') submitAdminMfaEnrolment(); });
+      if (modal) {
+        modal.addEventListener('click', e => { if (e.target === modal) closeAdminMfaModal(); });
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) closeAdminMfaModal();
+        });
+      }
+    }
   </script>
 
     <!-- A1-UI-F: shared member picker modal -->
@@ -11962,6 +12096,73 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
       </div>
     </div>
+
+    <!-- P4-POLISH-4: Admin 2FA enrolment & management modal -->
+    <div class="modal-backdrop" id="adminMfaModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog" style="width:460px;">
+        <div class="modal-head">
+          <div class="modal-title" id="adminMfaModalTitle">Set Up Two-Factor Authentication</div>
+          <button type="button" class="modal-close" id="adminMfaCloseBtn" aria-label="Close">×</button>
+        </div>
+
+        <!-- Enrolment state -->
+        <div id="adminMfaEnrolState">
+          <div id="adminMfaFStep1">
+            <div class="modal-body" style="padding:22px 28px 8px;">
+              <p style="margin:0 0 12px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.65;">
+                Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.
+              </p>
+              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:10px;margin:0 auto 12px;width:fit-content;"></div>
+              <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:3px;">Can't scan? Enter this key manually:</p>
+              <p id="adminMfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:16px;font-family:monospace;"></p>
+              <div class="form-group">
+                <label class="form-label" for="adminMfaFCode">6-digit code</label>
+                <input type="text" class="form-input" id="adminMfaFCode" maxlength="6" inputmode="numeric"
+                  autocomplete="one-time-code" placeholder="000000"
+                  style="text-align:center;letter-spacing:8px;font-size:22px;">
+              </div>
+              <div class="form-error-inline" id="adminMfaFError" style="min-height:18px;"></div>
+            </div>
+            <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+              <button type="button" class="btn--ghost" onclick="closeAdminMfaModal()">Cancel</button>
+              <button type="button" class="btn btn--primary" id="adminMfaFEnrolBtn">Confirm &amp; Enable 2FA</button>
+            </div>
+          </div>
+
+          <!-- Step 2: success -->
+          <div id="adminMfaFStep2" style="display:none;">
+            <div class="modal-body" style="padding:22px 28px 8px;text-align:center;">
+              <div style="font-size:36px;margin-bottom:10px;">✅</div>
+              <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.65;margin-bottom:12px;">
+                Two-factor authentication is now active on your admin account. Save this key — you'll need it if you lose access to your authenticator app.
+              </p>
+              <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Your authenticator secret key:</p>
+              <p id="adminMfaFBackupKey" style="font-size:12px;color:#c9a84c;word-break:break-all;font-family:monospace;margin-bottom:18px;"></p>
+            </div>
+            <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+              <button type="button" class="btn btn--primary" onclick="closeAdminMfaModal()">Done</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Manage state -->
+        <div id="adminMfaManageState" style="display:none;">
+          <div class="modal-body" style="padding:22px 28px 8px;">
+            <p style="margin:0 0 10px;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.65;">
+              2FA is currently <strong style="color:#c9a84c;">active</strong> on your admin account.<br>
+              Factor: <span id="adminMfaFactorName" style="color:rgba(255,255,255,0.85);">—</span>
+            </p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px;">To disable, click below. You can re-enrol at any time.</p>
+            <div class="form-error-inline" id="adminMfaDisableErr" style="min-height:16px;"></div>
+          </div>
+          <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+            <button type="button" class="btn--ghost" onclick="closeAdminMfaModal()">Close</button>
+            <button type="button" class="btn btn--danger" id="adminMfaDisableBtn">Disable 2FA</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>_wireAdminMfaModal();</script>
 
   </body>
 </html>
