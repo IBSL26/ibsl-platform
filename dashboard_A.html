@@ -2360,15 +2360,36 @@
           </div>
         </section>
 
+        <!-- A4-UI-A: Organisations list view -->
         <section class="view" id="view-organisations" data-view="organisations">
           <div class="view-header">
-            <div><div class="view-header__kicker">Organisations</div>
-              <h1 class="view-header__title">Organisations</h1></div>
+            <div>
+              <div class="view-header__kicker">Organisations</div>
+              <h1 class="view-header__title">Organisations</h1>
+              <div class="view-header__sub">Participant tracking across cohorts, sponsorship roll-ups, organisation lifecycle</div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button type="button" class="btn btn--primary" id="organisationCreateBtn">+ New organisation</button>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">Organisation view — coming soon</div>
-            <div class="stub__sub">Cross-cohort delegate tracking</div>
-            <div class="stub__cluster">CLUSTER A4</div>
+
+          <div class="filter-bar" id="organisationFilters">
+            <div class="filter-group">
+              <span class="filter-group__label">Status</span>
+              <div class="filter-pills" role="tablist" aria-label="Organisation archive filter">
+                <button type="button" class="filter-pill filter-pill--active" data-filter="archive" data-value="active">Active</button>
+                <button type="button" class="filter-pill" data-filter="archive" data-value="all">Include archived</button>
+              </div>
+            </div>
+            <div class="filter-group" style="flex:1 1 280px;">
+              <span class="filter-group__label">Search</span>
+              <input type="search" id="organisationSearchInput" placeholder="Name, sector, or country..." aria-label="Search organisations"
+                     style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:320px;outline:none;">
+            </div>
+          </div>
+
+          <div id="organisationListContainer">
+            <!-- States rendered here by JS: skeleton | table | empty-system | empty-filters | error -->
           </div>
         </section>
 
@@ -6559,6 +6580,273 @@ sam@gamma.org, Sam Lee, participant,`;
         renderInvitationBulkBody();
       }
     }
+
+
+    // ===========================================================
+    // A4-UI-A: Organisations list view — state, loader, renderer
+    // Calls admin_list_organisations(p_include_archived) and renders a
+    // dense table matching A1/A2 conventions. Archive filter is server-side
+    // (refetch on change); search is client-side over name/sector/country.
+    // Row click and "+ New organisation" are toast-stubbed until A4-UI-B
+    // (detail view) and A4-UI-C (create modal) land.
+    // ===========================================================
+    const organisationListState = {
+      filters: { archive: 'active' },      // 'active' | 'all'
+      searchQuery: '',
+      searchDebounceTimer: null,
+      loaded: false,
+      lastRows: null,
+      lastIncludeArchived: false,          // tracks server-side state for sanity
+    };
+
+    function organisationRowHtml(row) {
+      const archived = !!row.archived_at;
+      const statusPill = archived
+        ? `<span class="status-pip" style="background:rgba(255,255,255,0.18)" title="Archived"></span>`
+        : `<span class="status-pip status-pip--active" title="Active"></span>`;
+      const archivedTag = archived
+        ? ` <span class="cohort-name__archived-tag">Archived</span>`
+        : '';
+      const sector  = row.sector  || '—';
+      const country = row.country || '—';
+      const pCount  = (row.participant_count   != null) ? row.participant_count   : 0;
+      const cCount  = (row.cohort_count        != null) ? row.cohort_count        : 0;
+      const acCount = (row.active_cohort_count != null) ? row.active_cohort_count : 0;
+      const pct     = (row.completion_percentage != null && row.completion_percentage !== '')
+        ? `${row.completion_percentage}%`
+        : '—';
+      return `
+        <tr data-row-id="${row.id}" data-row-kind="organisation">
+          <td>${statusPill}</td>
+          <td><span class="cohort-name" title="${escapeHtml(row.name)}">${escapeHtml(row.name)}</span>${archivedTag}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.sector || '')}">${escapeHtml(sector)}</td>
+          <td class="cell-secondary" title="${escapeHtml(row.country || '')}">${escapeHtml(country)}</td>
+          <td class="cell-secondary">${pCount}</td>
+          <td class="cell-secondary">${acCount} / ${cCount}</td>
+          <td class="cell-secondary">${pct}</td>
+        </tr>
+      `;
+    }
+
+    function organisationTableHtml(bodyHtml) {
+      return `
+        <div class="cohort-table-wrap">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Name</th>
+                <th>Sector</th>
+                <th>Country</th>
+                <th title="Distinct participants enrolled in any cohort sponsored by this organisation">Participants</th>
+                <th title="Active cohorts / total cohorts sponsored">Cohorts (active / total)</th>
+                <th title="Average completion percentage across sponsoring cohorts">Completion</th>
+              </tr>
+            </thead>
+            <tbody>${bodyHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function organisationSkeletonHtml() {
+      const cell = (w) => `<td><div class="skeleton-bar" style="width:${w}"></div></td>`;
+      const skelRow = `<tr class="skeleton-row">${cell('10px')}${cell('70%')}${cell('50%')}${cell('50%')}${cell('20px')}${cell('40px')}${cell('30px')}</tr>`;
+      return organisationTableHtml(skelRow.repeat(3));
+    }
+
+    function organisationEmptyHtml(kind) {
+      if (kind === 'system') {
+        return `
+          <div class="empty-state">
+            <div class="empty-state__title">No organisations yet</div>
+            <div class="empty-state__body">Create your first organisation to track participants and cohorts across the platform.</div>
+            <button type="button" class="btn btn--primary empty-state__cta" id="organisationCreateEmptyCta">+ New organisation</button>
+          </div>
+        `;
+      }
+      return `
+        <div class="empty-state">
+          <div class="empty-state__title">No organisations match these filters</div>
+          <div class="empty-state__body">Try toggling "Include archived", or clear your search to see everything.</div>
+          <button type="button" class="btn btn--primary empty-state__cta" id="organisationClearFiltersBtn">Clear filters</button>
+        </div>
+      `;
+    }
+
+    function organisationErrorHtml(message) {
+      return `
+        <div class="error-state">
+          <div class="error-state__title">Could not load organisations</div>
+          <div class="error-state__body">${escapeHtml(message)}</div>
+        </div>
+      `;
+    }
+
+    function filterOrganisationRows(rows) {
+      const q = organisationListState.searchQuery.trim().toLowerCase();
+      if (!q) return rows;
+      return rows.filter(r => {
+        const haystack = (
+          (r.name    || '') + ' ' +
+          (r.sector  || '') + ' ' +
+          (r.country || '')
+        ).toLowerCase();
+        return haystack.indexOf(q) !== -1;
+      });
+    }
+
+    function renderOrganisationList() {
+      const container = document.getElementById('organisationListContainer');
+      if (!container) return;
+      if (!organisationListState.loaded) {
+        container.innerHTML = organisationSkeletonHtml();
+        return;
+      }
+      if (organisationListState.lastRows === null) {
+        container.innerHTML = organisationErrorHtml('No data returned.');
+        return;
+      }
+      if (organisationListState.lastRows.length === 0) {
+        container.innerHTML = organisationEmptyHtml('system');
+        return;
+      }
+      const filtered = filterOrganisationRows(organisationListState.lastRows);
+      if (filtered.length === 0) {
+        container.innerHTML = organisationEmptyHtml('filtered');
+        return;
+      }
+      container.innerHTML = organisationTableHtml(filtered.map(organisationRowHtml).join(''));
+    }
+
+    async function loadOrganisationList() {
+      const container = document.getElementById('organisationListContainer');
+      if (!container) return;
+      const includeArchived = organisationListState.filters.archive === 'all';
+      if (!organisationListState.loaded) container.innerHTML = organisationSkeletonHtml();
+      try {
+        const { data, error } = await sb.rpc('admin_list_organisations', {
+          p_include_archived: includeArchived,
+        });
+        if (error) {
+          container.innerHTML = organisationErrorHtml(error.message || 'RPC failed.');
+          return;
+        }
+        organisationListState.lastRows = Array.isArray(data) ? data : [];
+        organisationListState.loaded = true;
+        organisationListState.lastIncludeArchived = includeArchived;
+        renderOrganisationList();
+      } catch (e) {
+        container.innerHTML = organisationErrorHtml(e.message || 'Network error.');
+      }
+    }
+
+    function wireOrganisationFilters() {
+      const bar = document.getElementById('organisationFilters');
+      if (!bar) return;
+      bar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill');
+        if (!pill) return;
+        const filterName = pill.dataset.filter;
+        const value = pill.dataset.value;
+        if (!filterName || !value) return;
+        if (organisationListState.filters[filterName] === value) return;
+        organisationListState.filters[filterName] = value;
+        bar.querySelectorAll(`.filter-pill[data-filter="${filterName}"]`).forEach(p => {
+          p.classList.toggle('filter-pill--active', p.dataset.value === value);
+        });
+        // Archive toggle is server-side — refetch. Other filters would be client-side.
+        if (filterName === 'archive') {
+          loadOrganisationList();
+        } else {
+          renderOrganisationList();
+        }
+      });
+    }
+
+    function wireOrganisationSearch() {
+      const input = document.getElementById('organisationSearchInput');
+      if (!input) return;
+      input.addEventListener('input', (e) => {
+        const v = e.target.value;
+        if (organisationListState.searchDebounceTimer) clearTimeout(organisationListState.searchDebounceTimer);
+        organisationListState.searchDebounceTimer = setTimeout(() => {
+          organisationListState.searchQuery = v;
+          renderOrganisationList();
+        }, 250);
+      });
+    }
+
+    // Row click — stubbed via toast until A4-UI-B detail view ships.
+    // When UI-B lands, replace toast with:
+    //   history.pushState({}, '', `?view=organisations&org=${id}`); handleRoute();
+    function wireOrganisationRowClick() {
+      const container = document.getElementById('organisationListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        if (e.target.closest('button')) return;
+        const tr = e.target.closest('tr[data-row-kind="organisation"]');
+        if (!tr) return;
+        if (typeof window.showToast === 'function') {
+          window.showToast('Organisation detail — coming in A4-UI-B');
+        }
+      });
+    }
+
+    // "+ New organisation" — header button and empty-state CTA both stubbed
+    // via toast until A4-UI-C create modal ships.
+    function wireOrganisationCreateBtn() {
+      document.addEventListener('click', (e) => {
+        if (e.target && (e.target.id === 'organisationCreateBtn' || e.target.id === 'organisationCreateEmptyCta')) {
+          if (typeof window.showToast === 'function') {
+            window.showToast('+ New organisation — coming in A4-UI-C');
+          }
+        }
+      });
+    }
+
+    // Clear-filters CTA inside the empty-filtered state.
+    function wireOrganisationClearFilters() {
+      const container = document.getElementById('organisationListContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target && e.target.id === 'organisationClearFiltersBtn') {
+          const wasAll = organisationListState.filters.archive === 'all';
+          organisationListState.searchQuery = '';
+          organisationListState.filters.archive = 'active';
+          const input = document.getElementById('organisationSearchInput');
+          if (input) input.value = '';
+          document.querySelectorAll('#organisationFilters .filter-pill[data-filter="archive"]').forEach(p => {
+            p.classList.toggle('filter-pill--active', p.dataset.value === 'active');
+          });
+          if (wasAll) {
+            loadOrganisationList();
+          } else {
+            renderOrganisationList();
+          }
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireOrganisationFilters();
+      wireOrganisationSearch();
+      wireOrganisationRowClick();
+      wireOrganisationCreateBtn();
+      wireOrganisationClearFilters();
+    });
+
+    // Route hook: load on first visit to the organisations view.
+    const _origHandleRoute_uiA4 = handleRoute;
+    handleRoute = function patchedHandleRouteForOrganisations() {
+      _origHandleRoute_uiA4.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'organisations' && !organisationListState.loaded) {
+        loadOrganisationList();
+      }
+    };
 
 
     // -----------------------------------------------------------
