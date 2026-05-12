@@ -2532,7 +2532,10 @@
     errorEl.textContent = '';
 
     if (!currentPw)          { errorEl.textContent = 'Please enter your current password.'; return; }
-    if (newPw.length < 8)    { errorEl.textContent = 'New password must be at least 8 characters.'; return; }
+    if (newPw.length < 10)    { errorEl.textContent = 'New password must be at least 10 characters.'; return; }
+    if (!/[A-Z]/.test(newPw)) { errorEl.textContent = 'New password must contain at least one uppercase letter.'; return; }
+    if (!/[a-z]/.test(newPw)) { errorEl.textContent = 'New password must contain at least one lowercase letter.'; return; }
+    if (!/[0-9]/.test(newPw)) { errorEl.textContent = 'New password must contain at least one number.'; return; }
     if (newPw === currentPw) { errorEl.textContent = 'New password must differ from current password.'; return; }
     if (newPw !== confirmPw) { errorEl.textContent = 'Passwords do not match.'; return; }
 
@@ -5691,7 +5694,7 @@
       </div>
       <div style="margin-bottom:14px;">
         <label style="display:block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;" for="chpwNew">New password</label>
-        <input type="password" id="chpwNew" autocomplete="new-password" placeholder="At least 8 characters"
+        <input type="password" id="chpwNew" autocomplete="new-password" placeholder="Min 10 chars, upper, lower, number"
           style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);border-radius:4px;padding:9px 12px;color:#fff;font-size:14px;font-family:inherit;">
       </div>
       <div style="margin-bottom:8px;">
