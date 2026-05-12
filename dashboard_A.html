@@ -2604,6 +2604,178 @@
   .support-review-pill--locked        { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
   .support-review-pill--none          { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
 
+  /* ─── A10: Message Moderation ─── */
+  .mod-filter-bar {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 16px 20px 14px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mod-filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .mod-filter-row--actions {
+    justify-content: space-between;
+  }
+  .mod-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1 1 180px;
+  }
+  .mod-filter-field--date { flex: 0 1 148px; }
+  .mod-filter-label {
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  .mod-select,
+  .mod-input {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    padding: 8px 10px;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+  }
+  .mod-select:focus,
+  .mod-input:focus { border-color: rgba(201,168,76,0.5); }
+  .mod-select option { background: #1a1a2e; color: #fff; }
+  .mod-input--date::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
+  .mod-toggle-group { display: flex; gap: 8px; align-items: center; }
+  .mod-toggle {
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: transparent;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .mod-toggle[aria-pressed="true"] {
+    background: rgba(201,168,76,0.15);
+    border-color: rgba(201,168,76,0.5);
+    color: #c9a84c;
+  }
+  .mod-filter-actions { display: flex; gap: 10px; align-items: center; }
+  .mod-prompt {
+    padding: 32px 0;
+    color: rgba(255,255,255,0.4);
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    text-align: center;
+  }
+  .mod-prompt strong { color: rgba(255,255,255,0.65); }
+  .mod-table { width: 100%; border-collapse: collapse; }
+  .mod-table__head { border-bottom: 1px solid rgba(255,255,255,0.10); }
+  .mod-table__head th {
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding: 0 12px 10px;
+    text-align: left;
+    white-space: nowrap;
+  }
+  .mod-table__row {
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.1s;
+  }
+  .mod-table__row:hover { background: rgba(255,255,255,0.03); }
+  .mod-table__row--hidden { opacity: 0.55; }
+  .mod-table__cell {
+    padding: 12px 12px;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.82);
+    vertical-align: top;
+  }
+  .mod-table__cell--body {
+    max-width: 320px;
+    word-break: break-word;
+    line-height: 1.45;
+  }
+  .mod-table__cell--time {
+    white-space: nowrap;
+    color: rgba(255,255,255,0.40);
+    font-size: 12px;
+  }
+  .mod-table__cell--actions { white-space: nowrap; }
+  .mod-pill {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-right: 4px;
+  }
+  .mod-pill--hidden  { background: rgba(220,80,80,0.15);  color: #e08080; border: 1px solid rgba(220,80,80,0.30); }
+  .mod-pill--flagged { background: rgba(217,134,80,0.15); color: #d99e6c; border: 1px solid rgba(217,134,80,0.30); }
+  .mod-action-btn {
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    padding: 4px 11px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    cursor: pointer;
+    margin-right: 6px;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+  .mod-action-btn:hover { background: rgba(255,255,255,0.07); color: #fff; }
+  .mod-action-btn--danger { border-color: rgba(220,80,80,0.35); color: #e08080; }
+  .mod-action-btn--danger:hover { background: rgba(220,80,80,0.12); }
+  .mod-action-btn--restore { border-color: rgba(108,174,132,0.35); color: #8ec9a3; }
+  .mod-action-btn--restore:hover { background: rgba(108,174,132,0.10); }
+  .mod-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 4px;
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+  }
+  .mod-pagination__nav { display: flex; gap: 8px; }
+  .mod-pagination__btn {
+    padding: 5px 14px;
+    border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .mod-pagination__btn:disabled { opacity: 0.3; cursor: default; }
+  .mod-pagination__btn:not(:disabled):hover { background: rgba(255,255,255,0.06); }
+
   </style>
 </head>
 <body>
@@ -2630,6 +2802,7 @@
         <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
         <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
         <li class="nav__item" data-nav="platform-settings"><a href="?view=platform-settings"><span>Platform settings</span></a></li>
+        <li class="nav__item" data-nav="moderation"><a href="?view=moderation"><span>Moderation</span></a></li>
       </ul>
     </aside>
 
@@ -2977,6 +3150,58 @@
           </div>
         </section>
 
+        <!-- A10-UI-A: Message Moderation view -->
+        <section class="view" id="view-moderation" data-view="moderation">
+          <div class="view-header">
+            <div>
+              <div class="view-header__kicker">Content governance</div>
+              <h1 class="view-header__title">Message Moderation</h1>
+              <div class="view-header__sub">Review, hide, and flag messages across all cohorts. Every action is logged to the audit trail.</div>
+            </div>
+          </div>
+
+          <!-- Filter bar -->
+          <div class="mod-filter-bar" id="modFilterBar">
+            <div class="mod-filter-row">
+              <div class="mod-filter-field">
+                <label class="mod-filter-label" for="modCohortSelect">Cohort</label>
+                <select id="modCohortSelect" class="mod-select">
+                  <option value="">All cohorts</option>
+                </select>
+              </div>
+              <div class="mod-filter-field">
+                <label class="mod-filter-label" for="modAuthorInput">Author</label>
+                <input type="search" id="modAuthorInput" class="mod-input" placeholder="Name or email…" autocomplete="off">
+              </div>
+              <div class="mod-filter-field mod-filter-field--date">
+                <label class="mod-filter-label" for="modDateFrom">From</label>
+                <input type="date" id="modDateFrom" class="mod-input mod-input--date">
+              </div>
+              <div class="mod-filter-field mod-filter-field--date">
+                <label class="mod-filter-label" for="modDateTo">To</label>
+                <input type="date" id="modDateTo" class="mod-input mod-input--date">
+              </div>
+            </div>
+            <div class="mod-filter-row mod-filter-row--actions">
+              <div class="mod-toggle-group">
+                <button type="button" class="mod-toggle" id="modFlaggedToggle" aria-pressed="false">Flagged only</button>
+                <button type="button" class="mod-toggle" id="modHiddenToggle" aria-pressed="false">Hidden only</button>
+              </div>
+              <div class="mod-filter-actions">
+                <button type="button" class="btn--ghost" id="modResetBtn">Reset</button>
+                <button type="button" class="btn btn--primary" id="modApplyBtn">Apply</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results container: prompt / skeleton / table / empty / error -->
+          <div id="modContainer">
+            <div class="mod-prompt">
+              <p>Set filters above and click <strong>Apply</strong> to load messages, or click <strong>Apply</strong> with no filters to see all.</p>
+            </div>
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
@@ -3010,7 +3235,7 @@
     // -----------------------------------------------------------
     // Boot — auth + role check, then render
     // -----------------------------------------------------------
-    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support','platform-settings'];
+    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support','platform-settings','moderation'];
     const VIEW_TITLES = {
       cohorts: 'Cohorts',
       users: 'Users',
@@ -3020,7 +3245,8 @@
       health: 'Health',
       activity: 'Activity log',
       support: 'Support',
-      'platform-settings': 'Platform settings'
+      'platform-settings': 'Platform settings',
+      moderation: 'Message moderation'
     };
 
     function showBootMessage(msg) {
@@ -10900,6 +11126,233 @@ sam@gamma.org, Sam Lee, participant,`;
       }
     };
 
+
+    // -----------------------------------------------------------
+    // A10-UI-A: Message Moderation
+    // -----------------------------------------------------------
+    const moderationState = {
+      triggered: false,
+      loading:   false,
+      error:     null,
+      rows:      [],
+      total:     0,
+      page:      0,
+      pageSize:  50,
+      filters: {
+        cohortId:    null,
+        flaggedOnly: false,
+        hiddenOnly:  false,
+        dateFrom:    null,
+        dateTo:      null,
+      },
+      cohortsLoaded: false,
+    };
+
+    function modReadFilters() {
+      moderationState.filters.cohortId    = document.getElementById('modCohortSelect').value || null;
+      moderationState.filters.flaggedOnly = document.getElementById('modFlaggedToggle').getAttribute('aria-pressed') === 'true';
+      moderationState.filters.hiddenOnly  = document.getElementById('modHiddenToggle').getAttribute('aria-pressed') === 'true';
+      moderationState.filters.dateFrom    = document.getElementById('modDateFrom').value  || null;
+      moderationState.filters.dateTo      = document.getElementById('modDateTo').value    || null;
+    }
+
+    function modResetFilters() {
+      document.getElementById('modCohortSelect').value = '';
+      document.getElementById('modAuthorInput').value  = '';
+      document.getElementById('modDateFrom').value     = '';
+      document.getElementById('modDateTo').value       = '';
+      ['modFlaggedToggle','modHiddenToggle'].forEach(id => {
+        document.getElementById(id).setAttribute('aria-pressed','false');
+      });
+      moderationState.filters = { cohortId: null, flaggedOnly: false, hiddenOnly: false, dateFrom: null, dateTo: null };
+      moderationState.triggered = false;
+      moderationState.rows  = [];
+      moderationState.total = 0;
+      moderationState.page  = 0;
+      document.getElementById('modContainer').innerHTML =
+        '<div class="mod-prompt"><p>Set filters above and click <strong>Apply</strong> to load messages, or click <strong>Apply</strong> with no filters to see all.</p></div>';
+    }
+
+    async function modLoadCohorts() {
+      if (moderationState.cohortsLoaded) return;
+      try {
+        const { data, error } = await sb.rpc('get_admin_cohort_list');
+        if (error) throw error;
+        const sel = document.getElementById('modCohortSelect');
+        (data || []).forEach(c => {
+          const opt = document.createElement('option');
+          opt.value       = c.id;
+          opt.textContent = c.name;
+          sel.appendChild(opt);
+        });
+        moderationState.cohortsLoaded = true;
+      } catch(e) {
+        // Non-fatal — cohort filter just stays as free-text
+        console.warn('[A10] cohort list load failed:', e.message);
+      }
+    }
+
+    async function modLoad() {
+      if (moderationState.loading) return;
+      moderationState.loading   = true;
+      moderationState.triggered = true;
+      moderationState.error     = null;
+      const container = document.getElementById('modContainer');
+      container.innerHTML = '<div class="mod-prompt"><p>Loading messages…</p></div>';
+
+      const f = moderationState.filters;
+      try {
+        const { data, error } = await sb.rpc('admin_list_messages', {
+          p_cohort_id:    f.cohortId    || null,
+          p_author_id:    null,
+          p_flagged_only: f.flaggedOnly || false,
+          p_hidden_only:  f.hiddenOnly  || false,
+          p_date_from:    f.dateFrom ? new Date(f.dateFrom).toISOString() : null,
+          p_date_to:      f.dateTo   ? new Date(f.dateTo + 'T23:59:59').toISOString() : null,
+          p_limit:        moderationState.pageSize,
+          p_offset:       moderationState.page * moderationState.pageSize,
+        });
+        if (error) throw error;
+        moderationState.rows  = data || [];
+        moderationState.total = data && data.length > 0 ? Number(data[0].total_count) : 0;
+        renderModTable();
+      } catch(e) {
+        moderationState.error = e.message || 'RPC failed.';
+        container.innerHTML = `<div class="error-state"><div class="error-state__icon">!</div><div class="error-state__body">${escapeHtml(moderationState.error)}</div></div>`;
+      } finally {
+        moderationState.loading = false;
+      }
+    }
+
+    function renderModTable() {
+      const container = document.getElementById('modContainer');
+      const rows  = moderationState.rows;
+      const total = moderationState.total;
+      const page  = moderationState.page;
+      const size  = moderationState.pageSize;
+
+      if (rows.length === 0) {
+        container.innerHTML = '<div class="mod-prompt"><p>No messages match the current filters.</p></div>';
+        return;
+      }
+
+      const from = page * size + 1;
+      const to   = Math.min(page * size + rows.length, total);
+
+      const rowsHtml = rows.map(r => {
+        const isHidden  = !!r.hidden_at;
+        const isFlagged = !!r.flagged_at;
+        const statusHtml = [
+          isHidden  ? '<span class="mod-pill mod-pill--hidden">Hidden</span>'  : '',
+          isFlagged ? '<span class="mod-pill mod-pill--flagged">Flagged</span>' : '',
+        ].join('');
+
+        const hideBtnHtml = isHidden
+          ? `<button type="button" class="mod-action-btn mod-action-btn--restore" data-action="unhide" data-id="${escapeHtml(r.id)}">Unhide</button>`
+          : `<button type="button" class="mod-action-btn mod-action-btn--danger"  data-action="hide"   data-id="${escapeHtml(r.id)}">Hide</button>`;
+
+        const flagBtnHtml = isFlagged
+          ? `<button type="button" class="mod-action-btn mod-action-btn--restore" data-action="unflag" data-id="${escapeHtml(r.id)}">Unflag</button>`
+          : `<button type="button" class="mod-action-btn" data-action="flag" data-id="${escapeHtml(r.id)}">Flag</button>`;
+
+        const sent = r.created_at ? new Date(r.created_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
+
+        return `<tr class="mod-table__row${isHidden ? ' mod-table__row--hidden' : ''}">
+          <td class="mod-table__cell">${escapeHtml(r.author_name || '—')}</td>
+          <td class="mod-table__cell">${escapeHtml(r.author_role || '—')}</td>
+          <td class="mod-table__cell">${escapeHtml(r.cohort_name || '—')}</td>
+          <td class="mod-table__cell mod-table__cell--body">${escapeHtml((r.body || '').substring(0, 120))}${(r.body || '').length > 120 ? '…' : ''}</td>
+          <td class="mod-table__cell">${statusHtml || '<span style="color:rgba(255,255,255,0.25)">—</span>'}</td>
+          <td class="mod-table__cell mod-table__cell--time">${sent}</td>
+          <td class="mod-table__cell mod-table__cell--actions">${hideBtnHtml}${flagBtnHtml}</td>
+        </tr>`;
+      }).join('');
+
+      container.innerHTML = `
+        <table class="mod-table">
+          <thead class="mod-table__head">
+            <tr>
+              <th>Author</th>
+              <th>Role</th>
+              <th>Cohort</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Sent</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        <div class="mod-pagination">
+          <span class="mod-pagination__summary">Showing ${from}–${to} of ${total} message${total !== 1 ? 's' : ''}</span>
+          <div class="mod-pagination__nav">
+            <button type="button" class="mod-pagination__btn" id="modPrevBtn" ${page === 0 ? 'disabled' : ''}>← Prev</button>
+            <button type="button" class="mod-pagination__btn" id="modNextBtn" ${to >= total ? 'disabled' : ''}>Next →</button>
+          </div>
+        </div>`;
+
+      // Pagination
+      const prevBtn = document.getElementById('modPrevBtn');
+      const nextBtn = document.getElementById('modNextBtn');
+      if (prevBtn) prevBtn.addEventListener('click', () => { moderationState.page--; modLoad(); });
+      if (nextBtn) nextBtn.addEventListener('click', () => { moderationState.page++; modLoad(); });
+
+      // Action buttons
+      container.querySelectorAll('[data-action]').forEach(btn => {
+        btn.addEventListener('click', () => modHandleAction(btn.dataset.action, btn.dataset.id));
+      });
+    }
+
+    async function modHandleAction(action, messageId) {
+      const labels = {
+        hide:   { title: 'Hide message?',   body: 'The message will be hidden from participants and facilitators. The content is preserved for audit. This can be undone.', confirm: 'Hide', rpc: 'admin_hide_message' },
+        unhide: { title: 'Unhide message?', body: 'The message will become visible again to all parties in the thread.',                                                    confirm: 'Unhide', rpc: 'admin_unhide_message' },
+        flag:   { title: 'Flag message?',   body: 'The message will be marked as flagged for conduct review. This does not hide it.',                                       confirm: 'Flag',  rpc: 'admin_flag_message' },
+        unflag: { title: 'Unflag message?', body: 'The flag will be removed from this message.',                                                                            confirm: 'Unflag', rpc: 'admin_unflag_message' },
+      };
+      const cfg = labels[action];
+      if (!cfg) return;
+
+      showConfirmModal(cfg.title, cfg.body, cfg.confirm, async () => {
+        try {
+          const { error } = await sb.rpc(cfg.rpc, { p_message_id: messageId });
+          if (error) throw error;
+          showToast(`${cfg.confirm}d successfully.`, 2500);
+          modLoad();
+        } catch(e) {
+          showToast('Action failed: ' + (e.message || 'unknown error'), 3500);
+        }
+      });
+    }
+
+    function wireModeration() {
+      modLoadCohorts();
+
+      document.getElementById('modApplyBtn').addEventListener('click', () => {
+        modReadFilters();
+        moderationState.page = 0;
+        modLoad();
+      });
+
+      document.getElementById('modResetBtn').addEventListener('click', modResetFilters);
+
+      ['modFlaggedToggle','modHiddenToggle'].forEach(id => {
+        document.getElementById(id).addEventListener('click', function() {
+          const pressed = this.getAttribute('aria-pressed') === 'true';
+          this.setAttribute('aria-pressed', String(!pressed));
+        });
+      });
+    }
+
+    // Route hook for A10-UI-A
+    const _origHandleRoute_uiA10 = handleRoute;
+    handleRoute = function patchedHandleRouteForModeration() {
+      _origHandleRoute_uiA10.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'moderation') {
+        wireModeration();
+      }
+    };
 
     // -----------------------------------------------------------
     // Boot
