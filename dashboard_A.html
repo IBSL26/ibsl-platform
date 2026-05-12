@@ -10593,15 +10593,17 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
       `;
 
-      // Trusted devices section
+      // Trusted devices section — P4-2: revoke per-device + revoke all
       const devicesCount = counts.trusted_devices_total != null ? counts.trusted_devices_total : devices.length;
       const devicesCountLabel = `${devicesCount} device${devicesCount === 1 ? '' : 's'}`;
+      const hasTrustedDevices = devices.some(d => d.status !== 'revoked');
+      const targetUserId = escapeHtml(id.profile_id || '');
       const devicesBody = devices.length === 0
         ? `<div class="support-empty-inline">No trusted devices registered.</div>`
         : `<div class="cohort-table-wrap">
              <table class="cohort-table">
                <thead><tr>
-                 <th>Device</th><th>Status</th><th>Created</th><th>Last used</th>
+                 <th>Device</th><th>Status</th><th>Created</th><th>Last used</th><th></th>
                </tr></thead>
                <tbody>
                  ${devices.map(d => `
@@ -10613,6 +10615,15 @@ sam@gamma.org, Sam Lee, participant,`;
                      <td>${supportReviewPillHtml(d.status)}</td>
                      <td class="cell-secondary">${escapeHtml(fmtRelative(d.created_at))}</td>
                      <td class="cell-secondary">${escapeHtml(fmtRelative(d.last_used_at))}</td>
+                     <td style="white-space:nowrap;">${d.status !== 'revoked'
+                       ? `<button type="button" class="btn btn--danger"
+                              style="font-size:12px;padding:4px 10px;"
+                              data-action="revoke-device"
+                              data-device-id="${escapeHtml(d.id)}"
+                              data-device-label="${escapeHtml(d.device_label || '(no label)')}"
+                              data-user-id="${targetUserId}">Revoke</button>`
+                       : `<span style="color:rgba(255,255,255,0.3);font-size:12px;">—</span>`
+                     }</td>
                    </tr>
                  `).join('')}
                </tbody>
@@ -10622,7 +10633,15 @@ sam@gamma.org, Sam Lee, participant,`;
         <div class="detail-card">
           <div class="detail-card__head">
             <div class="detail-card__title">Trusted devices</div>
-            <div class="detail-card__count">${escapeHtml(devicesCountLabel)}</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="detail-card__count">${escapeHtml(devicesCountLabel)}</div>
+              ${hasTrustedDevices
+                ? `<button type="button" class="btn btn--danger"
+                       style="font-size:12px;padding:4px 12px;"
+                       data-action="revoke-all-devices"
+                       data-user-id="${targetUserId}">Revoke all</button>`
+                : ''}
+            </div>
           </div>
           ${devicesBody}
         </div>
@@ -10765,6 +10784,140 @@ sam@gamma.org, Sam Lee, participant,`;
         handleRoute();
       });
     }
+
+    // ── P4-2: Device revoke modal ─────────────────────────────────────
+    const deviceRevokeModalState = {
+      mode:        null,   // 'single' | 'all'
+      deviceId:    null,
+      deviceLabel: null,
+      userId:      null,
+      busy:        false,
+    };
+
+    function openDeviceRevokeModal(mode, deviceId, deviceLabel, userId) {
+      deviceRevokeModalState.mode        = mode;
+      deviceRevokeModalState.deviceId    = deviceId;
+      deviceRevokeModalState.deviceLabel = deviceLabel;
+      deviceRevokeModalState.userId      = userId;
+      deviceRevokeModalState.busy        = false;
+      const modal = document.getElementById('deviceRevokeModal');
+      const bodyEl = document.getElementById('deviceRevokeModalBody');
+      const confirmBtn = document.getElementById('deviceRevokeConfirmBtn');
+      if (!modal || !bodyEl || !confirmBtn) return;
+      if (mode === 'single') {
+        bodyEl.innerHTML =
+          `<p style="margin:0 0 14px;color:rgba(255,255,255,0.82);font-size:14px;line-height:1.55;">` +
+          `Revoking <strong>${escapeHtml(deviceLabel)}</strong> will immediately invalidate this device's ` +
+          `trusted status. The user will need to complete the device confirmation flow again on next sign-in.` +
+          `</p>` +
+          `<p style="margin:0 0 8px;color:rgba(255,255,255,0.55);font-size:12px;">` +
+          `This action is logged to the activity log.` +
+          `</p>`;
+        confirmBtn.textContent = 'Revoke device';
+      } else {
+        bodyEl.innerHTML =
+          `<p style="margin:0 0 14px;color:rgba(255,255,255,0.82);font-size:14px;line-height:1.55;">` +
+          `Revoking all trusted devices will immediately invalidate every registered device for this user. ` +
+          `They will need to complete the device confirmation flow again on next sign-in on each device.` +
+          `</p>` +
+          `<p style="margin:0 0 8px;color:rgba(255,255,255,0.55);font-size:12px;">` +
+          `This action is logged to the activity log.` +
+          `</p>`;
+        confirmBtn.textContent = 'Revoke all devices';
+      }
+      confirmBtn.disabled = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('modal-backdrop--shown');
+    }
+
+    function closeDeviceRevokeModal() {
+      const modal = document.getElementById('deviceRevokeModal');
+      if (!modal) return;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('modal-backdrop--shown');
+    }
+
+    async function confirmDeviceRevoke() {
+      if (deviceRevokeModalState.busy) return;
+      deviceRevokeModalState.busy = true;
+      const confirmBtn = document.getElementById('deviceRevokeConfirmBtn');
+      const cancelBtn  = document.getElementById('deviceRevokeCancelBtn');
+      if (confirmBtn) confirmBtn.disabled = true;
+      if (cancelBtn)  cancelBtn.disabled  = true;
+      try {
+        let result, error;
+        if (deviceRevokeModalState.mode === 'single') {
+          ({ data: result, error } = await sb.rpc('admin_revoke_device', {
+            p_device_id:      deviceRevokeModalState.deviceId,
+            p_target_user_id: deviceRevokeModalState.userId,
+          }));
+        } else {
+          ({ data: result, error } = await sb.rpc('admin_revoke_all_devices', {
+            p_target_user_id: deviceRevokeModalState.userId,
+          }));
+        }
+        closeDeviceRevokeModal();
+        if (error) {
+          window.showToast('Revoke failed: ' + (error.message || 'Unknown error'));
+          return;
+        }
+        if (result && result.ok === false) {
+          window.showToast(result.error === 'already_revoked' ? 'Device is already revoked.' : 'Revoke failed.');
+          return;
+        }
+        const msg = deviceRevokeModalState.mode === 'single'
+          ? `Device "${deviceRevokeModalState.deviceLabel}" revoked.`
+          : `${result && result.revoked_count != null ? result.revoked_count : 'All'} device(s) revoked.`;
+        window.showToast(msg);
+        // Refresh panel to reflect new status
+        supportPanelState.loaded = false;
+        loadSupportPanel(deviceRevokeModalState.userId);
+      } catch (e) {
+        closeDeviceRevokeModal();
+        window.showToast('Revoke failed: ' + (e && e.message ? e.message : 'Unknown error'));
+      } finally {
+        deviceRevokeModalState.busy = false;
+        if (confirmBtn) confirmBtn.disabled = false;
+        if (cancelBtn)  cancelBtn.disabled  = false;
+      }
+    }
+
+    // Event delegation for revoke buttons rendered inside support panel
+    document.addEventListener('click', function onDeviceRevokeClick(e) {
+      const btn = e.target.closest('[data-action="revoke-device"]');
+      if (btn) {
+        openDeviceRevokeModal(
+          'single',
+          btn.dataset.deviceId,
+          btn.dataset.deviceLabel,
+          btn.dataset.userId
+        );
+        return;
+      }
+      const allBtn = e.target.closest('[data-action="revoke-all-devices"]');
+      if (allBtn) {
+        openDeviceRevokeModal('all', null, null, allBtn.dataset.userId);
+      }
+    });
+
+    // Wire modal close + confirm buttons (done once at load)
+    document.addEventListener('DOMContentLoaded', function wireDeviceRevokeModal() {
+      const modal      = document.getElementById('deviceRevokeModal');
+      const closeBtn   = document.getElementById('deviceRevokeCloseBtn');
+      const cancelBtn  = document.getElementById('deviceRevokeCancelBtn');
+      const confirmBtn = document.getElementById('deviceRevokeConfirmBtn');
+      if (closeBtn)   closeBtn.addEventListener('click',   closeDeviceRevokeModal);
+      if (cancelBtn)  cancelBtn.addEventListener('click',  closeDeviceRevokeModal);
+      if (confirmBtn) confirmBtn.addEventListener('click', confirmDeviceRevoke);
+      if (modal) {
+        modal.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+            closeDeviceRevokeModal();
+          }
+        });
+      }
+    });
+    // ── end P4-2 device revoke ────────────────────────────────────────
 
     async function loadSupportPanel(userId) {
       const myToken = ++supportPanelState.inflightToken;
@@ -11459,6 +11612,21 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" id="organisationEditModalBody">
           <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- P4-2: Device revoke confirmation modal -->
+    <div class="modal-backdrop" id="deviceRevokeModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog" style="width:480px;">
+        <div class="modal-head">
+          <div class="modal-title">Revoke trusted device?</div>
+          <button type="button" class="modal-close" id="deviceRevokeCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;" id="deviceRevokeModalBody"></div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" id="deviceRevokeCancelBtn">Cancel</button>
+          <button type="button" class="btn btn--danger" id="deviceRevokeConfirmBtn">Revoke device</button>
         </div>
       </div>
     </div>
