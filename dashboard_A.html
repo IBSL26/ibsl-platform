@@ -2265,6 +2265,230 @@
     font-family: var(--font-sans);
   }
 
+  /* ─── A7: Activity log viewer ─── */
+  .activity-filter-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) auto;
+    gap: 14px;
+    align-items: end;
+    padding: 20px 22px;
+    background: rgba(34,71,47,0.30);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    margin-bottom: 22px;
+  }
+  .activity-filter-bar__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+  }
+  .activity-filter-bar__label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+  }
+  .activity-input {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    background: var(--charcoal);
+    color: var(--white);
+    border: 1px solid var(--border-default);
+    border-radius: 2px;
+    padding: 9px 11px;
+    width: 100%;
+    cursor: pointer;
+  }
+  .activity-input:focus {
+    outline: none;
+    border-color: var(--gold);
+  }
+  .activity-input::-webkit-calendar-picker-indicator {
+    filter: invert(0.7);
+    cursor: pointer;
+  }
+  .activity-filter-bar__actions {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+  }
+  .activity-filter-bar__actions .btn {
+    padding: 11px 18px;
+  }
+  .btn--secondary {
+    background: transparent;
+    color: var(--white);
+    border-color: var(--border-default);
+  }
+  .btn--secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .activity-table {
+    background: rgba(34,71,47,0.20);
+    border: 1px solid var(--border-subtle);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .activity-table__head {
+    display: grid;
+    grid-template-columns: 130px 1fr 200px 200px 40px;
+    gap: 16px;
+    padding: 14px 22px;
+    background: rgba(0,0,0,0.20);
+    border-bottom: 1px solid var(--border-subtle);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .activity-table__row {
+    display: grid;
+    grid-template-columns: 130px 1fr 200px 200px 40px;
+    gap: 16px;
+    padding: 13px 22px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    align-items: baseline;
+  }
+  .activity-table__row:last-of-type {
+    border-bottom: 0;
+  }
+  .activity-table__row--expanded {
+    background: rgba(201,168,76,0.04);
+  }
+  .activity-table__cell {
+    overflow-wrap: break-word;
+    word-break: break-word;
+    min-width: 0;
+  }
+  .activity-table__cell--time {
+    color: rgba(255,255,255,0.55);
+    font-size: 12px;
+  }
+  .activity-table__cell--actor,
+  .activity-table__cell--cohort {
+    color: rgba(255,255,255,0.75);
+    font-size: 12px;
+  }
+  .activity-table__raw-type {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.40);
+    font-family: 'Courier New', Consolas, monospace;
+    letter-spacing: 0.5px;
+  }
+  .activity-row__expand-btn {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--gold);
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    align-self: start;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .activity-row__expand-btn:hover {
+    background: rgba(201,168,76,0.08);
+    border-color: var(--gold);
+  }
+  .activity-row__detail {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .activity-row__detail-pre {
+    font-family: 'Courier New', Consolas, monospace;
+    font-size: 12px;
+    color: rgba(255,255,255,0.80);
+    background: rgba(0,0,0,0.30);
+    border: 1px solid var(--border-subtle);
+    border-radius: 2px;
+    padding: 14px 16px;
+    white-space: pre;
+    overflow-x: auto;
+    margin: 0;
+  }
+
+  #activityPagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 4px 0;
+    border-top: 1px solid var(--border-subtle);
+    margin-top: 18px;
+  }
+  .activity-pagination__summary {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
+  }
+  .activity-pagination__nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .activity-pagination__btn {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--white);
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 8px 14px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .activity-pagination__btn:hover:not(:disabled) {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .activity-pagination__btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .activity-pagination__pageinfo {
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .activity-filter-bar {
+      grid-template-columns: 1fr 1fr;
+    }
+    .activity-filter-bar__actions {
+      grid-column: 1 / -1;
+      justify-content: flex-end;
+    }
+    .activity-table__head,
+    .activity-table__row {
+      grid-template-columns: 100px 1fr 40px;
+    }
+    .activity-table__head > :nth-child(3),
+    .activity-table__head > :nth-child(4),
+    .activity-table__row > :nth-child(3),
+    .activity-table__row > :nth-child(4) {
+      display: none;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -2537,15 +2761,58 @@
           </div>
         </section>
 
+        <!-- A7: Activity log viewer -->
         <section class="view" id="view-activity" data-view="activity">
           <div class="view-header">
-            <div><div class="view-header__kicker">Audit trail</div>
-              <h1 class="view-header__title">Activity log</h1></div>
+            <div>
+              <div class="view-header__kicker">Audit trail</div>
+              <h1 class="view-header__title">Activity log</h1>
+              <div class="view-header__sub">Filterable, exportable record of every event in the platform.</div>
+            </div>
+            <div>
+              <button type="button" class="btn btn--primary" id="activityExportBtn">Export CSV</button>
+            </div>
           </div>
-          <div class="stub">
-            <div class="stub__title">Activity log viewer — coming soon</div>
-            <div class="stub__sub">Filterable, exportable audit trail</div>
-            <div class="stub__cluster">CLUSTER A7</div>
+
+          <div class="activity-filter-bar">
+            <div class="activity-filter-bar__field">
+              <label class="activity-filter-bar__label" for="activityFilterDateFrom">From</label>
+              <input type="date" class="activity-input" id="activityFilterDateFrom">
+            </div>
+            <div class="activity-filter-bar__field">
+              <label class="activity-filter-bar__label" for="activityFilterDateTo">To</label>
+              <input type="date" class="activity-input" id="activityFilterDateTo">
+            </div>
+            <div class="activity-filter-bar__field">
+              <label class="activity-filter-bar__label" for="activityFilterEventType">Event type</label>
+              <select class="activity-input" id="activityFilterEventType">
+                <option value="">All event types</option>
+              </select>
+            </div>
+            <div class="activity-filter-bar__field">
+              <label class="activity-filter-bar__label" for="activityFilterActor">Actor</label>
+              <select class="activity-input" id="activityFilterActor">
+                <option value="">All actors</option>
+              </select>
+            </div>
+            <div class="activity-filter-bar__field">
+              <label class="activity-filter-bar__label" for="activityFilterCohort">Cohort</label>
+              <select class="activity-input" id="activityFilterCohort">
+                <option value="">All cohorts</option>
+              </select>
+            </div>
+            <div class="activity-filter-bar__actions">
+              <button type="button" class="btn btn--secondary" id="activityResetBtn">Reset</button>
+              <button type="button" class="btn btn--primary" id="activityApplyBtn">Apply</button>
+            </div>
+          </div>
+
+          <div id="activityListContainer">
+            <!-- Skeleton / table / empty / error rendered here by JS -->
+          </div>
+
+          <div id="activityPagination" style="display:none;">
+            <!-- Pagination footer rendered here by JS -->
           </div>
         </section>
 
@@ -9102,6 +9369,449 @@ sam@gamma.org, Sam Lee, participant,`;
         startPlatformHealthAutoRefresh();
       } else {
         stopPlatformHealthAutoRefresh();
+      }
+    };
+
+
+    // ===========================================================
+    // A7: Activity log viewer — state, loader, renderer, filters,
+    // pagination, CSV export.
+    // Calls admin_list_activity_log (paginated) and
+    // admin_export_activity_log (unpaginated, 10k cap).
+    // ===========================================================
+    const activityListState = {
+      loaded: false,
+      loading: false,
+      rows: [],
+      totalCount: 0,
+      error: null,
+      filters: {
+        dateFrom:  null,
+        dateTo:    null,
+        eventType: null,
+        actorId:   null,
+        cohortId:  null,
+      },
+      pagination: {
+        pageSize:    50,
+        currentPage: 1,
+      },
+      expandedRowId: null,
+      actorOptions:  [],
+      cohortOptions: [],
+      dropdownsLoaded: false,
+    };
+
+    // Populate event type dropdown from PLATFORM_EVENT_LABELS (44 known
+    // events). Unknown types in the data fall back to title-case at
+    // render time but aren't filterable from the dropdown — acceptable
+    // limitation, can revisit if needed.
+    function populateActivityEventTypeDropdown() {
+      const select = document.getElementById('activityFilterEventType');
+      if (!select) return;
+      while (select.options.length > 1) select.remove(1);
+      const entries = Object.entries(PLATFORM_EVENT_LABELS)
+        .map(([value, label]) => ({ value, label }))
+        .sort((a, b) => a.label.localeCompare(b.label));
+      entries.forEach(({value, label}) => {
+        const opt = document.createElement('option');
+        opt.value = value;
+        opt.textContent = label;
+        select.appendChild(opt);
+      });
+    }
+
+    // Load actor + cohort dropdowns once. Cached for the session.
+    async function loadActivityDropdowns() {
+      if (activityListState.dropdownsLoaded) return;
+      try {
+        const { data: profiles, error: pErr } = await sb
+          .from('profiles')
+          .select('id, full_name, email, role')
+          .order('full_name', { ascending: true });
+        if (pErr) throw pErr;
+        activityListState.actorOptions = profiles || [];
+
+        const { data: cohorts, error: cErr } = await sb
+          .from('cohorts')
+          .select('id, name, archived_at')
+          .order('name', { ascending: true });
+        if (cErr) throw cErr;
+        activityListState.cohortOptions = cohorts || [];
+
+        activityListState.dropdownsLoaded = true;
+        renderActivityDropdownOptions();
+      } catch (e) {
+        // Non-fatal: table still works without populated dropdowns.
+        // eslint-disable-next-line no-console
+        console.error('Dropdown population failed:', e);
+      }
+    }
+
+    function renderActivityDropdownOptions() {
+      const actorSelect = document.getElementById('activityFilterActor');
+      if (actorSelect) {
+        while (actorSelect.options.length > 1) actorSelect.remove(1);
+        activityListState.actorOptions.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          const roleLabel = p.role ? ' (' + p.role + ')' : '';
+          opt.textContent = (p.full_name || p.email || '—') + roleLabel;
+          actorSelect.appendChild(opt);
+        });
+      }
+      const cohortSelect = document.getElementById('activityFilterCohort');
+      if (cohortSelect) {
+        while (cohortSelect.options.length > 1) cohortSelect.remove(1);
+        activityListState.cohortOptions.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.id;
+          const archivedTag = c.archived_at ? ' (archived)' : '';
+          opt.textContent = c.name + archivedTag;
+          cohortSelect.appendChild(opt);
+        });
+      }
+    }
+
+    // Read DOM filter inputs into state, converting date strings to
+    // ISO timestamps. Date semantics: "from" = midnight start-of-day,
+    // "to" = midnight of next day (exclusive). Both in local time.
+    function readActivityFilters() {
+      const dateFromInput = document.getElementById('activityFilterDateFrom').value;
+      const dateToInput   = document.getElementById('activityFilterDateTo').value;
+      const eventType     = document.getElementById('activityFilterEventType').value;
+      const actorId       = document.getElementById('activityFilterActor').value;
+      const cohortId      = document.getElementById('activityFilterCohort').value;
+
+      let dateFromIso = null;
+      if (dateFromInput) {
+        const d = new Date(dateFromInput + 'T00:00:00');
+        if (!isNaN(d.getTime())) dateFromIso = d.toISOString();
+      }
+      let dateToIso = null;
+      if (dateToInput) {
+        const d = new Date(dateToInput + 'T00:00:00');
+        if (!isNaN(d.getTime())) {
+          d.setDate(d.getDate() + 1);
+          dateToIso = d.toISOString();
+        }
+      }
+
+      activityListState.filters = {
+        dateFrom:  dateFromIso,
+        dateTo:    dateToIso,
+        eventType: eventType || null,
+        actorId:   actorId   || null,
+        cohortId:  cohortId  || null,
+      };
+    }
+
+    async function loadActivityList() {
+      activityListState.loading = true;
+      const applyBtn = document.getElementById('activityApplyBtn');
+      if (applyBtn) applyBtn.disabled = true;
+      renderActivityList();
+      try {
+        const f = activityListState.filters;
+        const offset = (activityListState.pagination.currentPage - 1) * activityListState.pagination.pageSize;
+        const { data, error } = await sb.rpc('admin_list_activity_log', {
+          p_date_from:  f.dateFrom,
+          p_date_to:    f.dateTo,
+          p_event_type: f.eventType,
+          p_actor_id:   f.actorId,
+          p_cohort_id:  f.cohortId,
+          p_limit:      activityListState.pagination.pageSize,
+          p_offset:     offset,
+        });
+        if (error) {
+          activityListState.error = error.message || 'List fetch failed.';
+          activityListState.rows = [];
+          activityListState.totalCount = 0;
+        } else {
+          activityListState.rows = data || [];
+          activityListState.totalCount = (data && data.length > 0)
+            ? Number(data[0].total_count)
+            : 0;
+          activityListState.error = null;
+          activityListState.loaded = true;
+        }
+      } catch (e) {
+        activityListState.error = e.message || 'Network error.';
+        activityListState.rows = [];
+        activityListState.totalCount = 0;
+      } finally {
+        activityListState.loading = false;
+        if (applyBtn) applyBtn.disabled = false;
+        renderActivityList();
+        renderActivityPagination();
+      }
+    }
+
+    function renderActivityRowHtml(ev) {
+      const timeAgo = fmtRelative(ev.created_at);
+      const absTime = new Date(ev.created_at).toLocaleString('en-GB', {
+        day: '2-digit', month: 'short', year: 'numeric',
+        hour: '2-digit', minute: '2-digit', second: '2-digit',
+      });
+      const eventLabel = platformEventLabel(ev.event_type);
+      const actor  = ev.actor_name || ev.actor_email || '—';
+      const cohort = ev.cohort_name || '—';
+      const expanded = activityListState.expandedRowId === ev.id;
+      const detailJson = JSON.stringify(ev.event_detail || {}, null, 2);
+      return `
+        <div class="activity-table__row${expanded ? ' activity-table__row--expanded' : ''}" data-id="${escapeHtml(ev.id)}">
+          <span class="activity-table__cell activity-table__cell--time" title="${escapeHtml(absTime)}">${escapeHtml(timeAgo)}</span>
+          <span class="activity-table__cell">${escapeHtml(eventLabel)}<span class="activity-table__raw-type">${escapeHtml(ev.event_type)}</span></span>
+          <span class="activity-table__cell activity-table__cell--actor">${escapeHtml(actor)}</span>
+          <span class="activity-table__cell activity-table__cell--cohort">${escapeHtml(cohort)}</span>
+          <button type="button" class="activity-row__expand-btn" data-action="toggle-row" data-id="${escapeHtml(ev.id)}" aria-label="Toggle details">${expanded ? '⌃' : '⌄'}</button>
+          ${expanded ? '<div class="activity-row__detail"><pre class="activity-row__detail-pre">' + escapeHtml(detailJson) + '</pre></div>' : ''}
+        </div>
+      `;
+    }
+
+    function renderActivityList() {
+      const container = document.getElementById('activityListContainer');
+      if (!container) return;
+
+      if (activityListState.error) {
+        container.innerHTML = `
+          <div class="error-state">
+            <div class="error-state__title">Could not load activity log</div>
+            <div class="error-state__body">${escapeHtml(activityListState.error)}</div>
+          </div>
+        `;
+        return;
+      }
+
+      if (activityListState.loading && !activityListState.loaded) {
+        container.innerHTML = '<div class="skeleton-bar" style="width:100%;height:480px;"></div>';
+        return;
+      }
+
+      if (activityListState.rows.length === 0 && activityListState.loaded) {
+        container.innerHTML = `
+          <div class="detail-card" style="text-align:center;padding:48px 24px;">
+            <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.7;">
+              No events match these filters.<br>
+              <button type="button" class="btn btn--secondary" data-action="reset-filters" style="margin-top:16px;">Reset filters</button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const rows = activityListState.rows.map(renderActivityRowHtml).join('');
+      container.innerHTML = `
+        <div class="activity-table">
+          <div class="activity-table__head">
+            <span>Time</span>
+            <span>Event</span>
+            <span>Actor</span>
+            <span>Cohort</span>
+            <span></span>
+          </div>
+          ${rows}
+        </div>
+      `;
+    }
+
+    function renderActivityPagination() {
+      const container = document.getElementById('activityPagination');
+      if (!container) return;
+      const total    = activityListState.totalCount;
+      const pageSize = activityListState.pagination.pageSize;
+      const current  = activityListState.pagination.currentPage;
+      if (total === 0) {
+        container.style.display = 'none';
+        return;
+      }
+      container.style.display = 'flex';
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      const start = (current - 1) * pageSize + 1;
+      const end   = Math.min(current * pageSize, total);
+      const prevDisabled = current <= 1;
+      const nextDisabled = current >= totalPages;
+      container.innerHTML = `
+        <div class="activity-pagination__summary">Showing ${start}–${end} of ${total}</div>
+        <div class="activity-pagination__nav">
+          <button type="button" class="activity-pagination__btn" data-action="prev-page"${prevDisabled ? ' disabled' : ''}>‹ Prev</button>
+          <span class="activity-pagination__pageinfo">Page ${current} of ${totalPages}</span>
+          <button type="button" class="activity-pagination__btn" data-action="next-page"${nextDisabled ? ' disabled' : ''}>Next ›</button>
+        </div>
+      `;
+    }
+
+    function applyActivityFilters() {
+      readActivityFilters();
+      activityListState.pagination.currentPage = 1;
+      activityListState.expandedRowId = null;
+      loadActivityList();
+    }
+
+    function resetActivityFilters() {
+      const dateFrom  = document.getElementById('activityFilterDateFrom');
+      const dateTo    = document.getElementById('activityFilterDateTo');
+      const eventType = document.getElementById('activityFilterEventType');
+      const actor     = document.getElementById('activityFilterActor');
+      const cohort    = document.getElementById('activityFilterCohort');
+      if (dateFrom)  dateFrom.value  = '';
+      if (dateTo)    dateTo.value    = '';
+      if (eventType) eventType.value = '';
+      if (actor)     actor.value     = '';
+      if (cohort)    cohort.value    = '';
+      activityListState.filters = {
+        dateFrom: null, dateTo: null, eventType: null, actorId: null, cohortId: null,
+      };
+      activityListState.pagination.currentPage = 1;
+      activityListState.expandedRowId = null;
+      loadActivityList();
+    }
+
+    // RFC 4180-ish CSV field escaper.
+    function csvEscape(value) {
+      if (value === null || value === undefined) return '';
+      const s = String(value);
+      if (s.indexOf(',') !== -1 || s.indexOf('"') !== -1 || s.indexOf('\n') !== -1 || s.indexOf('\r') !== -1) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }
+
+    async function exportActivityCsv() {
+      const exportBtn = document.getElementById('activityExportBtn');
+      if (exportBtn) {
+        exportBtn.disabled = true;
+        exportBtn.textContent = 'Exporting…';
+      }
+      try {
+        readActivityFilters();
+        const f = activityListState.filters;
+        const { data, error } = await sb.rpc('admin_export_activity_log', {
+          p_date_from:  f.dateFrom,
+          p_date_to:    f.dateTo,
+          p_event_type: f.eventType,
+          p_actor_id:   f.actorId,
+          p_cohort_id:  f.cohortId,
+        });
+        if (error) {
+          window.showToast(error.message || 'Export failed.');
+          return;
+        }
+        const rows = data || [];
+        if (rows.length === 0) {
+          window.showToast('No events to export with current filters.');
+          return;
+        }
+        if (rows.length >= 10000) {
+          window.showToast('Export capped at 10,000 rows. Narrow your filters to see more.', 7000);
+        }
+        const headers = ['timestamp','event_type','event_label','actor_name','actor_email','cohort_name','event_detail_json'];
+        const csvLines = [headers.join(',')];
+        rows.forEach(r => {
+          const line = [
+            csvEscape(r.created_at),
+            csvEscape(r.event_type),
+            csvEscape(platformEventLabel(r.event_type)),
+            csvEscape(r.actor_name),
+            csvEscape(r.actor_email),
+            csvEscape(r.cohort_name),
+            csvEscape(JSON.stringify(r.event_detail || {})),
+          ].join(',');
+          csvLines.push(line);
+        });
+        // UTF-8 BOM for Excel compatibility
+        const csvContent = '\ufeff' + csvLines.join('\r\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const now = new Date();
+        const pad = (n) => String(n).padStart(2, '0');
+        const filename = 's2r_activity_log_'
+          + now.getFullYear() + pad(now.getMonth() + 1) + pad(now.getDate())
+          + '_' + pad(now.getHours()) + pad(now.getMinutes()) + pad(now.getSeconds())
+          + '.csv';
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 100);
+        window.showToast('Exported ' + rows.length + ' row' + (rows.length === 1 ? '' : 's') + ' to ' + filename, 5000);
+      } catch (e) {
+        window.showToast(e.message || 'Network error during export.');
+      } finally {
+        if (exportBtn) {
+          exportBtn.disabled = false;
+          exportBtn.textContent = 'Export CSV';
+        }
+      }
+    }
+
+    function wireActivityView() {
+      const applyBtn  = document.getElementById('activityApplyBtn');
+      const resetBtn  = document.getElementById('activityResetBtn');
+      const exportBtn = document.getElementById('activityExportBtn');
+      if (applyBtn)  applyBtn.addEventListener('click', applyActivityFilters);
+      if (resetBtn)  resetBtn.addEventListener('click', resetActivityFilters);
+      if (exportBtn) exportBtn.addEventListener('click', exportActivityCsv);
+
+      // Delegated handler for row-toggle and reset-from-empty-state
+      const container = document.getElementById('activityListContainer');
+      if (container) {
+        container.addEventListener('click', (e) => {
+          const target = e.target.closest('[data-action]');
+          if (!target) return;
+          const action = target.dataset.action;
+          if (action === 'toggle-row') {
+            const id = target.dataset.id;
+            activityListState.expandedRowId = (activityListState.expandedRowId === id) ? null : id;
+            renderActivityList();
+          } else if (action === 'reset-filters') {
+            resetActivityFilters();
+          }
+        });
+      }
+
+      // Delegated handler for pagination
+      const pagination = document.getElementById('activityPagination');
+      if (pagination) {
+        pagination.addEventListener('click', (e) => {
+          const target = e.target.closest('[data-action]');
+          if (!target || target.disabled) return;
+          const action = target.dataset.action;
+          const totalPages = Math.max(1, Math.ceil(activityListState.totalCount / activityListState.pagination.pageSize));
+          if (action === 'prev-page' && activityListState.pagination.currentPage > 1) {
+            activityListState.pagination.currentPage--;
+            activityListState.expandedRowId = null;
+            loadActivityList();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else if (action === 'next-page' && activityListState.pagination.currentPage < totalPages) {
+            activityListState.pagination.currentPage++;
+            activityListState.expandedRowId = null;
+            loadActivityList();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populateActivityEventTypeDropdown();
+      wireActivityView();
+    });
+
+    // Route hook: on entering /activity, load dropdowns + initial list
+    const _origHandleRoute_uiA7 = handleRoute;
+    handleRoute = function patchedHandleRouteForActivity() {
+      _origHandleRoute_uiA7.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'activity') {
+        loadActivityDropdowns();
+        if (!activityListState.loaded) {
+          loadActivityList();
+        }
       }
     };
 
