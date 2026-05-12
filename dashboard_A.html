@@ -6800,14 +6800,12 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
-    // "+ New organisation" — header button and empty-state CTA both stubbed
-    // via toast until A4-UI-C create modal ships.
+    // "+ New organisation" — header button and empty-state CTA both open
+    // the A4-UI-C create modal.
     function wireOrganisationCreateBtn() {
       document.addEventListener('click', (e) => {
         if (e.target && (e.target.id === 'organisationCreateBtn' || e.target.id === 'organisationCreateEmptyCta')) {
-          if (typeof window.showToast === 'function') {
-            window.showToast('+ New organisation — coming in A4-UI-C');
-          }
+          if (typeof openOrganisationCreateModal === 'function') openOrganisationCreateModal();
         }
       });
     }
@@ -7162,7 +7160,7 @@ sam@gamma.org, Sam Lee, participant,`;
         organisationDetailState.loading = false;
         if (error) {
           const msg = error.message || '';
-          if (msg.indexOf('organisation_not_found') !== -1 || error.code === 'P0002') {
+          if (msg.indexOf('organisation_not_found') !== -1 || error.code === 'P0002' || error.code === '22P02') {
             organisationDetailState.error = 'organisation_not_found';
           } else {
             organisationDetailState.error = msg || 'RPC failed.';
@@ -7285,6 +7283,228 @@ sam@gamma.org, Sam Lee, participant,`;
       }
       setOrganisationViewMode('list');
     };
+
+
+    // ===========================================================
+    // A4-UI-C: Organisation create modal — state, render, submit
+    // Calls admin_create_organisation(p_name, p_sector, p_country, p_notes).
+    // RPC error mapping: 'duplicate_name' → field error on Name;
+    // 'name required'/'name too long' → field error on Name; anything else
+    // → server-error banner above the form.
+    // ===========================================================
+    const organisationCreateFormState = {
+      open: false,
+      submitting: false,
+      serverError: null,
+      errors: {},
+      values: { name: '', sector: '', country: 'South Africa', notes: '' },
+    };
+
+    function openOrganisationCreateModal() {
+      organisationCreateFormState.open = true;
+      organisationCreateFormState.submitting = false;
+      organisationCreateFormState.serverError = null;
+      organisationCreateFormState.errors = {};
+      organisationCreateFormState.values = { name: '', sector: '', country: 'South Africa', notes: '' };
+      const modal = document.getElementById('organisationCreateModal');
+      if (modal) {
+        modal.classList.add('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'false');
+      }
+      renderOrganisationCreateForm();
+      // Focus the name input
+      setTimeout(() => {
+        const nameInput = document.getElementById('organisationCreateFieldName');
+        if (nameInput) nameInput.focus();
+      }, 50);
+    }
+
+    function closeOrganisationCreateModal() {
+      const modal = document.getElementById('organisationCreateModal');
+      if (modal) {
+        modal.classList.remove('modal-backdrop--shown');
+        modal.setAttribute('aria-hidden', 'true');
+      }
+      organisationCreateFormState.open = false;
+    }
+
+    function renderOrganisationCreateForm() {
+      const body = document.getElementById('organisationCreateModalBody');
+      if (!body) return;
+      body.innerHTML = renderOrganisationCreateFormHtml();
+    }
+
+    function renderOrganisationCreateFormHtml() {
+      const v = organisationCreateFormState.values;
+      const errs = organisationCreateFormState.errors;
+      const errClass = (field) => errs[field] ? 'form-row--error' : '';
+      const errMsg = (field) => errs[field]
+        ? `<div class="form-error-inline" style="display:block;color:#e9a99c;">${escapeHtml(errs[field])}</div>`
+        : `<div class="form-error-inline"></div>`;
+      const serverErrShown = organisationCreateFormState.serverError ? 'form-server-error--shown' : '';
+      const submitting = organisationCreateFormState.submitting;
+      const submitDisabled = submitting ? 'disabled' : '';
+      const submitLabel = submitting ? 'Creating…' : 'Create organisation';
+
+      return `
+        <div class="form-server-error ${serverErrShown}" id="organisationCreateServerError">
+          ${escapeHtml(organisationCreateFormState.serverError || '')}
+        </div>
+
+        <form id="organisationCreateForm" novalidate>
+          <div class="form-row ${errClass('name')}">
+            <label class="form-label" for="organisationCreateFieldName">Name<span class="form-label__required">*</span></label>
+            <input class="form-input" id="organisationCreateFieldName" name="name" type="text" maxlength="200" value="${escapeHtml(v.name)}" placeholder="e.g. Standard Bank" autocomplete="off">
+            ${errMsg('name')}
+          </div>
+
+          <div class="form-row ${errClass('sector')}">
+            <label class="form-label" for="organisationCreateFieldSector">Sector</label>
+            <input class="form-input" id="organisationCreateFieldSector" name="sector" type="text" maxlength="200" value="${escapeHtml(v.sector)}" placeholder="e.g. Banking, Healthcare, Public sector" autocomplete="off">
+            <div class="form-help">Optional. Used for grouping and reporting.</div>
+            ${errMsg('sector')}
+          </div>
+
+          <div class="form-row ${errClass('country')}">
+            <label class="form-label" for="organisationCreateFieldCountry">Country</label>
+            <input class="form-input" id="organisationCreateFieldCountry" name="country" type="text" maxlength="200" value="${escapeHtml(v.country)}" autocomplete="off">
+            <div class="form-help">Defaults to South Africa. Edit as needed.</div>
+            ${errMsg('country')}
+          </div>
+
+          <div class="form-row ${errClass('notes')}">
+            <label class="form-label" for="organisationCreateFieldNotes">Notes</label>
+            <textarea class="form-input" id="organisationCreateFieldNotes" name="notes" rows="4" maxlength="1000" style="font-family:Montserrat,sans-serif;font-size:13px;line-height:1.5;resize:vertical;" placeholder="Optional internal notes about this organisation">${escapeHtml(v.notes)}</textarea>
+            ${errMsg('notes')}
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn--ghost" id="organisationCreateCancelBtn">Cancel</button>
+            <button type="submit" class="btn btn--primary" id="organisationCreateSubmitBtn" ${submitDisabled}>${submitLabel}</button>
+          </div>
+        </form>
+      `;
+    }
+
+    function wireOrganisationCreateModal() {
+      const modal = document.getElementById('organisationCreateModal');
+      if (!modal) return;
+
+      // Header × close
+      const closeBtn = document.getElementById('organisationCreateModalCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', closeOrganisationCreateModal);
+
+      // Backdrop click closes (clicks inside dialog don't bubble out as target)
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeOrganisationCreateModal();
+          return;
+        }
+        if (e.target.id === 'organisationCreateCancelBtn') {
+          closeOrganisationCreateModal();
+          return;
+        }
+      });
+
+      // Live input updates (no full re-render, to preserve cursor position)
+      modal.addEventListener('input', (e) => {
+        const t = e.target;
+        const map = {
+          organisationCreateFieldName:    'name',
+          organisationCreateFieldSector:  'sector',
+          organisationCreateFieldCountry: 'country',
+          organisationCreateFieldNotes:   'notes',
+        };
+        const field = map[t.id];
+        if (!field) return;
+        organisationCreateFormState.values[field] = t.value;
+        if (organisationCreateFormState.errors[field]) {
+          delete organisationCreateFormState.errors[field];
+          const row = t.closest('.form-row');
+          if (row) row.classList.remove('form-row--error');
+          const inline = row ? row.querySelector('.form-error-inline') : null;
+          if (inline) { inline.style.display = ''; inline.textContent = ''; }
+        }
+      });
+
+      // Form submit
+      modal.addEventListener('submit', (e) => {
+        if (e.target.id === 'organisationCreateForm') {
+          e.preventDefault();
+          submitOrganisationCreate();
+        }
+      });
+
+      // Escape key closes
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+          closeOrganisationCreateModal();
+        }
+      });
+    }
+
+    async function submitOrganisationCreate() {
+      const v = organisationCreateFormState.values;
+
+      // Local validation mirrors RPC guards
+      const errors = {};
+      const trimmedName = (v.name || '').trim();
+      if (trimmedName.length === 0) {
+        errors.name = 'Name is required.';
+      } else if (trimmedName.length > 200) {
+        errors.name = 'Name must be 200 characters or fewer.';
+      }
+      if (Object.keys(errors).length > 0) {
+        organisationCreateFormState.errors = errors;
+        renderOrganisationCreateForm();
+        return;
+      }
+
+      organisationCreateFormState.submitting = true;
+      organisationCreateFormState.serverError = null;
+      renderOrganisationCreateForm();
+
+      try {
+        const { data, error } = await sb.rpc('admin_create_organisation', {
+          p_name:    trimmedName,
+          p_sector:  (v.sector  || '').trim() || null,
+          p_country: (v.country || '').trim() || null,
+          p_notes:   (v.notes   || '').trim() || null,
+        });
+
+        if (error) {
+          organisationCreateFormState.submitting = false;
+          const msg = error.message || '';
+          if (msg.indexOf('duplicate_name') !== -1 || error.code === '23505') {
+            organisationCreateFormState.errors = { name: 'An organisation with that name already exists.' };
+          } else if (msg.indexOf('name required') !== -1) {
+            organisationCreateFormState.errors = { name: 'Name is required.' };
+          } else if (msg.indexOf('name too long') !== -1) {
+            organisationCreateFormState.errors = { name: 'Name must be 200 characters or fewer.' };
+          } else {
+            organisationCreateFormState.serverError = msg || 'Create failed.';
+          }
+          renderOrganisationCreateForm();
+          return;
+        }
+
+        // Success — close modal, toast, refresh list if visible
+        closeOrganisationCreateModal();
+        window.showToast('Organisation created', 3000);
+
+        organisationListState.loaded = false;
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('view') === 'organisations' && !params.get('org')) {
+          loadOrganisationList();
+        }
+      } catch (e) {
+        organisationCreateFormState.submitting = false;
+        organisationCreateFormState.serverError = e.message || 'Network error.';
+        renderOrganisationCreateForm();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', wireOrganisationCreateModal);
 
 
     // -----------------------------------------------------------
@@ -8169,6 +8389,19 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" id="invitationBulkModalBody">
           <!-- Form / progress / results rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- A4-UI-C: organisation create modal -->
+    <div class="modal-backdrop" id="organisationCreateModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="organisationCreateModalTitle">New organisation</div>
+          <button type="button" class="modal-close" id="organisationCreateModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" id="organisationCreateModalBody">
+          <!-- Form rendered here by JS -->
         </div>
       </div>
     </div>
