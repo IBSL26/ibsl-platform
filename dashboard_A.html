@@ -7225,14 +7225,16 @@ sam@gamma.org, Sam Lee, participant,`;
             return;
           }
           if (action === 'archive-organisation-from-detail') {
-            if (typeof window.showToast === 'function') {
-              window.showToast('Archive organisation — coming in A4-UI-E');
+            const id = actionEl.dataset.id;
+            if (id && typeof confirmAndArchiveOrganisation === 'function') {
+              confirmAndArchiveOrganisation(id);
             }
             return;
           }
           if (action === 'unarchive-organisation-from-detail') {
-            if (typeof window.showToast === 'function') {
-              window.showToast('Unarchive organisation — coming in A4-UI-E');
+            const id = actionEl.dataset.id;
+            if (id && typeof confirmAndUnarchiveOrganisation === 'function') {
+              confirmAndUnarchiveOrganisation(id);
             }
             return;
           }
@@ -7771,6 +7773,103 @@ sam@gamma.org, Sam Lee, participant,`;
     }
 
     document.addEventListener('DOMContentLoaded', wireOrganisationEditModal);
+
+
+    // ===========================================================
+    // A4-UI-E: Organisation archive / unarchive confirmation flow
+    // Reuses the shared showConfirmModal helper from A1-UI-G.
+    // Pulls active_cohort_count and participant_count from the detail
+    // state so the user sees the consequence before confirming.
+    // ===========================================================
+    function confirmAndArchiveOrganisation(orgId) {
+      // Resolve display name + counts from detail state (Archive button is
+      // only reachable from the detail view, so state is loaded).
+      let name = 'this organisation';
+      let activeCohorts = null;
+      let participants  = null;
+      if (organisationDetailState.data
+          && organisationDetailState.data.organisation
+          && organisationDetailState.data.organisation.id === orgId) {
+        name = organisationDetailState.data.organisation.name || name;
+        const s = organisationDetailState.data.summary || {};
+        if (s.active_cohort_count != null) activeCohorts = s.active_cohort_count;
+        if (s.participant_count   != null) participants  = s.participant_count;
+      }
+
+      const consequenceBits = [];
+      if (activeCohorts != null) {
+        consequenceBits.push(`${activeCohorts} ${activeCohorts === 1 ? 'active cohort remains' : 'active cohorts remain'}`);
+      }
+      if (participants != null) {
+        consequenceBits.push(`${participants} ${participants === 1 ? 'participant remains' : 'participants remain'}`);
+      }
+      const consequenceLine = consequenceBits.length
+        ? ` ${consequenceBits.join(' and ')} associated — no data is deleted.`
+        : '';
+
+      showConfirmModal({
+        title: 'Archive this organisation?',
+        body: `Archiving <strong>${escapeHtml(name)}</strong> hides it from picklists (cohort create, user edit, invitation).${consequenceLine}<br><br>This is reversible — you can unarchive at any time.`,
+        proceedLabel: 'Archive organisation',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('admin_archive_organisation', { p_org_id: orgId });
+            if (error) {
+              window.showToast(error.message || 'Archive failed.');
+              return;
+            }
+            window.showToast('Organisation archived.');
+            // Invalidate caches; refetch list if visible, refetch detail if shown
+            organisationListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'organisations' && !params.get('org')) {
+              loadOrganisationList();
+            }
+            if (organisationDetailState.currentId === orgId) {
+              organisationDetailState.currentId = null;
+              loadOrganisationDetail(orgId);
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
+    function confirmAndUnarchiveOrganisation(orgId) {
+      let name = 'this organisation';
+      if (organisationDetailState.data
+          && organisationDetailState.data.organisation
+          && organisationDetailState.data.organisation.id === orgId) {
+        name = organisationDetailState.data.organisation.name || name;
+      }
+      showConfirmModal({
+        title: 'Unarchive this organisation?',
+        body: `Make <strong>${escapeHtml(name)}</strong> active again. It will reappear in picklists and can be edited normally.`,
+        proceedLabel: 'Unarchive organisation',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('admin_unarchive_organisation', { p_org_id: orgId });
+            if (error) {
+              window.showToast(error.message || 'Unarchive failed.');
+              return;
+            }
+            window.showToast('Organisation unarchived.');
+            organisationListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'organisations' && !params.get('org')) {
+              loadOrganisationList();
+            }
+            if (organisationDetailState.currentId === orgId) {
+              organisationDetailState.currentId = null;
+              loadOrganisationDetail(orgId);
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
 
 
     // -----------------------------------------------------------
