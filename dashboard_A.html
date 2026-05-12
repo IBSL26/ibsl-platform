@@ -3359,7 +3359,7 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', function wireChpwModal() {
+    function _wireChpwModal() {
       const modal     = document.getElementById('chpwModal');
       const closeBtn  = document.getElementById('chpwCloseBtn');
       const cancelBtn = document.getElementById('chpwCancelBtn');
@@ -3375,7 +3375,7 @@
           if (e.key === 'Enter'  && modal.classList.contains('modal-backdrop--shown')) submitChpw();
         });
       }
-    });
+    }
     // ── end P4-1 change password ──────────────────────────────────────
 
     function softRedirect(url, reason) {
@@ -11761,6 +11761,7 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
       </div>
     </div>
+    <script>_wireChpwModal();</script>
 
     <!-- P4-2: Device revoke confirmation modal -->
     <div class="modal-backdrop" id="deviceRevokeModal" role="dialog" aria-modal="true" aria-hidden="true">
