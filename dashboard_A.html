@@ -9602,6 +9602,7 @@ sam@gamma.org, Sam Lee, participant,`;
       device_trusted:                     'Device trusted',
       device_confirmed:                   'Device confirmed',
       device_revoked:                     'Device revoked',
+      device_binding_reset:               'Device binding reset (lockout recovery)',
       lens_unlocked:                      'Lens unlocked',
       lens_locked:                        'Lens locked',
       lens_completed:                     'Lens completed',
@@ -10768,6 +10769,10 @@ sam@gamma.org, Sam Lee, participant,`;
                        data-action="revoke-all-devices"
                        data-user-id="${targetUserId}">Revoke all</button>`
                 : ''}
+              <button type="button" class="btn btn--ghost"
+                  style="font-size:12px;padding:4px 12px;"
+                  data-action="reset-device-binding"
+                  data-user-id="${targetUserId}">Reset binding</button>
             </div>
           </div>
           ${devicesBody}
@@ -10941,6 +10946,17 @@ sam@gamma.org, Sam Lee, participant,`;
           `This action is logged to the activity log.` +
           `</p>`;
         confirmBtn.textContent = 'Revoke device';
+      } else if (mode === 'reset') {
+        bodyEl.innerHTML =
+          `<p style=\"margin:0 0 14px;color:rgba(255,255,255,0.82);font-size:14px;line-height:1.55;\">` +
+          `This will <strong>permanently delete</strong> all trusted device records for this user. ` +
+          `Their next sign-in from any device will be auto-trusted without requiring email confirmation — ` +
+          `restoring access immediately if they are locked out.` +
+          `</p>` +
+          `<p style=\"margin:0 0 8px;color:rgba(255,255,255,0.55);font-size:12px;\">` +
+          `Use for lockout recovery only. This action is logged to the activity log.` +
+          `</p>`;
+        confirmBtn.textContent = 'Reset device binding';
       } else {
         bodyEl.innerHTML =
           `<p style="margin:0 0 14px;color:rgba(255,255,255,0.82);font-size:14px;line-height:1.55;">` +
@@ -10951,6 +10967,10 @@ sam@gamma.org, Sam Lee, participant,`;
           `This action is logged to the activity log.` +
           `</p>`;
         confirmBtn.textContent = 'Revoke all devices';
+      }
+      const titleEl = modal.querySelector('.modal-title');
+      if (titleEl) {
+        titleEl.textContent = mode === 'reset' ? 'Reset device binding?' : 'Revoke trusted device?';
       }
       confirmBtn.disabled = false;
       modal.setAttribute('aria-hidden', 'false');
@@ -10978,6 +10998,10 @@ sam@gamma.org, Sam Lee, participant,`;
             p_device_id:      deviceRevokeModalState.deviceId,
             p_target_user_id: deviceRevokeModalState.userId,
           }));
+        } else if (deviceRevokeModalState.mode === 'reset') {
+          ({ data: result, error } = await sb.rpc('admin_reset_device_binding', {
+            p_target_user_id: deviceRevokeModalState.userId,
+          }));
         } else {
           ({ data: result, error } = await sb.rpc('admin_revoke_all_devices', {
             p_target_user_id: deviceRevokeModalState.userId,
@@ -10994,6 +11018,8 @@ sam@gamma.org, Sam Lee, participant,`;
         }
         const msg = deviceRevokeModalState.mode === 'single'
           ? `Device "${deviceRevokeModalState.deviceLabel}" revoked.`
+          : deviceRevokeModalState.mode === 'reset'
+          ? `Device binding reset. ${result && result.deleted_count != null ? result.deleted_count : 'All'} record(s) deleted.`
           : `${result && result.revoked_count != null ? result.revoked_count : 'All'} device(s) revoked.`;
         window.showToast(msg);
         // Refresh panel to reflect new status
@@ -11024,6 +11050,10 @@ sam@gamma.org, Sam Lee, participant,`;
       const allBtn = e.target.closest('[data-action="revoke-all-devices"]');
       if (allBtn) {
         openDeviceRevokeModal('all', null, null, allBtn.dataset.userId);
+      }
+      const resetBtn = e.target.closest('[data-action="reset-device-binding"]');
+      if (resetBtn) {
+        openDeviceRevokeModal('reset', null, null, resetBtn.dataset.userId);
       }
     });
 
