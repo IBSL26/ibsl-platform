@@ -226,6 +226,23 @@
     font-weight: 400;
   }
   .topbar__back,
+  .topbar__chpw {
+    font-size: 12px;
+    font-family: var(--font-sans);
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .topbar__chpw:hover {
+    color: rgba(255,255,255,0.85);
+    border-color: rgba(255,255,255,0.38);
+  }
   .topbar__signout {
     background: transparent;
     border: 1px solid var(--gold);
@@ -2816,6 +2833,7 @@
       <div class="topbar__user">
         <a class="topbar__back" href="index.html">← Admin Portal</a>
         <span class="topbar__email" id="topbarEmail">—</span>
+        <button class="topbar__chpw" id="chpwBtn">Change password</button>
         <button class="topbar__signout" id="signoutBtn">Sign out</button>
       </div>
     </header>
@@ -3262,6 +3280,104 @@
       setTimeout(() => boot.remove(), 240);
     }
 
+    // ── P4-1: Change password ─────────────────────────────────────────
+    let _currentUserEmail = '';
+
+    const chpwState = { busy: false };
+
+    function openChpwModal() {
+      chpwState.busy = false;
+      const modal = document.getElementById('chpwModal');
+      if (!modal) return;
+      document.getElementById('chpwCurrent').value = '';
+      document.getElementById('chpwNew').value = '';
+      document.getElementById('chpwConfirm').value = '';
+      document.getElementById('chpwError').textContent = '';
+      document.getElementById('chpwSubmitBtn').disabled = false;
+      modal.setAttribute('aria-hidden', 'false');
+      modal.classList.add('modal-backdrop--shown');
+      document.getElementById('chpwCurrent').focus();
+    }
+
+    function closeChpwModal() {
+      const modal = document.getElementById('chpwModal');
+      if (!modal) return;
+      modal.setAttribute('aria-hidden', 'true');
+      modal.classList.remove('modal-backdrop--shown');
+    }
+
+    async function submitChpw() {
+      if (chpwState.busy) return;
+      const currentPw  = document.getElementById('chpwCurrent').value;
+      const newPw      = document.getElementById('chpwNew').value;
+      const confirmPw  = document.getElementById('chpwConfirm').value;
+      const errorEl    = document.getElementById('chpwError');
+      const submitBtn  = document.getElementById('chpwSubmitBtn');
+      errorEl.textContent = '';
+
+      // Client-side validation
+      if (!currentPw)                    { errorEl.textContent = 'Please enter your current password.'; return; }
+      if (newPw.length < 8)              { errorEl.textContent = 'New password must be at least 8 characters.'; return; }
+      if (newPw === currentPw)           { errorEl.textContent = 'New password must differ from current password.'; return; }
+      if (newPw !== confirmPw)           { errorEl.textContent = 'Passwords do not match.'; return; }
+
+      chpwState.busy = true;
+      submitBtn.disabled = true;
+
+      try {
+        // Step 1: verify current password
+        const { error: reAuthErr } = await sb.auth.signInWithPassword({
+          email:    _currentUserEmail,
+          password: currentPw,
+        });
+        if (reAuthErr) {
+          errorEl.textContent = 'Current password is incorrect.';
+          return;
+        }
+
+        // Step 2: update password
+        const { error: updateErr } = await sb.auth.updateUser({ password: newPw });
+        if (updateErr) {
+          errorEl.textContent = 'Could not update password: ' + (updateErr.message || 'Unknown error');
+          return;
+        }
+
+        // Step 3: log to activity_log
+        await sb.rpc('log_activity', {
+          p_event_type:   'password_changed',
+          p_event_detail: { surface: 'dashboard_A', role: 'admin' },
+          p_cohort_id:    null,
+        });
+
+        closeChpwModal();
+        window.showToast('Password changed successfully.');
+      } catch (e) {
+        errorEl.textContent = 'Unexpected error: ' + (e && e.message ? e.message : 'Unknown error');
+      } finally {
+        chpwState.busy = false;
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function wireChpwModal() {
+      const modal     = document.getElementById('chpwModal');
+      const closeBtn  = document.getElementById('chpwCloseBtn');
+      const cancelBtn = document.getElementById('chpwCancelBtn');
+      const submitBtn = document.getElementById('chpwSubmitBtn');
+      const openBtn   = document.getElementById('chpwBtn');
+      if (openBtn)   openBtn.addEventListener('click',   openChpwModal);
+      if (closeBtn)  closeBtn.addEventListener('click',  closeChpwModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeChpwModal);
+      if (submitBtn) submitBtn.addEventListener('click', submitChpw);
+      if (modal) {
+        modal.addEventListener('keydown', e => {
+          if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) closeChpwModal();
+          if (e.key === 'Enter'  && modal.classList.contains('modal-backdrop--shown')) submitChpw();
+        });
+      }
+    });
+    // ── end P4-1 change password ──────────────────────────────────────
+
     function softRedirect(url, reason) {
       showBootMessage(reason || 'Redirecting…');
       setTimeout(() => { window.location.replace(url); }, 200);
@@ -3303,6 +3419,7 @@
 
       // 4. Admin confirmed — render
       document.getElementById('topbarEmail').textContent = profile.email || user.email || '—';
+      _currentUserEmail = profile.email || user.email || '';
       hideBoot();
       handleRoute();
       window.addEventListener('popstate', handleRoute);
@@ -11612,6 +11729,35 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" id="organisationEditModalBody">
           <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- P4-1: Change password modal -->
+    <div class="modal-backdrop" id="chpwModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog" style="width:440px;">
+        <div class="modal-head">
+          <div class="modal-title">Change password</div>
+          <button type="button" class="modal-close" id="chpwCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;">
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label" for="chpwCurrent">Current password</label>
+            <input type="password" class="form-input" id="chpwCurrent" autocomplete="current-password" placeholder="Enter current password">
+          </div>
+          <div class="form-group" style="margin-bottom:16px;">
+            <label class="form-label" for="chpwNew">New password</label>
+            <input type="password" class="form-input" id="chpwNew" autocomplete="new-password" placeholder="At least 8 characters">
+          </div>
+          <div class="form-group" style="margin-bottom:8px;">
+            <label class="form-label" for="chpwConfirm">Confirm new password</label>
+            <input type="password" class="form-input" id="chpwConfirm" autocomplete="new-password" placeholder="Repeat new password">
+          </div>
+          <div class="form-error-inline" id="chpwError" style="min-height:18px;margin-bottom:4px;"></div>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" id="chpwCancelBtn">Cancel</button>
+          <button type="button" class="btn btn--primary" id="chpwSubmitBtn">Change password</button>
         </div>
       </div>
     </div>
