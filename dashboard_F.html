@@ -2184,6 +2184,7 @@
       <div class="user-email" id="userEmail">—</div>
     </div>
     <button class="chpw-btn" id="chpwBtn">Change password</button>
+    <button class="chpw-btn" id="mfaTopbarBtn" style="display:none;">Set up 2FA</button>
     <button class="signout-btn" id="signOutBtn">Sign Out</button>
   </div>
 </header>
@@ -2366,6 +2367,9 @@
 
       // 8. F3: Route based on URL — show roster view or cohort grid
       routeToView();
+
+      // P4-3: Update 2FA button label based on enrollment state
+      updateMfaButtonLabel();
 
     } catch (err) {
       console.error('[F1] Guard exception:', err);
@@ -5533,9 +5537,144 @@
     }
   }
 
-  function showCohortUnlockError(errorEl, message) {
-    errorEl.textContent = message;
-    errorEl.style.display = 'block';
+  // ─── P4-3: 2FA TOPBAR — ENROLMENT & MANAGEMENT ───────────────
+  const _mfaState = {
+    factors: [],
+    enrollFactorId: null,
+    busy: false,
+  };
+
+  async function updateMfaButtonLabel() {
+    const btn = document.getElementById('mfaTopbarBtn');
+    if (!btn) return;
+    try {
+      const { data } = await supabaseClient.auth.mfa.listFactors();
+      _mfaState.factors = (data && data.totp) ? data.totp.filter(f => f.status === 'verified') : [];
+    } catch(e) {
+      _mfaState.factors = [];
+    }
+    btn.textContent = _mfaState.factors.length > 0 ? 'Manage 2FA' : 'Set up 2FA';
+    btn.style.display = '';
+  }
+
+  function openMfaModal() {
+    if (_mfaState.factors.length > 0) {
+      _showMfaManageState();
+    } else {
+      _startMfaEnrolment();
+    }
+    const modal = document.getElementById('mfaModal');
+    if (modal) { modal.setAttribute('aria-hidden', 'false'); modal.classList.add('modal-backdrop--shown'); }
+  }
+
+  function closeMfaModal() {
+    const modal = document.getElementById('mfaModal');
+    if (modal) { modal.setAttribute('aria-hidden', 'true'); modal.classList.remove('modal-backdrop--shown'); }
+  }
+
+  function _showMfaManageState() {
+    document.getElementById('mfaEnrolState').style.display  = 'none';
+    document.getElementById('mfaManageState').style.display = '';
+    const f = _mfaState.factors[0];
+    const nameEl = document.getElementById('mfaFactorName');
+    if (nameEl) nameEl.textContent = f ? (f.friendly_name || 'Authenticator app') : '—';
+  }
+
+  async function _startMfaEnrolment() {
+    document.getElementById('mfaManageState').style.display = 'none';
+    document.getElementById('mfaEnrolState').style.display  = '';
+    document.getElementById('mfaFQrContainer').innerHTML    = '<p style="color:rgba(255,255,255,0.5);font-size:12px;text-align:center;">Loading QR code…</p>';
+    document.getElementById('mfaFSecret').textContent       = '';
+    document.getElementById('mfaFCode').value               = '';
+    document.getElementById('mfaFError').textContent        = '';
+    document.getElementById('mfaFStep1').style.display      = '';
+    document.getElementById('mfaFStep2').style.display      = 'none';
+    try {
+      const { data, error } = await supabaseClient.auth.mfa.enroll({
+        factorType: 'totp',
+        issuer: 'IBSL S2R® Portal',
+        friendlyName: 'Facilitator authenticator',
+      });
+      if (error) throw error;
+      _mfaState.enrollFactorId = data.id;
+      document.getElementById('mfaFQrContainer').innerHTML = data.totp.qr_code;
+      document.getElementById('mfaFSecret').textContent    = data.totp.secret;
+      setTimeout(() => { const c = document.getElementById('mfaFCode'); if(c) c.focus(); }, 100);
+    } catch(e) {
+      document.getElementById('mfaFQrContainer').innerHTML = '<p style="color:#e9a99c;font-size:12px;text-align:center;">Could not load QR code. Please try again.</p>';
+    }
+  }
+
+  async function submitMfaFEnrolment() {
+    if (_mfaState.busy) return;
+    const code    = (document.getElementById('mfaFCode').value || '').trim();
+    const errEl   = document.getElementById('mfaFError');
+    const btn     = document.getElementById('mfaFEnrolBtn');
+    errEl.textContent = '';
+    if (code.length !== 6 || !/^\d+$/.test(code)) { errEl.textContent = 'Please enter a valid 6-digit code.'; return; }
+    _mfaState.busy = true;
+    btn.disabled = true; btn.textContent = 'Verifying…';
+    try {
+      const { data: ch, error: chErr } = await supabaseClient.auth.mfa.challenge({ factorId: _mfaState.enrollFactorId });
+      if (chErr) throw chErr;
+      const { error: vErr } = await supabaseClient.auth.mfa.verify({ factorId: _mfaState.enrollFactorId, challengeId: ch.id, code });
+      if (vErr) throw vErr;
+      try { await supabaseClient.rpc('log_activity', { p_action: '2fa_enabled', p_details: '' }); } catch(e) {}
+      // Show success step
+      document.getElementById('mfaFStep1').style.display = 'none';
+      document.getElementById('mfaFStep2').style.display = '';
+      const secret = document.getElementById('mfaFSecret').textContent;
+      document.getElementById('mfaFBackupKey').textContent = secret;
+      _mfaState.factors = [{ id: _mfaState.enrollFactorId, friendly_name: 'Facilitator authenticator', status: 'verified' }];
+      document.getElementById('mfaTopbarBtn').textContent = 'Manage 2FA';
+    } catch(e) {
+      errEl.textContent = 'Invalid code — please check your authenticator and try again.';
+      document.getElementById('mfaFCode').value = '';
+      document.getElementById('mfaFCode').focus();
+    } finally {
+      _mfaState.busy = false;
+      btn.disabled = false; btn.textContent = 'Confirm & Enable 2FA';
+    }
+  }
+
+  async function disableMfa() {
+    if (_mfaState.busy) return;
+    const btn = document.getElementById('mfaDisableBtn');
+    const f   = _mfaState.factors[0];
+    if (!f) return;
+    _mfaState.busy = true;
+    btn.disabled = true; btn.textContent = 'Disabling…';
+    try {
+      const { error } = await supabaseClient.auth.mfa.unenroll({ factorId: f.id });
+      if (error) throw error;
+      try { await supabaseClient.rpc('log_activity', { p_action: '2fa_disabled', p_details: '' }); } catch(e) {}
+      _mfaState.factors = [];
+      document.getElementById('mfaTopbarBtn').textContent = 'Set up 2FA';
+      closeMfaModal();
+    } catch(e) {
+      document.getElementById('mfaDisableErr').textContent = (e && e.message) || 'Could not disable 2FA. Please try again.';
+    } finally {
+      _mfaState.busy = false;
+      btn.disabled = false; btn.textContent = 'Disable 2FA';
+    }
+  }
+
+  function _wireMfaModal() {
+    const modal   = document.getElementById('mfaModal');
+    const topBtn  = document.getElementById('mfaTopbarBtn');
+    const closeBtn = document.getElementById('mfaCloseBtn');
+    if (topBtn)   topBtn.addEventListener('click', openMfaModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeMfaModal);
+    if (modal)    modal.addEventListener('click', e => { if (e.target === modal) closeMfaModal(); });
+    const enrolBtn  = document.getElementById('mfaFEnrolBtn');
+    const disBtn    = document.getElementById('mfaDisableBtn');
+    const codeInput = document.getElementById('mfaFCode');
+    if (enrolBtn)  enrolBtn.addEventListener('click', submitMfaFEnrolment);
+    if (disBtn)    disBtn.addEventListener('click', disableMfa);
+    if (codeInput) codeInput.addEventListener('keydown', e => { if (e.key === 'Enter') submitMfaFEnrolment(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal && modal.classList.contains('modal-backdrop--shown')) closeMfaModal();
+    });
   }
 
 </script>
@@ -5569,6 +5708,61 @@
   </div>
 </div>
 <script>_wireChpwModal();</script>
+
+<!-- P4-3: 2FA enrolment & management modal -->
+<div class="commit-modal-backdrop" id="mfaModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="commit-modal" style="width:440px;max-width:95vw;">
+    <button type="button" id="mfaCloseBtn" style="position:absolute;top:14px;right:16px;background:none;border:none;color:rgba(255,255,255,0.45);font-size:18px;cursor:pointer;line-height:1;">✕</button>
+
+    <!-- Enrolment state -->
+    <div id="mfaEnrolState">
+      <h3 class="commit-modal-title">Set Up Two-Factor Authentication</h3>
+
+      <!-- Step 1: QR + verify -->
+      <div id="mfaFStep1">
+        <p style="font-size:12px;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:14px;">
+          Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.
+        </p>
+        <div id="mfaFQrContainer" style="background:#fff;border-radius:6px;padding:10px;margin:0 auto 12px;width:fit-content;"></div>
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:3px;">Can't scan? Enter this key manually:</p>
+        <p id="mfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:14px;font-family:monospace;"></p>
+        <label style="display:block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">6-digit code</label>
+        <input type="text" id="mfaFCode" maxlength="6" inputmode="numeric" autocomplete="one-time-code" placeholder="000000"
+          style="width:100%;box-sizing:border-box;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);border-radius:4px;padding:9px 12px;color:#fff;font-size:22px;font-family:inherit;letter-spacing:8px;text-align:center;">
+        <div id="mfaFError" style="min-height:18px;font-size:12px;color:#e9a99c;margin-top:6px;"></div>
+        <div class="commit-modal-actions" style="margin-top:14px;">
+          <button type="button" class="btn-modal-cancel" onclick="closeMfaModal()">Cancel</button>
+          <button type="button" class="btn-modal-confirm" id="mfaFEnrolBtn">Confirm &amp; Enable 2FA</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Success + backup key -->
+      <div id="mfaFStep2" style="display:none;text-align:center;">
+        <div style="font-size:36px;margin-bottom:10px;">✅</div>
+        <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:12px;">Two-factor authentication is now active. Save this key somewhere safe — you'll need it if you lose access to your authenticator app.</p>
+        <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Your authenticator secret key:</p>
+        <p id="mfaFBackupKey" style="font-size:12px;color:#c9a84c;word-break:break-all;font-family:monospace;margin-bottom:18px;"></p>
+        <button type="button" class="btn-modal-confirm" onclick="closeMfaModal()">Done</button>
+      </div>
+    </div>
+
+    <!-- Manage state (already enrolled) -->
+    <div id="mfaManageState" style="display:none;">
+      <h3 class="commit-modal-title">Manage Two-Factor Authentication</h3>
+      <p style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:16px;">
+        2FA is currently <strong style="color:#c9a84c;">active</strong> on your account.<br>
+        Factor: <span id="mfaFactorName" style="color:rgba(255,255,255,0.85);">—</span>
+      </p>
+      <p style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:14px;">To disable 2FA, click below. You will be able to re-enrol at any time.</p>
+      <div id="mfaDisableErr" style="min-height:16px;font-size:12px;color:#e9a99c;margin-bottom:8px;"></div>
+      <div class="commit-modal-actions">
+        <button type="button" class="btn-modal-cancel" onclick="closeMfaModal()">Close</button>
+        <button type="button" class="btn-modal-cancel" id="mfaDisableBtn" style="color:#e9a99c;border-color:rgba(233,169,156,0.4);">Disable 2FA</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>_wireMfaModal();</script>
 
 </body>
 </html>
