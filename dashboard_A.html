@@ -2524,7 +2524,7 @@
             <div>
               <div class="view-header__kicker">Observability</div>
               <h1 class="view-header__title">Platform health</h1>
-              <div class="view-header__sub">Live snapshot of platform activity. Auto-refreshes every 60 seconds.</div>
+              <div class="view-header__sub">Live snapshot of platform activity. Auto-refreshes every 5 minutes.</div>
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
               <button type="button" class="btn btn--primary" id="platformHealthRefreshBtn">↻ Refresh now</button>
@@ -9064,7 +9064,7 @@ sam@gamma.org, Sam Lee, participant,`;
 
     function startPlatformHealthAutoRefresh() {
       if (platformHealthState.refreshTimer) return;
-      platformHealthState.refreshTimer = setInterval(loadPlatformHealth, 60000);
+      platformHealthState.refreshTimer = setInterval(loadPlatformHealth, 300000);
     }
 
     function stopPlatformHealthAutoRefresh() {
