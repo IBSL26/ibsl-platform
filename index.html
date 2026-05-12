@@ -1174,6 +1174,65 @@
   </div>
 </div>
 
+<!-- ─── 2FA TOTP CHALLENGE MODAL ─── -->
+<div class="login-overlay" id="mfaChallengeOverlay" style="display:none;">
+  <div class="login-modal" style="text-align:center;">
+    <div style="font-size:48px;color:#2a7a7a;margin-bottom:14px;">🔐</div>
+    <h2 class="modal-title">Two-Factor Authentication</h2>
+    <p class="modal-role">S2R® Portal</p>
+    <p style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.7;margin-bottom:18px;">
+      Open your authenticator app and enter the 6-digit code for your S2R® account.
+    </p>
+    <input type="text" class="modal-input" id="mfaChallengeCode" placeholder="6-digit code"
+      maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+      style="text-align:center;letter-spacing:6px;font-size:22px;" />
+    <p id="mfaChallengeError" style="color:#e74c3c;font-size:11px;margin-bottom:8px;display:none;"></p>
+    <button class="modal-btn" onclick="submitMfaChallenge()" id="mfaChallengeBtn">Verify</button>
+    <hr class="modal-divider" />
+    <p class="modal-note">
+      Need help? Contact <a href="mailto:info@ibsleadership.com" style="color:#c9a84c;">info@ibsleadership.com</a>
+    </p>
+  </div>
+</div>
+
+<!-- ─── 2FA TOTP ENROLMENT MODAL ─── -->
+<div class="login-overlay" id="mfaEnrolmentOverlay" style="display:none;">
+  <div class="login-modal" style="max-width:420px;">
+    <h2 class="modal-title" style="text-align:center;">Set Up Two-Factor Authentication</h2>
+    <p class="modal-role" style="text-align:center;">S2R® Portal — Required for your role</p>
+
+    <!-- Step 1: QR code -->
+    <div id="mfaEnrolStep1">
+      <p style="color:rgba(255,255,255,0.7);font-size:12px;line-height:1.7;margin-bottom:12px;text-align:center;">
+        Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.
+      </p>
+      <div id="mfaQrContainer" style="background:#fff;border-radius:8px;padding:12px;margin:0 auto 14px;width:fit-content;"></div>
+      <p style="color:rgba(255,255,255,0.45);font-size:11px;margin-bottom:4px;text-align:center;">Can't scan? Enter this key manually:</p>
+      <p id="mfaSecretKey" style="color:#c9a84c;font-size:11px;word-break:break-all;text-align:center;margin-bottom:16px;"></p>
+      <input type="text" class="modal-input" id="mfaEnrolCode" placeholder="6-digit code"
+        maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+        style="text-align:center;letter-spacing:6px;font-size:22px;" />
+      <p id="mfaEnrolError" style="color:#e74c3c;font-size:11px;margin-bottom:8px;display:none;"></p>
+      <button class="modal-btn" onclick="submitMfaEnrolment()" id="mfaEnrolBtn">Confirm &amp; Enable 2FA</button>
+    </div>
+
+    <!-- Step 2: Backup codes (shown after successful enrolment) -->
+    <div id="mfaEnrolStep2" style="display:none;text-align:center;">
+      <div style="font-size:40px;color:#2a7a7a;margin-bottom:10px;">✅</div>
+      <p style="color:rgba(255,255,255,0.85);font-size:13px;line-height:1.7;margin-bottom:12px;">
+        Two-factor authentication is now active. Save these backup codes somewhere safe — each can be used once if you lose access to your authenticator app.
+      </p>
+      <div id="mfaBackupCodes" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:12px;margin-bottom:16px;font-family:monospace;font-size:13px;color:#c9a84c;letter-spacing:2px;line-height:2;"></div>
+      <button class="modal-btn" onclick="completeMfaEnrolment()" id="mfaEnrolContinueBtn">Continue to Portal</button>
+    </div>
+
+    <hr class="modal-divider" />
+    <p class="modal-note">
+      Need help? Contact <a href="mailto:info@ibsleadership.com" style="color:#c9a84c;">info@ibsleadership.com</a>
+    </p>
+  </div>
+</div>
+
 <!-- ─── FORGOT PASSWORD MODAL ─── -->
 <div class="login-overlay" id="forgotPasswordOverlay" style="display:none;">
   <div class="login-modal">
@@ -1692,6 +1751,45 @@ async function validateAccess() {
     }
   }
 
+  // ─── P4-3: 2FA INTERCEPT (admin + facilitator only) ───
+  if (profile.role === 'admin' || profile.role === 'facilitator') {
+    var requireKey = profile.role === 'admin' ? 'auth.require_2fa_admin' : 'auth.require_2fa_facilitator';
+    var { data: settingRow } = await supabaseClient
+      .from('platform_settings')
+      .select('value')
+      .eq('key', requireKey)
+      .single();
+    var requires2fa = settingRow && settingRow.value === 'true';
+
+    if (requires2fa) {
+      var { data: factorsData } = await supabaseClient.auth.mfa.listFactors();
+      var verifiedFactors = (factorsData && factorsData.totp)
+        ? factorsData.totp.filter(function(f) { return f.status === 'verified'; })
+        : [];
+
+      if (verifiedFactors.length === 0) {
+        // Not enrolled — start enrolment flow
+        _mfa2faProfile = profile;
+        _mfa2faEmail = email;
+        await show2faEnrolmentModal(profile);
+        return;
+      } else {
+        // Enrolled — show challenge
+        _mfa2faProfile = profile;
+        _mfa2faEmail = email;
+        _mfa2faFactor = verifiedFactors[0];
+        show2faChallengeModal();
+        return;
+      }
+    }
+  }
+
+  // No 2FA required — proceed normally
+  proceedAfterAuth(profile);
+}
+
+// ─── Called after successful auth (2FA passed or not required) ───
+function proceedAfterAuth(profile) {
   closeModal();
   if (profile.role === 'admin') {
     currentRole = 'Admin Access';
@@ -1700,8 +1798,6 @@ async function validateAccess() {
     currentRole = 'Participant Access';
     showPortal(currentRole, 'Welcome, ' + profile.full_name);
   } else {
-    // F1: Facilitator signs in → redirect to dedicated dashboard page
-    // F2-POLISH: Show overlay first so the transition is smooth (no home-page flash)
     currentRole = 'Facilitator Access';
     document.getElementById('redirectOverlay').classList.add('shown');
     window.location.href = 'dashboard_F.html';
@@ -1711,6 +1807,140 @@ async function validateAccess() {
     document.getElementById('loginOverlay').style.display='none';
     document.body.style.overflow = '';
   }
+
+  // ─── P4-3: 2FA STATE ───
+  var _mfa2faProfile = null;
+  var _mfa2faEmail = '';
+  var _mfa2faFactor = null;
+  var _mfa2faEnrolFactorId = null;
+
+  // ─── P4-3: TOTP CHALLENGE (enrolled users) ───
+  function show2faChallengeModal() {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('mfaChallengeOverlay').style.display = 'flex';
+    document.getElementById('mfaChallengeCode').value = '';
+    document.getElementById('mfaChallengeError').style.display = 'none';
+    setTimeout(function() { document.getElementById('mfaChallengeCode').focus(); }, 100);
+  }
+
+  async function submitMfaChallenge() {
+    var btn = document.getElementById('mfaChallengeBtn');
+    var errEl = document.getElementById('mfaChallengeError');
+    var code = document.getElementById('mfaChallengeCode').value.trim();
+    if (code.length !== 6 || !/^\d+$/.test(code)) {
+      errEl.textContent = 'Please enter a valid 6-digit code.';
+      errEl.style.display = 'block';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+    errEl.style.display = 'none';
+    try {
+      // Create challenge then verify
+      var { data: challengeData, error: challengeErr } = await supabaseClient.auth.mfa.challenge({ factorId: _mfa2faFactor.id });
+      if (challengeErr) throw challengeErr;
+      var { error: verifyErr } = await supabaseClient.auth.mfa.verify({
+        factorId: _mfa2faFactor.id,
+        challengeId: challengeData.id,
+        code: code
+      });
+      if (verifyErr) throw verifyErr;
+      // Log activity
+      try { await supabaseClient.rpc('log_activity', { p_action: '2fa_verified', p_details: '' }); } catch(e) {}
+      document.getElementById('mfaChallengeOverlay').style.display = 'none';
+      proceedAfterAuth(_mfa2faProfile);
+    } catch(err) {
+      errEl.textContent = 'Invalid code. Please try again.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Verify';
+      document.getElementById('mfaChallengeCode').value = '';
+      document.getElementById('mfaChallengeCode').focus();
+    }
+  }
+
+  // Allow Enter key in challenge input
+  document.getElementById('mfaChallengeCode').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitMfaChallenge();
+  });
+
+  // ─── P4-3: TOTP ENROLMENT (first-time setup) ───
+  async function show2faEnrolmentModal(profile) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('mfaEnrolStep1').style.display = 'block';
+    document.getElementById('mfaEnrolStep2').style.display = 'none';
+    document.getElementById('mfaEnrolmentOverlay').style.display = 'flex';
+    document.getElementById('mfaEnrolCode').value = '';
+    document.getElementById('mfaEnrolError').style.display = 'none';
+    document.getElementById('mfaQrContainer').innerHTML = '<p style="color:rgba(255,255,255,0.5);font-size:12px;">Loading QR code…</p>';
+    document.getElementById('mfaSecretKey').textContent = '';
+    try {
+      var { data: enrollData, error: enrollErr } = await supabaseClient.auth.mfa.enroll({
+        factorType: 'totp',
+        issuer: 'IBSL S2R® Portal',
+        friendlyName: profile.full_name + ' (' + profile.role + ')'
+      });
+      if (enrollErr) throw enrollErr;
+      _mfa2faEnrolFactorId = enrollData.id;
+      // Supabase returns qr_code as SVG markup
+      document.getElementById('mfaQrContainer').innerHTML = enrollData.totp.qr_code;
+      document.getElementById('mfaSecretKey').textContent = enrollData.totp.secret;
+      setTimeout(function() { document.getElementById('mfaEnrolCode').focus(); }, 100);
+    } catch(err) {
+      document.getElementById('mfaQrContainer').innerHTML =
+        '<p style="color:#e74c3c;font-size:12px;">Could not load QR code. Please try again or contact info@ibsleadership.com.</p>';
+    }
+  }
+
+  async function submitMfaEnrolment() {
+    var btn = document.getElementById('mfaEnrolBtn');
+    var errEl = document.getElementById('mfaEnrolError');
+    var code = document.getElementById('mfaEnrolCode').value.trim();
+    if (code.length !== 6 || !/^\d+$/.test(code)) {
+      errEl.textContent = 'Please enter a valid 6-digit code.';
+      errEl.style.display = 'block';
+      return;
+    }
+    btn.disabled = true;
+    btn.textContent = 'Verifying…';
+    errEl.style.display = 'none';
+    try {
+      var { data: challengeData, error: challengeErr } = await supabaseClient.auth.mfa.challenge({ factorId: _mfa2faEnrolFactorId });
+      if (challengeErr) throw challengeErr;
+      var { error: verifyErr } = await supabaseClient.auth.mfa.verify({
+        factorId: _mfa2faEnrolFactorId,
+        challengeId: challengeData.id,
+        code: code
+      });
+      if (verifyErr) throw verifyErr;
+      // Log activity
+      try { await supabaseClient.rpc('log_activity', { p_action: '2fa_enabled', p_details: '' }); } catch(e) {}
+      // Show backup codes (Supabase does not auto-generate these; show the TOTP secret as the fallback key)
+      var secretEl = document.getElementById('mfaSecretKey').textContent;
+      document.getElementById('mfaBackupCodes').innerHTML =
+        '<p style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:6px;">Your authenticator secret key (treat as a password):</p>' +
+        '<span style="color:#c9a84c;">' + secretEl + '</span>';
+      document.getElementById('mfaEnrolStep1').style.display = 'none';
+      document.getElementById('mfaEnrolStep2').style.display = 'block';
+    } catch(err) {
+      errEl.textContent = 'Invalid code — please check your authenticator and try again.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Confirm & Enable 2FA';
+      document.getElementById('mfaEnrolCode').value = '';
+      document.getElementById('mfaEnrolCode').focus();
+    }
+  }
+
+  function completeMfaEnrolment() {
+    document.getElementById('mfaEnrolmentOverlay').style.display = 'none';
+    proceedAfterAuth(_mfa2faProfile);
+  }
+
+  // Allow Enter key in enrolment input
+  document.getElementById('mfaEnrolCode').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') submitMfaEnrolment();
+  });
 
   // ─── INVITE MODAL (admin only) ───
   function openInviteModal() {
