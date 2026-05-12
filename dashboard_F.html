@@ -2491,89 +2491,85 @@
   window.addEventListener('popstate', routeToView);
 
   // ─── P4-1: CHANGE PASSWORD ───
-  (function wireChpw() {
-    const chpwState = { busy: false };
+  const _chpwState = { busy: false };
 
-    function getEmail() {
-      return (document.getElementById('userEmail') || {}).textContent || '';
+  function _chpwGetEmail() {
+    return (document.getElementById('userEmail') || {}).textContent || '';
+  }
+
+  function openChpwModal() {
+    _chpwState.busy = false;
+    const modal = document.getElementById('chpwModal');
+    if (!modal) return;
+    document.getElementById('chpwCurrent').value = '';
+    document.getElementById('chpwNew').value = '';
+    document.getElementById('chpwConfirm').value = '';
+    document.getElementById('chpwError').textContent = '';
+    document.getElementById('chpwSubmitBtn').disabled = false;
+    modal.classList.add('shown');
+    modal.setAttribute('aria-hidden', 'false');
+    document.getElementById('chpwCurrent').focus();
+  }
+
+  function closeChpwModal() {
+    const modal = document.getElementById('chpwModal');
+    if (!modal) return;
+    modal.classList.remove('shown');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  async function submitChpw() {
+    if (_chpwState.busy) return;
+    const currentPw = document.getElementById('chpwCurrent').value;
+    const newPw     = document.getElementById('chpwNew').value;
+    const confirmPw = document.getElementById('chpwConfirm').value;
+    const errorEl   = document.getElementById('chpwError');
+    const submitBtn = document.getElementById('chpwSubmitBtn');
+    errorEl.textContent = '';
+
+    if (!currentPw)          { errorEl.textContent = 'Please enter your current password.'; return; }
+    if (newPw.length < 8)    { errorEl.textContent = 'New password must be at least 8 characters.'; return; }
+    if (newPw === currentPw) { errorEl.textContent = 'New password must differ from current password.'; return; }
+    if (newPw !== confirmPw) { errorEl.textContent = 'Passwords do not match.'; return; }
+
+    _chpwState.busy = true;
+    submitBtn.disabled = true;
+
+    try {
+      const { error: reAuthErr } = await supabaseClient.auth.signInWithPassword({
+        email: _chpwGetEmail(), password: currentPw,
+      });
+      if (reAuthErr) { errorEl.textContent = 'Current password is incorrect.'; return; }
+
+      const { error: updateErr } = await supabaseClient.auth.updateUser({ password: newPw });
+      if (updateErr) { errorEl.textContent = 'Could not update password: ' + (updateErr.message || 'Unknown error'); return; }
+
+      await supabaseClient.rpc('log_activity', {
+        p_event_type:   'password_changed',
+        p_event_detail: { surface: 'dashboard_F', role: 'facilitator' },
+        p_cohort_id:    null,
+      });
+
+      closeChpwModal();
+      const toast = document.createElement('div');
+      toast.textContent = 'Password changed successfully.';
+      Object.assign(toast.style, {
+        position:'fixed', bottom:'28px', left:'50%', transform:'translateX(-50%)',
+        background:'rgba(30,42,30,0.97)', color:'#8ec9a3', border:'1px solid rgba(108,174,132,0.4)',
+        borderRadius:'6px', padding:'11px 22px', fontSize:'13px', fontWeight:'500',
+        zIndex:'9999', boxShadow:'0 4px 18px rgba(0,0,0,0.45)', pointerEvents:'none',
+      });
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    } catch (e) {
+      errorEl.textContent = 'Unexpected error: ' + (e && e.message ? e.message : 'Unknown error');
+    } finally {
+      _chpwState.busy = false;
+      submitBtn.disabled = false;
     }
+  }
 
-    function openChpwModal() {
-      chpwState.busy = false;
-      const modal = document.getElementById('chpwModal');
-      if (!modal) return;
-      document.getElementById('chpwCurrent').value = '';
-      document.getElementById('chpwNew').value = '';
-      document.getElementById('chpwConfirm').value = '';
-      document.getElementById('chpwError').textContent = '';
-      document.getElementById('chpwSubmitBtn').disabled = false;
-      modal.classList.add('shown');
-      modal.setAttribute('aria-hidden', 'false');
-      document.getElementById('chpwCurrent').focus();
-    }
-
-    function closeChpwModal() {
-      const modal = document.getElementById('chpwModal');
-      if (!modal) return;
-      modal.classList.remove('shown');
-      modal.setAttribute('aria-hidden', 'true');
-    }
-
-    async function submitChpw() {
-      if (chpwState.busy) return;
-      const currentPw = document.getElementById('chpwCurrent').value;
-      const newPw     = document.getElementById('chpwNew').value;
-      const confirmPw = document.getElementById('chpwConfirm').value;
-      const errorEl   = document.getElementById('chpwError');
-      const submitBtn = document.getElementById('chpwSubmitBtn');
-      errorEl.textContent = '';
-
-      if (!currentPw)          { errorEl.textContent = 'Please enter your current password.'; return; }
-      if (newPw.length < 8)    { errorEl.textContent = 'New password must be at least 8 characters.'; return; }
-      if (newPw === currentPw) { errorEl.textContent = 'New password must differ from current password.'; return; }
-      if (newPw !== confirmPw) { errorEl.textContent = 'Passwords do not match.'; return; }
-
-      chpwState.busy = true;
-      submitBtn.disabled = true;
-
-      try {
-        // Step 1: verify current password
-        const { error: reAuthErr } = await supabaseClient.auth.signInWithPassword({
-          email: getEmail(), password: currentPw,
-        });
-        if (reAuthErr) { errorEl.textContent = 'Current password is incorrect.'; return; }
-
-        // Step 2: update password
-        const { error: updateErr } = await supabaseClient.auth.updateUser({ password: newPw });
-        if (updateErr) { errorEl.textContent = 'Could not update password: ' + (updateErr.message || 'Unknown error'); return; }
-
-        // Step 3: log
-        await supabaseClient.rpc('log_activity', {
-          p_event_type:   'password_changed',
-          p_event_detail: { surface: 'dashboard_F', role: 'facilitator' },
-          p_cohort_id:    null,
-        });
-
-        closeChpwModal();
-        // Simple toast — reuse commit-modal pattern unavailable here; use alert-level banner
-        const toast = document.createElement('div');
-        toast.textContent = 'Password changed successfully.';
-        Object.assign(toast.style, {
-          position:'fixed', bottom:'28px', left:'50%', transform:'translateX(-50%)',
-          background:'rgba(30,42,30,0.97)', color:'#8ec9a3', border:'1px solid rgba(108,174,132,0.4)',
-          borderRadius:'6px', padding:'11px 22px', fontSize:'13px', fontWeight:'500',
-          zIndex:'9999', boxShadow:'0 4px 18px rgba(0,0,0,0.45)', pointerEvents:'none',
-        });
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3500);
-      } catch (e) {
-        errorEl.textContent = 'Unexpected error: ' + (e && e.message ? e.message : 'Unknown error');
-      } finally {
-        chpwState.busy = false;
-        submitBtn.disabled = false;
-      }
-    }
-
+  function _wireChpwModal() {
     const openBtn   = document.getElementById('chpwBtn');
     const closeBtn  = document.getElementById('chpwCloseBtn');
     const cancelBtn = document.getElementById('chpwCancelBtn');
@@ -2589,7 +2585,7 @@
         if (e.key === 'Enter'  && modal.classList.contains('shown')) submitChpw();
       });
     }
-  })();
+  }
   // ─── end P4-1 change password ───
 
   // ─── F1: SIGN OUT ───
@@ -5572,6 +5568,7 @@
     </div>
   </div>
 </div>
+<script>_wireChpwModal();</script>
 
 </body>
 </html>
