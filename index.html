@@ -1752,44 +1752,41 @@ async function validateAccess() {
   }
 
   // ─── P4-3: 2FA INTERCEPT (admin + facilitator only) ───
-  if (profile.role === 'admin' || profile.role === 'facilitator') {
-    var requireKey = profile.role === 'admin' ? 'auth.require_2fa_admin' : 'auth.require_2fa_facilitator';
-    var { data: settingRow } = await supabaseClient
-      .from('platform_settings')
-      .select('value')
-      .eq('key', requireKey)
-      .single();
-    var requires2fa = settingRow && settingRow.value === 'true';
+  try {
+    if (profile.role === 'admin' || profile.role === 'facilitator') {
+      var requireKey = profile.role === 'admin' ? 'auth.require_2fa_admin' : 'auth.require_2fa_facilitator';
+      var { data: settingRow } = await supabaseClient
+        .from('platform_settings')
+        .select('value')
+        .eq('key', requireKey)
+        .single();
+      var requires2fa = settingRow && (settingRow.value === 'true' || settingRow.value === true);
 
-    if (requires2fa) {
-      var { data: factorsData } = await supabaseClient.auth.mfa.listFactors();
-      var verifiedFactors = (factorsData && factorsData.totp)
-        ? factorsData.totp.filter(function(f) { return f.status === 'verified'; })
-        : [];
+      if (requires2fa) {
+        var { data: factorsData } = await supabaseClient.auth.mfa.listFactors();
+        var verifiedFactors = (factorsData && factorsData.totp)
+          ? factorsData.totp.filter(function(f) { return f.status === 'verified'; })
+          : [];
 
-      if (verifiedFactors.length === 0) {
-        // Not enrolled — start enrolment flow
-        _mfa2faProfile = profile;
-        _mfa2faEmail = email;
-        await show2faEnrolmentModal(profile);
-        return;
-      } else {
-        // Enrolled — show challenge
-        _mfa2faProfile = profile;
-        _mfa2faEmail = email;
-        _mfa2faFactor = verifiedFactors[0];
-        show2faChallengeModal();
-        return;
+        if (verifiedFactors.length === 0) {
+          _mfa2faProfile = profile;
+          _mfa2faEmail = email;
+          show2faEnrolmentModal(profile);
+          return;
+        } else {
+          _mfa2faProfile = profile;
+          _mfa2faEmail = email;
+          _mfa2faFactor = verifiedFactors[0];
+          show2faChallengeModal();
+          return;
+        }
       }
     }
+  } catch(e) {
+    console.error('2FA check error (fail-open):', e);
   }
 
   // No 2FA required — proceed normally
-  proceedAfterAuth(profile);
-}
-
-// ─── Called after successful auth (2FA passed or not required) ───
-function proceedAfterAuth(profile) {
   closeModal();
   if (profile.role === 'admin') {
     currentRole = 'Admin Access';
@@ -1860,7 +1857,8 @@ function proceedAfterAuth(profile) {
   }
 
   // Allow Enter key in challenge input
-  document.getElementById('mfaChallengeCode').addEventListener('keydown', function(e) {
+  var _ccInput = document.getElementById('mfaChallengeCode');
+  if (_ccInput) _ccInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') submitMfaChallenge();
   });
 
@@ -1938,7 +1936,8 @@ function proceedAfterAuth(profile) {
   }
 
   // Allow Enter key in enrolment input
-  document.getElementById('mfaEnrolCode').addEventListener('keydown', function(e) {
+  var _ecInput = document.getElementById('mfaEnrolCode');
+  if (_ecInput) _ecInput.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') submitMfaEnrolment();
   });
 
