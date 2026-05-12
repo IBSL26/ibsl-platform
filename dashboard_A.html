@@ -2393,6 +2393,13 @@
           </div>
         </section>
 
+        <!-- A4-UI-B: Organisation detail view (sub-view of organisations) -->
+        <section class="view" id="view-organisation-detail" data-view="organisation-detail">
+          <div id="organisationDetailContainer">
+            <!-- States rendered here by JS: skeleton | detail | not-found | error -->
+          </div>
+        </section>
+
         <section class="view" id="view-reports" data-view="reports">
           <div class="view-header">
             <div>
@@ -6777,9 +6784,7 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
-    // Row click — stubbed via toast until A4-UI-B detail view ships.
-    // When UI-B lands, replace toast with:
-    //   history.pushState({}, '', `?view=organisations&org=${id}`); handleRoute();
+    // Row click navigates to organisation detail (A4-UI-B).
     function wireOrganisationRowClick() {
       const container = document.getElementById('organisationListContainer');
       if (!container) return;
@@ -6788,9 +6793,10 @@ sam@gamma.org, Sam Lee, participant,`;
         if (e.target.closest('button')) return;
         const tr = e.target.closest('tr[data-row-kind="organisation"]');
         if (!tr) return;
-        if (typeof window.showToast === 'function') {
-          window.showToast('Organisation detail — coming in A4-UI-B');
-        }
+        const id = tr.dataset.rowId;
+        if (!id) return;
+        history.pushState({}, '', `?view=organisations&org=${id}`);
+        handleRoute();
       });
     }
 
@@ -6846,6 +6852,438 @@ sam@gamma.org, Sam Lee, participant,`;
       if (view === 'organisations' && !organisationListState.loaded) {
         loadOrganisationList();
       }
+    };
+
+
+    // ===========================================================
+    // A4-UI-B: Organisation detail view — state, loader, renderer
+    // Calls admin_get_organisation_detail(p_org_id) which returns a
+    // jsonb document: { organisation, participants, cohorts, summary,
+    // generated_at }. Renders three panels (basics + summary, participants,
+    // cohorts) using A2-UI-B detail-card conventions. Edit and Archive/
+    // Unarchive buttons are toast-stubbed until A4-UI-D and A4-UI-E land.
+    // Cohort rows deep-link to ?view=cohorts&cohort=<id>; participant rows
+    // deep-link to ?view=users&user=<id>.
+    // ===========================================================
+    const organisationDetailState = {
+      currentId: null,
+      loading:   false,
+      data:      null,
+      error:     null,   // 'organisation_not_found' | <other message>
+    };
+
+    function organisationDetailParticipantRowHtml(p) {
+      const statusPill = p.suspended
+        ? `<span class="status-pip" style="background:#c45a4d" title="Suspended"></span>`
+        : `<span class="status-pip status-pip--active" title="Active"></span>`;
+      const suspendedTag = p.suspended
+        ? ` <span class="cohort-name__archived-tag" style="background:rgba(196,90,77,0.18);color:#e9a99c;border-color:rgba(196,90,77,0.4)">Suspended</span>`
+        : '';
+      return `
+        <tr data-row-id="${p.id}" data-row-kind="org-participant">
+          <td>${statusPill}</td>
+          <td><span class="cohort-name">${escapeHtml(p.full_name || '(no name)')}</span>${suspendedTag}</td>
+          <td class="cell-secondary">${escapeHtml(p.email || '')}</td>
+        </tr>
+      `;
+    }
+
+    function organisationDetailCohortRowHtml(c) {
+      const archived = !!c.archived_at;
+      const statusPill = archived
+        ? `<span class="status-pip" style="background:rgba(255,255,255,0.18)" title="Archived"></span>`
+        : `<span class="status-pip status-pip--active" title="Active"></span>`;
+      const archivedTag = archived
+        ? ` <span class="cohort-name__archived-tag">Archived</span>`
+        : '';
+      const dates = (c.cohort_type === 'rolling' || (!c.start_date && !c.end_date))
+        ? '—'
+        : fmtDateRange(c.start_date, c.end_date);
+      const pct = (c.completion_percentage != null && c.completion_percentage !== '')
+        ? `${c.completion_percentage}%`
+        : '—';
+      const pCount = (c.participant_count != null) ? c.participant_count : 0;
+      return `
+        <tr data-row-id="${c.id}" data-row-kind="org-cohort">
+          <td>${statusPill}</td>
+          <td><span class="cohort-name">${escapeHtml(c.name || '')}</span>${archivedTag}</td>
+          <td><span class="type-badge">${escapeHtml(c.cohort_type || '')}</span></td>
+          <td class="cell-secondary">${dates}</td>
+          <td><span class="type-badge" style="text-transform:none;letter-spacing:0;">${escapeHtml(c.status || '')}</span></td>
+          <td class="cell-secondary">${pCount}</td>
+          <td class="cell-secondary">${pct}</td>
+        </tr>
+      `;
+    }
+
+    function organisationDetailParticipantsTableHtml(rowsHtml) {
+      return `
+        <div class="cohort-table-wrap" style="margin-top:0;">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function organisationDetailCohortsTableHtml(rowsHtml) {
+      return `
+        <div class="cohort-table-wrap" style="margin-top:0;">
+          <table class="cohort-table">
+            <thead>
+              <tr>
+                <th style="width:36px;"></th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Dates</th>
+                <th>Status</th>
+                <th title="Distinct participants enrolled">Participants</th>
+                <th>Completion</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function renderOrganisationDetailHtml(bundle) {
+      const o = bundle.organisation || {};
+      const summary = bundle.summary || {};
+      const participants = bundle.participants || [];
+      const cohorts = bundle.cohorts || [];
+      const archived = !!o.archived_at;
+
+      const sectorVal = o.sector
+        ? `<div class="basics-grid__value">${escapeHtml(o.sector)}</div>`
+        : `<div class="basics-grid__value basics-grid__value--muted">— none —</div>`;
+      const notesVal = o.notes
+        ? `<div class="basics-grid__value" style="white-space:pre-wrap;">${escapeHtml(o.notes)}</div>`
+        : `<div class="basics-grid__value basics-grid__value--muted">— none —</div>`;
+      const subtitleBits = [];
+      if (o.sector)  subtitleBits.push(escapeHtml(o.sector));
+      if (o.country) subtitleBits.push(escapeHtml(o.country));
+      const subtitle = subtitleBits.length ? subtitleBits.join(' · ') : '';
+
+      const archivedTagInTitle = archived
+        ? ` <span class="cohort-name__archived-tag" style="margin-left:10px;">Archived</span>`
+        : '';
+
+      const archivedBanner = archived ? `
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);border-left:3px solid rgba(255,255,255,0.45);border-radius:6px;padding:14px 18px;margin-bottom:24px;color:rgba(255,255,255,0.78);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div><strong>Archived</strong> · This organisation is hidden from picklists. ${o.archived_at ? `Archived on ${escapeHtml(fmtDateTime(o.archived_at))}.` : ''}</div>
+        </div>
+      ` : '';
+
+      // Header action buttons: Edit only when active; Archive/Unarchive always.
+      const editBtn = archived ? '' : `<button type="button" class="btn btn--primary" data-action="edit-organisation-from-detail" data-id="${o.id}">Edit</button>`;
+      const archiveBtn = archived
+        ? `<button type="button" class="btn btn--primary" style="background:transparent;border:1px solid var(--gold);color:var(--gold);" data-action="unarchive-organisation-from-detail" data-id="${o.id}">Unarchive</button>`
+        : `<button type="button" class="btn btn--primary" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.85);" data-action="archive-organisation-from-detail" data-id="${o.id}">Archive</button>`;
+
+      const completionVal = (summary.aggregate_completion_percentage != null && summary.aggregate_completion_percentage !== '')
+        ? `${summary.aggregate_completion_percentage}%`
+        : '—';
+
+      const participantsBody = participants.length === 0
+        ? '<div class="people-list__empty">No participants enrolled in any cohort sponsored by this organisation.</div>'
+        : organisationDetailParticipantsTableHtml(participants.map(organisationDetailParticipantRowHtml).join(''));
+
+      const cohortsBody = cohorts.length === 0
+        ? '<div class="people-list__empty">No cohorts sponsored by this organisation.</div>'
+        : organisationDetailCohortsTableHtml(cohorts.map(organisationDetailCohortRowHtml).join(''));
+
+      return `
+        <button type="button" class="detail-back" id="organisationDetailBackBtn">← Back to Organisations</button>
+
+        <div class="view-header">
+          <div>
+            <div class="view-header__kicker">Organisation detail</div>
+            <h1 class="view-header__title">${escapeHtml(o.name || '(unnamed)')}${archivedTagInTitle}</h1>
+            ${subtitle ? `<div class="view-header__sub">${subtitle}</div>` : ''}
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            ${editBtn}
+            ${archiveBtn}
+          </div>
+        </div>
+
+        ${archivedBanner}
+
+        <div style="display:flex;flex-wrap:wrap;gap:20px;margin-bottom:24px;">
+          <div class="detail-card" style="flex:1 1 480px;margin-bottom:0;">
+            <div class="detail-card__head">
+              <div class="detail-card__title">Basics</div>
+            </div>
+            <div class="basics-grid">
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Name</div>
+                <div class="basics-grid__value basics-grid__value--serif">${escapeHtml(o.name || '')}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Sector</div>
+                ${sectorVal}
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Country</div>
+                <div class="basics-grid__value">${escapeHtml(o.country || '—')}</div>
+              </div>
+              <div class="basics-grid__item" style="grid-column:1 / -1;">
+                <div class="basics-grid__label">Notes</div>
+                ${notesVal}
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Created</div>
+                <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(o.created_at)}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Last modified</div>
+                <div class="basics-grid__value basics-grid__value--muted">${fmtDateTime(o.updated_at)}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Archive status</div>
+                <div class="basics-grid__value basics-grid__value--muted">${archived ? `Archived · ${escapeHtml(fmtDateTime(o.archived_at))}` : 'Active'}</div>
+              </div>
+            </div>
+          </div>
+          <div class="detail-card" style="flex:0 1 320px;margin-bottom:0;">
+            <div class="detail-card__head">
+              <div class="detail-card__title">Summary</div>
+            </div>
+            <div class="basics-grid" style="grid-template-columns:1fr;">
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Participants</div>
+                <div class="basics-grid__value">${summary.participant_count != null ? summary.participant_count : 0}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Cohorts (total)</div>
+                <div class="basics-grid__value">${summary.cohort_count != null ? summary.cohort_count : 0}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Active cohorts</div>
+                <div class="basics-grid__value">${summary.active_cohort_count != null ? summary.active_cohort_count : 0}</div>
+              </div>
+              <div class="basics-grid__item">
+                <div class="basics-grid__label">Aggregate completion</div>
+                <div class="basics-grid__value">${completionVal}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Participants</div>
+              <div class="detail-card__count">${participants.length} ${participants.length === 1 ? 'participant' : 'participants'} · enrolled in any cohort sponsored by this organisation</div>
+            </div>
+          </div>
+          ${participantsBody}
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Cohorts</div>
+              <div class="detail-card__count">${cohorts.length} ${cohorts.length === 1 ? 'cohort' : 'cohorts'} · current and historical</div>
+            </div>
+          </div>
+          ${cohortsBody}
+        </div>
+      `;
+    }
+
+    function organisationDetailSkeletonHtml() {
+      return `
+        <div style="padding:32px 0;">
+          <div class="skeleton-bar" style="width:160px;height:14px;margin-bottom:24px;"></div>
+          <div class="skeleton-bar" style="width:60%;height:32px;margin-bottom:32px;"></div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:24px;">
+            <div class="skeleton-bar" style="flex:1 1 480px;height:200px;"></div>
+            <div class="skeleton-bar" style="flex:0 1 320px;height:200px;"></div>
+          </div>
+          <div class="skeleton-bar" style="width:100%;height:160px;margin-bottom:24px;"></div>
+          <div class="skeleton-bar" style="width:100%;height:160px;"></div>
+        </div>
+      `;
+    }
+
+    function renderOrganisationDetail() {
+      const container = document.getElementById('organisationDetailContainer');
+      if (!container) return;
+      if (organisationDetailState.loading) {
+        container.innerHTML = organisationDetailSkeletonHtml();
+        return;
+      }
+      if (organisationDetailState.error === 'organisation_not_found') {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="organisationDetailBackBtn">← Back to Organisations</button>
+          <div class="empty-state">
+            <div class="empty-state__title">Organisation not found</div>
+            <div class="empty-state__body">This organisation may have been removed, or the link is wrong.</div>
+            <button type="button" class="btn btn--primary empty-state__cta" id="organisationDetailBackCta">Back to Organisations</button>
+          </div>
+        `;
+        return;
+      }
+      if (organisationDetailState.error) {
+        container.innerHTML = `
+          <button type="button" class="detail-back" id="organisationDetailBackBtn">← Back to Organisations</button>
+          <div class="error-state">
+            <div class="error-state__title">Could not load organisation</div>
+            <div class="error-state__body">${escapeHtml(organisationDetailState.error)}</div>
+          </div>
+        `;
+        return;
+      }
+      if (!organisationDetailState.data) {
+        container.innerHTML = organisationDetailSkeletonHtml();
+        return;
+      }
+      container.innerHTML = renderOrganisationDetailHtml(organisationDetailState.data);
+    }
+
+    async function loadOrganisationDetail(orgId) {
+      organisationDetailState.currentId = orgId;
+      organisationDetailState.loading   = true;
+      organisationDetailState.data      = null;
+      organisationDetailState.error     = null;
+      renderOrganisationDetail();
+      try {
+        const { data, error } = await sb.rpc('admin_get_organisation_detail', { p_org_id: orgId });
+        if (organisationDetailState.currentId !== orgId) return;  // superseded by another navigation
+        organisationDetailState.loading = false;
+        if (error) {
+          const msg = error.message || '';
+          if (msg.indexOf('organisation_not_found') !== -1 || error.code === 'P0002') {
+            organisationDetailState.error = 'organisation_not_found';
+          } else {
+            organisationDetailState.error = msg || 'RPC failed.';
+          }
+          renderOrganisationDetail();
+          return;
+        }
+        if (!data) {
+          organisationDetailState.error = 'organisation_not_found';
+          renderOrganisationDetail();
+          return;
+        }
+        organisationDetailState.data = data;
+        renderOrganisationDetail();
+      } catch (e) {
+        if (organisationDetailState.currentId !== orgId) return;
+        organisationDetailState.loading = false;
+        organisationDetailState.error = e.message || 'Network error.';
+        renderOrganisationDetail();
+      }
+    }
+
+    // Toggle which section is visible (organisations list vs detail).
+    function setOrganisationViewMode(mode) {
+      const list   = document.getElementById('view-organisations');
+      const detail = document.getElementById('view-organisation-detail');
+      if (!list || !detail) return;
+      if (mode === 'detail') {
+        list.classList.remove('view--active');
+        detail.classList.add('view--active');
+      } else {
+        detail.classList.remove('view--active');
+        list.classList.add('view--active');
+      }
+    }
+
+    // Wire delegated clicks inside the detail container:
+    //  - Back button / not-found CTA
+    //  - Edit / Archive / Unarchive (toast-stubbed until UI-D / UI-E)
+    //  - Cohort row click → deep-link to cohort detail
+    //  - Participant row click → deep-link to user detail
+    function wireOrganisationDetailContainer() {
+      const container = document.getElementById('organisationDetailContainer');
+      if (!container) return;
+      container.addEventListener('click', (e) => {
+        if (e.target.closest('#organisationDetailBackBtn') || e.target.id === 'organisationDetailBackCta') {
+          history.pushState({}, '', '?view=organisations');
+          handleRoute();
+          return;
+        }
+        const actionEl = e.target.closest('[data-action]');
+        if (actionEl) {
+          const action = actionEl.dataset.action;
+          if (action === 'edit-organisation-from-detail') {
+            if (typeof window.showToast === 'function') {
+              window.showToast('Edit organisation — coming in A4-UI-D');
+            }
+            return;
+          }
+          if (action === 'archive-organisation-from-detail') {
+            if (typeof window.showToast === 'function') {
+              window.showToast('Archive organisation — coming in A4-UI-E');
+            }
+            return;
+          }
+          if (action === 'unarchive-organisation-from-detail') {
+            if (typeof window.showToast === 'function') {
+              window.showToast('Unarchive organisation — coming in A4-UI-E');
+            }
+            return;
+          }
+        }
+        // Cohort row → cohort detail
+        const cohortTr = e.target.closest('tr[data-row-kind="org-cohort"]');
+        if (cohortTr) {
+          const id = cohortTr.dataset.rowId;
+          if (id) {
+            history.pushState({}, '', `?view=cohorts&cohort=${id}`);
+            handleRoute();
+          }
+          return;
+        }
+        // Participant row → user detail
+        const partTr = e.target.closest('tr[data-row-kind="org-participant"]');
+        if (partTr) {
+          const id = partTr.dataset.rowId;
+          if (id) {
+            history.pushState({}, '', `?view=users&user=${id}`);
+            handleRoute();
+          }
+          return;
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      wireOrganisationDetailContainer();
+    });
+
+    // Route hook: switch list vs detail based on ?org=<uuid>. Runs after the
+    // A4-UI-A wrap so initial list fetch still kicks off, then this wrap toggles
+    // the visible section.
+    const _origHandleRoute_uiB4 = handleRoute;
+    handleRoute = function patchedHandleRouteForOrganisationDetail() {
+      _origHandleRoute_uiB4.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      const orgParam = params.get('org');
+      if (view !== 'organisations') {
+        const detailEl = document.getElementById('view-organisation-detail');
+        if (detailEl) detailEl.classList.remove('view--active');
+        return;
+      }
+      if (orgParam) {
+        setOrganisationViewMode('detail');
+        if (organisationDetailState.currentId !== orgParam) {
+          loadOrganisationDetail(orgParam);
+        }
+        return;
+      }
+      setOrganisationViewMode('list');
     };
 
 
