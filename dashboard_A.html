@@ -2521,7 +2521,7 @@
     text-transform: uppercase;
     margin-top: 8px;
   }
-  /* Status pills — active (green) / banned (red) / deleted (grey) / unconfirmed (amber) */
+  /* Status pills — active (green) / banned (red) / deleted (grey) / unconfirmed (amber) / deactivated (gold) */
   .support-status {
     display: inline-block;
     font-family: Montserrat, sans-serif;
@@ -2537,6 +2537,7 @@
   .support-status--banned       { background: rgba(196,90,77,0.20);   color: #e9a99c; border: 1px solid rgba(196,90,77,0.45); }
   .support-status--deleted      { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
   .support-status--unconfirmed  { background: rgba(217,134,80,0.18);  color: #d99e6c; border: 1px solid rgba(217,134,80,0.40); }
+  .support-status--deactivated  { background: rgba(201,168,76,0.14);  color: #d8b85f; border: 1px solid rgba(201,168,76,0.40); }
   /* Initial state shown when query length < 2 */
   .support-prompt-state {
     background: rgba(34,71,47,0.18);
@@ -2628,6 +2629,7 @@
         <li class="nav__item" data-nav="health"><a href="?view=health"><span>Health</span></a></li>
         <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
         <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
+        <li class="nav__item" data-nav="platform-settings"><a href="?view=platform-settings"><span>Platform settings</span></a></li>
       </ul>
     </aside>
 
@@ -2960,6 +2962,21 @@
           </div>
         </section>
 
+        <!-- A9-UI-A: Platform Settings view (Inactivity & auto-deactivation) -->
+        <section class="view" id="view-platform-settings" data-view="platform-settings">
+          <div class="view-header">
+            <div>
+              <div class="view-header__kicker">Platform configuration</div>
+              <h1 class="view-header__title">Platform settings</h1>
+              <div class="view-header__sub">Configurable thresholds and scheduled jobs that affect the whole platform.</div>
+            </div>
+          </div>
+
+          <div id="platformSettingsContainer">
+            <!-- States rendered here by JS: skeleton | loaded | error -->
+          </div>
+        </section>
+
       </div>
     </main>
   </div>
@@ -2993,7 +3010,7 @@
     // -----------------------------------------------------------
     // Boot — auth + role check, then render
     // -----------------------------------------------------------
-    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support'];
+    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support','platform-settings'];
     const VIEW_TITLES = {
       cohorts: 'Cohorts',
       users: 'Users',
@@ -3002,7 +3019,8 @@
       reports: 'Completion Reports',
       health: 'Health',
       activity: 'Activity log',
-      support: 'Support'
+      support: 'Support',
+      'platform-settings': 'Platform settings'
     };
 
     function showBootMessage(msg) {
@@ -4767,6 +4785,37 @@
       });
     }
 
+    // A9-UI-B: Confirm + reactivate a user (clears deactivated_at via
+    // reactivate_user RPC). Mirrors confirmAndUnsuspend's shape.
+    function confirmAndReactivate(userId, userName) {
+      showConfirmModal({
+        title: 'Reactivate this user?',
+        body: `Reactivating <strong>${escapeHtml(userName || 'this user')}</strong> clears their auto-deactivation flag immediately. Note: a successful sign-in will also reactivate the account automatically.`,
+        proceedLabel: 'Reactivate user',
+        onProceed: async () => {
+          try {
+            const { error } = await sb.rpc('reactivate_user', { p_target_user_id: userId });
+            if (error) {
+              window.showToast(error.message || 'Reactivate failed.');
+              return;
+            }
+            window.showToast('User reactivated.');
+            userListState.loaded = false;
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('view') === 'users' && !params.get('user')) {
+              loadUserList();
+            }
+            if (userDetailState.currentId === userId) {
+              userDetailState.currentId = null;
+              loadUserDetail(userId);
+            }
+          } catch (e) {
+            window.showToast(e.message || 'Network error.');
+          }
+        },
+      });
+    }
+
     // Inline-unarchive: replace the archived banner's Unarchive button with
     // an inline confirm row, same pattern as people_list remove confirm.
     function toggleUnarchiveConfirmRow(bannerEl, cohortId, cohortName) {
@@ -5151,6 +5200,15 @@
         </div>
       ` : '';
 
+      // A9-UI-B: Deactivated banner. Shown only when the user is not also
+      // suspended (suspended > deactivated in the status precedence).
+      const deactivatedBanner = (!u.suspended && u.deactivated_at) ? `
+        <div style="background:rgba(201,168,76,0.14);border:1px solid rgba(201,168,76,0.40);border-radius:6px;padding:14px 18px;margin-bottom:24px;color:#d8b85f;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div><strong>Deactivated</strong> · Auto-deactivated for inactivity on ${escapeHtml(fmtDateTime(u.deactivated_at))}. Trusted devices wiped; pending outbound invitations auto-revoked. Sign-in will auto-reactivate.</div>
+          ${(isSelf || isBootstrap) ? '' : `<button type="button" data-action="reactivate-user-from-detail" data-id="${u.id}" style="background:transparent;border:1px solid rgba(201,168,76,0.55);color:#d8b85f;padding:6px 14px;border-radius:4px;font-family:Montserrat,sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;">Reactivate</button>`}
+        </div>
+      ` : '';
+
       const deviceBoundValue = u.device_bound
         ? `Yes · confirmed ${fmtDateTime(u.device_confirmed_at)}`
         : 'Not yet bound';
@@ -5204,6 +5262,7 @@
         </div>
 
         ${suspendedBanner}
+        ${deactivatedBanner}
 
         <div class="detail-card">
           <div class="detail-card__head">
@@ -5228,7 +5287,7 @@
             </div>
             <div class="basics-grid__item">
               <div class="basics-grid__label">Status</div>
-              <div class="basics-grid__value">${u.suspended ? 'Suspended' : 'Active'}</div>
+              <div class="basics-grid__value">${u.suspended ? 'Suspended' : (u.deactivated_at ? 'Deactivated' : 'Active')}</div>
             </div>
             <div class="basics-grid__item">
               <div class="basics-grid__label">Device bound</div>
@@ -5377,6 +5436,11 @@
             const u = userDetailState.data && userDetailState.data.user;
             const userName = u ? (u.full_name || u.email) : null;
             if (userId) confirmAndUnsuspend(userId, userName);
+          } else if (action === 'reactivate-user-from-detail') {
+            const userId = actionEl.dataset.id;
+            const u = userDetailState.data && userDetailState.data.user;
+            const userName = u ? (u.full_name || u.email) : null;
+            if (userId) confirmAndReactivate(userId, userName);
           }
         }
       });
@@ -10251,6 +10315,12 @@ sam@gamma.org, Sam Lee, participant,`;
              <div class="basics-grid__label">Deleted at</div>
              <div class="basics-grid__value">${escapeHtml(fmtAbsoluteDateTime(id.deleted_at))}</div>
            </div>` : '';
+      // A8-FOLLOWUP-1: surface deactivated_at when the user is deactivated
+      const deactivatedAtItem = id.deactivated_at
+        ? `<div class="basics-grid__item">
+             <div class="basics-grid__label">Deactivated at</div>
+             <div class="basics-grid__value">${escapeHtml(fmtAbsoluteDateTime(id.deactivated_at))} <span class="basics-grid__value--muted">· auto-inactivity</span></div>
+           </div>` : '';
 
       const identityCard = `
         <div class="detail-card">
@@ -10292,6 +10362,7 @@ sam@gamma.org, Sam Lee, participant,`;
             </div>
             ${banUntilItem}
             ${deletedAtItem}
+            ${deactivatedAtItem}
           </div>
         </div>
       `;
@@ -10534,6 +10605,303 @@ sam@gamma.org, Sam Lee, participant,`;
 
 
     // -----------------------------------------------------------
+    // A9-UI-A: Platform Settings view
+    //
+    // Inactivity & auto-deactivation panel:
+    //  · Reads threshold + last-run summary from platform_settings
+    //  · Saves threshold via set_platform_setting
+    //  · "Run now" manual trigger calls run_inactivity_deactivation
+    //
+    // Designed to grow as future settings sections are added (e.g.
+    // invitation TTL, B-BBEE thresholds) — the renderer composes
+    // sections as detail-cards.
+    // -----------------------------------------------------------
+    const platformSettingsState = {
+      loaded: false,
+      error: null,
+      threshold: null,
+      lastRun: null,
+      thresholdSaving: false,
+      runNowInflight: false,
+      inflightToken: 0,
+    };
+
+    function fmtPSDateTime(ts) {
+      if (!ts) return '—';
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) return '—';
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(d.getUTCDate()).padStart(2, '0');
+      const hh = String(d.getUTCHours()).padStart(2, '0');
+      const mi = String(d.getUTCMinutes()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd} ${hh}:${mi} UTC`;
+    }
+
+    function renderPlatformSettingsSkeleton() {
+      const c = document.getElementById('platformSettingsContainer');
+      if (!c) return;
+      c.innerHTML = `
+        <div class="detail-skel">
+          <div class="detail-skel__card">
+            <div class="detail-skel__bar" style="width:45%;"></div>
+            <div class="detail-skel__bar" style="width:30%;"></div>
+            <div class="detail-skel__bar" style="width:60%;"></div>
+          </div>
+          <div class="detail-skel__card">
+            <div class="detail-skel__bar" style="width:55%;"></div>
+            <div class="detail-skel__bar" style="width:40%;"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPlatformSettingsError(message) {
+      const c = document.getElementById('platformSettingsContainer');
+      if (!c) return;
+      c.innerHTML = `
+        <div class="error-state">
+          <div class="error-state__title">Could not load platform settings</div>
+          <div class="error-state__body">${escapeHtml(message || 'Unknown error')}</div>
+        </div>
+      `;
+    }
+
+    function renderPlatformSettings() {
+      const c = document.getElementById('platformSettingsContainer');
+      if (!c) return;
+      const thr = (platformSettingsState.threshold == null) ? 180 : platformSettingsState.threshold;
+      const lr = platformSettingsState.lastRun;
+
+      const lastRunHtml = lr
+        ? `
+          <div class="basics-grid">
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Last run</div>
+              <div class="basics-grid__value">${escapeHtml(fmtPSDateTime(lr.run_at))}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Threshold used</div>
+              <div class="basics-grid__value">${escapeHtml(String(lr.threshold_days == null ? '—' : lr.threshold_days))} days</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Users deactivated</div>
+              <div class="basics-grid__value">${escapeHtml(String(lr.deactivated_count == null ? '—' : lr.deactivated_count))}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Trusted devices wiped</div>
+              <div class="basics-grid__value">${escapeHtml(String(lr.devices_wiped == null ? '—' : lr.devices_wiped))}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Invitations auto-revoked</div>
+              <div class="basics-grid__value">${escapeHtml(String(lr.invitations_auto_revoked == null ? '—' : lr.invitations_auto_revoked))}</div>
+            </div>
+          </div>
+        `
+        : `
+          <div class="basics-grid__value basics-grid__value--muted" style="font-style: italic;">
+            Not yet run. The scheduler executes hourly; manual run is available below.
+          </div>
+        `;
+
+      c.innerHTML = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Inactivity & auto-deactivation</div>
+              <div class="detail-card__count">Hourly scheduled job</div>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-bottom: 0;">
+            <label class="form-label" for="inactivityThresholdInput">Deactivate users inactive for</label>
+            <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+              <input type="number" class="form-input" id="inactivityThresholdInput" min="30" max="3650" step="1" value="${escapeHtml(String(thr))}" style="width: 120px;">
+              <span style="font-size: 13px; color: rgba(255,255,255,0.72);">days</span>
+              <button type="button" class="btn btn--primary" id="inactivityThresholdSaveBtn">Save</button>
+            </div>
+            <div class="form-help">Whole number between 30 and 3650. Default: 180 days. Compared against each user's last sign-in time.</div>
+            <div class="form-error-inline" id="inactivityThresholdError"></div>
+          </div>
+        </div>
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Last scheduled run</div>
+              <div class="detail-card__count">Read-only summary</div>
+            </div>
+            <button type="button" class="btn btn--primary" id="inactivityRunNowBtn">Run now</button>
+          </div>
+          ${lastRunHtml}
+        </div>
+      `;
+
+      wirePlatformSettingsControls();
+    }
+
+    function wirePlatformSettingsControls() {
+      const saveBtn = document.getElementById('inactivityThresholdSaveBtn');
+      const input = document.getElementById('inactivityThresholdInput');
+      const errEl = document.getElementById('inactivityThresholdError');
+      const runBtn = document.getElementById('inactivityRunNowBtn');
+
+      if (saveBtn && input) {
+        saveBtn.addEventListener('click', async () => {
+          const raw = (input.value || '').trim();
+          const n = Number(raw);
+          if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+          if (!Number.isInteger(n) || n < 30 || n > 3650) {
+            if (errEl) { errEl.textContent = 'Threshold must be a whole number between 30 and 3650.'; errEl.style.display = 'block'; }
+            return;
+          }
+          if (platformSettingsState.thresholdSaving) return;
+          platformSettingsState.thresholdSaving = true;
+          saveBtn.disabled = true;
+          try {
+            const { error } = await sb.rpc('set_platform_setting', {
+              p_key: 'auth.inactivity_deactivation_days',
+              p_value: n,
+            });
+            if (error) {
+              window.showToast(error.message || 'Save failed.');
+              return;
+            }
+            platformSettingsState.threshold = n;
+            window.showToast(`Threshold saved: ${n} days.`);
+          } catch (e) {
+            window.showToast((e && e.message) || 'Network error.');
+          } finally {
+            platformSettingsState.thresholdSaving = false;
+            saveBtn.disabled = false;
+          }
+        });
+      }
+
+      if (runBtn) {
+        runBtn.addEventListener('click', () => {
+          openInactivityRunNowModal();
+        });
+      }
+    }
+
+    function openInactivityRunNowModal() {
+      const modal = document.getElementById('inactivityRunNowModal');
+      if (!modal) return;
+      modal.classList.add('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeInactivityRunNowModal() {
+      const modal = document.getElementById('inactivityRunNowModal');
+      if (!modal) return;
+      modal.classList.remove('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    async function executeInactivityRunNow() {
+      if (platformSettingsState.runNowInflight) return;
+      platformSettingsState.runNowInflight = true;
+      const confirmBtn = document.getElementById('inactivityRunNowConfirmBtn');
+      if (confirmBtn) confirmBtn.disabled = true;
+      try {
+        const { data, error } = await sb.rpc('run_inactivity_deactivation');
+        if (error) {
+          window.showToast(error.message || 'Run failed.');
+          return;
+        }
+        platformSettingsState.lastRun = data;
+        const count = (data && data.deactivated_count != null) ? data.deactivated_count : 0;
+        window.showToast(`Run complete. ${count} user(s) deactivated.`);
+        closeInactivityRunNowModal();
+        renderPlatformSettings();
+      } catch (e) {
+        window.showToast((e && e.message) || 'Network error.');
+      } finally {
+        platformSettingsState.runNowInflight = false;
+        if (confirmBtn) confirmBtn.disabled = false;
+      }
+    }
+
+    function wireInactivityRunNowModalOnce() {
+      const modal = document.getElementById('inactivityRunNowModal');
+      if (!modal || modal.dataset.wired === '1') return;
+      modal.dataset.wired = '1';
+
+      const closeBtn = document.getElementById('inactivityRunNowModalCloseBtn');
+      const cancelBtn = document.getElementById('inactivityRunNowCancelBtn');
+      const confirmBtn = document.getElementById('inactivityRunNowConfirmBtn');
+
+      if (closeBtn) closeBtn.addEventListener('click', closeInactivityRunNowModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeInactivityRunNowModal);
+      if (confirmBtn) confirmBtn.addEventListener('click', executeInactivityRunNow);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeInactivityRunNowModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('modal-backdrop--shown')) {
+          closeInactivityRunNowModal();
+        }
+      });
+    }
+
+    async function loadPlatformSettings() {
+      const myToken = ++platformSettingsState.inflightToken;
+      platformSettingsState.loaded = false;
+      platformSettingsState.error = null;
+      renderPlatformSettingsSkeleton();
+      try {
+        const { data, error } = await sb.rpc('list_platform_settings');
+        if (myToken !== platformSettingsState.inflightToken) return;
+        if (error) {
+          platformSettingsState.error = error.message || 'Unknown error';
+          renderPlatformSettingsError(platformSettingsState.error);
+          return;
+        }
+        const rows = Array.isArray(data) ? data : [];
+        platformSettingsState.threshold = null;
+        platformSettingsState.lastRun = null;
+        for (const r of rows) {
+          if (r && r.key === 'auth.inactivity_deactivation_days') {
+            const v = r.value;
+            platformSettingsState.threshold = (typeof v === 'number') ? v : Number(v);
+          }
+          if (r && r.key === 'auth.inactivity_deactivation_last_run') {
+            platformSettingsState.lastRun = r.value || null;
+          }
+        }
+        platformSettingsState.loaded = true;
+        renderPlatformSettings();
+      } catch (e) {
+        if (myToken !== platformSettingsState.inflightToken) return;
+        platformSettingsState.error = (e && e.message) ? e.message : 'Unknown error';
+        renderPlatformSettingsError(platformSettingsState.error);
+      }
+    }
+
+    function wirePlatformSettings() {
+      wireInactivityRunNowModalOnce();
+      if (platformSettingsState.loaded) {
+        renderPlatformSettings();
+        return;
+      }
+      loadPlatformSettings();
+    }
+
+    // Route hook for A9-UI-A
+    const _origHandleRoute_uiA9 = handleRoute;
+    handleRoute = function patchedHandleRouteForPlatformSettings() {
+      _origHandleRoute_uiA9.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view === 'platform-settings') {
+        wirePlatformSettings();
+      }
+    };
+
+
+    // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
     boot();
@@ -10634,6 +11002,28 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" id="organisationEditModalBody">
           <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- A9-UI-A: Inactivity Run-now confirmation modal -->
+    <div class="modal-backdrop" id="inactivityRunNowModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog" style="width: 480px;">
+        <div class="modal-head">
+          <div class="modal-title">Run inactivity deactivation now?</div>
+          <button type="button" class="modal-close" id="inactivityRunNowModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding: 22px 28px 8px;">
+          <p style="margin: 0 0 14px; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.55;">
+            This will immediately deactivate every user inactive longer than the current threshold, wipe their trusted devices, and auto-revoke their outbound pending invitations.
+          </p>
+          <p style="margin: 0 0 8px; color: rgba(255,255,255,0.55); font-size: 12px;">
+            Deactivation is reversible: affected users will be re-activated automatically on next sign-in, or manually via the user edit panel.
+          </p>
+        </div>
+        <div class="form-actions" style="margin: 0; padding: 18px 28px 22px;">
+          <button type="button" class="btn--ghost" id="inactivityRunNowCancelBtn">Cancel</button>
+          <button type="button" class="btn btn--primary" id="inactivityRunNowConfirmBtn">Run now</button>
         </div>
       </div>
     </div>
