@@ -11305,28 +11305,32 @@ sam@gamma.org, Sam Lee, participant,`;
 
     async function modHandleAction(action, messageId) {
       const labels = {
-        hide:   { title: 'Hide message?',   body: 'The message will be hidden from participants and facilitators. The content is preserved for audit. This can be undone.', confirm: 'Hide', rpc: 'admin_hide_message' },
-        unhide: { title: 'Unhide message?', body: 'The message will become visible again to all parties in the thread.',                                                    confirm: 'Unhide', rpc: 'admin_unhide_message' },
-        flag:   { title: 'Flag message?',   body: 'The message will be marked as flagged for conduct review. This does not hide it.',                                       confirm: 'Flag',  rpc: 'admin_flag_message' },
-        unflag: { title: 'Unflag message?', body: 'The flag will be removed from this message.',                                                                            confirm: 'Unflag', rpc: 'admin_unflag_message' },
+        hide:   { title: 'Hide message?',   body: 'The message will be hidden from participants and facilitators. The content is preserved for audit. This can be undone.', proceedLabel: 'Hide',   rpc: 'admin_hide_message' },
+        unhide: { title: 'Unhide message?', body: 'The message will become visible again to all parties in the thread.',                                                    proceedLabel: 'Unhide', rpc: 'admin_unhide_message' },
+        flag:   { title: 'Flag message?',   body: 'The message will be marked as flagged for conduct review. This does not hide it.',                                       proceedLabel: 'Flag',   rpc: 'admin_flag_message' },
+        unflag: { title: 'Unflag message?', body: 'The flag will be removed from this message.',                                                                            proceedLabel: 'Unflag', rpc: 'admin_unflag_message' },
       };
       const cfg = labels[action];
       if (!cfg) return;
 
-      showConfirmModal(cfg.title, cfg.body, cfg.confirm, async () => {
-        try {
+      showConfirmModal({
+        title:        cfg.title,
+        body:         cfg.body,
+        proceedLabel: cfg.proceedLabel,
+        onProceed:    async () => {
           const { error } = await sb.rpc(cfg.rpc, { p_message_id: messageId });
           if (error) throw error;
-          showToast(`${cfg.confirm}d successfully.`, 2500);
+          showToast(cfg.proceedLabel + 'd successfully.', 2500);
           modLoad();
-        } catch(e) {
-          showToast('Action failed: ' + (e.message || 'unknown error'), 3500);
-        }
+        },
       });
     }
 
+    let _moderationWired = false;
     function wireModeration() {
       modLoadCohorts();
+      if (_moderationWired) return;
+      _moderationWired = true;
 
       document.getElementById('modApplyBtn').addEventListener('click', () => {
         modReadFilters();
