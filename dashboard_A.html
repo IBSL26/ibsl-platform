@@ -3227,6 +3227,7 @@
 
   <!-- Supabase JS -->
   <script src="supabase.umd.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     /* ===========================================================
        S2R® Portal — Admin Dashboard runtime
@@ -11854,17 +11855,18 @@ sam@gamma.org, Sam Lee, participant,`;
         if (error) throw error;
         _adminMfaState.enrollFactorId = data.id;
         const qrEl = document.getElementById('adminMfaFQr');
-        qrEl.innerHTML = data.totp.qr_code;
-        const svg = qrEl.querySelector('svg');
-        if (svg) {
-          const origW = svg.getAttribute('width') || '0';
-          const origH = svg.getAttribute('height') || '0';
-          if (!svg.getAttribute('viewBox') && parseFloat(origW) > 0) {
-            svg.setAttribute('viewBox', `0 0 ${origW} ${origH}`);
-          }
-          svg.removeAttribute('width');
-          svg.removeAttribute('height');
-          svg.style.cssText = 'display:block;width:100%;height:100%;';
+        qrEl.innerHTML = '';
+        try {
+          new QRCode(qrEl, {
+            text: data.totp.uri,
+            width: 160,
+            height: 160,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+        } catch (qrErr) {
+          qrEl.innerHTML = '<p style="color:#e9a99c;font-size:12px;text-align:center;padding-top:60px;">Use manual key below</p>';
         }
         document.getElementById('adminMfaFSecret').textContent = data.totp.secret;
         setTimeout(() => { const c = document.getElementById('adminMfaFCode'); if (c) c.focus(); }, 100);
@@ -12124,7 +12126,7 @@ sam@gamma.org, Sam Lee, participant,`;
               <p style="margin:0 0 10px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.55;">
                 Scan this QR code with your authenticator app, then enter the 6-digit code.
               </p>
-              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:0;margin:0 auto 8px;width:160px;height:160px;overflow:hidden;"></div>
+              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:8px;margin:0 auto 8px;width:176px;height:176px;display:flex;align-items:center;justify-content:center;"></div>
               <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:2px;">Can't scan? Enter this key manually:</p>
               <p id="adminMfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:12px;font-family:monospace;"></p>
               <div class="form-group" style="margin-bottom:6px;">
