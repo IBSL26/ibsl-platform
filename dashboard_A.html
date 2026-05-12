@@ -2551,6 +2551,58 @@
     line-height: 1.6;
   }
 
+  /* ─── A8-UI-B: Support view — per-user diagnostic panel ─── */
+  /* Header status row sits next to the name; pill reuses .support-status */
+  .support-header-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+  }
+  .support-header-meta__sep {
+    color: rgba(255,255,255,0.30);
+  }
+  /* Inline "no rows yet" placeholder for empty sections inside a detail-card */
+  .support-empty-inline {
+    color: rgba(255,255,255,0.50);
+    font-family: var(--font-serif);
+    font-size: 15px;
+    font-weight: 300;
+    padding: 8px 0;
+  }
+  /* Secondary line under primary cell content (e.g. fingerprint under device label) */
+  .support-cell-sub {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.40);
+    font-family: 'Courier New', Consolas, monospace;
+    letter-spacing: 0.5px;
+  }
+  /* Compact review-status pill, reused across submissions/responses */
+  .support-review-pill {
+    display: inline-block;
+    font-family: Montserrat, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    white-space: nowrap;
+    text-transform: capitalize;
+  }
+  .support-review-pill--approved      { background: rgba(108,174,132,0.18); color: #8ec9a3; border: 1px solid rgba(108,174,132,0.35); }
+  .support-review-pill--submitted     { background: rgba(108,174,132,0.18); color: #8ec9a3; border: 1px solid rgba(108,174,132,0.35); }
+  .support-review-pill--completed     { background: rgba(108,174,132,0.18); color: #8ec9a3; border: 1px solid rgba(108,174,132,0.35); }
+  .support-review-pill--pending_revision { background: rgba(217,134,80,0.18); color: #d99e6c; border: 1px solid rgba(217,134,80,0.40); }
+  .support-review-pill--in_review     { background: rgba(217,134,80,0.18); color: #d99e6c; border: 1px solid rgba(217,134,80,0.40); }
+  .support-review-pill--unlocked      { background: rgba(201,168,76,0.18); color: #c9a84c; border: 1px solid rgba(201,168,76,0.35); }
+  .support-review-pill--locked        { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
+  .support-review-pill--none          { background: rgba(160,160,160,0.18); color: #b8b8b8; border: 1px solid rgba(160,160,160,0.35); }
+
   </style>
 </head>
 <body>
@@ -2878,25 +2930,33 @@
           </div>
         </section>
 
-        <!-- A8-UI-A: Support view — search & per-user diagnostic panel -->
+        <!-- A8-UI-A + A8-UI-B: Support view — search subview + per-user panel subview -->
         <section class="view" id="view-support" data-view="support">
-          <div class="view-header">
-            <div>
-              <div class="view-header__kicker">Support troubleshooting</div>
-              <h1 class="view-header__title">User support</h1>
-              <div class="view-header__sub">Per-user diagnostic panel — devices, submissions, responses, recent activity.</div>
+          <!-- Search subview (default; hidden when ?view=support&user=<uuid>) -->
+          <div id="supportSearchSubview">
+            <div class="view-header">
+              <div>
+                <div class="view-header__kicker">Support troubleshooting</div>
+                <h1 class="view-header__title">User support</h1>
+                <div class="view-header__sub">Per-user diagnostic panel — devices, submissions, responses, recent activity.</div>
+              </div>
+            </div>
+
+            <div class="support-search-bar">
+              <div class="support-search-bar__field">
+                <input type="text" class="support-search-bar__input" id="supportSearchInput" placeholder="Search by name or email…" autocomplete="off">
+                <div class="support-search-bar__hint">Type at least 2 characters · matches name or email · up to 20 results</div>
+              </div>
+            </div>
+
+            <div id="supportSearchContainer">
+              <!-- States rendered here by JS: prompt | skeleton | results | empty | error -->
             </div>
           </div>
 
-          <div class="support-search-bar">
-            <div class="support-search-bar__field">
-              <input type="text" class="support-search-bar__input" id="supportSearchInput" placeholder="Search by name or email…" autocomplete="off">
-              <div class="support-search-bar__hint">Type at least 2 characters · matches name or email · up to 20 results</div>
-            </div>
-          </div>
-
-          <div id="supportSearchContainer">
-            <!-- States rendered here by JS: prompt | skeleton | results | empty | error -->
+          <!-- Panel subview (shown when ?view=support&user=<uuid>) -->
+          <div id="supportPanelSubview" hidden>
+            <!-- Rendered by JS: skeleton | full bundle | error | not-found -->
           </div>
         </section>
 
@@ -10078,6 +10138,397 @@ sam@gamma.org, Sam Lee, participant,`;
       const view = params.get('view');
       if (view === 'support') {
         wireSupportSearch();
+      }
+    };
+
+
+    // -----------------------------------------------------------
+    // A8-UI-B: Support view — per-user diagnostic panel
+    //
+    // Calls admin_get_user_support_view(p_user_id) and renders the full
+    // bundle as stacked detail-cards: Identity, Trusted devices,
+    // Submissions, Responses, Recent activity. Read-only.
+    // -----------------------------------------------------------
+    const supportPanelState = {
+      userId: null,
+      bundle: null,
+      loaded: false,
+      error: null,
+      inflightToken: 0,
+    };
+
+    function fmtAbsoluteDateTime(ts) {
+      if (!ts) return '—';
+      const d = new Date(ts);
+      if (isNaN(d.getTime())) return '—';
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(d.getUTCDate()).padStart(2, '0');
+      const hh = String(d.getUTCHours()).padStart(2, '0');
+      const mi = String(d.getUTCMinutes()).padStart(2, '0');
+      return `${yyyy}-${mm}-${dd} ${hh}:${mi} UTC`;
+    }
+
+    function supportReviewPillHtml(status) {
+      if (!status) return '<span class="support-review-pill support-review-pill--none">—</span>';
+      const safe = String(status).toLowerCase();
+      const cls = `support-review-pill support-review-pill--${safe.replace(/[^a-z_]/g, '')}`;
+      const display = safe.replace(/_/g, ' ');
+      return `<span class="${cls}">${escapeHtml(display)}</span>`;
+    }
+
+    function supportStatusPillHtml(status) {
+      const safe = (status || 'active').toLowerCase();
+      return `<span class="support-status support-status--${safe}">${escapeHtml(safe)}</span>`;
+    }
+
+    function renderSupportPanelSkeleton() {
+      const container = document.getElementById('supportPanelSubview');
+      if (!container) return;
+      container.innerHTML = `
+        <button type="button" class="detail-back" id="supportPanelBackBtn">← Back to search</button>
+        <div class="detail-skel">
+          <div class="detail-skel__card">
+            <div class="detail-skel__bar" style="width:50%;"></div>
+            <div class="detail-skel__bar" style="width:30%;"></div>
+          </div>
+          <div class="detail-skel__card">
+            <div class="detail-skel__bar" style="width:70%;"></div>
+            <div class="detail-skel__bar" style="width:55%;"></div>
+            <div class="detail-skel__bar" style="width:40%;"></div>
+          </div>
+          <div class="detail-skel__card">
+            <div class="detail-skel__bar" style="width:65%;"></div>
+            <div class="detail-skel__bar" style="width:45%;"></div>
+          </div>
+        </div>
+      `;
+      wireSupportPanelBackBtn();
+    }
+
+    function renderSupportPanelError(message, isNotFound) {
+      const container = document.getElementById('supportPanelSubview');
+      if (!container) return;
+      const title = isNotFound ? 'User not found' : 'Could not load user support view';
+      const body = isNotFound
+        ? 'No profile exists for this user ID, or the user has been hard-deleted from the database. Return to search to look up a different user.'
+        : escapeHtml(message || 'Unknown error');
+      container.innerHTML = `
+        <button type="button" class="detail-back" id="supportPanelBackBtn">← Back to search</button>
+        <div class="error-state">
+          <div class="error-state__title">${escapeHtml(title)}</div>
+          <div class="error-state__body">${body}</div>
+        </div>
+      `;
+      wireSupportPanelBackBtn();
+    }
+
+    function renderSupportPanel(bundle) {
+      const container = document.getElementById('supportPanelSubview');
+      if (!container) return;
+
+      const id = bundle.identity || {};
+      const devices = Array.isArray(bundle.trusted_devices) ? bundle.trusted_devices : [];
+      const submissions = Array.isArray(bundle.submissions) ? bundle.submissions : [];
+      const responses = Array.isArray(bundle.responses) ? bundle.responses : [];
+      const activity = Array.isArray(bundle.recent_activity) ? bundle.recent_activity : [];
+      const counts = bundle.counts || {};
+
+      // Header
+      const nameDisplay = escapeHtml(id.full_name || '(no name)');
+      const emailDisplay = escapeHtml(id.email || '—');
+      const roleBadge = `<span class="type-badge">${escapeHtml(id.role || '—')}</span>`;
+      const statusPill = supportStatusPillHtml(id.status);
+
+      // Identity section grid
+      const banUntilItem = id.banned_until
+        ? `<div class="basics-grid__item">
+             <div class="basics-grid__label">Banned until</div>
+             <div class="basics-grid__value">${escapeHtml(fmtAbsoluteDateTime(id.banned_until))}</div>
+           </div>` : '';
+      const deletedAtItem = id.deleted_at
+        ? `<div class="basics-grid__item">
+             <div class="basics-grid__label">Deleted at</div>
+             <div class="basics-grid__value">${escapeHtml(fmtAbsoluteDateTime(id.deleted_at))}</div>
+           </div>` : '';
+
+      const identityCard = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Identity</div>
+          </div>
+          <div class="basics-grid">
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Full name</div>
+              <div class="basics-grid__value basics-grid__value--serif">${nameDisplay}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Email</div>
+              <div class="basics-grid__value">${emailDisplay}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Role</div>
+              <div class="basics-grid__value">${roleBadge}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Status</div>
+              <div class="basics-grid__value">${statusPill}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Account created</div>
+              <div class="basics-grid__value">${escapeHtml(fmtAbsoluteDateTime(id.created_at))} <span class="basics-grid__value--muted">· ${escapeHtml(fmtRelative(id.created_at))}</span></div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Last sign-in</div>
+              <div class="basics-grid__value">${id.last_sign_in_at ? escapeHtml(fmtAbsoluteDateTime(id.last_sign_in_at)) + ' <span class="basics-grid__value--muted">· ' + escapeHtml(fmtRelative(id.last_sign_in_at)) + '</span>' : '<span class="basics-grid__value--muted">— never signed in —</span>'}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Email confirmed</div>
+              <div class="basics-grid__value">${id.email_confirmed_at ? escapeHtml(fmtAbsoluteDateTime(id.email_confirmed_at)) : '<span class="basics-grid__value--muted">— not confirmed —</span>'}</div>
+            </div>
+            <div class="basics-grid__item">
+              <div class="basics-grid__label">Profile ID</div>
+              <div class="basics-grid__value"><code style="font-size:12px;color:rgba(255,255,255,0.65);">${escapeHtml(id.profile_id || '—')}</code></div>
+            </div>
+            ${banUntilItem}
+            ${deletedAtItem}
+          </div>
+        </div>
+      `;
+
+      // Trusted devices section
+      const devicesCount = counts.trusted_devices_total != null ? counts.trusted_devices_total : devices.length;
+      const devicesCountLabel = `${devicesCount} device${devicesCount === 1 ? '' : 's'}`;
+      const devicesBody = devices.length === 0
+        ? `<div class="support-empty-inline">No trusted devices registered.</div>`
+        : `<div class="cohort-table-wrap">
+             <table class="cohort-table">
+               <thead><tr>
+                 <th>Device</th><th>Status</th><th>Created</th><th>Last used</th>
+               </tr></thead>
+               <tbody>
+                 ${devices.map(d => `
+                   <tr>
+                     <td>
+                       <span class="cohort-name">${escapeHtml(d.device_label || '(no label)')}</span>
+                       <span class="support-cell-sub">${escapeHtml(d.fingerprint_prefix || '—')}</span>
+                     </td>
+                     <td>${supportReviewPillHtml(d.status)}</td>
+                     <td class="cell-secondary">${escapeHtml(fmtRelative(d.created_at))}</td>
+                     <td class="cell-secondary">${escapeHtml(fmtRelative(d.last_used_at))}</td>
+                   </tr>
+                 `).join('')}
+               </tbody>
+             </table>
+           </div>`;
+      const devicesCard = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Trusted devices</div>
+            <div class="detail-card__count">${escapeHtml(devicesCountLabel)}</div>
+          </div>
+          ${devicesBody}
+        </div>
+      `;
+
+      // Submissions section
+      const submissionsTotal = counts.submissions_total != null ? counts.submissions_total : submissions.length;
+      const submissionsCountLabel = `Showing ${submissions.length} of ${submissionsTotal}`;
+      const submissionsBody = submissions.length === 0
+        ? `<div class="support-empty-inline">No submissions yet.</div>`
+        : `<div class="cohort-table-wrap">
+             <table class="cohort-table">
+               <thead><tr>
+                 <th>Lens</th><th>Cohort</th><th>Status</th><th>Submitted</th><th>Reviewed</th>
+               </tr></thead>
+               <tbody>
+                 ${submissions.map(s => `
+                   <tr>
+                     <td><code style="font-size:12px;color:rgba(255,255,255,0.85);">${escapeHtml(s.lens_id || '—')}</code></td>
+                     <td class="cell-secondary">${escapeHtml(s.cohort_name || '—')}</td>
+                     <td>${supportReviewPillHtml(s.review_status)}</td>
+                     <td class="cell-secondary">${escapeHtml(fmtRelative(s.submitted_at))}</td>
+                     <td class="cell-secondary">${s.reviewed_at ? escapeHtml(fmtRelative(s.reviewed_at)) : '—'}</td>
+                   </tr>
+                 `).join('')}
+               </tbody>
+             </table>
+           </div>`;
+      const submissionsCard = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Submissions</div>
+            <div class="detail-card__count">${escapeHtml(submissionsCountLabel)}</div>
+          </div>
+          ${submissionsBody}
+        </div>
+      `;
+
+      // Responses section (lens × cohort entries from FULL OUTER JOIN)
+      const responsesTotal = counts.responses_total != null ? counts.responses_total : 0;
+      const respEntryWord = responses.length === 1 ? 'entry' : 'entries';
+      const responsesCountLabel = `${responses.length} ${respEntryWord} · ${responsesTotal} response key${responsesTotal === 1 ? '' : 's'} total`;
+      const responsesBody = responses.length === 0
+        ? `<div class="support-empty-inline">No lens progress or response data yet.</div>`
+        : `<div class="cohort-table-wrap">
+             <table class="cohort-table">
+               <thead><tr>
+                 <th>Lens</th><th>Cohort</th><th>Progress</th><th>Keys</th><th>Last activity</th>
+               </tr></thead>
+               <tbody>
+                 ${responses.map(r => `
+                   <tr>
+                     <td><code style="font-size:12px;color:rgba(255,255,255,0.85);">${escapeHtml(r.lens_id || '—')}</code></td>
+                     <td class="cell-secondary">${escapeHtml(r.cohort_name || '—')}</td>
+                     <td>${supportReviewPillHtml(r.progress_status)}</td>
+                     <td class="cell-secondary">${r.response_key_count != null ? r.response_key_count : 0}</td>
+                     <td class="cell-secondary">${r.last_response_at ? escapeHtml(fmtRelative(r.last_response_at)) : '—'}</td>
+                   </tr>
+                 `).join('')}
+               </tbody>
+             </table>
+           </div>`;
+      const responsesCard = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Responses</div>
+            <div class="detail-card__count">${escapeHtml(responsesCountLabel)}</div>
+          </div>
+          ${responsesBody}
+        </div>
+      `;
+
+      // Recent activity section
+      const activityTotal = counts.activity_total != null ? counts.activity_total : activity.length;
+      const activityCountLabel = `Showing ${activity.length} of ${activityTotal}`;
+      const activityBody = activity.length === 0
+        ? `<div class="support-empty-inline">No activity recorded.</div>`
+        : `<div class="cohort-table-wrap">
+             <table class="cohort-table">
+               <thead><tr>
+                 <th>When</th><th>Event</th><th>Cohort</th>
+               </tr></thead>
+               <tbody>
+                 ${activity.map(a => `
+                   <tr>
+                     <td class="cell-secondary">
+                       ${escapeHtml(fmtRelative(a.created_at))}
+                       <span class="support-cell-sub">${escapeHtml(fmtAbsoluteDateTime(a.created_at))}</span>
+                     </td>
+                     <td>
+                       ${escapeHtml(platformEventLabel(a.event_type))}
+                       <span class="support-cell-sub">${escapeHtml(a.event_type || '')}</span>
+                     </td>
+                     <td class="cell-secondary">${escapeHtml(a.cohort_name || '—')}</td>
+                   </tr>
+                 `).join('')}
+               </tbody>
+             </table>
+           </div>`;
+      const activityCard = `
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div class="detail-card__title">Recent activity</div>
+            <div class="detail-card__count">${escapeHtml(activityCountLabel)}</div>
+          </div>
+          ${activityBody}
+        </div>
+      `;
+
+      container.innerHTML = `
+        <button type="button" class="detail-back" id="supportPanelBackBtn">← Back to search</button>
+        <div class="view-header">
+          <div>
+            <div class="view-header__kicker">User support</div>
+            <h1 class="view-header__title">${nameDisplay}</h1>
+            <div class="support-header-meta">
+              <span>${emailDisplay}</span>
+              <span class="support-header-meta__sep">·</span>
+              <span>${roleBadge}</span>
+              <span class="support-header-meta__sep">·</span>
+              <span>${statusPill}</span>
+            </div>
+          </div>
+        </div>
+        ${identityCard}
+        ${devicesCard}
+        ${submissionsCard}
+        ${responsesCard}
+        ${activityCard}
+      `;
+      wireSupportPanelBackBtn();
+    }
+
+    function wireSupportPanelBackBtn() {
+      const btn = document.getElementById('supportPanelBackBtn');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        const url = `?view=support`;
+        window.history.pushState({}, '', url);
+        handleRoute();
+      });
+    }
+
+    async function loadSupportPanel(userId) {
+      const myToken = ++supportPanelState.inflightToken;
+      supportPanelState.userId = userId;
+      supportPanelState.loaded = false;
+      supportPanelState.error = null;
+      supportPanelState.bundle = null;
+      renderSupportPanelSkeleton();
+      try {
+        const { data, error } = await sb.rpc('admin_get_user_support_view', {
+          p_user_id: userId,
+        });
+        if (myToken !== supportPanelState.inflightToken) return;
+        if (error) {
+          supportPanelState.error = error.message || 'Unknown error';
+          renderSupportPanelError(supportPanelState.error, false);
+          return;
+        }
+        if (data == null) {
+          // Either non-admin caller (shouldn't happen here) or no profile for this UUID
+          renderSupportPanelError(null, true);
+          return;
+        }
+        supportPanelState.bundle = data;
+        supportPanelState.loaded = true;
+        renderSupportPanel(data);
+      } catch (e) {
+        if (myToken !== supportPanelState.inflightToken) return;
+        supportPanelState.error = (e && e.message) ? e.message : 'Unknown error';
+        renderSupportPanelError(supportPanelState.error, false);
+      }
+    }
+
+    function wireSupportPanel(userId) {
+      if (!userId) return;
+      // Re-render from cache if user param unchanged; else fetch fresh.
+      if (supportPanelState.loaded && supportPanelState.userId === userId && supportPanelState.bundle) {
+        renderSupportPanel(supportPanelState.bundle);
+        return;
+      }
+      loadSupportPanel(userId);
+    }
+
+    // Route hook for A8-UI-B: toggle subviews based on `user` param.
+    const _origHandleRoute_uiA8b = handleRoute;
+    handleRoute = function patchedHandleRouteForSupportPanel() {
+      _origHandleRoute_uiA8b.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      if (view !== 'support') return;
+      const searchSubview = document.getElementById('supportSearchSubview');
+      const panelSubview = document.getElementById('supportPanelSubview');
+      if (!searchSubview || !panelSubview) return;
+      const userParam = params.get('user');
+      if (userParam) {
+        searchSubview.hidden = true;
+        panelSubview.hidden = false;
+        wireSupportPanel(userParam);
+      } else {
+        searchSubview.hidden = false;
+        panelSubview.hidden = true;
       }
     };
 
