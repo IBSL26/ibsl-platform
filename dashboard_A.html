@@ -11130,6 +11130,9 @@ sam@gamma.org, Sam Lee, participant,`;
       thresholdSaving: false,
       runNowInflight: false,
       inflightToken: 0,
+      require2faAdmin: false,
+      require2faFacilitator: false,
+      mfaSaving: false,
     };
 
     function fmtPSDateTime(ts) {
@@ -11241,9 +11244,42 @@ sam@gamma.org, Sam Lee, participant,`;
           </div>
           ${lastRunHtml}
         </div>
+
+        <div class="detail-card">
+          <div class="detail-card__head">
+            <div>
+              <div class="detail-card__title">Two-Factor Authentication</div>
+              <div class="detail-card__count">Require TOTP for each role</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+            ${mfaToggleHtml('mfa2faAdmin', 'Admin accounts', platformSettingsState.require2faAdmin)}
+            <hr style="border:none; border-top:1px solid rgba(255,255,255,0.08); margin:0;">
+            ${mfaToggleHtml('mfa2faFacilitator', 'Facilitator accounts', platformSettingsState.require2faFacilitator)}
+          </div>
+          <div class="form-help" style="margin-top:14px;">
+            When enabled, users in that role must complete TOTP enrolment and verify a 6-digit code on every login.
+          </div>
+        </div>
       `;
 
       wirePlatformSettingsControls();
+    }
+
+    function mfaToggleHtml(id, label, enabled) {
+      const stateLabel = enabled ? 'Required' : 'Not required';
+      const stateClass = enabled ? 'badge--active' : 'badge--inactive';
+      const btnLabel   = enabled ? 'Disable' : 'Enable';
+      const btnClass   = enabled ? 'btn btn--ghost btn--sm' : 'btn btn--primary btn--sm';
+      return `
+        <div class="form-row" style="margin-bottom:0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+          <div>
+            <div class="form-label" style="margin-bottom:2px;">${label}</div>
+            <span class="badge ${stateClass}" id="${id}Badge">${stateLabel}</span>
+          </div>
+          <button type="button" class="${btnClass}" id="${id}Btn">${btnLabel}</button>
+        </div>
+      `;
     }
 
     function wirePlatformSettingsControls() {
@@ -11289,6 +11325,50 @@ sam@gamma.org, Sam Lee, participant,`;
           openInactivityRunNowModal();
         });
       }
+
+      // ─── P4-3: 2FA toggles ───
+      async function handleMfaToggle(role) {
+        if (platformSettingsState.mfaSaving) return;
+        platformSettingsState.mfaSaving = true;
+        const isAdmin = role === 'admin';
+        const key = isAdmin ? 'auth.require_2fa_admin' : 'auth.require_2fa_facilitator';
+        const current = isAdmin ? platformSettingsState.require2faAdmin : platformSettingsState.require2faFacilitator;
+        const newVal = !current;
+        const btn = document.getElementById(isAdmin ? 'mfa2faAdminBtn' : 'mfa2faFacilitatorBtn');
+        const badge = document.getElementById(isAdmin ? 'mfa2faAdminBadge' : 'mfa2faFacilitatorBadge');
+        if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+        try {
+          const { error } = await sb.rpc('set_platform_setting', {
+            p_key: key,
+            p_value: newVal ? 'true' : 'false',
+          });
+          if (error) { window.showToast(error.message || 'Save failed.'); return; }
+          if (isAdmin) {
+            platformSettingsState.require2faAdmin = newVal;
+          } else {
+            platformSettingsState.require2faFacilitator = newVal;
+          }
+          if (badge) {
+            badge.textContent = newVal ? 'Required' : 'Not required';
+            badge.className = 'badge ' + (newVal ? 'badge--active' : 'badge--inactive');
+          }
+          if (btn) {
+            btn.textContent = newVal ? 'Disable' : 'Enable';
+            btn.className = newVal ? 'btn btn--ghost btn--sm' : 'btn btn--primary btn--sm';
+          }
+          window.showToast(`2FA for ${isAdmin ? 'admins' : 'facilitators'} ${newVal ? 'enabled' : 'disabled'}.`);
+        } catch (e) {
+          window.showToast((e && e.message) || 'Network error.');
+        } finally {
+          platformSettingsState.mfaSaving = false;
+          if (btn) btn.disabled = false;
+        }
+      }
+
+      const adminToggle = document.getElementById('mfa2faAdminBtn');
+      const facToggle   = document.getElementById('mfa2faFacilitatorBtn');
+      if (adminToggle) adminToggle.addEventListener('click', () => handleMfaToggle('admin'));
+      if (facToggle)   facToggle.addEventListener('click',   () => handleMfaToggle('facilitator'));
     }
 
     function openInactivityRunNowModal() {
@@ -11375,6 +11455,12 @@ sam@gamma.org, Sam Lee, participant,`;
           }
           if (r && r.key === 'auth.inactivity_deactivation_last_run') {
             platformSettingsState.lastRun = r.value || null;
+          }
+          if (r && r.key === 'auth.require_2fa_admin') {
+            platformSettingsState.require2faAdmin = r.value === 'true' || r.value === true;
+          }
+          if (r && r.key === 'auth.require_2fa_facilitator') {
+            platformSettingsState.require2faFacilitator = r.value === 'true' || r.value === true;
           }
         }
         platformSettingsState.loaded = true;
