@@ -3329,8 +3329,15 @@
 
       try {
         // Step 1: verify current password
+        const emailForReAuth = _currentUserEmail
+          || (document.getElementById('topbarEmail') || {}).textContent
+          || '';
+        if (!emailForReAuth || emailForReAuth === '—') {
+          showErr('Could not determine account email. Please refresh and try again.');
+          return;
+        }
         const { error: reAuthErr } = await sb.auth.signInWithPassword({
-          email:    _currentUserEmail,
+          email:    emailForReAuth,
           password: currentPw,
         });
         if (reAuthErr) {
