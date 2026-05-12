@@ -3322,9 +3322,12 @@
 
       // Client-side validation
       if (!currentPw)                    { showErr('Please enter your current password.'); return; }
-      if (newPw.length < 8)              { showErr('New password must be at least 8 characters.'); return; }
-      if (newPw === currentPw)           { showErr('New password must differ from current password.'); return; }
-      if (newPw !== confirmPw)           { showErr('Passwords do not match.'); return; }
+      if (newPw.length < 10)              { showErr('New password must be at least 10 characters.'); return; }
+      if (!/[A-Z]/.test(newPw))           { showErr('New password must contain at least one uppercase letter.'); return; }
+      if (!/[a-z]/.test(newPw))           { showErr('New password must contain at least one lowercase letter.'); return; }
+      if (!/[0-9]/.test(newPw))           { showErr('New password must contain at least one number.'); return; }
+      if (newPw === currentPw)            { showErr('New password must differ from current password.'); return; }
+      if (newPw !== confirmPw)            { showErr('Passwords do not match.'); return; }
 
       chpwState.busy = true;
       submitBtn.disabled = true;
@@ -12058,7 +12061,7 @@ sam@gamma.org, Sam Lee, participant,`;
           </div>
           <div class="form-group" style="margin-bottom:16px;">
             <label class="form-label" for="chpwNew">New password</label>
-            <input type="password" class="form-input" id="chpwNew" autocomplete="new-password" placeholder="At least 8 characters">
+            <input type="password" class="form-input" id="chpwNew" autocomplete="new-password" placeholder="Min 10 chars, upper, lower, number">
           </div>
           <div class="form-group" style="margin-bottom:8px;">
             <label class="form-label" for="chpwConfirm">Confirm new password</label>
