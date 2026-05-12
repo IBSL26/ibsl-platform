@@ -11829,7 +11829,7 @@ sam@gamma.org, Sam Lee, participant,`;
 
     function _showAdminMfaManageState() {
       document.getElementById('adminMfaEnrolState').style.display  = 'none';
-      document.getElementById('adminMfaManageState').style.display = '';
+      document.getElementById('adminMfaManageState').style.display = 'flex';
       const f = _adminMfaState.factors[0];
       const nameEl = document.getElementById('adminMfaFactorName');
       if (nameEl) nameEl.textContent = f ? (f.friendly_name || 'Authenticator app') : '—';
@@ -11838,8 +11838,8 @@ sam@gamma.org, Sam Lee, participant,`;
 
     async function _startAdminMfaEnrolment() {
       document.getElementById('adminMfaManageState').style.display = 'none';
-      document.getElementById('adminMfaEnrolState').style.display  = '';
-      document.getElementById('adminMfaFStep1').style.display      = '';
+      document.getElementById('adminMfaEnrolState').style.display  = 'flex';
+      document.getElementById('adminMfaFStep1').style.display      = 'flex';
       document.getElementById('adminMfaFStep2').style.display      = 'none';
       document.getElementById('adminMfaFQr').innerHTML             = '<p style="color:rgba(255,255,255,0.5);font-size:12px;text-align:center;">Loading QR code…</p>';
       document.getElementById('adminMfaFSecret').textContent       = '';
@@ -11891,7 +11891,7 @@ sam@gamma.org, Sam Lee, participant,`;
         document.getElementById('adminMfaBtn').textContent = 'Manage 2FA';
         document.getElementById('adminMfaFBackupKey').textContent = document.getElementById('adminMfaFSecret').textContent;
         document.getElementById('adminMfaFStep1').style.display = 'none';
-        document.getElementById('adminMfaFStep2').style.display = '';
+        document.getElementById('adminMfaFStep2').style.display = 'flex';
       } catch(e) {
         errEl.textContent = 'Invalid code — please check your authenticator and try again.';
         document.getElementById('adminMfaFCode').value = '';
@@ -12111,23 +12111,23 @@ sam@gamma.org, Sam Lee, participant,`;
 
     <!-- P4-POLISH-4: Admin 2FA enrolment & management modal -->
     <div class="modal-backdrop" id="adminMfaModal" role="dialog" aria-modal="true" aria-hidden="true">
-      <div class="modal-dialog" style="width:520px;max-height:none;overflow:visible;">
-        <div class="modal-head">
+      <div class="modal-dialog" style="width:520px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;">
+        <div class="modal-head" style="flex-shrink:0;">
           <div class="modal-title" id="adminMfaModalTitle">Set Up Two-Factor Authentication</div>
           <button type="button" class="modal-close" id="adminMfaCloseBtn" aria-label="Close">×</button>
         </div>
 
         <!-- Enrolment state -->
-        <div id="adminMfaEnrolState">
-          <div id="adminMfaFStep1">
-            <div class="modal-body" style="padding:22px 28px 8px;">
-              <p style="margin:0 0 12px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.65;">
-                Scan this QR code with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code to confirm.
+        <div id="adminMfaEnrolState" style="display:flex;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden;">
+          <div id="adminMfaFStep1" style="display:flex;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden;">
+            <div class="modal-body" style="padding:18px 28px 8px;flex:1 1 auto;overflow-y:auto;min-height:0;">
+              <p style="margin:0 0 10px;color:rgba(255,255,255,0.75);font-size:13px;line-height:1.55;">
+                Scan this QR code with your authenticator app, then enter the 6-digit code.
               </p>
-              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:0;margin:0 auto 10px;width:170px;height:170px;overflow:hidden;"></div>
-              <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:3px;">Can't scan? Enter this key manually:</p>
-              <p id="adminMfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:16px;font-family:monospace;"></p>
-              <div class="form-group">
+              <div id="adminMfaFQr" style="background:#fff;border-radius:6px;padding:0;margin:0 auto 8px;width:160px;height:160px;overflow:hidden;"></div>
+              <p style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:2px;">Can't scan? Enter this key manually:</p>
+              <p id="adminMfaFSecret" style="font-size:11px;color:#c9a84c;word-break:break-all;text-align:center;margin-bottom:12px;font-family:monospace;"></p>
+              <div class="form-group" style="margin-bottom:6px;">
                 <label class="form-label" for="adminMfaFCode">6-digit code</label>
                 <input type="text" class="form-input" id="adminMfaFCode" maxlength="6" inputmode="numeric"
                   autocomplete="one-time-code" placeholder="000000"
@@ -12135,39 +12135,39 @@ sam@gamma.org, Sam Lee, participant,`;
               </div>
               <div class="form-error-inline" id="adminMfaFError" style="min-height:18px;"></div>
             </div>
-            <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+            <div class="form-actions" style="margin:0;padding:12px 28px 18px;flex-shrink:0;border-top:1px solid var(--border-subtle);">
               <button type="button" class="btn--ghost" onclick="closeAdminMfaModal()">Cancel</button>
               <button type="button" class="btn btn--primary" id="adminMfaFEnrolBtn">Confirm &amp; Enable 2FA</button>
             </div>
           </div>
 
           <!-- Step 2: success -->
-          <div id="adminMfaFStep2" style="display:none;">
-            <div class="modal-body" style="padding:22px 28px 8px;text-align:center;">
+          <div id="adminMfaFStep2" style="display:none;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden;">
+            <div class="modal-body" style="padding:22px 28px 8px;text-align:center;flex:1 1 auto;overflow-y:auto;min-height:0;">
               <div style="font-size:36px;margin-bottom:10px;">✅</div>
-              <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.65;margin-bottom:12px;">
+              <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.55;margin-bottom:12px;">
                 Two-factor authentication is now active on your admin account. Save this key — you'll need it if you lose access to your authenticator app.
               </p>
               <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Your authenticator secret key:</p>
               <p id="adminMfaFBackupKey" style="font-size:12px;color:#c9a84c;word-break:break-all;font-family:monospace;margin-bottom:18px;"></p>
             </div>
-            <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+            <div class="form-actions" style="margin:0;padding:12px 28px 18px;flex-shrink:0;border-top:1px solid var(--border-subtle);">
               <button type="button" class="btn btn--primary" onclick="closeAdminMfaModal()">Done</button>
             </div>
           </div>
         </div>
 
         <!-- Manage state -->
-        <div id="adminMfaManageState" style="display:none;">
-          <div class="modal-body" style="padding:22px 28px 8px;">
-            <p style="margin:0 0 10px;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.65;">
+        <div id="adminMfaManageState" style="display:none;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden;">
+          <div class="modal-body" style="padding:22px 28px 8px;flex:1 1 auto;overflow-y:auto;min-height:0;">
+            <p style="margin:0 0 10px;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">
               2FA is currently <strong style="color:#c9a84c;">active</strong> on your admin account.<br>
               Factor: <span id="adminMfaFactorName" style="color:rgba(255,255,255,0.85);">—</span>
             </p>
             <p style="font-size:12px;color:rgba(255,255,255,0.45);margin-bottom:10px;">To disable, click below. You can re-enrol at any time.</p>
             <div class="form-error-inline" id="adminMfaDisableErr" style="min-height:16px;"></div>
           </div>
-          <div class="form-actions" style="margin:0;padding:14px 28px 22px;">
+          <div class="form-actions" style="margin:0;padding:12px 28px 18px;flex-shrink:0;border-top:1px solid var(--border-subtle);">
             <button type="button" class="btn--ghost" onclick="closeAdminMfaModal()">Close</button>
             <button type="button" class="btn btn--danger" id="adminMfaDisableBtn">Disable 2FA</button>
           </div>
