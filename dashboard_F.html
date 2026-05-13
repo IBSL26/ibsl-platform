@@ -5073,7 +5073,12 @@
     textarea.setAttribute('aria-label', 'Facilitator feedback draft');
     textarea.rows = 8;
     if (submission.facilitator_feedback_draft) {
+      // Prefer the in-progress draft
       textarea.value = submission.facilitator_feedback_draft;
+    } else if (status === 'pending_revision' && submission.facilitator_feedback) {
+      // After Return for Revision the draft is cleared; reload the committed
+      // feedback as a starting point so the facilitator can see and edit it.
+      textarea.value = submission.facilitator_feedback;
     }
     wrap.appendChild(textarea);
 
