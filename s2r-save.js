@@ -6,8 +6,8 @@
  * to the central Supabase filing cabinet instead of browser localStorage.
  *
  * Usage in lens HTML files:
- *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
- *   <script src="/s2r-save.js"></script>
+ *   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"><\/script>
+ *   <script src="/s2r-save.js"><\/script>
  *   <script>
  *     // On save:
  *     await S2R.save('u1_foundations', 'r_m1_intent', textareaValue);
@@ -15,7 +15,7 @@
  *     const responses = await S2R.loadAll('u1_foundations');
  *     // On Send to Facilitator:
  *     await S2R.submit('u1_foundations');
- *   </script>
+ *   <\/script>
  *
  * © 2026 IBSLeadership. All rights reserved.
  * S2R® and Strategy2Results® are registered trademarks.
@@ -162,6 +162,7 @@
 
   /**
    * Submit a snapshot of all responses for a lens to the facilitator inbox.
+   * PATCH-PARTICIPANT-1 (13 May 2026): review_status set to 'submitted' (was 'pending').
    * @param {string} lensId
    * @returns {Promise<{ok: boolean, message: string}>}
    */
@@ -188,7 +189,7 @@
             responses: responses,
             submitted_at_client: new Date().toISOString()
           },
-          review_status: 'pending'
+          review_status: 'submitted'
         });
 
       if (error) {
