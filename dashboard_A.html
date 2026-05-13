@@ -11888,37 +11888,7 @@ sam@gamma.org, Sam Lee, participant,`;
     boot();
 
     // ─── P4-POLISH-4: Admin 2FA enrolment & management ───────────
-    const _adminMfaState = { factors: [], enrollFactorId: null, busy: false, backupCodes: [] };
-
-    function _generateBackupCodes(count = 8) {
-      const bytes = new Uint8Array(count * 4);
-      crypto.getRandomValues(bytes);
-      return Array.from({ length: count }, (_, i) => {
-        const hex = Array.from(bytes.slice(i * 4, i * 4 + 4))
-          .map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase();
-        return hex.slice(0, 4) + '-' + hex.slice(4, 8);
-      });
-    }
-
-    function _renderAdminBackupCodes(codes) {
-      const grid = document.getElementById('adminMfaBackupCodesGrid');
-      if (!grid) return;
-      grid.innerHTML = codes.map(c =>
-        `<span style="font-family:monospace;font-size:13px;color:#c9a84c;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:4px;padding:5px 12px;letter-spacing:2px;text-align:center;">${c}</span>`
-      ).join('');
-    }
-
-    function _copyAdminBackupCodes() {
-      const codes = _adminMfaState.backupCodes;
-      if (!codes.length) return;
-      navigator.clipboard.writeText(codes.join('\n')).then(() => {
-        const btn = document.getElementById('adminMfaCopyCodesBtn');
-        if (!btn) return;
-        const orig = btn.textContent;
-        btn.textContent = 'Copied!';
-        setTimeout(() => { btn.textContent = orig; }, 2000);
-      }).catch(() => {});
-    }
+    const _adminMfaState = { factors: [], enrollFactorId: null, busy: false };
 
     async function updateAdminMfaButtonLabel() {
       const btn = document.getElementById('adminMfaBtn');
@@ -11944,7 +11914,6 @@ sam@gamma.org, Sam Lee, participant,`;
     function closeAdminMfaModal() {
       const modal = document.getElementById('adminMfaModal');
       if (modal) { modal.setAttribute('aria-hidden', 'true'); modal.classList.remove('modal-backdrop--shown'); }
-      _adminMfaState.backupCodes = [];
     }
 
     function _showAdminMfaManageState() {
@@ -12009,9 +11978,7 @@ sam@gamma.org, Sam Lee, participant,`;
         if (vErr) throw vErr;
         try { await sb.rpc('log_activity', { p_event_type: '2fa_enabled', p_event_detail: { surface: 'dashboard_A' }, p_cohort_id: null }); } catch(e) {}
         _adminMfaState.factors = [{ id: _adminMfaState.enrollFactorId, friendly_name: 'Admin authenticator', status: 'verified' }];
-        _adminMfaState.backupCodes = _generateBackupCodes(8);
         document.getElementById('adminMfaBtn').textContent = 'Manage 2FA';
-        _renderAdminBackupCodes(_adminMfaState.backupCodes);
         document.getElementById('adminMfaFBackupKey').textContent = document.getElementById('adminMfaFSecret').textContent;
         document.getElementById('adminMfaFStep1').style.display = 'none';
         document.getElementById('adminMfaFStep2').style.display = 'flex';
@@ -12051,14 +12018,12 @@ sam@gamma.org, Sam Lee, participant,`;
       const enrolBtn = document.getElementById('adminMfaFEnrolBtn');
       const disBtn   = document.getElementById('adminMfaDisableBtn');
       const codeInp  = document.getElementById('adminMfaFCode');
-      const copyBtn  = document.getElementById('adminMfaCopyCodesBtn');
       const modal    = document.getElementById('adminMfaModal');
       if (btn)      btn.addEventListener('click', openAdminMfaModal);
       if (closeBtn) closeBtn.addEventListener('click', closeAdminMfaModal);
       if (enrolBtn) enrolBtn.addEventListener('click', submitAdminMfaEnrolment);
       if (disBtn)   disBtn.addEventListener('click', disableAdminMfa);
       if (codeInp)  codeInp.addEventListener('keydown', e => { if (e.key === 'Enter') submitAdminMfaEnrolment(); });
-      if (copyBtn)  copyBtn.addEventListener('click', _copyAdminBackupCodes);
       if (modal) {
         modal.addEventListener('click', e => { if (e.target === modal) closeAdminMfaModal(); });
         document.addEventListener('keydown', e => {
@@ -12286,25 +12251,15 @@ sam@gamma.org, Sam Lee, participant,`;
             </div>
           </div>
 
-          <!-- Step 2: success + backup codes -->
+          <!-- Step 2: success -->
           <div id="adminMfaFStep2" style="display:none;flex-direction:column;flex:1 1 auto;min-height:0;overflow:hidden;">
-            <div class="modal-body" style="padding:20px 28px 8px;flex:1 1 auto;overflow-y:auto;min-height:0;">
-              <div style="text-align:center;font-size:32px;margin-bottom:8px;">✅</div>
-              <p style="font-size:13px;color:rgba(255,255,255,0.85);line-height:1.55;margin:0 0 14px;text-align:center;">
-                Two-factor authentication is now active on your admin account.
+            <div class="modal-body" style="padding:22px 28px 8px;text-align:center;flex:1 1 auto;overflow-y:auto;min-height:0;">
+              <div style="font-size:36px;margin-bottom:10px;">✅</div>
+              <p style="font-size:13px;color:rgba(255,255,255,0.8);line-height:1.55;margin-bottom:12px;">
+                Two-factor authentication is now active on your admin account. Save this key somewhere safe — you will need it if you ever lose access to your authenticator app.
               </p>
-              <p style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.55;margin:0 0 10px;">
-                Save these backup codes somewhere safe. <strong style="color:#e9a99c;">They will not be shown again.</strong> Use one if you ever lose access to your authenticator app.
-              </p>
-              <div id="adminMfaBackupCodesGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;"></div>
-              <div style="text-align:right;margin-bottom:16px;">
-                <button type="button" id="adminMfaCopyCodesBtn" style="background:none;border:1px solid rgba(201,168,76,0.4);color:#c9a84c;border-radius:4px;padding:5px 14px;font-size:12px;cursor:pointer;font-family:inherit;">Copy all codes</button>
-              </div>
-              <details style="margin-bottom:4px;">
-                <summary style="font-size:11px;color:rgba(255,255,255,0.35);cursor:pointer;list-style:none;user-select:none;">&#9658; Show emergency recovery key</summary>
-                <p style="font-size:11px;color:rgba(255,255,255,0.35);margin:6px 0 2px;">Your TOTP secret key — use this to re-add your account to an authenticator app manually:</p>
-                <p id="adminMfaFBackupKey" style="font-size:11px;color:#c9a84c;word-break:break-all;font-family:monospace;margin:0;"></p>
-              </details>
+              <p style="font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:4px;">Your authenticator secret key:</p>
+              <p id="adminMfaFBackupKey" style="font-size:12px;color:#c9a84c;word-break:break-all;font-family:monospace;margin-bottom:18px;"></p>
             </div>
             <div class="form-actions" style="margin:0;padding:12px 28px 18px;flex-shrink:0;border-top:1px solid var(--border-subtle);">
               <button type="button" class="btn btn--primary" onclick="closeAdminMfaModal()">Done</button>
