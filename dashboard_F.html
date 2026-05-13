@@ -756,6 +756,85 @@
     display: none;
   }
 
+  /* ─── C4: ROSTER CONTROLS (search + filter + sort) ─── */
+  .roster-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .roster-search {
+    flex: 1 1 180px;
+    min-width: 140px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 5px;
+    color: var(--white);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 7px 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .roster-search::placeholder { color: var(--ash); }
+  .roster-search:focus { border-color: rgba(201,168,76,0.55); }
+  .roster-filter-chips {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .roster-chip {
+    padding: 5px 11px;
+    border-radius: 14px;
+    border: 1px solid rgba(201,168,76,0.28);
+    background: transparent;
+    color: var(--ash);
+    font-size: 11px;
+    font-family: inherit;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .roster-chip:hover { border-color: var(--gold); color: var(--gold-pale); }
+  .roster-chip.active {
+    background: rgba(201,168,76,0.18);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+  .roster-sort {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.22);
+    border-radius: 5px;
+    color: var(--ash);
+    font-family: inherit;
+    font-size: 12px;
+    padding: 7px 10px;
+    outline: none;
+    cursor: pointer;
+  }
+  .roster-sort:focus { border-color: rgba(201,168,76,0.55); }
+  .roster-sort option { background: #1a3a2a; color: var(--white); }
+  .roster-count-label {
+    font-size: 11px;
+    color: var(--ash);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    margin-left: auto;
+  }
+  .roster-empty-filtered {
+    text-align: center;
+    padding: 36px 20px;
+    color: var(--ash);
+    font-size: 13px;
+  }
+  /* attention ring: amber left-border on rows that need action */
+  .participant-block.needs-attention > .participant-row {
+    border-left: 3px solid rgba(244,197,66,0.7);
+  }
+
   /* ─── F12: facilitator-notes block, toggle chevron, and collapsible panel ─── */
   .participant-block {
     margin-bottom: 10px;
@@ -3154,6 +3233,10 @@
     const content = document.getElementById('rosterContent');
     content.innerHTML = '';
 
+    // C4: store for filter/sort re-renders
+    _rosterAllParticipants = participants;
+    _rosterCohortId = cohort && cohort.cohort_id;
+
     // ─── Header ───
     const header = document.createElement('div');
     header.className = 'roster-header';
@@ -3193,7 +3276,7 @@
       '<span class="legend-item"><span class="legend-swatch sw-completed"></span>Completed</span>';
     content.appendChild(legend);
 
-    // ─── Empty state ───
+    // ─── Empty state (no participants at all) ───
     if (participants.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'empty-state-card';
@@ -3205,13 +3288,195 @@
       return;
     }
 
-    // ─── F6: Lens column header row (click to unlock for whole cohort) ───
+    // ─── C4: Controls bar (search + filter chips + sort) ───
+    content.appendChild(buildRosterControls());
+
+    // ─── F6: Lens column header row ───
     content.appendChild(buildLensHeaderRow(participants));
 
-    // ─── Participant rows ───
-    participants.forEach(function(p) {
-      content.appendChild(participantRowEl(p, cohort && cohort.cohort_id));
+    // ─── C4: Rows container (populated by applyRosterFilters) ───
+    const rowsContainer = document.createElement('div');
+    rowsContainer.id = 'rosterRows';
+    content.appendChild(rowsContainer);
+
+    applyRosterFilters();
+  }
+
+  // ─── C4: ROSTER STATE ───
+  // Holds the full participant array so filter/sort can re-render without
+  // re-fetching. Set by renderRoster on every cohort load.
+  var _rosterAllParticipants = [];
+  var _rosterCohortId        = null;
+  var _rosterFilter          = 'all';   // 'all' | 'attention' | 'submitted' | 'unread'
+  var _rosterSort            = 'name';  // 'name' | 'activity' | 'attention'
+  var _rosterSearch          = '';
+
+  // C4: Returns true when a participant row should surface in "Needs attention" view:
+  // any submitted (TEAL) dot or any unread participant message.
+  function needsAttention(p) {
+    var hasSubmitted = Array.isArray(p.lens_states) && p.lens_states.some(function(ls) {
+      return ls.status === 'submitted';
     });
+    var hasUnread = ((typeof p.unread_message_count === 'number')
+      ? p.unread_message_count
+      : (Number(p.unread_message_count) || 0)) > 0;
+    return hasSubmitted || hasUnread;
+  }
+
+  // C4: Build the controls bar DOM element.
+  function buildRosterControls() {
+    var bar = document.createElement('div');
+    bar.className = 'roster-controls';
+    bar.id = 'rosterControls';
+
+    // Search input
+    var search = document.createElement('input');
+    search.type = 'search';
+    search.className = 'roster-search';
+    search.id = 'rosterSearch';
+    search.placeholder = 'Search name, email or organisation…';
+    search.value = _rosterSearch;
+    search.addEventListener('input', function() {
+      _rosterSearch = search.value;
+      applyRosterFilters();
+    });
+
+    // Filter chips
+    var chips = document.createElement('div');
+    chips.className = 'roster-filter-chips';
+    var chipDefs = [
+      { id: 'all',       label: 'All' },
+      { id: 'attention', label: 'Needs Attention' },
+      { id: 'submitted', label: 'Submitted' },
+      { id: 'unread',    label: 'Unread Messages' }
+    ];
+    chipDefs.forEach(function(def) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'roster-chip' + (_rosterFilter === def.id ? ' active' : '');
+      btn.textContent = def.label;
+      btn.addEventListener('click', function() {
+        _rosterFilter = def.id;
+        // update active state on all chips
+        chips.querySelectorAll('.roster-chip').forEach(function(c) {
+          c.classList.toggle('active', c === btn);
+        });
+        applyRosterFilters();
+      });
+      chips.appendChild(btn);
+    });
+
+    // Sort dropdown
+    var sort = document.createElement('select');
+    sort.className = 'roster-sort';
+    sort.id = 'rosterSort';
+    var sortDefs = [
+      { id: 'name',      label: 'Name A–Z' },
+      { id: 'activity',  label: 'Last Activity' },
+      { id: 'attention', label: 'Needs Attention First' }
+    ];
+    sortDefs.forEach(function(def) {
+      var opt = document.createElement('option');
+      opt.value = def.id;
+      opt.textContent = def.label;
+      opt.selected = (_rosterSort === def.id);
+      sort.appendChild(opt);
+    });
+    sort.addEventListener('change', function() {
+      _rosterSort = sort.value;
+      applyRosterFilters();
+    });
+
+    bar.appendChild(search);
+    bar.appendChild(chips);
+    bar.appendChild(sort);
+    return bar;
+  }
+
+  // C4: Filter + sort _rosterAllParticipants, then render participant blocks
+  // into #rosterRows. Called by renderRoster and every control interaction.
+  function applyRosterFilters() {
+    var container = document.getElementById('rosterRows');
+    if (!container) return;
+
+    var q = _rosterSearch.trim().toLowerCase();
+
+    // 1. Filter
+    var filtered = _rosterAllParticipants.filter(function(p) {
+      // Search match
+      if (q) {
+        var haystack = [
+          p.full_name || '',
+          p.email || '',
+          p.organisation_name || ''
+        ].join(' ').toLowerCase();
+        if (haystack.indexOf(q) === -1) return false;
+      }
+      // Chip filter
+      if (_rosterFilter === 'attention') return needsAttention(p);
+      if (_rosterFilter === 'submitted') {
+        return Array.isArray(p.lens_states) && p.lens_states.some(function(ls) {
+          return ls.status === 'submitted';
+        });
+      }
+      if (_rosterFilter === 'unread') {
+        return ((typeof p.unread_message_count === 'number')
+          ? p.unread_message_count
+          : (Number(p.unread_message_count) || 0)) > 0;
+      }
+      return true; // 'all'
+    });
+
+    // 2. Sort
+    filtered = filtered.slice(); // don't mutate original
+    if (_rosterSort === 'name') {
+      filtered.sort(function(a, b) {
+        return (a.full_name || '').localeCompare(b.full_name || '');
+      });
+    } else if (_rosterSort === 'activity') {
+      filtered.sort(function(a, b) {
+        // most recent first; null activity goes to bottom
+        if (!a.last_activity_at && !b.last_activity_at) return 0;
+        if (!a.last_activity_at) return 1;
+        if (!b.last_activity_at) return -1;
+        return b.last_activity_at.localeCompare(a.last_activity_at);
+      });
+    } else if (_rosterSort === 'attention') {
+      filtered.sort(function(a, b) {
+        var ai = needsAttention(a) ? 0 : 1;
+        var bi = needsAttention(b) ? 0 : 1;
+        if (ai !== bi) return ai - bi;
+        return (a.full_name || '').localeCompare(b.full_name || '');
+      });
+    }
+
+    // 3. Render
+    container.innerHTML = '';
+
+    if (filtered.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'roster-empty-filtered';
+      empty.textContent = q || _rosterFilter !== 'all'
+        ? 'No participants match the current search or filter.'
+        : 'No participants in this cohort yet.';
+      container.appendChild(empty);
+      return;
+    }
+
+    filtered.forEach(function(p) {
+      var block = participantRowEl(p, _rosterCohortId);
+      // C4: add attention ring via class on the block
+      if (needsAttention(p)) block.classList.add('needs-attention');
+      container.appendChild(block);
+    });
+
+    // Update count label if present
+    var countLabel = document.getElementById('rosterCountLabel');
+    if (countLabel) {
+      countLabel.textContent = filtered.length === _rosterAllParticipants.length
+        ? _rosterAllParticipants.length + ' participant' + (_rosterAllParticipants.length === 1 ? '' : 's')
+        : filtered.length + ' of ' + _rosterAllParticipants.length + ' shown';
+    }
   }
 
   // ─── F6: LENS COLUMN HEADER BUILDER ───
