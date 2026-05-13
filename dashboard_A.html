@@ -10877,7 +10877,9 @@ sam@gamma.org, Sam Lee, participant,`;
                               data-action="revoke-device"
                               data-device-id="${escapeHtml(d.id)}"
                               data-device-label="${escapeHtml(d.device_label || '(no label)')}"
-                              data-user-id="${targetUserId}">Revoke</button>`
+                              data-user-id="${targetUserId}"
+                              data-user-email="${escapeHtml(id.email || '')}"
+                              data-user-name="${escapeHtml(id.full_name || '')}">Revoke</button>`
                        : `<span style="color:rgba(255,255,255,0.3);font-size:12px;">—</span>`
                      }</td>
                    </tr>
@@ -10895,7 +10897,9 @@ sam@gamma.org, Sam Lee, participant,`;
                 ? `<button type="button" class="btn btn--danger"
                        style="font-size:12px;padding:4px 12px;"
                        data-action="revoke-all-devices"
-                       data-user-id="${targetUserId}">Revoke all</button>`
+                       data-user-id="${targetUserId}"
+                       data-user-email="${escapeHtml(id.email || '')}"
+                       data-user-name="${escapeHtml(id.full_name || '')}">Revoke all</button>`
                 : ''}
               <button type="button" class="btn btn--ghost"
                   style="font-size:12px;padding:4px 12px;"
@@ -11051,14 +11055,18 @@ sam@gamma.org, Sam Lee, participant,`;
       deviceId:    null,
       deviceLabel: null,
       userId:      null,
+      userEmail:   null,
+      userName:    null,
       busy:        false,
     };
 
-    function openDeviceRevokeModal(mode, deviceId, deviceLabel, userId) {
+    function openDeviceRevokeModal(mode, deviceId, deviceLabel, userId, userEmail, userName) {
       deviceRevokeModalState.mode        = mode;
       deviceRevokeModalState.deviceId    = deviceId;
       deviceRevokeModalState.deviceLabel = deviceLabel;
       deviceRevokeModalState.userId      = userId;
+      deviceRevokeModalState.userEmail   = userEmail  || null;
+      deviceRevokeModalState.userName    = userName   || null;
       deviceRevokeModalState.busy        = false;
       const modal = document.getElementById('deviceRevokeModal');
       const bodyEl = document.getElementById('deviceRevokeModalBody');
@@ -11150,6 +11158,30 @@ sam@gamma.org, Sam Lee, participant,`;
           ? `Device binding reset. ${result && result.deleted_count != null ? result.deleted_count : 'All'} record(s) deleted.`
           : `${result && result.revoked_count != null ? result.revoked_count : 'All'} device(s) revoked.`;
         window.showToast(msg);
+
+        // Notify affected user by email (single + all modes only; reset is admin lockout-recovery, no email)
+        if (deviceRevokeModalState.mode !== 'reset' && deviceRevokeModalState.userEmail) {
+          try {
+            const { data: { session } } = await sb.auth.getSession();
+            if (session) {
+              fetch(`${SUPABASE_URL}/functions/v1/notify-device-revoked`, {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${session.access_token}`,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  user_email:    deviceRevokeModalState.userEmail,
+                  user_name:     deviceRevokeModalState.userName  || undefined,
+                  device_label:  deviceRevokeModalState.deviceLabel || undefined,
+                  all_devices:   deviceRevokeModalState.mode === 'all',
+                  revoked_count: result && result.revoked_count != null ? result.revoked_count : undefined,
+                }),
+              }).catch(() => {}); // fire-and-forget; toast already shown
+            }
+          } catch (e) { /* non-critical — do not block UI */ }
+        }
+
         // Refresh panel to reflect new status
         supportPanelState.loaded = false;
         loadSupportPanel(deviceRevokeModalState.userId);
@@ -11171,13 +11203,15 @@ sam@gamma.org, Sam Lee, participant,`;
           'single',
           btn.dataset.deviceId,
           btn.dataset.deviceLabel,
-          btn.dataset.userId
+          btn.dataset.userId,
+          btn.dataset.userEmail,
+          btn.dataset.userName
         );
         return;
       }
       const allBtn = e.target.closest('[data-action="revoke-all-devices"]');
       if (allBtn) {
-        openDeviceRevokeModal('all', null, null, allBtn.dataset.userId);
+        openDeviceRevokeModal('all', null, null, allBtn.dataset.userId, allBtn.dataset.userEmail, allBtn.dataset.userName);
       }
       const resetBtn = e.target.closest('[data-action="reset-device-binding"]');
       if (resetBtn) {
