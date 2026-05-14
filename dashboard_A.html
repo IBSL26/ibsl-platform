@@ -1482,6 +1482,55 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+  /* ── Facilitator role + unit picker ── */
+  .role-picker { display: flex; flex-direction: column; gap: 12px; padding: 8px 0; }
+  .role-picker__btn {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px; border-radius: 6px;
+    border: 1.5px solid var(--border-default);
+    background: transparent; color: var(--white);
+    cursor: pointer; text-align: left; font-family: var(--font-sans);
+    transition: border-color .15s, background .15s;
+  }
+  .role-picker__btn:hover { border-color: var(--gold); background: rgba(201,168,76,.07); }
+  .role-picker__icon { font-size: 22px; flex-shrink: 0; }
+  .role-picker__label { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 2px; }
+  .role-picker__desc { font-size: 11px; color: var(--ash); line-height: 1.4; }
+  .role-picker__back {
+    margin-top: 4px; background: none; border: none;
+    color: var(--ash); font-size: 12px; cursor: pointer;
+    font-family: var(--font-sans); text-align: left; padding: 0;
+  }
+  .role-picker__back:hover { color: var(--white); }
+
+  .unit-picker { display: flex; flex-direction: column; gap: 0; }
+  .unit-picker__item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 4px; border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+  }
+  .unit-picker__item:last-of-type { border-bottom: none; }
+  .unit-picker__cb { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0; }
+  .unit-picker__name { font-size: 13px; color: var(--white); }
+  .unit-picker__num { font-size: 11px; color: var(--ash); margin-left: auto; }
+  .unit-picker__footer { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; gap: 10px; }
+  .unit-picker__confirm {
+    padding: 9px 22px; background: var(--gold); color: var(--charcoal);
+    border: none; border-radius: 4px; font-size: 12px; font-weight: 700;
+    font-family: var(--font-sans); cursor: pointer; letter-spacing: .5px;
+  }
+  .unit-picker__confirm:disabled { opacity: .45; cursor: not-allowed; }
+
+  /* Role badge in people list */
+  .people-list__role-badge {
+    display: inline-block; font-size: 10px; font-weight: 700;
+    letter-spacing: .8px; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 3px; margin-left: 8px;
+    background: rgba(201,168,76,.15); color: var(--gold);
+    vertical-align: middle;
+  }
+  .people-list__role-badge--lead { background: rgba(201,168,76,.28); }
+
   .picker-list__suspended {
     display: inline-block;
     margin-left: 8px;
@@ -3994,10 +4043,26 @@
       const org = p.organisation_name ? escapeHtml(p.organisation_name) : '—';
       const suspendedTag = p.suspended ? '<span class="people-list__suspended">Suspended</span>' : '';
       const meta = `${email}${org !== '—' ? ' · ' + org : ''} · joined ${fmtDayFull(p.joined_at ? p.joined_at.slice(0, 10) : null)}`;
+
+      let roleBadge = '';
+      if (role === 'facilitator') {
+        const isLead = p.role_in_cohort === 'lead_facilitator';
+        if (isLead) {
+          roleBadge = '<span class="people-list__role-badge people-list__role-badge--lead">Lead Facilitator</span>';
+        } else {
+          const unitNames = ['Foundations', 'Direction', 'Influence', 'Grounding'];
+          const units = Array.isArray(p.units) ? p.units : [];
+          const unitLabel = units.length > 0
+            ? units.map(u => unitNames[u - 1] || `Unit ${u}`).join(', ')
+            : 'No sections';
+          roleBadge = `<span class="people-list__role-badge">${escapeHtml(unitLabel)}</span>`;
+        }
+      }
+
       return `
         <li class="people-list__item">
           <div class="people-list__main">
-            <div class="people-list__name" title="${name}">${name}${suspendedTag}</div>
+            <div class="people-list__name" title="${name}">${name}${suspendedTag}${roleBadge}</div>
             <div class="people-list__meta" title="${escapeHtml(meta)}">${meta}</div>
           </div>
           <button type="button" class="people-list__remove" data-action="remove-${role}" data-profile-id="${p.profile_id}">Remove</button>
@@ -4800,13 +4865,18 @@
     // A1-UI-F: Membership picker modal + inline remove-confirm
     // -----------------------------------------------------------
     const memberPickerState = {
-      mode:       null,    // 'facilitator' | 'participant'
-      cohortId:   null,    // current cohort context
-      candidates: null,    // last fetched array
-      loading:    false,
-      error:      null,
-      search:     '',
-      submitting: false,   // true while an admin_assign / admin_add is in flight
+      mode:               null,    // 'facilitator' | 'participant'
+      cohortId:           null,    // current cohort context
+      candidates:         null,    // last fetched array
+      loading:            false,
+      error:              null,
+      search:             '',
+      submitting:         false,   // true while an admin_assign / admin_add is in flight
+      step:               'list',  // 'list' | 'role' | 'units'
+      selectedProfileId:  null,
+      selectedName:       null,
+      selectedRole:       null,    // 'facilitator' | 'lead_facilitator'
+      selectedUnits:      [],
     };
 
     // Track which row is in "confirm remove?" state. Map<profileId, role>
@@ -4873,10 +4943,11 @@
       if (title) title.textContent = titleText;
       const search = document.getElementById('memberModalSearch');
       if (search) search.value = '';
+      const searchWrap = search ? search.closest('.modal-search') : null;
+      if (searchWrap) searchWrap.style.display = memberPickerState.step === 'list' ? '' : 'none';
       modal.classList.add('modal-backdrop--shown');
       modal.setAttribute('aria-hidden', 'false');
-      // Focus the search input for keyboard-first UX
-      requestAnimationFrame(() => { if (search) search.focus(); });
+      requestAnimationFrame(() => { if (search && memberPickerState.step === 'list') search.focus(); });
       renderMemberModalBody();
     }
 
@@ -4885,15 +4956,119 @@
       if (!modal) return;
       modal.classList.remove('modal-backdrop--shown');
       modal.setAttribute('aria-hidden', 'true');
-      memberPickerState.mode = null;
-      memberPickerState.candidates = null;
-      memberPickerState.search = '';
-      memberPickerState.submitting = false;
+      memberPickerState.mode              = null;
+      memberPickerState.candidates        = null;
+      memberPickerState.search            = '';
+      memberPickerState.submitting        = false;
+      memberPickerState.step              = 'list';
+      memberPickerState.selectedProfileId = null;
+      memberPickerState.selectedName      = null;
+      memberPickerState.selectedRole      = null;
+      memberPickerState.selectedUnits     = [];
     }
 
     function renderMemberModalBody() {
       const body = document.getElementById('memberModalBody');
       if (!body) return;
+
+      // Toggle search bar visibility
+      const searchWrap = document.getElementById('memberModalSearch');
+      const sw = searchWrap ? searchWrap.closest('.modal-search') : null;
+      if (sw) sw.style.display = (memberPickerState.step === 'list') ? '' : 'none';
+
+      // ── Step: role selection ──────────────────────────────────────
+      if (memberPickerState.step === 'role') {
+        const name = escapeHtml(memberPickerState.selectedName || '');
+        body.innerHTML = `
+          <div style="padding:4px 0 12px;font-size:12px;color:var(--ash);">
+            Assigning <strong style="color:var(--white)">${name}</strong> — choose their role:
+          </div>
+          <div class="role-picker">
+            <button type="button" class="role-picker__btn" id="rolePickLead">
+              <span class="role-picker__icon">⭐</span>
+              <div>
+                <div class="role-picker__label">Lead Facilitator</div>
+                <div class="role-picker__desc">Full access to all sections in this cohort. Can review, unlock, and give feedback across all pillars.</div>
+              </div>
+            </button>
+            <button type="button" class="role-picker__btn" id="rolePickFac">
+              <span class="role-picker__icon">👤</span>
+              <div>
+                <div class="role-picker__label">Facilitator</div>
+                <div class="role-picker__desc">Access limited to assigned sections only. Choose which sections on the next screen.</div>
+              </div>
+            </button>
+          </div>
+          <button type="button" class="role-picker__back" id="rolePickBack">← Back to list</button>
+        `;
+        document.getElementById('rolePickLead').addEventListener('click', () => {
+          memberPickerState.selectedRole = 'lead_facilitator';
+          submitMemberSelection(memberPickerState.selectedProfileId, memberPickerState.selectedName);
+        });
+        document.getElementById('rolePickFac').addEventListener('click', () => {
+          memberPickerState.selectedRole = 'facilitator';
+          memberPickerState.selectedUnits = [];
+          memberPickerState.step = 'units';
+          renderMemberModalBody();
+        });
+        document.getElementById('rolePickBack').addEventListener('click', () => {
+          memberPickerState.step = 'list';
+          memberPickerState.selectedProfileId = null;
+          memberPickerState.selectedName = null;
+          renderMemberModalBody();
+        });
+        return;
+      }
+
+      // ── Step: unit selection ──────────────────────────────────────
+      if (memberPickerState.step === 'units') {
+        const name = escapeHtml(memberPickerState.selectedName || '');
+        const unitLabels = ['Foundations', 'Direction', 'Influence', 'Grounding'];
+        body.innerHTML = `
+          <div style="padding:4px 0 12px;font-size:12px;color:var(--ash);">
+            <strong style="color:var(--white)">${name}</strong> — select the sections they will facilitate:
+          </div>
+          <div class="unit-picker">
+            ${unitLabels.map((label, i) => `
+              <label class="unit-picker__item">
+                <input type="checkbox" class="unit-picker__cb" value="${i + 1}" id="unitCb${i + 1}">
+                <span class="unit-picker__name">${label}</span>
+                <span class="unit-picker__num">Unit ${i + 1}</span>
+              </label>
+            `).join('')}
+          </div>
+          <div class="unit-picker__footer">
+            <button type="button" class="role-picker__back" id="unitPickBack">← Back</button>
+            <button type="button" class="unit-picker__confirm" id="unitPickConfirm" disabled>Assign</button>
+          </div>
+          ${memberPickerState.error ? `<div class="picker-error" style="margin-top:10px">${escapeHtml(memberPickerState.error)}</div>` : ''}
+        `;
+        // Restore any already-selected units
+        memberPickerState.selectedUnits.forEach(u => {
+          const cb = document.getElementById(`unitCb${u}`);
+          if (cb) cb.checked = true;
+        });
+        const confirmBtn = document.getElementById('unitPickConfirm');
+        const syncConfirm = () => {
+          memberPickerState.selectedUnits = Array.from(
+            document.querySelectorAll('.unit-picker__cb:checked')
+          ).map(cb => parseInt(cb.value, 10));
+          if (confirmBtn) confirmBtn.disabled = memberPickerState.selectedUnits.length === 0;
+        };
+        document.querySelectorAll('.unit-picker__cb').forEach(cb => cb.addEventListener('change', syncConfirm));
+        document.getElementById('unitPickBack').addEventListener('click', () => {
+          memberPickerState.step = 'role';
+          memberPickerState.error = null;
+          renderMemberModalBody();
+        });
+        confirmBtn.addEventListener('click', () => {
+          if (memberPickerState.selectedUnits.length === 0) return;
+          submitMemberSelection(memberPickerState.selectedProfileId, memberPickerState.selectedName);
+        });
+        return;
+      }
+
+      // ── Step: list (default) ──────────────────────────────────────
       if (memberPickerState.loading) {
         body.innerHTML = '<div class="picker-loading">Loading...</div>';
         return;
@@ -4908,7 +5083,6 @@
         body.innerHTML = `<div class="picker-empty">No eligible ${noun} available.<br>${memberPickerState.mode === 'facilitator' ? 'All facilitators are already assigned to this cohort.' : 'All participants in the system are already enrolled in a cohort.'}</div>`;
         return;
       }
-      // Apply search filter (client-side)
       const q = (memberPickerState.search || '').trim().toLowerCase();
       const filtered = q
         ? candidates.filter(c =>
@@ -4946,8 +5120,15 @@
       const isFacilitator = memberPickerState.mode === 'facilitator';
       try {
         const { error } = isFacilitator
-          ? await sb.rpc('admin_assign_facilitator', { p_cohort_id: cohortId, p_facilitator_id: profileId })
-          : await sb.rpc('admin_add_participant',  { p_cohort_id: cohortId, p_participant_id: profileId });
+          ? await sb.rpc('admin_assign_facilitator', {
+              p_cohort_id:      cohortId,
+              p_facilitator_id: profileId,
+              p_role_in_cohort: memberPickerState.selectedRole,
+              p_units:          memberPickerState.selectedRole === 'facilitator'
+                                  ? memberPickerState.selectedUnits
+                                  : null
+            })
+          : await sb.rpc('admin_add_participant', { p_cohort_id: cohortId, p_participant_id: profileId });
         memberPickerState.submitting = false;
         if (error) {
           memberPickerState.error = error.message || 'Save failed.';
@@ -4956,12 +5137,10 @@
         }
         hideMemberModal();
         window.showToast(`${displayName} added.`);
-        // Refetch detail bundle so the cards update
         if (cohortDetailState.currentId === cohortId) {
-          cohortDetailState.currentId = null;   // force re-fetch
+          cohortDetailState.currentId = null;
           loadCohortDetail(cohortId);
         }
-        // Invalidate the list cache so participant counts/facilitator names refresh
         cohortListState.loaded = false;
       } catch (e) {
         memberPickerState.submitting = false;
@@ -5003,7 +5182,17 @@
           if (!item) return;
           const profileId = item.dataset.profileId;
           const name = item.dataset.name || 'Member';
-          if (profileId) submitMemberSelection(profileId, name);
+          if (!profileId) return;
+          if (memberPickerState.mode === 'facilitator') {
+            // Go to role selection step
+            memberPickerState.selectedProfileId = profileId;
+            memberPickerState.selectedName      = name;
+            memberPickerState.step              = 'role';
+            memberPickerState.error             = null;
+            renderMemberModalBody();
+          } else {
+            submitMemberSelection(profileId, name);
+          }
         });
       }
     }
