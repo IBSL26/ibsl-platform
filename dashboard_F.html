@@ -1643,6 +1643,23 @@
     color: var(--ash);
     opacity: 0.7;
   }
+  .document-open-btn {
+    flex-shrink: 0;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--forest-dark);
+    background: var(--gold);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s ease;
+  }
+  .document-open-btn:hover:not(:disabled) { background: var(--gold-light); }
+  .document-open-btn:disabled { opacity: 0.5; cursor: default; }
 
   /* ─── F10: MESSAGE THREAD — facilitator/participant exchange on a submission.
          Sits below feedback in renderReviewBundle (Q7). State machine mirrors
@@ -3955,16 +3972,11 @@
     }
   }
 
-  // documentItemEl — builds one .document-item card from a single row of
-  // list_submission_documents output. Header is rendered synchronously
-  // (filename, relative upload time, size, type label). Body is rendered
-  // asynchronously: the RPC returns storage_path; this function mints a
-  // 1-hour signed URL via the JS SDK and swaps the placeholder for the
-  // iframe (PDF / PNG / JPG per Q2a/Q2b — auto-expanded, fixed 600px) or
-  // the download block (DOCX / XLSX / PPTX per Q2c).
-  // Per-item async lifecycle: a URL minting failure on one document leaves
-  // an inline "Could not generate preview link" message and doesn't taint
-  // the rest of the list.
+  // documentItemEl — builds one compact .document-item row. Header shows
+  // filename, relative upload time, size, and type badge. An "Open" button
+  // mints a 1-hour signed URL on click and opens the file in a new tab.
+  // URL minting is deferred to click (not on list render) so the panel loads
+  // instantly and a URL failure on one file doesn't affect the others.
   function documentItemEl(doc) {
     const meta        = documentTypeMeta(doc.mime_type);
     const filename    = doc.filename || 'document';
@@ -3976,82 +3988,51 @@
 
     const item = document.createElement('div');
     item.className = 'document-item';
-    item.innerHTML =
-      '<div class="document-header">' +
-        '<span class="document-filename" title="' + escapeHtml(filename) + '">' + escapeHtml(filename) + '</span>' +
-        (relTime
-          ? '<span class="document-uploaded-at" title="' + escapeHtml(isoTitle) + '">' + escapeHtml(relTime) + '</span>'
-          : '') +
-        '<span class="document-size">' + escapeHtml(sizeStr) + '</span>' +
-        '<span class="document-type-label">' + escapeHtml(meta.label) + '</span>' +
-      '</div>' +
-      '<div class="document-body-placeholder" style="padding:18px 14px;text-align:center;font-size:12px;color:var(--ash);opacity:0.7;font-style:italic;">Generating preview\u2026</div>';
 
-    // No storage path on the row: render graceful fallback now and skip the
-    // async URL minting entirely. Defensive — list_submission_documents
-    // always returns storage_path, but a zero-length string would slip past
-    // the column-NOT-NULL guard if the row was hand-crafted.
+    const header = document.createElement('div');
+    header.className = 'document-header';
+    header.innerHTML =
+      '<span class="document-filename" title="' + escapeHtml(filename) + '">' + escapeHtml(filename) + '</span>' +
+      (relTime ? '<span class="document-uploaded-at" title="' + escapeHtml(isoTitle) + '">' + escapeHtml(relTime) + '</span>' : '') +
+      '<span class="document-size">' + escapeHtml(sizeStr) + '</span>' +
+      '<span class="document-type-label">' + escapeHtml(meta.label) + '</span>';
+
+    const btn = document.createElement('button');
+    btn.className = 'document-open-btn';
+    btn.type = 'button';
+    btn.textContent = 'Open';
+
     if (!storagePath) {
-      const placeholder = item.querySelector('.document-body-placeholder');
-      placeholder.outerHTML =
-        '<div class="document-download-block">' +
-          '<div class="document-download-hint">Preview unavailable.</div>' +
-        '</div>';
-      return item;
+      btn.disabled = true;
+      btn.title = 'File path unavailable';
+    } else {
+      btn.addEventListener('click', function () {
+        btn.disabled = true;
+        btn.textContent = 'Opening\u2026';
+        supabaseClient.storage
+          .from('submission_documents')
+          .createSignedUrl(storagePath, 3600)
+          .then(function (result) {
+            if (result.error || !result.data || !result.data.signedUrl) {
+              console.error('[F11] createSignedUrl error:', result.error);
+              btn.textContent = 'Error';
+              setTimeout(function () { btn.disabled = false; btn.textContent = 'Open'; }, 2000);
+              return;
+            }
+            window.open(result.data.signedUrl, '_blank', 'noopener,noreferrer');
+            btn.disabled = false;
+            btn.textContent = 'Open';
+          })
+          .catch(function (err) {
+            console.error('[F11] createSignedUrl exception:', err);
+            btn.textContent = 'Error';
+            setTimeout(function () { btn.disabled = false; btn.textContent = 'Open'; }, 2000);
+          });
+      });
     }
 
-    // Mint a signed URL via the JS SDK; on resolve, replace the placeholder
-    // with the iframe or download block. createSignedUrl returns
-    // { data: { signedUrl }, error }. Errors are surfaced as a graceful
-    // inline message rather than thrown.
-    supabaseClient.storage
-      .from('submission_documents')
-      .createSignedUrl(storagePath, 3600)
-      .then(function (result) {
-        const placeholder = item.querySelector('.document-body-placeholder');
-        if (!placeholder) return;
-
-        if (result.error || !result.data || !result.data.signedUrl) {
-          console.error('[F11] createSignedUrl error for', storagePath, result.error);
-          placeholder.outerHTML =
-            '<div class="document-download-block">' +
-              '<div class="document-download-hint">Could not generate preview link.</div>' +
-            '</div>';
-          return;
-        }
-
-        const signedUrl = result.data.signedUrl;
-        let bodyHtml;
-        if (meta.previewable) {
-          bodyHtml =
-            '<iframe class="document-preview-iframe" ' +
-                    'src="'   + escapeHtml(signedUrl) + '" ' +
-                    'title="' + escapeHtml(filename)  + ' preview"></iframe>';
-        } else {
-          bodyHtml =
-            '<div class="document-download-block">' +
-              '<a class="document-download-link" ' +
-                  'href="'     + escapeHtml(signedUrl) + '" ' +
-                  'target="_blank" rel="noopener" ' +
-                  'download="' + escapeHtml(filename)  + '">' +
-                'Download ' + escapeHtml(meta.label) +
-              '</a>' +
-              '<div class="document-download-hint">Opens in a new tab.</div>' +
-            '</div>';
-        }
-        placeholder.outerHTML = bodyHtml;
-      })
-      .catch(function (err) {
-        console.error('[F11] createSignedUrl exception for', storagePath, err);
-        const placeholder = item.querySelector('.document-body-placeholder');
-        if (placeholder) {
-          placeholder.outerHTML =
-            '<div class="document-download-block">' +
-              '<div class="document-download-hint">Could not generate preview link.</div>' +
-            '</div>';
-        }
-      });
-
+    header.appendChild(btn);
+    item.appendChild(header);
     return item;
   }
 
