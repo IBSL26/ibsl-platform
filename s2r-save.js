@@ -57,7 +57,7 @@
         // Get current cohort for this user (most recently joined active cohort)
         const { data: memberships, error: memErr } = await client
           .from('cohort_memberships')
-          .select('cohort_id, role_in_cohort, joined_at, cohorts(id, name, status)')
+          .select('cohort_id, role_in_cohort, joined_at')
           .eq('profile_id', userId)
           .order('joined_at', { ascending: false });
 
@@ -71,14 +71,13 @@
           return null;
         }
 
-        // Prefer an active cohort; fall back to most recent
-        const active = memberships.find(m => m.cohorts && m.cohorts.status === 'active');
-        const chosen = active || memberships[0];
+        // Use most recently joined cohort (ordered by joined_at desc)
+        const chosen = memberships[0];
 
         _ctx = {
           profileId: userId,
           cohortId: chosen.cohort_id,
-          cohortName: chosen.cohorts ? chosen.cohorts.name : '(unknown)',
+          cohortName: '(cohort)',
           role: chosen.role_in_cohort
         };
         console.log('[S2R] Ready:', _ctx.cohortName, '/', _ctx.role);
