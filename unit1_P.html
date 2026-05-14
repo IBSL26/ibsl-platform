@@ -278,6 +278,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .sf-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(26,122,106,.08);border-bottom:1px solid rgba(26,122,106,.15);}
 .sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
 .sf-status.returned{color:var(--gold);}
+.sf-status.reviewed{color:#1a7a6a;}
 .sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
 .sf-body{padding:16px 18px;}
 .sf-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;}
@@ -1170,7 +1171,7 @@ async function loadSubmissionFeedback(){
     if(result.error){console.error('[unit1_P] Submission fetch error:',result.error);return;}
     if(!result.data||result.data.length===0)return;
     var row=result.data[0];
-    if(!row.facilitator_feedback)return;
+    if(row.review_status==='submitted'||row.review_status==='pending')return;
     renderSubmissionFeedback(row);
   }catch(err){
     console.error('[unit1_P] Submission fetch exception:',err);
@@ -1180,13 +1181,11 @@ async function loadSubmissionFeedback(){
 function renderSubmissionFeedback(row){
   var block=document.getElementById('submission-feedback-block');
   if(!block)return;
-  var statusMap={
-    'submitted':'Submitted \u2014 Awaiting Facilitator Feedback',
-    'pending_revision':'Returned for Revision',
-    'pending':'Submitted'
-  };
-  var label=statusMap[row.review_status]||row.review_status;
   var isReturned=row.review_status==='pending_revision';
+  var isReviewed=row.review_status==='reviewed';
+  var label=isReturned?'Returned for Revision':isReviewed?'Reviewed':'';
+  if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?'Your facilitator has reviewed your submission.':'');
   var sl=document.getElementById('sf-status-label');
   var ts=document.getElementById('sf-timestamp');
   var tx=document.getElementById('sf-text');
@@ -1195,7 +1194,7 @@ function renderSubmissionFeedback(row){
     var d=new Date(row.submitted_at);
     ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   }
-  if(tx)tx.textContent=row.facilitator_feedback;
+  if(tx)tx.textContent=feedbackText;
   block.style.display='block';
 }
 
