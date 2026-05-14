@@ -1429,6 +1429,33 @@
   .response-module.collapsed .response-module-body {
     display: none;
   }
+  /* Collapsible support sections (Documents / Feedback / Messages) */
+  .collapsible-section-heading {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: opacity 0.15s;
+  }
+  .collapsible-section-heading:hover { opacity: 0.85; }
+  .collapsible-section-heading::after {
+    content: '▲';
+    font-size: 9px;
+    opacity: 0.5;
+    font-weight: 400;
+    margin-left: 10px;
+    transition: transform 0.2s;
+  }
+  .collapsible-section.collapsed .collapsible-section-heading::after {
+    transform: rotate(180deg);
+  }
+  .collapsible-section-body {
+    /* spacing preserved from the section's own internal layout */
+  }
+  .collapsible-section.collapsed .collapsible-section-body {
+    display: none;
+  }
   /* Assessment interpreted card */
   .assessment-card {
     background: rgba(13,26,16,0.6);
@@ -4824,10 +4851,47 @@
     const completionBar = buildCompletionBar(payload, lens);
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
-    content.appendChild(buildDocumentsSection(submissionId));
-    content.appendChild(buildFeedbackSection(submission, submissionId, participantName, lensTitle));
-    content.appendChild(buildMessageSection(submissionId));
+    content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
+    content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle)));
+    content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
+  }
+
+  // ─── COLLAPSIBLE SECTION WRAPPER ─────────────────────────────────────────
+  // Takes a fully-built section element (Documents / Feedback / Messages),
+  // converts its first <h2> into an accordion toggle, and moves everything
+  // else into a collapsible body. Non-invasive: the section's own elements
+  // (forms, textareas, async-loaded lists) keep their identity and event
+  // handlers — we only re-parent DOM nodes, which does not detach listeners
+  // or invalidate references captured inside the builder.
+  // Default state: expanded (consistent with response modules).
+  function wrapCollapsibleSection(sectionEl) {
+    if (!sectionEl) return document.createComment('empty-section');
+    // Some builders (e.g. feedback) may legitimately return an element with
+    // no heading in certain states — guard so we never throw.
+    const heading = sectionEl.querySelector('h2');
+    if (!heading) return sectionEl;  // nothing to toggle — return as-is
+
+    sectionEl.classList.add('collapsible-section');
+
+    // Re-style the existing heading as the accordion toggle.
+    heading.classList.add('collapsible-section-heading');
+    heading.addEventListener('click', function() {
+      sectionEl.classList.toggle('collapsed');
+    });
+
+    // Move every sibling AFTER the heading into a collapsible body wrapper.
+    const body = document.createElement('div');
+    body.className = 'collapsible-section-body';
+    let node = heading.nextSibling;
+    while (node) {
+      const next = node.nextSibling;
+      body.appendChild(node);
+      node = next;
+    }
+    sectionEl.appendChild(body);
+
+    return sectionEl;
   }
 
   function buildLensMetaLine(lens) {
@@ -5011,37 +5075,46 @@
       wrap.appendChild(moduleEl);
     });
 
-    if (buckets['_other']) {
+    // ─── ASSESSMENT RESULTS section ───────────────────────────────────────
+    // Holds the non-module ('_other') reflections (e.g. portfolio prompts)
+    // AND the interpreted Five Commitments assessment card. Both collapse
+    // together under one heading. Section is created if EITHER is present.
+    const hasOther = !!buckets['_other'];
+    if (hasOther || assessmentData) {
       const moduleEl = document.createElement('div');
       moduleEl.className = 'response-module';
-      if (moduleNums.length > 0) {
+
+      // Heading + collapse toggle. When there were no numbered modules at all
+      // AND no assessment card, the original code rendered '_other' headingless;
+      // we preserve that only for the pure-flat-lens case (no assessment).
+      const flatNoHeading = (moduleNums.length === 0 && !assessmentData);
+
+      const body = document.createElement('div');
+      body.className = 'response-module-body';
+
+      if (!flatNoHeading) {
         const heading = document.createElement('div');
         heading.className = 'response-module-heading';
-        heading.textContent = 'Other';
+        heading.textContent = 'Assessment Results';
         heading.addEventListener('click', function() {
           moduleEl.classList.toggle('collapsed');
         });
         moduleEl.appendChild(heading);
-        const body = document.createElement('div');
-        body.className = 'response-module-body';
-        buckets['_other'].forEach(function(entry) {
-          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
-        });
-        moduleEl.appendChild(body);
-      } else {
-        const body = document.createElement('div');
-        body.className = 'response-module-body';
-        buckets['_other'].forEach(function(entry) {
-          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
-        });
-        moduleEl.appendChild(body);
       }
-      wrap.appendChild(moduleEl);
-    }
 
-    // Assessment card — rendered last, always expanded
-    if (assessmentData) {
-      wrap.appendChild(renderAssessmentCard(assessmentData));
+      // Portfolio / non-module reflections first
+      if (hasOther) {
+        buckets['_other'].forEach(function(entry) {
+          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+        });
+      }
+      // Then the interpreted assessment card, nested inside the same body
+      if (assessmentData) {
+        body.appendChild(renderAssessmentCard(assessmentData));
+      }
+
+      moduleEl.appendChild(body);
+      wrap.appendChild(moduleEl);
     }
 
     return wrap;
