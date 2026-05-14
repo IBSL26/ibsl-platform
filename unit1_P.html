@@ -884,26 +884,15 @@ Email to Self</button>
 <p>It closes with practical intervention — six debiasing principles, three pillars for building collective intelligence, and institutional practices for embedding behavioural discipline — culminating in a self-scoring leadership assessment across five commitments.</p>
 <div class="hbox teal"><p>The central argument of the unit, in one line: <strong>the quality of your strategy is a direct function of the quality of the thinking environment in which it was made.</strong></p></div></div></div>
 </div>
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+</div>
 <div class="mod-nav"><button class="btn btn-prev" onclick="showMod(4)">← Module 5</button><button class="btn btn-done" onclick="alert('Unit 1 Foundation complete. Your portfolio artefact has been saved. Proceed to Unit 2: Direction — Pillar 1 when ready.')">Unit 1 Complete ✓</button></div>
 </div>
-</div>
-
-<div class="submission-area">
-  <div id="submission-feedback-block" style="display:none;">
-    <div class="submission-feedback">
-      <div class="sf-header" onclick="this.closest('.submission-feedback').classList.toggle('sf-open')">
-        <span class="sf-title">Facilitator Feedback</span>
-        <span class="sf-chevron">▼</span>
-      </div>
-      <div class="sf-body">
-        <div class="sf-status-row">
-          <span id="sf-status-label" class="sf-status"></span>
-          <span id="sf-timestamp" class="sf-ts"></span>
-        </div>
-        <div id="sf-text" class="sf-text"></div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -1187,25 +1176,26 @@ async function loadSubmissionFeedback(){
 }
 
 function renderSubmissionFeedback(row){
-  var block=document.getElementById('submission-feedback-block');
-  if(!block)return;
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
   var isReturned=row.review_status==='pending_revision';
   var isReviewed=row.review_status==='reviewed';
   var label=isReturned?'Returned for Revision':isReviewed?'Reviewed':'';
   if(!label)return;
   var feedbackText=row.facilitator_feedback||(isReviewed?'Your facilitator has reviewed your submission.':'');
+  var meta=document.getElementById('sf-status-meta');
   var sl=document.getElementById('sf-status-label');
   var ts=document.getElementById('sf-timestamp');
   var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
   if(sl){sl.textContent=label;sl.className='sf-status'+(isReturned?' returned':'');}
   if(ts&&row.submitted_at){
     var d=new Date(row.submitted_at);
     ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   }
   if(tx)tx.textContent=feedbackText;
-  var card=block.querySelector('.submission-feedback');
-  if(card)card.classList.add('sf-open');
-  block.style.display='block';
+  acc.style.display='block';
+  acc.classList.add('open');
 }
 
 async function sendToFacilitator() {
