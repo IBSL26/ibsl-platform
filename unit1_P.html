@@ -285,7 +285,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="nav-brand"><strong>IBSL</strong>Strategy2Result®</div>
   </div>
   <span class="nav-badge">Participant View</span>
-  <a href="index.html" class="nav-back">← Back to Platform</a>
+  <a href="index_0.html" class="nav-back">← Back to Platform</a>
 </nav>
 <div class="unit-header">
   <div class="uh-inner">
@@ -994,23 +994,23 @@ window.addEventListener('load',async function(){
   }
 });
 
-async function saveRef(rid){
-  var ta=document.getElementById(rid);
-  var msg=document.getElementById(rid+'-saved');
+async function savePort(pid){
+  var ta=document.getElementById(pid);
+  var msg=document.getElementById(pid+'-msg');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
-  var ok=await S2R.save('u1_foundations',rid,ta.value);
-  if(ok){
+  var result=await S2R.save('u1_foundations',pid,ta.value);
+  if(result.ok){
     if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
   }else{
-    alert('Could not save your reflection. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
+    alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
   }
 }
 async function savePort(pid){
   var ta=document.getElementById(pid);
   var msg=document.getElementById(pid+'-msg');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
-  var ok=await S2R.save('u1_foundations',pid,ta.value);
-  if(ok){
+  var result=await S2R.save('u1_foundations',pid,ta.value);
+  if(result.ok){
     if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
   }else{
     alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
