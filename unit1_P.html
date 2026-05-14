@@ -860,6 +860,10 @@ function showInst(i){
 <div class="acc-b cb">
 <div class="lo-box"><div class="lo-box-label">By the end of this section, you will</div><ul><li>Complete the Five Commitments self-scoring assessment</li><li>Generate a personal score and interpretation</li><li>Export or save your results as a portfolio artefact</li></ul></div>
 <div class="hbox teal" style="margin-bottom:16px;"><p><strong>How to use this assessment:</strong> Read each statement carefully. Score yourself honestly on a scale of 1 to 5. Avoid scoring what you aspire to — score what is consistently true of your practice right now.<br><strong>1</strong> = Rarely/never &nbsp;·&nbsp; <strong>2</strong> = Occasionally &nbsp;·&nbsp; <strong>3</strong> = Sometimes &nbsp;·&nbsp; <strong>4</strong> = Often &nbsp;·&nbsp; <strong>5</strong> = Consistently</p></div>
+<div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:12px 16px;margin-bottom:16px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.65;">
+<strong style="color:var(--gold);letter-spacing:1px;">INSTRUCTIONS — WORK THROUGH ALL TABS IN ORDER</strong><br>
+Click <strong style="color:#fff;">C1</strong> and score all four statements before moving to <strong style="color:#fff;">C2</strong>. Continue through <strong style="color:#fff;">C3 → C4 → C5</strong>. Only click <strong style="color:#fff;">Results</strong> once you have scored every statement in every commitment tab. Your overall score and interpretation will not be meaningful until all five commitments are complete.
+</div>
 <div class="commit-tabs"><div class="commit-tab active" onclick="showCommit(0)">C1</div><div class="commit-tab" onclick="showCommit(1)">C2</div><div class="commit-tab" onclick="showCommit(2)">C3</div><div class="commit-tab" onclick="showCommit(3)">C4</div><div class="commit-tab" onclick="showCommit(4)">C5</div><div class="commit-tab" onclick="showCommit(5)">Results</div></div><div><div class="commit-panel active" id="cp-0">
 <div class="commit-label">Commitment 1 — I Know My Biases</div>
 <div class="commit-desc">I actively work to identify the patterns in my thinking that may not serve the organisation's interests — particularly in the areas of overconfidence, confirmation, and status quo bias.</div>
@@ -888,10 +892,17 @@ function showInst(i){
 </div><div class="commit-panel" id="cp-5">
 <div class="results-panel" id="results-panel">
 <div class="results-title">Your Assessment Results</div>
-<div class="score-display"><div class="sd-label">Overall Score</div><div><span class="sd-num" id="ov-score">0</span><span class="sd-max"> / 100</span></div><div class="sd-level" id="ov-level">Complete the assessment to see your level</div></div>
-<div class="score-grid"><div class="sg"><div class="sg-label">C1</div><div class="sg-val" id="dsp-t1">—</div></div><div class="sg"><div class="sg-label">C2</div><div class="sg-val" id="dsp-t2">—</div></div><div class="sg"><div class="sg-label">C3</div><div class="sg-val" id="dsp-t3">—</div></div><div class="sg"><div class="sg-label">C4</div><div class="sg-val" id="dsp-t4">—</div></div><div class="sg"><div class="sg-label">C5</div><div class="sg-val" id="dsp-t5">—</div></div></div>
-<h4 style="margin:16px 0 10px;">Score Interpretation</h4>
-<div><div class="interp-item" onclick="tInterp(this)"><div class="interp-h"><span class="interp-range">85–100</span><span class="interp-lvl">Leading Practice</span><span class="interp-ch">▼</span></div><div class="interp-b"><p>Your self-assessment suggests a high and consistent level of behavioural awareness in your leadership practice. At this level the priority shifts from building the practice to sustaining it under pressure — and extending it to the people and environments around you.</p></div></div><div class="interp-item" onclick="tInterp(this)"><div class="interp-h"><span class="interp-range">65–84</span><span class="interp-lvl">Established Awareness</span><span class="interp-ch">▼</span></div><div class="interp-b"><p>You have developed meaningful behavioural competence visible in your day-to-day leadership. Review your per-commitment scores to identify where your practice holds most reliably and where it is most dependent on circumstances being favourable.</p></div></div><div class="interp-item" onclick="tInterp(this)"><div class="interp-h"><span class="interp-range">45–64</span><span class="interp-lvl">Developing Awareness</span><span class="interp-ch">▼</span></div><div class="interp-b"><p>You have clear awareness of these commitments and an emerging practice — but gaps exist between what you know and what you do with consistency. Focus initially on one or two commitments where the gap feels smallest, and build from there.</p></div></div><div class="interp-item" onclick="tInterp(this)"><div class="interp-h"><span class="interp-range">25–44</span><span class="interp-lvl">Emerging Awareness</span><span class="interp-ch">▼</span></div><div class="interp-b"><p>While some awareness of these commitments exists, systematic practice is not yet in place across most of them. Identify the commitment where your score is lowest: this is likely where your leadership is most exposed.</p></div></div><div class="interp-item" onclick="tInterp(this)"><div class="interp-h"><span class="interp-range">20–24</span><span class="interp-lvl">At Risk</span><span class="interp-ch">▼</span></div><div class="interp-b"><p>A score at this level suggests that the quality of thinking and judgement in your leadership environment may be significantly exposed to unmanaged bias. Treat this as a priority finding.</p></div></div></div>
+<div class="score-display"><div class="sd-label">Your Overall Score</div><div><span class="sd-num" id="ov-score">—</span><span class="sd-max"> / 100</span></div><div class="sd-level" id="ov-level">Work through C1–C5 and score all statements first</div><div id="ov-badge" style="margin-top:8px;"></div></div>
+<h4 style="margin:18px 0 10px;">Commitment Breakdown</h4>
+<div id="commit-bars" style="margin-bottom:16px;">
+  <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:3px;"><span>C1 · I Know My Biases</span><span id="cbv-1">—</span></div><div style="background:rgba(255,255,255,.06);border-radius:2px;height:5px;"><div id="cbf-1" style="height:5px;border-radius:2px;background:#1a7a6a;width:0%;transition:width .4s;"></div></div></div>
+  <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:3px;"><span>C2 · I Manage My Emotional Impact</span><span id="cbv-2">—</span></div><div style="background:rgba(255,255,255,.06);border-radius:2px;height:5px;"><div id="cbf-2" style="height:5px;border-radius:2px;background:#1a7a6a;width:0%;transition:width .4s;"></div></div></div>
+  <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:3px;"><span>C3 · I Build Psychological Safety</span><span id="cbv-3">—</span></div><div style="background:rgba(255,255,255,.06);border-radius:2px;height:5px;"><div id="cbf-3" style="height:5px;border-radius:2px;background:#1a7a6a;width:0%;transition:width .4s;"></div></div></div>
+  <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:3px;"><span>C4 · I Use Process to Protect Quality</span><span id="cbv-4">—</span></div><div style="background:rgba(255,255,255,.06);border-radius:2px;height:5px;"><div id="cbf-4" style="height:5px;border-radius:2px;background:#1a7a6a;width:0%;transition:width .4s;"></div></div></div>
+  <div style="margin-bottom:10px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.45);margin-bottom:3px;"><span>C5 · I Treat People as the Strategy</span><span id="cbv-5">—</span></div><div style="background:rgba(255,255,255,.06);border-radius:2px;height:5px;"><div id="cbf-5" style="height:5px;border-radius:2px;background:#1a7a6a;width:0%;transition:width .4s;"></div></div></div>
+</div>
+<div id="priority-box" style="display:none;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.22);border-radius:3px;padding:14px 16px;margin-bottom:16px;"></div>
+<div id="level-interp" style="display:none;background:rgba(26,122,106,.06);border:1px solid rgba(26,122,106,.18);border-radius:3px;padding:14px 16px;margin-bottom:16px;"></div>
 <div class="export-actions">
 <button class="export-btn" onclick="printResults()">
 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
@@ -1039,6 +1050,21 @@ function showCommit(i){
   document.querySelectorAll('.commit-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
   if(i===5)calcT();
 }
+var _COMMIT_LABELS=['I Know My Biases','I Manage My Emotional Impact','I Build Psychological Safety','I Use Process to Protect Quality','I Treat People as the Strategy'];
+var _LEVEL_DATA={
+  'Leading Practice':{badge:'background:rgba(26,122,106,.2);color:#1a7a6a;border:1px solid rgba(26,122,106,.4);',risk:'Low',insight:'Your self-assessment reflects a mature and consistent behavioural practice. At this level the risk is not collapse — it is complacency. The practices that earned this score must be sustained under pressure, extended to those around you, and tested against your most difficult moments.',action:'Assess whether your practice is institutionalised or personal. If your absence would cause the quality of thinking to regress, the work is not finished.'},
+  'Established Awareness':{badge:'background:rgba(39,174,96,.1);color:#27ae60;border:1px solid rgba(39,174,96,.3);',risk:'Moderate',insight:'You have built a genuine practice, but consistency is context-dependent. You perform well in stable conditions — but may revert to less deliberate patterns under pressure, time constraints, or high-stakes situations.',action:'Identify the two lowest-scoring commitments and examine the specific situations where they break down. The transition from established to leading practice is made in the difficult moments — not the easy ones.'},
+  'Developing Awareness':{badge:'background:rgba(201,168,76,.12);color:#c9a84c;border:1px solid rgba(201,168,76,.3);',risk:'Moderate–High',insight:'The gap between your awareness and your practice is the most important finding here. You understand these commitments conceptually — but they have not yet become habits. This is a productive stage, not a failure: the understanding is in place, but the disciplines needed to translate it into consistent action are still forming.',action:'Select one commitment to prioritise for the next 30 days. Build a single, specific ritual around it — a question you ask at the start of every strategy conversation, or a process you apply before every significant decision.'},
+  'Emerging Awareness':{badge:'background:rgba(231,76,60,.1);color:#e74c3c;border:1px solid rgba(231,76,60,.25);',risk:'High',insight:'Your score indicates that the structures, habits, and conditions required for consistent behavioural leadership are not yet in place across most commitments. Unmanaged bias in leadership has measurable costs: strategic misalignment, suppressed dissent, and decisions built on invisible assumptions.',action:'Start with the single lowest commitment. Identify one observable behaviour you will change in the next two weeks — specific enough to be measured, modest enough to be sustained.'},
+  'At Risk':{badge:'background:rgba(192,57,43,.18);color:#c0392b;border:1px solid rgba(192,57,43,.35);',risk:'Critical',insight:'A score at this level is a signal that the quality of strategic thinking in your leadership environment may be significantly exposed. This is not a reflection of intelligence or intent — it is a finding about the processes, climate, and habits that either protect or undermine judgement.',action:'Treat this as a diagnostic, not a verdict. Bring the lowest-scoring commitment to a trusted peer or coach as a real conversation. Self-assessment is the beginning of the work, not the end of it.'}
+};
+var _PRIORITY_TEXT={
+  'I Know My Biases':'Your self-assessment indicates that identifying and managing your own cognitive patterns is the area requiring most attention. The biases you cannot name are the ones most likely to shape your decisions without your awareness.',
+  'I Manage My Emotional Impact':'Your emotional presence as a leader directly affects the quality of thinking in the room. When leaders signal strong preference or frustration — even subtly — it narrows what others feel safe to say.',
+  'I Build Psychological Safety':'Psychological safety is not comfort — it is the structural condition that allows honest challenge and dissenting views to surface. Without it, your organisation\'s best thinking stays private.',
+  'I Use Process to Protect Quality':'Even experienced thinkers are vulnerable to bias when working without structure. Pre-mortems, reference classes, and deliberate separation of divergent and convergent thinking are what protect decision quality.',
+  'I Treat People as the Strategy':'Collective intelligence does not emerge automatically from capable individuals. It requires deliberate design — of how people engage, how dissent is invited, and how diverse perspectives are integrated rather than tolerated.'
+};
 function calcT(){
   var tots=[];
   for(var c=1;c<=5;c++){
@@ -1047,9 +1073,11 @@ function calcT(){
     tots.push(sum);
     var td=document.getElementById('t'+c);if(td)td.textContent=(sum>0?sum:0)+' / 20';
     var dd=document.getElementById('dsp-t'+c);if(dd)dd.textContent=(sum>0?sum:'--');
+    var cbf=document.getElementById('cbf-'+c);if(cbf)cbf.style.width=(sum/20*100)+'%';
+    var cbv=document.getElementById('cbv-'+c);if(cbv)cbv.textContent=(sum>0?sum+' / 20':'—');
   }
   var ov=tots.reduce(function(a,b){return a+b;},0);
-  var oel=document.getElementById('ov-score');if(oel)oel.textContent=ov;
+  var oel=document.getElementById('ov-score');if(oel)oel.textContent=ov>0?ov:'—';
   var lel=document.getElementById('ov-level');
   if(lel&&ov>0){
     var lvl='At Risk';
@@ -1058,8 +1086,28 @@ function calcT(){
     else if(ov>=45)lvl='Developing Awareness';
     else if(ov>=25)lvl='Emerging Awareness';
     lel.textContent=lvl;
+    var ld=_LEVEL_DATA[lvl];
+    var badge=document.getElementById('ov-badge');
+    if(badge)badge.innerHTML='<span style="display:inline-block;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;'+ld.badge+'">'+lvl+'</span><span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:10px;">Risk level: '+ld.risk+'</span>';
+    // Identify weakest commitment
+    var minVal=Math.min.apply(null,tots);
+    var minIdx=tots.indexOf(minVal);
+    for(var c=1;c<=5;c++){
+      var bar=document.getElementById('cbf-'+c);
+      if(bar)bar.style.background=(c-1===minIdx)?'#c9a84c':'#1a7a6a';
+    }
+    var pbox=document.getElementById('priority-box');
+    if(pbox){
+      pbox.style.display='block';
+      var pname=_COMMIT_LABELS[minIdx];
+      pbox.innerHTML='<div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Your Priority Area</div><div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:6px;">C'+(minIdx+1)+' · '+pname+' <span style="font-size:11px;color:rgba(255,255,255,.35);">('+minVal+' / 20)</span></div><p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.75;margin:0;">'+(_PRIORITY_TEXT[pname]||'')+'</p>';
+    }
+    var ibox=document.getElementById('level-interp');
+    if(ibox){
+      ibox.style.display='block';
+      ibox.innerHTML='<div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;margin-bottom:8px;">What This Score Means</div><p style="font-size:12px;color:rgba(255,255,255,.7);line-height:1.75;margin:0 0 10px;">'+ld.insight+'</p><div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px;">Suggested action</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">'+ld.action+'</p>';
+    }
   }
-  // Save assessment to Supabase (Stage C.1)
   var data={tots:tots,ov:ov,ts:new Date().toISOString()};
   if(window.S2R){S2R.save('u1_foundations','assessment',data);}
 }
@@ -1126,15 +1174,48 @@ function getResultsText(){
 }
 function printResults(){
   calcT();
-  var w=window.open('','_blank');
   var score=document.getElementById('ov-score').textContent;
   var level=document.getElementById('ov-level').textContent;
-  var labels=['I Know My Biases','I Manage My Emotional Impact','I Build Psychological Safety','I Use Process to Protect Quality','I Treat People as the Strategy'];
+  var ld=_LEVEL_DATA[level]||{risk:'—',insight:'Complete all five commitments to see your interpretation.',action:''};
+  var tots=[];
+  for(var c=1;c<=5;c++){var el=document.getElementById('dsp-t'+c);tots.push(el?el.textContent:'—');}
+  var minVal=20,minIdx=0;
+  tots.forEach(function(v,i){var n=parseInt(v)||0;if(n<minVal){minVal=n;minIdx=i;}});
   var rows='';
-  for(var c=1;c<=5;c++){var el=document.getElementById('dsp-t'+c);rows+='<tr><td style="padding:8px;border:1px solid #ccc;">'+c+'. '+labels[c-1]+'</td><td style="padding:8px;border:1px solid #ccc;text-align:center;">'+(el?el.textContent:'--')+' / 20</td></tr>';}
-  var lvlMap={'Leading Practice':'85-100: This reflects a high and consistent level of behavioural awareness in your leadership practice.','Established Awareness':'65-84: You have developed meaningful behavioural competence visible in your day-to-day leadership.','Developing Awareness':'45-64: You have clear awareness and an emerging practice -- gaps exist between what you know and what you do consistently.','Emerging Awareness':'25-44: While some awareness exists, systematic practice is not yet in place across most commitments.','At Risk':'20-24: The quality of thinking in your leadership environment may be significantly exposed to unmanaged bias.'};
-  var interp=lvlMap[level]||'Complete all five commitments for your interpretation.';
-  w.document.write('<html><head><title>IBSL S2R Assessment Results</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#000;}h2{font-size:22px;margin-bottom:4px;}table{width:100%;border-collapse:collapse;margin:16px 0;}th{background:#f0f0f0;padding:8px;border:1px solid #ccc;text-align:left;}p{font-size:14px;line-height:1.7;}.score{font-size:48px;font-weight:700;color:#1a7a6a;}</style></head><body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;"><h2>IBSL Strategy2Result(R) . Five Commitments Assessment</h2><p>Participant: __________________ &nbsp; Date: '+new Date().toLocaleDateString()+'</p><div style="text-align:center;padding:20px;border:1px solid #ccc;border-radius:4px;margin:16px 0;"><div style="font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">Overall Score</div><div class="score">'+score+'</div><div style="color:#666;"> / 100</div><div style="font-size:18px;margin-top:6px;">'+level+'</div></div><table><tr><th>Commitment</th><th>Score</th></tr>'+rows+'</table><h3>Interpretation</h3><p>'+interp+'</p><p style="margin-top:20px;font-size:12px;color:#666;font-style:italic;">A final note: Self-assessment is the beginning of the work, not the end of it. Share what this surfaced with someone who observes you closely.</p></body></html>');
+  for(var c=0;c<5;c++){
+    var isPriority=(c===minIdx&&parseInt(tots[c])>0);
+    rows+='<tr style="background:'+(isPriority?'#fff9ec':'#fff')+'"><td style="padding:9px 12px;border:1px solid #e0e0e0;font-weight:'+(isPriority?'700':'400')+';">C'+(c+1)+' · '+_COMMIT_LABELS[c]+(isPriority?' ★ Priority':'')+
+      '</td><td style="padding:9px 12px;border:1px solid #e0e0e0;text-align:center;font-weight:700;">'+tots[c]+' / 20</td></tr>';
+  }
+  var w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><title>IBSL S2R® — Five Commitments Assessment</title><style>'+
+    'body{font-family:Georgia,serif;max-width:720px;margin:40px auto;color:#111;padding:0 20px;}'+
+    'h1{font-size:22px;color:#0d1a10;margin-bottom:4px;}'+
+    '.sub{font-size:13px;color:#555;margin-bottom:24px;}'+
+    '.score-card{background:#0d1a10;color:#fff;border-radius:6px;padding:24px;text-align:center;margin:0 0 24px;}'+
+    '.sc-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;opacity:.6;margin-bottom:4px;}'+
+    '.sc-num{font-size:56px;font-weight:700;color:#c9a84c;line-height:1;}'+
+    '.sc-max{font-size:20px;opacity:.5;}'+
+    '.sc-level{font-size:16px;margin-top:8px;opacity:.9;}'+
+    '.sc-risk{font-size:11px;opacity:.5;letter-spacing:1px;margin-top:4px;}'+
+    'table{width:100%;border-collapse:collapse;margin:16px 0 24px;}'+
+    'th{background:#0d1a10;color:#c9a84c;padding:9px 12px;border:1px solid #333;text-align:left;font-size:12px;letter-spacing:1px;}'+
+    '.section{margin-bottom:20px;padding:16px;background:#f9f9f9;border-radius:4px;border-left:3px solid #1a7a6a;}'+
+    '.section h3{font-size:13px;color:#1a7a6a;text-transform:uppercase;letter-spacing:2px;margin:0 0 8px;}'+
+    '.section p{font-size:13px;color:#333;line-height:1.7;margin:0;}'+
+    '.priority{border-left-color:#c9a84c;}'+
+    '.priority h3{color:#c9a84c;}'+
+    '.note{font-size:11px;color:#888;font-style:italic;margin-top:24px;border-top:1px solid #eee;padding-top:12px;}'+
+    '</style></head><body>'+
+    '<h1>IBSL Strategy2Results® — Five Commitments Assessment</h1>'+
+    '<div class="sub">Participant: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Date: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+'</div>'+
+    '<div class="score-card"><div class="sc-label">Overall Score</div><div><span class="sc-num">'+score+'</span><span class="sc-max"> / 100</span></div><div class="sc-level">'+level+'</div><div class="sc-risk">Risk level: '+ld.risk+'</div></div>'+
+    '<table><tr><th>Commitment</th><th style="width:90px;text-align:center;">Score</th></tr>'+rows+'</table>'+
+    '<div class="section priority"><h3>Your Priority Area</h3><p><strong>C'+(minIdx+1)+' · '+_COMMIT_LABELS[minIdx]+'</strong> — '+(_PRIORITY_TEXT[_COMMIT_LABELS[minIdx]]||'')+'</p></div>'+
+    '<div class="section"><h3>What This Score Means</h3><p>'+ld.insight+'</p></div>'+
+    '<div class="section"><h3>Suggested Action</h3><p>'+ld.action+'</p></div>'+
+    '<p class="note">Self-assessment is the beginning of the work, not the end of it. The most useful thing you can do with this report is share what it surfaced with someone who observes you closely, and let that become a real conversation. &nbsp;|&nbsp; IBSL S2R® Behavioural Strategy Programme</p>'+
+    '</body></html>');
   w.document.close();w.print();
 }
 function copyResults(){
@@ -1287,26 +1368,15 @@ async function sendToFacilitator() {
     alert('The save system is not yet ready. Please reload the page and try again.');
     return;
   }
-  if(!confirm('Submit your Unit 1 reflections to your facilitator?\n\nThis will send everything you have saved so far. You can keep editing and submit again later if needed.')){
+  // Confirm before sending
+  if(!confirm('Submit your Unit 1 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
     return;
   }
-  // Push all locally saved reflections + portfolio to Supabase before submitting
-  var ctx=await S2R.context();
-  if(ctx){
-    var tas=document.querySelectorAll('textarea.reflection-textarea,textarea.portfolio-textarea');
-    for(var i=0;i<tas.length;i++){
-      var ta=tas[i];
-      if(!ta.id)continue;
-      var val=ta.value;
-      if(!val){try{val=localStorage.getItem('s2r_u1_'+ta.id)||'';}catch(e){}}
-      if(val)await S2R.save('u1_foundations',ta.id,val);
-    }
-  }
-  var result=await S2R.submit('u1_foundations');
+  var result = await S2R.submit('u1_foundations');
   if(result.ok){
-    alert('\u2713 Submitted to your facilitator.\n\n'+result.message);
+    alert('✓ Submitted to your facilitator.\n\n' + result.message);
   }else{
-    alert('Could not submit to your facilitator.\n\n'+result.message);
+    alert('Could not submit to your facilitator.\n\n' + result.message);
   }
 }
 
@@ -1613,26 +1683,33 @@ function _setRefStatus(id,text,cls){
 }
 
 function draftRef(id){
-  _setRefStatus(id,'\u270f Drafting\u2026','rs-drafting');
+  _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
   clearTimeout(_draftTimers[id]);
   _draftTimers[id]=setTimeout(function(){
-    var ta=document.getElementById(id);
-    if(ta)try{localStorage.setItem('s2r_u1_'+id,ta.value);}catch(e){}
-    _setRefStatus(id,'\u2713 Draft saved','rs-draft');
+    _setRefStatus(id,'✓ Draft saved','rs-draft');
   },1500);
 }
 
-function saveRef(id){
+async function saveRef(id){
   var ta=document.getElementById(id);
-  if(!ta)return;
+  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
   clearTimeout(_draftTimers[id]);
-  _setRefStatus(id,'\u23f3 Saving\u2026','rs-saving');
-  try{localStorage.setItem('s2r_u1_'+id,ta.value);}catch(e){}
-  _setRefStatus(id,'\u2713 Saved','rs-ok');
-  setTimeout(function(){
+  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
+  var existingErr=document.getElementById(id+'-error');
+  if(existingErr)existingErr.style.display='none';
+  var result=await S2R.save('u1_foundations',id,ta.value);
+  if(result){
+    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+    setTimeout(function(){
+      var ok=document.getElementById(id+'-saved');
+      if(ok){ok.style.display='none';ok.className='reflection-saved';}
+    },3000);
+  }else{
+    console.error('[unit1_P C7] saveRef failed for '+id+' (save returned false)');
     var ok=document.getElementById(id+'-saved');
-    if(ok){ok.style.display='none';ok.className='reflection-saved';}
-  },3000);
+    if(ok)ok.style.display='none';
+    showSaveError(id);
+  }
 }
 
 function showSaveError(id){
