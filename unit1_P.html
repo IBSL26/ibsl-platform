@@ -271,6 +271,17 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
 @media print{.unit-nav,.mod-tabs,.mod-nav,.export-actions,.reflection-save{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;}}
 .cost-body{display:none!important;}.cost-open .cost-body{display:block!important;}
+
+/* SUBMISSION AREA */
+.submission-area{padding:0 40px 28px;}
+.submission-feedback{background:#0a1a0d;border:1px solid rgba(26,122,106,.3);border-radius:4px;overflow:hidden;}
+.sf-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(26,122,106,.08);border-bottom:1px solid rgba(26,122,106,.15);}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-body{padding:16px 18px;}
+.sf-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
 </style>
 
 <!-- Stage C.1: central filing (Supabase persistence) -->
@@ -869,6 +880,20 @@ Email to Self</button>
 <p>It closes with practical intervention — six debiasing principles, three pillars for building collective intelligence, and institutional practices for embedding behavioural discipline — culminating in a self-scoring leadership assessment across five commitments.</p>
 <div class="hbox teal"><p>The central argument of the unit, in one line: <strong>the quality of your strategy is a direct function of the quality of the thinking environment in which it was made.</strong></p></div></div></div>
 </div>
+<div class="submission-area">
+  <div id="submission-feedback-block" style="display:none;">
+    <div class="submission-feedback">
+      <div class="sf-header">
+        <span id="sf-status-label" class="sf-status"></span>
+        <span id="sf-timestamp" class="sf-ts"></span>
+      </div>
+      <div class="sf-body">
+        <div class="sf-label">Facilitator Feedback</div>
+        <div id="sf-text" class="sf-text"></div>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="mod-nav"><button class="btn btn-prev" onclick="showMod(4)">← Module 5</button><button class="btn btn-done" onclick="alert('Unit 1 Foundation complete. Your portfolio artefact has been saved. Proceed to Unit 2: Direction — Pillar 1 when ready.')">Unit 1 Complete ✓</button></div>
 </div>
 </div>
@@ -992,6 +1017,8 @@ window.addEventListener('load',async function(){
   }catch(err){
     console.error('[unit1_P] Failed to load responses:',err);
   }
+  // Component 1: load facilitator feedback display
+  if(window.S2R)loadSubmissionFeedback();
 });
 
 async function savePort(pid){
@@ -1126,6 +1153,51 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx)return;
+    var _c=S2R._client;
+    var result=await _c
+      .from('submissions')
+      .select('id,review_status,facilitator_feedback,submitted_at')
+      .eq('profile_id',ctx.profileId)
+      .eq('cohort_id',ctx.cohortId)
+      .eq('lens_id','u1_foundations')
+      .order('submitted_at',{ascending:false})
+      .limit(1);
+    if(result.error){console.error('[unit1_P] Submission fetch error:',result.error);return;}
+    if(!result.data||result.data.length===0)return;
+    var row=result.data[0];
+    if(!row.facilitator_feedback)return;
+    renderSubmissionFeedback(row);
+  }catch(err){
+    console.error('[unit1_P] Submission fetch exception:',err);
+  }
+}
+
+function renderSubmissionFeedback(row){
+  var block=document.getElementById('submission-feedback-block');
+  if(!block)return;
+  var statusMap={
+    'submitted':'Submitted \u2014 Awaiting Facilitator Feedback',
+    'pending_revision':'Returned for Revision',
+    'pending':'Submitted'
+  };
+  var label=statusMap[row.review_status]||row.review_status;
+  var isReturned=row.review_status==='pending_revision';
+  var sl=document.getElementById('sf-status-label');
+  var ts=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(sl){sl.textContent=label;sl.className='sf-status'+(isReturned?' returned':'');}
+  if(ts&&row.submitted_at){
+    var d=new Date(row.submitted_at);
+    ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  }
+  if(tx)tx.textContent=row.facilitator_feedback;
+  block.style.display='block';
+}
 
 async function sendToFacilitator() {
   if(!window.S2R){
