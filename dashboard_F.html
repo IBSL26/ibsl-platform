@@ -1351,6 +1351,32 @@
     letter-spacing: 0.3px;
   }
 
+  /* ─── COMPLETION COUNT STRIP ─── */
+  .review-completion-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 16px;
+    background: rgba(201, 168, 76, 0.06);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    border-radius: 4px;
+    margin-bottom: 22px;
+    font-size: 12px;
+    color: var(--ash);
+    letter-spacing: 0.3px;
+  }
+  .review-completion-bar.all-filled {
+    background: rgba(26, 122, 106, 0.07);
+    border-color: rgba(26, 122, 106, 0.25);
+  }
+  .review-completion-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .review-completion-bar.all-filled .review-completion-count { color: #6ed5cb; }
+
   /* ─── F4-2: RESPONSE BODY ─── */
   .review-body {
     max-width: 820px;
@@ -4678,6 +4704,8 @@
     content.innerHTML = '';
     content.appendChild(header);
     content.appendChild(metaGrid);
+    const completionBar = buildCompletionBar(payload);
+    if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
     content.appendChild(buildDocumentsSection(submissionId));
     content.appendChild(buildFeedbackSection(submission, submissionId, participantName, lensTitle));
@@ -4729,6 +4757,35 @@
   const RESPONSE_OVERRIDES = {
     // 'u1_foundations': renderFoundationResponses,  // Phase 5 polish point
   };
+
+  // ─── COMPLETION COUNT ─────────────────────────────────────────────
+  // Counts only r_m{N}_* reflection keys — excludes assessment, portfolio,
+  // and any __ system keys. Returns null if no reflection keys found.
+  function buildCompletionBar(payload) {
+    const responses = payload && payload.responses;
+    if (!responses || typeof responses !== 'object') return null;
+    const reflKeys = Object.keys(responses).filter(function(k) {
+      return /^r_m\d+_/.test(k);
+    });
+    if (reflKeys.length === 0) return null;
+    const filled = reflKeys.filter(function(k) {
+      var v = responses[k];
+      return v && String(v).trim().length > 0;
+    });
+    const allFull = filled.length === reflKeys.length;
+    const bar = document.createElement('div');
+    bar.className = 'review-completion-bar' + (allFull ? ' all-filled' : '');
+    const count = document.createElement('span');
+    count.className = 'review-completion-count';
+    count.textContent = filled.length + ' / ' + reflKeys.length;
+    const label = document.createElement('span');
+    label.textContent = 'reflections saved' + (allFull
+      ? ' \u2014 all responses filled'
+      : ' \u2014 ' + (reflKeys.length - filled.length) + ' empty');
+    bar.appendChild(count);
+    bar.appendChild(label);
+    return bar;
+  }
 
   function renderResponses(payload, lensId) {
     const responses = payload && payload.responses;
