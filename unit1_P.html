@@ -315,6 +315,16 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
 .p-thread-btn:hover:not(:disabled){background:#22916e;}
 .p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+/* COMPONENT 6: UPLOAD WIDGET */
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
 </style>
 
 <!-- Stage C.1: central filing (Supabase persistence) -->
@@ -932,6 +942,17 @@ Email to Self</button>
 </div>
 </div></div>
 </div>
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
 <div class="mod-nav"><button class="btn btn-prev" onclick="showMod(4)">← Module 5</button><button class="btn btn-done" onclick="alert('Unit 1 Foundation complete. Your portfolio artefact has been saved. Proceed to Unit 2: Direction — Pillar 1 when ready.')">Unit 1 Complete ✓</button></div>
 </div>
 </div>
@@ -1217,6 +1238,10 @@ async function loadSubmissionFeedback(){
     var msgAcc=document.getElementById('msg-acc');
     if(msgAcc)msgAcc.style.display='block';
     pLoadMessages();
+    // Component 6 — show upload widget and wire input
+    var uploadAcc=document.getElementById('upload-acc');
+    if(uploadAcc)uploadAcc.style.display='block';
+    pWireUpload();
   }catch(err){
     console.error('[unit1_P] Submission fetch exception:',err);
   }
@@ -1420,6 +1445,99 @@ async function pMarkRead(){
   }catch(err){
     console.warn('[unit1_P C5] mark_thread_read exception (non-fatal):',err);
   }
+}
+
+// Component 6 — upload widget
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+var P_UPLOAD_MAX_FILES=5;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){
+    pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');
+    return;
+  }
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){
+      pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');
+    }else if(f.size>P_UPLOAD_MAX_BYTES){
+      pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');
+    }else{
+      valid.push(f);
+    }
+  });
+  for(var i=0;i<valid.length;i++){
+    await pUploadFile(valid[i],feedbackEl);
+  }
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit1_P C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.from('documents').insert({
+      submission_id:_msgSubmissionId,
+      uploader_id:ctx.profileId,
+      filename:file.name,
+      storage_path:path,
+      mime_type:file.type,
+      size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit1_P C6] documents insert:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      var msg='Could not save record. Please try again.';
+      if(ir.error.code==='23514'||(ir.error.message&&ir.error.message.indexOf('maximum')!==-1)){
+        msg='Maximum of 5 files already attached to this submission.';
+      }
+      msgEl.textContent=file.name+' \u2014 '+msg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+  }catch(err){
+    console.error('[unit1_P C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
 }
 </script>
 
