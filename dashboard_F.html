@@ -1392,18 +1392,135 @@
     border-bottom: 1px solid rgba(201, 168, 76, 0.18);
   }
   .response-module {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
   .response-module:last-child { margin-bottom: 0; }
+  /* Collapsible module heading */
   .response-module-heading {
     font-size: 12px;
     font-weight: 700;
     color: var(--gold-pale);
     letter-spacing: 2px;
     text-transform: uppercase;
+    margin-bottom: 0;
+    padding: 9px 12px;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .response-module-heading:hover { background: rgba(201,168,76,0.05); }
+  .response-module-heading::after {
+    content: '▲';
+    font-size: 9px;
+    opacity: 0.5;
+    transition: transform 0.2s;
+  }
+  .response-module.collapsed .response-module-heading::after {
+    transform: rotate(180deg);
+  }
+  .response-module-body {
+    padding-top: 14px;
+  }
+  .response-module.collapsed .response-module-body {
+    display: none;
+  }
+  /* Assessment interpreted card */
+  .assessment-card {
+    background: rgba(13,26,16,0.6);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 5px;
+    padding: 18px 20px;
+    margin-bottom: 6px;
+  }
+  .assessment-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
     margin-bottom: 14px;
-    padding-bottom: 6px;
-    border-bottom: 1px dashed rgba(201, 168, 76, 0.18);
+  }
+  .assessment-score-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .assessment-score-num {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .assessment-score-max {
+    font-size: 16px;
+    color: rgba(255,255,255,0.35);
+  }
+  .assessment-level-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin: 6px 0 14px;
+  }
+  .assessment-bars { margin-bottom: 14px; }
+  .assessment-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 11px;
+  }
+  .assessment-bar-label {
+    flex: 1;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .assessment-bar-track {
+    width: 120px;
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .assessment-bar-fill {
+    height: 4px;
+    border-radius: 2px;
+    background: #1a7a6a;
+    transition: width 0.4s;
+  }
+  .assessment-bar-fill.priority { background: var(--gold); }
+  .assessment-bar-val {
+    width: 36px;
+    text-align: right;
+    color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+  }
+  .assessment-priority-box {
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 3px;
+    padding: 10px 13px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+    margin-bottom: 10px;
+  }
+  .assessment-priority-box strong { color: var(--gold); }
+  .assessment-ts {
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    margin-top: 10px;
   }
   .response-field {
     margin-bottom: 18px;
@@ -4704,7 +4821,7 @@
     content.innerHTML = '';
     content.appendChild(header);
     content.appendChild(metaGrid);
-    const completionBar = buildCompletionBar(payload);
+    const completionBar = buildCompletionBar(payload, lens);
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
     content.appendChild(buildDocumentsSection(submissionId));
@@ -4759,29 +4876,63 @@
   };
 
   // ─── COMPLETION COUNT ─────────────────────────────────────────────
-  // Counts only r_m{N}_* reflection keys — excludes assessment, portfolio,
-  // and any __ system keys. Returns null if no reflection keys found.
-  function buildCompletionBar(payload) {
+  // Numerator  = r_m{N}_* reflection keys the participant actually filled.
+  // Denominator = lens.expected_reflections (the count the lens is DESIGNED
+  //   to have, from lens_catalog). This is the correct denominator: it tells
+  //   the facilitator "7 of 13" even when the participant only saved 7 keys.
+  // Fallback    = if expected_reflections is null/absent (un-migrated lens),
+  //   revert to the old behaviour — denominator = keys the participant saved.
+  // Excludes assessment, portfolio, and __ system keys. Returns null if no
+  // reflection keys found AND no expected count is known.
+  function buildCompletionBar(payload, lens) {
     const responses = payload && payload.responses;
-    if (!responses || typeof responses !== 'object') return null;
+    if (!responses || typeof responses !== 'object') {
+      // No payload responses at all — only render if the lens declares an
+      // expected count, so the facilitator still sees "0 / N".
+      var expEmpty = lens && Number(lens.expected_reflections);
+      if (!expEmpty || expEmpty <= 0) return null;
+      var barE = document.createElement('div');
+      barE.className = 'review-completion-bar';
+      var cE = document.createElement('span');
+      cE.className = 'review-completion-count';
+      cE.textContent = '0 / ' + expEmpty;
+      var lE = document.createElement('span');
+      lE.textContent = 'reflections saved \u2014 ' + expEmpty + ' empty';
+      barE.appendChild(cE);
+      barE.appendChild(lE);
+      return barE;
+    }
+
     const reflKeys = Object.keys(responses).filter(function(k) {
       return /^r_m\d+_/.test(k);
     });
-    if (reflKeys.length === 0) return null;
     const filled = reflKeys.filter(function(k) {
       var v = responses[k];
       return v && String(v).trim().length > 0;
     });
-    const allFull = filled.length === reflKeys.length;
+
+    // Denominator: prefer the lens-declared expected count; fall back to the
+    // number of reflection keys the participant actually submitted.
+    var expected = lens && Number(lens.expected_reflections);
+    var usingExpected = (expected && expected > 0);
+    var denom = usingExpected ? expected : reflKeys.length;
+
+    // Nothing to show: no expected count AND participant submitted no reflections.
+    if (denom === 0) return null;
+
+    var emptyCount = denom - filled.length;
+    if (emptyCount < 0) emptyCount = 0;  // guard: participant saved more keys than expected
+    const allFull = filled.length >= denom;
+
     const bar = document.createElement('div');
     bar.className = 'review-completion-bar' + (allFull ? ' all-filled' : '');
     const count = document.createElement('span');
     count.className = 'review-completion-count';
-    count.textContent = filled.length + ' / ' + reflKeys.length;
+    count.textContent = filled.length + ' / ' + denom;
     const label = document.createElement('span');
     label.textContent = 'reflections saved' + (allFull
       ? ' \u2014 all responses filled'
-      : ' \u2014 ' + (reflKeys.length - filled.length) + ' empty');
+      : ' \u2014 ' + emptyCount + ' empty');
     bar.appendChild(count);
     bar.appendChild(label);
     return bar;
@@ -4816,9 +4967,15 @@
       return empty;
     }
 
-    // Bucket by module-pattern (r_m{N}_*); non-conforming keys go to '_other'
+    // Bucket by module-pattern (r_m{N}_*); assessment key handled separately;
+    // non-conforming keys go to '_other'
     const buckets = {};
+    let assessmentData = null;
     visibleKeys.forEach(function(key) {
+      if (key === 'assessment') {
+        assessmentData = responses[key];
+        return;
+      }
       const match = key.match(/^r_m(\d+)_(.+)$/);
       const bucket = match ? match[1] : '_other';
       const fieldName = match ? match[2] : key;
@@ -4836,34 +4993,158 @@
     moduleNums.forEach(function(num) {
       const moduleEl = document.createElement('div');
       moduleEl.className = 'response-module';
-      const heading = document.createElement('h3');
+
+      const heading = document.createElement('div');
       heading.className = 'response-module-heading';
       heading.textContent = 'Module ' + num;
-      moduleEl.appendChild(heading);
-      buckets[num].forEach(function(entry) {
-        moduleEl.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+      heading.addEventListener('click', function() {
+        moduleEl.classList.toggle('collapsed');
       });
+      moduleEl.appendChild(heading);
+
+      const body = document.createElement('div');
+      body.className = 'response-module-body';
+      buckets[num].forEach(function(entry) {
+        body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+      });
+      moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
     });
 
     if (buckets['_other']) {
       const moduleEl = document.createElement('div');
       moduleEl.className = 'response-module';
-      // Only show "Other" heading if there were also numbered modules — otherwise
-      // (lens uses no module pattern at all) just render fields without a heading
       if (moduleNums.length > 0) {
-        const heading = document.createElement('h3');
+        const heading = document.createElement('div');
         heading.className = 'response-module-heading';
         heading.textContent = 'Other';
+        heading.addEventListener('click', function() {
+          moduleEl.classList.toggle('collapsed');
+        });
         moduleEl.appendChild(heading);
+        const body = document.createElement('div');
+        body.className = 'response-module-body';
+        buckets['_other'].forEach(function(entry) {
+          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+        });
+        moduleEl.appendChild(body);
+      } else {
+        const body = document.createElement('div');
+        body.className = 'response-module-body';
+        buckets['_other'].forEach(function(entry) {
+          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+        });
+        moduleEl.appendChild(body);
       }
-      buckets['_other'].forEach(function(entry) {
-        moduleEl.appendChild(renderFieldEntry(entry.fieldName, entry.value));
-      });
       wrap.appendChild(moduleEl);
     }
 
+    // Assessment card — rendered last, always expanded
+    if (assessmentData) {
+      wrap.appendChild(renderAssessmentCard(assessmentData));
+    }
+
     return wrap;
+  }
+
+  // ─── ASSESSMENT INTERPRETED CARD ───────────────────────────────────────────
+  const _FAC_COMMIT_LABELS = [
+    'I Know My Biases',
+    'I Manage My Emotional Impact',
+    'I Build Psychological Safety',
+    'I Use Process to Protect Quality',
+    'I Treat People as the Strategy'
+  ];
+  const _FAC_LEVEL_DATA = {
+    'Leading Practice':    { badge:'background:rgba(26,122,106,.25);color:#4fd8c0;border:1px solid rgba(26,122,106,.4);', risk:'Low' },
+    'Established Awareness':{ badge:'background:rgba(39,174,96,.12);color:#4fd88a;border:1px solid rgba(39,174,96,.3);', risk:'Moderate' },
+    'Developing Awareness':{ badge:'background:rgba(201,168,76,.12);color:var(--gold);border:1px solid rgba(201,168,76,.3);', risk:'Moderate–High' },
+    'Emerging Awareness':  { badge:'background:rgba(231,76,60,.1);color:#e74c3c;border:1px solid rgba(231,76,60,.25);', risk:'High' },
+    'At Risk':             { badge:'background:rgba(192,57,43,.2);color:#ff6b5b;border:1px solid rgba(192,57,43,.4);', risk:'Critical' }
+  };
+
+  function renderAssessmentCard(data) {
+    const card = document.createElement('div');
+    card.className = 'assessment-card';
+
+    const lbl = document.createElement('div');
+    lbl.className = 'assessment-card-label';
+    lbl.textContent = 'Five Commitments — Self-Assessment';
+    card.appendChild(lbl);
+
+    // Validate shape
+    const tots = Array.isArray(data.tots) ? data.tots : [];
+    const ov   = typeof data.ov === 'number' ? data.ov : tots.reduce(function(a,b){return a+(b||0);},0);
+    const ts   = data.ts || null;
+
+    // Score
+    const scoreRow = document.createElement('div');
+    scoreRow.className = 'assessment-score-row';
+    scoreRow.innerHTML = '<span class="assessment-score-num">' + ov + '</span><span class="assessment-score-max"> / 100</span>';
+    card.appendChild(scoreRow);
+
+    // Level
+    let lvl = 'At Risk';
+    if (ov >= 85) lvl = 'Leading Practice';
+    else if (ov >= 65) lvl = 'Established Awareness';
+    else if (ov >= 45) lvl = 'Developing Awareness';
+    else if (ov >= 25) lvl = 'Emerging Awareness';
+    const ld = _FAC_LEVEL_DATA[lvl] || _FAC_LEVEL_DATA['At Risk'];
+
+    const badge = document.createElement('div');
+    badge.className = 'assessment-level-badge';
+    badge.style.cssText = ld.badge;
+    badge.textContent = lvl + ' · Risk: ' + ld.risk;
+    card.appendChild(badge);
+
+    // Commitment bars
+    if (tots.length > 0) {
+      const minVal = Math.min.apply(null, tots);
+      const minIdx = tots.indexOf(minVal);
+
+      const barsWrap = document.createElement('div');
+      barsWrap.className = 'assessment-bars';
+      tots.forEach(function(val, i) {
+        const row = document.createElement('div');
+        row.className = 'assessment-bar-row';
+        const nameLbl = document.createElement('span');
+        nameLbl.className = 'assessment-bar-label';
+        nameLbl.title = _FAC_COMMIT_LABELS[i] || ('C' + (i+1));
+        nameLbl.textContent = 'C' + (i+1) + ' · ' + (_FAC_COMMIT_LABELS[i] || '');
+        const track = document.createElement('div');
+        track.className = 'assessment-bar-track';
+        const fill = document.createElement('div');
+        fill.className = 'assessment-bar-fill' + (i === minIdx ? ' priority' : '');
+        fill.style.width = Math.round((val||0) / 20 * 100) + '%';
+        track.appendChild(fill);
+        const valLbl = document.createElement('span');
+        valLbl.className = 'assessment-bar-val';
+        valLbl.textContent = (val||0) + '/20';
+        row.appendChild(nameLbl);
+        row.appendChild(track);
+        row.appendChild(valLbl);
+        barsWrap.appendChild(row);
+      });
+      card.appendChild(barsWrap);
+
+      // Priority area note
+      const pBox = document.createElement('div');
+      pBox.className = 'assessment-priority-box';
+      pBox.innerHTML = '<strong>Priority area: C' + (minIdx+1) + ' · ' + (_FAC_COMMIT_LABELS[minIdx]||'') + '</strong> (' + (tots[minIdx]||0) + '/20) — lowest-scoring commitment. Consider whether this participant would benefit from focused coaching on this dimension.';
+      card.appendChild(pBox);
+    }
+
+    // Timestamp
+    if (ts) {
+      const tsEl = document.createElement('div');
+      tsEl.className = 'assessment-ts';
+      try {
+        tsEl.textContent = 'Scored: ' + new Date(ts).toLocaleString('en-GB', {day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      } catch(e) { tsEl.textContent = 'Scored: ' + ts; }
+      card.appendChild(tsEl);
+    }
+
+    return card;
   }
 
   function renderFieldEntry(fieldName, value, depth) {
