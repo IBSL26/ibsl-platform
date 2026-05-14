@@ -275,13 +275,16 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 /* SUBMISSION AREA */
 .submission-area{padding:0 40px 28px;}
 .submission-feedback{background:#0a1a0d;border:1px solid rgba(26,122,106,.3);border-radius:4px;overflow:hidden;}
-.sf-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(26,122,106,.08);border-bottom:1px solid rgba(26,122,106,.15);}
+.sf-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:rgba(26,122,106,.08);cursor:pointer;user-select:none;}
+.sf-title{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.6);}
+.sf-chevron{font-size:12px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.submission-feedback.sf-open .sf-chevron{transform:rotate(180deg);color:var(--gold);}
+.sf-body{display:none;padding:16px 18px;border-top:1px solid rgba(26,122,106,.15);}
+.submission-feedback.sf-open .sf-body{display:block;}
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
 .sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
 .sf-status.returned{color:var(--gold);}
-.sf-status.reviewed{color:#1a7a6a;}
 .sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
-.sf-body{padding:16px 18px;}
-.sf-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;}
 .sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
 </style>
 
@@ -884,12 +887,15 @@ Email to Self</button>
 <div class="submission-area">
   <div id="submission-feedback-block" style="display:none;">
     <div class="submission-feedback">
-      <div class="sf-header">
-        <span id="sf-status-label" class="sf-status"></span>
-        <span id="sf-timestamp" class="sf-ts"></span>
+      <div class="sf-header" onclick="this.closest('.submission-feedback').classList.toggle('sf-open')">
+        <span class="sf-title">Facilitator Feedback</span>
+        <span class="sf-chevron">▼</span>
       </div>
       <div class="sf-body">
-        <div class="sf-label">Facilitator Feedback</div>
+        <div class="sf-status-row">
+          <span id="sf-status-label" class="sf-status"></span>
+          <span id="sf-timestamp" class="sf-ts"></span>
+        </div>
         <div id="sf-text" class="sf-text"></div>
       </div>
     </div>
@@ -1195,6 +1201,8 @@ function renderSubmissionFeedback(row){
     ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
   }
   if(tx)tx.textContent=feedbackText;
+  var card=block.querySelector('.submission-feedback');
+  if(card)card.classList.add('sf-open');
   block.style.display='block';
 }
 
