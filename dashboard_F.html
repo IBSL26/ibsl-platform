@@ -1921,7 +1921,20 @@
   }
   .feedback-save-indicator.state-saving { color: var(--gold-pale); }
   .feedback-save-indicator.state-saved  { color: #6ed5cb; }
-  .feedback-save-indicator.state-error  { color: #ffa599; }
+  .feedback-save-indicator.state-error  { color: var(--gold); }
+  .draft-retry-btn {
+    background: none;
+    border: none;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+    text-decoration: underline;
+  }
+  .draft-retry-btn:hover { opacity: 0.8; }
   .feedback-help {
     margin-top: 14px;
     font-size: 11px;
@@ -5114,6 +5127,11 @@
   }
 
   function wireFeedbackAutosave(textareaEl, indicatorEl, submissionId) {
+    // Store retry function on the indicator so showSaveIndicator can access it
+    indicatorEl._retryFn = function() {
+      saveFeedbackDraft(textareaEl, indicatorEl, submissionId);
+    };
+
     // Clear any pending timer from a prior render (defensive against in-page nav)
     if (feedbackDebounceTimer) {
       clearTimeout(feedbackDebounceTimer);
@@ -5178,7 +5196,16 @@
         el.classList.add('state-saved');
         break;
       case 'error':
-        el.textContent = "Couldn't save — try again in a moment";
+        el.textContent = '';
+        el.appendChild(document.createTextNode('Didn\u2019t save \u2014 '));
+        var retryBtn = document.createElement('button');
+        retryBtn.type = 'button';
+        retryBtn.className = 'draft-retry-btn';
+        retryBtn.textContent = 'tap to retry';
+        retryBtn.addEventListener('click', function() {
+          if (el._retryFn) el._retryFn();
+        });
+        el.appendChild(retryBtn);
         el.classList.add('state-error');
         break;
       default:
