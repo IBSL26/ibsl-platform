@@ -325,6 +325,18 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
 .p-upload-ok{color:#1a7a6a;}
 .p-upload-err{color:rgba(231,76,60,.8);}
+
+/* COMPONENT 6 OPTION B: UPLOADED FILES LIST */
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
+/* COMPONENT 7: INLINE SAVE ERROR */
+.reflection-error{font-size:12px;color:var(--gold);padding:4px 16px 8px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
 </style>
 
 <!-- Stage C.1: central filing (Supabase persistence) -->
@@ -945,6 +957,10 @@ Email to Self</button>
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b">
 <p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
 <label class="p-upload-btn" for="p-upload-input">
 <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
 Attach Files
@@ -1085,22 +1101,14 @@ async function savePort(pid){
   var ta=document.getElementById(pid);
   var msg=document.getElementById(pid+'-msg');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  var existingErr=document.getElementById(pid+'-error');
+  if(existingErr)existingErr.style.display='none';
   var result=await S2R.save('u1_foundations',pid,ta.value);
   if(result.ok){
     if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
   }else{
-    alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
-  }
-}
-async function savePort(pid){
-  var ta=document.getElementById(pid);
-  var msg=document.getElementById(pid+'-msg');
-  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
-  var result=await S2R.save('u1_foundations',pid,ta.value);
-  if(result.ok){
-    if(msg){msg.style.display='block';setTimeout(function(){msg.style.display='none';},2500);}
-  }else{
-    alert('Could not save your portfolio entry. Please check your connection and try again.\n\nError: '+(result.error||'unknown'));
+    console.error('[unit1_P C7] savePort failed for '+pid+':',result.error);
+    showSaveError(pid);
   }
 }
 
@@ -1447,6 +1455,45 @@ async function pMarkRead(){
   }
 }
 
+// Component 6 Option B — uploaded files list
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit1_P C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit1_P C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
 // Component 6 — upload widget
 var _uploadWired=false;
 var P_UPLOAD_ALLOWED=['application/pdf',
@@ -1462,6 +1509,7 @@ function pWireUpload(){
   if(!inp)return;
   inp.addEventListener('change',pHandleFiles);
   _uploadWired=true;
+  pLoadDocumentList();
 }
 
 async function pHandleFiles(e){
@@ -1487,7 +1535,6 @@ async function pUploadFile(file,feedbackEl){
     if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
     var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
     var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
-    // Step 1 — storage upload
     var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
     if(sr.error){
       console.error('[unit1_P C6] storage upload:',sr.error);
@@ -1495,7 +1542,6 @@ async function pUploadFile(file,feedbackEl){
       msgEl.className='p-upload-msg p-upload-err';
       return;
     }
-    // Step 2 — SECURITY DEFINER RPC to insert documents row
     var ir=await S2R._client.rpc('upload_document',{
       p_submission_id:_msgSubmissionId,
       p_filename:file.name,
@@ -1524,6 +1570,7 @@ async function pUploadFile(file,feedbackEl){
     }
     msgEl.textContent='\u2713 '+file.name+' uploaded.';
     msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
   }catch(err){
     console.error('[unit1_P C6] pUploadFile exception:',err);
     msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
@@ -1537,6 +1584,40 @@ function pUploadMsg(feedbackEl,text,type){
   d.textContent=text;
   feedbackEl.appendChild(d);
   return d;
+}
+
+// Component 7 — inline save error handling
+async function saveRef(id){
+  var ta=document.getElementById(id);
+  var ok=document.getElementById(id+'-saved');
+  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  var existingErr=document.getElementById(id+'-error');
+  if(existingErr)existingErr.style.display='none';
+  var result=await S2R.save('u1_foundations',id,ta.value);
+  if(result.ok){
+    if(ok){ok.style.display='block';setTimeout(function(){ok.style.display='none';},2500);}
+  }else{
+    console.error('[unit1_P C7] saveRef failed for '+id+':',result.error);
+    showSaveError(id);
+  }
+}
+
+function showSaveError(id){
+  var existing=document.getElementById(id+'-error');
+  if(existing){existing.style.display='block';return;}
+  var savedEl=document.getElementById(id+'-saved');
+  if(!savedEl)return;
+  var err=document.createElement('div');
+  err.id=id+'-error';
+  err.className='reflection-error';
+  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">tap to retry</button>';
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+
+function retryRef(id){
+  var err=document.getElementById(id+'-error');
+  if(err)err.style.display='none';
+  saveRef(id);
 }
 </script>
 
