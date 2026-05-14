@@ -5509,13 +5509,6 @@
     primaryBtn.textContent = 'Mark as reviewed and unlock next lens';
     actions.appendChild(primaryBtn);
 
-    const secondaryBtn = document.createElement('button');
-    secondaryBtn.type = 'button';
-    secondaryBtn.id = 'commitSecondaryBtn';
-    secondaryBtn.className = 'btn-commit-secondary';
-    secondaryBtn.textContent = 'Mark as reviewed only';
-    actions.appendChild(secondaryBtn);
-
     // ─── F7: TERTIARY ACTION — RETURN FOR REVISION ───
     const returnBtn = document.createElement('button');
     returnBtn.type = 'button';
@@ -5528,11 +5521,11 @@
 
     const help = document.createElement('p');
     help.className = 'feedback-help';
-    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Reviewing is durable. Return for revision sends the submission back to the participant with your feedback and keeps the next lens locked.';
+    help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Reviewing is durable. To pause before unlocking, leave this submission pending and message the participant via Conversation to discuss. Return for revision sends the submission back to the participant with your feedback and keeps the next lens locked.';
     wrap.appendChild(help);
 
     wireFeedbackAutosave(textarea, indicator, submissionId);
-    wireCommitActions(textarea, primaryBtn, secondaryBtn, submissionId, participantName, lensTitle);
+    wireCommitActions(textarea, primaryBtn, submissionId, participantName, lensTitle);
     wireRevisionAction(textarea, returnBtn, submissionId, participantName, lensTitle);
     return wrap;
   }
@@ -5636,7 +5629,7 @@
   let commitModalCancelHandler = null;
   let commitInFlight = false;
 
-  function wireCommitActions(textareaEl, primaryBtn, secondaryBtn, submissionId, participantName, lensTitle) {
+  function wireCommitActions(textareaEl, primaryBtn, submissionId, participantName, lensTitle) {
     // participantName and lensTitle are passed in from renderReviewBundle so we
     // don't depend on the DOM structure of the meta grid (which F10–F12 may
     // restructure when threaded messaging and notes panels arrive).
@@ -5646,13 +5639,6 @@
     primaryBtn.addEventListener('click', function() {
       if (commitInFlight) return;
       openCommitModal('unlock', safeParticipant, safeLens, submissionId, function() {
-        return textareaEl.value;
-      });
-    });
-
-    secondaryBtn.addEventListener('click', function() {
-      if (commitInFlight) return;
-      openCommitModal('reviewed_only', safeParticipant, safeLens, submissionId, function() {
         return textareaEl.value;
       });
     });
@@ -5681,14 +5667,13 @@
         'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong>, ' +
         'mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed, and unlock the next lens.';
       detailEl.textContent = 'Reviews are durable. Return for revision is the way to send a submission back without committing.';
-    } else {
-      titleEl.textContent = 'Mark as reviewed only';
-      bodyEl.innerHTML =
-        'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong> ' +
-        'and mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed. ' +
-        'The next lens will <strong>not</strong> be unlocked.';
-      detailEl.textContent = 'Use this when the participant should not yet proceed — for example, when you want to discuss the feedback live before unlocking.';
     }
+    // Note: legacy 'reviewed_only' mode has been removed from the UI. The
+    // workflow it tried to support ("commit feedback but hold the participant")
+    // was actually a broken state — once review_status flipped to 'reviewed',
+    // there was no follow-up unlock path. That workflow is now covered by:
+    //   (a) leaving the submission pending + messaging via Conversation, or
+    //   (b) using Return for revision when more work is required.
 
     // Attach handlers
     commitModalConfirmHandler = function() {
@@ -5748,7 +5733,9 @@
     const cancelBtn  = document.getElementById('commitModalCancel');
     const errorEl    = document.getElementById('commitModalError');
     const primaryBtn   = document.getElementById('commitPrimaryBtn');
-    const secondaryBtn = document.getElementById('commitSecondaryBtn');
+    // secondaryBtn (legacy 'Mark as reviewed only') was removed from the UI;
+    // null is passed through unchanged — every consumer guards with `if (secondaryBtn)`.
+    const secondaryBtn = null;
 
     // Cancel any pending feedback autosave — the body we send IS the freshest
     // text, and the function NULLs the draft column anyway.
@@ -5990,7 +5977,9 @@
     const cancelBtn    = document.getElementById('revisionModalCancel');
     const errorEl      = document.getElementById('revisionModalError');
     const primaryBtn   = document.getElementById('commitPrimaryBtn');
-    const secondaryBtn = document.getElementById('commitSecondaryBtn');
+    // secondaryBtn (legacy 'Mark as reviewed only') was removed from the UI;
+    // null is passed through unchanged — every consumer guards with `if (secondaryBtn)`.
+    const secondaryBtn = null;
     const returnBtn    = document.getElementById('commitReturnBtn');
 
     // Cancel any pending feedback autosave — the body we send IS the freshest
