@@ -1287,15 +1287,26 @@ async function sendToFacilitator() {
     alert('The save system is not yet ready. Please reload the page and try again.');
     return;
   }
-  // Confirm before sending
-  if(!confirm('Submit your Unit 1 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
+  if(!confirm('Submit your Unit 1 reflections to your facilitator?\n\nThis will send everything you have saved so far. You can keep editing and submit again later if needed.')){
     return;
   }
-  var result = await S2R.submit('u1_foundations');
+  // Push all locally saved reflections + portfolio to Supabase before submitting
+  var ctx=await S2R.context();
+  if(ctx){
+    var tas=document.querySelectorAll('textarea.reflection-textarea,textarea.portfolio-textarea');
+    for(var i=0;i<tas.length;i++){
+      var ta=tas[i];
+      if(!ta.id)continue;
+      var val=ta.value;
+      if(!val){try{val=localStorage.getItem('s2r_u1_'+ta.id)||'';}catch(e){}}
+      if(val)await S2R.save('u1_foundations',ta.id,val);
+    }
+  }
+  var result=await S2R.submit('u1_foundations');
   if(result.ok){
-    alert('✓ Submitted to your facilitator.\n\n' + result.message);
+    alert('\u2713 Submitted to your facilitator.\n\n'+result.message);
   }else{
-    alert('Could not submit to your facilitator.\n\n' + result.message);
+    alert('Could not submit to your facilitator.\n\n'+result.message);
   }
 }
 
@@ -1604,40 +1615,24 @@ function _setRefStatus(id,text,cls){
 function draftRef(id){
   _setRefStatus(id,'\u270f Drafting\u2026','rs-drafting');
   clearTimeout(_draftTimers[id]);
-  _draftTimers[id]=setTimeout(async function(){
+  _draftTimers[id]=setTimeout(function(){
     var ta=document.getElementById(id);
     if(ta)try{localStorage.setItem('s2r_u1_'+id,ta.value);}catch(e){}
-    // auto-save to Supabase silently if session exists
-    if(window.S2R){
-      var ctx=await S2R.context();
-      if(ctx){
-        S2R.save('u1_foundations',id,ta?ta.value:'');
-      }
-    }
     _setRefStatus(id,'\u2713 Draft saved','rs-draft');
   },1500);
 }
 
-async function saveRef(id){
+function saveRef(id){
   var ta=document.getElementById(id);
-  if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  if(!ta)return;
   clearTimeout(_draftTimers[id]);
-  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
-  var existingErr=document.getElementById(id+'-error');
-  if(existingErr)existingErr.style.display='none';
-  var result=await S2R.save('u1_foundations',id,ta.value);
-  if(result){
-    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
-    setTimeout(function(){
-      var ok=document.getElementById(id+'-saved');
-      if(ok){ok.style.display='none';ok.className='reflection-saved';}
-    },3000);
-  }else{
-    console.error('[unit1_P C7] saveRef failed for '+id+' (save returned false)');
+  _setRefStatus(id,'\u23f3 Saving\u2026','rs-saving');
+  try{localStorage.setItem('s2r_u1_'+id,ta.value);}catch(e){}
+  _setRefStatus(id,'\u2713 Saved','rs-ok');
+  setTimeout(function(){
     var ok=document.getElementById(id+'-saved');
-    if(ok)ok.style.display='none';
-    showSaveError(id);
-  }
+    if(ok){ok.style.display='none';ok.className='reflection-saved';}
+  },3000);
 }
 
 function showSaveError(id){
