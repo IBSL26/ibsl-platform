@@ -109,7 +109,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .reflection-textarea::placeholder{color:rgba(255,255,255,.2);}
 .reflection-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.1);border:none;border-top:1px solid rgba(26,122,106,.15);color:#1a7a6a;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;}
 .reflection-save:hover{background:rgba(26,122,106,.2);}
-.reflection-saved{font-size:12px;color:#1a7a6a;padding:4px 16px 8px;display:none;}
+.reflection-saved{font-size:12px;padding:4px 16px 8px;display:none;color:#1a7a6a;transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:#1a7a6a;}
 
 /* BIAS EXPLORER */
 .bias-fams{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0;}
@@ -1586,18 +1590,43 @@ function pUploadMsg(feedbackEl,text,type){
   return d;
 }
 
-// Component 7 — inline save error handling
+// Component 7 — draft feedback + inline save error handling
+var _draftTimers={};
+
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+'-saved');
+  if(!ok)return;
+  ok.textContent=text;
+  ok.className='reflection-saved '+cls;
+  ok.style.display='block';
+}
+
+function draftRef(id){
+  _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){
+    _setRefStatus(id,'✓ Draft saved','rs-draft');
+  },1500);
+}
+
 async function saveRef(id){
   var ta=document.getElementById(id);
-  var ok=document.getElementById(id+'-saved');
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
   var existingErr=document.getElementById(id+'-error');
   if(existingErr)existingErr.style.display='none';
   var result=await S2R.save('u1_foundations',id,ta.value);
   if(result){
-    if(ok){ok.style.display='block';setTimeout(function(){ok.style.display='none';},2500);}
+    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+    setTimeout(function(){
+      var ok=document.getElementById(id+'-saved');
+      if(ok){ok.style.display='none';ok.className='reflection-saved';}
+    },3000);
   }else{
     console.error('[unit1_P C7] saveRef failed for '+id+' (save returned false)');
+    var ok=document.getElementById(id+'-saved');
+    if(ok)ok.style.display='none';
     showSaveError(id);
   }
 }
@@ -1610,7 +1639,7 @@ function showSaveError(id){
   var err=document.createElement('div');
   err.id=id+'-error';
   err.className='reflection-error';
-  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">tap to retry</button>';
+  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">TAP TO RETRY</button>';
   savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
 }
 
@@ -1619,6 +1648,13 @@ function retryRef(id){
   if(err)err.style.display='none';
   saveRef(id);
 }
+
+// Auto-wire draft feedback on all reflection textareas
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('textarea.reflection-textarea').forEach(function(ta){
+    if(ta.id)ta.addEventListener('input',function(){draftRef(ta.id);});
+  });
+});
 </script>
 
 <div id="bias-popup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;align-items:center;justify-content:center;" onclick="if(event.target===this)this.style.display='none';">
