@@ -1613,12 +1613,13 @@ async function saveRef(id){
   var ta=document.getElementById(id);
   if(!window.S2R){console.warn('[unit1_P] S2R helper not loaded');return;}
   clearTimeout(_draftTimers[id]);
-  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
+  _setRefStatus(id,'\u23f3 Saving\u2026','rs-saving');
   var existingErr=document.getElementById(id+'-error');
   if(existingErr)existingErr.style.display='none';
+  var ctx=await S2R.context();
   var result=await S2R.save('u1_foundations',id,ta.value);
-  if(result){
-    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+  if(result||!ctx){
+    _setRefStatus(id,'\u2713 Saved to your portfolio','rs-ok');
     setTimeout(function(){
       var ok=document.getElementById(id+'-saved');
       if(ok){ok.style.display='none';ok.className='reflection-saved';}
