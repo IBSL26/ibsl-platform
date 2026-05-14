@@ -1455,7 +1455,6 @@ var P_UPLOAD_ALLOWED=['application/pdf',
   'application/vnd.openxmlformats-officedocument.presentationml.presentation',
   'image/png','image/jpeg'];
 var P_UPLOAD_MAX_BYTES=20*1024*1024;
-var P_UPLOAD_MAX_FILES=5;
 
 function pWireUpload(){
   if(_uploadWired)return;
@@ -1470,24 +1469,15 @@ async function pHandleFiles(e){
   e.target.value='';
   var feedbackEl=document.getElementById('p-upload-feedback');
   feedbackEl.innerHTML='';
-  if(!_msgSubmissionId){
-    pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');
-    return;
-  }
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
   if(!files.length)return;
   var valid=[];
   files.forEach(function(f){
-    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){
-      pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');
-    }else if(f.size>P_UPLOAD_MAX_BYTES){
-      pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');
-    }else{
-      valid.push(f);
-    }
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
   });
-  for(var i=0;i<valid.length;i++){
-    await pUploadFile(valid[i],feedbackEl);
-  }
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
 }
 
 async function pUploadFile(file,feedbackEl){
@@ -1497,6 +1487,7 @@ async function pUploadFile(file,feedbackEl){
     if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
     var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
     var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    // Step 1 — storage upload
     var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
     if(sr.error){
       console.error('[unit1_P C6] storage upload:',sr.error);
@@ -1504,22 +1495,30 @@ async function pUploadFile(file,feedbackEl){
       msgEl.className='p-upload-msg p-upload-err';
       return;
     }
-    var ir=await S2R._client.from('documents').insert({
-      submission_id:_msgSubmissionId,
-      uploader_id:ctx.profileId,
-      filename:file.name,
-      storage_path:path,
-      mime_type:file.type,
-      size_bytes:file.size
+    // Step 2 — SECURITY DEFINER RPC to insert documents row
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
     });
     if(ir.error){
-      console.error('[unit1_P C6] documents insert:',ir.error);
+      console.error('[unit1_P C6] upload_document RPC error:',ir.error);
       S2R._client.storage.from('submission_documents').remove([path]);
-      var msg='Could not save record. Please try again.';
-      if(ir.error.code==='23514'||(ir.error.message&&ir.error.message.indexOf('maximum')!==-1)){
-        msg='Maximum of 5 files already attached to this submission.';
-      }
-      msgEl.textContent=file.name+' \u2014 '+msg;
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
       msgEl.className='p-upload-msg p-upload-err';
       return;
     }
