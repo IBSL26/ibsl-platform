@@ -648,10 +648,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
       Save as PDF
     </button>
-    <button class="mat-export-btn" onclick="exportMatEmail()">
-      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      Email
-    </button>
   </div>
 </div>
 </div>
@@ -1288,23 +1284,6 @@ function exportMatPDF(){
   document.getElementById('matPrintRoot').style.display='block';
   document.getElementById('matModal').classList.add('open');
   setTimeout(function(){window.print();},200);
-}
-function exportMatEmail(){
-  var total=Object.values(matScores).reduce(function(a,b){return a+b;},0);
-  var level=total===0?'No scores recorded':total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';
-  var date=new Date().toLocaleDateString();
-  var lines=['S2R® Strategy Maturity Assessment','Unit 2 · Module 1 · Facilitator Report','Date: '+date,'Total Score: '+total+' / 78 — '+level,''];
-  ASSESS.forEach(function(g){
-    lines.push('── '+g.lbl+' ──');
-    g.items.forEach(function(item){
-      var sc=matScores['m'+item.n];
-      lines.push('  '+item.n+'. '+item.t+' → '+(sc!==undefined?sc:'not scored')+' / 3');
-    });
-    lines.push('');
-  });
-  var subject=encodeURIComponent('S2R® Maturity Assessment — '+date+' — '+total+'/78');
-  var body=encodeURIComponent(lines.join('\n'));
-  window.location.href='mailto:?subject='+subject+'&body='+body;
 }
 function closeMatModal(){
   document.getElementById('matModal').classList.remove('open');
