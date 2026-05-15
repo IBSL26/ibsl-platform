@@ -3157,7 +3157,7 @@
            '</div>';
   }
 
-  // Build teaching notes link HTML for a cohort card.
+  // Build Facilitator Manual link HTML for a cohort card.
   // Only Foundations (unit 1) has a built facilitator file; others are coming soon.
   function teachingNotesHtml(cohortId) {
     var units = _cohortUnitsMap[cohortId] || [];
@@ -3165,11 +3165,11 @@
     var links = units.map(function(u) {
       if (Number(u) === 1) {
         return '<a class="teaching-notes-link" href="unit1_F.html?cohort=' +
-               encodeURIComponent(cohortId) + '" onclick="event.stopPropagation();">' +
-               '📖 ' + unitName(u) + ' Teaching Notes</a>';
+               encodeURIComponent(cohortId) + '">' +
+               '📖 ' + unitName(u) + ' Facilitator Manual</a>';
       }
-      return '<span class="teaching-notes-link coming-soon" title="Teaching notes for ' +
-             unitName(u) + ' are coming in Phase 6">📖 ' + unitName(u) + ' (coming soon)</span>';
+      return '<span class="teaching-notes-link coming-soon" title="Facilitator Manual for ' +
+             unitName(u) + ' is coming in Phase 6">📖 ' + unitName(u) + ' (coming soon)</span>';
     }).join('');
     return '<div class="teaching-notes-block">' + links + '</div>';
   }
@@ -3287,7 +3287,10 @@
       teachingNotesHtml(c.cohort_id) +
       '<span class="cohort-click-hint">Click to open →</span>';
 
-    card.addEventListener('click', function() {
+    card.addEventListener('click', function(e) {
+      // [MANUAL] If the click came from the Facilitator Manual link, let the
+      // anchor navigate naturally — do not swallow it with handleCohortClick.
+      if (e.target && e.target.closest && e.target.closest('.teaching-notes-link')) return;
       handleCohortClick(c);
     });
     card.addEventListener('keydown', function(e) {
