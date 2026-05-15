@@ -296,23 +296,53 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .fac-note-full strong{color:rgba(255,255,255,.9);}
 .fac-note-full em{color:rgba(100,180,240,.8);font-style:normal;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u2m1_lens1';
+
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+
+  function showDenied(msg) {
+    document.getElementById('f1-gate-overlay').style.display = 'flex';
+    document.getElementById('f1-gate-msg').textContent = msg || 'Access denied.';
+  }
+
+  async function checkAccess() {
+    const { data: { session }, error: sessErr } = await supabaseClient.auth.getSession();
+    if (sessErr || !session) { window.location.href = 'index.html'; return; }
+
+    const { data: profile, error: profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if (profErr || !profile) { showDenied('Could not verify your role.'); return; }
+
+    const role = profile.role;
+
+    if (role === 'admin') return;
+    if (role !== 'facilitator') { window.location.href = 'index.html'; return; }
+
+    const { data: canFac, error: gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if (gateErr) { console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if (canFac === false) {
+      showDenied('You are not assigned to facilitate this lens. Please contact your administrator.');
+      return;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
 </head>
 <body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
 
-<!-- ACCESS GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-logo">Strategy2Result®</div>
-    <div class="gate-sub">Facilitator Access · Unit 2 · Module 1</div>
-    <div class="gate-label">Email Address</div>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com" autocomplete="email">
-    <div class="gate-label">Facilitator Access Code</div>
-    <div class="gate-code-wrap">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter your access code" onkeydown="if(event.key==='Enter')gateSubmit()">
-      <button class="gate-toggle" id="gateToggle" type="button" onclick="toggleGateCode()">SHOW</button>
-    </div>
-    <button class="gate-btn" onclick="gateSubmit()">Access Facilitator View</button>
-    <div class="gate-error" id="gateError"></div>
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card">
+    <h2>Access Restricted</h2>
+    <p id="f1-gate-msg">Checking access…</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">← Return to Dashboard</a>
   </div>
 </div>
 
@@ -321,7 +351,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="nav-brand">Strategy2Result®<strong>IBSL · Unit 2 · Module 1</strong></div>
     <span class="nav-badge">Facilitator View</span>
   </div>
-  <a class="nav-back" href="index.html">← Back to Platform</a>
+  <a class="nav-back" href="dashboard_F.html">← Back to Dashboard</a>
 </nav>
 
 <div class="unit-header">
@@ -1302,30 +1332,7 @@ function showMod(i){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── ACCESS GATE ───────────────────────────────────────────────────────────────
-var FAC_CODES=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
-function toggleGateCode(){
-  var inp=document.getElementById('gateCode');
-  var btn=document.getElementById('gateToggle');
-  if(inp.type==='password'){inp.type='text';btn.textContent='HIDE';btn.style.color='rgba(201,168,76,.8)';}
-  else{inp.type='password';btn.textContent='SHOW';btn.style.color='rgba(255,255,255,.3)';}
-}
-function gateSubmit(){
-  var email=document.getElementById('gateEmail').value.trim();
-  var code=document.getElementById('gateCode').value.trim();
-  var err=document.getElementById('gateError');
-  if(!email||!code){err.textContent='Please enter your email and access code.';err.style.display='block';return;}
-  if(FAC_CODES.indexOf(code)===-1){err.textContent='Invalid access code. Contact info@ibsleadership.com to request one.';err.style.display='block';return;}
-  var ACCESS_DAYS=90,key='ibsl_first_use_'+code,today=new Date();today.setHours(0,0,0,0);
-  var stored=localStorage.getItem(key);
-  if(!stored){localStorage.setItem(key,today.toISOString());stored=today.toISOString();}
-  var first=new Date(stored);first.setHours(0,0,0,0);
-  var daysLeft=ACCESS_DAYS-Math.floor((today-first)/86400000);
-  if(daysLeft<=0){err.textContent='Your 90-day access period has expired. Contact info@ibsleadership.com to renew.';err.style.display='block';return;}
-  document.getElementById('gateOverlay').style.display='none';
-  document.body.style.overflow='';
-}
-document.body.style.overflow='hidden';
+document.body.style.overflow='';
 renderConcepts();renderW1H();renderEngine();renderArch();renderDims();renderFlam();
 renderCXO();renderAssessment();renderSIP();renderSummary();
 
