@@ -3152,19 +3152,56 @@
            '</div>';
   }
 
+  // ─── LENS MANUAL MAP ────────────────────────────────────────────────
+  // Full teaching architecture: unit → array of lens objects.
+  // Each entry: { label, file, live }
+  // live: true  = Migration Lite done, auth-gated, safe to link from dashboard.
+  // live: false = Phase 6 pending — link is suppressed until the file is migrated.
+  // Only live entries render on the cohort card.
+  var LENS_MANUAL_MAP = {
+    1: [
+      // Foundations: single consolidated file covers all foundation modules
+      { label: 'Foundations Facilitator Manual', file: 'unit1_F.html', live: true }
+    ],
+    2: [
+      // Direction — Pillar 1 (3 lenses across 2 modules)
+      { label: 'Lens 1 — Strategy Visioning & SiP',             file: 'unit2_m1_lens1_f.html', live: false },
+      { label: 'Lens 2 — KISS Mapping & OKR Definition',        file: 'unit2_m1_lens2_f.html', live: false },
+      { label: 'Lens 3 — Direction Integrity (ABCV-MBT)',       file: 'unit2_m1_lens3_f.html', live: false }
+    ],
+    3: [
+      // Influence — Pillar 2 (5 lenses across 2 modules)
+      { label: 'Lens 4 — Performance Management Setup',         file: 'unit3_m1_lens4_f.html', live: false },
+      { label: 'Lens 5 — Heart & Mind Alignment',               file: 'unit3_m1_lens5_f.html', live: false },
+      { label: 'Lens 6 — Establishing Expectations',            file: 'unit3_m1_lens6_f.html', live: false },
+      { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: false },
+      { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: false }
+    ],
+    4: [
+      // Grounding — Pillar 3 (3 lenses across 1 module)
+      { label: 'Lens 9 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: false },
+      { label: 'Lens 10 — Culture Reinforcement & Org Health',  file: 'unit4_m1_lens10_f.html', live: false },
+      { label: 'Lens 11 — Sustaining Performance (F.I.T)',      file: 'unit4_m1_lens11_f.html', live: false }
+    ]
+  };
+
   // Build Facilitator Manual link HTML for a cohort card.
-  // Only shows a link for units that have a built facilitator file.
-  // Coming-soon placeholders are omitted to keep the card clean.
+  // Iterates every unit assigned to this facilitator; for each unit shows
+  // only the lens entries marked live: true. Non-live entries are suppressed —
+  // they will appear automatically once Phase 6 migrates each file.
   function teachingNotesHtml(cohortId) {
     var units = _cohortUnitsMap[cohortId] || [];
     if (!units.length) return '';
-    var links = units
-      .filter(function(u) { return Number(u) === 1; })  // only built units
-      .map(function(u) {
-        return '<a class="teaching-notes-link" href="unit1_F.html?cohort=' +
-               encodeURIComponent(cohortId) + '">' +
-               '📖 ' + unitName(u) + ' Facilitator Manual</a>';
-      }).join('');
+    var links = '';
+    units.forEach(function(u) {
+      var lenses = LENS_MANUAL_MAP[Number(u)] || [];
+      lenses.forEach(function(lens) {
+        if (!lens.live) return;
+        links += '<a class="teaching-notes-link" href="' + lens.file +
+                 '?cohort=' + encodeURIComponent(cohortId) + '">' +
+                 '📖 ' + lens.label + '</a>';
+      });
+    });
     if (!links) return '';
     return '<div class="teaching-notes-block">' + links + '</div>';
   }
