@@ -6875,13 +6875,15 @@
               window.showToast(data.error || 'Resend failed.');
               return;
             }
-            // A3-UI-B: also re-send the magic-link email. RPC success already
-            // bumped expiry; this fires the actual email so the invitee gets
-            // a fresh link. Email errors are non-fatal — invitation is still
-            // valid in DB; we just surface it so admin knows to retry.
-            const emailResult = await sb.auth.signInWithOtp({ email: email });
-            if (emailResult.error) {
-              window.showToast('Expiry extended, but email failed: ' + (emailResult.error.message || 'unknown error'));
+            // A3-UI-B: re-send magic-link email via Edge Function (Resend API direct).
+            const { data: { session } } = await sb.auth.getSession();
+            const emailResult = await sb.functions.invoke('send-invitation-email', {
+              body: { email: email, full_name: row ? row.full_name : '' },
+              headers: { Authorization: `Bearer ${session?.access_token}` },
+            });
+            if (emailResult.error || !emailResult.data?.ok) {
+              const msg = emailResult.data?.error || emailResult.error?.message || 'unknown error';
+              window.showToast('Expiry extended, but email failed: ' + msg);
               invitationListState.loaded = false;
               loadInvitationList();
               return;
@@ -7288,17 +7290,18 @@
           return;
         }
 
-        // Step 2 — send the magic-link email via Supabase Auth
-        const emailResult = await sb.auth.signInWithOtp({ email: emailNorm });
-        if (emailResult.error) {
-          // Invitation row exists but email send failed. Don't pretend it
-          // succeeded — surface the error so admin knows to retry resend.
+        // Step 2 — send the magic-link email via Edge Function (Resend API direct)
+        const { data: { session: _sess } } = await sb.auth.getSession();
+        const emailResult = await sb.functions.invoke('send-invitation-email', {
+          body: { email: emailNorm, full_name: v.full_name || '' },
+          headers: { Authorization: `Bearer ${_sess?.access_token}` },
+        });
+        if (emailResult.error || !emailResult.data?.ok) {
+          const errMsg = emailResult.data?.error || emailResult.error?.message || 'unknown error';
           invitationCreateFormState.submitting = false;
-          invitationCreateFormState.serverError = 'Invitation saved, but email failed to send: ' + (emailResult.error.message || 'unknown error') + '. Use Resend on the row to retry the email.';
+          invitationCreateFormState.serverError = 'Invitation saved, but email failed to send: ' + errMsg + '. Use Resend on the row to retry the email.';
           renderInvitationCreateForm();
-          // Refresh list so the invitation row IS visible (it exists in DB)
           invitationListState.loaded = false;
-          // Switch to Pending tab so admin sees the row
           setInvitationStatusTab('pending');
           return;
         }
@@ -7777,10 +7780,14 @@ sam@gamma.org, Sam Lee, participant,`;
         for (let i = 0; i < toSend.length; i++) {
           const r = toSend[i];
           try {
-            const er = await sb.auth.signInWithOtp({ email: r.email });
-            if (er.error) {
+            const { data: { session: _bs } } = await sb.auth.getSession();
+            const er = await sb.functions.invoke('send-invitation-email', {
+              body: { email: r.email, full_name: r.full_name || '' },
+              headers: { Authorization: `Bearer ${_bs?.access_token}` },
+            });
+            if (er.error || !er.data?.ok) {
               r.email_send_failed = true;
-              r.email_error = er.error.message || 'unknown';
+              r.email_error = er.data?.error || er.error?.message || 'unknown';
             }
           } catch (e) {
             r.email_send_failed = true;
