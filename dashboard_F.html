@@ -463,6 +463,64 @@
     opacity: 0.6;
   }
 
+  /* [PILLAR] Pillar assignment badges on cohort card */
+  .cohort-pillars {
+    font-size: 10px;
+    color: var(--ash);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: center;
+  }
+  .cohort-pillars-label {
+    opacity: 0.55;
+    margin-right: 2px;
+  }
+  .pillar-badge {
+    background: rgba(201, 168, 76, 0.12);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    color: var(--gold);
+    border-radius: 3px;
+    padding: 2px 7px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+  }
+  /* [TEACH] Teaching notes link block on cohort card */
+  .teaching-notes-block {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .teaching-notes-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(201, 168, 76, 0.75);
+    text-decoration: none;
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 3px;
+    padding: 4px 10px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .teaching-notes-link:hover {
+    background: rgba(201, 168, 76, 0.1);
+    color: var(--gold);
+  }
+  .teaching-notes-link.coming-soon {
+    opacity: 0.35;
+    pointer-events: none;
+    cursor: default;
+  }
+
   /* ─── F2: EMPTY STATE ─── */
   .empty-state-card {
     background: rgba(34, 71, 47, 0.4);
@@ -1090,6 +1148,13 @@
     box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
   }
   .lens-dot:focus { outline: 2px solid var(--gold); outline-offset: 2px; }
+  /* [PILLAR] Dots outside this facilitator's assigned pillars — muted, non-interactive */
+  .lens-dot.dot-not-assigned {
+    opacity: 0.28;
+    filter: grayscale(0.8);
+    cursor: default;
+    pointer-events: none;
+  }
 
   /* ─── F3: TOOLTIP (pure CSS) ─── */
   .lens-dot::after {
@@ -1316,6 +1381,55 @@
   .review-status-pill.rs-reviewed  { background: rgba(39, 174, 96, 0.2);   color: #4fd88a; border: 1px solid rgba(39, 174, 96, 0.5); }
   .review-status-pill.rs-revision  { background: rgba(244, 197, 66, 0.18); color: #f4c542; border: 1px solid rgba(244, 197, 66, 0.5); }
   .review-status-pill.rs-unknown   { background: rgba(155, 155, 155, 0.18); color: #c5c5c5; border: 1px solid rgba(155, 155, 155, 0.4); }
+
+  /* [PILLAR] Prior-pillar context strip in review view */
+  .review-prior-context {
+    background: rgba(20, 40, 28, 0.55);
+    border: 1px solid rgba(201, 168, 76, 0.14);
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .review-prior-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(201, 168, 76, 0.6);
+    flex-shrink: 0;
+  }
+  .review-prior-dots {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .review-prior-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: #4a4a4a;
+    display: inline-block;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+  .review-prior-dot.rp-unlocked  { background: var(--gold); }
+  .review-prior-dot.rp-submitted { background: #2eb3a8; }
+  .review-prior-dot.rp-completed { background: #27ae60; }
+  .review-prior-link {
+    font-size: 10px;
+    color: var(--ash);
+    text-decoration: none;
+    margin-left: auto;
+    opacity: 0.65;
+    white-space: nowrap;
+  }
+  .review-prior-link:hover { opacity: 1; color: var(--gold); }
 
   /* ─── F4-2: PARTICIPANT + COHORT META CARD ─── */
   .review-meta-grid {
@@ -2992,6 +3106,75 @@
   });
 
   // ═══════════════════════════════════════════════════════════════════
+  // [PILLAR] UNIT-ASSIGNMENT HELPERS
+  // ═══════════════════════════════════════════════════════════════════
+
+  // Fetch this facilitator's unit assignments across all cohorts.
+  // Populates _cohortUnitsMap as a side-effect; called at page load.
+  async function fetchMyUnits() {
+    try {
+      var sessionResult = await supabaseClient.auth.getSession();
+      var session = sessionResult.data && sessionResult.data.session;
+      if (!session) return;
+      var uid = session.user.id;
+      var result = await supabaseClient
+        .from('cohort_memberships')
+        .select('cohort_id, unit')
+        .eq('profile_id', uid)
+        .eq('role_in_cohort', 'facilitator');
+      if (result.error || !result.data) {
+        console.warn('[PILLAR] fetchMyUnits error:', result.error);
+        return;
+      }
+      _cohortUnitsMap = {};
+      result.data.forEach(function(row) {
+        if (!_cohortUnitsMap[row.cohort_id]) _cohortUnitsMap[row.cohort_id] = [];
+        if (row.unit !== null && row.unit !== undefined) {
+          _cohortUnitsMap[row.cohort_id].push(Number(row.unit));
+        }
+      });
+      console.log('[PILLAR] Unit map loaded:', _cohortUnitsMap);
+    } catch (err) {
+      console.warn('[PILLAR] fetchMyUnits exception:', err);
+    }
+  }
+
+  // Human-readable pillar name from unit integer (matches lens_catalog unit values)
+  function unitName(u) {
+    var names = { 1: 'Foundations', 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
+    return names[Number(u)] || ('Unit ' + u);
+  }
+
+  // Build pillar badge HTML for a cohort card (empty string when no units assigned)
+  function pillarBadgesHtml(cohortId) {
+    var units = _cohortUnitsMap[cohortId] || [];
+    if (!units.length) return '';
+    var badges = units.map(function(u) {
+      return '<span class="pillar-badge">' + unitName(u) + '</span>';
+    }).join('');
+    return '<div class="cohort-pillars">' +
+             '<span class="cohort-pillars-label">Teaching:</span>' + badges +
+           '</div>';
+  }
+
+  // Build teaching notes link HTML for a cohort card.
+  // Only Foundations (unit 1) has a built facilitator file; others are coming soon.
+  function teachingNotesHtml(cohortId) {
+    var units = _cohortUnitsMap[cohortId] || [];
+    if (!units.length) return '';
+    var links = units.map(function(u) {
+      if (Number(u) === 1) {
+        return '<a class="teaching-notes-link" href="unit1_F.html?cohort=' +
+               encodeURIComponent(cohortId) + '" onclick="event.stopPropagation();">' +
+               '📖 ' + unitName(u) + ' Teaching Notes</a>';
+      }
+      return '<span class="teaching-notes-link coming-soon" title="Teaching notes for ' +
+             unitName(u) + ' are coming in Phase 6">📖 ' + unitName(u) + ' (coming soon)</span>';
+    }).join('');
+    return '<div class="teaching-notes-block">' + links + '</div>';
+  }
+
+  // ═══════════════════════════════════════════════════════════════════
   // F2: COHORT OVERVIEW
   // ═══════════════════════════════════════════════════════════════════
 
@@ -3001,9 +3184,11 @@
     console.log('[F2] Loading facilitator cohorts');
     try {
       // F8: fetch cohort grid + inbox count in parallel — single round-trip latency
+      // [PILLAR]: fetchMyUnits runs in parallel, populates _cohortUnitsMap before renderCohorts
       const [cohortsResult, inboxResult] = await Promise.all([
         supabaseClient.rpc('get_facilitator_cohorts'),
-        supabaseClient.rpc('get_facilitator_inbox')
+        supabaseClient.rpc('get_facilitator_inbox'),
+        fetchMyUnits()
       ]);
 
       // Cohort grid (F2)
@@ -3098,6 +3283,8 @@
         '<div class="count-tile"><span class="count-value">' + pending + '</span><span class="count-label">Pending review</span></div>' +
         '<div class="count-tile"><span class="count-value">' + reviewed + '</span><span class="count-label">Reviewed</span></div>' +
       '</div>' +
+      pillarBadgesHtml(c.cohort_id) +
+      teachingNotesHtml(c.cohort_id) +
       '<span class="cohort-click-hint">Click to open →</span>';
 
     card.addEventListener('click', function() {
@@ -3397,6 +3584,11 @@
         supabaseClient.rpc('get_cohort_participants', { p_cohort_id: cohortId })
       ]);
 
+      // [PILLAR] Ensure unit map is populated (may not be if navigated directly to ?cohort=)
+      if (Object.keys(_cohortUnitsMap).length === 0) await fetchMyUnits();
+      _myUnits = _cohortUnitsMap[cohortId] || [];
+      console.log('[PILLAR] Active units for cohort ' + cohortId + ':', _myUnits);
+
       if (participantsResult.error) {
         console.error('[F3] get_cohort_participants error:', participantsResult.error);
         renderAccessDenied();
@@ -3509,6 +3701,14 @@
   var _rosterFilter          = 'all';   // 'all' | 'attention' | 'submitted' | 'unread'
   var _rosterSort            = 'name';  // 'name' | 'activity' | 'attention'
   var _rosterSearch          = '';
+
+  // [PILLAR] Unit assignment state
+  // _cohortUnitsMap: cohort_id → [1, 2, ...] (this facilitator's assigned units per cohort)
+  // _myUnits: units for the currently-viewed cohort (empty = no filter / admin)
+  // _reviewParticipantLensStates: full lens_states of the participant whose submission is open
+  var _cohortUnitsMap              = {};
+  var _myUnits                     = [];
+  var _reviewParticipantLensStates = [];
 
   // C4: Returns true when a participant row should surface in "Needs attention" view:
   // any submitted (TEAL) dot or any unread participant message.
@@ -4646,6 +4846,17 @@
     dot.setAttribute('data-lens-id', lensState.lens_id);
     dot.setAttribute('data-status', status);
 
+    // [PILLAR] Grey out dots for lenses outside this facilitator's assigned units.
+    // _myUnits is empty when: admin view, no assignments loaded, or all units assigned.
+    var unitNum = Number(lensState.unit);
+    var isAssigned = (_myUnits.length === 0) || (_myUnits.indexOf(unitNum) !== -1);
+    if (!isAssigned) {
+      dot.classList.add('dot-not-assigned');
+      dot.setAttribute('data-tooltip', (lensState.lens_title || lensState.lens_id) + ' — Not your pillar');
+      dot.setAttribute('aria-label', (lensState.lens_title || lensState.lens_id) + ' — Not your pillar');
+      return dot;
+    }
+
     const tooltip = (lensState.lens_title || lensState.lens_id) + ' — ' + capitalize(status);
     dot.setAttribute('data-tooltip', tooltip);
     dot.setAttribute('aria-label', tooltip);
@@ -4670,6 +4881,8 @@
 
   async function handleLensDotClick(lensState, participant) {
     console.log('[F3→F4] Lens dot clicked: ' + participant.full_name + ' · ' + lensState.lens_id + ' (' + lensState.status + ')');
+    // [PILLAR] Capture full lens_states so review can show prior-pillar context
+    _reviewParticipantLensStates = Array.isArray(participant.lens_states) ? participant.lens_states : [];
     const cohortId = getCohortIdFromUrl();
     if (!cohortId) {
       console.error('[F3→F4] No cohort in URL — cannot resolve submission');
@@ -4848,7 +5061,41 @@
     content.innerHTML = '';
     content.appendChild(header);
     content.appendChild(metaGrid);
-    const completionBar = buildCompletionBar(payload, lens);
+
+    // [PILLAR] Prior-pillar context — shows lenses from OTHER units so reviewer
+    // understands the participant's journey before reaching this submission.
+    // Only rendered when lens_states were captured from the roster dot click;
+    // gracefully absent on direct deep-link access.
+    var currentUnit = Number(lens.unit);
+    if (_reviewParticipantLensStates.length && currentUnit) {
+      var otherLenses = _reviewParticipantLensStates.filter(function(ls) {
+        return Number(ls.unit) !== currentUnit;
+      });
+      if (otherLenses.length) {
+        var priorEl = document.createElement('div');
+        priorEl.className = 'review-prior-context';
+        var dotHtml = otherLenses.map(function(ls) {
+          var st = String(ls.status || 'locked').toLowerCase();
+          var cls = '';
+          if (st === 'unlocked')  cls = 'rp-unlocked';
+          if (st === 'submitted' || st === 'pending') cls = 'rp-submitted';
+          if (st === 'completed' || st === 'reviewed') cls = 'rp-completed';
+          var tip = (ls.lens_title || ls.lens_id) + ' — ' + capitalize(st);
+          return '<span class="review-prior-dot ' + cls + '" title="' + escapeHtml(tip) + '"></span>';
+        }).join('');
+        var cohortId = getCohortIdFromUrl() || '';
+        var rosterHref = cohortId
+          ? 'dashboard_F.html?cohort=' + encodeURIComponent(cohortId) + (isAdminView ? '&adminView=1' : '')
+          : 'dashboard_F.html' + (isAdminView ? '?adminView=1' : '');
+        priorEl.innerHTML =
+          '<span class="review-prior-label">Other units</span>' +
+          '<div class="review-prior-dots">' + dotHtml + '</div>' +
+          '<a class="review-prior-link" href="' + rosterHref + '">← Full roster</a>';
+        content.appendChild(priorEl);
+      }
+    }
+
+    var completionBar = buildCompletionBar(payload, lens);
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
     content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
