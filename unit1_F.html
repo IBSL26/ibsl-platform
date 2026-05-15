@@ -314,18 +314,31 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       .single();
 
     if (profErr || !profile) { showDenied('Could not verify your role.'); return; }
-    if (profile.role !== 'facilitator' && profile.role !== 'admin') {
+
+    const role = profile.role;
+
+    // Admin bypasses the pillar check — admin can access all teaching materials
+    if (role === 'admin') return;
+
+    // Any other non-facilitator role → redirect to login
+    if (role !== 'facilitator') {
       window.location.href = 'index.html';
       return;
     }
 
-    // 3 — pillar gate (can_facilitate_lens)
+    // 3 — pillar gate: facilitators only
+    // If the RPC errors (network, cold start, etc.) we fail open so a legitimate
+    // facilitator is never blocked by an infrastructure hiccup.
     const { data: canFac, error: gateErr } = await supabaseClient
       .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
 
-    if (gateErr) { showDenied('Access check failed — please try again.'); return; }
-    if (!canFac) {
+    if (gateErr) {
+      console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr);
+      return;
+    }
+    if (canFac === false) {
       showDenied('You are not assigned to facilitate this lens. Please contact your administrator.');
+      return;
     }
     // gate passed — content already visible
   }
