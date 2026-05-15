@@ -515,11 +515,6 @@
     background: rgba(201, 168, 76, 0.1);
     color: var(--gold);
   }
-  .teaching-notes-link.coming-soon {
-    opacity: 0.35;
-    pointer-events: none;
-    cursor: default;
-  }
 
   /* ─── F2: EMPTY STATE ─── */
   .empty-state-card {
@@ -3158,19 +3153,19 @@
   }
 
   // Build Facilitator Manual link HTML for a cohort card.
-  // Only Foundations (unit 1) has a built facilitator file; others are coming soon.
+  // Only shows a link for units that have a built facilitator file.
+  // Coming-soon placeholders are omitted to keep the card clean.
   function teachingNotesHtml(cohortId) {
     var units = _cohortUnitsMap[cohortId] || [];
     if (!units.length) return '';
-    var links = units.map(function(u) {
-      if (Number(u) === 1) {
+    var links = units
+      .filter(function(u) { return Number(u) === 1; })  // only built units
+      .map(function(u) {
         return '<a class="teaching-notes-link" href="unit1_F.html?cohort=' +
                encodeURIComponent(cohortId) + '">' +
                '📖 ' + unitName(u) + ' Facilitator Manual</a>';
-      }
-      return '<span class="teaching-notes-link coming-soon" title="Facilitator Manual for ' +
-             unitName(u) + ' is coming in Phase 6">📖 ' + unitName(u) + ' (coming soon)</span>';
-    }).join('');
+      }).join('');
+    if (!links) return '';
     return '<div class="teaching-notes-block">' + links + '</div>';
   }
 
