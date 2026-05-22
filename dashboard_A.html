@@ -6859,10 +6859,10 @@
       });
     }
 
-    function confirmAndResendInvitation(invitationId, email) {
+    function confirmAndResendInvitation(invitationId, email, role) {
       showConfirmModal({
         title: 'Resend this invitation?',
-        body: `Resending the invitation to <strong>${escapeHtml(email || 'this address')}</strong> extends the expiry by another 30 days from now and re-sends the magic-link email.`,
+        body: `Resending the invitation to <strong>${escapeHtml(email || 'this address')}</strong> extends the expiry by another 30 days from now and re-sends the setup link email.`,
         proceedLabel: 'Resend invitation',
         onProceed: async () => {
           try {
@@ -6875,10 +6875,10 @@
               window.showToast(data.error || 'Resend failed.');
               return;
             }
-            // A3-UI-B: re-send magic-link email via Edge Function (Resend API direct).
+            // A3-UI-B: re-send setup-link email via Edge Function (Resend API direct).
             const { data: { session } } = await sb.auth.getSession();
             const emailResult = await sb.functions.invoke('send-invitation-email', {
-              body: { email: email, full_name: row ? row.full_name : '' },
+              body: { email: email, full_name: row ? row.full_name : '', role: role || '' },
               headers: { Authorization: `Bearer ${session?.access_token}` },
             });
             if (emailResult.error || !emailResult.data?.ok) {
@@ -6913,7 +6913,7 @@
         if (action === 'inv-revoke' && invitationId) {
           confirmAndRevokeInvitation(invitationId, email);
         } else if (action === 'inv-resend' && invitationId) {
-          confirmAndResendInvitation(invitationId, email);
+          confirmAndResendInvitation(invitationId, email, row?.role);
         }
         document.querySelectorAll('.kebab__menu--open').forEach(m => m.classList.remove('kebab__menu--open'));
       });
@@ -7293,7 +7293,7 @@
         // Step 2 — send the magic-link email via Edge Function (Resend API direct)
         const { data: { session: _sess } } = await sb.auth.getSession();
         const emailResult = await sb.functions.invoke('send-invitation-email', {
-          body: { email: emailNorm, full_name: v.full_name || '' },
+          body: { email: emailNorm, full_name: v.full_name || '', role: v.role || '' },
           headers: { Authorization: `Bearer ${_sess?.access_token}` },
         });
         if (emailResult.error || !emailResult.data?.ok) {
@@ -7782,7 +7782,7 @@ sam@gamma.org, Sam Lee, participant,`;
           try {
             const { data: { session: _bs } } = await sb.auth.getSession();
             const er = await sb.functions.invoke('send-invitation-email', {
-              body: { email: r.email, full_name: r.full_name || '' },
+              body: { email: r.email, full_name: r.full_name || '', role: r.role || '' },
               headers: { Authorization: `Bearer ${_bs?.access_token}` },
             });
             if (er.error || !er.data?.ok) {
