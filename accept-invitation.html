@@ -156,17 +156,6 @@
     margin-bottom: 16px;
     display: none;
   }
-  .info-box {
-    background: rgba(42,122,122,0.1);
-    border-left: 3px solid var(--teal);
-    padding: 12px 16px;
-    border-radius: 2px;
-    color: rgba(255,255,255,0.7);
-    font-size: 12px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-    display: none;
-  }
   .loading-state, .signin-state, .check-email-state, .invalid-state, .form-state, .done-state { display: none; }
   .loading-state.active, .signin-state.active, .check-email-state.active, .invalid-state.active, .form-state.active, .done-state.active { display: block; }
   .spinner {
@@ -198,7 +187,7 @@
     <p style="margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Verifying your invitation...</p>
   </div>
 
-  <!-- SIGN IN — shown when user arrives with no session -->
+  <!-- SIGN IN -->
   <div class="signin-state" id="signinState">
     <p class="brand-label">S2R® Portal</p>
     <h1>Set Up Your Account</h1>
@@ -211,7 +200,7 @@
     <button class="btn" id="signinBtn" onclick="sendSignInLink()">Send Sign-In Link →</button>
   </div>
 
-  <!-- CHECK EMAIL — shown after OTP is sent -->
+  <!-- CHECK EMAIL -->
   <div class="check-email-state" id="checkEmailState">
     <div style="font-size:48px;margin-bottom:20px;">✉</div>
     <h1 style="font-size:1.5rem;margin-bottom:12px;">Check Your Inbox</h1>
@@ -234,58 +223,46 @@
       You've been invited to join the Strategy2Results® programme on the IBSLeadership platform.
       Review your details and set your password to complete registration.
     </p>
-
     <div class="review-framing">
-      <p><strong style="color:#fff;">Review your details before continuing.</strong> Your administrator pre-filled these. You can edit your name below if anything needs correcting. Once you complete registration, these become your profile.</p>
+      <p><strong style="color:#fff;">Review your details before continuing.</strong> Your administrator pre-filled these. You can edit your name below if anything needs correcting.</p>
     </div>
-
     <hr class="divider" />
     <p class="section-label">Your Details</p>
-
     <div class="field">
       <label class="field-label" for="fullName">Full Name</label>
       <input type="text" id="fullName" placeholder="Your full name" />
     </div>
-
     <div class="field">
       <label class="field-label" for="emailDisplay">Email</label>
       <input type="email" id="emailDisplay" readonly />
       <p class="field-hint">Your invitation was sent to this email. It cannot be changed here.</p>
     </div>
-
     <div class="field">
       <label class="field-label" for="organisationDisplay">Organisation</label>
       <input type="text" id="organisationDisplay" readonly />
       <p class="field-hint">Set by your administrator.</p>
     </div>
-
     <div class="field">
       <label class="field-label" for="roleDisplay">Role</label>
       <input type="text" id="roleDisplay" readonly />
       <p class="field-hint">Your role was set by your administrator.</p>
     </div>
-
     <div class="field">
       <label class="field-label" for="cohortDisplay">Cohort</label>
       <input type="text" id="cohortDisplay" readonly />
     </div>
-
     <hr class="divider" />
     <p class="section-label">Set Your Password</p>
-
     <div class="field">
       <label class="field-label" for="password">Password</label>
       <input type="password" id="password" placeholder="At least 8 characters" />
       <p class="field-hint">Minimum 8 characters.</p>
     </div>
-
     <div class="field">
       <label class="field-label" for="passwordConfirm">Confirm Password</label>
       <input type="password" id="passwordConfirm" placeholder="Re-enter your password" />
     </div>
-
     <p id="errorMsg" class="error-msg"></p>
-
     <button class="btn" id="submitBtn" onclick="completeRegistration()">Complete Registration →</button>
   </div>
 
@@ -372,19 +349,28 @@
 
   async function init() {
     try {
-      // Allow Supabase to process the URL fragment (magic link return)
+      // Give Supabase time to process the URL fragment
       await new Promise(function(r) { setTimeout(r, 1500); });
-var { data: { session: exchanged }, error: exchErr } = await sb.auth.exchangeCodeForSession(window.location.search);
+
+      // Try to exchange a code from the URL if present — used for email confirmation links.
+      // This is wrapped in try/catch because it will error if no code is in the URL,
+      // which is fine — we just fall through to the session check.
+      var urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('code')) {
+        try {
+          await sb.auth.exchangeCodeForSession(window.location.search);
+        } catch (e) {
+          // No valid code — not an error, continue to session check
+        }
+      }
 
       var sessionRes = await sb.auth.getSession();
       if (!sessionRes.data || !sessionRes.data.session) {
-        // No session — ask the user to enter their email for a sign-in link
         showState('signinState');
         return;
       }
       currentUser = sessionRes.data.session.user;
 
-      // Fetch the pending invitation for this user's email
       var invRes = await sb
         .from('invitations')
         .select('id, email, full_name, role, organisation_id, cohort_id')
@@ -403,103 +389,74 @@ var { data: { session: exchanged }, error: exchErr } = await sb.auth.exchangeCod
       }
       currentInvitation = invRes.data[0];
 
-      // Look up organisation name
       var orgName = '';
       if (currentInvitation.organisation_id) {
-        var orgRes = await sb
-          .from('organisations')
-          .select('name')
-          .eq('id', currentInvitation.organisation_id)
-          .single();
+        var orgRes = await sb.from('organisations').select('name').eq('id', currentInvitation.organisation_id).single();
         if (!orgRes.error && orgRes.data) orgName = orgRes.data.name;
       }
 
-      // Look up cohort name
       var cohortName = 'To be assigned';
       if (currentInvitation.cohort_id) {
-        var cohortRes = await sb
-          .from('cohorts')
-          .select('name')
-          .eq('id', currentInvitation.cohort_id)
-          .single();
+        var cohortRes = await sb.from('cohorts').select('name').eq('id', currentInvitation.cohort_id).single();
         if (!cohortRes.error && cohortRes.data) cohortName = cohortRes.data.name;
       }
 
-      // Populate form
       var firstName = (currentInvitation.full_name || '').split(' ')[0];
       document.getElementById('greeting').textContent = 'Welcome, ' + firstName;
-      document.getElementById('fullName').value      = currentInvitation.full_name || '';
-      document.getElementById('emailDisplay').value  = currentInvitation.email;
+      document.getElementById('fullName').value = currentInvitation.full_name || '';
+      document.getElementById('emailDisplay').value = currentInvitation.email;
       document.getElementById('organisationDisplay').value = orgName || '—';
-      document.getElementById('roleDisplay').value   = roleLabel(currentInvitation.role);
+      document.getElementById('roleDisplay').value = roleLabel(currentInvitation.role);
       document.getElementById('cohortDisplay').value = cohortName;
 
       showState('formState');
 
     } catch (err) {
       console.error('Init error:', err);
-      showInvalid('Something went wrong loading your invitation. Please try the link again or contact your administrator.');
+      showState('signinState');
     }
   }
 
   async function completeRegistration() {
     var errEl = document.getElementById('errorMsg');
-    var btn   = document.getElementById('submitBtn');
-
+    var btn = document.getElementById('submitBtn');
     errEl.style.display = 'none';
 
-    var fullName        = document.getElementById('fullName').value.trim();
-    var password        = document.getElementById('password').value;
+    var fullName = document.getElementById('fullName').value.trim();
+    var password = document.getElementById('password').value;
     var passwordConfirm = document.getElementById('passwordConfirm').value;
 
-    if (!fullName) {
-      errEl.textContent = 'Please enter your full name.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (password.length < 8) {
-      errEl.textContent = 'Your password must be at least 8 characters.';
-      errEl.style.display = 'block';
-      return;
-    }
-    if (password !== passwordConfirm) {
-      errEl.textContent = "Your passwords don't match. Please re-enter them.";
-      errEl.style.display = 'block';
-      return;
-    }
+    if (!fullName) { errEl.textContent = 'Please enter your full name.'; errEl.style.display = 'block'; return; }
+    if (password.length < 8) { errEl.textContent = 'Your password must be at least 8 characters.'; errEl.style.display = 'block'; return; }
+    if (password !== passwordConfirm) { errEl.textContent = "Your passwords don't match."; errEl.style.display = 'block'; return; }
 
     btn.disabled = true;
     btn.textContent = 'Setting up your account...';
 
     try {
-      // 1. Set password
       var pwRes = await sb.auth.updateUser({ password: password });
       if (pwRes.error) throw pwRes.error;
 
-      // 2. Upsert profile
       var profileRes = await sb.from('profiles').upsert({
-        id:              currentUser.id,
-        email:           currentInvitation.email,
-        full_name:       fullName,
-        role:            currentInvitation.role,
+        id: currentUser.id,
+        email: currentInvitation.email,
+        full_name: fullName,
+        role: currentInvitation.role,
         organisation_id: currentInvitation.organisation_id || null
       }, { onConflict: 'id' });
       if (profileRes.error) throw profileRes.error;
 
-      // 3. Mark invitation accepted
       var rpcRes = await sb.rpc('accept_my_invitation');
       if (rpcRes.error) throw rpcRes.error;
 
-      // 4. Role-based redirect
       var dest = redirectForRole(currentInvitation.role);
-      document.getElementById('doneMessage').textContent =
-        'Taking you to the ' + roleLabel(currentInvitation.role) + ' portal...';
+      document.getElementById('doneMessage').textContent = 'Taking you to the ' + roleLabel(currentInvitation.role) + ' portal...';
       showState('doneState');
       setTimeout(function() { window.location.href = dest; }, 2000);
 
     } catch (err) {
       console.error('Registration error:', err);
-      errEl.textContent = err.message || 'Something went wrong completing your registration. Please try again.';
+      errEl.textContent = err.message || 'Something went wrong. Please try again.';
       errEl.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Complete Registration →';
@@ -507,16 +464,11 @@ var { data: { session: exchanged }, error: exchErr } = await sb.auth.exchangeCod
   }
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && document.getElementById('signinState').classList.contains('active')) {
-      sendSignInLink();
-    }
-    if (e.key === 'Enter' && document.getElementById('formState').classList.contains('active')) {
-      completeRegistration();
-    }
+    if (e.key === 'Enter' && document.getElementById('signinState').classList.contains('active')) sendSignInLink();
+    if (e.key === 'Enter' && document.getElementById('formState').classList.contains('active')) completeRegistration();
   });
 
   init();
 </script>
-
 </body>
 </html>
