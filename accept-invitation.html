@@ -373,7 +373,8 @@
   async function init() {
     try {
       // Allow Supabase to process the URL fragment (magic link return)
-      await new Promise(function(r) { setTimeout(r, 800); });
+      await new Promise(function(r) { setTimeout(r, 1500); });
+var { data: { session: exchanged }, error: exchErr } = await sb.auth.exchangeCodeForSession(window.location.search);
 
       var sessionRes = await sb.auth.getSession();
       if (!sessionRes.data || !sessionRes.data.session) {
