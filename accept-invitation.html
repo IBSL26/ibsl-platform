@@ -156,8 +156,19 @@
     margin-bottom: 16px;
     display: none;
   }
-  .loading-state, .invalid-state, .form-state, .done-state { display: none; }
-  .loading-state.active, .invalid-state.active, .form-state.active, .done-state.active { display: block; }
+  .info-box {
+    background: rgba(42,122,122,0.1);
+    border-left: 3px solid var(--teal);
+    padding: 12px 16px;
+    border-radius: 2px;
+    color: rgba(255,255,255,0.7);
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .loading-state, .signin-state, .check-email-state, .invalid-state, .form-state, .done-state { display: none; }
+  .loading-state.active, .signin-state.active, .check-email-state.active, .invalid-state.active, .form-state.active, .done-state.active { display: block; }
   .spinner {
     display: inline-block;
     width: 32px;
@@ -168,7 +179,7 @@
     animation: spin 0.8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-state, .done-state { text-align: center; padding: 40px 0; }
+  .loading-state, .done-state, .check-email-state { text-align: center; padding: 40px 0; }
   .footer-note {
     text-align: center;
     font-size: 10px;
@@ -181,13 +192,33 @@
 <body>
 <div class="container">
 
-  <!-- ═══ LOADING ═══ -->
+  <!-- LOADING -->
   <div class="loading-state active" id="loadingState">
     <div class="spinner"></div>
     <p style="margin-top:20px;font-size:12px;color:rgba(255,255,255,0.5);letter-spacing:1px;">Verifying your invitation...</p>
   </div>
 
-  <!-- ═══ INVALID ═══ -->
+  <!-- SIGN IN — shown when user arrives with no session -->
+  <div class="signin-state" id="signinState">
+    <p class="brand-label">S2R® Portal</p>
+    <h1>Set Up Your Account</h1>
+    <p class="subtitle">Enter the email address your invitation was sent to. We will send you a secure sign-in link.</p>
+    <div class="field">
+      <label class="field-label" for="signinEmail">Email Address</label>
+      <input type="email" id="signinEmail" placeholder="your@email.com" />
+    </div>
+    <p id="signinError" class="error-msg"></p>
+    <button class="btn" id="signinBtn" onclick="sendSignInLink()">Send Sign-In Link →</button>
+  </div>
+
+  <!-- CHECK EMAIL — shown after OTP is sent -->
+  <div class="check-email-state" id="checkEmailState">
+    <div style="font-size:48px;margin-bottom:20px;">✉</div>
+    <h1 style="font-size:1.5rem;margin-bottom:12px;">Check Your Inbox</h1>
+    <p class="subtitle" id="checkEmailMsg">We have sent a sign-in link to your email. Click it to continue setting up your account.</p>
+  </div>
+
+  <!-- INVALID -->
   <div class="invalid-state" id="invalidState">
     <p class="brand-label">S2R® Portal</p>
     <h1>Something's not right</h1>
@@ -195,7 +226,7 @@
     <a href="https://ibslportal.netlify.app" style="display:inline-block;color:var(--teal);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;margin-top:20px;">← Return to Portal Home</a>
   </div>
 
-  <!-- ═══ FORM ═══ -->
+  <!-- FORM -->
   <div class="form-state" id="formState">
     <p class="brand-label">S2R® Portal · Onboarding</p>
     <h1 id="greeting">Welcome</h1>
@@ -258,7 +289,7 @@
     <button class="btn" id="submitBtn" onclick="completeRegistration()">Complete Registration →</button>
   </div>
 
-  <!-- ═══ DONE ═══ -->
+  <!-- DONE -->
   <div class="done-state" id="doneState">
     <div style="font-size:48px;color:var(--teal);margin-bottom:20px;">✓</div>
     <h1 style="font-size:1.5rem;margin-bottom:12px;">Registration Complete</h1>
@@ -272,6 +303,7 @@
 <script>
   var SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
   var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  var ACCEPT_URL = 'https://ibslportal.netlify.app/accept-invitation.html';
   var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
     auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: true }
   });
@@ -280,7 +312,7 @@
   var currentUser = null;
 
   function showState(id) {
-    ['loadingState','invalidState','formState','doneState'].forEach(function(s) {
+    ['loadingState','signinState','checkEmailState','invalidState','formState','doneState'].forEach(function(s) {
       document.getElementById(s).classList.remove('active');
     });
     document.getElementById(id).classList.add('active');
@@ -304,14 +336,49 @@
     return 'https://ibslportal.netlify.app/unit1_P.html';
   }
 
+  async function sendSignInLink() {
+    var emailInput = document.getElementById('signinEmail');
+    var errEl = document.getElementById('signinError');
+    var btn = document.getElementById('signinBtn');
+    var email = (emailInput.value || '').trim().toLowerCase();
+
+    errEl.style.display = 'none';
+    if (!email) {
+      errEl.textContent = 'Please enter your email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    var res = await sb.auth.signInWithOtp({
+      email: email,
+      options: { emailRedirectTo: ACCEPT_URL, shouldCreateUser: false }
+    });
+
+    if (res.error) {
+      errEl.textContent = res.error.message || 'Could not send sign-in link. Please check your email address.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Send Sign-In Link →';
+      return;
+    }
+
+    document.getElementById('checkEmailMsg').textContent =
+      'We have sent a sign-in link to ' + email + '. Click the link in that email to continue.';
+    showState('checkEmailState');
+  }
+
   async function init() {
     try {
-      // Allow Supabase to process the magic-link URL fragment
-      await new Promise(function(r) { setTimeout(r, 600); });
+      // Allow Supabase to process the URL fragment (magic link return)
+      await new Promise(function(r) { setTimeout(r, 800); });
 
       var sessionRes = await sb.auth.getSession();
-      if (sessionRes.error || !sessionRes.data || !sessionRes.data.session) {
-        showInvalid('Your invitation link is invalid or has expired. Please contact your administrator for a new invitation.');
+      if (!sessionRes.data || !sessionRes.data.session) {
+        // No session — ask the user to enter their email for a sign-in link
+        showState('signinState');
         return;
       }
       currentUser = sessionRes.data.session.user;
@@ -408,7 +475,7 @@
       var pwRes = await sb.auth.updateUser({ password: password });
       if (pwRes.error) throw pwRes.error;
 
-      // 2. Upsert profile (organisation_id from invitation; no cohort column on profiles)
+      // 2. Upsert profile
       var profileRes = await sb.from('profiles').upsert({
         id:              currentUser.id,
         email:           currentInvitation.email,
@@ -418,11 +485,11 @@
       }, { onConflict: 'id' });
       if (profileRes.error) throw profileRes.error;
 
-      // 3. Mark invitation accepted via SECURITY DEFINER RPC
+      // 3. Mark invitation accepted
       var rpcRes = await sb.rpc('accept_my_invitation');
       if (rpcRes.error) throw rpcRes.error;
 
-      // 4. Done — role-based redirect
+      // 4. Role-based redirect
       var dest = redirectForRole(currentInvitation.role);
       document.getElementById('doneMessage').textContent =
         'Taking you to the ' + roleLabel(currentInvitation.role) + ' portal...';
@@ -439,6 +506,9 @@
   }
 
   document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('signinState').classList.contains('active')) {
+      sendSignInLink();
+    }
     if (e.key === 'Enter' && document.getElementById('formState').classList.contains('active')) {
       completeRegistration();
     }
