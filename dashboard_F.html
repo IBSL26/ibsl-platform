@@ -1538,6 +1538,26 @@
   .response-module.collapsed .response-module-body {
     display: none;
   }
+  /* Expand/Collapse-all control for the response sections */
+  .response-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 14px;
+  }
+  .response-expand-all {
+    background: rgba(201,168,76,0.07);
+    color: var(--gold-pale);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 3px;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .response-expand-all:hover { background: rgba(201,168,76,0.15); }
   /* Collapsible support sections (Documents / Feedback / Messages) */
   .collapsible-section-heading {
     cursor: pointer;
@@ -5397,6 +5417,35 @@
 
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
+    }
+
+    // Collapsible UX: when a submission has more than one section, collapse them
+    // all by default and offer an expand/collapse-all control, so a long review
+    // opens as a compact list of section headings instead of one wall of text.
+    // Gated on >1 heading so single-section (and headingless flat) submissions
+    // are left fully expanded — every collapsed module is guaranteed a heading
+    // to re-open it. To change the default to "first section open", remove the
+    // collapse loop below; to default-expanded, delete this whole block.
+    const collapsibleHeadings = wrap.querySelectorAll('.response-module-heading');
+    if (collapsibleHeadings.length > 1) {
+      wrap.querySelectorAll('.response-module').forEach(function(m) {
+        m.classList.add('collapsed');
+      });
+      const bar = document.createElement('div');
+      bar.className = 'response-toolbar';
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'response-expand-all';
+      btn.textContent = 'Expand all';
+      btn.addEventListener('click', function() {
+        const anyCollapsed = !!wrap.querySelector('.response-module.collapsed');
+        wrap.querySelectorAll('.response-module').forEach(function(m) {
+          m.classList.toggle('collapsed', !anyCollapsed);
+        });
+        btn.textContent = anyCollapsed ? 'Collapse all' : 'Expand all';
+      });
+      bar.appendChild(btn);
+      wrap.insertBefore(bar, wrap.firstChild);
     }
 
     return wrap;
