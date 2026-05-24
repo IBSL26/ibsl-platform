@@ -70,6 +70,16 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .acc.open .arr svg{stroke:var(--gold);}
 .acc-b{display:none;padding-bottom:28px;}
 .acc.open .acc-b{display:block;}
+/* Micro-Climb summary blocks (matched to Lens 1) */
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.2);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(26,122,106,.06);border-bottom:1px solid rgba(26,122,106,.1);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:120px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
 
 /* SUB ACCORDION */
 .sub-acc{border:1px solid rgba(255,255,255,.06);border-radius:3px;margin:12px 0;overflow:hidden;}
@@ -942,13 +952,8 @@ Email to Self</button>
 </div>
 </div></div>
 <div class="acc">
-<div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Foundation Complete</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
-<div class="acc-b cb"><p><strong>Unit 1: Foundation — Behavioural Strategy Fundamentals</strong> establishes the psychological bedrock that underpins all strategic decision-making.</p>
-<p>It opens by defining behavioural strategy as the intersection of cognitive psychology and strategic management — making the case that strategy is not a purely rational exercise, but a deeply human one shaped by invisible mental filters. The unit introduces Kahneman's dual-process framework (System 1 fast thinking vs. System 2 deliberate thinking) as the core lens through which leaders should understand their own judgement.</p>
-<p>From there, it maps 20 cognitive biases across four families — Action-Oriented, Stability, Interest, and Social — showing how each distorts strategic decisions in predictable, measurable ways, and what the organisational warning signals look like in practice.</p>
-<p>The unit then traces where these biases show up across the four phases of any strategy process: Diagnosis, Option Generation, Decision, and Execution — demonstrating that bias is not just a personal failing but a process vulnerability. It adds a second dimension through the emotional climate, showing how fear, ego, or grounded confidence in a leadership environment either amplifies or dampens the quality of thinking.</p>
-<p>It closes with practical intervention — six debiasing principles, three pillars for building collective intelligence, and institutional practices for embedding behavioural discipline — culminating in a self-scoring leadership assessment across five commitments.</p>
-<div class="hbox teal"><p>The central argument of the unit, in one line: <strong>the quality of your strategy is a direct function of the quality of the thinking environment in which it was made.</strong></p></div></div></div>
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Micro-Climb Summary — What This Unit Produced</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Modules · Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb" id="summaryListP"></div></div>
 <div class="acc" id="feedback-acc" style="display:none;">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b">
@@ -1293,6 +1298,7 @@ function openBiasTag(tagName) {
 
 // Make all .bt spans clickable
 document.addEventListener('DOMContentLoaded', function() {
+  renderSummaryP();
   document.querySelectorAll('.bt').forEach(function(el) {
     el.style.cursor = 'pointer';
     el.title = 'Click to learn about this bias';
@@ -1361,6 +1367,22 @@ function showFeedbackState(label,statusClass,text,ts){
   if(tx)tx.textContent=text;
   acc.style.display='block';
 }
+
+var SUMMARY=[{"arc": "Awareness", "t": "What Was Established", "body": "Behavioural strategy was defined as the merger of strategic management with cognitive and social psychology — grounded in the work of Kahneman and advanced by Sibony — bringing rigour to how decisions are actually made rather than how they are presented. Its premise: strategic choices are never purely objective; they are the output of invisible mental filters (the shortcuts we use, the patterns we trust, the data we unconsciously ignore) operating beneath conscious analysis. Where traditional strategy asks 'What should we do?', behavioural strategy asks the prior question — 'How does the way we think shape what we believe we should do, and are those patterns helping or hurting us?' The module established the dual-process architecture (Kahneman's fast System 1 versus deliberate System 2), introduced functional bias through the Elephant Perspective, and set out a taxonomy of 20 cognitive biases across four families: Action-Oriented, Stability, Interest, and Social."}, {"arc": "Intelligence", "t": "Why It Matters", "body": "Biases are not random fluctuations to be averaged away — they are systematic, predictable, and cumulative, acting as a silent rot that compromises even the most technically rigorous strategic frameworks. The MyHealth case made functional bias concrete: when a strategy is announced, every executive hears the same words but not the same message — the CFO listens for financial exposure, the COO for operational feasibility, the CHRO for capability implications, the CMO for the customer promise. Each interpretation is rational and valuable, but left unspoken these functional lenses quietly reshape the strategy, and the gaps between mandates open up the White Space that no one owns. The stakes were quantified: McKinsey finds disciplined, bias-mitigating decision-making delivers roughly 6% higher returns, while poor behavioural awareness levies a hidden tax through five strategic costs, each traceable to specific bias families."}, {"arc": "Extrapolating", "t": "Where Bias Appears", "body": "Bias does not live in people alone — it lives in processes, in the specific moments where human judgement is required. The strategy journey was mapped as a bias landscape across four phases — Diagnosis, Option Generation, Decision, and Execution — each carrying its own characteristic distortions (Availability, Anchoring, and Confirmation bias cluster at Diagnosis, where every strategy begins with a reading of reality) and each paired with a scanner question to pressure-test the organisation's real exposure. A second dimension is emotional: the emotional climate is the atmospheric pressure that determines whether the organisation's thinking architecture functions or freezes. Drawing on Quy Nguyen Huy's research, emotions are the gatekeepers of System 2 — in a climate of fear or ego, people retreat into instinctive System 1 thinking — which makes managing the climate a fiduciary responsibility of leadership."}, {"arc": "Integrating", "t": "What Was Built", "body": "The integrating arc rests on the unit's central argument: the quality of strategy is a direct function of the quality of the thinking environment — not the intelligence of individuals, nor the volume of data, but the conditions under which thinking happens. Integration solves the Elephant Perspective by shifting the leadership team out of functional silos and into an enterprise-wide lens — from defending the part to designing the whole, trading individual opinion for collective intelligence. Three pillars structure the work: Cognitive Integration (building a single version of the truth across functions), Behavioural Guardrails (the practices that keep known biases in check), and Emotional Stabilisation (protecting the climate in which careful thinking can survive). These are embedded through ten institutional practices — structural changes to how strategy is conducted, not one-time interventions — that build behavioural discipline into the strategy room and the leadership culture."}];
+function renderSummaryP(){
+  var el=document.getElementById('summaryListP');if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return '<div class="sum-block" id="sumP_'+i+'">'+
+      '<div class="sum-h" onclick="tSumP('+i+')">'+
+        '<span class="sum-arc">'+s.arc+'</span>'+
+        '<span class="sum-title">'+s.t+'</span>'+
+        '<span class="sum-arr">▼</span>'+
+      '</div>'+
+      '<div class="sum-body"><p>'+s.body+'</p></div>'+
+    '</div>';
+  }).join('');
+}
+function tSumP(i){document.getElementById('sumP_'+i).classList.toggle('open');}
 
 function renderSubmissionFeedback(row){
   var acc=document.getElementById('feedback-acc');
