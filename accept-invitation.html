@@ -142,30 +142,32 @@
     return 'https://ibslportal.netlify.app/unit1_P.html';
   }
 
-  // Wait for a real authenticated session — uses auth state listener
-  // so it fires as soon as the invite token is processed, not after a fixed delay.
-  function waitForSession() {
-    return new Promise(function(resolve) {
-      var done = false;
-      function finish(session) {
-        if (!done) { done = true; resolve(session); }
-      }
-      // Hard timeout after 8 seconds
-      setTimeout(function() { finish(null); }, 8000);
-      // Listen for auth state changes (fires when invite token is processed)
-      sb.auth.onAuthStateChange(function(event, session) {
-        if (session) finish(session);
-      });
-      // Also check immediately in case session already exists
-      sb.auth.getSession().then(function(r) {
-        if (r.data && r.data.session) finish(r.data.session);
-      });
-    });
+  // Establish a session from the invite link. The link carries token_hash and
+  // type in the query string; verifyOtp exchanges them for a real session.
+  // Deterministic — does not rely on detectSessionInUrl catching a redirect.
+  async function establishSession() {
+    // Reuse an existing session if the page is refreshed after verification.
+    var existing = await sb.auth.getSession();
+    if (existing.data && existing.data.session) return existing.data.session;
+
+    var params    = new URLSearchParams(window.location.search);
+    var tokenHash = params.get('token_hash');
+    var otpType   = params.get('type');
+    if (!tokenHash || !otpType) return null;
+
+    var verifyRes = await sb.auth.verifyOtp({ token_hash: tokenHash, type: otpType });
+    if (verifyRes.error) {
+      console.error('verifyOtp error:', JSON.stringify(verifyRes.error));
+      return null;
+    }
+    // Burn the consumed token from the address bar so a refresh can't retry it.
+    history.replaceState(null, '', window.location.pathname);
+    return verifyRes.data.session;
   }
 
   async function init() {
     try {
-      var session = await waitForSession();
+      var session = await establishSession();
 
       if (!session) {
         showInvalid('This invitation link is invalid or has expired. Please ask your administrator to resend your invitation.');
