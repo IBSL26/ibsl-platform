@@ -13,6 +13,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
 .nav-brand strong{color:var(--teal);display:block;}
 .nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
 .nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;cursor:pointer;}
 .nav-back:hover{color:var(--teal);}
 .unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
@@ -317,7 +319,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <nav class="unit-nav">
   <div class="nav-left">
     <div class="nav-brand">Strategy2Result®<strong>IBSL · Unit 2 · Module 1</strong></div>
-    <span class="nav-badge">Participant View</span>
+    <span class="nav-badge">Participant View</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in…</span>
   </div>
   <a class="nav-back" href="index.html">← Back to Platform</a>
 </nav>
@@ -1904,6 +1906,31 @@ document.addEventListener('DOMContentLoaded',function(){
   });
 });
 
+</script>
+<script>
+(function(){
+  function renderSignedInBadge(){
+    var el=document.getElementById('signedInBadge');
+    if(!el)return;
+    if(!window.S2R||typeof S2R.context!=='function'){el.textContent='Sign-in: unknown';return;}
+    Promise.resolve(S2R.context()).then(function(ctx){
+      if(!ctx){el.textContent='Not signed in';el.classList.add('mismatch');el.title='No active session. Sign in as the participant to view their submission and feedback.';return;}
+      var role=(ctx.role||'unknown');
+      var pid=(ctx.profileId||'').slice(0,8);
+      var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+      el.textContent='Signed in: '+roleLabel+(pid?(' \u00b7 '+pid):'');
+      if(role!=='participant'){
+        el.classList.add('mismatch');
+        el.title='You are on the participant page while signed in as '+role+'. This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.';
+      }else{
+        el.classList.remove('mismatch');el.title='';
+      }
+    }).catch(function(){el.textContent='Sign-in: unknown';});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderSignedInBadge);
+  else renderSignedInBadge();
+  window.addEventListener('load',renderSignedInBadge);
+})();
 </script>
 </body>
 </html>
