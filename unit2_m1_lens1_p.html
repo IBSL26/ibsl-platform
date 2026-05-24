@@ -666,46 +666,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="acc-b cb" id="summaryListP"></div>
 </div>
 
-<!-- FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
-<div class="acc" id="feedback-acc" style="display:none;">
-<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
-<div class="acc-b">
-<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
-<div id="sf-text" class="sf-text"></div>
-</div></div>
-
-<!-- MESSAGES (hidden until submission exists) -->
-<div class="acc" id="msg-acc" style="display:none;">
-<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
-<div class="acc-b">
-<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation…</div>
-<div class="p-thread-compose">
-<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator…" oninput="pUpdateCount()"></textarea>
-<div class="p-thread-meta">
-<span id="p-thread-error" class="p-thread-error"></span>
-<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
-<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
-</div>
-</div>
-</div></div>
-
-<!-- SUPPORTING DOCUMENTS (hidden until submission exists) -->
-<div class="acc" id="upload-acc" style="display:none;">
-<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
-<div class="acc-b">
-<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
-<div id="p-upload-list" class="p-upload-list" style="display:none;">
-<div class="p-upload-list-label">Already attached</div>
-<div id="p-upload-list-items"></div>
-</div>
-<label class="p-upload-btn" for="p-upload-input">
-<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-Attach Files
-<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
-</label>
-<div id="p-upload-feedback" class="p-upload-feedback"></div>
-</div></div>
-
 <div class="mod-nav"><button class="btn" onclick="showMod(2)">← Extrapolating</button><button class="btn" onclick="showMod(4)">Integration Application →</button></div>
 </div>
 </div>
@@ -861,6 +821,46 @@ Attach Files
   </div>
 </div>
 </div>
+
+<!-- SUBMISSION CLUSTER (feedback / messages / documents) — placed at end of Integration Application for cross-lens consistency -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+
+<!-- MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation…</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator…" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div>
+
+<!-- SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
 
 <div class="mod-nav">
   <button class="btn" onclick="showMod(3)">← Integration Zone</button>
