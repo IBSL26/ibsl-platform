@@ -178,25 +178,65 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .gate-btn:hover{background:rgba(26,122,106,.2);}
 .gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
 @media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+
+/* ── S2R PORTAL COMPONENTS (migrated from u2m1_lens1) ───────────────────────── */
+/* C1: SUBMISSION FEEDBACK */
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+/* C5: PARTICIPANT MESSAGE THREAD */
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+/* C6: UPLOAD WIDGET */
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+/* C7: inline save-error colour (reuses existing .ref-saved / .port-saved indicators) */
+.save-failed{color:var(--gold)!important;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 2 · Module 1 · Lens 2</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Participant Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:52px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Enter Learning Journey</button>
-<div class="gate-error" id="gateError"></div>
-  </div>
-</div>
 <nav class="unit-nav">
   <div class="nav-left">
     <div class="nav-brand">IBSL · Strategy2Result®<strong>Unit 2 · Module 1 · Lens 2</strong></div>
@@ -467,6 +507,46 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Chapter Summary — SiP KISS Mapping &amp; OKR Definition</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Stages</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b cb"><div id="summaryP"></div></div></div>
 
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.parentElement.classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation…</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator…" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
+
 <div style="padding:20px 0 10px;">
   <button class="send-btn" onclick="sendToFacilitator()">
     <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -607,7 +687,7 @@ function renderKissExercise(){
       "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 0 4px;\">"+
       ["keep","improve","start","stop"].map(function(k){
         var kid="kex_"+d.id+"_"+k;
-        var saved=localStorage.getItem("ibsl_u2l2p_kiss_"+kid)||"";
+        var saved="";
         return "<div class=\"kiss-el\"><div class=\"kiss-el-head "+k+"-h\">◆ "+k.toUpperCase()+"</div>"+
           "<div class=\"kiss-q\">"+d[k]+"</div>"+
           "<textarea class=\"kiss-ta\" id=\""+kid+"\" placeholder=\"Your response...\">"+saved+"</textarea>"+
@@ -619,7 +699,7 @@ function renderKissExercise(){
 
 function renderOKRDraft(){
   document.getElementById("okrDraftP").innerHTML=APP_OBJECTIVES.map(function(o){
-    var saved=JSON.parse(localStorage.getItem("ibsl_u2l2p_okr_o"+o.n)||"null")||{kr1:"",kr2:""};
+    var saved={kr1:"",kr2:""};
     return "<div class=\"okr-obj open\" id=\"okrp_"+o.n+"\">" +
       "<div class=\"okr-obj-head\" onclick=\"toggleOKRP("+o.n+")\">"+
         "<span class=\"okr-obj-num\">OBJ "+o.n+"</span>"+
@@ -659,20 +739,28 @@ function toggleDomain(id){
   if(arr)arr.style.transform=open?"":"rotate(180deg)";
 }
 
-function saveKP(id){
+async function saveKP(id){
   var ta=document.getElementById(id);if(!ta)return;
-  localStorage.setItem("ibsl_u2l2p_kiss_"+id,ta.value);
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  var ok=await S2R.save('u2m1_lens2',id,ta.value);
   var btn=document.querySelector("[onclick=\"saveKP('"+id+"')\"]");
-  if(btn){var o=btn.textContent;btn.textContent="✓ Saved";setTimeout(function(){btn.textContent=o;},1500);}
+  if(btn){btn.textContent=ok?"✓ Saved":"⚠ Save failed";setTimeout(function(){btn.textContent="Save";},1500);}
 }
 
+var _okrTimers={};
 function saveOKRP(n){
   var k1=document.getElementById("krp1_"+n);
   var k2=document.getElementById("krp2_"+n);
   if(!k1||!k2)return;
-  localStorage.setItem("ibsl_u2l2p_okr_o"+n,JSON.stringify({kr1:k1.value,kr2:k2.value}));
   checkKRP("chkp1_"+n,k1.value);
   checkKRP("chkp2_"+n,k2.value);
+  clearTimeout(_okrTimers[n]);
+  _okrTimers[n]=setTimeout(async function(){
+    if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+    var ok=await S2R.save('u2m1_lens2','okr_o'+n,{kr1:k1.value,kr2:k2.value});
+    var btn=document.querySelector(".okr-save[onclick=\"saveOKRP("+n+")\"]");
+    if(btn){btn.textContent=ok?"✓ Saved":"⚠ Save failed";setTimeout(function(){btn.textContent="Save OKRs";},1500);}
+  },600);
 }
 
 function checkKRP(id,val){
@@ -684,49 +772,47 @@ function checkKRP(id,val){
 
 function toggleOKRP(n){var el=document.getElementById("okrp_"+n);if(el)el.classList.toggle("open");}
 
-function saveRef(id){
+async function saveRef(id){
   var ta=document.getElementById(id);if(!ta)return;
-  localStorage.setItem("ibsl_u2l2p_ref_"+id,ta.value);
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  var ok=await S2R.save('u2m1_lens2',id,ta.value);
   var msg=document.getElementById(id+"-saved");
-  if(msg){msg.style.display="block";setTimeout(function(){msg.style.display="none";},2500);}
+  if(msg){
+    msg.textContent=ok?"✓ Saved":"⚠ Save failed — try again";
+    msg.classList.toggle("save-failed",!ok);
+    msg.style.display="block";
+    if(ok)setTimeout(function(){msg.style.display="none";},2500);
+  }
 }
 
-function savePort(id){
+async function savePort(id){
   var ta=document.getElementById(id);if(!ta)return;
-  localStorage.setItem("ibsl_u2l2p_port_"+id,ta.value);
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  var ok=await S2R.save('u2m1_lens2',id,ta.value);
   var msg=document.getElementById(id+"-saved");
-  if(msg){msg.style.display="block";setTimeout(function(){msg.style.display="none";},2500);}
+  if(msg){
+    msg.textContent=ok?"✓ Saved":"⚠ Save failed — try again";
+    msg.classList.toggle("save-failed",!ok);
+    msg.style.display="block";
+    if(ok)setTimeout(function(){msg.style.display="none";},2500);
+  }
 }
 
-function sendToFacilitator(){
-  var lines=["S2R® Unit 2 · Module 1 · Lens 2 — Participant Submission","Date: "+new Date().toLocaleDateString(),"","=".repeat(50),"","REFLECTIONS"];
-  ["ref1","ref2","ref3","ref4","ref5"].forEach(function(id){
-    var v=localStorage.getItem("ibsl_u2l2p_ref_"+id)||"";
-    if(v.trim())lines.push("","["+id+"]: "+v.trim());
-  });
-  lines.push("","=".repeat(50),"","KISS REFLECTION");
-  KISS_DOMAINS.forEach(function(d){
-    lines.push("","-- "+d.label+" --");
-    ["keep","improve","start","stop"].forEach(function(k){
-      var v=localStorage.getItem("ibsl_u2l2p_kiss_kex_"+d.id+"_"+k)||"";
-      if(v.trim())lines.push(k.toUpperCase()+": "+v.trim());
-    });
-  });
-  lines.push("","=".repeat(50),"","OKR CONTRIBUTIONS");
-  APP_OBJECTIVES.forEach(function(o){
-    var saved=JSON.parse(localStorage.getItem("ibsl_u2l2p_okr_o"+o.n)||"null");
-    lines.push("","Objective "+o.n+": "+o.obj);
-    if(saved&&saved.kr1)lines.push("KR 1: "+saved.kr1);
-    if(saved&&saved.kr2)lines.push("KR 2: "+saved.kr2);
-  });
-  lines.push("","=".repeat(50),"","PORTFOLIO");
-  ["port1","port2","port3"].forEach(function(id){
-    var v=localStorage.getItem("ibsl_u2l2p_port_"+id)||"";
-    if(v.trim())lines.push(id+": "+v.trim());
-  });
-  if(lines.length<12){alert("Please complete at least one reflection or KISS entry before submitting.");return;}
-  var body="Dear Facilitator,\n\nPlease find my Lens 2 submission below.\n\n"+lines.join("\n")+"\n\nKind regards";
-  window.open("mailto:info@ibsleadership.com?subject="+encodeURIComponent("S2R® Unit 2 · Module 1 · Lens 2 — Participant Submission")+"&body="+encodeURIComponent(body));
+async function sendToFacilitator(){
+  if(!window.S2R){
+    alert('The save system is not yet ready. Please reload the page and try again.');
+    return;
+  }
+  if(!confirm('Submit your Unit 2 · Module 1 · Lens 2 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
+    return;
+  }
+  var result=await S2R.submit('u2m1_lens2');
+  if(result.ok){
+    alert('✓ Submitted to your facilitator.\n\n'+result.message);
+    loadSubmissionFeedback();
+  }else{
+    alert('Could not submit to your facilitator.\n\n'+result.message);
+  }
 }
 
 function showMod(i){
@@ -741,44 +827,389 @@ function showStepP(prefix,i){
 function tA(h){h.parentElement.classList.toggle("open");}
 function tSA(h){h.parentElement.classList.toggle("open");}
 
-function toggleGateCode(){
-  var inp=document.getElementById("gateCode");
-  var btn=document.getElementById("toggleCodeBtn");
-  if(!inp||!btn)return;
-  if(inp.type==="password"){inp.type="text";btn.textContent="HIDE";btn.style.color="rgba(26,122,106,.8)";}
-  else{inp.type="password";btn.textContent="SHOW";btn.style.color="rgba(255,255,255,.3)";}
-}
-var PART_CODES=["IBSL-S2R-2025","S2R-PART-001","CESI-JOIN-42","IBSL-GUIDE-P","PARTICIPANT-X"];
-function gateSubmit(){
-  var email=document.getElementById("gateEmail").value.trim();
-  var code=document.getElementById("gateCode").value.trim();
-  var err=document.getElementById("gateError");
-  if(!email||!code){err.textContent="Please enter your email and access code.";err.style.display="block";return;}
-  if(PART_CODES.indexOf(code)===-1){err.textContent="Invalid access code. Contact info@ibsleadership.com.";err.style.display="block";return;}
-  var key="ibsl_first_use_"+code,today=new Date();today.setHours(0,0,0,0);
-  var stored=localStorage.getItem(key);
-  if(!stored){localStorage.setItem(key,today.toISOString());stored=today.toISOString();}
-  var first=new Date(stored);first.setHours(0,0,0,0);
-  var daysLeft=90-Math.floor((today-first)/86400000);
-  if(daysLeft<=0){err.textContent="Your 90-day access has expired. Contact info@ibsleadership.com.";err.style.display="block";return;}
-  document.getElementById("gateOverlay").style.display="none";
-  document.body.style.overflow="";
-}
-
-window.addEventListener("load",function(){
-  ["ref1","ref2","ref3","ref4","ref5"].forEach(function(id){
-    var v=localStorage.getItem("ibsl_u2l2p_ref_"+id);
-    var ta=document.getElementById(id);if(v&&ta)ta.value=v;
-  });
-  ["port1","port2","port3"].forEach(function(id){
-    var v=localStorage.getItem("ibsl_u2l2p_port_"+id);
-    var ta=document.getElementById(id);if(v&&ta)ta.value=v;
-  });
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  try{
+    var responses=await S2R.loadAll('u2m1_lens2');
+    // Reflections
+    ["ref1","ref2","ref3","ref4","ref5"].forEach(function(id){
+      var ta=document.getElementById(id);
+      if(ta&&responses[id]!=null)ta.value=responses[id];
+    });
+    // Portfolio
+    ["port1","port2","port3"].forEach(function(id){
+      var ta=document.getElementById(id);
+      if(ta&&responses[id]!=null)ta.value=responses[id];
+    });
+    // KISS — response_key = textarea id (kex_<domain>_<keep|improve|start|stop>)
+    Object.keys(responses).forEach(function(k){
+      if(k.indexOf("kex_")===0){
+        var ta=document.getElementById(k);
+        if(ta&&responses[k]!=null)ta.value=responses[k];
+      }
+    });
+    // OKRs — response_key = okr_o<n>, value = {kr1,kr2}
+    Object.keys(responses).forEach(function(k){
+      if(k.indexOf("okr_o")===0){
+        var n=k.slice(5),v=responses[k]||{};
+        var k1=document.getElementById("krp1_"+n);
+        var k2=document.getElementById("krp2_"+n);
+        if(k1&&v.kr1!=null){k1.value=v.kr1;checkKRP("chkp1_"+n,v.kr1);}
+        if(k2&&v.kr2!=null){k2.value=v.kr2;checkKRP("chkp2_"+n,v.kr2);}
+      }
+    });
+    // C1/C5/C6 — reveal facilitator feedback, messages, and upload if a submission exists
+    loadSubmissionFeedback();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p] Load exception:',err);
+  }
 });
 
-document.body.style.overflow="hidden";
+document.body.style.overflow="";
 renderKissGuideP();renderHZP();renderPMGuideP();renderBiasP();
 renderKissExercise();renderOKRDraft();renderSummaryP();
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 1 — FACILITATOR FEEDBACK DISPLAY
+// ══════════════════════════════════════════════════════════════════════════════
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx)return;
+    var _c=S2R._client;
+    var result=await _c
+      .from('submissions')
+      .select('id,review_status,facilitator_feedback,submitted_at')
+      .eq('profile_id',ctx.profileId)
+      .eq('cohort_id',ctx.cohortId)
+      .eq('lens_id','u2m1_lens2')
+      .order('submitted_at',{ascending:false})
+      .limit(1);
+    if(result.error){console.error('[unit2_m1_lens2_p] Submission fetch error:',result.error);return;}
+    if(!result.data||result.data.length===0)return;
+    var row=result.data[0];
+    if(row.review_status==='submitted'||row.review_status==='pending')return;
+    renderSubmissionFeedback(row);
+    // Component 5 — show messages panel and load thread
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById('msg-acc');
+    if(msgAcc)msgAcc.style.display='block';
+    pLoadMessages();
+    // Component 6 — show upload widget and wire input
+    var uploadAcc=document.getElementById('upload-acc');
+    if(uploadAcc)uploadAcc.style.display='block';
+    pWireUpload();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p] Submission fetch exception:',err);
+  }
+}
+
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var isReturned=row.review_status==='pending_revision';
+  var isReviewed=row.review_status==='reviewed';
+  var label=isReturned?'Returned for Revision':isReviewed?'Reviewed':'';
+  if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?'Your facilitator has reviewed your submission.':'');
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var ts=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(isReturned?' returned':'');}
+  if(ts&&row.submitted_at){
+    var d=new Date(row.submitted_at);
+    ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  }
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display='block';
+  acc.classList.add('open');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 5 — PARTICIPANT MESSAGE THREAD
+// ══════════════════════════════════════════════════════════════════════════════
+var _msgSubmissionId=null;
+
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201D'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit2_m1_lens2_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit2_m1_lens2_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit2_m1_lens2_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 6 — DOCUMENT UPLOAD
+// ══════════════════════════════════════════════════════════════════════════════
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit2_m1_lens2_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit2_m1_lens2_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit2_m1_lens2_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit2_m1_lens2_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
 </script>
 </body>
 </html>
