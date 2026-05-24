@@ -657,14 +657,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 </div>
 </div>
 
-<!-- MICRO-CLIMB SUMMARY -->
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">Micro-Climb Summary — What This Lens Produced</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Sections · Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb" id="summaryListP"></div>
-</div>
+
 
 <div class="mod-nav"><button class="btn" onclick="showMod(2)">← Extrapolating</button><button class="btn" onclick="showMod(4)">Integration Application →</button></div>
 </div>
@@ -820,6 +813,15 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="ref-saved" id="app_ref_final-saved">✓ Saved</div>
   </div>
 </div>
+</div>
+
+<!-- MICRO-CLIMB SUMMARY -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">Micro-Climb Summary — What This Lens Produced</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Sections · Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb" id="summaryListP"></div>
 </div>
 
 <!-- SUBMISSION CLUSTER (feedback / messages / documents) — placed at end of Integration Application for cross-lens consistency -->
@@ -1492,20 +1494,34 @@ async function loadSubmissionFeedback(){
       .eq('cohort_id',ctx.cohortId)
       .eq('lens_id','u2m1_lens1')
       .order('submitted_at',{ascending:false})
-      .limit(1);
+      .limit(20);
     if(result.error){console.error('[unit2_m1_lens1_p] Submission fetch error:',result.error);showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');return;}
-    if(!result.data||result.data.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.');return;}
-    var row=result.data[0];
-    // Awaiting review: show the panel with a status message. Messages/upload
-    // panels still wait for reviewed/pending_revision (unchanged below).
-    if(row.review_status==='submitted'||row.review_status==='pending'){showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',row.submitted_at);return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.');return;}
+    var newest=rows[0];
+    // Persist facilitator feedback: surface the most recent returned/reviewed
+    // submission even when a newer resubmission now sits on top of it.
+    var row=null;
+    for(var i=0;i<rows.length;i++){
+      var st=rows[i].review_status;
+      if(st==='pending_revision'||st==='reviewed'){row=rows[i];break;}
+    }
+    if(!row){
+      showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',newest.submitted_at);
+      return;
+    }
     renderSubmissionFeedback(row);
-    // Component 5 — show messages panel and load thread
+    // If a newer revision was submitted after this feedback, keep the feedback
+    // visible but flag that the resubmission is awaiting re-review.
+    if(newest.id!==row.id&&(newest.review_status==='submitted'||newest.review_status==='pending')){
+      var sl=document.getElementById('sf-status-label');
+      if(sl)sl.textContent=(row.review_status==='pending_revision'?'Returned for Revision':'Reviewed')+' \u00b7 revision resubmitted';
+    }
+    // Messages + uploads, tied to the reviewed/returned submission
     _msgSubmissionId=row.id;
     var msgAcc=document.getElementById('msg-acc');
     if(msgAcc)msgAcc.style.display='block';
     pLoadMessages();
-    // Component 6 — show upload widget and wire input
     var uploadAcc=document.getElementById('upload-acc');
     if(uploadAcc)uploadAcc.style.display='block';
     pWireUpload();
