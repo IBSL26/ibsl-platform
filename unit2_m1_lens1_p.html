@@ -1483,7 +1483,7 @@ function loadAppScoreRef(){
 async function loadSubmissionFeedback(){
   try{
     var ctx=await S2R.context();
-    if(!ctx)return;
+    if(!ctx){showFeedbackState('Not signed in','','Sign in as the participant to view facilitator feedback for this lens.');return;}
     var _c=S2R._client;
     var result=await _c
       .from('submissions')
@@ -1493,10 +1493,12 @@ async function loadSubmissionFeedback(){
       .eq('lens_id','u2m1_lens1')
       .order('submitted_at',{ascending:false})
       .limit(1);
-    if(result.error){console.error('[unit2_m1_lens1_p] Submission fetch error:',result.error);return;}
-    if(!result.data||result.data.length===0)return;
+    if(result.error){console.error('[unit2_m1_lens1_p] Submission fetch error:',result.error);showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');return;}
+    if(!result.data||result.data.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.');return;}
     var row=result.data[0];
-    if(row.review_status==='submitted'||row.review_status==='pending')return;
+    // Awaiting review: show the panel with a status message. Messages/upload
+    // panels still wait for reviewed/pending_revision (unchanged below).
+    if(row.review_status==='submitted'||row.review_status==='pending'){showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',row.submitted_at);return;}
     renderSubmissionFeedback(row);
     // Component 5 — show messages panel and load thread
     _msgSubmissionId=row.id;
@@ -1509,7 +1511,28 @@ async function loadSubmissionFeedback(){
     pWireUpload();
   }catch(err){
     console.error('[unit2_m1_lens1_p] Submission fetch exception:',err);
+    showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');
   }
+}
+
+// Always-visible feedback panel state — shows a clear message for every case
+// (no submission, awaiting review, error) so the section is never silently
+// missing. The real facilitator feedback is filled by renderSubmissionFeedback.
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var tsEl=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(statusClass?(' '+statusClass):'');}
+  if(tsEl){
+    if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+    else tsEl.textContent='';
+  }
+  if(tx)tx.textContent=text;
+  acc.style.display='block';
 }
 
 function renderSubmissionFeedback(row){
