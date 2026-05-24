@@ -1722,6 +1722,28 @@
     padding-left: 14px;
     margin-top: 6px;
   }
+  /* Collapsible nested fields (e.g. SiP roles) — the label toggles its content */
+  .response-field-collapsible > .response-label {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: opacity 0.15s;
+  }
+  .response-field-collapsible > .response-label:hover { opacity: 0.8; }
+  .response-field-collapsible > .response-label::after {
+    content: '▲';
+    font-size: 9px;
+    opacity: 0.5;
+    margin-left: 10px;
+    transition: transform 0.2s;
+  }
+  .response-field-collapsible.collapsed > .response-label::after {
+    transform: rotate(180deg);
+  }
+  .response-field-collapsible.collapsed > .response-label { margin-bottom: 0; }
+  .response-field-collapsible.collapsed > :not(.response-label) { display: none; }
   .response-empty-card {
     background: rgba(34, 71, 47, 0.4);
     border: 1px dashed rgba(201, 168, 76, 0.25);
@@ -5551,6 +5573,22 @@
     return card;
   }
 
+  // Recursively determine whether a value carries any real content. Used to
+  // auto-expand filled nested fields (e.g. a completed SiP role) while leaving
+  // empty ones collapsed.
+  function fieldHasContent(value) {
+    if (value === null || value === undefined || value === '') return false;
+    if (typeof value === 'string') return value.trim() !== '';
+    if (typeof value === 'number' || typeof value === 'boolean') return true;
+    if (Array.isArray(value)) return value.some(fieldHasContent);
+    if (typeof value === 'object') {
+      return Object.keys(value).some(function(k) {
+        return !k.startsWith('__') && fieldHasContent(value[k]);
+      });
+    }
+    return false;
+  }
+
   function renderFieldEntry(fieldName, value, depth) {
     depth = depth || 0;
     const wrap = document.createElement('div');
@@ -5561,7 +5599,25 @@
     label.textContent = humanizeFieldName(fieldName);
     wrap.appendChild(label);
 
-    wrap.appendChild(renderValue(value, depth));
+    const valueEl = renderValue(value, depth);
+
+    // Nested fields (the SiP roles under "Sip Data", and anything similarly
+    // structured) collapse under their own label, so a many-role submission
+    // reads as a list of headings rather than one long wall. Roles that contain
+    // answers start expanded; empty ones start collapsed.
+    const isExpandable = depth >= 1 && value !== null && typeof value === 'object' &&
+      (Array.isArray(value)
+        ? value.length > 0
+        : Object.keys(value).some(function(k) { return !k.startsWith('__'); }));
+    if (isExpandable) {
+      wrap.classList.add('response-field-collapsible');
+      if (!fieldHasContent(value)) wrap.classList.add('collapsed');
+      label.addEventListener('click', function() {
+        wrap.classList.toggle('collapsed');
+      });
+    }
+
+    wrap.appendChild(valueEl);
     return wrap;
   }
 
