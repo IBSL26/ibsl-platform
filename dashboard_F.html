@@ -4555,6 +4555,25 @@
   // renderer can show user-facing copy that fits the cause.
   // Anything we don't recognise (network drop, unexpected SQLSTATE) falls
   // through to status:'error'.
+  // Returns all submission rows for the same participant+lens+cohort as the
+  // given submission, newest first ({id, facilitator_feedback, submitted_at}).
+  // Lets feedback + conversation follow the whole revision chain instead of
+  // being stranded on a single resubmitted row.
+  async function getSubmissionChain(submissionId) {
+    try {
+      var cur = await supabaseClient.from('submissions')
+        .select('profile_id,lens_id,cohort_id').eq('id', submissionId).maybeSingle();
+      if (cur.error || !cur.data) return [];
+      var rows = await supabaseClient.from('submissions')
+        .select('id,facilitator_feedback,submitted_at')
+        .eq('profile_id', cur.data.profile_id)
+        .eq('lens_id', cur.data.lens_id)
+        .eq('cohort_id', cur.data.cohort_id)
+        .order('submitted_at', { ascending: false });
+      return (rows.data && Array.isArray(rows.data)) ? rows.data : [];
+    } catch (e) { console.error('[chain] getSubmissionChain error:', e); return []; }
+  }
+
   async function loadSubmissionMessages(submissionId) {
     try {
       const { data, error } = await supabaseClient.rpc('list_submission_messages', {
@@ -4577,7 +4596,21 @@
         console.error('[F10] list_submission_messages RPC error:', error);
         return { status: 'error', messages: [] };
       }
-      return { status: 'success', messages: Array.isArray(data) ? data : [] };
+      // #4b: aggregate the conversation across the whole submission chain so a
+      // message posted against an earlier/later row in a revision sequence is
+      // never stranded — the facilitator sees the full thread regardless of
+      // which row they opened.
+      var messages = Array.isArray(data) ? data.slice() : [];
+      try {
+        var chain = await getSubmissionChain(submissionId);
+        for (var ci = 0; ci < chain.length; ci++) {
+          if (chain[ci].id === submissionId) continue;
+          var res = await supabaseClient.rpc('list_submission_messages', { p_submission_id: chain[ci].id });
+          if (!res.error && Array.isArray(res.data)) messages = messages.concat(res.data);
+        }
+        messages.sort(function(a, b){ return new Date(a.created_at || 0) - new Date(b.created_at || 0); });
+      } catch (e) { console.error('[F10] chain message aggregation error:', e); }
+      return { status: 'success', messages: messages };
     } catch (err) {
       console.error('[F10] list_submission_messages exception:', err);
       return { status: 'error', messages: [] };
@@ -5691,8 +5724,18 @@
   function humanizeFieldName(name) {
     if (!name) return '';
     let s = String(name);
-    s = s.replace(/^r_m\d+_/, '');  // strip module-prefix if present
-    s = s.replace(/^r_/, '');        // strip bare response prefix
+    // Response-key families -> readable labels, so the facilitator sees
+    // "Reflection 1" / "Objective 2" / "Key Result 1" / "KISS - Ev - Keep"
+    // instead of raw keys like "ref1" or "kex_ev_keep".
+    var m;
+    if ((m = s.match(/^ref(\d+)$/i)))   return 'Reflection ' + m[1];
+    if ((m = s.match(/^port(\d+)$/i)))  return 'Portfolio note ' + m[1];
+    if ((m = s.match(/^okr_o(\d+)$/i))) return 'Objective ' + m[1];
+    if ((m = s.match(/^kr(\d+)$/i)))    return 'Key Result ' + m[1];
+    if ((m = s.match(/^kex_([a-z]+)_(keep|improve|start|stop)$/i)))
+      return 'KISS \u00b7 ' + m[1].toUpperCase() + ' \u00b7 ' + m[2].charAt(0).toUpperCase() + m[2].slice(1);
+    s = s.replace(/^r_m\d+_/, '');
+    s = s.replace(/^r_/, '');
     s = s.replace(/_/g, ' ');
     s = s.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     return s;
@@ -5873,6 +5916,20 @@
       // No active draft: prefill with the committed feedback so it is always
       // visible and is never lost. Applies to every editable status.
       textarea.value = submission.facilitator_feedback;
+    } else {
+      // #4a: this row has no feedback yet (e.g. a fresh resubmission). Carry the
+      // most recent feedback from earlier rounds in the chain forward so it is
+      // never lost when the participant resubmits and a new row is created.
+      (async function () {
+        try {
+          var chain = await getSubmissionChain(submissionId);
+          var prior = '';
+          for (var ci = 0; ci < chain.length; ci++) {
+            if (chain[ci].id !== submissionId && chain[ci].facilitator_feedback && String(chain[ci].facilitator_feedback).trim()) { prior = chain[ci].facilitator_feedback; break; }
+          }
+          if (prior && textarea.value.trim() === '') { textarea.value = prior; textarea.dataset.committed = prior; }
+        } catch (e) { console.error('[F5] chain feedback prefill error:', e); }
+      })();
     }
     wrap.appendChild(textarea);
 
