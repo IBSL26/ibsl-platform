@@ -225,44 +225,64 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;font-family:'Montserrat',sans-serif;}
 .btn:hover{background:rgba(201,168,76,.18);}
 /* GATE */
-.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
-.gate-box{background:#0d1f15;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:40px;width:100%;max-width:420px;}
-.gate-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
-.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;}
-.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
-.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:'Montserrat',sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
-.gate-input:focus{border-color:rgba(201,168,76,.4);}
-.gate-btn{width:100%;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-.gate-btn:hover{background:rgba(201,168,76,.2);}
-.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
 /* DELABEL */
 .delabel-okr{border:1px solid rgba(255,255,255,.07);border-radius:3px;margin:10px 0;overflow:hidden;}
 .delabel-obj-head{padding:12px 16px;background:#1a2a1e;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;}
 .delabel-kr{padding:10px 16px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:10px;}
 .delabel-kr-num{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);flex-shrink:0;margin-top:2px;}
 .delabel-kr-text{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;}
-@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.export-bar,.fac-note{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}.modal-overlay{position:static;display:block;background:none;padding:0;}.modal-box{border:none;padding:0;max-width:100%;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.export-bar,.fac-note{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}.modal-overlay{position:static;display:block;background:none;padding:0;}.modal-box{border:none;padding:0;max-width:100%;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u2m1_lens2';
+
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+
+  function showDenied(msg) {
+    document.getElementById('f1-gate-overlay').style.display = 'flex';
+    document.getElementById('f1-gate-msg').textContent = msg || 'Access denied.';
+  }
+
+  async function checkAccess() {
+    const { data: { session }, error: sessErr } = await supabaseClient.auth.getSession();
+    if (sessErr || !session) { window.location.href = 'index.html'; return; }
+
+    const { data: profile, error: profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if (profErr || !profile) { showDenied('Could not verify your role.'); return; }
+
+    const role = profile.role;
+
+    if (role === 'admin') return;
+    if (role !== 'facilitator') { window.location.href = 'index.html'; return; }
+
+    const { data: canFac, error: gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if (gateErr) { console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if (canFac === false) {
+      showDenied('You are not assigned to facilitate this lens. Please contact your administrator.');
+      return;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
 </head>
 <body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
 
-<!-- ═══ GATE ═══ -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Facilitator Portal</div>
-    <div class="gate-sub">Unit 2 · Module 1 · Lens 2</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Facilitator Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:52px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
-<div class="gate-error" id="gateError"></div>
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card">
+    <h2>Access Restricted</h2>
+    <p id="f1-gate-msg">Checking access…</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">← Return to Dashboard</a>
   </div>
 </div>
+
 
 <!-- ═══ REPORT MODAL ═══ -->
 <div class="modal-overlay" id="reportModal">
@@ -286,9 +306,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <nav class="unit-nav">
   <div class="nav-left">
     <div class="nav-brand">IBSL · Strategy2Result®<strong>Unit 2 · Module 1 · Lens 2</strong></div>
-    <div class="nav-badge">Facilitator</div>
+    <span class="nav-badge">Facilitator View</span>
   </div>
-  <a class="nav-back" href="index.html">← Back to Platform</a>
+  <a class="nav-back" href="dashboard_F.html">← Back to Dashboard</a>
 </nav>
 
 <!-- ═══ HEADER ═══ -->
@@ -820,7 +840,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="export-bar">
     <button class="export-btn" onclick="exportScreen()"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 16,21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Screen View</button>
     <button class="export-btn" onclick="exportPDF()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Save as PDF</button>
-    <button class="export-btn" onclick="exportEmail()"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email to Facilitator</button>
   </div>
 </div>
 </div>
@@ -1245,24 +1264,6 @@ function exportPDF(){
   document.getElementById('reportModal').classList.add('open');
   setTimeout(function(){window.print();},300);
 }
-function exportEmail(){
-  var lines=['S2R® Unit 2 · Module 1 · Lens 2 — Facilitator Session Report','Date: '+new Date().toLocaleDateString(),'','═'.repeat(50),'','GROUP KISS REFLECTIONS'];
-  KISS_DOMAINS.forEach(function(d){
-    lines.push('','── '+d.label+' ──');
-    ['keep','improve','start','stop'].forEach(function(k){
-      var v=localStorage.getItem('ibsl_u2l2_kiss_kc_'+d.id+'_'+k)||'';
-      if(v.trim())lines.push(k.toUpperCase()+': '+v.trim());
-    });
-  });
-  lines.push('','═'.repeat(50),'','ENTERPRISE OKR LANDSCAPE');
-  APP_OBJECTIVES.forEach(function(o){
-    var saved=JSON.parse(localStorage.getItem('ibsl_u2l2_okr_o'+o.n)||'null');
-    lines.push('','Objective '+o.n+': '+o.obj);
-    lines.push('KR 1: '+(saved&&saved.kr1?saved.kr1:'Not entered'));
-    lines.push('KR 2: '+(saved&&saved.kr2?saved.kr2:'Not entered'));
-  });
-  window.location.href='mailto:info@ibsleadership.com?subject='+encodeURIComponent('S2R® Unit 2 · Module 1 · Lens 2 — Facilitator Report')+'&body='+encodeURIComponent(lines.join('\n'));
-}
 function closeReport(){document.getElementById('reportModal').classList.remove('open');document.body.style.overflow='';}
 
 // ── GENERIC HELPERS ──────────────────────────────────────────────────────────
@@ -1280,30 +1281,6 @@ function showStep(prefix,i){
 }
 
 // ── ACCESS GATE ───────────────────────────────────────────────────────────────
-function toggleGateCode(){
-  var inp=document.getElementById("gateCode");
-  var btn=document.getElementById("toggleCodeBtn");
-  if(!inp||!btn)return;
-  if(inp.type==="password"){inp.type="text";btn.textContent="HIDE";btn.style.color="rgba(201,168,76,.8)";}
-  else{inp.type="password";btn.textContent="SHOW";btn.style.color="rgba(255,255,255,.3)";}
-}
-var FAC_CODES=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
-function gateSubmit(){
-  var email=document.getElementById('gateEmail').value.trim();
-  var code=document.getElementById('gateCode').value.trim();
-  var err=document.getElementById('gateError');
-  if(!email||!code){err.textContent='Please enter your email and access code.';err.style.display='block';return;}
-  if(FAC_CODES.indexOf(code)===-1){err.textContent='Invalid access code. Contact info@ibsleadership.com to request one.';err.style.display='block';return;}
-  var ACCESS_DAYS=90,key='ibsl_first_use_'+code,today=new Date();today.setHours(0,0,0,0);
-  var stored=localStorage.getItem(key);
-  if(!stored){localStorage.setItem(key,today.toISOString());stored=today.toISOString();}
-  var first=new Date(stored);first.setHours(0,0,0,0);
-  var daysLeft=ACCESS_DAYS-Math.floor((today-first)/86400000);
-  if(daysLeft<=0){err.textContent='Your 90-day access period has expired. Contact info@ibsleadership.com to renew.';err.style.display='block';return;}
-  document.getElementById('gateOverlay').style.display='none';
-  document.body.style.overflow='';
-}
-document.body.style.overflow='hidden';
 renderKissGuide();renderHotZones();renderPMGuide();renderBiases();
 renderAppExample();renderKissCapture();renderOKRBuilder();renderPM();renderSummary();
 </script>
