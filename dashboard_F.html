@@ -3233,7 +3233,7 @@
       // Direction — Pillar 1 (3 lenses across 2 modules)
       { label: 'Lens 1 — Strategy Visioning & SiP',             file: 'unit2_m1_lens1_f.html', live: true },
       { label: 'Lens 2 — KISS Mapping & OKR Definition',        file: 'unit2_m1_lens2_f.html', live: true },
-      { label: 'Lens 3 — Direction Integrity (ABCV-MBT)',       file: 'unit2_m1_lens3_f.html', live: false }
+      { label: 'Lens 3 — Direction Integrity (ABCV-MBT)',       file: 'unit2_m1_lens3_f.html', live: true }
     ],
     3: [
       // Influence — Pillar 2 (5 lenses across 2 modules)
@@ -5426,6 +5426,8 @@
       { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } },
       { name: 'SiP Flammables',           test: function (k) { return /^flam_\d+$/i.test(k); } },
       { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
+      { name: 'MBT Conditions',           test: function (k) { return /^mbt_(arena|bound|comp|value)$/i.test(k); } },
+      { name: 'Working Papers',           test: function (k) { return /^syn_(themes|disagree|top5)$/i.test(k) || /^own_(internal|external|timeline)$/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } }
     ];
     function familyOf(key) {
@@ -5853,6 +5855,17 @@
     if (/^app_app_tension$/i.test(s))  return 'Tensions & Contradictions';
     if (/^app_app_missing$/i.test(s))  return 'Missing Dimensions';
     if (/^sip_data$/i.test(s))         return 'By executive role';
+    // Lens 3 — ABCV-MBT (Direction Integrity)
+    if (/^mbt_arena$/i.test(s))    return 'MBT \u00b7 Arena';
+    if (/^mbt_bound$/i.test(s))    return 'MBT \u00b7 Boundaries';
+    if (/^mbt_comp$/i.test(s))     return 'MBT \u00b7 Competition';
+    if (/^mbt_value$/i.test(s))    return 'MBT \u00b7 Value Proposition';
+    if (/^syn_themes$/i.test(s))   return 'Shared Themes';
+    if (/^syn_disagree$/i.test(s)) return 'Areas of Disagreement';
+    if (/^syn_top5$/i.test(s))     return 'Top 5 Priority MBT Conditions';
+    if (/^own_internal$/i.test(s)) return 'Internal Partners Required';
+    if (/^own_external$/i.test(s)) return 'External Data or Partners Required';
+    if (/^own_timeline$/i.test(s)) return 'Verification Timeline';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
