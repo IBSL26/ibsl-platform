@@ -234,52 +234,60 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .btn:hover{background:rgba(201,168,76,.18);}
 .btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
 .btn.prev:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
-.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
-.gate-box{background:#0d1f15;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:40px;width:100%;max-width:420px;}
-.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
-.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;}
-.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
-.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
-.gate-input:focus{border-color:rgba(201,168,76,.4);}
-.gate-btn{width:100%;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-.gate-btn:hover{background:rgba(201,168,76,.2);}
-.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
 @media(max-width:700px){.abcv-grid,.mine-board,.mine-steps{grid-template-columns:1fr;}.hz-grid{grid-template-columns:repeat(3,1fr);}.own-row{grid-template-columns:1fr;}.hz-detail.visible{grid-template-columns:1fr;}}
-@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note,.fac-note-full,.mine-controls{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.fac-note,.fac-note-full,.mine-controls{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
 .mine-body{overflow:hidden;transition:max-height .4s ease,opacity .3s;max-height:800px;opacity:1;}
 .mine-card.collapsed .mine-body{max-height:0;opacity:0;pointer-events:none;}
 .mine-label{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
 .mine-label::after{content:"▾";font-size:11px;opacity:.4;transition:transform .3s;}
 .mine-card.collapsed .mine-label::after{transform:rotate(-90deg);}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u2m1_lens3';
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+  function showDenied(msg){
+    document.getElementById('f1-gate-overlay').style.display='flex';
+    document.getElementById('f1-gate-msg').textContent=msg||'Access denied.';
+  }
+  async function checkAccess(){
+    const { data:{ session }, error:sessErr } = await supabaseClient.auth.getSession();
+    if(sessErr||!session){ window.location.href='index.html'; return; }
+    const { data:profile, error:profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if(profErr||!profile){ showDenied('Could not verify your role.'); return; }
+    const role = profile.role;
+    if(role==='admin') return;
+    if(role!=='facilitator'){ window.location.href='index.html'; return; }
+    const { data:canFac, error:gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if(canFac===false){ showDenied('You are not assigned to facilitate this lens. Please contact your administrator.'); return; }
+  }
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
 </head>
 <body>
-
-<!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Facilitator Portal</div>
-    <div class="gate-sub">Unit 2 &middot; Module 1 &middot; Lens 3</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Facilitator Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
-    <div class="gate-error" id="gateError"></div>
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
   </div>
 </div>
+
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
-    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
     <div class="nav-brand"><strong>Lens 3 &middot; ABCV-MBT</strong>Unit 2 &middot; Module 1 &mdash; Facilitator Guide</div>
   </div>
-  <span class="nav-badge">&#128274; Facilitator</span>
+  <span class="nav-badge">Facilitator View</span>
 </nav>
 <!-- HEADER -->
 <div class="unit-header">
@@ -897,7 +905,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="mod-nav">
   <button class="btn prev" onclick="showMod(3)">&#8592; Integration Zone</button>
-  <button class="btn" onclick="goBack()">&#8592; Back to Platform</button>
+  <button class="btn" onclick="goBack()">&#8592; Back to Dashboard</button>
 </div>
 </div>
 
@@ -905,34 +913,6 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </main>
 
 <script>
-/* ── Gate ── */
-const CODES=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
-const DAYS=90;
-function gateSubmit(){
-  const code=document.getElementById('gateCode').value.trim();
-  const email=document.getElementById('gateEmail').value.trim();
-  const err=document.getElementById('gateError');
-  if(!email||!code){err.textContent='Please enter your email and access code.';err.style.display='block';return;}
-  if(!CODES.includes(code)){err.textContent='Access code not recognised. Contact info@ibsleadership.com.';err.style.display='block';return;}
-  const key='s2r_u2l3f_'+code;
-  let stored=localStorage.getItem(key);
-  if(!stored){stored=new Date().toISOString();localStorage.setItem(key,stored);}
-  const daysLeft=DAYS-Math.floor((Date.now()-new Date(stored).getTime())/864e5);
-  if(daysLeft<=0){err.textContent='Your 90-day access period has expired. Contact info@ibsleadership.com.';err.style.display='block';return;}
-  document.getElementById('gateOverlay').style.display='none';
-  document.body.style.overflow='';
-}
-function toggleGateCode(){
-  const inp=document.getElementById('gateCode');
-  const btn=document.getElementById('toggleCodeBtn');
-  if(inp.type==='password'){inp.type='text';btn.textContent='HIDE';btn.style.color='rgba(201,168,76,.8)';}
-  else{inp.type='password';btn.textContent='SHOW';btn.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('gateCode').addEventListener('keydown',function(e){if(e.key==='Enter')gateSubmit();});
-  document.body.style.overflow='hidden';
-});
-
 /* ── Arc bar ── */
 function setArc(idx){
   document.querySelectorAll('.arc-seg').forEach((s,i)=>{
@@ -1120,7 +1100,7 @@ function toggleMine(label){
   const card=label.closest('.mine-card');
   if(!card.classList.contains('defused'))card.classList.toggle('collapsed');
 }
-function goBack(){window.location.href='index.html';}
+function goBack(){window.location.href='dashboard_F.html';}
 </script>
 </body>
 </html>
