@@ -88,6 +88,14 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .ref-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.1);border:none;border-top:1px solid rgba(26,122,106,.15);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
 .ref-save:hover{background:rgba(26,122,106,.2);}
 .ref-saved{font-size:11px;color:var(--teal);padding:4px 16px 8px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 16px 8px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 16px 8px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
 .step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
 .step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
 .step-tab.active{background:#1a2a1e;border-color:var(--teal);border-bottom-color:#1a2a1e;}
@@ -290,7 +298,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <p>Before jumping to Objectives and Key Results, the organisation must first examine its current operating reality honestly in relation to the SiP. The KISS framework provides the structured filter to do this.</p>
   <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">Reflection 1</span></div>
   <div class="ref-prompt">What does your SiP describe that your organisation does not yet consistently deliver? Be specific.</div>
-  <textarea class="ref-ta" id="ref1" placeholder="Your honest reflection here..."></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref1" placeholder="Your honest reflection here..."></textarea>
   <button class="ref-save" onclick="saveRef('ref1')">Save Reflection</button>
   <div class="ref-saved" id="ref1-saved">✓ Saved</div></div>
 </div></div>
@@ -324,7 +332,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="hbox red"><p><strong>Critical Distinction:</strong> OKRs define outcomes — not activities. If a statement can be checked off a to-do list, it is a task. Key Results describe the impact those tasks must produce.</p></div>
   <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">Reflection 2</span></div>
   <div class="ref-prompt">Think of a goal your team set in the last 12 months. Was it an Objective, a Key Result, or a task disguised as one of these? What would a proper Key Result look like using the formula?</div>
-  <textarea class="ref-ta" id="ref2" placeholder="Your reflection here..."></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref2" placeholder="Your reflection here..."></textarea>
   <button class="ref-save" onclick="saveRef('ref2')">Save Reflection</button>
   <div class="ref-saved" id="ref2-saved">✓ Saved</div></div>
 </div></div>
@@ -360,7 +368,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="hbox teal"><p>When this sequence is respected, OKRs stop being a goal-setting tool and become a way for the organisation to learn, align, and prove progress. Strategy transforms from a statement of intent into a living system.</p></div>
   <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">Reflection 3</span></div>
   <div class="ref-prompt">At which point in the SiP → KISS → OKR sequence does your organisation typically enter? What is the consequence of skipping the KISS stage?</div>
-  <textarea class="ref-ta" id="ref3" placeholder="Your reflection here..."></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref3" placeholder="Your reflection here..."></textarea>
   <button class="ref-save" onclick="saveRef('ref3')">Save Reflection</button>
   <div class="ref-saved" id="ref3-saved">✓ Saved</div></div>
 </div></div>
@@ -393,7 +401,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="hz-detail" id="hzDetailP"></div>
   <div class="ref-block" style="margin-top:20px;"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">Reflection 4</span></div>
   <div class="ref-prompt">Which hot zone description most accurately reflects how you instinctively approach OKR definition? What would you need to do differently to write an enterprise-level Key Result rather than a functional one?</div>
-  <textarea class="ref-ta" id="ref4" placeholder="Your reflection here..."></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref4" placeholder="Your reflection here..."></textarea>
   <button class="ref-save" onclick="saveRef('ref4')">Save Reflection</button>
   <div class="ref-saved" id="ref4-saved">✓ Saved</div></div>
 </div></div>
@@ -460,7 +468,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div class="quote"><p>The focus shifts from "How do I protect my budget and team?" to "How do we move this metric?" This is the moment a group of high-performing individuals becomes a high-performing leadership team.</p></div>
   <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">Reflection 5</span></div>
   <div class="ref-prompt">Which of the five biases do you recognise most in yourself or your leadership team? What would it look like to act beyond that bias in the session today?</div>
-  <textarea class="ref-ta" id="ref5" placeholder="Your reflection here..."></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref5" placeholder="Your reflection here..."></textarea>
   <button class="ref-save" onclick="saveRef('ref5')">Save Reflection</button>
   <div class="ref-saved" id="ref5-saved">✓ Saved</div></div>
 </div></div>
@@ -774,18 +782,74 @@ function checkKRP(id,val){
 
 function toggleOKRP(n){var el=document.getElementById("okrp_"+n);if(el)el.classList.toggle("open");}
 
+// Reflection draft + save — parity with deployed Lens 1. draftRef gives the
+// "Drafting… / Draft saved" affordance as the participant types; saveRef does
+// the real S2R.save on the button, with an inline retry on failure.
+var _draftTimers={};
+
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+'-saved');
+  if(!ok)return;
+  ok.textContent=text;
+  ok.className='reflection-saved '+cls;
+  ok.style.display='block';
+}
+
+function draftRef(id){
+  _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){
+    _setRefStatus(id,'✓ Draft saved','rs-draft');
+  },1500);
+}
+
+function showSaveError(id){
+  var existing=document.getElementById(id+'-error');
+  if(existing){existing.style.display='block';return;}
+  var savedEl=document.getElementById(id+'-saved');
+  if(!savedEl)return;
+  var err=document.createElement('div');
+  err.id=id+'-error';
+  err.className='reflection-error';
+  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">TAP TO RETRY</button>';
+  err.style.display='block';
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+
+function retryRef(id){
+  var err=document.getElementById(id+'-error');
+  if(err)err.style.display='none';
+  saveRef(id);
+}
+
 async function saveRef(id){
   var ta=document.getElementById(id);if(!ta)return;
   if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
-  var ok=await S2R.save('u2m1_lens2',id,ta.value);
-  var msg=document.getElementById(id+"-saved");
-  if(msg){
-    msg.textContent=ok?"✓ Saved":"⚠ Save failed — try again";
-    msg.classList.toggle("save-failed",!ok);
-    msg.style.display="block";
-    if(ok)setTimeout(function(){msg.style.display="none";},2500);
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
+  var existingErr=document.getElementById(id+'-error');
+  if(existingErr)existingErr.style.display='none';
+  var result=await S2R.save('u2m1_lens2',id,ta.value);
+  if(result){
+    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+    setTimeout(function(){
+      var ok=document.getElementById(id+'-saved');
+      if(ok){ok.style.display='none';ok.className='ref-saved reflection-saved';}
+    },3000);
+  }else{
+    console.error('[unit2_m1_lens2_p C7] saveRef failed for '+id+' (save returned false)');
+    var ok=document.getElementById(id+'-saved');
+    if(ok)ok.style.display='none';
+    showSaveError(id);
   }
 }
+
+// Auto-wire draft feedback on all reflection textareas
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('textarea.reflection-textarea').forEach(function(ta){
+    if(ta.id)ta.addEventListener('input',function(){draftRef(ta.id);});
+  });
+});
 
 async function savePort(id){
   var ta=document.getElementById(id);if(!ta)return;
