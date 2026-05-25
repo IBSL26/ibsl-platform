@@ -5423,7 +5423,10 @@
       { name: 'Reflections',              test: function (k) { return /^ref\d+$/i.test(k); } },
       { name: 'Portfolio',                test: function (k) { return /^port\d+$/i.test(k); } },
       { name: 'Objectives & Key Results', test: function (k) { return /^okr_o\d+$/i.test(k) || /^kr\d+$/i.test(k); } },
-      { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } }
+      { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } },
+      { name: 'SiP Flammables',           test: function (k) { return /^flam_\d+$/i.test(k); } },
+      { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
+      { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } }
     ];
     function familyOf(key) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
@@ -5508,6 +5511,31 @@
           kdomains[dom].forEach(function (entry) { subBody.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
           sub.appendChild(subBody);
           body.appendChild(sub);
+        });
+      } else if (fam.name === 'Strategic Intent (SiP)') {
+        // sip_data is { ROLE: [d0,d1,d2,d3] }; relabel each role's array by SiP
+        // dimension, skip executive roles with no content, and render the filled
+        // roles directly under the family heading.
+        var SIP_DIM = ['Customer Experience & Value', 'Operational Capability & Execution Rhythm', 'People & Culture Dynamics', 'Enterprise Value Creation'];
+        buckets[fam.name].forEach(function (entry) {
+          var val = entry.value;
+          if (val && typeof val === 'object' && !Array.isArray(val)) {
+            var relabeled = {};
+            Object.keys(val).forEach(function (role) {
+              var rv = val[role];
+              var hasAny = Array.isArray(rv)
+                ? rv.some(function (x) { return x && String(x).trim(); })
+                : (rv && String(rv).trim());
+              if (!hasAny) return; // skip empty executive roles
+              if (Array.isArray(rv)) {
+                var obj = {};
+                rv.forEach(function (txt, i) { obj[SIP_DIM[i] || ('Dimension ' + (i + 1))] = txt; });
+                relabeled[role] = obj;
+              } else { relabeled[role] = rv; }
+            });
+            val = relabeled;
+          }
+          body.appendChild(renderValue(val, 0));
         });
       } else {
         buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
@@ -5818,6 +5846,14 @@
     if ((m = s.match(/^kr(\d+)$/i)))    return 'Key Result ' + m[1];
     if ((m = s.match(/^kex_([a-z]+)_(keep|improve|start|stop)$/i)))
       return 'KISS \u00b7 ' + m[1].toUpperCase() + ' \u00b7 ' + m[2].charAt(0).toUpperCase() + m[2].slice(1);
+    if ((m = s.match(/^flam_(\d+)$/i)))         return 'Flammable ' + (parseInt(m[1], 10) + 1);
+    if ((m = s.match(/^app_app_cor_d(\d+)$/i))) return 'Corrective Actions · Dimension ' + m[1];
+    if (/^app_app_bias$/i.test(s))     return 'Functional Bias';
+    if (/^app_app_headline$/i.test(s)) return 'SiP Headline';
+    if (/^app_app_tension$/i.test(s))  return 'Tensions & Contradictions';
+    if (/^app_app_missing$/i.test(s))  return 'Missing Dimensions';
+    if (/^sip_data$/i.test(s))         return 'By executive role';
+    s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
     s = s.replace(/_/g, ' ');
