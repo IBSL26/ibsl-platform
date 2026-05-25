@@ -5426,6 +5426,7 @@
       { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } },
       { name: 'SiP Flammables',           test: function (k) { return /^flam_\d+$/i.test(k); } },
       { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
+      { name: 'Executive Identity',       test: function (k) { return /^exec_(name|role)$/i.test(k); } },
       { name: 'MBT Conditions',           test: function (k) { return /^mbt_(arena|bound|comp|value)$/i.test(k); } },
       { name: 'Working Papers',           test: function (k) { return /^syn_(themes|disagree|top5)$/i.test(k) || /^own_(internal|external|timeline)$/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } }
@@ -5855,6 +5856,9 @@
     if (/^app_app_tension$/i.test(s))  return 'Tensions & Contradictions';
     if (/^app_app_missing$/i.test(s))  return 'Missing Dimensions';
     if (/^sip_data$/i.test(s))         return 'By executive role';
+    // Lens 3 — executive identity (collective-intelligence attribution)
+    if (/^exec_name$/i.test(s))        return 'Executive Name';
+    if (/^exec_role$/i.test(s))        return 'Executive Role';
     // Lens 3 — ABCV-MBT (Direction Integrity)
     if (/^mbt_arena$/i.test(s))    return 'MBT \u00b7 Arena';
     if (/^mbt_bound$/i.test(s))    return 'MBT \u00b7 Boundaries';
