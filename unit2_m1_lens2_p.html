@@ -499,17 +499,17 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="acc-b cb">
   <div class="port-block"><div class="port-head"><div class="port-label">What Has Shifted</div></div>
   <div class="port-prompt">What is the most important insight this lens has given you about how your organisation currently approaches execution planning?</div>
-  <textarea class="port-ta" id="port1" placeholder="Your response here..."></textarea>
+  <textarea class="port-ta" id="port1" oninput="draftPort('port1')" placeholder="Your response here..."></textarea>
   <button class="port-save" onclick="savePort('port1')">Save</button>
   <div class="port-saved" id="port1-saved">✓ Saved</div></div>
   <div class="port-block"><div class="port-head"><div class="port-label">Commitment to Action</div></div>
   <div class="port-prompt">Based on this lens, what is one specific commitment you are making to how you will contribute to the enterprise OKR definition in today's session?</div>
-  <textarea class="port-ta" id="port2" placeholder="Your commitment here..."></textarea>
+  <textarea class="port-ta" id="port2" oninput="draftPort('port2')" placeholder="Your commitment here..."></textarea>
   <button class="port-save" onclick="savePort('port2')">Save</button>
   <div class="port-saved" id="port2-saved">✓ Saved</div></div>
   <div class="port-block"><div class="port-head"><div class="port-label">Development Priority</div></div>
   <div class="port-prompt">What capability or habit would most strengthen your contribution to enterprise OKR thinking and collective execution leadership?</div>
-  <textarea class="port-ta" id="port3" placeholder="Your development priority here..."></textarea>
+  <textarea class="port-ta" id="port3" oninput="draftPort('port3')" placeholder="Your development priority here..."></textarea>
   <button class="port-save" onclick="savePort('port3')">Save</button>
   <div class="port-saved" id="port3-saved">✓ Saved</div></div>
 </div></div>
@@ -700,7 +700,7 @@ function renderKissExercise(){
         var saved="";
         return "<div class=\"kiss-el\"><div class=\"kiss-el-head "+k+"-h\">◆ "+k.toUpperCase()+"</div>"+
           "<div class=\"kiss-q\">"+d[k]+"</div>"+
-          "<textarea class=\"kiss-ta\" id=\""+kid+"\" placeholder=\"Your response...\">"+saved+"</textarea>"+
+          "<textarea class=\"kiss-ta\" id=\""+kid+"\" oninput=\"draftKP('"+kid+"')\" placeholder=\"Your response...\">"+saved+"</textarea>"+
           "<button class=\"kiss-save\" onclick=\"saveKP('"+kid+"')\">Save</button></div>";
       }).join("")+
       "</div></div></div>";
@@ -757,6 +757,13 @@ async function saveKP(id){
   if(btn){btn.textContent=ok?"✓ Saved":"⚠ Save failed";setTimeout(function(){btn.textContent="Save";},1500);}
 }
 
+// Real autosave for the KISS exercise + portfolio inputs: debounce on input,
+// then call the existing (persisting) save fn — same pattern as the OKR fields.
+var _kpTimers={};
+function draftKP(id){clearTimeout(_kpTimers[id]);_kpTimers[id]=setTimeout(function(){saveKP(id);},800);}
+var _portTimers={};
+function draftPort(id){clearTimeout(_portTimers[id]);_portTimers[id]=setTimeout(function(){savePort(id);},800);}
+
 var _okrTimers={};
 function saveOKRP(n){
   var k1=document.getElementById("krp1_"+n);
@@ -798,9 +805,9 @@ function _setRefStatus(id,text,cls){
 function draftRef(id){
   _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
   clearTimeout(_draftTimers[id]);
-  _draftTimers[id]=setTimeout(function(){
-    _setRefStatus(id,'✓ Draft saved','rs-draft');
-  },1500);
+  // Real autosave: after a short pause, actually persist via saveRef (which
+  // calls S2R.save and shows the true "Saved to your portfolio" status).
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
 }
 
 function showSaveError(id){
