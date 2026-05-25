@@ -3237,7 +3237,7 @@
     ],
     3: [
       // Influence — Pillar 2 (5 lenses across 2 modules)
-      { label: 'Lens 4 — Performance Management Setup',         file: 'unit3_m1_lens4_f.html', live: false },
+      { label: 'Lens 4 — Heart & Mind Alignment',               file: 'unit3_m1_lens4_f.html', live: true },
       { label: 'Lens 5 — Heart & Mind Alignment',               file: 'unit3_m1_lens5_f.html', live: false },
       { label: 'Lens 6 — Establishing Expectations',            file: 'unit3_m1_lens6_f.html', live: false },
       { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: false },
@@ -5428,7 +5428,9 @@
       { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
       { name: 'Team &amp; Executive Identity', test: function (k) { return /^team_name$/i.test(k) || /^exec_(name|role)$/i.test(k); } },
       { name: 'MBT Conditions',           test: function (k) { return /^mbt_(arena|bound|comp|value)$/i.test(k); } },
-      { name: 'Working Papers',           test: function (k) { return /^syn_(themes|disagree|top5)$/i.test(k) || /^own_(internal|external|timeline)$/i.test(k); } },
+      { name: 'Working Papers',           test: function (k) { return /^syn_(themes|disagree|top5)$/i.test(k) || /^own_(internal|external|timeline)$/i.test(k) || /^syn_(missing_compass|strong_compass|30day)$/i.test(k); } },
+      { name: 'COMPASS Role Alignment',   test: function (k) { return /^wp_(self|a|b)_/i.test(k); } },
+      { name: 'Peer Exchange',            test: function (k) { return /^exch_/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } }
     ];
     function familyOf(key) {
@@ -5871,6 +5873,24 @@
     if (/^own_internal$/i.test(s)) return 'Internal Partners Required';
     if (/^own_external$/i.test(s)) return 'External Data or Partners Required';
     if (/^own_timeline$/i.test(s)) return 'Verification Timeline';
+    // Lens 4 — COMPASS Role Alignment working paper
+    if (/^wp_self_role$/i.test(s))     return 'Own Role · Title';
+    if (/^wp_self_compass$/i.test(s))  return 'Own Role · Top Two COMPASS Domains';
+    if (/^wp_self_ci$/i.test(s))       return 'Own Role · Collective Intelligence Contribution';
+    if (/^wp_a_role$/i.test(s))        return 'Related Role A · Title';
+    if (/^wp_a_compass$/i.test(s))     return 'Related Role A · Top Two COMPASS Domains';
+    if (/^wp_a_why$/i.test(s))         return 'Related Role A · Why Alignment Is Critical';
+    if (/^wp_b_role$/i.test(s))        return 'Related Role B · Title';
+    if (/^wp_b_compass$/i.test(s))     return 'Related Role B · Top Two COMPASS Domains';
+    if (/^wp_b_strengthen$/i.test(s))  return 'Related Role B · What Would Strengthen Alignment';
+    // Lens 4 — peer exchange
+    if (/^exch_affirmed$/i.test(s))      return 'Exchange · Affirmed or Corrected';
+    if (/^exch_other_compass$/i.test(s)) return 'Exchange · Additional Connectivity Identified';
+    if (/^exch_disagreement$/i.test(s))  return 'Exchange · Where Interpretations Diverged';
+    // Lens 4 — collective synthesis
+    if (/^syn_missing_compass$/i.test(s)) return 'Synthesis · Underactivated COMPASS Domain(s)';
+    if (/^syn_strong_compass$/i.test(s))  return 'Synthesis · Where Alignment Is Strong';
+    if (/^syn_30day$/i.test(s))           return 'Synthesis · 30-Day Behavioural Commitment';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');

@@ -192,52 +192,59 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .btn:hover{background:rgba(201,168,76,.18);}
 .btn.prev{border-color:rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);}
 .btn.prev:hover{color:var(--gold);border-color:rgba(201,168,76,.3);}
-/* Gate */
-.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:900;display:flex;align-items:center;justify-content:center;padding:20px;}
-.gate-box{background:#0d1f15;border:1px solid rgba(201,168,76,.2);border-radius:6px;padding:40px;width:100%;max-width:420px;}
-.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:4px;}
-.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;}
-.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px;}
-.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:11px 14px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;outline:none;margin-bottom:14px;transition:border-color .2s;}
-.gate-input:focus{border-color:rgba(201,168,76,.4);}
-.gate-btn{width:100%;padding:12px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);border-radius:2px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
-.gate-btn:hover{background:rgba(201,168,76,.2);}
-.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
 /* 3-col card grid for small content blocks */
 .tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
 .tri-card{background:#151c15;border-radius:3px;padding:14px 16px;}
 @media(max-width:900px){.scarf-grid,.aceit-grid{grid-template-columns:repeat(3,1fr);}.compass-grid{grid-template-columns:repeat(3,1fr);}.role-grid{grid-template-columns:repeat(3,1fr);}.cm-detail.visible,.rl-detail.visible{grid-template-columns:1fr;}.wp-row,.tri-grid{grid-template-columns:1fr;}}
-@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u3m1_lens4';
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+  function showDenied(msg){
+    document.getElementById('f1-gate-overlay').style.display='flex';
+    document.getElementById('f1-gate-msg').textContent=msg||'Access denied.';
+  }
+  async function checkAccess(){
+    const { data:{ session }, error:sessErr } = await supabaseClient.auth.getSession();
+    if(sessErr||!session){ window.location.href='index.html'; return; }
+    const { data:profile, error:profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if(profErr||!profile){ showDenied('Could not verify your role.'); return; }
+    const role = profile.role;
+    if(role==='admin') return;
+    if(role!=='facilitator'){ window.location.href='index.html'; return; }
+    const { data:canFac, error:gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if(canFac===false){ showDenied('You are not assigned to facilitate this lens. Please contact your administrator.'); return; }
+  }
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
 </head>
 <body>
 
-<!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Facilitator Portal</div>
-    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 4</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Facilitator Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
-    <div class="gate-error" id="gateError"></div>
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
   </div>
 </div>
 
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
-    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
     <div class="nav-brand"><strong>Lens 4 &middot; Aligning Heart &amp; Mind</strong>Unit 3 &middot; Module 1 &mdash; Facilitator Guide</div>
   </div>
-  <span class="nav-badge">&#128274; Facilitator</span>
+  <span class="nav-badge">Facilitator View</span>
 </nav>
 
 <!-- HEADER -->
@@ -910,52 +917,82 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Full Summary</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Micro-Climb Summary</div>
-    <p><strong>Use this summary</strong> to close the lens session, to brief sponsors or observers before a session, or to re-anchor the group at the start of a subsequent session. It is also the reference point for connecting this lens to what follows &mdash; Success in Practice (SiP) and the translation of strategic direction into a shared picture of the future organisation.</p>
-  </div>
-  <p>The Aligning Hearts &amp; Minds micro-climb establishes the human conditions required for strategy execution. It recognises a simple but decisive reality: <strong>strategy moves through people before it moves through systems.</strong></p>
-  <p>Execution therefore depends on whether the organisation achieves alignment of cognition (mind) and alignment of emotional engagement (heart) among the people responsible for delivering the strategy.</p>
-  <p>The micro-climb progresses through four stages that build this alignment.</p>
-  <div class="hbox" style="border-left:4px solid #8ab0e8;background:rgba(107,143,204,.06);margin-bottom:10px;">
-    <p><strong style="color:#8ab0e8;">Awareness &mdash; What</strong><br>Leaders recognise that strategy execution is first a human interpretation problem. Every executive interprets strategy through functional expertise, personality tendencies, and emotional context. Cognitive biases and emotional states shape how strategy is understood, prioritised, and acted upon. Aligning hearts and minds establishes the behavioural conditions that allow diverse perspectives to converge into coordinated action.</p>
-  </div>
-  <div class="hbox" style="border-left:4px solid var(--gold);background:rgba(201,168,76,.06);margin-bottom:10px;">
-    <p><strong style="color:var(--gold);">Intelligence &mdash; Why</strong><br>Leaders understand why alignment determines execution outcomes. A strategy document represents strategic potential &mdash; direction, intent, and ambition. Execution begins only when individuals choose to invest energy in advancing that direction. Organisations can drive execution through compliance or through commitment. Alignment of hearts and minds shifts the organisation from supervised effort to self-driven momentum, enabling resilience, discretionary effort, and coordinated progress.</p>
-  </div>
-  <div class="hbox" style="border-left:4px solid #5ecba1;background:rgba(46,168,122,.06);margin-bottom:10px;">
-    <p><strong style="color:#5ecba1;">Extrapolating &mdash; Where</strong><br>Leaders identify the organisational hot zones where alignment matters most. These High-Flammable zones appear across seven domains: Clarity of Strategic Direction, Allocation of Resources, Sensing &amp; Adaptation, Organizational Alignment, Management Discipline, People &amp; Capability, and Systems &amp; Execution. When alignment is strong, these domains amplify performance. When alignment weakens, they gradually escalate into Burning Platforms, where execution breakdown becomes visible and costly.</p>
-  </div>
-  <div class="hbox" style="border-left:4px solid #c39de0;background:rgba(155,89,182,.06);margin-bottom:10px;">
-    <p><strong style="color:#c39de0;">Converging Zone &mdash; Integration</strong><br>Finally, the executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system, stabilising the seven High-Flammable domains and sending one coherent signal across the organisation.</p>
-  </div>
-  <div class="hbox" style="border-left:4px solid var(--gold);margin-top:6px;">
-    <p><strong>Outcome of the Micro-Climb</strong><br>The organisation leaves the micro-climb with aligned leadership interpretation, emotional commitment to the strategy, and clear visibility of the organisational conditions that will enable or constrain execution.<br><br>This alignment creates the human foundation for the next stage of the Strategy2Results&reg; journey, where the leadership team will define Success in Practice (SiP) and translate strategic direction into a shared picture of the future organisation.</p>
-  </div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#128203; FACILITATOR NOTE &mdash; Chapter Close</div>
+  <p><strong>Closing the lens:</strong> Use this summary to close the session, to brief sponsors or observers beforehand, or to re-anchor the group at the start of a later session. Reserve the final five minutes for one pointed question: <em>&ldquo;Which COMPASS domain is this team most likely rating too generously &mdash; and which executive role has quietly stopped carrying its alignment responsibility there?&rdquo;</em> It is also the reference point for connecting this lens to what follows &mdash; Success in Practice (SiP) and the translation of strategic direction into a shared picture of the future organisation.</p>
+</div>
+
+<div style="margin-bottom:22px;">
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;line-height:1.85;color:rgba(255,255,255,.85);">This session was about the human conditions that decide whether a strategy ever moves. We have all watched sound strategies stall &mdash; not for lack of a plan, but because the people meant to execute it never aligned in how they interpreted it or whether they were committed to it. Aligning Hearts &amp; Minds treated execution as first a human problem: <strong>strategy moves through people before it moves through systems.</strong></p>
+  <p style="font-size:13px;color:rgba(255,255,255,.5);margin-top:-6px;">Here is a recap of how we moved from fragmented functional interpretations to a single, committed leadership signal.</p>
+</div>
+
+<!-- Stage 1 -->
+<div style="border-left:3px solid #8ab0e8;padding:16px 20px;background:rgba(107,143,204,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">1 &mdash; Awareness: Strategy Enters Through Two Human Filters</div>
+  <p>We began with the <em>What.</em> Strategy never enters as a document &mdash; it enters through <strong>Cognition (Mind)</strong>, how each leader interprets it, and <strong>Emotion (Heart)</strong>, how each leader experiences it. When these diverge across a team, the <strong>Functional Bias Problem</strong> fragments execution into competing interpretations. The lens established <strong>Five Principles:</strong></p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li><strong style="color:#8ab0e8;">Strategy Moves Through People</strong> &mdash; direction is carried by interpretation, not by the document.</li>
+    <li><strong style="color:#8ab0e8;">Misalignment Fragments Effort</strong> &mdash; surfacing as Chinese Whispers, Clarification Debt, and Silent Disengagement.</li>
+    <li><strong style="color:#8ab0e8;">Alignment Must Be Designed</strong> &mdash; diagnosed with the OCEAVL Assessment and the Emotional Climate Assessment.</li>
+    <li><strong style="color:#8ab0e8;">Human Reactions Are Predictable</strong> &mdash; the SCARF Model (Status, Certainty, Autonomy, Relatedness, Fairness) trips the same threat circuitry as physical danger.</li>
+    <li><strong style="color:#8ab0e8;">Execution Must Be Visible in Behaviour</strong> &mdash; the ACE-IT standard: Accountability, Commitment, Engagement, Integrity, Transparency.</li>
+  </ul>
+</div>
+
+<!-- Stage 2 -->
+<div style="border-left:3px solid var(--gold);padding:16px 20px;background:rgba(201,168,76,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">2 &mdash; Intelligence: Why Alignment Is the Ignition Point</div>
+  <p>This stage explored the <em>Why.</em> Heart &amp; Mind alignment is the ignition point that converts strategic <em>potential</em> energy (the document at rest) into <em>kinetic</em> energy (movement and results). Three logics make the stakes operational:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li><strong>Potential vs Kinetic Energy</strong> &mdash; the organisation does not move until people decide to move it.</li>
+    <li><strong>Compliance vs Commitment</strong> &mdash; compliance (Mind only) yields short-term output but is mechanical and consumes leadership time; commitment (Mind + Heart) generates discretionary effort, adaptive problem-solving, and resilience when leaders are not present.</li>
+    <li><strong>The Strategic Payoff</strong> &mdash; aligned teams act with ownership rather than obligation, coordinate across functions, and free leaders to advance strategy rather than correct it.</li>
+  </ul>
+</div>
+
+<!-- Stage 3 -->
+<div style="border-left:3px solid #5ecba1;padding:16px 20px;background:rgba(46,168,122,.06);border-radius:0 4px 4px 0;margin-bottom:14px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">3 &mdash; Extrapolating: Where Misalignment Concentrates</div>
+  <p>Next, the <em>Where.</em> Misalignment is not evenly spread &mdash; it concentrates in seven <strong>High Flammable Zones</strong>, mapped by the <strong>COMPASS</strong> framework:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li>Clarity of Strategic Direction</li>
+    <li>Organizational Alignment</li>
+    <li>Management Discipline</li>
+    <li>People &amp; Capability</li>
+    <li>Allocation of Resources</li>
+    <li>Sensing &amp; Adaptation</li>
+    <li>Systems &amp; Execution</li>
+  </ul>
+  <p>Each domain carries a signal narrative and a diagnostic question, and is rated <strong>1</strong> (strong alignment) to <strong>5</strong> (severe misalignment). A lit zone is either a <strong>High Flammable</strong> &mdash; a live leverage point &mdash; or a <strong>Burning Platform</strong>, escalated and consuming resources. Mapping where the signals are lit tells leaders where alignment work earns the highest return.</p>
+</div>
+
+<!-- Stage 4 -->
+<div style="border-left:3px solid #c39de0;padding:16px 20px;background:rgba(155,89,182,.06);border-radius:0 4px 4px 0;margin-bottom:20px;">
+  <div style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">4 &mdash; Converging Zone: Collective Intelligence</div>
+  <p>The session culminated in the <strong>Converging Zone</strong>, where functional interpretations integrate into a shared leadership signal and the team begins operating as a <strong>single leadership system</strong>. Each CXO role carries a distinct alignment responsibility, mapped to two primary COMPASS activations:</p>
+  <ul style="margin:10px 0 10px 18px;">
+    <li><strong>CEO</strong> &mdash; anchors Clarity of Strategic Direction and Organizational Alignment</li>
+    <li><strong>CFO / CPO</strong> &mdash; activate Allocation of Resources</li>
+    <li><strong>COO / CTO / CRO</strong> &mdash; drive Systems &amp; Execution</li>
+    <li><strong>CHRO</strong> &mdash; carries People &amp; Capability</li>
+    <li><strong>CMO / CSO</strong> &mdash; maintain Clarity and Sensing &amp; Adaptation</li>
+  </ul>
+  <p>When any role drops its responsibility, the COMPASS framework loses an anchor and the rest cannot fully converge. <strong>Collective Intelligence is the combined signal &mdash; not the sum of the individual ones.</strong></p>
+</div>
+
+<div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:16px 20px;">
+  <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.9);line-height:1.8;margin:0;">Aligned hearts and minds turn a strategy from a document the organisation has read into a direction the organisation is willing to move on &mdash; the human foundation for defining Success in Practice (SiP) and translating strategic direction into a shared picture of the future organisation.</p>
+</div>
 </div>
 </div>
 
-<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&#8592; Integration</button></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&#8592; Integration</button><button class="btn" onclick="goBack()">&#8592; Back to Dashboard</button></div>
 </div>
 </div>
 
 </div><!-- /main -->
 
 <script>
-const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
 function showMod(n){
   document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
@@ -991,7 +1028,7 @@ function saveTA(btn){
   btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
   setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
 }
-function goBack(){window.location.href='index.html';}
+function goBack(){window.location.href='dashboard_F.html';}
 </script>
 </body>
 </html>
