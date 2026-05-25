@@ -61,8 +61,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .acc-meta{font-size:9px;letter-spacing:.08em;color:var(--teal);text-transform:uppercase;font-weight:600;}
 .arr svg{width:12px;height:12px;stroke:rgba(255,255,255,.35);stroke-width:2;fill:none;transition:transform .25s;}
 .acc.open .arr svg{transform:rotate(180deg);}
-.acc-b{max-height:0;overflow:hidden;transition:max-height .4s ease;}
-.acc.open .acc-b{max-height:9000px;}
+.acc-b{display:none;overflow:hidden;}
+.acc.open .acc-b{display:block;}
 .cb{padding:20px 22px;}
 .cb p{font-size:14px;line-height:1.9;color:rgba(255,255,255,.7);margin-bottom:12px;}
 .cb ul{padding-left:20px;margin-bottom:12px;}
@@ -595,7 +595,12 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div>
 
 <div style="border:1px solid rgba(201,168,76,.25);border-radius:4px;padding:16px 20px;margin:0 0 16px;background:rgba(201,168,76,.04);">
-  <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Your Executive Identity &mdash; for this exercise</div>
+  <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Your Team &amp; Executive Identity &mdash; for this exercise</div>
+  <div style="margin-bottom:12px;">
+    <label style="font-size:11px;color:rgba(255,255,255,.5);display:block;margin-bottom:5px;">Team Name</label>
+    <input type="text" class="ref-ta reflection-textarea" id="team_name" placeholder="e.g. Team Meridian" style="min-height:auto;padding:9px 12px;width:100%;"/>
+    <div class="ref-saved reflection-saved" id="team_name-saved"></div>
+  </div>
   <p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.6;margin:0 0 12px;">Adopt one C-suite role for the duration of this exercise. Your facilitator uses this to attribute your contribution consistently across the leadership team.</p>
   <div style="display:flex;gap:12px;flex-wrap:wrap;">
     <div style="flex:1;min-width:180px;">
@@ -892,14 +897,15 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.9);line-height:1.8;margin:0;">The ABCV&ndash;MBT checkpoints have transformed your OKRs from polished aspirations into resilient execution signals, grounded in the hard realities of the enterprise system.</p>
 </div>
 
+</div>
+</div>
+
 <div class="ref-block">
   <div class="ref-block-label">&#9997; Closing Commitment</div>
   <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">What is one MBT condition your organisation is currently avoiding naming? Why? What will you do about it before your next strategic review?</p>
   <textarea class="ref-ta reflection-textarea" id="ref5" placeholder="Your commitment here…" style="min-height:80px;"></textarea>
   <div class="ref-saved reflection-saved" id="ref5-saved"></div>
   <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
-</div>
-</div>
 </div>
 
 
@@ -1586,7 +1592,7 @@ window.addEventListener("load",async function(){
   if(!window.S2R){console.warn("[unit2_m1_lens3_p] S2R helper not loaded");return;}
   try{
     var responses=await S2R.loadAll("u2m1_lens3");
-    var KEYS=["exec_name","exec_role","ref1","ref2","ref3","ref4","ref5","mbt_arena","mbt_bound","mbt_comp","mbt_value","syn_themes","syn_disagree","syn_top5","own_internal","own_external","own_timeline"];
+    var KEYS=["team_name","exec_name","exec_role","ref1","ref2","ref3","ref4","ref5","mbt_arena","mbt_bound","mbt_comp","mbt_value","syn_themes","syn_disagree","syn_top5","own_internal","own_external","own_timeline"];
     KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
     loadSubmissionFeedback();
   }catch(err){console.error("[unit2_m1_lens3_p] Load exception:",err);}
