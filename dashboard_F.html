@@ -1538,6 +1538,20 @@
   .response-module.collapsed .response-module-body {
     display: none;
   }
+  /* Nested sub-sections within a family (e.g. KISS Mapping grouped by domain) */
+  .response-submodule { margin-bottom: 12px; }
+  .response-submodule:last-child { margin-bottom: 0; }
+  .response-submodule > .response-module-heading {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    background: rgba(201, 168, 76, 0.03);
+  }
+  .response-submodule > .response-module-body {
+    padding-top: 10px;
+    padding-left: 12px;
+    margin-left: 2px;
+    border-left: 2px solid rgba(201, 168, 76, 0.12);
+  }
   /* Expand/Collapse-all control for the response sections */
   .response-toolbar {
     display: flex;
@@ -5470,7 +5484,34 @@
       moduleEl.appendChild(heading);
       const body = document.createElement('div');
       body.className = 'response-module-body';
-      buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
+      if (fam.name === 'KISS Mapping') {
+        // Sub-group KISS entries by domain (EV / OP / PC ...) into nested
+        // collapsible sub-sections, so the section opens as a few domain headings
+        // instead of one long list of Keep/Stop/Start rows.
+        var kdomains = {}, korder = [];
+        buckets[fam.name].forEach(function (entry) {
+          var dm = String(entry.fieldName).match(/^kex_([^_]+)_/i);
+          var dom = dm ? dm[1].toUpperCase() : 'Other';
+          if (!kdomains[dom]) { kdomains[dom] = []; korder.push(dom); }
+          kdomains[dom].push(entry);
+        });
+        korder.forEach(function (dom) {
+          var sub = document.createElement('div');
+          sub.className = 'response-module response-submodule';
+          var subHeading = document.createElement('div');
+          subHeading.className = 'response-module-heading';
+          subHeading.textContent = 'KISS \u00B7 ' + dom;
+          subHeading.addEventListener('click', function (e) { e.stopPropagation(); sub.classList.toggle('collapsed'); });
+          sub.appendChild(subHeading);
+          var subBody = document.createElement('div');
+          subBody.className = 'response-module-body';
+          kdomains[dom].forEach(function (entry) { subBody.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
+          sub.appendChild(subBody);
+          body.appendChild(sub);
+        });
+      } else {
+        buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
+      }
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
     });
