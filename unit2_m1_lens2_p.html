@@ -13,6 +13,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
 .nav-brand strong{color:var(--teal);display:block;}
 .nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
 .nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;}
 .nav-back:hover{color:var(--teal);}
 .unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
@@ -240,7 +242,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <nav class="unit-nav">
   <div class="nav-left">
     <div class="nav-brand">IBSL · Strategy2Result®<strong>Unit 2 · Module 1 · Lens 2</strong></div>
-    <div class="nav-badge">Participant</div>
+    <div class="nav-badge">Participant</div><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in…</span>
   </div>
   <a class="nav-back" href="index.html">← Back to Platform</a>
 </nav>
@@ -606,10 +608,10 @@ var BIASES=[
   {title:"Building Whole-System Perspective",body:"Looking at the OKR landscape together shifts the focus from protecting one's budget to moving the shared metric. This is the moment a group of high-performing individuals becomes a genuinely high-performing leadership team."}
 ];
 var SUMMARY=[
-  {arc:"Awareness — What",title:"The KISS Framework as Reflective Filter",body:"KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. This step prevents the common mistake of layering new ambitions on top of an unchanged operational system."},
-  {arc:"Intelligence — Why",title:"Most OKR Failures are Reflection Failures",body:"The KISS-to-OKR sequence resolves the gap between vision and targets: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress that the team can actually own."},
-  {arc:"Extrapolating — Where",title:"Functional Bias Creates OKR Hot Zones",body:"Each leader naturally emphasises different dimensions of the future organisation. Unexamined, these produce functional OKRs instead of enterprise OKRs. Naming the bias dissolves it and enables collective definition of success."},
-  {arc:"Integration — Collective",title:"Individual Expertise Becomes Collective Intelligence",body:"The Integration stage converts each leader's functional insight into enterprise outcomes. The Prioritisation Matrix concentrates execution energy on the initiatives that most accelerate progress toward the Success in Practice."}
+  {arc:"Awareness — What",title:"The KISS Framework as Reflective Filter",body:"Leaders recognise that KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. Before defining Objectives and Key Results, the leadership team must examine the organisation's current operating reality in relation to the Success in Practice narrative. This step prevents the common strategic mistake of layering new ambitions on top of an unchanged operational system."},
+  {arc:"Intelligence — Why",title:"Most OKR Failures are Reflection Failures",body:"When organisations move directly from vision to targets, legacy routines remain in place, resources remain misaligned, and teams attempt to pursue transformational goals while still carrying the weight of outdated priorities. The KISS-to-OKR sequence resolves this tension: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress."},
+  {arc:"Extrapolating — Where",title:"Functional Bias Creates OKR Hot Zones",body:"Each leader naturally emphasises different dimensions of the future organisation. Unexamined, these perspectives produce functional OKRs instead of enterprise OKRs. Recognising these patterns allows the leadership team to integrate perspectives into a balanced execution system that reflects the full enterprise."},
+  {arc:"Integration — Collective",title:"Individual Expertise into Collective Intelligence",body:"In the Integration stage, each leader begins with insights from their functional domain, but the final outcome must reflect the success of the enterprise as a whole. The Prioritisation Matrix concentrates execution energy on the initiatives that will most accelerate progress toward the SiP. Deliberately limiting the enterprise OKR set ensures that attention, resources, and accountability remain focused on what matters most."}
 ];
 var curHZP=null;
 
@@ -869,13 +871,38 @@ document.body.style.overflow="";
 renderKissGuideP();renderHZP();renderPMGuideP();renderBiasP();
 renderKissExercise();renderOKRDraft();renderSummaryP();
 
+// Signed-in badge — reads S2R.context() and flags login confusion (red when
+// the active session is not a participant), so the facilitator-vs-participant
+// mix-up is visible at a glance instead of surfacing as "no feedback".
+function renderSignedInBadge(){
+  var el=document.getElementById('signedInBadge');
+  if(!el)return;
+  if(!window.S2R||typeof S2R.context!=='function'){el.textContent='Sign-in: unknown';return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent='Not signed in';el.classList.add('mismatch');el.title='No active session. Sign in as the participant to view their submission and feedback.';return;}
+    var role=(ctx.role||'unknown');
+    var pid=(ctx.profileId||'').slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent='Signed in: '+roleLabel+(pid?(' \u00b7 '+pid):'');
+    if(role!=='participant'){
+      el.classList.add('mismatch');
+      el.title='You are on the participant page while signed in as '+role+'. This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.';
+    }else{
+      el.classList.remove('mismatch');el.title='';
+    }
+  }).catch(function(){el.textContent='Sign-in: unknown';});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderSignedInBadge);
+else renderSignedInBadge();
+window.addEventListener('load',renderSignedInBadge);
+
 // ══════════════════════════════════════════════════════════════════════════════
 // COMPONENT 1 — FACILITATOR FEEDBACK DISPLAY
 // ══════════════════════════════════════════════════════════════════════════════
 async function loadSubmissionFeedback(){
   try{
     var ctx=await S2R.context();
-    if(!ctx)return;
+    if(!ctx){showFeedbackState('Not signed in','','Sign in as the participant to view facilitator feedback for this lens.');return;}
     var _c=S2R._client;
     var result=await _c
       .from('submissions')
@@ -884,24 +911,61 @@ async function loadSubmissionFeedback(){
       .eq('cohort_id',ctx.cohortId)
       .eq('lens_id','u2m1_lens2')
       .order('submitted_at',{ascending:false})
-      .limit(1);
-    if(result.error){console.error('[unit2_m1_lens2_p] Submission fetch error:',result.error);return;}
-    if(!result.data||result.data.length===0)return;
-    var row=result.data[0];
-    if(row.review_status==='submitted'||row.review_status==='pending')return;
+      .limit(20);
+    if(result.error){console.error('[unit2_m1_lens2_p] Submission fetch error:',result.error);showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.');return;}
+    var newest=rows[0];
+    // Persist facilitator feedback: surface the most recent returned/reviewed
+    // submission even when a newer resubmission now sits on top of it.
+    var row=null;
+    for(var i=0;i<rows.length;i++){
+      var st=rows[i].review_status;
+      if(st==='pending_revision'||st==='reviewed'){row=rows[i];break;}
+    }
+    if(!row){
+      showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',newest.submitted_at);
+      return;
+    }
     renderSubmissionFeedback(row);
-    // Component 5 — show messages panel and load thread
+    // If a newer revision was submitted after this feedback, keep the feedback
+    // visible but flag that the resubmission is awaiting re-review.
+    if(newest.id!==row.id&&(newest.review_status==='submitted'||newest.review_status==='pending')){
+      var sl=document.getElementById('sf-status-label');
+      if(sl)sl.textContent=(row.review_status==='pending_revision'?'Returned for Revision':'Reviewed')+' \u00b7 revision resubmitted';
+    }
+    // Messages + uploads, tied to the reviewed/returned submission
     _msgSubmissionId=row.id;
     var msgAcc=document.getElementById('msg-acc');
     if(msgAcc)msgAcc.style.display='block';
     pLoadMessages();
-    // Component 6 — show upload widget and wire input
     var uploadAcc=document.getElementById('upload-acc');
     if(uploadAcc)uploadAcc.style.display='block';
     pWireUpload();
   }catch(err){
     console.error('[unit2_m1_lens2_p] Submission fetch exception:',err);
+    showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');
   }
+}
+
+// Always-visible feedback panel state — shows a clear message for every case
+// (no submission, awaiting review, error) so the section is never silently
+// missing. The real facilitator feedback is filled by renderSubmissionFeedback.
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var tsEl=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(statusClass?(' '+statusClass):'');}
+  if(tsEl){
+    if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+    else tsEl.textContent='';
+  }
+  if(tx)tx.textContent=text;
+  acc.style.display='block';
 }
 
 function renderSubmissionFeedback(row){
