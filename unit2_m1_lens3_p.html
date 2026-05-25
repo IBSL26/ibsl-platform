@@ -140,18 +140,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .btn.prev:hover{color:var(--teal);border-color:rgba(26,122,106,.3);}
 .mod-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 0 8px;border-top:1px solid rgba(255,255,255,.05);margin-top:28px;}
 /* Gate */
-.gate-overlay{position:fixed;inset:0;background:rgba(5,15,8,.96);z-index:999;display:flex;align-items:center;justify-content:center;}
-.gate-box{background:#0d1f15;border:1px solid rgba(26,122,106,.25);border-radius:6px;padding:40px;width:100%;max-width:400px;}
-.gate-title{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;color:#fff;margin-bottom:4px;}
-.gate-sub{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:26px;}
-.gate-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:7px;margin-top:16px;}
-.gate-input{width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.12);color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:11px 14px;border-radius:3px;margin-bottom:4px;}
-.gate-input:focus{border-color:rgba(26,122,106,.5);outline:none;}
-.gate-btn{width:100%;padding:12px;background:rgba(26,122,106,.15);border:1px solid rgba(26,122,106,.35);color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:3px;cursor:pointer;margin-top:20px;transition:all .2s;}
-.gate-btn:hover{background:rgba(26,122,106,.28);}
-.gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;}
 @media(max-width:700px){.abcv-grid,.hz-grid{grid-template-columns:1fr!important;}}
-@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,}
 .mine-body{overflow:hidden;transition:max-height .4s ease,opacity .3s;max-height:800px;opacity:1;}
 .mine-card.collapsed .mine-body{max-height:0;opacity:0;pointer-events:none;}
 .mine-label{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
@@ -163,28 +153,92 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .part-obj li{font-size:13px;color:rgba(255,255,255,.8);padding:5px 0 5px 18px;position:relative;border-bottom:1px solid rgba(26,122,106,.08);line-height:1.65;}
 .part-obj li:last-child{border-bottom:none;}
 .part-obj li::before{content:"→";position:absolute;left:0;color:var(--teal);}
+
+/* ── S2R PORTAL COMPONENTS (migrated from u2m1_lens1/2) ─────────────────────── */
+/* signed-in badge states */
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+/* Micro-Climb summary blocks */
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:160px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+/* reflection autosave indicators */
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+.save-failed{color:var(--gold)!important;}
+/* submit button */
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+/* C1: submission feedback */
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+/* C5: participant message thread */
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+/* C6: upload widget */
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body>
 
 <!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 2 &middot; Module 1 &middot; Lens 3</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Enter Learning Portal</button>
-    <div class="gate-error" id="gateError"></div>
-  </div>
-</div>
-
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
@@ -192,7 +246,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
     <div class="nav-brand"><strong>Lens 3 &middot; ABCV-MBT</strong>Unit 2 &middot; Module 1 &mdash; Strategy Direction Integrity</div>
   </div>
-  <span class="nav-badge">&#127891; Participant</span>
+  <span class="nav-badge">&#127891; Participant</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
 </nav>
 
 <!-- HEADER -->
@@ -260,7 +314,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="ref-block">
     <div class="ref-block-label">&#9997; Your Reflection</div>
     <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Think of a current strategic objective your organisation is pursuing. What is it assuming about the world that has not yet been verified?</p>
-    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <textarea class="ref-ta reflection-textarea" id="ref1" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="ref1-saved"></div>
     <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
   </div>
 </div>
@@ -361,7 +416,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="ref-block">
     <div class="ref-block-label">&#9997; Your Reflection</div>
     <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Which of the four ABCV lenses is your organisation least likely to examine rigorously before launching a new strategic initiative? What does that pattern cost you?</p>
-    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <textarea class="ref-ta reflection-textarea" id="ref2" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="ref2-saved"></div>
     <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
   </div>
 </div>
@@ -409,7 +465,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="ref-block">
     <div class="ref-block-label">&#9997; Your Reflection</div>
     <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">In your own market, which of the three Arena dimensions (functional, emotional, social) is changing fastest? What does that tell you about the MBT conditions your strategy currently assumes?</p>
-    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <textarea class="ref-ta reflection-textarea" id="ref3" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="ref3-saved"></div>
     <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
   </div>
 </div>
@@ -439,10 +496,14 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="ref-block">
     <div class="ref-block-label">&#9997; Your Reflection</div>
     <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">For your most important current strategic objective: write one MBT condition per lens. Which lens was hardest to complete? What does that tell you?</p>
-    <textarea class="ref-ta" placeholder="Arena MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
-    <textarea class="ref-ta" placeholder="Boundaries MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
-    <textarea class="ref-ta" placeholder="Competition MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
-    <textarea class="ref-ta" placeholder="Value Proposition MBT: …" style="min-height:60px;"></textarea>
+    <textarea class="ref-ta reflection-textarea" id="mbt_arena" placeholder="Arena MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+  <div class="ref-saved reflection-saved" id="mbt_arena-saved"></div>
+    <textarea class="ref-ta reflection-textarea" id="mbt_bound" placeholder="Boundaries MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+  <div class="ref-saved reflection-saved" id="mbt_bound-saved"></div>
+    <textarea class="ref-ta reflection-textarea" id="mbt_comp" placeholder="Competition MBT: …" style="min-height:60px;margin-bottom:6px;"></textarea>
+  <div class="ref-saved reflection-saved" id="mbt_comp-saved"></div>
+    <textarea class="ref-ta reflection-textarea" id="mbt_value" placeholder="Value Proposition MBT: …" style="min-height:60px;"></textarea>
+  <div class="ref-saved reflection-saved" id="mbt_value-saved"></div>
     <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
   </div>
 </div>
@@ -502,7 +563,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="ref-block" style="margin-top:18px;">
     <div class="ref-block-label">&#9997; Your Reflection</div>
     <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">Having explored your role&rsquo;s typical blind spot: what is one MBT condition in that lens that your organisation is currently assuming, not confirming? What would it take to verify it?</p>
-    <textarea class="ref-ta" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+    <textarea class="ref-ta reflection-textarea" id="ref4" placeholder="Your reflection here…" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="ref4-saved"></div>
     <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
   </div>
 </div>
@@ -545,15 +607,18 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 12px;">Share one MBT condition from each lens with the group. Look for patterns: which lens recurs as most challenging? Which conditions appear in multiple participants&rsquo; papers?</p>
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Shared Themes</label>
-  <textarea class="ref-ta" placeholder="What MBT conditions appeared across multiple leaders?" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="syn_themes" placeholder="What MBT conditions appeared across multiple leaders?" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="syn_themes-saved"></div>
 </div>
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Areas of Disagreement</label>
-  <textarea class="ref-ta" placeholder="Where did leaders disagree? What does this signal about objective clarity?" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="syn_disagree" placeholder="Where did leaders disagree? What does this signal about objective clarity?" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="syn_disagree-saved"></div>
 </div>
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Top 5 Priority MBT Conditions (Team Consensus)</label>
-  <textarea class="ref-ta" placeholder="List the five MBT conditions the team collectively agrees are most critical to verify." style="min-height:100px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="syn_top5" placeholder="List the five MBT conditions the team collectively agrees are most critical to verify." style="min-height:100px;"></textarea>
+  <div class="ref-saved reflection-saved" id="syn_top5-saved"></div>
 </div>
 <button class="btn" style="font-size:12px;padding:8px 18px;" onclick="saveTA(this)">Save Notes</button>
 </div>
@@ -569,15 +634,18 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="step-panel" id="step3">
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Internal Partners Required</label>
-  <textarea class="ref-ta" placeholder="Which teams or individuals need to be involved in verifying priority MBT conditions?" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="own_internal" placeholder="Which teams or individuals need to be involved in verifying priority MBT conditions?" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="own_internal-saved"></div>
 </div>
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">External Data or Partners Required</label>
-  <textarea class="ref-ta" placeholder="What market data, customer research, or external expertise is needed?" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="own_external" placeholder="What market data, customer research, or external expertise is needed?" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="own_external-saved"></div>
 </div>
 <div style="margin-bottom:14px;">
   <label style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:.05em;display:block;margin-bottom:6px;">Verification Timeline</label>
-  <textarea class="ref-ta" placeholder="By when will each priority MBT condition be verified? What happens to strategy execution if verification is delayed?" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="own_timeline" placeholder="By when will each priority MBT condition be verified? What happens to strategy execution if verification is delayed?" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="own_timeline-saved"></div>
 </div>
 <button class="btn" style="font-size:12px;padding:8px 18px;" onclick="saveTA(this)">Save Notes</button>
 </div>
@@ -785,10 +853,62 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="ref-block">
   <div class="ref-block-label">&#9997; Closing Commitment</div>
   <p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">What is one MBT condition your organisation is currently avoiding naming? Why? What will you do about it before your next strategic review?</p>
-  <textarea class="ref-ta" placeholder="Your commitment here…" style="min-height:80px;"></textarea>
+  <textarea class="ref-ta reflection-textarea" id="ref5" placeholder="Your commitment here…" style="min-height:80px;"></textarea>
+  <div class="ref-saved reflection-saved" id="ref5-saved"></div>
   <button class="btn" style="margin-top:10px;font-size:11px;padding:7px 16px;" onclick="saveTA(this)">Save</button>
 </div>
 </div>
+</div>
+
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Micro-Climb Summary &mdash; What This Lens Produced</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Sections &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb"><div id="summaryP"></div></div></div>
+
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
 </div>
 
 <div class="mod-nav">
@@ -801,34 +921,6 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </main>
 
 <script>
-/* ── Gate ── */
-const CODES=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
-const DAYS=90;
-function gateSubmit(){
-  const code=document.getElementById('gateCode').value.trim();
-  const email=document.getElementById('gateEmail').value.trim();
-  const err=document.getElementById('gateError');
-  if(!email||!code){err.textContent='Please enter your email and access code.';err.style.display='block';return;}
-  if(!CODES.includes(code)){err.textContent='Access code not recognised. Contact info@ibsleadership.com.';err.style.display='block';return;}
-  const key='s2r_u2l3p_'+code;
-  let stored=localStorage.getItem(key);
-  if(!stored){stored=new Date().toISOString();localStorage.setItem(key,stored);}
-  const daysLeft=DAYS-Math.floor((Date.now()-new Date(stored).getTime())/864e5);
-  if(daysLeft<=0){err.textContent='Your 90-day access period has expired. Contact info@ibsleadership.com.';err.style.display='block';return;}
-  document.getElementById('gateOverlay').style.display='none';
-  document.body.style.overflow='';
-}
-function toggleGateCode(){
-  const inp=document.getElementById('gateCode');
-  const btn=document.getElementById('toggleCodeBtn');
-  if(inp.type==='password'){inp.type='text';btn.textContent='HIDE';btn.style.color='rgba(26,122,106,.8)';}
-  else{inp.type='password';btn.textContent='SHOW';btn.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('DOMContentLoaded',function(){
-  document.getElementById('gateCode').addEventListener('keydown',function(e){if(e.key==='Enter')gateSubmit();});
-  document.body.style.overflow='hidden';
-});
-
 /* ── Arc bar ── */
 function setArc(idx){
   document.querySelectorAll('.arc-seg').forEach((s,i)=>{
@@ -933,13 +1025,7 @@ function addOwnership(){
   document.getElementById('ownershipBody').appendChild(tr);
 }
 
-function saveTA(btn){
-  btn.textContent='Saved ✓';
-  btn.style.background='rgba(26,122,106,.25)';
-  btn.style.borderColor='var(--teal)';
-  btn.style.color='#5ecba1';
-  setTimeout(()=>{btn.textContent='Save';btn.style.background='';btn.style.borderColor='';btn.style.color='';},2000);
-}
+
 
 /* ── Mine Game ── */
 let score=0;
@@ -1022,6 +1108,449 @@ function toggleMine(label){
   if(!card.classList.contains('defused'))card.classList.toggle('collapsed');
 }
 function goBack(){window.location.href='index.html';}
+
+/* ════════════ S2R PORTAL PLUMBING (migrated from u2m1_lens1/2) ════════════ */
+var SUMMARY=[{"arc": "Awareness — What", "title": "ABCV-MBT as a Pre-Execution Integrity Filter", "body": "Leaders establish that a well-written OKR can still fail when the strategic conditions it silently assumes are never verified. ABCV-MBT addresses this by moving strategy from belief to testable commitment. Four integrity checkpoints — Arena (the customer end-game), Boundaries (the friction architecture), Competition (the true landscape of alternatives), and Value Proposition (coherent, defensible advantage) — each generate a Must-Be-True condition: a specific, verifiable assumption that must hold for the objective to remain valid. Naming MBTs reveals which parts of the strategy are confirmed and which are merely assumed."}, {"arc": "Intelligence — Why", "title": "The Industry Illusion and the Discipline of Naming MBTs", "body": "This arc explains why category thinking creates blind spots: Nokia executed brilliantly inside the wrong Arena, while Netflix recognised the customer end-game had shifted from physical rental to frictionless access. The Arena must be examined across three dimensions — functional, emotional, and social — because drift and early shifts surface first in the emotional and social layers. Each ABCV lens produces a distinct category of MBT condition, and naming those conditions explicitly converts ambition into tested commitment. A strategy then rests on confirmed conditions rather than on a well-written aspiration waiting for reality to intervene."}, {"arc": "Extrapolating — Where", "title": "The Executive Hot Zone and Role-Based Blind Spots", "body": "Leaders map how functional expertise produces selective strategic attention, so each C-suite role tends to under-examine one ABCV lens. The CEO and CSO often overlook Boundaries; the CFO, CTO, and CPO overlook Arena; the COO and CHRO overlook Competition; the CCO overlooks Value Proposition. For each role the lens names the recurring symptom, what the overlooked checkpoint actually reveals, and the right question that shifts focus from symptom to cause — for example, moving a CFO from 'the model works, so why is performance lagging?' to 'is the customer end-game we designed this model around still the right one?'"}, {"arc": "Integration — Collective", "title": "ABCV-MBT Working Papers and Collective Commitment", "body": "In the Integration Zone, individual analysis becomes shared enterprise commitment through a four-step working-paper process. Each leader first applies all four ABCV lenses to their priority objectives and names one verifiable MBT condition per lens. The group then consolidates — surfacing shared themes, naming areas of disagreement, and agreeing the top priority MBT conditions. Clear leadership ownership is assigned to each condition (shared ownership is treated as no ownership), and supporting partners, external data needs, and a verification timeline are defined. The checkpoints turn polished OKRs into resilient execution signals grounded in enterprise reality."}];
+function renderSummaryP(){
+  var el=document.getElementById("summaryP");if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return "<div class=\"sum-block\" id=\"sump_"+i+"\">"+
+      "<div class=\"sum-h\" onclick=\"document.getElementById('sump_"+i+"').classList.toggle('open')\">"+
+        "<span class=\"sum-arc\">"+s.arc+"</span>"+
+        "<span class=\"sum-title\">"+s.title+"</span>"+
+        "<span class=\"sum-arr\">\u25be</span></div>"+
+      "<div class=\"sum-body\"><p>"+s.body+"</p></div></div>";
+  }).join("");
+}
+
+/* ── Reflection autosave: debounce \u2192 real S2R.save ── */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"\u270f Drafting\u2026","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save \u2014 <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit2_m1_lens3_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"\u23f3 Saving\u2026","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u2m1_lens3",id,ta.value);
+  if(result){
+    _setRefStatus(id,"\u2713 Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit2_m1_lens3_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea").forEach(function(ta){
+    if(ta.id)ta.addEventListener("input",function(){draftRef(ta.id);});
+  });
+});
+
+/* ── Manual "Save" / "Save Notes" button: real group-save of every
+   reflection-textarea inside the button's block (autosave already persists
+   each field on input; this is an explicit save of the whole group). ── */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* ── Submit to facilitator ── */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Unit 2 \u00b7 Module 1 \u00b7 Lens 3 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u2m1_lens3");
+  if(result.ok){alert("\u2713 Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* ── Signed-in badge ── */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" \u00b7 "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* ── COMPONENT 1: facilitator feedback display ── */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u2m1_lens3")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit2_m1_lens3_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" \u00b7 revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit2_m1_lens3_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+}
+
+/* ── COMPONENT 5 + 6: messages + documents (generic, verbatim) ── */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens3_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201D'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit2_m1_lens3_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens3_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit2_m1_lens3_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit2_m1_lens3_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 6 — DOCUMENT UPLOAD
+// ══════════════════════════════════════════════════════════════════════════════
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit2_m1_lens3_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit2_m1_lens3_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit2_m1_lens3_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit2_m1_lens3_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit2_m1_lens3_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* ── Restore saved responses + reveal feedback on load ── */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit2_m1_lens3_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u2m1_lens3");
+    var KEYS=["ref1","ref2","ref3","ref4","ref5","mbt_arena","mbt_bound","mbt_comp","mbt_value","syn_themes","syn_disagree","syn_top5","own_internal","own_external","own_timeline"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    loadSubmissionFeedback();
+  }catch(err){console.error("[unit2_m1_lens3_p] Load exception:",err);}
+});
+
+/* ── Init ── */
+renderSummaryP();
+
 </script>
 </body>
 </html>
