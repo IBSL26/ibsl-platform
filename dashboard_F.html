@@ -2761,8 +2761,18 @@
       const allowedAsAdminView   = (role === 'admin' && isAdminView);
 
       if (!allowedAsFacilitator && !allowedAsAdminView) {
-        // Participant, or admin without ?adminView=1 — send back to index.html
-        console.log('[F1] Role "' + role + '" not allowed here (adminView=' + isAdminView + ') — redirecting');
+        if (role === 'admin') {
+          // Admin reached the dashboard without the adminView flag (e.g. navigating
+          // "home" after the flag was dropped). Re-add it and STAY on the dashboard
+          // instead of bouncing a signed-in admin to the sign-in page. Preserve any
+          // cohort/submission params already in the URL.
+          console.log('[F1] Admin without adminView - re-adding flag, staying on dashboard');
+          var sep = window.location.search ? '&' : '?';
+          window.location.replace(window.location.pathname + window.location.search + sep + 'adminView=1');
+          return;
+        }
+        // Participant - send back to sign-in
+        console.log('[F1] Role "' + role + '" not allowed here - redirecting to sign-in');
         window.location.replace('index.html');
         return;
       }
@@ -5392,14 +5402,28 @@
     // non-conforming keys go to '_other'
     const buckets = {};
     let assessmentData = null;
+
+    // Group flat (non-module) keys into named, collapsible families so the report
+    // opens as a short list of section headings instead of one long wall of boxes.
+    var FAMILY_DEFS = [
+      { name: 'Reflections',              test: function (k) { return /^ref\d+$/i.test(k); } },
+      { name: 'Portfolio',                test: function (k) { return /^port\d+$/i.test(k); } },
+      { name: 'Objectives & Key Results', test: function (k) { return /^okr_o\d+$/i.test(k) || /^kr\d+$/i.test(k); } },
+      { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } }
+    ];
+    function familyOf(key) {
+      for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
+      return null;
+    }
     visibleKeys.forEach(function(key) {
       if (key === 'assessment') {
         assessmentData = responses[key];
         return;
       }
       const match = key.match(/^r_m(\d+)_(.+)$/);
-      const bucket = match ? match[1] : '_other';
-      const fieldName = match ? match[2] : key;
+      var bucket, fieldName;
+      if (match) { bucket = match[1]; fieldName = match[2]; }
+      else { var fam = familyOf(key); bucket = fam || '_other'; fieldName = key; }
       if (!buckets[bucket]) buckets[bucket] = [];
       buckets[bucket].push({ key: key, fieldName: fieldName, value: responses[key] });
     });
@@ -5408,7 +5432,7 @@
 
     // Sort module bucket keys numerically; '_other' last
     const moduleNums = Object.keys(buckets)
-      .filter(function(k) { return k !== '_other'; })
+      .filter(function(k) { return /^\d+$/.test(k); })
       .sort(function(a, b) { return Number(a) - Number(b); });
 
     moduleNums.forEach(function(num) {
@@ -5428,6 +5452,25 @@
       buckets[num].forEach(function(entry) {
         body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
       });
+      moduleEl.appendChild(body);
+      wrap.appendChild(moduleEl);
+    });
+
+    // ─── NAMED FAMILY sections (Reflections / Portfolio / Objectives / KISS) ──
+    // Each renders as a collapsible section; with >1 section the block below
+    // collapses them all by default, so the report is a short list of headings.
+    FAMILY_DEFS.forEach(function (fam) {
+      if (!buckets[fam.name]) return;
+      const moduleEl = document.createElement('div');
+      moduleEl.className = 'response-module';
+      const heading = document.createElement('div');
+      heading.className = 'response-module-heading';
+      heading.textContent = fam.name;
+      heading.addEventListener('click', function () { moduleEl.classList.toggle('collapsed'); });
+      moduleEl.appendChild(heading);
+      const body = document.createElement('div');
+      body.className = 'response-module-body';
+      buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
     });
