@@ -3239,7 +3239,7 @@
       // Influence — Pillar 2 (5 lenses across 2 modules)
       { label: 'Lens 4 — Heart & Mind Alignment',               file: 'unit3_m1_lens4_f.html', live: true },
       { label: 'Lens 5 — Performance Management Setup',         file: 'unit3_m1_lens5_f.html', live: true },
-      { label: 'Lens 6 — Establishing Expectations',            file: 'unit3_m1_lens6_f.html', live: false },
+      { label: 'Lens 6 — Establishing Performance Expectations', file: 'unit3_m1_lens6_f.html', live: true },
       { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: false },
       { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: false }
     ],
@@ -5432,7 +5432,8 @@
       { name: 'COMPASS Role Alignment',   test: function (k) { return /^wp_(self|a|b)_/i.test(k); } },
       { name: 'Peer Exchange',            test: function (k) { return /^exch_/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } },
-      { name: 'Application — PM Design',  test: function (k) { return /^app_(scorecard|scoring|baseline|cadence|measures|tool)$/i.test(k); } }
+      { name: 'Application — PM Design',  test: function (k) { return /^app_(scorecard|scoring|baseline|cadence|measures|tool)$/i.test(k); } },
+      { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } }
     ];
     function familyOf(key) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
@@ -5899,6 +5900,18 @@
     if (/^app_cadence$/i.test(s))   return 'Task 4 · Reporting Cadence Design';
     if (/^app_measures$/i.test(s))  return 'Task 5 · Periodic Measures Selection';
     if (/^app_tool$/i.test(s))      return 'Task 6 · Reporting Tool Design';
+    // Lens 6 — Establishing Performance Expectations (role-play / Expectation Architecture)
+    if (/^app_role$/i.test(s))      return 'Step 1 · Who & Why Critical';
+    if (/^app_future$/i.test(s))    return 'Step 2 · Connect to the Future (SiP)';
+    if (/^app_outcome$/i.test(s))   return 'Step 3 · Delivery Outcome';
+    if (/^app_success$/i.test(s))   return 'Step 3 · Confirming Success';
+    if (/^app_coord$/i.test(s))     return 'Step 4 · Coordination Across the Chain';
+    if (/^app_concerns$/i.test(s))  return 'Step 5 · Concerns (Evaluate)';
+    if (/^app_resolve$/i.test(s))   return 'Step 5 · Actions Agreed (Resolve)';
+    if (/^app_rating$/i.test(s))    return 'Reflection · Alignment Rating';
+    if (/^app_primary$/i.test(s))   return 'Reflection · Primary Concern';
+    if (/^app_action$/i.test(s))    return 'Reflection · Action for Elevation';
+    if (/^app_reflection$/i.test(s)) return 'Overall Reflection & 5-Day Commitment';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
