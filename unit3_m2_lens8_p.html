@@ -271,6 +271,18 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
 .p-upload-list-item:last-child{border-bottom:none;}
 .p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
+/* ── Structured field widgets (UI-only; serialise into the existing hidden key) ── */
+.fld-grid{margin:6px 0 4px;border:1px solid rgba(26,122,106,.18);border-radius:3px;overflow:hidden;}
+.fld-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);}
+.fld-row:last-child{border-bottom:none;}
+.fld-row:nth-child(odd){background:rgba(255,255,255,.02);}
+.fld-rowlabel{flex:1;font-size:13px;color:rgba(255,255,255,.82);line-height:1.45;}
+.fld-sel{flex-shrink:0;background:#091612;border:1px solid rgba(26,122,106,.3);border-radius:3px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:6px 10px;outline:none;cursor:pointer;}
+.fld-label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:10px 0 3px;}
+.fld-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
+.fld-isel{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;cursor:pointer;transition:border-color .2s;}
+.fld-input:focus,.fld-isel:focus,.fld-sel:focus{border-color:rgba(26,122,106,.5);}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
@@ -449,7 +461,18 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
   </div>
 
 </div>
-<div class="ref-block"><div class="ref-label">&#x270E; Your Self-Assessment — Which Clogs Are Active?</div><textarea class="ref-ta reflection-textarea" id="ref2" style="min-height:90px;" placeholder="Rate each clog in your current strategy portfolio (1=absent, 5=active):&#10;&#10;Structural Misfit: __/5&#10;Capability Gaps: __/5&#10;Decision Bottlenecks: __/5&#10;Misaligned Metrics: __/5&#10;Cultural Resistance: __/5&#10;Tech/Infrastructure Lag: __/5&#10;Leadership Avoidance: __/5&#10;&#10;The clog I will bring to the Clog Clinic: ___"></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Self-Assessment — Which Clogs Are Active?</div><p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:6px;">Rate each clog in your current strategy portfolio (1 = absent, 5 = active).</p>
+<div class="fld-grid" data-fkey="ref2">
+<div class="fld-row"><span class="fld-rowlabel">Structural Misfit</span><select class="fld-sel" data-fkey="ref2" data-fidx="0" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Capability Gaps</span><select class="fld-sel" data-fkey="ref2" data-fidx="1" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Decision Bottlenecks</span><select class="fld-sel" data-fkey="ref2" data-fidx="2" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Misaligned Metrics</span><select class="fld-sel" data-fkey="ref2" data-fidx="3" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Cultural Resistance</span><select class="fld-sel" data-fkey="ref2" data-fidx="4" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Tech/Infrastructure Lag</span><select class="fld-sel" data-fkey="ref2" data-fidx="5" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="fld-row"><span class="fld-rowlabel">Leadership Avoidance</span><select class="fld-sel" data-fkey="ref2" data-fidx="6" onchange="syncField('ref2')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+</div>
+<label class="fld-label">The clog I will bring to the Clog Clinic</label><input class="fld-input" type="text" data-fkey="ref2" data-fidx="7" oninput="syncFieldDebounced('ref2')">
+<textarea id="ref2" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref2')">Save</button></div>
 </div></div></div>
 
 <div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &mdash; Why &rarr;</button></div>
@@ -663,14 +686,26 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p>The purpose of the Integration Zone is to standardise how the leadership team finds and fixes blockages. By using a shared unclogging process, the entire Alignment Brigade operates with a common language and a reliable toolkit. Fixing execution friction becomes a <strong>normal part of how the organisation runs</strong>.</p>
 <div class="hbox"><p>When &ldquo;unclogging&rdquo; is a standard discipline, flagging a problem is no longer seen as a failure or a critique of a colleague. It is treated as valuable data. Detecting friction early is an act of leadership stewardship &mdash; not departmental interference.</p></div>
 <p>The shared diagnostic path: Is there a clog? &rarr; What category? &rarr; Which COMPASS zone? &rarr; Which lever?</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Clog Outside Your Function</div><textarea class="ref-ta reflection-textarea" id="ref5" style="min-height:80px;" placeholder="The clog I suspect is forming outside my function:&#10;Clog category: ___&#10;COMPASS zone: ___&#10;Signal I'm observing: ___&#10;&#10;Why I haven't raised it yet: ___&#10;The consequence of not raising it: ___"></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Clog Outside Your Function</div><p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px;">The clog I suspect is forming outside my function:</p>
+<label class="fld-label">Clog category</label><input class="fld-input" type="text" data-fkey="ref5" data-fidx="0" oninput="syncFieldDebounced('ref5')">
+<label class="fld-label">COMPASS zone</label><input class="fld-input" type="text" data-fkey="ref5" data-fidx="1" oninput="syncFieldDebounced('ref5')">
+<label class="fld-label">Signal I'm observing</label><input class="fld-input" type="text" data-fkey="ref5" data-fidx="2" oninput="syncFieldDebounced('ref5')">
+<label class="fld-label">Why I haven't raised it yet</label><input class="fld-input" type="text" data-fkey="ref5" data-fidx="3" oninput="syncFieldDebounced('ref5')">
+<label class="fld-label">The consequence of not raising it</label><input class="fld-input" type="text" data-fkey="ref5" data-fidx="4" oninput="syncFieldDebounced('ref5')">
+<textarea id="ref5" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref5')">Save</button></div>
 </div></div></div>
 
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Enterprise Unclogging Agenda &mdash; Your Contribution</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>The Integration Zone closes with each CXO contributing to a shared Enterprise Unclogging Agenda. This replaces informal hallway complaints with a structured, visible, collectively owned priority list.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Your Contribution to the Enterprise Unclogging Agenda</div><textarea class="ref-ta reflection-textarea" id="ref6" style="min-height:90px;" placeholder="KR at Risk: ___&#10;COMPASS Zone: ___&#10;Clog Category: ___&#10;Recommended Lever: ___&#10;Severity: High / Medium / Low&#10;&#10;Why this must be named now: ___"></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Contribution to the Enterprise Unclogging Agenda</div><label class="fld-label">KR at Risk</label><input class="fld-input" type="text" data-fkey="ref6" data-fidx="0" oninput="syncFieldDebounced('ref6')">
+<label class="fld-label">COMPASS Zone</label><input class="fld-input" type="text" data-fkey="ref6" data-fidx="1" oninput="syncFieldDebounced('ref6')">
+<label class="fld-label">Clog Category</label><input class="fld-input" type="text" data-fkey="ref6" data-fidx="2" oninput="syncFieldDebounced('ref6')">
+<label class="fld-label">Recommended Lever</label><input class="fld-input" type="text" data-fkey="ref6" data-fidx="3" oninput="syncFieldDebounced('ref6')">
+<label class="fld-label">Severity</label><select class="fld-isel" data-fkey="ref6" data-fidx="4" onchange="syncField('ref6')"><option value="">&ndash;</option><option>High</option><option>Medium</option><option>Low</option></select>
+<label class="fld-label">Why this must be named now</label><input class="fld-input" type="text" data-fkey="ref6" data-fidx="5" oninput="syncFieldDebounced('ref6')">
+<textarea id="ref6" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref6')">Save</button></div>
 </div></div></div>
 
 <div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
@@ -705,7 +740,10 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="step-panel active">
 <h5>Silent Individual Preparation</h5>
 <p>Identify one KPI or Key Result from your current portfolio that is below target or stalled &mdash; and has not been resolved despite being visible for more than two review cycles.</p>
-<div class="ref-block" style="margin:12px 0;"><div class="ref-label">Individual Preparation</div><textarea class="ref-ta reflection-textarea" id="app_prep" style="min-height:80px;" placeholder="My stalled KR/KPI: ___&#10;Current progress vs target: ___&#10;What I observe happening (one sentence): ___"></textarea><div class="ref-saved reflection-saved" id="app_prep-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:12px 0;"><div class="ref-label">Individual Preparation</div><label class="fld-label">My stalled KR/KPI</label><input class="fld-input" type="text" data-fkey="app_prep" data-fidx="0" oninput="syncFieldDebounced('app_prep')">
+<label class="fld-label">Current progress vs target</label><input class="fld-input" type="text" data-fkey="app_prep" data-fidx="1" oninput="syncFieldDebounced('app_prep')">
+<label class="fld-label">What I observe happening (one sentence)</label><input class="fld-input" type="text" data-fkey="app_prep" data-fidx="2" oninput="syncFieldDebounced('app_prep')">
+<textarea id="app_prep" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_prep-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_prep')">Save</button></div>
 </div>
 <div class="step-panel">
 <h5>Diagnostic Triads — 10 Minutes Per Person</h5>
@@ -734,9 +772,18 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <!-- CLOSING COMMITMENTS — lifted out of the collapsible accordion so they are always visible (§2.4) -->
 <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 6px;">Your Commitments &mdash; Leave With These Three</div>
-<div class="ref-block"><div class="ref-label">1. The Clog I Diagnosed</div><textarea class="ref-ta reflection-textarea" id="app_clog" style="min-height:60px;" placeholder="Clog category: ___&#10;COMPASS zone: ___&#10;Signal that revealed it: ___"></textarea><div class="ref-saved reflection-saved" id="app_clog-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">2. The Lever I Will Pull</div><textarea class="ref-ta reflection-textarea" id="app_lever" style="min-height:60px;" placeholder="Lever selected: ___&#10;Specific action: ___&#10;Owner: ___ | Completion date: ___"></textarea><div class="ref-saved reflection-saved" id="app_lever-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">3. My Follow-Up Review Date</div><textarea class="ref-ta reflection-textarea" id="app_followup" style="min-height:50px;" placeholder="I will assess whether the clog has cleared on: ___&#10;Evidence I will look for: ___"></textarea><div class="ref-saved reflection-saved" id="app_followup-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">1. The Clog I Diagnosed</div><label class="fld-label">Clog category</label><input class="fld-input" type="text" data-fkey="app_clog" data-fidx="0" oninput="syncFieldDebounced('app_clog')">
+<label class="fld-label">COMPASS zone</label><input class="fld-input" type="text" data-fkey="app_clog" data-fidx="1" oninput="syncFieldDebounced('app_clog')">
+<label class="fld-label">Signal that revealed it</label><input class="fld-input" type="text" data-fkey="app_clog" data-fidx="2" oninput="syncFieldDebounced('app_clog')">
+<textarea id="app_clog" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_clog-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_clog')">Save</button></div>
+<div class="ref-block"><div class="ref-label">2. The Lever I Will Pull</div><label class="fld-label">Lever selected</label><input class="fld-input" type="text" data-fkey="app_lever" data-fidx="0" oninput="syncFieldDebounced('app_lever')">
+<label class="fld-label">Specific action</label><input class="fld-input" type="text" data-fkey="app_lever" data-fidx="1" oninput="syncFieldDebounced('app_lever')">
+<label class="fld-label">Owner</label><input class="fld-input" type="text" data-fkey="app_lever" data-fidx="2" oninput="syncFieldDebounced('app_lever')">
+<label class="fld-label">Completion date</label><input class="fld-input" type="text" data-fkey="app_lever" data-fidx="3" oninput="syncFieldDebounced('app_lever')">
+<textarea id="app_lever" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_lever-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_lever')">Save</button></div>
+<div class="ref-block"><div class="ref-label">3. My Follow-Up Review Date</div><label class="fld-label">I will assess whether the clog has cleared on</label><input class="fld-input" type="text" data-fkey="app_followup" data-fidx="0" oninput="syncFieldDebounced('app_followup')">
+<label class="fld-label">Evidence I will look for</label><input class="fld-input" type="text" data-fkey="app_followup" data-fidx="1" oninput="syncFieldDebounced('app_followup')">
+<textarea id="app_followup" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_followup-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_followup')">Save</button></div>
 
 <!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
 <div class="acc">
@@ -895,6 +942,56 @@ function saveTA(btn){
   var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
   var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
   fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Structured field widgets \u2192 SAME existing keys via saveRef (UI-only, no new keys) \u2500\u2500
+   Each widget (data-fkey/data-fidx) writes a canonical "Label: value" string into the
+   hidden <textarea id="<key>"> and calls the existing saveRef('<key>'). Round-trips on load. */
+var FIELD_SPECS={
+  ref2:[{l:"Structural Misfit",k:"score"},{l:"Capability Gaps",k:"score"},{l:"Decision Bottlenecks",k:"score"},{l:"Misaligned Metrics",k:"score"},{l:"Cultural Resistance",k:"score"},{l:"Tech/Infrastructure Lag",k:"score"},{l:"Leadership Avoidance",k:"score"},{l:"The clog I will bring to the Clog Clinic",k:"text"}],
+  ref5:[{l:"Clog category",k:"text"},{l:"COMPASS zone",k:"text"},{l:"Signal I'm observing",k:"text"},{l:"Why I haven't raised it yet",k:"text"},{l:"The consequence of not raising it",k:"text"}],
+  ref6:[{l:"KR at Risk",k:"text"},{l:"COMPASS Zone",k:"text"},{l:"Clog Category",k:"text"},{l:"Recommended Lever",k:"text"},{l:"Severity",k:"severity"},{l:"Why this must be named now",k:"text"}],
+  app_prep:[{l:"My stalled KR/KPI",k:"text"},{l:"Current progress vs target",k:"text"},{l:"What I observe happening (one sentence)",k:"text"}],
+  app_clog:[{l:"Clog category",k:"text"},{l:"COMPASS zone",k:"text"},{l:"Signal that revealed it",k:"text"}],
+  app_lever:[{l:"Lever selected",k:"text"},{l:"Specific action",k:"text"},{l:"Owner",k:"text"},{l:"Completion date",k:"text"}],
+  app_followup:[{l:"I will assess whether the clog has cleared on",k:"text"},{l:"Evidence I will look for",k:"text"}]
+};
+function _fldLine(p,v){
+  if(p.k==="score")return p.l+": "+(v?v+"/5":"\u2014/5");
+  if(p.k==="severity")return p.l+": "+(v||"\u2014");
+  return p.l+": "+(v||"");
+}
+function syncField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var lines=spec.map(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');
+    return _fldLine(p,el?el.value:"");
+  });
+  hidden.value=lines.join("\n");
+  saveRef(key);
+}
+var _fldTimers={};
+function syncFieldDebounced(key){clearTimeout(_fldTimers[key]);_fldTimers[key]=setTimeout(function(){syncField(key);},800);}
+function hydrateField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var raw=hidden.value||"";if(!raw)return;
+  var lines=raw.split("\n");
+  spec.forEach(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');if(!el)return;
+    var prefix=p.l+":";var line=null;
+    for(var j=0;j<lines.length;j++){if(lines[j].indexOf(prefix)===0){line=lines[j];break;}}
+    if(line===null)return; // not found (old/foreign format) \u2014 leave blank, don't mangle
+    var rest=line.slice(prefix.length).replace(/^\s+/,"");
+    if(p.k==="score"){var m=rest.match(/^([1-5])\/5/);el.value=m?m[1]:"";}
+    else if(p.k==="severity"){var mm=rest.match(/^(High|Medium|Low)/i);el.value=mm?(mm[1].charAt(0).toUpperCase()+mm[1].slice(1).toLowerCase()):"";}
+    else{el.value=rest;}
+  });
+}
+function fldSaveBtn(btn,key){
+  syncField(key);
   var orig=btn.textContent;
   btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
   setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
@@ -1263,6 +1360,7 @@ window.addEventListener("load",async function(){
     var responses=await S2R.loadAll("u3m2_lens8");
     var KEYS=["team_name","ref1","ref2","ref3","ref4","ref5","ref6","app_prep","app_clog","app_lever","app_followup"];
     KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    ["ref2","ref5","ref6","app_prep","app_clog","app_lever","app_followup"].forEach(hydrateField);
     loadSubmissionFeedback();
   }catch(err){console.error("[unit3_m2_lens8_p] Load exception:",err);}
 });
