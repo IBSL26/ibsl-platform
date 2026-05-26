@@ -3240,7 +3240,7 @@
       { label: 'Lens 4 — Heart & Mind Alignment',               file: 'unit3_m1_lens4_f.html', live: true },
       { label: 'Lens 5 — Performance Management Setup',         file: 'unit3_m1_lens5_f.html', live: true },
       { label: 'Lens 6 — Establishing Performance Expectations', file: 'unit3_m1_lens6_f.html', live: true },
-      { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: false },
+      { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: true },
       { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: false }
     ],
     4: [
@@ -5433,7 +5433,9 @@
       { name: 'Peer Exchange',            test: function (k) { return /^exch_/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } },
       { name: 'Application — PM Design',  test: function (k) { return /^app_(scorecard|scoring|baseline|cadence|measures|tool)$/i.test(k); } },
-      { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } }
+      { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } },
+      { name: 'Performance Intelligence Synthesis', test: function (k) { return /^app_syn_(pattern|repeat|depend|chain|decision)$/i.test(k); } },
+      { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } }
     ];
     function familyOf(key) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
@@ -5912,6 +5914,15 @@
     if (/^app_primary$/i.test(s))   return 'Reflection · Primary Concern';
     if (/^app_action$/i.test(s))    return 'Reflection · Action for Elevation';
     if (/^app_reflection$/i.test(s)) return 'Overall Reflection & 5-Day Commitment';
+    // Lens 7 — Performance Measurement (Enterprise Performance Intelligence Circle + Accountability Loop)
+    if (/^app_syn_pattern$/i.test(s))  return 'Synthesis · Execution Pattern Emerging';
+    if (/^app_syn_repeat$/i.test(s))   return 'Synthesis · Repeating Warning Signals';
+    if (/^app_syn_depend$/i.test(s))   return 'Synthesis · Dependencies Breaking Down';
+    if (/^app_syn_chain$/i.test(s))    return 'Synthesis · Weakest Expectations-Chain Link';
+    if (/^app_syn_decision$/i.test(s)) return 'Synthesis · Decision to Take Now';
+    if (/^app_rootcause$/i.test(s))    return 'Root Cause Diagnosed';
+    if (/^app_corrective$/i.test(s))   return 'Corrective Actions (Restore)';
+    if (/^app_loop_reflection$/i.test(s)) return 'Overall Reflection & 5-Day Commitment';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
