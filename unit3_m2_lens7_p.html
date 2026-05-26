@@ -254,6 +254,20 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
 .p-upload-list-item:last-child{border-bottom:none;}
 .p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
+/* ── Labelled 1–5 score grid (ported from Lens 5) ── */
+.score-grid{margin:6px 0 4px;border:1px solid rgba(26,122,106,.18);border-radius:3px;overflow:hidden;}
+.score-row{display:flex;align-items:center;gap:12px;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.05);}
+.score-row:last-child{border-bottom:none;}
+.score-row:nth-child(odd){background:rgba(255,255,255,.02);}
+.score-lt{font-family:"Cormorant Garamond",serif;font-size:1.1rem;font-weight:600;color:var(--teall);width:26px;flex-shrink:0;text-align:center;}
+.score-tm{flex:1;font-size:13px;color:rgba(255,255,255,.82);line-height:1.45;}
+.score-sel{flex-shrink:0;background:#0a1614;border:1px solid rgba(26,122,106,.3);border-radius:3px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:6px 10px;outline:none;cursor:pointer;}
+.score-sel:focus{border-color:rgba(26,122,106,.6);}
+.score-notes-lbl{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:14px 0 4px;}
+.score-notes{width:100%;background:#0a1614;border:1px solid rgba(26,122,106,.15);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:72px;outline:none;transition:border-color .2s;}
+.score-notes:focus{border-color:rgba(26,122,106,.45);}
+.score-notes::placeholder{color:rgba(255,255,255,.3);}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
@@ -534,7 +548,16 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
   </div>
 </div>
 
-<div class="ref-block"><div class="ref-label">&#x270E; Your Reflection &mdash; Which Gap Is Most Prevalent in Your Organisation?</div><textarea class="ref-ta reflection-textarea" id="ref4" style="min-height:90px;" placeholder="Rate each gap in your organisation (1=rare, 5=common):&#10;&#10;Gap 01 — Horizontal Coordination: __/5&#10;Gap 02 — Evidence Quality: __/5&#10;Gap 03 — Review Rhythm: __/5&#10;Gap 04 — Learning Suppression: __/5&#10;&#10;The gap I am most responsible for closing: ...&#10;First action I will take: ..."></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Reflection &mdash; Which Gap Is Most Prevalent in Your Organisation?</div><p style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:8px;">Rate each gap in your organisation (1 = rare, 5 = common).</p>
+<div class="score-grid" data-key="ref4">
+<div class="score-row"><span class="score-lt">01</span><span class="score-tm">Horizontal Coordination</span><select class="score-sel" data-key="ref4" data-idx="0" onchange="syncScores('ref4')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="score-row"><span class="score-lt">02</span><span class="score-tm">Evidence Quality</span><select class="score-sel" data-key="ref4" data-idx="1" onchange="syncScores('ref4')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="score-row"><span class="score-lt">03</span><span class="score-tm">Review Rhythm</span><select class="score-sel" data-key="ref4" data-idx="2" onchange="syncScores('ref4')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+<div class="score-row"><span class="score-lt">04</span><span class="score-tm">Learning Suppression</span><select class="score-sel" data-key="ref4" data-idx="3" onchange="syncScores('ref4')"><option value="">&ndash;</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+</div>
+<label class="score-notes-lbl" for="ref4_notes">The gap I am most responsible for closing &amp; my first action</label>
+<textarea class="score-notes" id="ref4_notes" data-key="ref4" oninput="syncScoresDebounced('ref4')" placeholder="The gap I am most responsible for closing: ...&#10;First action I will take: ..."></textarea>
+<textarea id="ref4" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="scoreSaveBtn(this,'ref4')">Save</button></div>
 
 <div class="mod-nav"><button class="btn prev" onclick="showMod(1,null)">&larr; Intelligence</button><button class="btn" onclick="showMod(3,null)">Integration Zone &rarr;</button></div>
 </div></div>
@@ -552,6 +575,8 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <li>Contribute meaningfully to each of the three rounds: Collective Trajectory, Early Warning Signals, and Execution Learning</li>
 <li>Apply the Synthesis Layer to convert collective signals into enterprise decisions</li>
 </ul></div>
+
+<div class="ref-block"><div class="ref-label">Your Team / Group Name</div><p style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:8px;">If you ran the Circle as a group, label it here so your facilitator can identify whose results these are.</p><textarea class="ref-ta reflection-textarea" id="team_name" style="min-height:44px;" placeholder="Team / group name..."></textarea><div class="ref-saved reflection-saved" id="team_name-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Collective Intelligence Principle</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
@@ -833,6 +858,57 @@ function saveTA(btn){
   var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
   var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
   fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Labelled 1\u20135 score grid (ported from Lens 5): the per-gap dropdowns + notes
+   are UI-only and serialise into the SAME existing key (ref4) via saveRef.
+   No new save keys, no change to S2R.save/submit/lens_id. \u2500\u2500 */
+var SCORE_FIELDS={
+  ref4:{notesLabel:"The gap I am most responsible for closing & my first action",items:[
+    ["01","Horizontal Coordination"],["02","Evidence Quality"],["03","Review Rhythm"],["04","Learning Suppression"]]}
+};
+function syncScores(key){
+  var cfg=SCORE_FIELDS[key];if(!cfg)return;
+  var hidden=document.getElementById(key);if(!hidden)return;
+  var lines=cfg.items.map(function(it,i){
+    var sel=document.querySelector('.score-sel[data-key="'+key+'"][data-idx="'+i+'"]');
+    var v=(sel&&sel.value)?sel.value:"\u2014";
+    return it[0]+" ("+it[1]+"): "+v;
+  });
+  var notesEl=document.querySelector('.score-notes[data-key="'+key+'"]');
+  var notes=notesEl?notesEl.value:"";
+  hidden.value=lines.join("\n")+"\n\n"+cfg.notesLabel+":\n"+notes;
+  saveRef(key);
+}
+var _scoreTimers={};
+function syncScoresDebounced(key){
+  clearTimeout(_scoreTimers[key]);
+  _scoreTimers[key]=setTimeout(function(){syncScores(key);},1000);
+}
+function hydrateScores(key){
+  var cfg=SCORE_FIELDS[key];if(!cfg)return;
+  var hidden=document.getElementById(key);if(!hidden)return;
+  var raw=hidden.value||"";if(!raw)return;
+  var marker="\n\n"+cfg.notesLabel+":\n";
+  var mi=raw.indexOf(marker);
+  // New format \u2192 split scores/notes on the marker. Old free-text value (no marker)
+  // \u2192 leave dropdowns blank and surface the whole prior value in the notes box so nothing is lost.
+  var scorePart=mi>=0?raw.slice(0,mi):"";
+  var notesPart=mi>=0?raw.slice(mi+marker.length):raw;
+  var lines=scorePart.split("\n");
+  cfg.items.forEach(function(it,i){
+    var m=(lines[i]||"").match(/:\s*([1-5])\s*$/);
+    var sel=document.querySelector('.score-sel[data-key="'+key+'"][data-idx="'+i+'"]');
+    if(sel)sel.value=m?m[1]:"";
+  });
+  var notesEl=document.querySelector('.score-notes[data-key="'+key+'"]');
+  if(notesEl)notesEl.value=notesPart;
+}
+function scoreSaveBtn(btn,key){
+  syncScores(key);
   var orig=btn.textContent;
   btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
   setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
@@ -1199,8 +1275,9 @@ window.addEventListener("load",async function(){
   if(!window.S2R){console.warn("[unit3_m2_lens7_p] S2R helper not loaded");return;}
   try{
     var responses=await S2R.loadAll("u3m2_lens7");
-    var KEYS=["ref1","ref2","ref3","ref4","ref5","ref6","ref7","app_syn_pattern","app_syn_repeat","app_syn_depend","app_syn_chain","app_syn_decision","app_rootcause","app_corrective","app_loop_reflection"];
+    var KEYS=["team_name","ref1","ref2","ref3","ref4","ref5","ref6","ref7","app_syn_pattern","app_syn_repeat","app_syn_depend","app_syn_chain","app_syn_decision","app_rootcause","app_corrective","app_loop_reflection"];
     KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    hydrateScores("ref4");
     loadSubmissionFeedback();
   }catch(err){console.error("[unit3_m2_lens7_p] Load exception:",err);}
 });
