@@ -5477,7 +5477,7 @@
       const body = document.createElement('div');
       body.className = 'response-module-body';
       buckets[num].forEach(function(entry) {
-        body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+        body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId));
       });
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
@@ -5518,7 +5518,7 @@
           sub.appendChild(subHeading);
           var subBody = document.createElement('div');
           subBody.className = 'response-module-body';
-          kdomains[dom].forEach(function (entry) { subBody.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
+          kdomains[dom].forEach(function (entry) { subBody.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId)); });
           sub.appendChild(subBody);
           body.appendChild(sub);
         });
@@ -5548,7 +5548,7 @@
           body.appendChild(renderValue(val, 0));
         });
       } else {
-        buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value)); });
+        buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId)); });
       }
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
@@ -5584,7 +5584,7 @@
       // Portfolio / non-module reflections first
       if (hasOther) {
         buckets['_other'].forEach(function(entry) {
-          body.appendChild(renderFieldEntry(entry.fieldName, entry.value));
+          body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId));
         });
       }
       // Then the interpreted assessment card, nested inside the same body
@@ -5744,14 +5744,14 @@
     return false;
   }
 
-  function renderFieldEntry(fieldName, value, depth) {
+  function renderFieldEntry(fieldName, value, depth, lensId) {
     depth = depth || 0;
     const wrap = document.createElement('div');
     wrap.className = 'response-field';
 
     const label = document.createElement('div');
     label.className = 'response-label';
-    label.textContent = humanizeFieldName(fieldName);
+    label.textContent = humanizeFieldName(fieldName, lensId);
     wrap.appendChild(label);
 
     const valueEl = renderValue(value, depth);
@@ -5831,7 +5831,7 @@
       wrap.className = 'response-nested';
       Object.keys(value).forEach(function(k) {
         if (k.startsWith('__')) return;
-        wrap.appendChild(renderFieldEntry(k, value[k], depth + 1));
+        wrap.appendChild(renderFieldEntry(k, value[k], depth + 1, lensId));
       });
       return wrap;
     }
@@ -5843,14 +5843,30 @@
   }
 
   // Turn 'r_m1_intent' → 'Intent', 'leadership_strengths' → 'Leadership Strengths'
-  function humanizeFieldName(name) {
+  function humanizeFieldName(name, lensId) {
     if (!name) return '';
     let s = String(name);
     // Response-key families -> readable labels, so the facilitator sees
     // "Reflection 1" / "Objective 2" / "Key Result 1" / "KISS - Ev - Keep"
     // instead of raw keys like "ref1" or "kex_ev_keep".
     var m;
-    if ((m = s.match(/^ref(\d+)$/i)))   return 'Reflection ' + m[1];
+    // Per-lens, per-ref descriptive labels (display-only). Scoped by lens_id + ref-number
+    // together — ref2 differs per lens, so never a flat ref-only rule. Unmapped lens/ref
+    // pairs fall through to the generic "Reflection N" below.
+    var REF_LABELS = {
+      u2m1_lens1: {1:"The Definition",2:"Strategic Intent",3:"Co-Creation",4:"SiP Indicators",5:"Maturity Assessment"},
+      u2m1_lens3: {5:"Closing Commitment"},
+      u3m1_lens4: {7:"COMPASS Diagnostic"},
+      u3m1_lens5: {1:"FACES Diagnostic",2:"Your Rating Experience",3:"Your Weakest Bridge",4:"Your Architecture (compliance↔commitment)",5:"Your Enterprise Signal",6:"Your Hot Zone",7:"Your Dominant Gap",8:"Apply the Formula (cumulative %)",9:"EXECUTION Self-Score",10:"My 30-Day Commitment"},
+      u3m1_lens6: {1:"Your Honest Assessment",2:"Which Condition Is Most Often Missing?",3:"Map Your Chain",4:"Your Team Right Now",5:"Your Most Absent Mechanism",6:"Your Expectation Gap",7:"Which Step Do You Most Often Skip?",8:"Practise the Resolve Question"},
+      u3m2_lens7: {1:"Activity vs Progress",2:"R3 Cycle in Your Organisation",3:"Which Signal Are You Seeing?",4:"Which Gap Is Most Prevalent?",5:"Round 1 Contribution — Collective Trajectory",6:"Round 2 Contribution — Early Warnings",7:"Round 3 Contribution — Execution Learning"},
+      u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda"}
+    };
+    if ((m = s.match(/^ref(\d+)$/i))) {
+      var _rl = lensId && REF_LABELS[lensId];
+      if (_rl && _rl[parseInt(m[1], 10)]) return _rl[parseInt(m[1], 10)];
+      return 'Reflection ' + m[1];
+    }
     if ((m = s.match(/^port(\d+)$/i)))  return 'Portfolio note ' + m[1];
     if ((m = s.match(/^okr_o(\d+)$/i))) return 'Objective ' + m[1];
     if ((m = s.match(/^kr(\d+)$/i)))    return 'Key Result ' + m[1];
