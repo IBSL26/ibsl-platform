@@ -204,36 +204,96 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .gate-btn:hover{background:rgba(26,122,106,.22);}
 .gate-error{font-size:11px;color:#f08080;margin-top:10px;display:none;padding:8px 12px;background:rgba(231,76,60,.08);border-radius:2px;}
 @media(max-width:900px){.scarf-grid,.aceit-grid{grid-template-columns:repeat(3,1fr);}.compass-grid{grid-template-columns:repeat(3,1fr);}.role-grid{grid-template-columns:repeat(3,1fr);}.cm-detail.visible,.rl-detail.visible{grid-template-columns:1fr;}.wp-row,.tri-grid{grid-template-columns:1fr;}}
+
+/* ── S2R portal styles (ported verbatim from the Lens 4 participant page) ── */
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:160px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body>
-
-<!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 5</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Participant Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Unlock Participant View</button>
-    <div class="gate-error" id="gateError"></div>
-  </div>
-</div>
 
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
     <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
-    <div class="nav-brand"><strong>Lens 4 &middot; Performance Management Setup</strong>Unit 3 &middot; Module 1 &mdash; Participant</div>
+    <div class="nav-brand"><strong>Lens 5 &middot; Performance Management Setup</strong>Unit 3 &middot; Module 1 &mdash; Participant</div>
   </div>
-  <span class="nav-badge">&#127891; Participant</span>
+  <span class="nav-badge">&#127891; Participant</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
 </nav>
 
 <!-- HEADER -->
@@ -306,7 +366,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">E</div><div class="p-name">Embed Shared Accountability</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Accountability must be a shared expectation, not a top-down imposition. <strong>Shared accountability means co-owning the results &mdash; participating in target-setting, understanding the evidence, and being part of the intervention process.</strong> Systems that locate accountability solely in the leader create dependency and fragility.</p></div></div>
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">S</div><div class="p-name">Support Continuous Development</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The PM system must identify what performance reveals about capability gaps, development needs, and growth trajectories. <strong>Performance data is a development signal, not just an accountability score.</strong> Leaders who use PM data only for ratings miss its most powerful application: designing development that improves future performance.</p></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; FACES Diagnostic</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Rate your current PM system against each FACES function (1&ndash;5). Where is the highest gap? What would closing it change?</p><textarea class="ref-ta" placeholder="F: __ | A: __ | C: __ | E: __ | S: __&#10;&#10;Biggest gap and what closing it would change..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; FACES Diagnostic</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Rate your current PM system against each FACES function (1&ndash;5). Where is the highest gap? What would closing it change?</p><textarea class="ref-ta reflection-textarea" id="ref1" placeholder="F: __ | A: __ | C: __ | E: __ | S: __&#10;&#10;Biggest gap and what closing it would change..."></textarea><div class="ref-saved reflection-saved" id="ref1-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -331,7 +391,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#8ab0e8;">Rating 4 &mdash; Exceeds Expectations</div><div class="p-name">Response: Stretch opportunities and retention investment</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Performance consistently goes beyond what the role requires. The individual proactively adds value, solves problems beyond their mandate, and elevates the team. A Rating 4 is a pattern, not an accident. Failure to invest in a sustained Rating 4 is a retention risk.</p></div></div>
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Rating 5 &mdash; Outstanding</div><div class="p-name">Response: Mandatory structural follow-through (promotion, scope, compensation)</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Performance is transformational within the context of the role. The individual not only exceeds their own targets but demonstrably elevates others. A Rating 5 is rare and must be ratified. A Rating 5 acknowledged verbally with no structural follow-through is a trust-destroying event.</p></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Rating Experience</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Thinking about your current team or role: which rating most accurately reflects the performance standard you are measuring toward? What does the leadership response to that rating look like in practice?</p><textarea class="ref-ta" placeholder="My reflection on the rating scale and how it applies to my current context..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Rating Experience</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Thinking about your current team or role: which rating most accurately reflects the performance standard you are measuring toward? What does the leadership response to that rating look like in practice?</p><textarea class="ref-ta reflection-textarea" id="ref2" placeholder="My reflection on the rating scale and how it applies to my current context..."></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &mdash; Why &rarr;</button></div>
 </div></div>
@@ -355,7 +415,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Bridge 3</div><div class="p-name">Calibrating the Rhythm</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Strategy operates on an annual or multi-year timeline. Individual performance operates daily. The PM system must establish a structured rhythm connecting these timelines. <strong>Without rhythm, PM becomes an event rather than a system.</strong></p><div class="hbox" style="margin-top:10px;"><p><strong>Progress per Period = (End Target &minus; Baseline) &divide; Number of Periods</strong><br>This establishes the expected incremental progress in each review period &mdash; creating a visible trajectory rather than a binary pass/fail at year-end.</p></div></div></div>
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#c39de0;">Bridge 4</div><div class="p-name">Structuring the Dialogue</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>Data without conversation is noise. The PM system must structure the dialogue that turns performance data into decisions. <strong>Define: who speaks, how frequently, about what, and with what authority to decide.</strong> The quality of the PM conversation is the quality of the PM system.</p></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Weakest Bridge</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Which of the four bridge functions is most underdeveloped in your organisation? Where does your strategy most commonly leak?</p><textarea class="ref-ta" placeholder="The bridge function most underdeveloped in my organisation is...&#10;&#10;Strategy leaks most often at..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Weakest Bridge</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Which of the four bridge functions is most underdeveloped in your organisation? Where does your strategy most commonly leak?</p><textarea class="ref-ta reflection-textarea" id="ref3" placeholder="The bridge function most underdeveloped in my organisation is...&#10;&#10;Strategy leaks most often at..."></textarea><div class="ref-saved reflection-saved" id="ref3-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -376,7 +436,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <tr style="border-bottom:1px solid rgba(255,255,255,.05);"><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Motivation</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Avoiding negative consequence</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Intrinsic meaning; shared pride in progress</td></tr>
 <tr><td style="padding:10px 14px;color:rgba(255,255,255,.35);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Experience</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Anxiety-producing; done to the individual</td><td style="padding:10px 14px;color:rgba(255,255,255,.7);">Energy-generating; done with the individual</td></tr>
 </tbody></table>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Architecture</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Where would you honestly place your current PM system on the spectrum from compliance to commitment? What is the single structural change that would shift it most decisively?</p><textarea class="ref-ta" placeholder="My current PM architecture is closer to... because...&#10;&#10;The one structural change that would shift it: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Architecture</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Where would you honestly place your current PM system on the spectrum from compliance to commitment? What is the single structural change that would shift it most decisively?</p><textarea class="ref-ta reflection-textarea" id="ref4" placeholder="My current PM architecture is closer to... because...&#10;&#10;The one structural change that would shift it: ..."></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -434,7 +494,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>At the enterprise level, the performance management system does not sit in a software platform. It sits in the executive team. The C-suite is collectively the organisation&rsquo;s measurement alignment system.</p>
 <div class="hbox"><p>The <strong>Alignment Brigade</strong> concept recognises that each executive function carries a unique measurement responsibility &mdash; a &ldquo;hot zone&rdquo; of the enterprise they are best positioned to track, interpret, and act upon. When these hot zones are integrated through a shared cadence and common language, the executive team becomes a precision measurement system. When they operate independently, they produce competing narratives of organisational performance.</p></div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Enterprise Signal</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Write down what you believe are the top three enterprise performance priorities right now. Then compare with a colleague. What does any divergence reveal?</p><textarea class="ref-ta" placeholder="My top 3 enterprise performance priorities right now:&#10;1. &#10;2. &#10;3. &#10;&#10;What any divergence with colleagues reveals..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Enterprise Signal</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Write down what you believe are the top three enterprise performance priorities right now. Then compare with a colleague. What does any divergence reveal?</p><textarea class="ref-ta reflection-textarea" id="ref5" placeholder="My top 3 enterprise performance priorities right now:&#10;1. &#10;2. &#10;3. &#10;&#10;What any divergence with colleagues reveals..."></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -463,7 +523,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div id="cx7" class="cm-detail"><div class="cm-col"><h5>Hot Zone: Supply Reliability</h5><p>The CPO tracks supply reliability, product pipeline health, vendor performance, and input cost management. The CPO ensures the supply and product infrastructure can reliably support execution &mdash; that the organisation can deliver what it has committed to deliver.</p></div><div class="cm-col"><h5>PM Contribution</h5><p>Supply continuity and product pipeline. <em>When this is absent:</em> supply disruptions become execution crises that consume leadership capacity.</p><div class="d-tag">Supply Continuity</div><div class="d-tag">Product Pipeline</div><div class="d-tag">Input Cost Stability</div></div></div>
 <div id="cx8" class="cm-detail"><div class="cm-col"><h5>Hot Zone: Risk &amp; Governance</h5><p>The CRO tracks regulatory compliance, risk appetite alignment, incident frequency, and control effectiveness. The CRO ensures strategic ambition is pursued within a coherent risk framework &mdash; enabling bold action without reckless exposure.</p></div><div class="cm-col"><h5>PM Contribution</h5><p>Risk alignment and governance integrity. <em>When this is absent:</em> risk appetite is interpreted differently across functions, creating asymmetric exposure.</p><div class="d-tag">Risk Alignment</div><div class="d-tag">Governance Integrity</div><div class="d-tag">Regulatory Compliance</div></div></div>
 <div id="cx9" class="cm-detail"><div class="cm-col"><h5>Hot Zone: Strategic Coherence</h5><p>The CSO tracks whether the organisation&rsquo;s current activities, resource allocation, and performance trajectory are aligned to its multi-year strategic intent. The CSO provides the strategic integrity check &mdash; ensuring operational performance is not winning at the expense of strategic positioning.</p></div><div class="cm-col"><h5>PM Contribution</h5><p>Strategic coherence and portfolio alignment. <em>When this is absent:</em> operational urgency systematically erodes strategic intent over time.</p><div class="d-tag">Strategic Coherence</div><div class="d-tag">Portfolio Alignment</div><div class="d-tag">Long-Term Trajectory</div></div></div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Hot Zone</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Having explored your hot zone and the two most adjacent roles: what is the most important alignment conversation you need to have with an adjacent function in the next 30 days?</p><textarea class="ref-ta" placeholder="My hot zone is most aligned with... and most in tension with...&#10;&#10;The alignment conversation I need to have: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Hot Zone</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Having explored your hot zone and the two most adjacent roles: what is the most important alignment conversation you need to have with an adjacent function in the next 30 days?</p><textarea class="ref-ta reflection-textarea" id="ref6" placeholder="My hot zone is most aligned with... and most in tension with...&#10;&#10;The alignment conversation I need to have: ..."></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -475,7 +535,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#f0a070;">Gap 2</div><div class="p-name">Measurement Blind Spots</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The organisation is systematically not measuring something that matters. Common blind spots: cross-functional collaboration quality, leadership pipeline health, customer experience at key touchpoints. <strong>What is not measured is not managed &mdash; and eventually becomes a crisis.</strong></p><p><strong>Intervention:</strong> Map your measurement system against the Three Sights. Ask: <em>&ldquo;What would we need to see to know our strategy is working before the financial results confirm it?&rdquo;</em></p></div></div>
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Gap 3</div><div class="p-name">Incentive Misalignment</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The incentive structure rewards behaviour inconsistent with the strategic intent. <strong>People do not ignore the strategy &mdash; they follow the incentives. When incentives and strategy diverge, strategy loses. This is a design failure, not a motivation failure.</strong></p><p><strong>Intervention:</strong> Audit the current incentive structure against strategic priorities. Redesign to reward the behaviours the strategy actually requires.</p></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Dominant Gap</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Which of the three Execution Gaps is most present in your organisation right now? Why does it persist despite being understood?</p><textarea class="ref-ta" placeholder="The dominant gap in my organisation is Gap ___ because...&#10;&#10;It persists despite being understood because...&#10;&#10;The intervention I would prioritise: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Your Dominant Gap</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Which of the three Execution Gaps is most present in your organisation right now? Why does it persist despite being understood?</p><textarea class="ref-ta reflection-textarea" id="ref7" placeholder="The dominant gap in my organisation is Gap ___ because...&#10;&#10;It persists despite being understood because...&#10;&#10;The intervention I would prioritise: ..."></textarea><div class="ref-saved reflection-saved" id="ref7-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -520,7 +580,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:var(--teall);">Element 2</div><div class="p-name">Periodic Measures &mdash; What Now</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The performance data points collected and reviewed within each reporting period. They answer: <em>What happened in this period?</em> Periodic Measures must be Current, Comparable, and Actionable. A Periodic Measure that is only collected, never acted on, is a reporting cost with no management value.</p></div></div>
 <div class="p-card" onclick="toggleP(this)"><div class="p-head"><div class="p-meta"><div class="p-num" style="color:#5ecba1;">Element 3</div><div class="p-name">Cumulative Progress &mdash; How Far</div></div><div class="p-arr">&#9660;</div></div><div class="p-body"><p>The most strategically significant element and the most frequently absent. Answers: <em>Across the full cycle, how far have we moved from baseline toward target?</em></p><div class="hbox" style="margin-top:12px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--teall);margin-bottom:8px;"><strong>Cumulative Progress % = (Baseline &minus; Current) &divide; (Baseline &minus; Target) &times; 100</strong></p><p><em>Example:</em> Complaint resolution: Baseline = 48 hrs, Target = 12 hrs, Current = 40 hrs.<br>(48&minus;40) &divide; (48&minus;12) &times; 100 = 8 &divide; 36 &times; 100 = <strong>22% of journey complete.</strong></p><p style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.5);">A single-period improvement can mask a cumulative trajectory that is far behind target. At month 6 of 18, 22% complete means you are significantly behind the expected 33%.</p></div></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; Apply the Formula</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Choose one current strategic priority. Calculate your cumulative progress percentage. What does the number tell you about whether you are on trajectory?</p><textarea class="ref-ta" placeholder="Strategic priority: ...&#10;Baseline: ___ | Current: ___ | Target: ___&#10;Cumulative Progress % = ___&#10;&#10;What this tells me about trajectory: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; Apply the Formula</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Choose one current strategic priority. Calculate your cumulative progress percentage. What does the number tell you about whether you are on trajectory?</p><textarea class="ref-ta reflection-textarea" id="ref8" placeholder="Strategic priority: ...&#10;Baseline: ___ | Current: ___ | Target: ___&#10;Cumulative Progress % = ___&#10;&#10;What this tells me about trajectory: ..."></textarea><div class="ref-saved reflection-saved" id="ref8-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -538,7 +598,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="ai-card" onclick="toggleAI(this)"><div class="ai-head"><div><div class="ai-letter" style="color:var(--teall);">O</div><div class="ai-name">ONGOING &mdash; Review Rhythm</div></div><div class="ai-arr">&#9660;</div></div><div class="ai-bar"></div><div class="ai-body"><div class="ai-row"><div class="ai-rl">Principle</div><div class="ai-rt">PM must be an ongoing rhythm, not a periodic event. The review rhythm must be consistent and embedded in the operational calendar so that PM is how work is managed, not a separate burden.</div></div><div class="ai-ev">Self-check: Is PM embedded in how your team works week to week, or does it only surface at review time?</div></div></div>
 <div class="ai-card" onclick="toggleAI(this)"><div class="ai-head"><div><div class="ai-letter" style="color:var(--teall);">N</div><div class="ai-name">NAVIGATE &mdash; Collective Insight</div></div><div class="ai-arr">&#9660;</div></div><div class="ai-bar"></div><div class="ai-body"><div class="ai-row"><div class="ai-rl">Principle</div><div class="ai-rt">The ultimate function of a PM system is navigation: using performance data, collectively interpreted, to make better decisions about where to go and how to get there. A PM system that collects data but generates no collective insight is a reporting system dressed as management.</div></div><div class="ai-ev">Self-check: In your last performance review, did you make a decision together that you would not have made individually?</div></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">Reflection &mdash; EXECUTION Self-Score</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Rate your current PM system 1&ndash;5 against each letter. Which scored lowest? What is the cost of that gap in your current context?</p><textarea class="ref-ta" placeholder="E:__ X:__ E:__ C:__ U:__ T:__ I:__ O:__ N:__&#10;&#10;My lowest score is ___ because...&#10;&#10;The cost of this gap is...&#10;&#10;One change I will make: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
+<div class="ref-block"><div class="ref-label">Reflection &mdash; EXECUTION Self-Score</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Rate your current PM system 1&ndash;5 against each letter. Which scored lowest? What is the cost of that gap in your current context?</p><textarea class="ref-ta reflection-textarea" id="ref9" placeholder="E:__ X:__ E:__ C:__ U:__ T:__ I:__ O:__ N:__&#10;&#10;My lowest score is ___ because...&#10;&#10;The cost of this gap is...&#10;&#10;One change I will make: ..."></textarea><div class="ref-saved reflection-saved" id="ref9-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Reflection</button></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
 </div></div>
@@ -569,7 +629,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Design a PM Scorecard for the Chief Operations Officer. The scorecard must integrate all Three Sights of Progress and reflect the organisation&rsquo;s strategic outcomes.</p>
 <ul><li>Identify three to five metrics for each Sight (Strategic OKRs, Operational KPIs, Behavioural/Values Alignment)</li><li>Assign a weighting to each Sight that reflects the COO&rsquo;s role</li><li>Confirm at least one metric in Sight 1 is directly traceable to the MyHealth Live Portal strategic outcomes</li><li>Identify the single metric you consider the most critical lead indicator of overall execution traction</li></ul>
-<div class="ref-block"><div class="ref-label">Your Scorecard Design</div><textarea class="ref-ta" style="min-height:140px;" placeholder="Sight 1 &mdash; Strategic OKRs (weighting: __%)&#10;1. &#10;2. &#10;3. &#10;&#10;Sight 2 &mdash; Operational KPIs (weighting: __%)&#10;1. &#10;2. &#10;3. &#10;&#10;Sight 3 &mdash; Behavioural/Values (weighting: __%)&#10;1. &#10;2. &#10;&#10;Most critical lead indicator: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Scorecard Design</div><textarea class="ref-ta reflection-textarea" id="app_scorecard" style="min-height:140px;" placeholder="Sight 1 &mdash; Strategic OKRs (weighting: __%)&#10;1. &#10;2. &#10;3. &#10;&#10;Sight 2 &mdash; Operational KPIs (weighting: __%)&#10;1. &#10;2. &#10;3. &#10;&#10;Sight 3 &mdash; Behavioural/Values (weighting: __%)&#10;1. &#10;2. &#10;&#10;Most critical lead indicator: ..."></textarea><div class="ref-saved reflection-saved" id="app_scorecard-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -577,7 +637,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Design the scoring logic for Outcome 1 (complaint resolution time) using the 1&ndash;5 rating scale.</p>
 <ul><li>Define what performance level earns each rating from 1 to 5</li><li>Specify what evidence is required to confirm each rating</li><li>Identify any contextual factors that might legitimately affect the rating (facility size, patient volume)</li><li>Describe the leadership response each rating should trigger in the monthly review</li></ul>
-<div class="ref-block"><div class="ref-label">Your Scoring Logic</div><textarea class="ref-ta" style="min-height:140px;" placeholder="Rating 5 (Outstanding): Resolution time = ___ hrs | Evidence: ...&#10;Rating 4 (Exceeds): Resolution time = ___ hrs | Evidence: ...&#10;Rating 3 (Solid Gold): Resolution time = ___ hrs | Evidence: ...&#10;Rating 2 (Needs Improvement): Resolution time = ___ hrs&#10;Rating 1 (Poor): Resolution time = ___ hrs&#10;&#10;Contextual factors to consider: ...&#10;&#10;Leadership response for each rating: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Scoring Logic</div><textarea class="ref-ta reflection-textarea" id="app_scoring" style="min-height:140px;" placeholder="Rating 5 (Outstanding): Resolution time = ___ hrs | Evidence: ...&#10;Rating 4 (Exceeds): Resolution time = ___ hrs | Evidence: ...&#10;Rating 3 (Solid Gold): Resolution time = ___ hrs | Evidence: ...&#10;Rating 2 (Needs Improvement): Resolution time = ___ hrs&#10;Rating 1 (Poor): Resolution time = ___ hrs&#10;&#10;Contextual factors to consider: ...&#10;&#10;Leadership response for each rating: ..."></textarea><div class="ref-saved reflection-saved" id="app_scoring-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -590,7 +650,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <li><strong>Outcome 3:</strong> Current = 42% | Baseline = 30% | Target = 70%</li>
 </ul>
 <div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--teall);margin-bottom:8px;"><strong>Cumulative % = (Baseline &minus; Current) &divide; (Baseline &minus; Target) &times; 100</strong></p><p style="font-size:12px;color:rgba(255,255,255,.55);">Expected progress at month 6 of 18 = 33%. Which outcome is most at risk? What Execution Intervention would you recommend?</p></div>
-<div class="ref-block"><div class="ref-label">Your Calculations &amp; Analysis</div><textarea class="ref-ta" style="min-height:120px;" placeholder="Outcome 1: (48-40)&divide;(48-12)&times;100 = ___% | Status vs 33% expected: ...&#10;Outcome 2: (10-8)&divide;(10-3)&times;100 = ___% | Status vs 33% expected: ...&#10;Outcome 3: (30-42)... note: this increases, adjust formula | Status: ...&#10;&#10;Most at risk: Outcome ___ because...&#10;&#10;Recommended Execution Intervention: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Calculations &amp; Analysis</div><textarea class="ref-ta reflection-textarea" id="app_baseline" style="min-height:120px;" placeholder="Outcome 1: (48-40)&divide;(48-12)&times;100 = ___% | Status vs 33% expected: ...&#10;Outcome 2: (10-8)&divide;(10-3)&times;100 = ___% | Status vs 33% expected: ...&#10;Outcome 3: (30-42)... note: this increases, adjust formula | Status: ...&#10;&#10;Most at risk: Outcome ___ because...&#10;&#10;Recommended Execution Intervention: ..."></textarea><div class="ref-saved reflection-saved" id="app_baseline-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -598,7 +658,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Design the full Reporting Cadence for the MyHealth Live Portal PM system.</p>
 <ul><li>For each cadence level (daily, weekly, monthly, quarterly): what is reviewed, by whom, and what decisions can be made?</li><li>Which CXO Hot Zones must be present at the quarterly executive review?</li><li>Design the escalation rule: at what threshold does a monthly gap trigger a quarterly Execution Intervention?</li><li>How would the cadence change at month 12 if Outcome 3 is still below 50%?</li></ul>
-<div class="ref-block"><div class="ref-label">Your Cadence Design</div><textarea class="ref-ta" style="min-height:140px;" placeholder="Daily: Who reviews what / what decisions can be made&#10;Weekly: ...&#10;Monthly: ...&#10;Quarterly: ... (CXO Hot Zones required: ...)&#10;&#10;Escalation rule: A monthly gap triggers quarterly intervention when...&#10;&#10;Month 12 adjustment if Outcome 3 &lt;50%: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Cadence Design</div><textarea class="ref-ta reflection-textarea" id="app_cadence" style="min-height:140px;" placeholder="Daily: Who reviews what / what decisions can be made&#10;Weekly: ...&#10;Monthly: ...&#10;Quarterly: ... (CXO Hot Zones required: ...)&#10;&#10;Escalation rule: A monthly gap triggers quarterly intervention when...&#10;&#10;Month 12 adjustment if Outcome 3 &lt;50%: ..."></textarea><div class="ref-saved reflection-saved" id="app_cadence-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -606,7 +666,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Select the Periodic Measures that will be tracked monthly across the three strategic outcomes. Each must be Current, Comparable, and Actionable.</p>
 <ul><li>Three to four Periodic Measures per outcome; specify what it tracks, who owns it, what action it triggers if it deteriorates</li><li>One leading indicator per outcome &mdash; a measure signalling future performance before the outcome metric changes</li><li>Identify any Measurement Blind Spot that would emerge if excluded</li></ul>
-<div class="ref-block"><div class="ref-label">Your Periodic Measures</div><textarea class="ref-ta" style="min-height:160px;" placeholder="Outcome 1 Measures: | Owner: | Action if deteriorates:&#10;1. &#10;2. &#10;3. &#10;Leading indicator: ...&#10;&#10;Outcome 2 Measures: | Owner: | Action if deteriorates:&#10;1. &#10;2. &#10;3. &#10;Leading indicator: ...&#10;&#10;Outcome 3 Measures: ...&#10;&#10;Measurement Blind Spot if excluded: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Periodic Measures</div><textarea class="ref-ta reflection-textarea" id="app_measures" style="min-height:160px;" placeholder="Outcome 1 Measures: | Owner: | Action if deteriorates:&#10;1. &#10;2. &#10;3. &#10;Leading indicator: ...&#10;&#10;Outcome 2 Measures: | Owner: | Action if deteriorates:&#10;1. &#10;2. &#10;3. &#10;Leading indicator: ...&#10;&#10;Outcome 3 Measures: ...&#10;&#10;Measurement Blind Spot if excluded: ..."></textarea><div class="ref-saved reflection-saved" id="app_measures-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -614,42 +674,75 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Design the structure of the reporting tool that will support the MyHealth Live Portal PM system.</p>
 <ul><li><strong>Executive Summary view:</strong> What does the CEO see on a single page that tells them whether the Portal strategy is on track?</li><li><strong>Operational Detail view:</strong> What does the COO see to manage execution and flag issues for escalation?</li><li><strong>Team Performance view:</strong> What does a facility-level team leader see that connects daily work to strategic outcomes?</li><li>Identify the three most critical EXECUTION principles that must be embedded in the tool&rsquo;s structure</li></ul>
-<div class="ref-block"><div class="ref-label">Your Tool Design</div><textarea class="ref-ta" style="min-height:160px;" placeholder="CEO Executive Summary view includes:&#10;...&#10;&#10;COO Operational Detail view includes:&#10;...&#10;&#10;Facility Team Leader view includes:&#10;...&#10;&#10;Three critical EXECUTION principles embedded in the tool:&#10;1. &#10;2. &#10;3. "></textarea><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
+<div class="ref-block"><div class="ref-label">Your Tool Design</div><textarea class="ref-ta reflection-textarea" id="app_tool" style="min-height:160px;" placeholder="CEO Executive Summary view includes:&#10;...&#10;&#10;COO Operational Detail view includes:&#10;...&#10;&#10;Facility Team Leader view includes:&#10;...&#10;&#10;Three critical EXECUTION principles embedded in the tool:&#10;1. &#10;2. &#10;3. "></textarea><div class="ref-saved reflection-saved" id="app_tool-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Work</button></div>
 </div></div></div>
 
+<!-- APPLICATION REFLECTION — lifted out of the summary accordion so it is always visible -->
+<div class="ref-block"><div class="ref-label">My 30-Day Commitment</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Name one specific PM design change you will make in the next 30 days. Be specific: which FACES function, which EXECUTION principle, which Sight of Progress &mdash; and exactly what will change.</p><textarea class="ref-ta reflection-textarea" id="ref10" placeholder="Within the next 30 days I will change...&#10;&#10;This will specifically affect [FACES/EXECUTION/Three Sights] dimension: ...&#10;&#10;I will know it has worked when: ..."></textarea><div class="ref-saved reflection-saved" id="ref10-saved"></div><button class="ref-save" onclick="saveTA(this)">Save Commitment</button></div>
+
+<!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
 <div class="acc">
-<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary</div><div class="acc-meta">Lens 5 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Micro-Climb Summary &mdash; What This Lens Produced</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">4 Sections &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
 <div class="acc-b"><div class="cb">
-<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">PM is not measurement &mdash; it is the leadership response to measurement. Correct sequence: define success, design the management system, design measurement infrastructure, then manage using data.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">PM is an execution bridge with four functions: decomposing the big picture, defining the logic of success, calibrating the rhythm, and structuring the dialogue. The architecture choice &mdash; compliance vs commitment &mdash; shapes every conversation.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The executive team is the organisation&rsquo;s measurement alignment system. Each CXO hot zone contributes a distinct signal. The Three Execution Gaps explain most PM failures at enterprise level.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The Collective Progress Signal anchors three executive question types: Traction, Balance, Intervention. Cumulative Progress reveals whether the trajectory will reach target &mdash; not just whether this period improved.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0a070;margin-bottom:8px;">Application</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">The MyHealth Live Portal simulation applies PM design across scorecard architecture, scoring logic, baseline calculation, cadence, periodic measures, and reporting tool &mdash; integrating the full lens into a live design challenge.</p></div>
-</div>
+<div id="summaryP"></div>
 <div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;A performance management system that only measures has not yet become a management system. The moment measurement becomes the basis for a decision, a conversation, and an accountable intervention &mdash; that is the moment execution begins.&rdquo;</em></p></div>
-<div class="ref-block"><div class="ref-label">My 30-Day Commitment</div><p style="font-size:12px;color:rgba(255,255,255,.45);margin-bottom:8px;">Name one specific PM design change you will make in the next 30 days. Be specific: which FACES function, which EXECUTION principle, which Sight of Progress &mdash; and exactly what will change.</p><textarea class="ref-ta" placeholder="Within the next 30 days I will change...&#10;&#10;This will specifically affect [FACES/EXECUTION/Three Sights] dimension: ...&#10;&#10;I will know it has worked when: ..."></textarea><button class="ref-save" onclick="saveTA(this)">Save Commitment</button></div>
 </div></div></div>
-<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button></div>
+
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button>
+  <button class="btn" onclick="goBack()">&larr; Back to Platform</button>
+</div>
 </div></div>
 
 </div><!-- /main -->
 <script>
-const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';updateArc(0);}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
 function updateArc(n){
   document.querySelectorAll('.arc-seg').forEach((s,i)=>s.classList.toggle('active',i===n));
 }
@@ -672,17 +765,457 @@ function showCXO(card,id){
   document.querySelectorAll('.cm-detail').forEach(d=>d.classList.remove('visible'));
   if(!was){card.classList.add('active');document.getElementById(id).classList.add('visible');}
 }
-function saveTA(btn){
-  const o=btn.textContent;
-  btn.textContent='Saved ✓';
-  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
-  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
-}
 function goBack(){window.location.href='index.html';}
 // Initialise first sc-card open
 document.querySelectorAll('.sc-card').forEach((c,i)=>{if(i===0){c.classList.add('open');}});
 // Set first arc segment active
 updateArc(0);
+
+/* ════════════ S2R PORTAL PLUMBING (migrated from Lens 4) ════════════ */
+var SUMMARY=[
+{arc:"Awareness — What",title:"What Was Established",body:"Performance management is not performance measurement. Measurement answers ‘what happened?’; management answers ‘what do we do about it?’ — the leadership response that turns data into decisions, actions, and accountability. The correct build sequence is therefore inverted from common practice: Define Success → Design the Management System → Design the Measurement Infrastructure → Manage Using Data (most organisations start at the last step). A complete system serves the five FACES functions — Foster a results culture, Align individual performance, Create measurement transparency, Embed shared accountability, Support continuous development. It tracks the Three Sights of Progress — Strategic OKRs, Operational KPIs, and Behavioural/Values alignment — and applies a 1–5 Rating Scale in which every rating triggers a defined leadership response and a Rating 3 (Meets Expectations) is ‘Solid Gold’, not average."},
+{arc:"Intelligence — Why",title:"Why It Matters",body:"Performance management is the bridge that converts strategy into individual action through four bridge functions: Decomposing the Big Picture (enterprise outcomes → unit → team → individual), Defining the Logic of Success (a measurable, evidence-backed outcome at each level), Calibrating the Rhythm (Progress per Period = (End Target − Baseline) ÷ Number of Periods), and Structuring the Dialogue (who speaks, how often, with what authority to decide). When any function is missing, strategy leaks through the gap. Every system also rests on an architecture choice — Compliance (done to people; control and anxiety) versus Commitment (done with people; shared ownership and energy) — revealed across six dimensions. The Rules of the Game cascade in two steps (Prepare the Foundation, then Cascade ownership), and the leader is measured differently from the team: the team on in-period activities and outputs, the leader on cumulative outcome trajectory across the full cycle."},
+{arc:"Extrapolating — Where",title:"Where Alignment Appears",body:"At enterprise scale the performance management system does not live in software — it lives in the executive team. The Alignment Brigade concept holds that each executive function owns a distinct ‘hot zone’ it is best positioned to track; integrated through a shared cadence and language the C-suite becomes a precision measurement system, but operating independently it produces competing narratives. Ten CXO Hot Zones map these contributions (CEO enterprise visibility, CFO financial signals, COO execution rhythm, CHRO capability & behaviour, and so on). Three Execution Gaps account for most enterprise PM failure — Competing Definitions of Progress, Measurement Blind Spots, and Incentive Misalignment (a design failure, not a motivation failure). The industry is shifting accordingly: 41% of organisations have moved to real-time feedback, trending from annual to continuous, rating-centric to development-centric, and individual to team performance."},
+{arc:"Integration — Collective",title:"What Was Built",body:"At the integration level the executive team converges on one question — are we collectively progressing toward our strategic intent? This Collective Progress Signal anchors three executive question types: Execution Traction (are we generating the expected progress?), Execution Balance (are resources invested in the right proportions?), and Execution Intervention (where must we act now?). A complete enterprise design integrates three elements at different horizons — Reporting Cadence (When), Periodic Measures (What Now: current, comparable, actionable), and Cumulative Progress (How Far), calculated as Cumulative Progress % = (Baseline − Current) ÷ (Baseline − Target) × 100, which exposes a trajectory that single-period gains can mask. The nine-principle EXECUTION framework synthesises the design standard — Enterprise (strategy first), eXecution (line-of-sight), Evidence-based, Collective ownership, Understand outcomes not activity, Transparent logic, Incentive alignment, Ongoing rhythm, and Navigate by collective insight — used as a 1–5 self-diagnostic of any PM system."}
+];
+function renderSummaryP(){
+  var el=document.getElementById("summaryP");if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return "<div class=\"sum-block\" id=\"sump_"+i+"\">"+
+      "<div class=\"sum-h\" onclick=\"document.getElementById('sump_"+i+"').classList.toggle('open')\">"+
+        "<span class=\"sum-arc\">"+s.arc+"</span>"+
+        "<span class=\"sum-title\">"+s.title+"</span>"+
+        "<span class=\"sum-arr\">▾</span></div>"+
+      "<div class=\"sum-body\"><p>"+s.body+"</p></div></div>";
+  }).join("");
+}
+
+/* ── Reflection autosave: debounce → real S2R.save ── */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"✏ Drafting…","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save — <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit3_m1_lens5_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"⏳ Saving…","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u3m1_lens5",id,ta.value);
+  if(result){
+    _setRefStatus(id,"✓ Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit3_m1_lens5_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea, input.reflection-textarea, select.reflection-textarea").forEach(function(el){
+    if(!el.id)return;
+    el.addEventListener("input",function(){draftRef(el.id);});
+    if(el.tagName==="SELECT")el.addEventListener("change",function(){saveRef(el.id);});
+  });
+});
+
+/* ── Manual "Save" / "Save Work" button: real group-save of every
+   reflection-textarea inside the button's block ── */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved ✓";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* ── Submit to facilitator ── */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Unit 3 · Module 1 · Lens 5 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u3m1_lens5");
+  if(result.ok){alert("✓ Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* ── Signed-in badge ── */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" · "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant’s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* ── COMPONENT 1: facilitator feedback display ── */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u3m1_lens5")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit3_m1_lens5_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn’t load feedback right now — please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted — your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" · revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit3_m1_lens5_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn’t load feedback right now — please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+}
+
+/* ── COMPONENT 5 + 6: messages + documents (generic, verbatim) ── */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation…';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit3_m1_lens5_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='—';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}’”'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending…';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit3_m1_lens5_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit3_m1_lens5_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error — please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit3_m1_lens5_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit3_m1_lens5_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// COMPONENT 6 — DOCUMENT UPLOAD
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit3_m1_lens5_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit3_m1_lens5_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' — file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' — exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'…','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' — session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit3_m1_lens5_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' — upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit3_m1_lens5_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' — could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' — '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='✓ '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit3_m1_lens5_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' — unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* ── Restore saved responses + reveal feedback on load ── */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit3_m1_lens5_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u3m1_lens5");
+    var KEYS=["ref1","ref2","ref3","ref4","ref5","ref6","ref7","ref8","ref9","ref10","app_scorecard","app_scoring","app_baseline","app_cadence","app_measures","app_tool"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    loadSubmissionFeedback();
+  }catch(err){console.error("[unit3_m1_lens5_p] Load exception:",err);}
+});
+
+/* ── Init ── */
+renderSummaryP();
 </script>
 </body>
 </html>
