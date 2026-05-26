@@ -195,42 +195,102 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .tool-box p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;}
 @media(max-width:900px){.friction-grid,.role-row{grid-template-columns:1fr;}.lever-grid,.compass-grid{grid-template-columns:1fr;}}
 @media print{.unit-nav,.tab-bar,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod{display:block!important;border:none;}}
+
+/* ── S2R portal styles (ported verbatim from the Lens 7 participant page) ── */
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:160px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body>
-
-<!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 3 &middot; Module 1 &middot; Lens 8</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Participant Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;padding:4px;transition:color .2s;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Enter Participant View</button>
-    <div class="gate-error" id="gateError"></div>
-  </div>
-</div>
 
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
     <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
-    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+    <div class="nav-brand"><strong>Lens 8 &middot; Strategic Unclogging</strong>Unit 3 &middot; Module 2 &mdash; Participant</div>
   </div>
-  <span class="nav-badge">Participant</span>
+  <span class="nav-badge">&#127891; Participant</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
 </nav>
 
 <!-- HEADER -->
 <div class="unit-header">
   <div class="uh-inner">
-    <div class="eyebrow">Unit 3 &middot; Module 1 &middot; Lens 8</div>
+    <div class="eyebrow">Unit 3 &middot; Module 2 &middot; Lens 8</div>
     <h1 class="unit-title">Strategic Unclogging</h1>
     <div class="unit-sub">Engineering the Flow of Execution</div>
     <p class="unit-desc">When strategy stalls, the failure is rarely in the plan. It is in the system that carries the plan. This lens equips you to diagnose the blockages preventing strategic intent from flowing into execution &mdash; and to intervene with precision.</p>
@@ -286,7 +346,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <li><strong>Value Proposition</strong> &mdash; how the organisation creates distinct value</li>
 </ul>
 <p>When execution is clogged, strategy does not fail visibly. It loses directional integrity &mdash; gradually and silently. A clog acts like a pressure distortion point: it redirects effort away from intended outcomes, weakens coherence across functions, and creates misinterpretation of strategic intent.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Strategic Clog in Your Organisation</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Think of a strategy initiative that stalled in your organisation.&#10;&#10;Was the plan wrong — or was something in the system blocking its flow?&#10;What was the blockage? Could it have been named earlier?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Strategic Clog in Your Organisation</div><textarea class="ref-ta reflection-textarea" id="ref1" style="min-height:70px;" placeholder="Think of a strategy initiative that stalled in your organisation.&#10;&#10;Was the plan wrong — or was something in the system blocking its flow?&#10;What was the blockage? Could it have been named earlier?"></textarea><div class="ref-saved reflection-saved" id="ref1-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -389,7 +449,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
   </div>
 
 </div>
-<div class="ref-block"><div class="ref-label">&#x270E; Your Self-Assessment — Which Clogs Are Active?</div><textarea class="ref-ta" style="min-height:90px;" placeholder="Rate each clog in your current strategy portfolio (1=absent, 5=active):&#10;&#10;Structural Misfit: __/5&#10;Capability Gaps: __/5&#10;Decision Bottlenecks: __/5&#10;Misaligned Metrics: __/5&#10;Cultural Resistance: __/5&#10;Tech/Infrastructure Lag: __/5&#10;Leadership Avoidance: __/5&#10;&#10;The clog I will bring to the Clog Clinic: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Self-Assessment — Which Clogs Are Active?</div><textarea class="ref-ta reflection-textarea" id="ref2" style="min-height:90px;" placeholder="Rate each clog in your current strategy portfolio (1=absent, 5=active):&#10;&#10;Structural Misfit: __/5&#10;Capability Gaps: __/5&#10;Decision Bottlenecks: __/5&#10;Misaligned Metrics: __/5&#10;Cultural Resistance: __/5&#10;Tech/Infrastructure Lag: __/5&#10;Leadership Avoidance: __/5&#10;&#10;The clog I will bring to the Clog Clinic: ___"></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &mdash; Why &rarr;</button></div>
@@ -413,7 +473,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p>Execution breakdowns rarely occur because the strategy itself is incorrect. They occur because the organisation&rsquo;s structure, capabilities, behaviours, or systems have not yet adapted to the strategy. <strong>The clog is not the failure. The clog is the signal that the system requires adjustment.</strong></p>
 <div class="hbox"><p>Clogs emerge precisely where strategy stretches the existing operating system beyond its current design capacity. They are predictable &mdash; not random. This transforms the role of the executive team: not only defining direction, but ensuring the operating system can carry that direction without excessive friction.</p></div>
 <p>The mindset shift: instead of asking <em>&ldquo;Why is the strategy failing?&rdquo;</em> ask <em>&ldquo;Where is the system not yet designed to carry the strategy?&rdquo;</em></p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Where Is Your System Not Yet Ready?</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Given your current strategic direction — which element of your operating system is most likely to create friction?&#10;&#10;(Structure / Decision rights / Culture / Metrics / Capability / Technology)&#10;&#10;Why is this predictable given your strategy?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Where Is Your System Not Yet Ready?</div><textarea class="ref-ta reflection-textarea" id="ref3" style="min-height:60px;" placeholder="Given your current strategic direction — which element of your operating system is most likely to create friction?&#10;&#10;(Structure / Decision rights / Culture / Metrics / Capability / Technology)&#10;&#10;Why is this predictable given your strategy?"></textarea><div class="ref-saved reflection-saved" id="ref3-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -465,7 +525,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
   </div>
 
 </div>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Your Lever</div><textarea class="ref-ta" style="min-height:60px;" placeholder="For the clog you identified in Awareness:&#10;&#10;Which primary lever would you pull?&#10;Which secondary lever would you combine it with?&#10;Why this combination?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Your Lever</div><textarea class="ref-ta reflection-textarea" id="ref4" style="min-height:60px;" placeholder="For the clog you identified in Awareness:&#10;&#10;Which primary lever would you pull?&#10;Which secondary lever would you combine it with?&#10;Why this combination?"></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="mod-nav"><button class="btn prev" onclick="showMod(0,null)">&larr; Awareness</button><button class="btn" onclick="showMod(2,null)">Extrapolating &mdash; Where &rarr;</button></div>
@@ -595,20 +655,22 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <li>Contribute to the Enterprise Unclogging Agenda as the shared output of the collective conversation</li>
 </ul></div>
 
+<div class="ref-block"><div class="ref-label">Your Team / Group Name</div><p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:8px;">If you ran the unclogging conversation as a group, label it here so your facilitator can identify whose results these are.</p><textarea class="ref-ta reflection-textarea" id="team_name" style="min-height:44px;" placeholder="Team / group name..."></textarea><div class="ref-saved reflection-saved" id="team_name-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Normalising the Unclog &mdash; From Crisis to Habit</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>The purpose of the Integration Zone is to standardise how the leadership team finds and fixes blockages. By using a shared unclogging process, the entire Alignment Brigade operates with a common language and a reliable toolkit. Fixing execution friction becomes a <strong>normal part of how the organisation runs</strong>.</p>
 <div class="hbox"><p>When &ldquo;unclogging&rdquo; is a standard discipline, flagging a problem is no longer seen as a failure or a critique of a colleague. It is treated as valuable data. Detecting friction early is an act of leadership stewardship &mdash; not departmental interference.</p></div>
 <p>The shared diagnostic path: Is there a clog? &rarr; What category? &rarr; Which COMPASS zone? &rarr; Which lever?</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Clog Outside Your Function</div><textarea class="ref-ta" style="min-height:80px;" placeholder="The clog I suspect is forming outside my function:&#10;Clog category: ___&#10;COMPASS zone: ___&#10;Signal I'm observing: ___&#10;&#10;Why I haven't raised it yet: ___&#10;The consequence of not raising it: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection — Clog Outside Your Function</div><textarea class="ref-ta reflection-textarea" id="ref5" style="min-height:80px;" placeholder="The clog I suspect is forming outside my function:&#10;Clog category: ___&#10;COMPASS zone: ___&#10;Signal I'm observing: ___&#10;&#10;Why I haven't raised it yet: ___&#10;The consequence of not raising it: ___"></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Enterprise Unclogging Agenda &mdash; Your Contribution</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>The Integration Zone closes with each CXO contributing to a shared Enterprise Unclogging Agenda. This replaces informal hallway complaints with a structured, visible, collectively owned priority list.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Your Contribution to the Enterprise Unclogging Agenda</div><textarea class="ref-ta" style="min-height:90px;" placeholder="KR at Risk: ___&#10;COMPASS Zone: ___&#10;Clog Category: ___&#10;Recommended Lever: ___&#10;Severity: High / Medium / Low&#10;&#10;Why this must be named now: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Contribution to the Enterprise Unclogging Agenda</div><textarea class="ref-ta reflection-textarea" id="ref6" style="min-height:90px;" placeholder="KR at Risk: ___&#10;COMPASS Zone: ___&#10;Clog Category: ___&#10;Recommended Lever: ___&#10;Severity: High / Medium / Low&#10;&#10;Why this must be named now: ___"></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 
 <div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
@@ -643,7 +705,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="step-panel active">
 <h5>Silent Individual Preparation</h5>
 <p>Identify one KPI or Key Result from your current portfolio that is below target or stalled &mdash; and has not been resolved despite being visible for more than two review cycles.</p>
-<div class="ref-block" style="margin:12px 0;"><div class="ref-label">Individual Preparation</div><textarea class="ref-ta" style="min-height:80px;" placeholder="My stalled KR/KPI: ___&#10;Current progress vs target: ___&#10;What I observe happening (one sentence): ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin:12px 0;"><div class="ref-label">Individual Preparation</div><textarea class="ref-ta reflection-textarea" id="app_prep" style="min-height:80px;" placeholder="My stalled KR/KPI: ___&#10;Current progress vs target: ___&#10;What I observe happening (one sentence): ___"></textarea><div class="ref-saved reflection-saved" id="app_prep-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div>
 <div class="step-panel">
 <h5>Diagnostic Triads — 10 Minutes Per Person</h5>
@@ -670,46 +732,75 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div>
 </div></div></div>
 
-<div class="acc">
-<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Commitments &mdash; Leave With These Three</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
-<div class="acc-b"><div class="cb">
-<div class="ref-block"><div class="ref-label">1. The Clog I Diagnosed</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Clog category: ___&#10;COMPASS zone: ___&#10;Signal that revealed it: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">2. The Lever I Will Pull</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Lever selected: ___&#10;Specific action: ___&#10;Owner: ___ | Completion date: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">3. My Follow-Up Review Date</div><textarea class="ref-ta" style="min-height:50px;" placeholder="I will assess whether the clog has cleared on: ___&#10;Evidence I will look for: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-</div></div></div>
+<!-- CLOSING COMMITMENTS — lifted out of the collapsible accordion so they are always visible (§2.4) -->
+<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 6px;">Your Commitments &mdash; Leave With These Three</div>
+<div class="ref-block"><div class="ref-label">1. The Clog I Diagnosed</div><textarea class="ref-ta reflection-textarea" id="app_clog" style="min-height:60px;" placeholder="Clog category: ___&#10;COMPASS zone: ___&#10;Signal that revealed it: ___"></textarea><div class="ref-saved reflection-saved" id="app_clog-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">2. The Lever I Will Pull</div><textarea class="ref-ta reflection-textarea" id="app_lever" style="min-height:60px;" placeholder="Lever selected: ___&#10;Specific action: ___&#10;Owner: ___ | Completion date: ___"></textarea><div class="ref-saved reflection-saved" id="app_lever-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">3. My Follow-Up Review Date</div><textarea class="ref-ta reflection-textarea" id="app_followup" style="min-height:50px;" placeholder="I will assess whether the clog has cleared on: ___&#10;Evidence I will look for: ___"></textarea><div class="ref-saved reflection-saved" id="app_followup-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 
+<!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
 <div class="acc">
-<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary</div><div class="acc-meta">Lens 8 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Micro-Climb Summary &mdash; What This Lens Produced</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">4 Sections &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
 <div class="acc-b"><div class="cb">
-<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">A Strategic Clog is an internal blockage that prevents strategic intent from flowing into execution. The 7-clog diagnostic map gives leaders the vocabulary to name friction precisely &mdash; aligned to ABCV Directional Integrity &mdash; rather than reacting to surface symptoms.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;">Intelligence</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Clogs are design signals, not failures. Where strategy stretches the operating system beyond its current capacity, friction will appear predictably. The 7 levers restore the structural, behavioural, and operational conditions that allow strategy to flow at the intended speed.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">COMPASS provides the coordinate system for locating clogs within the enterprise execution architecture. The combination of clog category + COMPASS zone delivers diagnostic precision. The 4-step activation translates diagnosis into targeted intervention.</p></div>
-<div style="flex:1;min-width:180px;background:#121e1c;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration Zone</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Clogs rarely stay in one lane. The Alignment Brigade must own the diagnostic conversation collectively &mdash; building a culture where surfacing friction early is an act of leadership stewardship, and the Enterprise Unclogging Agenda becomes the shared instrument of execution restoration.</p></div>
-</div>
+<div id="summaryP"></div>
 <div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;When unclogging becomes a habit, everything changes. Friction is no longer a crisis &mdash; it is a signal telling you how the organisation needs to evolve next. You stop just managing a plan and start engineering flow.&rdquo;</em></p></div>
 </div></div></div>
 
-<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button></div>
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav">
+  <button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button>
+  <button class="btn" onclick="goBack()">&larr; Back to Platform</button>
+</div>
 </div></div>
 
 </div><!-- /main -->
 <script>
-const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';updateArc(0);}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
 function updateArc(n){document.querySelectorAll('.arc-seg').forEach((s,i)=>s.classList.toggle('active',i===n));}
 function showMod(n,tab){
   document.querySelectorAll('.mod').forEach(p=>p.classList.remove('active'));
@@ -731,13 +822,453 @@ function showStep(n,tab){
   grp.querySelectorAll('.step-panel')[n].classList.add('active');
   tab.classList.add('active');
 }
-function saveTA(btn){
-  const o=btn.textContent;btn.textContent='Saved \u2713';
-  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
-  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
-}
 function goBack(){window.location.href='index.html';}
 updateArc(0);
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 S2R PORTAL PLUMBING (migrated from Lens 7) \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var SUMMARY=[
+{arc:"Awareness \u2014 What",title:"What Was Established",body:"A Strategic Clog is an internal blockage that prevents strategic intent from flowing into execution. The 7-clog diagnostic map gives leaders the vocabulary to name friction precisely \u2014 aligned to ABCV Directional Integrity \u2014 rather than reacting to surface symptoms."},
+{arc:"Intelligence \u2014 Why",title:"Why It Matters",body:"Clogs are design signals, not failures. Where strategy stretches the operating system beyond its current capacity, friction will appear predictably. The 7 levers restore the structural, behavioural, and operational conditions that allow strategy to flow at the intended speed."},
+{arc:"Extrapolating \u2014 Where",title:"Where Clogs Concentrate",body:"COMPASS provides the coordinate system for locating clogs within the enterprise execution architecture. The combination of clog category + COMPASS zone delivers diagnostic precision. The 4-step activation translates diagnosis into targeted intervention."},
+{arc:"Integration \u2014 Collective",title:"What Was Built",body:"Clogs rarely stay in one lane. The Alignment Brigade must own the diagnostic conversation collectively \u2014 building a culture where surfacing friction early is an act of leadership stewardship, and the Enterprise Unclogging Agenda becomes the shared instrument of execution restoration."}
+];
+function renderSummaryP(){
+  var el=document.getElementById("summaryP");if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return "<div class=\"sum-block\" id=\"sump_"+i+"\">"+
+      "<div class=\"sum-h\" onclick=\"document.getElementById('sump_"+i+"').classList.toggle('open')\">"+
+        "<span class=\"sum-arc\">"+s.arc+"</span>"+
+        "<span class=\"sum-title\">"+s.title+"</span>"+
+        "<span class=\"sum-arr\">\u25be</span></div>"+
+      "<div class=\"sum-body\"><p>"+s.body+"</p></div></div>";
+  }).join("");
+}
+
+/* \u2500\u2500 Reflection autosave: debounce \u2192 real S2R.save \u2500\u2500 */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"\u270f Drafting\u2026","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save \u2014 <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit3_m2_lens8_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"\u23f3 Saving\u2026","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u3m2_lens8",id,ta.value);
+  if(result){
+    _setRefStatus(id,"\u2713 Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit3_m2_lens8_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea, input.reflection-textarea, select.reflection-textarea").forEach(function(el){
+    if(!el.id)return;
+    el.addEventListener("input",function(){draftRef(el.id);});
+    if(el.tagName==="SELECT")el.addEventListener("change",function(){saveRef(el.id);});
+  });
+});
+
+/* \u2500\u2500 Manual "Save" button: real group-save of every reflection-textarea in the block \u2500\u2500 */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Submit to facilitator \u2500\u2500 */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Unit 3 \u00b7 Module 2 \u00b7 Lens 8 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u3m2_lens8");
+  if(result.ok){alert("\u2713 Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* \u2500\u2500 Signed-in badge \u2500\u2500 */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" \u00b7 "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* \u2500\u2500 COMPONENT 1: facilitator feedback display \u2500\u2500 */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u3m2_lens8")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit3_m2_lens8_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" \u00b7 revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit3_m2_lens8_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+}
+
+/* \u2500\u2500 COMPONENT 5 + 6: messages + documents (generic, verbatim) \u2500\u2500 */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit3_m2_lens8_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201d'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit3_m2_lens8_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit3_m2_lens8_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit3_m2_lens8_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit3_m2_lens8_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// COMPONENT 6 \u2014 DOCUMENT UPLOAD
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit3_m2_lens8_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit3_m2_lens8_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit3_m2_lens8_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit3_m2_lens8_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit3_m2_lens8_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* \u2500\u2500 Restore saved responses + reveal feedback on load \u2500\u2500 */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit3_m2_lens8_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u3m2_lens8");
+    var KEYS=["team_name","ref1","ref2","ref3","ref4","ref5","ref6","app_prep","app_clog","app_lever","app_followup"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    loadSubmissionFeedback();
+  }catch(err){console.error("[unit3_m2_lens8_p] Load exception:",err);}
+});
+
+/* \u2500\u2500 Init \u2500\u2500 */
+renderSummaryP();
 </script>
 </body>
 </html>

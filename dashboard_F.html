@@ -3241,7 +3241,7 @@
       { label: 'Lens 5 — Performance Management Setup',         file: 'unit3_m1_lens5_f.html', live: true },
       { label: 'Lens 6 — Establishing Performance Expectations', file: 'unit3_m1_lens6_f.html', live: true },
       { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: true },
-      { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: false }
+      { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: true }
     ],
     4: [
       // Grounding — Pillar 3 (3 lenses across 1 module)
@@ -5435,7 +5435,8 @@
       { name: 'Application — PM Design',  test: function (k) { return /^app_(scorecard|scoring|baseline|cadence|measures|tool)$/i.test(k); } },
       { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } },
       { name: 'Performance Intelligence Synthesis', test: function (k) { return /^app_syn_(pattern|repeat|depend|chain|decision)$/i.test(k); } },
-      { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } }
+      { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } },
+      { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } }
     ];
     function familyOf(key) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
@@ -5923,6 +5924,11 @@
     if (/^app_rootcause$/i.test(s))    return 'Root Cause Diagnosed';
     if (/^app_corrective$/i.test(s))   return 'Corrective Actions (Restore)';
     if (/^app_loop_reflection$/i.test(s)) return 'Overall Reflection & 5-Day Commitment';
+    // Lens 8 — Strategic Unclogging (Clog Clinic)
+    if (/^app_prep$/i.test(s))     return 'Clog Clinic · Individual Preparation';
+    if (/^app_clog$/i.test(s))     return 'Commitment · Clog Diagnosed';
+    if (/^app_lever$/i.test(s))    return 'Commitment · Lever to Pull';
+    if (/^app_followup$/i.test(s)) return 'Commitment · Follow-Up Review Date';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
