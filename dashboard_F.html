@@ -3246,7 +3246,7 @@
     4: [
       // Grounding — Pillar 3 (3 lenses across 1 module)
       { label: 'Lens 9 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: true },
-      { label: 'Lens 10 — Culture Reinforcement & Org Health',  file: 'unit4_m1_lens10_f.html', live: false },
+      { label: 'Lens 10 — Culture Reinforcement & Organisational Health',  file: 'unit4_m1_lens10_f.html', live: true },
       { label: 'Lens 11 — Sustaining Performance (F.I.T)',      file: 'unit4_m1_lens11_f.html', live: false }
     ]
   };
@@ -5438,10 +5438,12 @@
       { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } },
       { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } },
       { name: 'ESRG Alignment Agenda',    test: function (k) { return /^esrg_/i.test(k); } },
-      { name: 'Cultural Operating Code',  test: function (k) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || /^app_commit$/i.test(k); } }
+      { name: 'Cultural Operating Code',  test: function (k, lensId) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens9'); } },
+      { name: 'Health Thermometer',       test: function (k) { return /^app_thermo$/i.test(k); } },
+      { name: 'ACE-IT Coaching Model',    test: function (k, lensId) { return /^app_scenario$/i.test(k) || /^app_prep_/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens10'); } }
     ];
-    function familyOf(key) {
-      for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
+    function familyOf(key, lensId) {
+      for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key, lensId)) return FAMILY_DEFS[fi].name; }
       return null;
     }
     visibleKeys.forEach(function(key) {
@@ -5452,7 +5454,7 @@
       const match = key.match(/^r_m(\d+)_(.+)$/);
       var bucket, fieldName;
       if (match) { bucket = match[1]; fieldName = match[2]; }
-      else { var fam = familyOf(key); bucket = fam || '_other'; fieldName = key; }
+      else { var fam = familyOf(key, lensId); bucket = fam || '_other'; fieldName = key; }
       if (!buckets[bucket]) buckets[bucket] = [];
       buckets[bucket].push({ key: key, fieldName: fieldName, value: responses[key] });
     });
@@ -5863,7 +5865,8 @@
       u3m1_lens6: {1:"Your Honest Assessment",2:"Which Condition Is Most Often Missing?",3:"Map Your Chain",4:"Your Team Right Now",5:"Your Most Absent Mechanism",6:"Your Expectation Gap",7:"Which Step Do You Most Often Skip?",8:"Practise the Resolve Question"},
       u3m2_lens7: {1:"Activity vs Progress",2:"R3 Cycle in Your Organisation",3:"Which Signal Are You Seeing?",4:"Which Gap Is Most Prevalent?",5:"Round 1 Contribution — Collective Trajectory",6:"Round 2 Contribution — Early Warnings",7:"Round 3 Contribution — Execution Learning"},
       u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda"},
-      u4m1_lens9: {1:"The Grounding Question",2:"Most Misaligned ESRG Domain",3:"Weakest Enabling Condition",4:"Most Recognisable Overlap Pattern",5:"Environment Friction",6:"Systems Friction",7:"Resources Friction",8:"Governance Friction"}
+      u4m1_lens9: {1:"The Grounding Question",2:"Most Misaligned ESRG Domain",3:"Weakest Enabling Condition",4:"Most Recognisable Overlap Pattern",5:"Environment Friction",6:"Systems Friction",7:"Resources Friction",8:"Governance Friction"},
+      u4m1_lens10: {1:"The Best Team Environment",2:"Strongest & Most Vulnerable Trait",3:"Pyramid Layer Needing Attention",4:"Most Visible Cost of Poor Health",5:"Reflection on Your Temperature",6:"Executive Domain Needing Attention"}
     };
     if ((m = s.match(/^ref(\d+)$/i))) {
       var _rl = lensId && REF_LABELS[lensId];
@@ -5956,7 +5959,15 @@
     if (/^esrg_why$/i.test(s))      return 'ESRG Agenda · Why Named Now';
     if ((m = s.match(/^coc(\d+)$/i))) return 'COC Norm ' + m[1];
     if (/^coc_valueset$/i.test(s))  return 'Chosen Value Set';
-    if (/^app_commit$/i.test(s))    return 'COC Commitment';
+    if (/^app_commit$/i.test(s))    return lensId === 'u4m1_lens10' ? 'Coaching Commitment' : 'COC Commitment';
+    // Lens 10 — Culture Reinforcement & Organisational Health
+    if (/^app_thermo$/i.test(s))    return 'Health Thermometer';
+    if (/^app_scenario$/i.test(s))  return 'Chosen Coaching Scenario';
+    if (/^app_prep_accountability$/i.test(s)) return 'ACE-IT Prep · Accountability';
+    if (/^app_prep_commitment$/i.test(s))     return 'ACE-IT Prep · Commitment';
+    if (/^app_prep_engagement$/i.test(s))     return 'ACE-IT Prep · Engagement';
+    if (/^app_prep_integrity$/i.test(s))      return 'ACE-IT Prep · Integrity';
+    if (/^app_prep_transparency$/i.test(s))   return 'ACE-IT Prep · Transparency';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');
