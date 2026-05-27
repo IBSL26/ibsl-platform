@@ -4143,6 +4143,13 @@
     panel.setAttribute('data-loaded', 'false');
     panel.innerHTML =
       '<div class="notes-panel-inner">' +
+        // W3-P1: printable portfolio — opens collection.html for this participant in a new tab.
+        '<div class="collection-action" style="margin-bottom:12px;">' +
+          '<a href="collection.html?participantId=' + encodeURIComponent(p.participant_id) + '&feedback=on' + (isAdminView ? '&adminView=1' : '') + '" ' +
+             'target="_blank" rel="noopener" ' +
+             'style="display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:6px 14px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-decoration:none;">' +
+             '&#128424; Print Collection</a>' +
+        '</div>' +
         '<div class="notes-list" data-state="loading">' +
           '<div class="notes-loading">Loading notes…</div>' +
         '</div>' +
