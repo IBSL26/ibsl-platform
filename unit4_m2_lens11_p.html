@@ -208,32 +208,83 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .gate-btn:hover{background:var(--teall);}
 .gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;}
 @media(max-width:900px){.kiss-grid,.abcv-nav-grid,.cxo-cols{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+
+/* ── S2R portal styles (ported from the Lens 10 participant page) ── */
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+.fld-label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:10px 0 3px;}
+.fld-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
+.fld-input:focus{border-color:rgba(26,122,106,.5);}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body>
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 4 &middot; Module 2 &middot; Lens 11</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Participant Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Enter Participant View</button>
-    <div class="gate-error" id="gateError"></div>
-  </div>
-</div>
 <nav class="unit-nav">
   <div class="nav-left">
     <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
-    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+    <div class="nav-brand"><strong>Lens 11 &middot; Sustaining Performance</strong>Unit 4 &middot; Module 2 &mdash; Participant</div>
   </div>
-  <span class="nav-badge">Participant</span>
+  <span class="nav-badge">&#127891; Participant</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
 </nav>
 <div class="unit-header">
   <div class="uh-inner">
@@ -272,19 +323,23 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p>The forces in your operating environment never stop moving. They moved before your strategy was designed. They are moving now. And they will continue moving regardless of what your performance indicators show, what your strategy says, or what your leadership team has decided.</p>
 <p>Sustained performance is not the reward for strong results. It is the outcome of continuous navigation &mdash; the deliberate, disciplined practice of reading the forces that shape the environment and adjusting your position in response to their movement.</p>
 <div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;line-height:1.8;">Performance Gravity is what happens when forces move and the organisation does not move with them. It is not a failure of effort. It is a failure of navigation.</p></div>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" placeholder="Name a time your organisation achieved strong performance and then lost it. Looking back &mdash; which force had moved that was not being tracked?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref1" placeholder="Name a time your organisation achieved strong performance and then lost it. Looking back &mdash; which force had moved that was not being tracked?"></textarea><div class="ref-saved reflection-saved" id="ref1-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Three Mechanisms of Performance Gravity</div><div class="acc-meta">Each produced by a specific force</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>Performance Gravity operates through three distinct mechanisms. Each is the organisational consequence of a specific category of external force going unnavigated. Select each mechanism to explore.</p>
 <div class="grav-card" onclick="toggleGrav(this)"><div class="grav-head"><div class="grav-num">Mechanism 1</div><div class="grav-left"><div class="grav-name">Momentum Illusion</div><div class="grav-sub">The enterprise competes with a playbook the market has already moved past</div><div class="grav-force">Force: Competitive + Disruptive</div></div><div class="grav-arr">&#9660;</div></div><div class="grav-bar"></div><div class="grav-body"><p>When competitive and disruptive forces shift and the organisation does not track them, it continues running the approach that once produced results &mdash; unaware that the landscape has moved. Results remain acceptable in the short term because momentum carries forward. The gap between the playbook and the market widens invisibly until it becomes undeniable &mdash; at which point the cost of correction is significantly higher than earlier navigation would have required.</p></div></div><div class="grav-card" onclick="toggleGrav(this)"><div class="grav-head"><div class="grav-num">Mechanism 2</div><div class="grav-left"><div class="grav-name">Complexity Creep</div><div class="grav-sub">Structural responses to old conditions accumulate permanently as organisational weight</div><div class="grav-force">Force: Macro-Environmental</div></div><div class="grav-arr">&#9660;</div></div><div class="grav-bar"></div><div class="grav-body"><p>When macro-environmental forces shift &mdash; regulatory frameworks, economic conditions, political dynamics, technological infrastructure &mdash; organisations build structural responses to each change. Collectively, across multiple shifts, they create an organisation that is heavier, slower, and more internally focused than its current environment requires. The processes, governance layers, and approval structures built for yesterday remain permanent fixtures even after the conditions that justified them have changed.</p></div></div><div class="grav-card" onclick="toggleGrav(this)"><div class="grav-head"><div class="grav-num">Mechanism 3</div><div class="grav-left"><div class="grav-name">Execution Regression</div><div class="grav-sub">The organisation reverts to its historical operating pattern across all mechanisms simultaneously</div><div class="grav-force">Force: Internal</div></div><div class="grav-arr">&#9660;</div></div><div class="grav-bar"></div><div class="grav-body"><p>Every organisation has a cultural gravity &mdash; norms, habits, assumptions, and enterprise behaviour patterns reinforced over years of operating history. This internal gravity continuously pulls the organisation&rsquo;s behaviour back toward its historical pattern. When internal forces are not actively navigated, Execution Regression sets in: the enterprise reverts to the operating pattern that predates its current strategic direction. Standards quietly return to historical baselines. The gap between what the strategy says and what daily behaviour reflects widens until the two are no longer recognisably connected.</p></div></div>
 <div class="hbox"><p>The fourth force category &mdash; Social and Environmental forces &mdash; produces a distinct fourth consequence when unnavigated: <strong>Legitimacy Erosion</strong>. Stakeholder expectations shift while enterprise behaviour remains anchored to what once earned approval. Intelligence examines all five forces in depth.</p></div>
-<div class="ref-block"><div class="ref-label">&#x270E; Which mechanism is most active in your organisation right now?</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Mechanism: ___&#10;Where is it most visible?&#10;What is the earliest warning sign already present?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Which mechanism is most active in your organisation right now?</div>
+<label class="fld-label">Mechanism</label><input class="fld-input" type="text" data-fkey="ref2" data-fidx="0" oninput="syncFieldDebounced('ref2')">
+<label class="fld-label">Where it is most visible</label><input class="fld-input" type="text" data-fkey="ref2" data-fidx="1" oninput="syncFieldDebounced('ref2')">
+<label class="fld-label">Earliest warning sign</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="ref2" data-fidx="2" oninput="syncFieldDebounced('ref2')"></textarea>
+<textarea id="ref2" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref2')">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">KISS &mdash; The Four Navigation Disciplines</div><div class="acc-meta">Select each to expand</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>KISS provides the four precise navigation decisions every leadership team must make at the close of every performance cycle. They apply in every industry, in every quarterly review, permanently. Select each discipline to explore and reflect.</p>
-<div class="kiss-grid"><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">K</div><div class="kiss-name">KEEP</div><div class="kiss-desc">What is working and must be actively protected</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Keep is the conscious decision to identify, name, and protect the practices, routines, enterprise behaviours, and systems that are producing reliable results. Effective practices are vulnerable &mdash; they depend on specific leadership attention, team behaviour, and structural support. When that attention is redirected, the practice degrades without announcement. Keep is the direct antidote to Momentum Illusion.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="In your function right now &mdash; which practice, rhythm, or enterprise behaviour is producing the most reliable results and is most at risk of being taken for granted?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">I</div><div class="kiss-name">IMPROVE</div><div class="kiss-desc">What has shifted and requires recalibration</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Improve is the honest recognition that something which was working well is beginning to work less well &mdash; and that the gap is growing slowly enough to ignore but fast enough to be dangerous. Improve is the discipline of early correction: addressing drift when it is still a signal rather than waiting until it becomes a crisis. Every organisation has practices that were excellent six months ago and are merely adequate today.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Name one practice in your organisation that was strong six months ago and is merely adequate today. What is the one early correction that would restore it before the gap becomes a trend?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">S</div><div class="kiss-name">STOP</div><div class="kiss-desc">What is harming performance and must be eliminated</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Stop is the most difficult and most neglected of the four. Stop requires leaders to identify and eliminate practices, meetings, processes, reporting requirements, and approval layers consuming organisational energy without producing commensurate value. Stop is the direct antidote to Complexity Creep &mdash; the accumulation of structural responses to conditions that no longer exist.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Name one meeting, one report, or one approval layer in your function that should be stopped. If we were designing this organisation today, would we introduce it? If the answer is no &mdash; what is preventing you from stopping it?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">S</div><div class="kiss-name">START</div><div class="kiss-desc">What must be introduced to sustain the next level of performance</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Start is the forward-facing investment that sustained performance requires. Start asks: what is the organisation not yet capable of that the changing force environment will require? It demands that leaders examine emerging strategic requirements and internal capability gaps before the environment makes them urgent. Start is the investment in future fitness that current performance makes possible.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="What capability does your organisation need to begin building now &mdash; before the environment requires it &mdash; to sustain performance at the next level?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div></div>
+<div class="kiss-grid"><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">K</div><div class="kiss-name">KEEP</div><div class="kiss-desc">What is working and must be actively protected</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Keep is the conscious decision to identify, name, and protect the practices, routines, enterprise behaviours, and systems that are producing reliable results. Effective practices are vulnerable &mdash; they depend on specific leadership attention, team behaviour, and structural support. When that attention is redirected, the practice degrades without announcement. Keep is the direct antidote to Momentum Illusion.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref3" style="min-height:60px;" placeholder="In your function right now &mdash; which practice, rhythm, or enterprise behaviour is producing the most reliable results and is most at risk of being taken for granted?"></textarea><div class="ref-saved reflection-saved" id="ref3-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">I</div><div class="kiss-name">IMPROVE</div><div class="kiss-desc">What has shifted and requires recalibration</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Improve is the honest recognition that something which was working well is beginning to work less well &mdash; and that the gap is growing slowly enough to ignore but fast enough to be dangerous. Improve is the discipline of early correction: addressing drift when it is still a signal rather than waiting until it becomes a crisis. Every organisation has practices that were excellent six months ago and are merely adequate today.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref4" style="min-height:60px;" placeholder="Name one practice in your organisation that was strong six months ago and is merely adequate today. What is the one early correction that would restore it before the gap becomes a trend?"></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">S</div><div class="kiss-name">STOP</div><div class="kiss-desc">What is harming performance and must be eliminated</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Stop is the most difficult and most neglected of the four. Stop requires leaders to identify and eliminate practices, meetings, processes, reporting requirements, and approval layers consuming organisational energy without producing commensurate value. Stop is the direct antidote to Complexity Creep &mdash; the accumulation of structural responses to conditions that no longer exist.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref5" style="min-height:60px;" placeholder="Name one meeting, one report, or one approval layer in your function that should be stopped. If we were designing this organisation today, would we introduce it? If the answer is no &mdash; what is preventing you from stopping it?"></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div><div class="kiss-card" onclick="toggleKISS(this)"><div class="kiss-card-head"><div><div class="kiss-letter">S</div><div class="kiss-name">START</div><div class="kiss-desc">What must be introduced to sustain the next level of performance</div></div><div class="kiss-arr">&#9660;</div></div><div class="kiss-body"><p>The discipline of Start is the forward-facing investment that sustained performance requires. Start asks: what is the organisation not yet capable of that the changing force environment will require? It demands that leaders examine emerging strategic requirements and internal capability gaps before the environment makes them urgent. Start is the investment in future fitness that current performance makes possible.</p><div class="ref-block" style="margin-top:12px;"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref6" style="min-height:60px;" placeholder="What capability does your organisation need to begin building now &mdash; before the environment requires it &mdash; to sustain performance at the next level?"></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div></div></div></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn" onclick="showMod(1)">Intelligence &rarr;</button></div>
 </div></div>
@@ -329,7 +384,12 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;line-height:1.85;">Every organisation that has achieved something significant and then lost it followed this pattern. Not through a single catastrophic failure &mdash; but through the quiet accumulation of five unnavigated force movements, each individually dismissible, collectively devastating.</p></div>
 </div>
 </div>
-<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Which force category is most actively moving in your operating environment right now?</div><textarea class="ref-ta" style="min-height:80px;" placeholder="Force category: ___&#10;How is it moving in your environment?&#10;Which Performance Gravity mechanism is it beginning to produce?&#10;What is the earliest evidence already visible in daily execution?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Which force category is most actively moving in your operating environment right now?</div>
+<label class="fld-label">Force category</label><input class="fld-input" type="text" data-fkey="ref7" data-fidx="0" oninput="syncFieldDebounced('ref7')">
+<label class="fld-label">How it is moving</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="ref7" data-fidx="1" oninput="syncFieldDebounced('ref7')"></textarea>
+<label class="fld-label">Gravity mechanism it produces</label><input class="fld-input" type="text" data-fkey="ref7" data-fidx="2" oninput="syncFieldDebounced('ref7')">
+<label class="fld-label">Earliest evidence in daily execution</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="ref7" data-fidx="3" oninput="syncFieldDebounced('ref7')"></textarea>
+<textarea id="ref7" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref7-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref7')">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Causal Map</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -357,14 +417,25 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc-b"><div class="cb">
 <p>Force movements surface first in specific leadership domains where the organisation&rsquo;s interface with that force is closest. Find your domain. Read the primary force and the early warning signals. Ask yourself honestly: which signals are already present?</p>
 <div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CEO</div><div class="cxo-zone">Strategic Coherence</div><div class="cxo-force-badge">Competitive + Disruptive</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Strategic narrative fragments. Business units interpret priorities differently. Initiatives proliferate without clear connection to strategic intent.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Leadership forums reveal different interpretations of priorities. Teams emphasise activity over strategic outcomes. Initiatives competing without a clear hierarchy.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CFO</div><div class="cxo-zone">Capital Discipline</div><div class="cxo-force-badge">Macro-Environmental</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Resource allocation responds to historical spending rather than strategic priorities. Budget structures built for conditions that have since changed remain unchanged.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Strategic initiatives underfunded while legacy activities remain fully resourced. Financial reviews focused on variance rather than strategic alignment.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">COO</div><div class="cxo-zone">Execution Cadence</div><div class="cxo-force-badge">Internal</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Operational rhythms weaken. Performance reviews become less rigorous. Enterprise behaviour patterns revert to historical defaults.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Review meetings shortened or postponed. Operational issues persisting across multiple cycles. Gap between strategic intent and daily operational behaviour widening.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CHRO</div><div class="cxo-zone">Organisational Health</div><div class="cxo-force-badge">Internal + Social</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Enterprise behaviour patterns &mdash; trust, clarity, accountability &mdash; erode as internal forces reassert. Employee expectations about how organisations operate have shifted, creating a legitimacy gap.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Reduced willingness to surface problems early. Health Thermometer scores declining. Recruitment conversations raising questions about enterprise culture not raised previously.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CTO / CIO</div><div class="cxo-zone">Technology Enablement</div><div class="cxo-force-badge">Macro + Disruptive</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Technology investments fall out of alignment with needs. Disruptive technology applications emerge in adjacent sectors and are not systematically tracked.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Teams creating manual workarounds. Fragmented data systems slowing decisions. Competitor technology capability advancing faster.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CMO</div><div class="cxo-zone">Market Intelligence</div><div class="cxo-force-badge">Competitive + Disruptive + Social</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Depth of customer intelligence declines. Marketing continues but reflects who the customer was rather than who the customer is now.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Customer satisfaction metrics declining subtly. Product adjustments lagging behind shifting expectations. Competitors responding faster to market changes.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CCO</div><div class="cxo-zone">Revenue Conversion</div><div class="cxo-force-badge">Competitive + Internal</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Connection between market opportunity and revenue conversion weakens. Commercial enterprise behaviour softens as pipeline appears healthy.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Pipeline growth without proportional revenue. Declining win rates. Sales cycle duration increasing. Teams explaining performance through external factors rather than examining internal execution.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CPO</div><div class="cxo-zone">Supply Resilience</div><div class="cxo-force-badge">Macro + Social</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Procurement decisions prioritise short-term cost over strategic partnership. Social and environmental expectations regarding supply chain practices have evolved and are not tracked.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Supplier reliability declining. Customers and investors raising supply chain questions not previously part of commercial conversations.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CRO</div><div class="cxo-zone">Risk Intelligence</div><div class="cxo-force-badge">Social + Environmental</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Stakeholder expectations about risk transparency have evolved. The organisation&rsquo;s risk approach remains anchored to the compliance expectations of a prior stakeholder environment.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Investors and clients raising risk questions the governance process does not yet address. Risk conversations reactive rather than anticipatory.</div></div></div></div></div><div class="cxo-row" onclick="toggleCXO(this)"><div class="cxo-head"><div class="cxo-badge">CSO</div><div class="cxo-zone">Strategy Translation</div><div class="cxo-force-badge">All Five</div><div class="cxo-arr">&#9660;</div></div><div class="cxo-body"><div class="cxo-cols"><div><div class="cxo-col-label">How Force Drift Emerges</div><div class="cxo-col-content">Strategic intent remains clear at executive level but its translation into daily operational direction becomes uneven as all five forces move simultaneously.</div></div><div><div class="cxo-col-label">Early Warning Signals</div><div class="cxo-col-content">Teams struggling to connect operational priorities to strategic direction. OKRs drifting from strategic objectives. Execution conversations operationally busy but strategically vague.</div></div></div></div></div>
-<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Your domain ABCV question</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Which early warning signal is already present in your domain?&#10;Which force is producing it?&#10;Which ABCV question does that force movement most directly challenge?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Your domain ABCV question</div>
+<label class="fld-label">Early warning signal present</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="ref8" data-fidx="0" oninput="syncFieldDebounced('ref8')"></textarea>
+<label class="fld-label">Force producing it</label><input class="fld-input" type="text" data-fkey="ref8" data-fidx="1" oninput="syncFieldDebounced('ref8')">
+<label class="fld-label">ABCV question it challenges</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="ref8" data-fidx="2" oninput="syncFieldDebounced('ref8')"></textarea>
+<textarea id="ref8" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref8-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref8')">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Part 2 &mdash; ABCV as the Navigation Diagnostic</div><div class="acc-meta">HOW TO READ what force movement means</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <p>When the Alignment Brigade detects force movement in your domain, ABCV reveals what that movement means for your strategic position. Introduced earlier in this programme as the OKR integrity stress-test, ABCV reaches its full strategic purpose here: four questions applied to any force movement, each with a Must-Be-True condition that identifies precisely when a navigation response is required.</p>
 <div class="hbox"><p>For each force movement detected: run the four ABCV questions. When an MBT condition can no longer be confirmed as true &mdash; that is the navigation signal. That is when KISS is activated.</p></div>
 <div class="abcv-nav-grid"><div class="abcv-nav-card" onclick="toggleABCV(this)"><div class="abcv-nav-head"><div><div class="abcv-nav-label" style="color:#8ab0e8;">A &mdash; Arena</div><div class="abcv-nav-title" style="font-size:.95rem;color:rgba(255,255,255,.7);font-style:italic;margin-top:4px;">Has this force shifted the customer end-game we are competing for?</div></div><div class="abcv-nav-arr">&#9660;</div></div><div class="abcv-nav-body"><div class="abcv-nav-row"><div class="abcv-nav-row-label">Strategic Logic</div><div class="abcv-nav-row-text">Strategy starts with a clear definition of the arena &mdash; the specific customer need the organisation is competing to serve. Force movements shift the arena itself: the customer&rsquo;s problem evolves, the job they need done changes.</div></div><div class="abcv-mbt"><div class="abcv-mbt-label">Must-Be-True Condition</div><p>What must remain true about the relevance of the customer problem we are solving for our current approach to remain the right approach?</p></div></div></div><div class="abcv-nav-card" onclick="toggleABCV(this)"><div class="abcv-nav-head"><div><div class="abcv-nav-label" style="color:#f0c060;">B &mdash; Boundaries</div><div class="abcv-nav-title" style="font-size:.95rem;color:rgba(255,255,255,.7);font-style:italic;margin-top:4px;">Has this force created new constraints on our ability to deliver?</div></div><div class="abcv-nav-arr">&#9660;</div></div><div class="abcv-nav-body"><div class="abcv-nav-row"><div class="abcv-nav-row-label">Strategic Logic</div><div class="abcv-nav-row-text">Boundaries are the internal and external constraints within which the organisation must operate. Macro-environmental forces move these boundaries continuously. Internal forces also create boundaries through enterprise behaviour patterns that constrain what people actually do.</div></div><div class="abcv-mbt"><div class="abcv-mbt-label">Must-Be-True Condition</div><p>What must remain true about our operational and regulatory environment for our current delivery model to continue functioning within tolerance?</p></div></div></div><div class="abcv-nav-card" onclick="toggleABCV(this)"><div class="abcv-nav-head"><div><div class="abcv-nav-label" style="color:#5ecba1;">C &mdash; Competition</div><div class="abcv-nav-title" style="font-size:.95rem;color:rgba(255,255,255,.7);font-style:italic;margin-top:4px;">Has this force changed who we are actually competing against?</div></div><div class="abcv-nav-arr">&#9660;</div></div><div class="abcv-nav-body"><div class="abcv-nav-row"><div class="abcv-nav-row-label">Strategic Logic</div><div class="abcv-nav-row-text">Competition is defined by the customer&rsquo;s choice set, not by the organisation&rsquo;s view of its industry peers. When Competitive and Disruptive forces move, the set of alternatives available to the customer changes.</div></div><div class="abcv-mbt"><div class="abcv-mbt-label">Must-Be-True Condition</div><p>What must remain true about our specific advantage relative to every alternative the customer could now choose?</p></div></div></div><div class="abcv-nav-card" onclick="toggleABCV(this)"><div class="abcv-nav-head"><div><div class="abcv-nav-label" style="color:#c39de0;">V &mdash; Value Proposition</div><div class="abcv-nav-title" style="font-size:.95rem;color:rgba(255,255,255,.7);font-style:italic;margin-top:4px;">Has this force eroded our distinctive advantage?</div></div><div class="abcv-nav-arr">&#9660;</div></div><div class="abcv-nav-body"><div class="abcv-nav-row"><div class="abcv-nav-row-label">Strategic Logic</div><div class="abcv-nav-row-text">The Value Proposition is the distinctive edge that defines the organisation&rsquo;s position. Social and Environmental forces move this constantly &mdash; what was distinctive practice becomes expected standard.</div></div><div class="abcv-mbt"><div class="abcv-mbt-label">Must-Be-True Condition</div><p>What must remain true about the distinctiveness of our advantage for our current positioning to remain credible to the stakeholders whose choice sustains our performance?</p></div></div></div></div>
-<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Apply ABCV to the most significant force movement currently active in your environment</div><textarea class="ref-ta" style="min-height:80px;" placeholder="Force moving: ___&#10;A (Arena): Is the customer end-game still the same? ___&#10;B (Boundaries): Have constraints changed? ___&#10;C (Competition): Has the alternative set changed? ___&#10;V (Value Proposition): Is the distinctive edge still holding? ___&#10;Which MBT condition is most under threat?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block" style="margin-top:14px;"><div class="ref-label">&#x270E; Apply ABCV to the most significant force movement currently active in your environment</div>
+<label class="fld-label">Force moving</label><input class="fld-input" type="text" data-fkey="ref9" data-fidx="0" oninput="syncFieldDebounced('ref9')">
+<label class="fld-label">A &mdash; Arena (end-game still the same?)</label><textarea class="ref-ta" style="min-height:42px;" data-fkey="ref9" data-fidx="1" oninput="syncFieldDebounced('ref9')"></textarea>
+<label class="fld-label">B &mdash; Boundaries (constraints changed?)</label><textarea class="ref-ta" style="min-height:42px;" data-fkey="ref9" data-fidx="2" oninput="syncFieldDebounced('ref9')"></textarea>
+<label class="fld-label">C &mdash; Competition (alternative set changed?)</label><textarea class="ref-ta" style="min-height:42px;" data-fkey="ref9" data-fidx="3" oninput="syncFieldDebounced('ref9')"></textarea>
+<label class="fld-label">V &mdash; Value Proposition (edge still holding?)</label><textarea class="ref-ta" style="min-height:42px;" data-fkey="ref9" data-fidx="4" oninput="syncFieldDebounced('ref9')"></textarea>
+<label class="fld-label">MBT condition most under threat</label><input class="fld-input" type="text" data-fkey="ref9" data-fidx="5" oninput="syncFieldDebounced('ref9')">
+<textarea id="ref9" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref9-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref9')">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Part 3 &mdash; The Navigation Chain</div><div class="acc-meta">HOW TO RESPOND</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -390,7 +461,17 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p style="font-size:14px;line-height:1.85;color:rgba(255,255,255,.72);margin:18px 0 14px;">The four navigation instruments are most powerful when used together in a structured quarterly conversation. Together they produce a complete picture of where forces are moving, which strategic assumptions are under threat, and what navigation responses are required. Select each to understand its navigation role.</p>
 <div class="tool-card" onclick="toggleTool(this)"><div class="tool-head"><div><div class="tool-name">ESRG Scanner</div><div class="tool-lead">Led by: COO, CTO/CIO, CHRO, CFO</div></div><div class="tool-arr">&#9660;</div></div><div class="tool-body"><p>Evaluates whether the organisation&rsquo;s Environment, Systems, Resources, and Governance conditions are enabling or constraining strategic delivery. In the navigation context, surfaces the structural consequences of Macro-environmental and Internal force movements &mdash; the Complexity Creep and Execution Regression that has accumulated since the last review.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:10px 0 6px;">Navigation Question</p><p style="font-size:13px;color:rgba(255,255,255,.62);font-style:italic;">Which of our current structural conditions was built for a force environment that has since changed? Where is Complexity Creep most visible?</p></div></div><div class="tool-card" onclick="toggleTool(this)"><div class="tool-head"><div><div class="tool-name">Enterprise COMPASS</div><div class="tool-lead">Led by: CEO, CSO</div></div><div class="tool-arr">&#9660;</div></div><div class="tool-body"><p>Evaluates alignment across seven critical execution zones. In the navigation context, reveals where force movements have created divergence between strategic intent and operational reality &mdash; where different parts of the enterprise are responding to different signals from the same forces.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:10px 0 6px;">Navigation Question</p><p style="font-size:13px;color:rgba(255,255,255,.62);font-style:italic;">Where is strategic direction being interpreted differently across the enterprise? Which execution zone shows the greatest gap between intent and behaviour?</p></div></div><div class="tool-card" onclick="toggleTool(this)"><div class="tool-head"><div><div class="tool-name">KISS Reflection</div><div class="tool-lead">Led by: All leaders for their domains</div></div><div class="tool-arr">&#9660;</div></div><div class="tool-body"><p>Each leader shares what their domain is Keeping, Improving, Stopping, and Starting. In the navigation context, converts individual functional experience into collective enterprise learning &mdash; revealing which forces are being tracked and which are being ignored across the organisation.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:10px 0 6px;">Navigation Question</p><p style="font-size:13px;color:rgba(255,255,255,.62);font-style:italic;">Which force movement is producing the most STOP decisions across domains? Where are the most urgent START investments appearing?</p></div></div><div class="tool-card" onclick="toggleTool(this)"><div class="tool-head"><div><div class="tool-name">Organisational Health Thermometer</div><div class="tool-lead">Led by: CHRO, CEO</div></div><div class="tool-arr">&#9660;</div></div><div class="tool-body"><p>Reviews health signals emerging across teams. In the navigation context, reads the internal force environment &mdash; detecting Execution Regression before it becomes fully established. Declining health scores are the earliest available signal that internal forces are reasserting.</p><p style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:10px 0 6px;">Navigation Question</p><p style="font-size:13px;color:rgba(255,255,255,.62);font-style:italic;">Which of the five health traits is declining &mdash; and which internal force movement is driving it? Which ACE-IT guardrail is most urgently needed?</p></div></div>
 <div class="hbox" style="margin-top:16px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;">When the S2R&reg; Collective Intelligence Review is conducted consistently, the leadership team develops <strong>collective navigation intelligence</strong> &mdash; the shared, real-time awareness of which forces are active, which MBT conditions are under threat, and which KISS responses are required to sustain performance.</p></div>
-<div class="ref-block"><div class="ref-label">&#x270E; Commit to the Review cadence</div><textarea class="ref-ta" style="min-height:80px;" placeholder="Date of our first S2R&reg; Collective Intelligence Review: ___&#10;ESRG conversation led by: ___&#10;COMPASS conversation led by: ___&#10;KISS Reflection led by: ___&#10;Health Thermometer review led by: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">Team / Group</div><p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px;">Label your team so your facilitator can identify whose Collective Intelligence Review this is.</p>
+<label class="fld-label">Team / group name</label><input class="fld-input reflection-textarea" type="text" id="team_name" placeholder="Team / group name...">
+<div class="ref-saved reflection-saved" id="team_name-saved"></div>
+<button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Commit to the Review cadence</div>
+<label class="fld-label">First S2R Collective Intelligence Review date</label><input class="fld-input" type="text" data-fkey="ref10" data-fidx="0" oninput="syncFieldDebounced('ref10')">
+<label class="fld-label">ESRG conversation led by</label><input class="fld-input" type="text" data-fkey="ref10" data-fidx="1" oninput="syncFieldDebounced('ref10')">
+<label class="fld-label">COMPASS conversation led by</label><input class="fld-input" type="text" data-fkey="ref10" data-fidx="2" oninput="syncFieldDebounced('ref10')">
+<label class="fld-label">KISS Reflection led by</label><input class="fld-input" type="text" data-fkey="ref10" data-fidx="3" oninput="syncFieldDebounced('ref10')">
+<label class="fld-label">Health Thermometer review led by</label><input class="fld-input" type="text" data-fkey="ref10" data-fidx="4" oninput="syncFieldDebounced('ref10')">
+<textarea id="ref10" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref10-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref10')">Save</button></div>
 <div class="mod-nav"><button class="btn prev" onclick="showMod(2)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4)">Application &rarr;</button></div>
 </div></div>
 <div class="mod-panel" id="mod4">
@@ -413,13 +494,6 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <p>A manufacturing organisation delivered three consecutive strong quarters. The COO&rsquo;s execution rhythm was rigorous: weekly cross-functional reviews, disciplined escalation protocols, structured performance dashboards. Four months later the results are still acceptable &mdash; but the rhythm has quietly changed. Weekly reviews have moved to fortnightly. Dashboard discipline has softened. Issues that would previously have been escalated within 24 hours now sit with teams for a week. No one has formally decided to relax the standards. The internal force &mdash; the organisation&rsquo;s historical habit of less rigorous review cadences &mdash; has quietly reasserted. Enterprise behaviour has begun reverting to the pattern that predated the performance improvement.</p>
     <div class="sc-abcv"><div class="sc-abcv-label">ABCV Diagnostic &mdash; MBT Condition Under Threat</div><div class="sc-abcv-text">B &mdash; Boundaries: Internal enterprise behaviour patterns are constraining execution quality. The operational standard the strategy requires can no longer be confirmed as the standard the organisation is actually maintaining.</div></div>
     <div style="background:rgba(26,122,106,.05);border:1px solid rgba(26,122,106,.15);border-radius:3px;padding:10px 14px;margin-top:10px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;">Must-Be-True Condition</div><div style="font-size:13px;color:rgba(255,255,255,.68);font-style:italic;line-height:1.7;">What must remain true about our internal enterprise behaviour and execution standards for our current performance level to continue?</div></div>
-    <p style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--teall);margin:14px 0 8px;text-transform:uppercase;">Complete the KISS Navigation Response:</p>
-    <table class="kiss-resp-table">
-    <tr><td>K &mdash; Keep</td><td><textarea class="kiss-resp-input" placeholder="What still holds and must be protected?"></textarea></td></tr>
-    <tr><td>I &mdash; Improve</td><td><textarea class="kiss-resp-input" placeholder="What has shifted and needs recalibration?"></textarea></td></tr>
-    <tr><td>S &mdash; Stop</td><td><textarea class="kiss-resp-input" placeholder="What was built for conditions that no longer apply?"></textarea></td></tr>
-    <tr><td>S &mdash; Start</td><td><textarea class="kiss-resp-input" placeholder="What does the current force environment now require?"></textarea></td></tr>
-    </table>
   </div>
 </div><div class="scenario-card" onclick="selectScenario(this)">
   <div class="sc-badge">Scenario 2 &middot; <span style="color:#f0c060;">Macro-Environmental</span> &middot; Complexity Creep</div>
@@ -429,13 +503,6 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <p>A financial services organisation completed a rigorous zero-based budgeting exercise eighteen months ago. Since then, two macro-environmental shifts have occurred: a significant regulatory change that created new compliance requirements, and an economic cycle shift that changed the cost of capital. Neither has been formally integrated into the budget structure. The regulatory compliance costs have been absorbed additively. The investment assumptions have not been revisited. The budget still reflects the macro environment of eighteen months ago. Strategic initiatives are underfunded. Legacy cost structures have quietly re-established their original funding levels.</p>
     <div class="sc-abcv"><div class="sc-abcv-label">ABCV Diagnostic &mdash; MBT Condition Under Threat</div><div class="sc-abcv-text">B &mdash; Boundaries: Macro-environmental forces have created new operational and regulatory constraints that the budget structure was not built for. Old structural responses to old conditions are accumulating as weight.</div></div>
     <div style="background:rgba(26,122,106,.05);border:1px solid rgba(26,122,106,.15);border-radius:3px;padding:10px 14px;margin-top:10px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;">Must-Be-True Condition</div><div style="font-size:13px;color:rgba(255,255,255,.68);font-style:italic;line-height:1.7;">What must remain true about the macro-environmental conditions for our current capital allocation to continue supporting our strategic priorities?</div></div>
-    <p style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--teall);margin:14px 0 8px;text-transform:uppercase;">Complete the KISS Navigation Response:</p>
-    <table class="kiss-resp-table">
-    <tr><td>K &mdash; Keep</td><td><textarea class="kiss-resp-input" placeholder="What still holds and must be protected?"></textarea></td></tr>
-    <tr><td>I &mdash; Improve</td><td><textarea class="kiss-resp-input" placeholder="What has shifted and needs recalibration?"></textarea></td></tr>
-    <tr><td>S &mdash; Stop</td><td><textarea class="kiss-resp-input" placeholder="What was built for conditions that no longer apply?"></textarea></td></tr>
-    <tr><td>S &mdash; Start</td><td><textarea class="kiss-resp-input" placeholder="What does the current force environment now require?"></textarea></td></tr>
-    </table>
   </div>
 </div><div class="scenario-card" onclick="selectScenario(this)">
   <div class="sc-badge">Scenario 3 &middot; <span style="color:#8ab0e8;">Competitive + Disruptive</span> &middot; Momentum Illusion</div>
@@ -445,13 +512,6 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <p>A retail organisation&rsquo;s marketing function produced exceptional results during a strong strategic period. The customer intelligence underpinning this performance was built twenty months ago. Since then, two new entrants have positioned in segments previously considered low-priority, and a technology-enabled alternative has emerged that solves a significant portion of the customer&rsquo;s problem at a lower price point. The marketing team is executing the existing strategy with discipline. But the foundational customer intelligence &mdash; who the customer is, what they are trying to achieve, and who else is competing for that achievement &mdash; has not been meaningfully updated.</p>
     <div class="sc-abcv"><div class="sc-abcv-label">ABCV Diagnostic &mdash; MBT Condition Under Threat</div><div class="sc-abcv-text">A &mdash; Arena: The customer end-game may have shifted. C &mdash; Competition: The alternatives the customer now has include entrants and technology solutions that were not present when the strategy was built.</div></div>
     <div style="background:rgba(26,122,106,.05);border:1px solid rgba(26,122,106,.15);border-radius:3px;padding:10px 14px;margin-top:10px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;">Must-Be-True Condition</div><div style="font-size:13px;color:rgba(255,255,255,.68);font-style:italic;line-height:1.7;">What must remain true about the customer problem we are solving and the alternatives available for our current marketing approach to continue producing the results it achieved when built?</div></div>
-    <p style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--teall);margin:14px 0 8px;text-transform:uppercase;">Complete the KISS Navigation Response:</p>
-    <table class="kiss-resp-table">
-    <tr><td>K &mdash; Keep</td><td><textarea class="kiss-resp-input" placeholder="What still holds and must be protected?"></textarea></td></tr>
-    <tr><td>I &mdash; Improve</td><td><textarea class="kiss-resp-input" placeholder="What has shifted and needs recalibration?"></textarea></td></tr>
-    <tr><td>S &mdash; Stop</td><td><textarea class="kiss-resp-input" placeholder="What was built for conditions that no longer apply?"></textarea></td></tr>
-    <tr><td>S &mdash; Start</td><td><textarea class="kiss-resp-input" placeholder="What does the current force environment now require?"></textarea></td></tr>
-    </table>
   </div>
 </div><div class="scenario-card" onclick="selectScenario(this)">
   <div class="sc-badge">Scenario 4 &middot; <span style="color:#5ecba1;">Social + Environmental</span> &middot; Legitimacy Erosion</div>
@@ -461,16 +521,18 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <p>A professional services organisation has maintained what is widely regarded as exemplary risk governance. The risk register is comprehensive, current, and consistently well-reviewed. However, social and environmental forces have moved significantly. Institutional investors &mdash; who represent a material portion of the client base &mdash; have shifted their expectations about risk governance from compliance demonstration to strategic integration. They now expect risk intelligence to be visibly embedded in strategic decision-making. The CRO&rsquo;s approach was built for a stakeholder environment in which compliance demonstration earned approval. That environment has moved. The value proposition of the risk function is eroding not because the function has declined but because what stakeholders now value has advanced.</p>
     <div class="sc-abcv"><div class="sc-abcv-label">ABCV Diagnostic &mdash; MBT Condition Under Threat</div><div class="sc-abcv-text">V &mdash; Value Proposition: Social and environmental force movements have shifted what stakeholders perceive as valuable risk governance. The current approach no longer earns the approval it once earned from the stakeholder universe that now matters most.</div></div>
     <div style="background:rgba(26,122,106,.05);border:1px solid rgba(26,122,106,.15);border-radius:3px;padding:10px 14px;margin-top:10px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;">Must-Be-True Condition</div><div style="font-size:13px;color:rgba(255,255,255,.68);font-style:italic;line-height:1.7;">What must remain true about what our stakeholders consider credible and valuable risk governance for our current approach to continue earning their confidence?</div></div>
-    <p style="font-size:11px;font-weight:700;letter-spacing:1px;color:var(--teall);margin:14px 0 8px;text-transform:uppercase;">Complete the KISS Navigation Response:</p>
-    <table class="kiss-resp-table">
-    <tr><td>K &mdash; Keep</td><td><textarea class="kiss-resp-input" placeholder="What still holds and must be protected?"></textarea></td></tr>
-    <tr><td>I &mdash; Improve</td><td><textarea class="kiss-resp-input" placeholder="What has shifted and needs recalibration?"></textarea></td></tr>
-    <tr><td>S &mdash; Stop</td><td><textarea class="kiss-resp-input" placeholder="What was built for conditions that no longer apply?"></textarea></td></tr>
-    <tr><td>S &mdash; Start</td><td><textarea class="kiss-resp-input" placeholder="What does the current force environment now require?"></textarea></td></tr>
-    </table>
   </div>
 </div>
 </div></div></div>
+<!-- Consolidated KISS Navigation Response — one shared grid; scenario choice persists to app_kiss_scenario -->
+<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:18px 0 6px;">Your KISS Navigation Response &mdash; for the scenario selected above</div>
+<textarea id="app_kiss_scenario" style="display:none;"></textarea>
+<div class="ref-block">
+<label class="fld-label">K &mdash; Keep</label><textarea class="ref-ta reflection-textarea" id="app_kiss_keep" style="min-height:48px;" placeholder="What still holds and must be protected?"></textarea><div class="ref-saved reflection-saved" id="app_kiss_keep-saved"></div>
+<label class="fld-label">I &mdash; Improve</label><textarea class="ref-ta reflection-textarea" id="app_kiss_improve" style="min-height:48px;" placeholder="What has shifted and needs recalibration?"></textarea><div class="ref-saved reflection-saved" id="app_kiss_improve-saved"></div>
+<label class="fld-label">S &mdash; Stop</label><textarea class="ref-ta reflection-textarea" id="app_kiss_stop" style="min-height:48px;" placeholder="What was built for conditions that no longer apply?"></textarea><div class="ref-saved reflection-saved" id="app_kiss_stop-saved"></div>
+<label class="fld-label">S &mdash; Start</label><textarea class="ref-ta reflection-textarea" id="app_kiss_start" style="min-height:48px;" placeholder="What does the current force environment now require?"></textarea><div class="ref-saved reflection-saved" id="app_kiss_start-saved"></div>
+<button class="ref-save" onclick="saveTA(this)">Save</button></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Part 2 &mdash; The Navigation Commitment</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <div class="closing-box">
@@ -481,47 +543,90 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="commit-box">
   <div class="commit-q">&ldquo;Which of the five force categories is most actively moving in your operating environment right now &mdash; and which Performance Gravity mechanism is it producing?&rdquo;</div>
   <div class="commit-hint">Name the force. Name the mechanism. Name the evidence already visible in daily execution.</div>
-  <textarea class="ref-ta" style="min-height:70px;" placeholder="Force: ___&#10;Mechanism it is producing: ___&#10;Evidence already visible: ___"></textarea><button class="ref-save" onclick="saveTA(this)" style="margin-top:8px;">Save</button>
+  <label class="fld-label">Force</label><input class="fld-input" type="text" data-fkey="app_nav_force" data-fidx="0" oninput="syncFieldDebounced('app_nav_force')">
+  <label class="fld-label">Mechanism it is producing</label><input class="fld-input" type="text" data-fkey="app_nav_force" data-fidx="1" oninput="syncFieldDebounced('app_nav_force')">
+  <label class="fld-label">Evidence already visible</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="app_nav_force" data-fidx="2" oninput="syncFieldDebounced('app_nav_force')"></textarea>
+  <textarea id="app_nav_force" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_nav_force-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_nav_force')" style="margin-top:8px;">Save</button>
 </div>
 <div class="commit-box">
   <div class="commit-q">&ldquo;Apply ABCV to that force movement. Which MBT condition is most under threat?&rdquo;</div>
   <div class="commit-hint">A (Arena), B (Boundaries), C (Competition), or V (Value Proposition)?</div>
-  <textarea class="ref-ta" style="min-height:70px;" placeholder="The ABCV letter: ___&#10;The MBT condition that can no longer be confirmed: ___&#10;What this means for our strategic position: ___"></textarea><button class="ref-save" onclick="saveTA(this)" style="margin-top:8px;">Save</button>
+  <label class="fld-label">ABCV letter</label><input class="fld-input" type="text" data-fkey="app_nav_abcv" data-fidx="0" oninput="syncFieldDebounced('app_nav_abcv')">
+  <label class="fld-label">MBT condition no longer confirmable</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="app_nav_abcv" data-fidx="1" oninput="syncFieldDebounced('app_nav_abcv')"></textarea>
+  <label class="fld-label">What this means for strategic position</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="app_nav_abcv" data-fidx="2" oninput="syncFieldDebounced('app_nav_abcv')"></textarea>
+  <textarea id="app_nav_abcv" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_nav_abcv-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_nav_abcv')" style="margin-top:8px;">Save</button>
 </div>
 <div class="commit-box">
   <div class="commit-q">&ldquo;What is the one KISS decision &mdash; specific, named, dated &mdash; I am committing to make in the next thirty days?&rdquo;</div>
   <div class="commit-hint">Not a general intention. One KISS discipline (K/I/S/S). One named action. One named date.</div>
-  <textarea class="ref-ta" style="min-height:80px;" placeholder="KISS discipline: ___&#10;Specific action: ___&#10;Named date: ___&#10;How this group will hold me to it: ___"></textarea><button class="ref-save" onclick="saveTA(this)" style="margin-top:8px;">Save</button>
+  <label class="fld-label">KISS discipline</label><input class="fld-input" type="text" data-fkey="app_nav_commit" data-fidx="0" oninput="syncFieldDebounced('app_nav_commit')">
+  <label class="fld-label">Specific action</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="app_nav_commit" data-fidx="1" oninput="syncFieldDebounced('app_nav_commit')"></textarea>
+  <label class="fld-label">Named date</label><input class="fld-input" type="text" data-fkey="app_nav_commit" data-fidx="2" oninput="syncFieldDebounced('app_nav_commit')">
+  <label class="fld-label">How this group will hold me to it</label><textarea class="ref-ta" style="min-height:46px;" data-fkey="app_nav_commit" data-fidx="3" oninput="syncFieldDebounced('app_nav_commit')"></textarea>
+  <textarea id="app_nav_commit" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_nav_commit-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_nav_commit')" style="margin-top:8px;">Save</button>
 </div>
 <div class="hbox" style="margin-top:18px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;text-align:center;font-style:italic;">&ldquo;Performance Gravity is real. It is patient. And it never stops pulling. But so is navigation discipline &mdash; when it is applied consistently, collectively, and with increasing precision.&rdquo;</p>
 <div class="closing-final" style="margin-top:12px;">Keep climbing.</div></div>
 </div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; Sustaining Performance</div><div class="acc-meta">Lens synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
-<div class="sum-cards"><div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; What</div><p>Performance Gravity is the predictable consequence of five external forces moving while the enterprise stays still. Three mechanisms (Momentum Illusion, Complexity Creep, Execution Regression) each produced by a specific force. KISS provides the four navigation disciplines.</p></div><div class="sum-card"><div class="sum-card-label" style="color:var(--teall);">Intelligence &mdash; Why</div><p>Each force produces a specific consequence when unnavigated. Competitive + Disruptive &rarr; Momentum Illusion. Macro-environmental &rarr; Complexity Creep. Social + Environmental &rarr; Legitimacy Erosion. Internal &rarr; Execution Regression. All five simultaneously &rarr; Success Inertia.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; Where &amp; How</div><p>The Alignment Brigade surfaces force movements across ten leadership domains. ABCV reveals which strategic assumption each movement has invalidated. The Navigation Chain closes the loop: Force &rarr; ABCV &rarr; KISS.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; Collective</div><p>The S2R&reg; Collective Intelligence Review brings four instruments together in a quarterly cadence. Together they produce collective navigation intelligence &mdash; the shared awareness of which forces are active and what responses are required.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#f0a070;">Application &mdash; Individual</div><p>Four force-anchored scenarios with ABCV diagnostic and KISS response grid. The Programme Commitment names the force, the ABCV finding, and one specific KISS response publicly.</p></div></div>
+<div class="sum-cards"><div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; What</div><p>Performance Gravity is the predictable consequence of five external forces moving while the enterprise stays still. Three mechanisms (Momentum Illusion, Complexity Creep, Execution Regression) each produced by a specific force. KISS provides the four navigation disciplines.</p></div><div class="sum-card"><div class="sum-card-label" style="color:var(--teall);">Intelligence &mdash; Why</div><p>Each force produces a specific consequence when unnavigated. Competitive + Disruptive &rarr; Momentum Illusion. Macro-environmental &rarr; Complexity Creep. Social + Environmental &rarr; Legitimacy Erosion. Internal &rarr; Execution Regression. All five simultaneously &rarr; Success Inertia.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; Where &amp; How</div><p>The Alignment Brigade surfaces force movements across ten leadership domains. ABCV reveals which strategic assumption each movement has invalidated. The Navigation Chain closes the loop: Force &rarr; ABCV &rarr; KISS.</p></div><div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; Collective</div><p>The S2R&reg; Collective Intelligence Review brings four instruments together in a quarterly cadence. Together they produce collective navigation intelligence &mdash; the shared awareness of which forces are active and what responses are required.</p></div></div>
 </div></div></div>
-<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Integration Zone</button></div>
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">&larr; Integration Zone</button><button class="btn" onclick="goBack()">&larr; Back to Platform</button></div>
 </div></div>
 </div>
 <script>
-const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 NAV / TABS / ACCORDIONS (Lens 11 structure preserved) \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
 function showMod(n){
-  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.mod-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.mod-tab').forEach(function(t){t.classList.remove('active');});
   document.getElementById('mod'+n).classList.add('active');
   document.querySelectorAll('.mod-tab')[n].classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -532,23 +637,490 @@ function toggleKISS(c){c.classList.toggle('open');}
 function toggleCXO(r){r.classList.toggle('open');}
 function toggleTool(c){c.classList.toggle('open');}
 function toggleABCV(c){c.classList.toggle('open');}
-function selectScenario(card){
-  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
-  card.classList.add('selected');
-}
-function saveTA(btn){
-  const o=btn.textContent;btn.textContent='Saved \u2713';
-  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
-  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
-}
-function goBack(){window.location.href='index.html';}
 function showStep(n,tab){
-  const grp=tab.closest('.step-group');
-  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  var grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(function(p){p.classList.remove('active');});
+  grp.querySelectorAll('.step-tab').forEach(function(t){t.classList.remove('active');});
   grp.querySelectorAll('.step-panel')[n].classList.add('active');
   tab.classList.add('active');
 }
+function goBack(){window.location.href='index.html';}
+
+/* Scenario selection \u2192 persists into app_kiss_scenario via the existing saveRef (L10 pattern) */
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(function(c){c.classList.remove('selected');});
+  card.classList.add('selected');
+  var b=card.querySelector('.sc-badge'),t=card.querySelector('.sc-title');
+  var hidden=document.getElementById('app_kiss_scenario');
+  if(hidden){hidden.value=(b?b.textContent.trim():'')+' \u2014 '+(t?t.textContent.trim():'');saveRef('app_kiss_scenario');}
+}
+function hydrateScenario(){
+  var hidden=document.getElementById('app_kiss_scenario');if(!hidden||!hidden.value)return;
+  document.querySelectorAll('.scenario-card').forEach(function(c){
+    var b=c.querySelector('.sc-badge'),t=c.querySelector('.sc-title');
+    var v=(b?b.textContent.trim():'')+' \u2014 '+(t?t.textContent.trim():'');
+    c.classList.toggle('selected',v===hidden.value);
+  });
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 Reflection autosave: debounce \u2192 real S2R.save \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"\u270f Drafting\u2026","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save \u2014 <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit4_m2_lens11_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"\u23f3 Saving\u2026","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u4m2_lens11",id,ta.value);
+  if(result){
+    _setRefStatus(id,"\u2713 Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit4_m2_lens11_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea, input.reflection-textarea, select.reflection-textarea").forEach(function(el){
+    if(!el.id)return;
+    el.addEventListener("input",function(){draftRef(el.id);});
+    if(el.tagName==="SELECT")el.addEventListener("change",function(){saveRef(el.id);});
+  });
+});
+
+/* \u2500\u2500 Manual "Save" button: real group-save of every reflection-textarea in the block \u2500\u2500 */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Structured field widgets \u2192 SAME existing key via saveRef (UI-only, no new keys) \u2500\u2500 */
+var FIELD_SPECS={
+  ref2:[{l:"Mechanism",k:"text"},{l:"Where it is most visible",k:"text"},{l:"Earliest warning sign",k:"text"}],
+  ref7:[{l:"Force category",k:"text"},{l:"How it is moving",k:"text"},{l:"Gravity mechanism it produces",k:"text"},{l:"Earliest evidence in daily execution",k:"text"}],
+  ref8:[{l:"Early warning signal present",k:"text"},{l:"Force producing it",k:"text"},{l:"ABCV question it challenges",k:"text"}],
+  ref9:[{l:"Force moving",k:"text"},{l:"A \u2014 Arena (end-game still the same?)",k:"text"},{l:"B \u2014 Boundaries (constraints changed?)",k:"text"},{l:"C \u2014 Competition (alternative set changed?)",k:"text"},{l:"V \u2014 Value Proposition (edge still holding?)",k:"text"},{l:"MBT condition most under threat",k:"text"}],
+  ref10:[{l:"First S2R Collective Intelligence Review date",k:"text"},{l:"ESRG conversation led by",k:"text"},{l:"COMPASS conversation led by",k:"text"},{l:"KISS Reflection led by",k:"text"},{l:"Health Thermometer review led by",k:"text"}],
+  app_nav_force:[{l:"Force",k:"text"},{l:"Mechanism it is producing",k:"text"},{l:"Evidence already visible",k:"text"}],
+  app_nav_abcv:[{l:"ABCV letter",k:"text"},{l:"MBT condition no longer confirmable",k:"text"},{l:"What this means for strategic position",k:"text"}],
+  app_nav_commit:[{l:"KISS discipline",k:"text"},{l:"Specific action",k:"text"},{l:"Named date",k:"text"},{l:"How this group will hold me to it",k:"text"}]
+};
+function _fldLine(p,v){return p.l+": "+(v||"");}
+function syncField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var lines=spec.map(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');
+    return _fldLine(p,el?el.value:"");
+  });
+  hidden.value=lines.join("\n");
+  saveRef(key);
+}
+var _fldTimers={};
+function syncFieldDebounced(key){clearTimeout(_fldTimers[key]);_fldTimers[key]=setTimeout(function(){syncField(key);},800);}
+function hydrateField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var raw=hidden.value||"";if(!raw)return;
+  var lines=raw.split("\n");
+  var prefixes=spec.map(function(p){return p.l+":";});
+  // Multi-line-safe: a line beginning with a known label starts that field; continuation lines append.
+  var vals={},cur=-1;
+  for(var li=0;li<lines.length;li++){
+    var matched=-1;
+    for(var pi=0;pi<prefixes.length;pi++){if(lines[li].indexOf(prefixes[pi])===0){matched=pi;break;}}
+    if(matched>=0){cur=matched;vals[cur]=lines[li].slice(prefixes[cur].length).replace(/^\s+/,"");}
+    else if(cur>=0){vals[cur]+="\n"+lines[li];}
+  }
+  spec.forEach(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');if(!el)return;
+    if(vals[i]!==undefined)el.value=vals[i];
+  });
+}
+function fldSaveBtn(btn,key){
+  syncField(key);
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Submit to facilitator \u2500\u2500 */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Unit 4 \u00b7 Module 2 \u00b7 Lens 11 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u4m2_lens11");
+  if(result.ok){alert("\u2713 Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* \u2500\u2500 Signed-in badge \u2500\u2500 */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" \u00b7 "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* \u2500\u2500 COMPONENT 1: facilitator feedback display \u2500\u2500 */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u4m2_lens11")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit4_m2_lens11_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" \u00b7 revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit4_m2_lens11_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+}
+
+/* \u2500\u2500 COMPONENT 5 + 6: messages + documents (generic, verbatim) \u2500\u2500 */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit4_m2_lens11_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201d'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit4_m2_lens11_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit4_m2_lens11_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit4_m2_lens11_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit4_m2_lens11_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit4_m2_lens11_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit4_m2_lens11_p C6] list docs exception:',err);
+  }
+}
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit4_m2_lens11_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit4_m2_lens11_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit4_m2_lens11_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* \u2500\u2500 Restore saved responses + reveal feedback on load \u2500\u2500 */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit4_m2_lens11_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u4m2_lens11");
+    var KEYS=["team_name","ref1","ref2","ref3","ref4","ref5","ref6","ref7","ref8","ref9","ref10","app_kiss_scenario","app_kiss_keep","app_kiss_improve","app_kiss_stop","app_kiss_start","app_nav_force","app_nav_abcv","app_nav_commit"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    ["ref2","ref7","ref8","ref9","ref10","app_nav_force","app_nav_abcv","app_nav_commit"].forEach(hydrateField);
+    hydrateScenario();
+    loadSubmissionFeedback();
+  }catch(err){console.error("[unit4_m2_lens11_p] Load exception:",err);}
+});
 </script>
 </body>
 </html>
