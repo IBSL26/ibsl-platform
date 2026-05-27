@@ -5554,7 +5554,15 @@
           body.appendChild(renderValue(val, 0));
         });
       } else {
-        buckets[fam.name].forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId)); });
+        var famEntries = buckets[fam.name];
+        // KISS Navigation Response: render the chosen scenario as the header line,
+        // before the K/I/S/S responses it frames (stable sort preserves the rest).
+        if (fam.name === 'KISS Navigation Response') {
+          famEntries = famEntries.slice().sort(function (a, b) {
+            return (/scenario/i.test(a.fieldName) ? 0 : 1) - (/scenario/i.test(b.fieldName) ? 0 : 1);
+          });
+        }
+        famEntries.forEach(function (entry) { body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId)); });
       }
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
