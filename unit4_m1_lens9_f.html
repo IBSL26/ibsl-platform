@@ -222,36 +222,56 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .ex-output li:last-child{border-bottom:none;}
 .ex-output li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
 @media(max-width:900px){.esrg-grid,.vs-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u4m1_lens9';
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+  function showDenied(msg){
+    document.getElementById('f1-gate-overlay').style.display='flex';
+    document.getElementById('f1-gate-msg').textContent=msg||'Access denied.';
+  }
+  async function checkAccess(){
+    const { data:{ session }, error:sessErr } = await supabaseClient.auth.getSession();
+    if(sessErr||!session){ window.location.href='index.html'; return; }
+    const { data:profile, error:profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if(profErr||!profile){ showDenied('Could not verify your role.'); return; }
+    const role = profile.role;
+    if(role==='admin') return;
+    if(role!=='facilitator'){ window.location.href='index.html'; return; }
+    const { data:canFac, error:gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if(canFac===false){ showDenied('You are not assigned to facilitate this lens. Please contact your administrator.'); return; }
+  }
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
 </head>
 <body>
 
-<!-- GATE -->
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Facilitator Portal</div>
-    <div class="gate-sub">Unit 4 &middot; Module 1 &middot; Lens 9</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Facilitator Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Unlock Facilitator View</button>
-    <div class="gate-error" id="gateError"></div>
+<!-- ACCESS GATE (role-based; shown only on denial) -->
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
   </div>
 </div>
 
 <!-- NAV -->
 <nav class="unit-nav">
   <div class="nav-left">
-    <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
-    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+    <div class="nav-brand"><strong>Lens 9 &middot; ESRG Alignment</strong>Unit 4 &middot; Module 1 &mdash; Facilitator Guide</div>
   </div>
-  <span class="nav-badge">&#128274; Facilitator</span>
+  <span class="nav-badge">Facilitator View</span>
 </nav>
 
 <!-- HEADER -->
@@ -1025,21 +1045,6 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 </div><!-- /main -->
 <script>
-const VALID=['IBSL-FAC-2025','FAC-LEAD-001','S2R-CTRL-77','IBSL-SYNTH-F','FACILITATOR-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(201,168,76,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
 function showMod(n){
   document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
@@ -1060,7 +1065,7 @@ function saveTA(btn){
   btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
   setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
 }
-function goBack(){window.location.href='index.html';}
+function goBack(){window.location.href='dashboard_F.html';}
 function showStep(n,tab){
   const grp=tab.closest('.step-group');
   grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));

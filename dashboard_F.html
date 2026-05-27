@@ -3245,7 +3245,7 @@
     ],
     4: [
       // Grounding — Pillar 3 (3 lenses across 1 module)
-      { label: 'Lens 9 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: false },
+      { label: 'Lens 9 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: true },
       { label: 'Lens 10 — Culture Reinforcement & Org Health',  file: 'unit4_m1_lens10_f.html', live: false },
       { label: 'Lens 11 — Sustaining Performance (F.I.T)',      file: 'unit4_m1_lens11_f.html', live: false }
     ]
@@ -5436,7 +5436,9 @@
       { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } },
       { name: 'Performance Intelligence Synthesis', test: function (k) { return /^app_syn_(pattern|repeat|depend|chain|decision)$/i.test(k); } },
       { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } },
-      { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } }
+      { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } },
+      { name: 'ESRG Alignment Agenda',    test: function (k) { return /^esrg_/i.test(k); } },
+      { name: 'Cultural Operating Code',  test: function (k) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || /^app_commit$/i.test(k); } }
     ];
     function familyOf(key) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key)) return FAMILY_DEFS[fi].name; }
@@ -5860,7 +5862,8 @@
       u3m1_lens5: {1:"FACES Diagnostic",2:"Your Rating Experience",3:"Your Weakest Bridge",4:"Your Architecture (compliance↔commitment)",5:"Your Enterprise Signal",6:"Your Hot Zone",7:"Your Dominant Gap",8:"Apply the Formula (cumulative %)",9:"EXECUTION Self-Score",10:"My 30-Day Commitment"},
       u3m1_lens6: {1:"Your Honest Assessment",2:"Which Condition Is Most Often Missing?",3:"Map Your Chain",4:"Your Team Right Now",5:"Your Most Absent Mechanism",6:"Your Expectation Gap",7:"Which Step Do You Most Often Skip?",8:"Practise the Resolve Question"},
       u3m2_lens7: {1:"Activity vs Progress",2:"R3 Cycle in Your Organisation",3:"Which Signal Are You Seeing?",4:"Which Gap Is Most Prevalent?",5:"Round 1 Contribution — Collective Trajectory",6:"Round 2 Contribution — Early Warnings",7:"Round 3 Contribution — Execution Learning"},
-      u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda"}
+      u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda"},
+      u4m1_lens9: {1:"The Grounding Question",2:"Most Misaligned ESRG Domain",3:"Weakest Enabling Condition",4:"Most Recognisable Overlap Pattern",5:"Environment Friction",6:"Systems Friction",7:"Resources Friction",8:"Governance Friction"}
     };
     if ((m = s.match(/^ref(\d+)$/i))) {
       var _rl = lensId && REF_LABELS[lensId];
@@ -5945,6 +5948,15 @@
     if (/^app_clog$/i.test(s))     return 'Commitment · Clog Diagnosed';
     if (/^app_lever$/i.test(s))    return 'Commitment · Lever to Pull';
     if (/^app_followup$/i.test(s)) return 'Commitment · Follow-Up Review Date';
+    // Lens 9 — ESRG Alignment (Grounding)
+    if (/^esrg_element$/i.test(s))  return 'ESRG Agenda · Friction Element';
+    if (/^esrg_issue$/i.test(s))    return 'ESRG Agenda · Issue Observed';
+    if (/^esrg_severity$/i.test(s)) return 'ESRG Agenda · Severity';
+    if (/^esrg_compass$/i.test(s))  return 'ESRG Agenda · COMPASS Zone Most Impacted';
+    if (/^esrg_why$/i.test(s))      return 'ESRG Agenda · Why Named Now';
+    if ((m = s.match(/^coc(\d+)$/i))) return 'COC Norm ' + m[1];
+    if (/^coc_valueset$/i.test(s))  return 'Chosen Value Set';
+    if (/^app_commit$/i.test(s))    return 'COC Commitment';
     s = s.replace(/^app_app_/i, '');
     s = s.replace(/^r_m\d+_/, '');
     s = s.replace(/^r_/, '');

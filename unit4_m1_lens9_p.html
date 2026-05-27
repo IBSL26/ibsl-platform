@@ -174,32 +174,103 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .gate-btn:hover{background:var(--teall);}
 .gate-error{font-size:11px;color:#e07070;margin-top:10px;display:none;}
 @media(max-width:900px){.esrg-grid,.vs-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.tab-bar,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod{display:block!important;border:none;}}
+
+/* ── S2R portal styles (ported verbatim from the Lens 8 participant page) ── */
+.arc-seg{transition:opacity .2s;}
+.arc-seg.active{opacity:1;box-shadow:0 0 0 1px rgba(34,160,138,.4);}
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:200px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-prog{color:rgba(255,255,255,.35);font-style:italic;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
+/* ── Structured field widgets (UI-only; serialise into the existing hidden key) ── */
+.fld-label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:10px 0 3px;}
+.fld-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
+.fld-isel{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;cursor:pointer;transition:border-color .2s;}
+.fld-input:focus,.fld-isel:focus{border-color:rgba(26,122,106,.5);}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
 </head>
 <body>
-<div class="gate-overlay" id="gateOverlay">
-  <div class="gate-box">
-    <div class="gate-title">Participant Portal</div>
-    <div class="gate-sub">Unit 4 &middot; Module 1 &middot; Lens 9</div>
-    <label class="gate-label">Email Address</label>
-    <input class="gate-input" id="gateEmail" type="email" placeholder="your@email.com">
-    <label class="gate-label">Participant Access Code</label>
-    <div style="position:relative;">
-      <input class="gate-input" id="gateCode" type="password" placeholder="Enter access code" style="padding-right:56px;margin-bottom:0;">
-      <button onclick="toggleGateCode()" id="toggleCodeBtn" type="button" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">SHOW</button>
-    </div>
-    <div style="height:14px;"></div>
-    <button class="gate-btn" onclick="gateSubmit()">Enter Participant View</button>
-    <div class="gate-error" id="gateError"></div>
-  </div>
-</div>
 <nav class="unit-nav">
   <div class="nav-left">
     <button class="nav-back" onclick="goBack()">&#8592; Portal</button>
     <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
-    <div class="nav-brand"><strong>S2R&reg;</strong>Strategy2Results&reg;</div>
+    <div class="nav-brand"><strong>Lens 9 &middot; ESRG Alignment</strong>Unit 4 &middot; Module 1 &mdash; Participant</div>
   </div>
-  <span class="nav-badge">Participant</span>
+  <span class="nav-badge">&#127891; Participant</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
 </nav>
 <div class="unit-header">
   <div class="uh-inner">
@@ -235,7 +306,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </ul></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">ESRG Alignment &mdash; The Grounding Question</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb"><p>Enterprise alignment is one of the most decisive success factors in strategy execution. Performance is not sustained by strategy alone &mdash; it is sustained by the organisational system: the environment people work in, the systems they rely on, the resources they are given, and the governance structures that guide decisions.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" placeholder="Most strategies that survive the first quarter fail by the third. What does that tell you about where execution actually breaks down in your organisation?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref1" placeholder="Most strategies that survive the first quarter fail by the third. What does that tell you about where execution actually breaks down in your organisation?"></textarea><div class="ref-saved reflection-saved" id="ref1-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Four ESRG Domains</div><div class="acc-meta">Select each to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -276,7 +347,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="esrg-body"><ul><li>Each area of strategic work has a clearly assigned owner</li><li>Decision rights clearly defined, communicated, and understood at every level</li><li>Review forums making decisions &mdash; not only collecting status updates</li><li>Risk discussions accompanying performance discussions as a standard discipline</li><li>Consequences applied consistently regardless of seniority</li></ul></div>
 </div>
 </div>
-<div class="ref-block"><div class="ref-label">&#x270E; Self-Assessment &mdash; Which ESRG domain is most misaligned in your organisation?</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Domain: ___&#10;How long has this misalignment been visible?&#10;What has it cost in execution momentum?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Self-Assessment &mdash; Which ESRG domain is most misaligned in your organisation?</div><textarea class="ref-ta reflection-textarea" id="ref2" style="min-height:70px;" placeholder="Domain: ___&#10;How long has this misalignment been visible?&#10;What has it cost in execution momentum?"></textarea><div class="ref-saved reflection-saved" id="ref2-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn" onclick="showMod(1,null)">Intelligence &rarr;</button></div>
 </div></div>
@@ -303,7 +374,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="step-panel"><h5>Govern the Rhythm</h5><p>Governance provides the structure maintaining the rhythm of decisions, reviews, and accountability. The governance system must apply standards consistently regardless of seniority &mdash; leaders exempt from accountability destroy governance credibility faster than any single operational failure.</p>
 <div class="hbox"><p style="font-style:italic;font-family:'Cormorant Garamond';font-size:1.05rem;">"When all four conditions operate together, execution no longer depends on leadership attention. The organisation&rsquo;s operating system reinforces the work itself. That is Grounding."</p></div></div>
 </div>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which enabling condition is weakest in your organisation right now &mdash; and what is the execution cost?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref3" style="min-height:60px;" placeholder="Which enabling condition is weakest in your organisation right now &mdash; and what is the execution cost?"></textarea><div class="ref-saved reflection-saved" id="ref3-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Worked Example 1 &mdash; The IBSL Cultural Operating Code</div><div class="acc-meta">6 values &middot; 6 norms</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -370,7 +441,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <tr><td><strong>OVERALL</strong></td><td class="rag-red">&#128308; RED &mdash; CRITICAL FRICTION DETECTED</td></tr>
 </tbody></table>
 <div class="signal-box">Six executives entered the session each holding one piece of the picture. None could see the full pattern alone. This is what collective intelligence looks like.</div>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which of the three overlapping patterns is most recognisable in your context? Why?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref4" style="min-height:60px;" placeholder="Which of the three overlapping patterns is most recognisable in your context? Why?"></textarea><div class="ref-saved reflection-saved" id="ref4-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn prev" onclick="showMod(0,null)">&larr; Awareness</button><button class="btn" onclick="showMod(2,null)">Extrapolating &rarr;</button></div>
@@ -389,19 +460,19 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="dim-label">Physical Friction</div><p>Teams asked to work in new ways &mdash; cross-functional, faster, hybrid &mdash; yet workspaces still reflect older patterns. The execution cost is real and largely invisible in any performance report.</p>
 <div class="dim-label">Behavioural Friction</div><p>When stated values are not translated into observable behaviours and not embedded in performance measurement, they function as decoration. The absence of a Cultural Operating Code means cultural expectations remain implicit &mdash; interpreted differently by different people at different seniority levels. That inconsistency is friction.</p>
 <p>When psychological safety fails, execution issues surface too late. The organisation loses its most valuable early warning system: the willingness of people to tell the truth about what is actually happening.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Which environmental friction pattern &mdash; physical or behavioural &mdash; is most present in your function right now? What is the execution cost?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref5" style="min-height:60px;" placeholder="Which environmental friction pattern &mdash; physical or behavioural &mdash; is most present in your function right now? What is the execution cost?"></textarea><div class="ref-saved reflection-saved" id="ref5-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">S &mdash; Systems Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb"><p>Workarounds invented to keep work moving become, over time, the de facto system. Data integrity is not a technical problem &mdash; it is an execution problem. When leaders spend more time debating the accuracy of information than interpreting what it means, systems are failing execution.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your organisation have workarounds become so normalised that they are now the de facto system?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref6" style="min-height:60px;" placeholder="Where in your organisation have workarounds become so normalised that they are now the de facto system?"></textarea><div class="ref-saved reflection-saved" id="ref6-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">R &mdash; Resources Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb"><p>The assumption of readiness is itself a source of friction. Burnout is a strategic risk &mdash; it degrades execution quality, accelerates talent exit, and erodes institutional knowledge. The absence of a signal that workloads are unsustainable is not evidence that all is well. It is evidence that psychological safety is insufficient. Strategy follows resources: where the money goes is where the organisation&rsquo;s real priorities reside.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your strategy portfolio is there a gap between what you have committed to deliver and what you are actually resourced to achieve?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref7" style="min-height:60px;" placeholder="Where in your strategy portfolio is there a gap between what you have committed to deliver and what you are actually resourced to achieve?"></textarea><div class="ref-saved reflection-saved" id="ref7-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">G &mdash; Governance Friction</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb"><p>Governance structures designed to control risk can begin to slow execution speed as strategy evolves. Selective enforcement &mdash; when high performers are exempt from accountability by virtue of results &mdash; delegitimises the governance system. A governance system that lacks legitimacy cannot sustain the execution discipline the strategy requires.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta" style="min-height:60px;" placeholder="Where in your governance system is selective enforcement visible? What signal is that sending to the rest of the organisation?"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Reflection</div><textarea class="ref-ta reflection-textarea" id="ref8" style="min-height:60px;" placeholder="Where in your governance system is selective enforcement visible? What signal is that sending to the rest of the organisation?"></textarea><div class="ref-saved reflection-saved" id="ref8-saved"></div><button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn prev" onclick="showMod(1,null)">&larr; Intelligence</button><button class="btn" onclick="showMod(3,null)">Integration Zone &rarr;</button></div>
 </div></div>
@@ -441,9 +512,20 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <tr><td>Sensing &amp; Adaptation</td><td>Environment + Systems</td><td>Psychological safety absent; feedback loops broken</td></tr>
 </tbody></table>
 </div></div></div>
-<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Contribution to the Enterprise ESRG Alignment Agenda</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Contribution to the Enterprise ESRG Alignment Agenda</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
-<div class="ref-block"><div class="ref-label">&#x270E; Your Individual ESRG Scanner Input</div><textarea class="ref-ta" style="min-height:100px;" placeholder="ESRG Element where I observed the most significant friction this quarter: ___&#10;Issue observed (one sentence): ___&#10;Severity (High / Medium / Low): ___&#10;COMPASS zones I believe are impacted: ___&#10;&#10;Why I am naming this now rather than absorbing it silently: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<p>Each leader contributes one ESRG friction observation to a shared, structured agenda &mdash; replacing informal complaint with collective intelligence the leadership team can act on by function.</p>
+<div class="ref-block"><div class="ref-label">Team / Group &amp; Executive Role</div><p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:2px;">If you ran the ESRG scan as a group, label it so your facilitator can identify whose contribution this is &mdash; and select the executive function behind it.</p>
+<label class="fld-label">Team / group name</label><textarea class="ref-ta reflection-textarea" id="team_name" style="min-height:40px;" placeholder="Team / group name..."></textarea><div class="ref-saved reflection-saved" id="team_name-saved"></div>
+<label class="fld-label">Executive role (function)</label><select class="fld-isel reflection-textarea" id="exec_role"><option value="">&ndash;</option><option>CEO</option><option>COO</option><option>CFO</option><option>CPO / CHRO</option><option>CMO</option><option>CTO</option><option>CIO</option><option>CSO</option><option>CRO</option><option>Other</option></select><div class="ref-saved reflection-saved" id="exec_role-saved"></div>
+<button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Your Individual ESRG Scanner Input</div>
+<label class="fld-label">Friction Element</label><select class="fld-isel reflection-textarea" id="esrg_element"><option value="">&ndash;</option><option>E &mdash; Environment</option><option>S &mdash; Systems</option><option>R &mdash; Resources</option><option>G &mdash; Governance</option></select><div class="ref-saved reflection-saved" id="esrg_element-saved"></div>
+<label class="fld-label">Issue Observed (one sentence)</label><textarea class="ref-ta reflection-textarea" id="esrg_issue" style="min-height:50px;" placeholder="The friction I observed this quarter..."></textarea><div class="ref-saved reflection-saved" id="esrg_issue-saved"></div>
+<label class="fld-label">Severity</label><select class="fld-isel reflection-textarea" id="esrg_severity"><option value="">&ndash;</option><option>High</option><option>Medium</option><option>Low</option></select><div class="ref-saved reflection-saved" id="esrg_severity-saved"></div>
+<label class="fld-label">COMPASS Zone Most Impacted</label><select class="fld-isel reflection-textarea" id="esrg_compass"><option value="">&ndash;</option><option>C &mdash; Clarity of Direction</option><option>O &mdash; Organisational Alignment</option><option>M &mdash; Management Discipline</option><option>P &mdash; People &amp; Capability</option><option>A &mdash; Allocation of Resources</option><option>S1 &mdash; Systems &amp; Execution</option><option>S2 &mdash; Sensing &amp; Adaptation</option></select><div class="ref-saved reflection-saved" id="esrg_compass-saved"></div>
+<label class="fld-label">Why I Am Naming This Now</label><textarea class="ref-ta reflection-textarea" id="esrg_why" style="min-height:50px;" placeholder="Why I am naming this now rather than absorbing it silently..."></textarea><div class="ref-saved reflection-saved" id="esrg_why-saved"></div>
+<button class="ref-save" onclick="saveTA(this)">Save</button></div>
 </div></div></div>
 <div class="mod-nav"><button class="btn prev" onclick="showMod(2,null)">&larr; Extrapolating</button><button class="btn" onclick="showMod(4,null)">Application &rarr;</button></div>
 </div></div>
@@ -459,10 +541,11 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Choose Your Value Set</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
 <div class="vs-grid">
-<div class="vs-card selected" onclick="selectVS(this)"><div class="vs-type">Value Set A</div><div class="vs-title">The Governance-Led Organisation</div><div class="vs-values">Transparency<br>Courage<br>Service<br>Resilience<br>Innovation<br>Stewardship</div></div>
-<div class="vs-card" onclick="selectVS(this)"><div class="vs-type">Value Set B</div><div class="vs-title">The Performance-Led Organisation</div><div class="vs-values">Trust<br>Agility<br>Quality<br>Ownership<br>Growth<br>Inclusion</div></div>
-<div class="vs-card" onclick="selectVS(this)"><div class="vs-type">Value Set C</div><div class="vs-title">The Purpose-Led Organisation</div><div class="vs-values">Purpose<br>Integrity<br>Ubuntu<br>Excellence<br>Boldness<br>Care</div></div>
+<div class="vs-card" data-vs="Set A &mdash; The Governance-Led Organisation" onclick="selectVS(this)"><div class="vs-type">Value Set A</div><div class="vs-title">The Governance-Led Organisation</div><div class="vs-values">Transparency<br>Courage<br>Service<br>Resilience<br>Innovation<br>Stewardship</div></div>
+<div class="vs-card" data-vs="Set B &mdash; The Performance-Led Organisation" onclick="selectVS(this)"><div class="vs-type">Value Set B</div><div class="vs-title">The Performance-Led Organisation</div><div class="vs-values">Trust<br>Agility<br>Quality<br>Ownership<br>Growth<br>Inclusion</div></div>
+<div class="vs-card" data-vs="Set C &mdash; The Purpose-Led Organisation" onclick="selectVS(this)"><div class="vs-type">Value Set C</div><div class="vs-title">The Purpose-Led Organisation</div><div class="vs-values">Purpose<br>Integrity<br>Ubuntu<br>Excellence<br>Boldness<br>Care</div></div>
 </div>
+<textarea id="coc_valueset" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc_valueset-saved" style="margin-top:6px;"></div>
 </div></div></div>
 <div class="acc open"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">The Exercise &mdash; 55 Minutes</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -476,9 +559,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p><strong>Step 1 &mdash; Define the behaviour:</strong> What would a leader who genuinely lives this value do differently from one who only states it?</p>
 <p><strong>Step 2 &mdash; Build the acronym:</strong> Take the first letter of three action words. Each must be an observable action &mdash; a verb the leader performs, not a quality they possess.</p>
 <p><strong>Step 3 &mdash; Write the norm statement:</strong> One sentence specific enough that a new employee on Day 1 would know exactly what behaviour will be recognised and what will be corrected.</p>
-<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 1</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 2</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 3</div><textarea class="ref-ta" style="min-height:70px;" placeholder="Value: ___&#10;Acronym: ___&#10;Norm: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
+<p style="font-size:12px;color:rgba(34,160,138,.7);">Capture your three draft norms in the <strong>Build Your Cultural Operating Code</strong> block below &mdash; it stays visible as you work through the steps.</p>
 </div>
 <div class="step-panel"><h5>The COC Challenge &mdash; Present Your Strongest Norm</h5>
 <div class="overlap-card"><div class="overlap-label">Test 1 &mdash; The New Employee Test</div><p><em>"If a new employee read this norm on their first day, would they know exactly what behaviour will be recognised and what will be corrected?"</em></p></div>
@@ -487,72 +568,622 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="hbox"><p style="font-family:'Cormorant Garamond';font-size:1.05rem;font-style:italic;">"A Cultural Operating Code only becomes real the moment a leader uses it in a difficult conversation. Which norm from today will you use in your next difficult conversation &mdash; and when?"</p></div>
 </div></div>
 </div></div></div>
-<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Your Commitments</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
-<div class="acc-b"><div class="cb">
+<!-- LIFTED: COC drafts — always visible, not trapped in the step-panel/accordion (§2.4) -->
+<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 6px;">Build Your Cultural Operating Code &mdash; Three Norms</div>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 1</div>
+<label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="0" oninput="syncFieldDebounced('coc1')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="1" oninput="syncFieldDebounced('coc1')">
+<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="2" oninput="syncFieldDebounced('coc1')">
+<textarea id="coc1" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc1-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc1')">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 2</div>
+<label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="0" oninput="syncFieldDebounced('coc2')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="1" oninput="syncFieldDebounced('coc2')">
+<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="2" oninput="syncFieldDebounced('coc2')">
+<textarea id="coc2" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc2-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc2')">Save</button></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 3</div>
+<label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="0" oninput="syncFieldDebounced('coc3')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="1" oninput="syncFieldDebounced('coc3')">
+<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="2" oninput="syncFieldDebounced('coc3')">
+<textarea id="coc3" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc3-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc3')">Save</button></div>
+
+<!-- LIFTED: commitment — always visible (§2.4); plain-text date lines, no date widgets -->
+<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 6px;">Your Commitment &mdash; Leave With These Three</div>
 <div class="ex-out"><div class="ex-out-label">&#9670; Leave With These Three</div><ul>
 <li><strong>Three draft COC norms</strong> from your chosen value set &mdash; named, acronym-based, and observable</li>
 <li><strong>One test commitment</strong> &mdash; which norm will you reference in your next performance or accountability conversation?</li>
 <li><strong>A review date</strong> &mdash; when will you bring the draft COC to your team for pressure-testing?</li>
 </ul></div>
-<div class="ref-block"><div class="ref-label">&#x270E; My Commitment</div><textarea class="ref-ta" style="min-height:70px;" placeholder="The norm I will use in my next difficult conversation: ___&#10;The conversation it applies to: ___&#10;When: ___&#10;&#10;Review date to bring COC to my team: ___"></textarea><button class="ref-save" onclick="saveTA(this)">Save</button></div>
-</div></div></div>
-<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Micro-Climb Summary &mdash; ESRG Alignment</div><div class="acc-meta">Lens 9 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="ref-block"><div class="ref-label">&#x270E; My Commitment</div>
+<label class="fld-label">The norm I will use in my next difficult conversation</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="0" oninput="syncFieldDebounced('app_commit')">
+<label class="fld-label">The conversation it applies to</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="1" oninput="syncFieldDebounced('app_commit')">
+<label class="fld-label">When</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="2" oninput="syncFieldDebounced('app_commit')">
+<label class="fld-label">Review date to bring COC to my team</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="3" oninput="syncFieldDebounced('app_commit')">
+<textarea id="app_commit" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_commit-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_commit')">Save</button></div>
+
+<!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Micro-Climb Summary &mdash; ESRG Alignment</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">4 Sections &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
 <div class="acc-b"><div class="cb">
-<div class="sum-cards">
-<div class="sum-card"><div class="sum-card-label" style="color:#8ab0e8;">Awareness &mdash; The What</div><p>ESRG Alignment examines the four domains that collectively determine whether performance can be sustained. The Cultural Operating Code is the most important output of the Environment domain &mdash; values translated into named, acronym-based norms that become the behavioural architecture of the organisation.</p></div>
-<div class="sum-card"><div class="sum-card-label" style="color:var(--teall);">Intelligence &mdash; The Why</div><p>Each domain removes a specific category of friction. The ignition point of Grounding is when all four work together &mdash; as a coherent operating system that reinforces the strategy rather than resisting it. At that point execution no longer depends on heroic individual effort.</p></div>
-<div class="sum-card"><div class="sum-card-label" style="color:#5ecba1;">Extrapolating &mdash; The Where</div><p>Execution friction is not random. Values misalignment and psychological safety failures in E; workarounds and data fragmentation in S; capability gaps and unsustainable workloads in R; selective accountability and absent leadership in G. These patterns are predictable &mdash; and therefore preventable.</p></div>
-<div class="sum-card"><div class="sum-card-label" style="color:#c39de0;">Integration Zone &mdash; The How</div><p>ESRG friction rarely stays within a single function. The Execution Muscle Scan transforms individual observations into collective intelligence. The Enterprise ESRG Alignment Agenda is a leadership instrument for proactive execution architecture &mdash; not a complaint register.</p></div>
-</div>
-<div class="hbox">
-<p style="font-family:'Cormorant Garamond';font-size:1.1rem;line-height:1.8;text-align:center;">Grounding is where strategy execution is sustained. The environment must enable. The systems must streamline. The resources must sustain. The governance must discipline. When all four are working together &mdash; the organisation does not just execute its strategy. It becomes capable of executing the next one, and the one after that.</p>
+<div id="summaryP"></div>
+<div class="hbox" style="margin-top:8px;">
+<p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;text-align:center;">Grounding is where strategy execution is sustained. The environment must enable. The systems must streamline. The resources must sustain. The governance must discipline. When all four are working together &mdash; the organisation does not just execute its strategy. It becomes capable of executing the next one, and the one after that.</p>
 <p style="text-align:center;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-top:12px;">That is not a management competency. That is an organisational superpower.</p>
 </div>
 </div></div></div>
-<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button></div>
+
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3,null)">&larr; Integration Zone</button><button class="btn" onclick="goBack()">&larr; Back to Platform</button></div>
 </div></div>
 </div>
 <script>
-const VALID=['IBSL-S2R-2025','S2R-PART-001','CESI-JOIN-42','IBSL-GUIDE-P','PARTICIPANT-X'];
-function gateSubmit(){
-  const em=document.getElementById('gateEmail').value.trim();
-  const co=document.getElementById('gateCode').value.trim().toUpperCase();
-  const er=document.getElementById('gateError');
-  if(!em||!em.includes('@')){er.textContent='Please enter a valid email address.';er.style.display='block';return;}
-  if(VALID.includes(co)){document.getElementById('gateOverlay').style.display='none';}
-  else{er.textContent='Invalid access code. Please check with your programme coordinator.';er.style.display='block';}
-}
-function toggleGateCode(){
-  const i=document.getElementById('gateCode'),b=document.getElementById('toggleCodeBtn');
-  if(i.type==='password'){i.type='text';b.textContent='HIDE';b.style.color='rgba(34,160,138,.8)';}
-  else{i.type='password';b.textContent='SHOW';b.style.color='rgba(255,255,255,.3)';}
-}
-document.addEventListener('keydown',e=>{if(e.key==='Enter')gateSubmit();});
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 NAV / TABS / ACCORDIONS \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+function updateArc(n){document.querySelectorAll('.arc-seg').forEach(function(s,i){s.classList.toggle('active',i===n);});}
 function showMod(n,tab){
-  document.querySelectorAll('.mod').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.mod').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab-btn').forEach(function(t){t.classList.remove('active');});
   document.getElementById('mod'+n).classList.add('active');
   if(tab)tab.classList.add('active');
   else document.querySelectorAll('.tab-btn')[n].classList.add('active');
+  updateArc(n);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function tA(h){h.closest('.acc').classList.toggle('open');}
 function toggleESRG(c){c.classList.toggle('open');}
 function toggleCOC(c){c.classList.toggle('open');}
-function selectVS(card){document.querySelectorAll('.vs-card').forEach(c=>c.classList.remove('selected'));card.classList.add('selected');}
-function saveTA(btn){
-  const o=btn.textContent;btn.textContent='Saved \u2713';
-  btn.style.background='rgba(26,122,106,.2)';btn.style.borderColor='var(--teal)';btn.style.color='var(--teall)';
-  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
-}
-function goBack(){window.location.href='index.html';}
 function showStep(n,tab){
-  const grp=tab.closest('.step-group');
-  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
-  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  var grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(function(p){p.classList.remove('active');});
+  grp.querySelectorAll('.step-tab').forEach(function(t){t.classList.remove('active');});
   grp.querySelectorAll('.step-panel')[n].classList.add('active');
   tab.classList.add('active');
 }
+function goBack(){window.location.href='index.html';}
+
+/* Value-set selection \u2192 persists into coc_valueset via the existing saveRef */
+function selectVS(card){
+  document.querySelectorAll('.vs-card').forEach(function(c){c.classList.remove('selected');});
+  card.classList.add('selected');
+  var hidden=document.getElementById('coc_valueset');
+  if(hidden){hidden.value=card.getAttribute('data-vs')||'';saveRef('coc_valueset');}
+}
+function hydrateValueSet(){
+  var hidden=document.getElementById('coc_valueset');if(!hidden||!hidden.value)return;
+  document.querySelectorAll('.vs-card').forEach(function(c){c.classList.toggle('selected',c.getAttribute('data-vs')===hidden.value);});
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 MICRO-CLIMB SUMMARY (locked arc summaries) \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var SUMMARY=[
+{arc:"Awareness \u2014 What",title:"What ESRG Alignment Is",body:"ESRG Alignment asks whether the organisation itself is built to sustain the performance it is being asked to deliver. Four domains decide this: Environment (its Physical infrastructure and its Behavioural conditions), Systems, Resources, and Governance. The critical output of the Behavioural Environment is the Cultural Operating Code \u2014 stated values translated into named, acronym-based norms that define observable, repeatable behaviour. Without that translation, values stay decorative and culture defaults rather than being taught."},
+{arc:"Intelligence \u2014 Why",title:"Why Alignment Sustains Execution",body:"Each ESRG domain removes a specific category of friction: Environment enables, Systems streamline, Resources sustain, Governance disciplines. The ignition point of Grounding is the moment all four operate together \u2014 at which point execution no longer depends on leadership attention, because the operating system reinforces the work itself. Two worked examples make this concrete: the IBSL Cultural Operating Code, which renders values as observable behavioural norms, and the ESRG Execution Scanner, where six leaders each holding one fragment surface a consolidated verdict no single function could see alone."},
+{arc:"Extrapolating \u2014 Where",title:"Where Friction Concentrates",body:"ESRG friction is predictable, and therefore preventable. In Environment it shows as workspaces lagging new ways of working (physical) and values left untranslated while psychological safety fails (behavioural). In Systems it is workarounds hardening into the de facto system and data integrity decaying into an execution problem. In Resources it is the unchallenged assumption of readiness, burnout as a strategic risk, and budgets that reveal the organisation\u2019s real priorities. In Governance it is risk-control structures that throttle execution speed and selective enforcement that strips the system of legitimacy. Friction read this way is organisational intelligence \u2014 signal, not failure."},
+{arc:"Integration Zone \u2014 Collective",title:"How Alignment Becomes Collective",body:"ESRG friction rarely stays inside one function, so Grounding requires collective commitment rather than isolated functional ownership. The Execution Muscle Scan turns each leader\u2019s four reflections \u2014 Environment, Systems, Resources, Governance \u2014 into shared intelligence around one question: \u201cAre the organisational conditions still supporting our ability to continue the climb?\u201d The COMPASS\u2013ESRG connection then maps each COMPASS zone to its primary ESRG domain and friction source, so a symptom can be traced to its structural cause. The output is the Enterprise ESRG Alignment Agenda \u2014 a leadership instrument for proactive execution architecture, not a complaint register."}
+];
+function renderSummaryP(){
+  var el=document.getElementById("summaryP");if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return "<div class=\"sum-block\" id=\"sump_"+i+"\">"+
+      "<div class=\"sum-h\" onclick=\"document.getElementById('sump_"+i+"').classList.toggle('open')\">"+
+        "<span class=\"sum-arc\">"+s.arc+"</span>"+
+        "<span class=\"sum-title\">"+s.title+"</span>"+
+        "<span class=\"sum-arr\">\u25be</span></div>"+
+      "<div class=\"sum-body\"><p>"+s.body+"</p></div></div>";
+  }).join("");
+}
+
+/* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 Reflection autosave: debounce \u2192 real S2R.save \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"\u270f Drafting\u2026","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save \u2014 <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit4_m1_lens9_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"\u23f3 Saving\u2026","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u4m1_lens9",id,ta.value);
+  if(result){
+    _setRefStatus(id,"\u2713 Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit4_m1_lens9_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea, input.reflection-textarea, select.reflection-textarea").forEach(function(el){
+    if(!el.id)return;
+    el.addEventListener("input",function(){draftRef(el.id);});
+    if(el.tagName==="SELECT")el.addEventListener("change",function(){saveRef(el.id);});
+  });
+});
+
+/* \u2500\u2500 Manual "Save" button: real group-save of every reflection-textarea in the block \u2500\u2500 */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Structured field widgets \u2192 SAME existing keys via saveRef (UI-only, no new keys) \u2500\u2500
+   Each widget (data-fkey/data-fidx) writes a canonical "Label: value" string into the
+   hidden <textarea id="<key>"> and calls the existing saveRef('<key>'). Round-trips on load. */
+var FIELD_SPECS={
+  coc1:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  coc2:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  coc3:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  app_commit:[{l:"The norm I will use in my next difficult conversation",k:"text"},{l:"The conversation it applies to",k:"text"},{l:"When",k:"text"},{l:"Review date to bring COC to my team",k:"text"}]
+};
+function _fldLine(p,v){return p.l+": "+(v||"");}
+function syncField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var lines=spec.map(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');
+    return _fldLine(p,el?el.value:"");
+  });
+  hidden.value=lines.join("\n");
+  saveRef(key);
+}
+var _fldTimers={};
+function syncFieldDebounced(key){clearTimeout(_fldTimers[key]);_fldTimers[key]=setTimeout(function(){syncField(key);},800);}
+function hydrateField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var raw=hidden.value||"";if(!raw)return;
+  var lines=raw.split("\n");
+  spec.forEach(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');if(!el)return;
+    var prefix=p.l+":";var line=null;
+    for(var j=0;j<lines.length;j++){if(lines[j].indexOf(prefix)===0){line=lines[j];break;}}
+    if(line===null)return; // not found (old/foreign format) \u2014 leave blank, don't mangle
+    el.value=line.slice(prefix.length).replace(/^\s+/,"");
+  });
+}
+function fldSaveBtn(btn,key){
+  syncField(key);
+  var orig=btn.textContent;
+  btn.textContent="Saved \u2713";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* \u2500\u2500 Submit to facilitator \u2500\u2500 */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Unit 4 \u00b7 Module 1 \u00b7 Lens 9 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u4m1_lens9");
+  if(result.ok){alert("\u2713 Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* \u2500\u2500 Signed-in badge \u2500\u2500 */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" \u00b7 "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* \u2500\u2500 COMPONENT 1: facilitator feedback display \u2500\u2500 */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u4m1_lens9")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit4_m1_lens9_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" \u00b7 revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit4_m1_lens9_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+}
+
+/* \u2500\u2500 COMPONENT 5 + 6: messages + documents (generic, verbatim) \u2500\u2500 */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit4_m1_lens9_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201d'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit4_m1_lens9_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit4_m1_lens9_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit4_m1_lens9_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit4_m1_lens9_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// COMPONENT 6 \u2014 DOCUMENT UPLOAD
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit4_m1_lens9_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit4_m1_lens9_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit4_m1_lens9_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit4_m1_lens9_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit4_m1_lens9_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* \u2500\u2500 Restore saved responses + reveal feedback on load \u2500\u2500 */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit4_m1_lens9_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u4m1_lens9");
+    var KEYS=["team_name","exec_role","ref1","ref2","ref3","ref4","ref5","ref6","ref7","ref8","esrg_element","esrg_issue","esrg_severity","esrg_compass","esrg_why","coc_valueset","coc1","coc2","coc3","app_commit"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    ["coc1","coc2","coc3","app_commit"].forEach(hydrateField);
+    hydrateValueSet();
+    loadSubmissionFeedback();
+  }catch(err){console.error("[unit4_m1_lens9_p] Load exception:",err);}
+});
+
+/* \u2500\u2500 Init \u2500\u2500 */
+renderSummaryP();
+updateArc(0);
 </script>
 </body>
 </html>
