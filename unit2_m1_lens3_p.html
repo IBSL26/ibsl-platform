@@ -78,7 +78,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .abcv-icon{font-size:18px;}
 .abcv-caret{font-size:12px;color:rgba(255,255,255,.3);transition:transform .25s;}
 .abcv-card.open .abcv-caret{transform:rotate(180deg);}
-.abcv-detail{max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0;background:#0f1a10;padding:0 18px;}
+.abcv-detail{display:none;overflow:hidden;background:#0f1a10;padding:0 18px;}
+.abcv-card.open .abcv-detail{display:block;}
 .abcv-detail-inner{padding:16px 0;}
 .abcv-detail-inner p{font-size:13px;line-height:1.85;color:rgba(255,255,255,.72);margin-bottom:10px;}
 .abcv-detail-inner strong{color:rgba(255,255,255,.9);}
@@ -142,8 +143,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 /* Gate */
 @media(max-width:700px){.abcv-grid,.hz-grid{grid-template-columns:1fr!important;}}
 @media print{.unit-nav,.mod-tabs,.mod-nav,}
-.mine-body{overflow:hidden;transition:max-height .4s ease,opacity .3s;max-height:800px;opacity:1;}
-.mine-card.collapsed .mine-body{max-height:0;opacity:0;pointer-events:none;}
+.mine-body{overflow:hidden;}
+.mine-card.collapsed .mine-body{display:none;}
 .mine-label{cursor:pointer;user-select:none;display:flex;align-items:center;justify-content:space-between;}
 .mine-label::after{content:"▾";font-size:11px;opacity:.4;transition:transform .3s;}
 .mine-card.collapsed .mine-label::after{transform:rotate(-90deg);}
@@ -991,15 +992,9 @@ function tA(h){
 
 /* ── ABCV Cards ── */
 function toggleCard(el){
-  const detail=el.querySelector('.abcv-detail');
-  const isOpen=detail.style.maxHeight&&detail.style.maxHeight!=='0px';
-  document.querySelectorAll('.abcv-detail').forEach(d=>{d.style.maxHeight='0px';d.style.opacity='0';});
+  const isOpen=el.classList.contains('open');
   document.querySelectorAll('.abcv-card').forEach(c=>c.classList.remove('open'));
-  if(!isOpen){
-    detail.style.maxHeight=detail.scrollHeight+'px';
-    detail.style.opacity='1';
-    el.classList.add('open');
-  }
+  if(!isOpen)el.classList.add('open');
 }
 
 /* ── Hot Zone ── */

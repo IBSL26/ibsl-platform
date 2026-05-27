@@ -220,8 +220,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .assess-action-btn{padding:9px 16px;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .assess-action-btn.primary{background:rgba(26,122,106,.12);border:1px solid rgba(26,122,106,.35);color:var(--teal);}
 .assess-action-btn.primary:hover{background:rgba(26,122,106,.22);}
-.assess-action-btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.45);}
-.assess-action-btn.ghost:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.7);}
 /* SUMMARY BLOCKS */
 .sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.2);border-radius:3px;overflow:hidden;}
 .sum-h{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(26,122,106,.06);border-bottom:1px solid rgba(26,122,106,.1);cursor:pointer;}
@@ -308,12 +306,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="nav-brand">Strategy2Result®<strong>IBSL · Unit 2 · Module 1</strong></div>
     <span class="nav-badge">Participant View</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in…</span>
   </div>
-  <a class="nav-back" href="index.html">← Back to Platform</a>
+  <button class="nav-back" onclick="goBack()">&#8592; Back to Platform</button>
 </nav>
 
 <div class="unit-header">
   <div class="uh-inner">
-    <div class="eyebrow">Unit 2 · Direction — Pillar 1 · Module 1 · Chapter 1 · Lens 1</div>
+    <div class="eyebrow">Unit 2 · Module 1 · Lens 1</div>
     <h1 class="unit-title">Strategy Intent &amp; Success in Practice <span style="color:var(--teal);font-style:italic;">(SiP)</span></h1>
     <div class="unit-sub">Collective Intelligence of Execution</div>
     <p class="unit-desc">This lens builds the master definition of strategy, the 3W1H framework, and produces two integrated outputs — a Strategic Intent Statement and a Success in Practice narrative — through collective executive co-creation.</p>
@@ -582,10 +580,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
       Print / Save PDF
     </button>
-    <button class="assess-action-btn ghost" onclick="emailAssessment()">
-      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-      Email Results
-    </button>
   </div>
   <div class="ref-block" style="margin-top:16px;">
     <div class="ref-head"><span class="ref-icon">✍</span><span class="ref-label">Reflection 5 — Maturity Assessment</span></div>
@@ -810,7 +804,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <span class="acc-t">Micro-Climb Summary — What This Lens Produced</span>
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Sections · Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
-<div class="acc-b cb" id="summaryListP"></div>
+<div class="acc-b cb" id="summaryP"></div>
 </div>
 
 <!-- SUBMISSION CLUSTER (feedback / messages / documents) — placed at end of Integration Application for cross-lens consistency -->
@@ -1181,7 +1175,7 @@ var SUMMARY=[
 ];
 
 function renderSummaryP(){
-  var el=document.getElementById('summaryListP');if(!el)return;
+  var el=document.getElementById('summaryP');if(!el)return;
   el.innerHTML=SUMMARY.map(function(s,i){
     return '<div class="sum-block" id="sumP_'+i+'">'+
       '<div class="sum-h" onclick="tSumP('+i+')">'+
@@ -1194,22 +1188,6 @@ function renderSummaryP(){
   }).join('');
 }
 function tSumP(i){document.getElementById('sumP_'+i).classList.toggle('open');}
-
-function getAssessText(){
-  var total=Object.values(matScoresP).reduce(function(a,b){return a+b;},0);
-  var lvl=total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';
-  var lines=['S2R® Strategy Maturity Assessment','Unit 2 · Module 1 · Lens 1','Date: '+new Date().toLocaleDateString(),'','Total Score: '+total+' / 78  ('+lvl+')',''];
-  ASSESS.forEach(function(g){
-    var grpTotal=0;
-    g.items.forEach(function(item){grpTotal+=(matScoresP['m'+item.n]||0);});
-    lines.push(g.lbl+' — Group Total: '+grpTotal+' / '+(g.items.length*3));
-    g.items.forEach(function(item){
-      lines.push('  '+item.n+'. '+item.t+': '+(matScoresP['m'+item.n]!==undefined?matScoresP['m'+item.n]:'—'));
-    });
-    lines.push('');
-  });
-  return lines.join('\n');
-}
 
 function printAssessment(){
   var total=Object.values(matScoresP).reduce(function(a,b){return a+b;},0);
@@ -1237,10 +1215,7 @@ function printAssessment(){
   w.document.close();w.print();
 }
 
-function emailAssessment(){
-  var text=getAssessText();
-  window.open('mailto:?subject='+encodeURIComponent('S2R® Strategy Maturity Assessment — Unit 2 Module 1')+'&body='+encodeURIComponent(text));
-}
+function goBack(){location.href='index.html';}
 
 function tA(h){h.parentElement.classList.toggle('open');}
 function tSA(h){h.parentElement.classList.toggle('open');}
