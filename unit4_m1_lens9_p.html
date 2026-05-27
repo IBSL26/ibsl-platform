@@ -259,6 +259,9 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .fld-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
 .fld-isel{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;cursor:pointer;transition:border-color .2s;}
 .fld-input:focus,.fld-isel:focus{border-color:rgba(26,122,106,.5);}
+.coc-add{margin:8px 0 2px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px dashed rgba(26,122,106,.4);color:var(--teall);padding:7px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.coc-add:hover{background:rgba(26,122,106,.1);border-style:solid;}
+.coc-more{margin-top:4px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
@@ -572,18 +575,30 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:22px 0 6px;">Build Your Cultural Operating Code &mdash; Three Norms</div>
 <div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 1</div>
 <label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="0" oninput="syncFieldDebounced('coc1')">
-<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="1" oninput="syncFieldDebounced('coc1')">
-<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="2" oninput="syncFieldDebounced('coc1')">
+<button type="button" class="coc-add" id="coc1-addbtn" onclick="cocAdd('coc1')">+ Add this value</button>
+<div class="coc-more" id="coc1-more" style="display:none;">
+<label class="fld-label">Behaviour</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="1" oninput="syncFieldDebounced('coc1')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="2" oninput="syncFieldDebounced('coc1')">
+<label class="fld-label">Statement</label><input class="fld-input" type="text" data-fkey="coc1" data-fidx="3" oninput="syncFieldDebounced('coc1')">
+</div>
 <textarea id="coc1" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc1-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc1')">Save</button></div>
 <div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 2</div>
 <label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="0" oninput="syncFieldDebounced('coc2')">
-<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="1" oninput="syncFieldDebounced('coc2')">
-<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="2" oninput="syncFieldDebounced('coc2')">
+<button type="button" class="coc-add" id="coc2-addbtn" onclick="cocAdd('coc2')">+ Add this value</button>
+<div class="coc-more" id="coc2-more" style="display:none;">
+<label class="fld-label">Behaviour</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="1" oninput="syncFieldDebounced('coc2')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="2" oninput="syncFieldDebounced('coc2')">
+<label class="fld-label">Statement</label><input class="fld-input" type="text" data-fkey="coc2" data-fidx="3" oninput="syncFieldDebounced('coc2')">
+</div>
 <textarea id="coc2" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc2-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc2')">Save</button></div>
 <div class="ref-block"><div class="ref-label">&#x270E; Draft COC &mdash; Value 3</div>
 <label class="fld-label">Value</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="0" oninput="syncFieldDebounced('coc3')">
-<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="1" oninput="syncFieldDebounced('coc3')">
-<label class="fld-label">Norm statement</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="2" oninput="syncFieldDebounced('coc3')">
+<button type="button" class="coc-add" id="coc3-addbtn" onclick="cocAdd('coc3')">+ Add this value</button>
+<div class="coc-more" id="coc3-more" style="display:none;">
+<label class="fld-label">Behaviour</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="1" oninput="syncFieldDebounced('coc3')">
+<label class="fld-label">Acronym</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="2" oninput="syncFieldDebounced('coc3')">
+<label class="fld-label">Statement</label><input class="fld-input" type="text" data-fkey="coc3" data-fidx="3" oninput="syncFieldDebounced('coc3')">
+</div>
 <textarea id="coc3" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="coc3-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'coc3')">Save</button></div>
 
 <!-- LIFTED: commitment — always visible (§2.4); plain-text date lines, no date widgets -->
@@ -591,13 +606,12 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="ex-out"><div class="ex-out-label">&#9670; Leave With These Three</div><ul>
 <li><strong>Three draft COC norms</strong> from your chosen value set &mdash; named, acronym-based, and observable</li>
 <li><strong>One test commitment</strong> &mdash; which norm will you reference in your next performance or accountability conversation?</li>
-<li><strong>A review date</strong> &mdash; when will you bring the draft COC to your team for pressure-testing?</li>
+<li><strong>A team pressure-test</strong> &mdash; commit to bringing your draft COC to your team to test it.</li>
 </ul></div>
 <div class="ref-block"><div class="ref-label">&#x270E; My Commitment</div>
 <label class="fld-label">The norm I will use in my next difficult conversation</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="0" oninput="syncFieldDebounced('app_commit')">
 <label class="fld-label">The conversation it applies to</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="1" oninput="syncFieldDebounced('app_commit')">
 <label class="fld-label">When</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="2" oninput="syncFieldDebounced('app_commit')">
-<label class="fld-label">Review date to bring COC to my team</label><input class="fld-input" type="text" data-fkey="app_commit" data-fidx="3" oninput="syncFieldDebounced('app_commit')">
 <textarea id="app_commit" class="reflection-textarea" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="app_commit-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'app_commit')">Save</button></div>
 
 <!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
@@ -696,6 +710,26 @@ function hydrateValueSet(){
   var hidden=document.getElementById('coc_valueset');if(!hidden||!hidden.value)return;
   document.querySelectorAll('.vs-card').forEach(function(c){c.classList.toggle('selected',c.getAttribute('data-vs')===hidden.value);});
 }
+/* COC progressive reveal — display only; coc{N} key + serialisation unchanged */
+function cocReveal(key){
+  var more=document.getElementById(key+'-more');if(more)more.style.display='block';
+  var btn=document.getElementById(key+'-addbtn');if(btn)btn.style.display='none';
+}
+function cocAdd(key){
+  var v=document.querySelector('[data-fkey="'+key+'"][data-fidx="0"]');
+  if(!v||!v.value.trim()){ if(v)v.focus(); return; }
+  cocReveal(key);
+  syncFieldDebounced(key);
+}
+/* On load, reveal a COC block if any of its Behaviour/Acronym/Statement sub-fields
+   has hydrated content — so existing saved answers are visible, not hidden. */
+function cocRevealIfFilled(key){
+  var any=[1,2,3].some(function(i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');
+    return el && el.value.trim()!=="";
+  });
+  if(any)cocReveal(key);
+}
 
 /* \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 MICRO-CLIMB SUMMARY (locked arc summaries) \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550 */
 var SUMMARY=[
@@ -775,11 +809,14 @@ function saveTA(btn){
 /* \u2500\u2500 Structured field widgets \u2192 SAME existing keys via saveRef (UI-only, no new keys) \u2500\u2500
    Each widget (data-fkey/data-fidx) writes a canonical "Label: value" string into the
    hidden <textarea id="<key>"> and calls the existing saveRef('<key>'). Round-trips on load. */
+// COC sub-fields: order matches data-fidx. Canonical "Norm statement" label kept
+// (visible label is "Statement") so pre-UX 3-part saves (Value/Acronym/Norm statement)
+// still hydrate by prefix; "Behaviour" is the new line and is absent from old saves.
 var FIELD_SPECS={
-  coc1:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
-  coc2:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
-  coc3:[{l:"Value",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
-  app_commit:[{l:"The norm I will use in my next difficult conversation",k:"text"},{l:"The conversation it applies to",k:"text"},{l:"When",k:"text"},{l:"Review date to bring COC to my team",k:"text"}]
+  coc1:[{l:"Value",k:"text"},{l:"Behaviour",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  coc2:[{l:"Value",k:"text"},{l:"Behaviour",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  coc3:[{l:"Value",k:"text"},{l:"Behaviour",k:"text"},{l:"Acronym",k:"text"},{l:"Norm statement",k:"text"}],
+  app_commit:[{l:"The norm I will use in my next difficult conversation",k:"text"},{l:"The conversation it applies to",k:"text"},{l:"When",k:"text"}]
 };
 function _fldLine(p,v){return p.l+": "+(v||"");}
 function syncField(key){
@@ -1176,6 +1213,7 @@ window.addEventListener("load",async function(){
     var KEYS=["team_name","exec_role","ref1","ref2","ref3","ref4","ref5","ref6","ref7","ref8","esrg_element","esrg_issue","esrg_severity","esrg_compass","esrg_why","coc_valueset","coc1","coc2","coc3","app_commit"];
     KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
     ["coc1","coc2","coc3","app_commit"].forEach(hydrateField);
+    ["coc1","coc2","coc3"].forEach(cocRevealIfFilled);
     hydrateValueSet();
     loadSubmissionFeedback();
   }catch(err){console.error("[unit4_m1_lens9_p] Load exception:",err);}
