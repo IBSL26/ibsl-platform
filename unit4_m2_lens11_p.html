@@ -267,6 +267,35 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <script src="/s2r-save.js"></script>
 </head>
 <body>
+<!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
+<style>@media print{#p-lock-overlay{display:none!important;}}</style>
+<div id="p-lock-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:440px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 12px;font-size:1.6rem;">Lens Locked</h2>
+    <p id="p-lock-msg" style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin:0 0 22px;">Checking access&hellip;</p>
+    <a href="index.html" style="display:inline-block;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;">&#8592; Back to Platform</a>
+  </div>
+</div>
+<script>
+/* Phase 2B participant lock gate — fail-closed; mirrors #f1-gate-overlay (facilitator). */
+(function(){
+  var LENS_ID="u4m2_lens11";
+  var LOCK_MSG="This lens is locked. Your facilitator will unlock it after reviewing your submission for Lens 10 — Culture Reinforcement & Organisational Health.";
+  function showLock(msg){var ov=document.getElementById("p-lock-overlay");if(!ov)return;var m=document.getElementById("p-lock-msg");if(m)m.textContent=msg;ov.style.display="flex";}
+  var ACCESSIBLE={unlocked:1,in_progress:1,submitted:1,reviewed:1,completed:1};
+  (async function(){
+    try{
+      if(!window.S2R||typeof S2R.context!=="function"){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var ctx=await S2R.context();
+      if(!ctx){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var res=await S2R._client.from("lens_progress").select("status").eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id",LENS_ID).maybeSingle();
+      if(res.error){console.error("[p-lock] lens_progress read error:",res.error);showLock("Couldn’t verify access — please try refreshing.");return;}
+      if(res.data&&ACCESSIBLE[res.data.status])return;
+      showLock(LOCK_MSG);
+    }catch(err){console.error("[p-lock] gate exception:",err);showLock("Couldn’t verify access — please try refreshing.");}
+  })();
+})();
+</script>
 <nav class="unit-nav">
   <div class="nav-left">
     <button class="nav-back" onclick="goBack()">&#8592; Back to Platform</button>
