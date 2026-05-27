@@ -5398,10 +5398,10 @@
     }
 
     // Generic walker: group by module pattern when present
-    return renderGenericResponses(responses);
+    return renderGenericResponses(responses, lensId);
   }
 
-  function renderGenericResponses(responses) {
+  function renderGenericResponses(responses, lensId) {
     // Filter __-prefixed keys (system markers, not content)
     const visibleKeys = Object.keys(responses).filter(function(k) { return !k.startsWith('__'); });
 
