@@ -763,6 +763,13 @@ function renderSignedInBadge(){
     el.textContent="Signed in: "+roleLabel+(pid?(" · "+pid):"");
     if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant’s feedback will not appear. Sign in as the participant to test it.";}
     else{el.classList.remove("mismatch");el.title="";}
+    try{
+      if(ctx.profileId&&S2R._client){
+        Promise.resolve(S2R._client.from("profiles").select("full_name").eq("id",ctx.profileId).maybeSingle()).then(function(r){
+          try{var name=r&&r.data&&r.data.full_name;if(name)el.textContent="Signed in: "+roleLabel+" · "+name;}catch(_){}
+        }).catch(function(){});
+      }
+    }catch(_){}
   }).catch(function(){el.textContent="Sign-in: unknown";});
 }
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
