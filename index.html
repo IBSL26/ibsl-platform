@@ -2077,6 +2077,7 @@ async function validateAccess() {
                   Object.keys(latest).forEach(function(lensId){
                     var row = latest[lensId];
                     var seenAt = seen[lensId] || '';
+                    if (byId[lensId] === 'completed') return;                 // completed lens — no badge
                     if (!(row.reviewed_at > seenAt)) return;                  // already seen — no badge
                     var link = document.querySelector('[data-lens-id="' + lensId + '"]');
                     if (!link) return;
