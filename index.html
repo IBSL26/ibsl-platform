@@ -1045,7 +1045,7 @@
 
       <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:28px;position:relative;grid-column:1/-1;">
         <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 2 · UNLOCKED</p>
+        <p id="unit2Badge" style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 2 · UNLOCKED</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:4px;">Direction — Pillar 1</h3>
         <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-family:Montserrat,sans-serif;margin-bottom:20px;">2 Modules · 3 Lenses</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
@@ -1072,7 +1072,7 @@
 
       <div style="background:#1c2a1e;border:1px solid rgba(255,255,255,0.07);border-radius:4px;padding:28px;position:relative;grid-column:1/-1;">
         <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#27ae60;border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 3 · UNLOCKED</p>
+        <p id="unit3Badge" style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#27ae60;font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 3 · UNLOCKED</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:rgba(255,255,255,0.87);margin-bottom:4px;">Influence — Pillar 2</h3>
         <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.6);font-family:Montserrat,sans-serif;margin-bottom:20px;">2 Modules · 5 Lenses</p>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;">
@@ -1111,7 +1111,7 @@
 
       <div style="background:#1c2a1e;border:1px solid rgba(255,255,255,0.07);border-radius:4px;padding:28px;position:relative;grid-column:1/-1;">
         <div style="position:absolute;top:0;left:0;right:0;height:2px;background:rgba(201,168,76,.4);border-radius:4px 4px 0 0;"></div>
-        <p style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,.7);font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 4</p>
+        <p id="unit4Badge" style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(201,168,76,.7);font-family:Montserrat,sans-serif;margin-bottom:6px;">UNIT 4</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:rgba(255,255,255,0.85);margin-bottom:4px;">Grounding — Pillar 3</h3>
         <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.5);font-family:Montserrat,sans-serif;margin-bottom:20px;">2 Modules · 3 Lenses</p>
         <div style="display:flex;flex-direction:column;gap:10px;max-width:480px;">
@@ -1986,6 +1986,25 @@ async function validateAccess() {
                                     : (!u1St || u1St === 'locked') ? 'UNIT 1 · LOCKED'
                                     : 'UNIT 1 · UNLOCKED';
               }
+              // Unit 2/3/4 badge roll-up. Strict rule: COMPLETED iff every lens
+              // has status 'completed'; LOCKED iff every lens is missing/locked;
+              // otherwise UNLOCKED. UNIT_LENSES is hardcoded — update when the
+              // unit/module/lens structure changes.
+              var UNIT_LENSES = {
+                2: ['u2m1_lens1','u2m1_lens2','u2m1_lens3'],
+                3: ['u3m1_lens4','u3m1_lens5','u3m1_lens6','u3m2_lens7','u3m2_lens8'],
+                4: ['u4m1_lens9','u4m1_lens10','u4m2_lens11']
+              };
+              [2,3,4].forEach(function(n){
+                var badge = document.getElementById('unit'+n+'Badge');
+                if (!badge) return;
+                var lenses = UNIT_LENSES[n];
+                var allCompleted = lenses.every(function(id){ return byId[id] === 'completed'; });
+                var allLocked    = lenses.every(function(id){ return !byId[id] || byId[id] === 'locked'; });
+                badge.textContent = allCompleted ? 'UNIT '+n+' · COMPLETED'
+                                  : allLocked    ? 'UNIT '+n+' · LOCKED'
+                                                 : 'UNIT '+n+' · UNLOCKED';
+              });
               var rows = document.querySelectorAll('[data-lens-id]');
               for (var i=0;i<rows.length;i++){
                 var id = rows[i].getAttribute('data-lens-id'); var st = byId[id];
