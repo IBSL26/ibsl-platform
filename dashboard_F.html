@@ -5558,7 +5558,7 @@
             });
             val = relabeled;
           }
-          body.appendChild(renderValue(val, 0));
+          body.appendChild(renderValue(val, 0, lensId));
         });
       } else {
         var famEntries = buckets[fam.name];
@@ -5775,7 +5775,7 @@
     label.textContent = humanizeFieldName(fieldName, lensId);
     wrap.appendChild(label);
 
-    const valueEl = renderValue(value, depth);
+    const valueEl = renderValue(value, depth, lensId);
 
     // Nested fields (the SiP roles under "Sip Data", and anything similarly
     // structured) collapse under their own label, so a many-role submission
@@ -5797,7 +5797,7 @@
     return wrap;
   }
 
-  function renderValue(value, depth) {
+  function renderValue(value, depth, lensId) {
     // Empty / null
     if (value === null || value === undefined || value === '') {
       const e = document.createElement('span');
@@ -5832,7 +5832,7 @@
       value.forEach(function(item) {
         const li = document.createElement('li');
         if (item !== null && typeof item === 'object') {
-          li.appendChild(renderValue(item, depth + 1));
+          li.appendChild(renderValue(item, depth + 1, lensId));
         } else {
           li.textContent = String(item);
         }
