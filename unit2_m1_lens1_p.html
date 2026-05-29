@@ -1484,7 +1484,7 @@ async function loadSubmissionFeedback(){
     var _c=S2R._client;
     var result=await _c
       .from('submissions')
-      .select('id,review_status,facilitator_feedback,submitted_at')
+      .select('id,review_status,facilitator_feedback,submitted_at,reviewed_at')
       .eq('profile_id',ctx.profileId)
       .eq('cohort_id',ctx.cohortId)
       .eq('lens_id','u2m1_lens1')
@@ -1567,6 +1567,16 @@ function renderSubmissionFeedback(row){
   if(tx)tx.textContent=feedbackText;
   acc.style.display='block';
   acc.classList.add('open');
+  // Phase 3 — feedback-seen write-back: stamp reviewed_at into the per-lens
+  // localStorage map so the index.html badge clears on next portal load. Raw
+  // string, no transform — must match the format the index.html query reads.
+  try{
+    var seen=JSON.parse(localStorage.getItem('ibsl_feedback_seen')||'{}')||{};
+    if(row&&row.reviewed_at){
+      seen['u2m1_lens1']=row.reviewed_at;
+      localStorage.setItem('ibsl_feedback_seen',JSON.stringify(seen));
+    }
+  }catch(e){console.warn('[feedback-seen] write error:',e);}
 }
 
 // ══════════════════════════════════════════════════════════════════════════════

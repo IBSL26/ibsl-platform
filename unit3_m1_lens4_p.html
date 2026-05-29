@@ -1164,7 +1164,7 @@ async function loadSubmissionFeedback(){
     if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
     var _c=S2R._client;
     var result=await _c.from("submissions")
-      .select("id,review_status,facilitator_feedback,submitted_at")
+      .select("id,review_status,facilitator_feedback,submitted_at,reviewed_at")
       .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u3m1_lens4")
       .order("submitted_at",{ascending:false}).limit(20);
     if(result.error){console.error("[unit3_m1_lens4_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn’t load feedback right now — please reload the page.");return;}
@@ -1208,6 +1208,16 @@ function renderSubmissionFeedback(row){
   if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
   if(tx)tx.textContent=feedbackText;
   acc.style.display="block";acc.classList.add("open");
+  // Phase 3 — feedback-seen write-back: stamp reviewed_at into the per-lens
+  // localStorage map so the index.html badge clears on next portal load. Raw
+  // string, no transform — must match the format the index.html query reads.
+  try{
+    var seen=JSON.parse(localStorage.getItem("ibsl_feedback_seen")||"{}")||{};
+    if(row&&row.reviewed_at){
+      seen["u3m1_lens4"]=row.reviewed_at;
+      localStorage.setItem("ibsl_feedback_seen",JSON.stringify(seen));
+    }
+  }catch(e){console.warn("[feedback-seen] write error:",e);}
 }
 
 /* ── COMPONENT 5 + 6: messages + documents (generic, verbatim) ── */
