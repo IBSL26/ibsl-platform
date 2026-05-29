@@ -1703,6 +1703,17 @@
     letter-spacing: 0.8px;
     margin-bottom: 6px;
   }
+  .response-prompt {
+    font-style: italic;
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.6;
+    margin: 4px 0 10px;
+    padding: 8px 12px;
+    border-left: 2px solid rgba(201, 168, 76, 0.22);
+    background: rgba(201, 168, 76, 0.04);
+    border-radius: 0 4px 4px 0;
+  }
   .response-text {
     font-size: 14px;
     color: var(--white);
@@ -5438,15 +5449,15 @@
       { name: 'Working Papers',           test: function (k) { return /^syn_(themes|disagree|top5)$/i.test(k) || /^own_(internal|external|timeline)$/i.test(k) || /^syn_(missing_compass|strong_compass|30day)$/i.test(k); } },
       { name: 'COMPASS Role Alignment',   test: function (k) { return /^wp_(self|a|b)_/i.test(k); } },
       { name: 'Peer Exchange',            test: function (k) { return /^exch_/i.test(k); } },
+      { name: 'Section 1.5 · Corrective Actions', test: function (k) { return /^app_app_cor_d[1-4]$/i.test(k); } },
+      { name: 'Section 1.5 · Co-Owned SiP', test: function (k) { return /^app_app_(headline|storyline|convergence|tension|missing|bias|ref_final)$/i.test(k); } },
+      { name: 'Section 1.5 · CXO SiP Application', test: function (k) { return /^appSIP_/i.test(k); } },
       { name: 'Application',              test: function (k) { return /^app_app_/i.test(k); } },
       { name: 'Application — PM Design',  test: function (k) { return /^app_(scorecard|scoring|baseline|cadence|measures|tool)$/i.test(k); } },
       { name: 'Application — Expectation Architecture', test: function (k) { return /^app_(role|future|outcome|success|coord|concerns|resolve|rating|primary|action|reflection)$/i.test(k); } },
       { name: 'Performance Intelligence Synthesis', test: function (k) { return /^app_syn_(pattern|repeat|depend|chain|decision)$/i.test(k); } },
       { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } },
       { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } },
-      { name: 'Section 1.5 · Corrective Actions', test: function (k) { return /^app_cor_d[1-4]$/i.test(k); } },
-      { name: 'Section 1.5 · Co-Owned SiP', test: function (k) { return /^app_(headline|storyline|convergence|tension|missing|bias|ref_final)$/i.test(k); } },
-      { name: 'Section 1.5 · CXO SiP Application', test: function (k) { return /^appSIP_/i.test(k); } },
       { name: 'ESRG Alignment Agenda',    test: function (k) { return /^esrg_/i.test(k); } },
       { name: 'Cultural Operating Code',  test: function (k, lensId) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens9'); } },
       { name: 'Health Thermometer',       test: function (k) { return /^app_thermo$/i.test(k); } },
@@ -5778,6 +5789,18 @@
     label.textContent = humanizeFieldName(fieldName, lensId);
     wrap.appendChild(label);
 
+    // Italic prompt above the answer when registered for this saved-key.
+    // depth===0 only: nested-object keys (sip_data role × dim) skip this block.
+    if (depth === 0) {
+      const promptText = getPromptText(fieldName, lensId);
+      if (promptText) {
+        const promptEl = document.createElement('div');
+        promptEl.className = 'response-prompt';
+        promptEl.textContent = promptText;
+        wrap.appendChild(promptEl);
+      }
+    }
+
     const valueEl = renderValue(value, depth, lensId);
 
     // Nested fields (the SiP roles under "Sip Data", and anything similarly
@@ -5865,6 +5888,49 @@
     t.textContent = String(value);
     return t;
   }
+
+  // ─── PROMPT REGISTRY ─────────────────────────────────────────────────
+  // Per-lens map keyed by saved-response key → italic prompt text shown above
+  // each answer in the facilitator report. Strings lifted verbatim from each
+  // lens HTML (.ref-prompt / .port-desc). Unmapped keys → getPromptText returns
+  // null → renderFieldEntry renders as today (no prompt block).
+  const RESPONSE_PROMPTS = {
+    u2m1_lens1: {
+      ref1: 'Which element of the master definition is least clearly present in your organisation\'s current strategy? What is the consequence of its absence?',
+      ref2: 'From your assigned executive leader perspective: which dimension (WHAT, WHY, HOW, WHEN) is least clearly defined in your organisation\'s current strategy? What would clarifying it change?',
+      ref3: 'Has strategic intent in your organisation been genuinely co-created, or distributed from the top? What evidence do you have — and what has been the consequence?',
+      ref4: 'From your assigned executive leader role: which dimension shows the most significant gaps in your organisation right now? What is the primary cause?',
+      ref5: 'Which group (A–F) scored lowest? What does this tell you about the most critical corrective action your organisation needs to take in the next 90 days?',
+      port1: 'What assumption about strategy — or about how your organisation defines it — has this lens challenged or changed?',
+      port2: 'Based on the maturity assessment and SiP exercise, what is one specific action you will take within 30 days to strengthen strategic clarity in your organisation?',
+      port3: 'From the 26 assessment areas, which single area represents your most important personal development priority as a strategic leader? Why that one?',
+      flam_0: 'D1 Dominant — Customer Only: the SiP reads as a marketing aspiration — vivid about the customer experience, silent on how the organisation will actually build and sustain it. Does this pattern appear in your organisation?',
+      flam_1: 'D2 Dominant — Operations Only: the SiP reads as a process optimisation plan — efficient and measurable, but stripped of the customer meaning and cultural texture that makes execution energising. Does this pattern appear in your organisation?',
+      flam_2: 'D3 Dominant — People Only: the SiP reads as an OD narrative — values-rich but commercially unanchored, difficult to measure and easy to dismiss. Does this pattern appear in your organisation?',
+      flam_3: 'D4 Dominant — Value Only: the SiP reads as a financial target — measurable but motivationally thin, describing the score without describing the game. Does this pattern appear in your organisation?',
+      app_app_cor_d1: 'D1 · Customer Experience & Value — What must change to close the gap between your current customer experience and your SiP vision?',
+      app_app_cor_d2: 'D2 · Operational Capability & Execution Rhythm — What operational gaps must be closed for the strategy to execute reliably?',
+      app_app_cor_d3: 'D3 · People & Culture Dynamics — What cultural and behavioural shifts are required to bring the SiP to life?',
+      app_app_cor_d4: 'D4 · Enterprise Value Creation — What must be strengthened to ensure the strategy creates durable enterprise value?',
+      app_app_headline: 'One sentence. The strategic destination as you see it from your function. Memorable, directional, and written in the present tense of the future.',
+      app_app_storyline: 'A narrative description of the future organisation, written in the present tense of the future, structured across the four observable dimensions. This is not a plan — it is a description of the organisation as it already exists when the strategy has worked.',
+      app_app_convergence: 'Where did all CXO descriptions align? What does the organisation consistently look like across all perspectives?',
+      app_app_tension: 'Where did perspectives contradict or compete? Which functions described incompatible futures?',
+      app_app_missing: 'Which of the four SiP dimensions was inadequately described by any CXO? What is the collective blind spot?',
+      app_app_bias: 'Which functional perspective was over-represented in the collective narrative? What does this tell the team about their strategic blind spots?',
+      app_app_ref_final: 'Having completed the full application exercise — what is the single most important shift your organisation must make to close the gap between your current strategic capability and the SiP you have collectively described?'
+    }
+  };
+
+  // Suffix table for keys with a per-dimension repeating pattern.
+  // appSIP_<ROLE>_d1..d4 → APP_DIM_PROMPTS.d1..d4. Add other repeating-suffix
+  // families here as new lenses onboard.
+  const APP_DIM_PROMPTS = {
+    d1: 'Describe what customers experience when the strategy has succeeded. How are they encountering the organisation through People, Processes, Products, and Platforms?',
+    d2: 'Describe how the organisation operates internally. What is the execution rhythm, decision flow, and cross-functional coordination like?',
+    d3: 'Describe the behavioural patterns and cultural dynamics that are visible. What does collaboration, ownership, and dialogue look like?',
+    d4: 'Describe the commercial and strategic outcomes that confirm the strategy is producing durable enterprise value. What is the growth trajectory and value durability?'
+  };
 
   // Turn 'r_m1_intent' → 'Intent', 'leadership_strengths' → 'Leadership Strengths'
   function humanizeFieldName(name, lensId) {
@@ -6007,6 +6073,18 @@
     s = s.replace(/_/g, ' ');
     s = s.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
     return s;
+  }
+
+  // Returns the italic question prompt the saved-key answers, or null if
+  // unregistered. Direct lookup first, then suffix lookup for repeating-suffix
+  // families (appSIP_<ROLE>_d1..d4). Caller null-guards.
+  function getPromptText(savedKey, lensId) {
+    if (!savedKey || !lensId) return null;
+    var direct = RESPONSE_PROMPTS[lensId] && RESPONSE_PROMPTS[lensId][savedKey];
+    if (direct) return direct;
+    var m = String(savedKey).match(/^appSIP_[A-Za-z]+_(d[1-4])$/);
+    if (m && APP_DIM_PROMPTS[m[1]]) return APP_DIM_PROMPTS[m[1]];
+    return null;
   }
 
   // ─── F4-2: FIVE COMMITMENTS ADAPTIVE DETECTION ───
