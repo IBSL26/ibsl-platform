@@ -2384,6 +2384,89 @@
     font-style: italic;
   }
 
+  /* ─── WS5: COMMITTED SCORE (read-only, beside committed feedback) ─── */
+  .committed-score {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .committed-score.is-empty {
+    color: var(--ash);
+    font-style: italic;
+    font-weight: 400;
+    opacity: 0.75;
+  }
+
+  /* ─── WS5: SCORE INPUT (pending review) ─── */
+  .score-input-section { margin: 16px 0 4px; }
+  .score-input-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--gold, #c8a84b);
+    margin-bottom: 6px;
+  }
+  .score-input-box {
+    width: 96px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.25);
+    color: inherit;
+  }
+  .score-input-box:focus { outline: none; border-color: var(--gold, #c8a84b); }
+  .score-input-help { font-size: 11px; opacity: 0.7; margin-top: 6px; color: var(--ash); }
+
+  /* ─── WS5: FINAL-SCORE / CERTIFICATION SUMMARY ─── */
+  .final-score-summary {
+    margin: 14px 0 18px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.03);
+  }
+  .final-score-summary:empty { display: none; }
+  .fss-title {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--gold, #c8a84b);
+    margin-bottom: 10px;
+  }
+  .fss-unit-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    font-size: 14px;
+  }
+  .fss-capstone { opacity: 0.85; }
+  .fss-final {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .fss-final-label {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    opacity: 0.8;
+  }
+  .fss-final-pct { font-size: 18px; font-weight: 600; }
+  .fss-cert {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .fss-cert.is-certified { background: rgba(39,174,96,0.15); color: #6ed5cb; }
+  .fss-cert.not-certified { background: rgba(255,255,255,0.07); opacity: 0.85; }
+  .fss-note { font-size: 11px; opacity: 0.7; margin-top: 8px; color: var(--ash); }
+
   /* ─── F5: CONFIRMATION MODAL ─── */
   .commit-modal-backdrop {
     position: fixed;
@@ -5203,6 +5286,13 @@
     content.appendChild(header);
     content.appendChild(metaGrid);
 
+    // ─── WS5: read-only participant certification / final-score summary ───
+    const finalScoreEl = document.createElement('div');
+    finalScoreEl.className = 'final-score-summary';
+    finalScoreEl.style.fontFamily = 'inherit';
+    content.appendChild(finalScoreEl);
+    loadFinalScoreSummary(submissionId, finalScoreEl);
+
     // [PILLAR] Prior-pillar context — shows lenses from OTHER units so reviewer
     // understands the participant's journey before reaching this submission.
     // Only rendered when lens_states were captured from the roster dot click;
@@ -5243,6 +5333,74 @@
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
+  }
+
+  // ─── WS5: PARTICIPANT FINAL-SCORE SUMMARY ────────────────────────────────
+  // Read-only. Resolves the participant (profile_id + cohort_id) from the
+  // submission row — the same direct submissions read getSubmissionChain uses,
+  // which existing facilitator RLS already permits — then calls the
+  // get_participant_final_score RPC. Fails silent (summary simply absent) so it
+  // can never block the review view.
+  async function loadFinalScoreSummary(submissionId, mountEl) {
+    if (!mountEl) return;
+    try {
+      const cur = await supabaseClient.from('submissions')
+        .select('profile_id,cohort_id').eq('id', submissionId).maybeSingle();
+      if (cur.error || !cur.data || !cur.data.profile_id || !cur.data.cohort_id) {
+        return;  // cannot identify participant — leave summary absent
+      }
+      const res = await supabaseClient.rpc('get_participant_final_score', {
+        p_profile_id: cur.data.profile_id,
+        p_cohort_id:  cur.data.cohort_id
+      });
+      if (res.error || !res.data || typeof res.data !== 'object') {
+        console.warn('[WS5] get_participant_final_score:', res.error);
+        return;
+      }
+      renderFinalScoreSummary(mountEl, res.data);
+    } catch (e) {
+      console.error('[WS5] loadFinalScoreSummary error:', e);
+    }
+  }
+
+  function renderFinalScoreSummary(mountEl, d) {
+    const ua = d.unit_averages || {};
+    const unitName = { 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
+    const finalPct = (d.final_pct === null || d.final_pct === undefined) ? 0 : d.final_pct;
+    const certified = d.certified === true;
+    const capPending = d.capstone_pending === true || d.capstone === null || d.capstone === undefined;
+    const unscored = Number(d.unscored_lens_count || 0);
+
+    function fmtAvg(v) {
+      return (v === null || v === undefined) ? 'Not yet scored' : (String(v) + ' / 100');
+    }
+
+    let rows = '';
+    [2, 3, 4].forEach(function(u) {
+      rows +=
+        '<div class="fss-unit-row">' +
+          '<span class="fss-unit-name">Unit ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
+          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(ua[String(u)])) + '</span>' +
+        '</div>';
+    });
+
+    mountEl.innerHTML =
+      '<div class="fss-title">Certification progress</div>' +
+      '<div class="fss-units">' + rows +
+        '<div class="fss-unit-row fss-capstone">' +
+          '<span class="fss-unit-name">Capstone</span>' +
+          '<span class="fss-unit-avg">' + (capPending ? 'Pending' : '—') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="fss-final">' +
+        '<span class="fss-final-label">Final</span>' +
+        '<span class="fss-final-pct">' + escapeHtml(String(finalPct)) + '%</span>' +
+        '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
+          (certified ? 'Certified' : 'Not yet certified') + '</span>' +
+      '</div>' +
+      (capPending ? '<div class="fss-note">Capstone not yet built — counts as 0 toward Final % and blocks certification.</div>' : '') +
+      (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</div>' : '');
+    mountEl.style.fontFamily = 'inherit';
   }
 
   // ─── COLLAPSIBLE SECTION WRAPPER ─────────────────────────────────────────
@@ -6409,6 +6567,18 @@
       }
       wrap.appendChild(display);
 
+      // WS5: committed lens score, shown next to the committed feedback.
+      const committedScore = document.createElement('div');
+      committedScore.className = 'committed-score';
+      committedScore.style.fontFamily = 'inherit';
+      if (typeof submission.score === 'number') {
+        committedScore.textContent = 'Score: ' + submission.score + ' / 100';
+      } else {
+        committedScore.classList.add('is-empty');
+        committedScore.textContent = 'Score: not recorded';
+      }
+      wrap.appendChild(committedScore);
+
       const meta = document.createElement('div');
       meta.className = 'committed-feedback-meta';
       const reviewedAtStr = formatReviewedAt(submission.reviewed_at);
@@ -6466,6 +6636,45 @@
       showSaveIndicator(indicator, submission.feedback_draft_updated_at, 'saved');
     }
 
+    // ─── WS5: SCORE INPUT (0–100 integer; gates the commit button below) ───
+    const scoreWrap = document.createElement('div');
+    scoreWrap.className = 'score-input-section';
+
+    const scoreLabel = document.createElement('label');
+    scoreLabel.className = 'score-input-label';
+    scoreLabel.setAttribute('for', 'scoreInputBox');
+    scoreLabel.textContent = 'Lens score (0–100)';
+    scoreLabel.style.fontFamily = 'inherit';
+    scoreWrap.appendChild(scoreLabel);
+
+    const scoreInput = document.createElement('input');
+    scoreInput.type = 'number';
+    scoreInput.id = 'scoreInputBox';
+    scoreInput.className = 'score-input-box';
+    scoreInput.min = '0';
+    scoreInput.max = '100';
+    scoreInput.step = '1';
+    scoreInput.inputMode = 'numeric';
+    scoreInput.setAttribute('aria-label', 'Lens score, 0 to 100');
+    scoreInput.style.font = 'inherit';   // inherit the page font stack
+    // Prefill if this row already carries a score (pending rows are normally
+    // unscored; defensive against re-render of an already-scored row).
+    if (typeof submission.score === 'number') {
+      scoreInput.value = String(submission.score);
+    }
+    // The input lives inside the clickable collapsible Feedback section — stop
+    // clicks from bubbling up and toggling the section collapsed.
+    scoreInput.addEventListener('click', function(e) { e.stopPropagation(); });
+    scoreWrap.appendChild(scoreInput);
+
+    const scoreHelp = document.createElement('div');
+    scoreHelp.className = 'score-input-help';
+    scoreHelp.style.fontFamily = 'inherit';
+    scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this lens reviewed.';
+    scoreWrap.appendChild(scoreHelp);
+
+    wrap.appendChild(scoreWrap);
+
     // ─── F5: COMMIT ACTIONS ───
     const actions = document.createElement('div');
     actions.className = 'commit-actions';
@@ -6491,6 +6700,21 @@
     help.className = 'feedback-help';
     help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Reviewing is durable. To pause before unlocking, leave this submission pending and message the participant via Conversation to discuss. Return for revision sends the submission back to the participant with your feedback and keeps the next lens locked.';
     wrap.appendChild(help);
+
+    // WS5: gate "Mark as reviewed and unlock next lens" on a valid integer
+    // score (0–100). Return-for-revision is intentionally NOT gated — sending a
+    // submission back does not require a score.
+    function ws5ScoreIsValid() {
+      const raw = scoreInput.value.trim();
+      if (raw === '' || !/^\d+$/.test(raw)) return false;  // integers only
+      const n = Number(raw);
+      return n >= 0 && n <= 100;
+    }
+    function ws5SyncCommitEnabled() {
+      primaryBtn.disabled = !ws5ScoreIsValid();
+    }
+    scoreInput.addEventListener('input', ws5SyncCommitEnabled);
+    ws5SyncCommitEnabled();   // initial: disabled while empty/invalid
 
     wireFeedbackAutosave(textarea, indicator, submissionId);
     wireCommitActions(textarea, primaryBtn, submissionId, participantName, lensTitle);
@@ -6724,10 +6948,21 @@
     errorEl.textContent = '';
 
     try {
+      // WS5: read the validated score from the (button-gated) input. The commit
+      // path is only reachable when the score is valid, but re-validate here so
+      // a null can never slip through as a stray value.
+      const scoreEl = document.getElementById('scoreInputBox');
+      let pScore = null;
+      if (scoreEl && /^\d+$/.test(scoreEl.value.trim())) {
+        const sv = Number(scoreEl.value.trim());
+        if (sv >= 0 && sv <= 100) pScore = sv;
+      }
+
       const { data, error } = await supabaseClient.rpc('review_submission', {
         p_submission_id: submissionId,
         p_feedback: feedbackBody,
-        p_unlock_next: unlockNext
+        p_unlock_next: unlockNext,
+        p_score: pScore
       });
 
       if (error) {
