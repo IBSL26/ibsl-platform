@@ -2398,6 +2398,52 @@
     opacity: 0.75;
   }
 
+  /* ─── WS5.1: EDIT-SCORE CONTROL (reviewed, non-Foundations) ─── */
+  .score-edit-wrap { margin-top: 8px; }
+  .score-edit-btn {
+    font-size: 12px;
+    padding: 4px 12px;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--gold, #c8a84b);
+    cursor: pointer;
+  }
+  .score-edit-btn:hover { border-color: var(--gold, #c8a84b); }
+  .score-edit-editor {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .score-edit-input {
+    width: 84px;
+    padding: 6px 8px;
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.25);
+    color: inherit;
+  }
+  .score-edit-input:focus { outline: none; border-color: var(--gold, #c8a84b); }
+  .score-edit-save, .score-edit-cancel {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .score-edit-save { background: rgba(39,174,96,0.18); color: var(--white); border-color: rgba(39,174,96,0.4); }
+  .score-edit-cancel { background: transparent; color: var(--ash); }
+  .score-edit-save:disabled, .score-edit-cancel:disabled { opacity: 0.5; cursor: default; }
+  .score-edit-error {
+    font-size: 12px;
+    color: var(--gold, #c8a84b);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+  .score-edit-error.shown { opacity: 1; }
+
   /* ─── WS5: SCORE INPUT (pending review) ─── */
   .score-input-section { margin: 16px 0 4px; }
   .score-input-label {
@@ -5330,7 +5376,7 @@
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
     content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
-    content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle)));
+    content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
   }
@@ -6541,9 +6587,17 @@
   const FEEDBACK_DEBOUNCE_MS = 2000;
   let feedbackDebounceTimer = null;
 
-  function buildFeedbackSection(submission, submissionId, participantName, lensTitle) {
+  // WS5.1: unit of the lens under review (1 = Foundations, which is unscored).
+  // Stashed module-side so commitReview can force p_score null for Foundations.
+  var _currentReviewUnit = null;
+
+  function buildFeedbackSection(submission, submissionId, participantName, lensTitle, lensUnit) {
     const wrap = document.createElement('div');
     wrap.className = 'feedback-section';
+
+    // WS5.1: Foundations (unit 1) is never scored — no score input, no score gate.
+    const isFoundations = Number(lensUnit) === 1;
+    _currentReviewUnit = Number(lensUnit);
 
     const heading = document.createElement('h2');
     heading.className = 'review-body-heading';
@@ -6578,6 +6632,127 @@
         committedScore.textContent = 'Score: not recorded';
       }
       wrap.appendChild(committedScore);
+
+      // ─── WS5.1: EDIT-SCORE CONTROL (non-Foundations reviewed submissions) ───
+      // Foundations (unit 1) is unscored — no edit control (amend_submission_score
+      // returns foundations_not_scored for it anyway).
+      if (Number(lensUnit) !== 1) {
+        const editWrap = document.createElement('div');
+        editWrap.className = 'score-edit-wrap';
+        editWrap.style.fontFamily = 'inherit';
+
+        const editBtn = document.createElement('button');
+        editBtn.type = 'button';
+        editBtn.className = 'score-edit-btn';
+        editBtn.textContent = 'Edit score';
+        editBtn.style.fontFamily = 'inherit';
+        editBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        const editor = document.createElement('div');
+        editor.className = 'score-edit-editor';
+        editor.style.display = 'none';
+        editor.style.fontFamily = 'inherit';
+
+        const editInput = document.createElement('input');
+        editInput.type = 'number';
+        editInput.className = 'score-edit-input';
+        editInput.min = '0';
+        editInput.max = '100';
+        editInput.step = '1';
+        editInput.inputMode = 'numeric';
+        editInput.setAttribute('aria-label', 'Edit lens score, 0 to 100');
+        editInput.style.font = 'inherit';
+        // Inside the clickable collapsible card: stop click AND keydown from
+        // bubbling so neither selecting nor typing collapses the card.
+        editInput.addEventListener('click', function(e) { e.stopPropagation(); });
+        editInput.addEventListener('keydown', function(e) { e.stopPropagation(); });
+
+        const saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'score-edit-save';
+        saveBtn.textContent = 'Save';
+        saveBtn.style.fontFamily = 'inherit';
+        saveBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = 'score-edit-cancel';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.style.fontFamily = 'inherit';
+        cancelBtn.addEventListener('click', function(e) { e.stopPropagation(); });
+
+        const editError = document.createElement('span');
+        editError.className = 'score-edit-error';
+        editError.style.fontFamily = 'inherit';
+        editError.setAttribute('aria-live', 'polite');
+
+        editor.appendChild(editInput);
+        editor.appendChild(saveBtn);
+        editor.appendChild(cancelBtn);
+        editor.appendChild(editError);
+
+        editWrap.appendChild(editBtn);
+        editWrap.appendChild(editor);
+        wrap.appendChild(editWrap);
+
+        function showEditError(msg) {
+          editError.textContent = msg;
+          editError.classList.add('shown');
+          clearTimeout(editError._t);
+          editError._t = setTimeout(function() {
+            editError.textContent = '';
+            editError.classList.remove('shown');
+          }, 4000);
+        }
+
+        editBtn.addEventListener('click', function() {
+          if (typeof submission.score === 'number') editInput.value = String(submission.score);
+          editor.style.display = '';
+          editBtn.style.display = 'none';
+          editInput.focus();
+        });
+
+        cancelBtn.addEventListener('click', function() {
+          editor.style.display = 'none';
+          editBtn.style.display = '';
+          editError.textContent = '';
+          editError.classList.remove('shown');
+        });
+
+        saveBtn.addEventListener('click', async function() {
+          const raw = editInput.value.trim();
+          if (raw === '' || !/^\d+$/.test(raw)) { showEditError('Enter a whole number 0–100.'); return; }
+          const val = Number(raw);
+          if (val < 0 || val > 100) { showEditError('Score must be 0–100.'); return; }
+          saveBtn.disabled = true;
+          cancelBtn.disabled = true;
+          const prevLabel = saveBtn.textContent;
+          saveBtn.textContent = 'Saving…';
+          try {
+            const { data, error } = await supabaseClient.rpc('amend_submission_score', {
+              p_submission_id: submissionId,
+              p_score: val
+            });
+            if (error || !data || data.ok !== true) {
+              const code = (data && data.error) ? data.error : (error ? 'request_failed' : 'unknown_error');
+              showEditError('Could not save: ' + code);
+              saveBtn.disabled = false; cancelBtn.disabled = false; saveBtn.textContent = prevLabel;
+              return;
+            }
+            // Success — update the displayed score in place (no full reload).
+            submission.score = (typeof data.new_score === 'number') ? data.new_score : val;
+            committedScore.classList.remove('is-empty');
+            committedScore.textContent = 'Score: ' + submission.score + ' / 100';
+            editor.style.display = 'none';
+            editBtn.style.display = '';
+            saveBtn.disabled = false; cancelBtn.disabled = false; saveBtn.textContent = prevLabel;
+          } catch (e) {
+            console.error('[WS5.1] amend_submission_score error:', e);
+            showEditError('Network error — try again.');
+            saveBtn.disabled = false; cancelBtn.disabled = false; saveBtn.textContent = prevLabel;
+          }
+        });
+      }
 
       const meta = document.createElement('div');
       meta.className = 'committed-feedback-meta';
@@ -6636,44 +6811,49 @@
       showSaveIndicator(indicator, submission.feedback_draft_updated_at, 'saved');
     }
 
-    // ─── WS5: SCORE INPUT (0–100 integer; gates the commit button below) ───
-    const scoreWrap = document.createElement('div');
-    scoreWrap.className = 'score-input-section';
+    // ─── WS5 / WS5.1: SCORE INPUT (0–100 integer; gates the commit button).
+    //     Skipped entirely on Foundations (unit 1) — that lens commits with no
+    //     score and is not score-gated. ───
+    let scoreInput = null;
+    if (!isFoundations) {
+      const scoreWrap = document.createElement('div');
+      scoreWrap.className = 'score-input-section';
 
-    const scoreLabel = document.createElement('label');
-    scoreLabel.className = 'score-input-label';
-    scoreLabel.setAttribute('for', 'scoreInputBox');
-    scoreLabel.textContent = 'Lens score (0–100)';
-    scoreLabel.style.fontFamily = 'inherit';
-    scoreWrap.appendChild(scoreLabel);
+      const scoreLabel = document.createElement('label');
+      scoreLabel.className = 'score-input-label';
+      scoreLabel.setAttribute('for', 'scoreInputBox');
+      scoreLabel.textContent = 'Lens score (0–100)';
+      scoreLabel.style.fontFamily = 'inherit';
+      scoreWrap.appendChild(scoreLabel);
 
-    const scoreInput = document.createElement('input');
-    scoreInput.type = 'number';
-    scoreInput.id = 'scoreInputBox';
-    scoreInput.className = 'score-input-box';
-    scoreInput.min = '0';
-    scoreInput.max = '100';
-    scoreInput.step = '1';
-    scoreInput.inputMode = 'numeric';
-    scoreInput.setAttribute('aria-label', 'Lens score, 0 to 100');
-    scoreInput.style.font = 'inherit';   // inherit the page font stack
-    // Prefill if this row already carries a score (pending rows are normally
-    // unscored; defensive against re-render of an already-scored row).
-    if (typeof submission.score === 'number') {
-      scoreInput.value = String(submission.score);
+      scoreInput = document.createElement('input');
+      scoreInput.type = 'number';
+      scoreInput.id = 'scoreInputBox';
+      scoreInput.className = 'score-input-box';
+      scoreInput.min = '0';
+      scoreInput.max = '100';
+      scoreInput.step = '1';
+      scoreInput.inputMode = 'numeric';
+      scoreInput.setAttribute('aria-label', 'Lens score, 0 to 100');
+      scoreInput.style.font = 'inherit';   // inherit the page font stack
+      // Prefill if this row already carries a score (pending rows are normally
+      // unscored; defensive against re-render of an already-scored row).
+      if (typeof submission.score === 'number') {
+        scoreInput.value = String(submission.score);
+      }
+      // The input lives inside the clickable collapsible Feedback section — stop
+      // clicks from bubbling up and toggling the section collapsed.
+      scoreInput.addEventListener('click', function(e) { e.stopPropagation(); });
+      scoreWrap.appendChild(scoreInput);
+
+      const scoreHelp = document.createElement('div');
+      scoreHelp.className = 'score-input-help';
+      scoreHelp.style.fontFamily = 'inherit';
+      scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this lens reviewed.';
+      scoreWrap.appendChild(scoreHelp);
+
+      wrap.appendChild(scoreWrap);
     }
-    // The input lives inside the clickable collapsible Feedback section — stop
-    // clicks from bubbling up and toggling the section collapsed.
-    scoreInput.addEventListener('click', function(e) { e.stopPropagation(); });
-    scoreWrap.appendChild(scoreInput);
-
-    const scoreHelp = document.createElement('div');
-    scoreHelp.className = 'score-input-help';
-    scoreHelp.style.fontFamily = 'inherit';
-    scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this lens reviewed.';
-    scoreWrap.appendChild(scoreHelp);
-
-    wrap.appendChild(scoreWrap);
 
     // ─── F5: COMMIT ACTIONS ───
     const actions = document.createElement('div');
@@ -6704,17 +6884,21 @@
     // WS5: gate "Mark as reviewed and unlock next lens" on a valid integer
     // score (0–100). Return-for-revision is intentionally NOT gated — sending a
     // submission back does not require a score.
-    function ws5ScoreIsValid() {
-      const raw = scoreInput.value.trim();
-      if (raw === '' || !/^\d+$/.test(raw)) return false;  // integers only
-      const n = Number(raw);
-      return n >= 0 && n <= 100;
+    // WS5.1: only when a score input exists (i.e. not Foundations). On Foundations
+    // scoreInput is null, the button stays enabled, and commit proceeds unscored.
+    if (scoreInput) {
+      const ws5ScoreIsValid = function() {
+        const raw = scoreInput.value.trim();
+        if (raw === '' || !/^\d+$/.test(raw)) return false;  // integers only
+        const n = Number(raw);
+        return n >= 0 && n <= 100;
+      };
+      const ws5SyncCommitEnabled = function() {
+        primaryBtn.disabled = !ws5ScoreIsValid();
+      };
+      scoreInput.addEventListener('input', ws5SyncCommitEnabled);
+      ws5SyncCommitEnabled();   // initial: disabled while empty/invalid
     }
-    function ws5SyncCommitEnabled() {
-      primaryBtn.disabled = !ws5ScoreIsValid();
-    }
-    scoreInput.addEventListener('input', ws5SyncCommitEnabled);
-    ws5SyncCommitEnabled();   // initial: disabled while empty/invalid
 
     wireFeedbackAutosave(textarea, indicator, submissionId);
     wireCommitActions(textarea, primaryBtn, submissionId, participantName, lensTitle);
@@ -6951,11 +7135,15 @@
       // WS5: read the validated score from the (button-gated) input. The commit
       // path is only reachable when the score is valid, but re-validate here so
       // a null can never slip through as a stray value.
-      const scoreEl = document.getElementById('scoreInputBox');
+      // WS5.1: Foundations (unit 1) is unscored — force p_score null and never
+      // read the input (the live review_submission also nulls it server-side).
       let pScore = null;
-      if (scoreEl && /^\d+$/.test(scoreEl.value.trim())) {
-        const sv = Number(scoreEl.value.trim());
-        if (sv >= 0 && sv <= 100) pScore = sv;
+      if (_currentReviewUnit !== 1) {
+        const scoreEl = document.getElementById('scoreInputBox');
+        if (scoreEl && /^\d+$/.test(scoreEl.value.trim())) {
+          const sv = Number(scoreEl.value.trim());
+          if (sv >= 0 && sv <= 100) pScore = sv;
+        }
       }
 
       const { data, error } = await supabaseClient.rpc('review_submission', {
