@@ -4279,6 +4279,10 @@
              'style="display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;border:1px solid rgba(201,168,76,0.4);border-radius:3px;padding:6px 14px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-decoration:none;">' +
              '&#128424; Print Collection</a>' +
         '</div>' +
+        // WS5.3: per-participant certification-progress panel. Empty until the
+        // panel is first opened (CSS hides .final-score-summary:empty), then
+        // filled async by loadParticipantFinalScore.
+        '<div class="participant-cert-summary final-score-summary" style="margin-bottom:12px;"></div>' +
         '<div class="notes-list" data-state="loading">' +
           '<div class="notes-loading">Loading notes…</div>' +
         '</div>' +
@@ -4310,6 +4314,9 @@
           return;
         }
         loadFacilitatorNotes(p.participant_id, cohortId, panel);
+        // WS5.3: lazy-load the certification panel on first open — one RPC per
+        // participant, fire-and-forget, never blocks the roster row.
+        loadParticipantFinalScore(p.participant_id, cohortId, panel.querySelector('.participant-cert-summary'));
       }
     });
 
@@ -5332,12 +5339,9 @@
     content.appendChild(header);
     content.appendChild(metaGrid);
 
-    // ─── WS5: read-only participant certification / final-score summary ───
-    const finalScoreEl = document.createElement('div');
-    finalScoreEl.className = 'final-score-summary';
-    finalScoreEl.style.fontFamily = 'inherit';
-    content.appendChild(finalScoreEl);
-    loadFinalScoreSummary(submissionId, finalScoreEl);
+    // WS5.3: the certification-progress panel moved OUT of the per-lens review
+    // to the roster's per-participant row (participantRowEl). It is per-
+    // participant, not per-lens, so it no longer belongs here.
 
     // [PILLAR] Prior-pillar context — shows lenses from OTHER units so reviewer
     // understands the participant's journey before reaching this submission.
@@ -5381,44 +5385,42 @@
     content.appendChild(idRef);
   }
 
-  // ─── WS5: PARTICIPANT FINAL-SCORE SUMMARY ────────────────────────────────
-  // Read-only. Resolves the participant (profile_id + cohort_id) from the
-  // submission row — the same direct submissions read getSubmissionChain uses,
-  // which existing facilitator RLS already permits — then calls the
-  // get_participant_final_score RPC. Fails silent (summary simply absent) so it
-  // can never block the review view.
-  async function loadFinalScoreSummary(submissionId, mountEl) {
-    if (!mountEl) return;
+  // ─── WS5 / WS5.3: PARTICIPANT FINAL-SCORE SUMMARY ────────────────────────
+  // Read-only. WS5.3 moved this from the per-lens review to the roster's
+  // per-participant row, so the IDs come straight from the roster (no submission
+  // lookup): p_profile_id = p.participant_id, p_cohort_id = cohortId. Fire-and-
+  // forget — fails silent (summary simply absent) so it never blocks the row.
+  async function loadParticipantFinalScore(profileId, cohortId, mountEl) {
+    if (!mountEl || !profileId || !cohortId) return;
     try {
-      const cur = await supabaseClient.from('submissions')
-        .select('profile_id,cohort_id').eq('id', submissionId).maybeSingle();
-      if (cur.error || !cur.data || !cur.data.profile_id || !cur.data.cohort_id) {
-        return;  // cannot identify participant — leave summary absent
-      }
       const res = await supabaseClient.rpc('get_participant_final_score', {
-        p_profile_id: cur.data.profile_id,
-        p_cohort_id:  cur.data.cohort_id
+        p_profile_id: profileId,
+        p_cohort_id:  cohortId
       });
       if (res.error || !res.data || typeof res.data !== 'object') {
-        console.warn('[WS5] get_participant_final_score:', res.error);
+        console.warn('[WS5.3] get_participant_final_score:', res.error);
         return;
       }
-      renderFinalScoreSummary(mountEl, res.data);
+      const d = Array.isArray(res.data) ? res.data[0] : res.data;
+      renderFinalScoreSummary(mountEl, d);
     } catch (e) {
-      console.error('[WS5] loadFinalScoreSummary error:', e);
+      console.error('[WS5.3] loadParticipantFinalScore error:', e);
     }
   }
 
+  // WS5.3: reads the FLAT get_participant_final_score shape (unit2_avg/unit3_avg/
+  // unit4_avg, capstone_avg, capstone_pending, final_pct, certified,
+  // unscored_lens_count) — matching certScoreMarkup (dashboard_A) / renderCert
+  // (collection). Null unit avg → "in progress"; capstone always Pending.
   function renderFinalScoreSummary(mountEl, d) {
-    const ua = d.unit_averages || {};
     const unitName = { 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
     const finalPct = (d.final_pct === null || d.final_pct === undefined) ? 0 : d.final_pct;
     const certified = d.certified === true;
-    const capPending = d.capstone_pending === true || d.capstone === null || d.capstone === undefined;
+    const capPending = d.capstone_pending === true || d.capstone_avg === null || d.capstone_avg === undefined;
     const unscored = Number(d.unscored_lens_count || 0);
 
     function fmtAvg(v) {
-      return (v === null || v === undefined) ? 'Not yet scored' : (String(v) + ' / 100');
+      return (v === null || v === undefined) ? 'in progress' : (String(v) + ' / 100');
     }
 
     let rows = '';
@@ -5426,7 +5428,7 @@
       rows +=
         '<div class="fss-unit-row">' +
           '<span class="fss-unit-name">Unit ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
-          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(ua[String(u)])) + '</span>' +
+          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(d['unit' + u + '_avg'])) + '</span>' +
         '</div>';
     });
 
@@ -5444,7 +5446,6 @@
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? 'Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
-      (capPending ? '<div class="fss-note">Capstone not yet built — counts as 0 toward Final % and blocks certification.</div>' : '') +
       (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</div>' : '');
     mountEl.style.fontFamily = 'inherit';
   }
