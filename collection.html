@@ -34,6 +34,21 @@ html,body{margin:0;padding:0;background:#101a16;color:#1c1c1c;font-family:"Monts
 .section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:26px 0 10px;}
 .feedback-block{margin-top:24px;border-left:3px solid var(--teal);background:#f3f8f6;padding:16px 18px;border-radius:0 4px 4px 0;}
 .feedback-block .fb-text{font-size:13px;line-height:1.7;color:#28413a;white-space:pre-wrap;}
+/* WS5.2: Certification Progress summary (sits after the cover) */
+.cert-progress{break-after:page;page-break-after:always;padding:48px 54px;}
+.cert-progress h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.8rem;color:var(--forest);border-bottom:2px solid var(--gold);padding-bottom:10px;margin:0 0 20px;}
+.cert-row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid #eee;font-size:14px;color:#1c1c1c;}
+.cert-row .cert-k{color:#3a4a44;}
+.cert-row .cert-v{font-weight:600;}
+.cert-row .cert-v.muted{font-weight:400;font-style:italic;color:#8a978f;}
+.cert-final{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:14px;border-top:2px solid var(--gold);}
+.cert-final .cert-final-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;}
+.cert-final .cert-pct{font-size:1.6rem;font-weight:700;color:var(--forest);}
+.cert-badge{margin-left:auto;font-size:11px;padding:4px 14px;border-radius:999px;letter-spacing:.5px;}
+.cert-badge.yes{background:rgba(39,174,96,.14);color:#1d7a45;}
+.cert-badge.no{background:#eef2f0;color:#6b7d76;}
+.cert-note{font-size:12px;color:#8a978f;margin-top:12px;font-style:italic;}
+.cert-empty{font-size:14px;color:#6b7d76;font-style:italic;}
 .fatal{max-width:560px;margin:80px auto;background:#fff;border:1px solid #e0c9c9;border-radius:8px;padding:40px;text-align:center;}
 .fatal h2{font-family:"Cormorant Garamond",serif;font-weight:400;color:#8a2a2a;}
 .print-bar{position:fixed;top:14px;right:14px;z-index:50;}
@@ -1287,6 +1302,72 @@ function renderResponses(payload, lensId) {
     t.appendChild(ol); return t;
   }
 
+  // ─── WS5.2: Certification Progress summary ───
+  // Calls get_participant_final_score(p_profile_id, p_cohort_id). Product
+  // decision: show live/partial scores, but a unit that isn't fully scored is
+  // labelled "in progress — N of M lenses scored" (not a bare partial number),
+  // so a mid-programme participant can't misread an incomplete tally as final.
+  // The N-of-M counts come from lens_catalog units + this participant's own
+  // reviewed+scored submissions (score added to the submissions select above).
+  function buildCertSection(){
+    var s=el("section","cert-progress");
+    s.appendChild(el("h2","","Certification Progress"));
+    var body=el("div","cert-body"); body.appendChild(el("div","cert-empty","Loading certification progress…"));
+    s.appendChild(body); s._body=body;
+    return s;
+  }
+
+  function fillCertSection(section, cohortId, cats, byLens){
+    var body=section&&section._body; if(!body) return;
+    // No cohort on any submission -> nothing to score against. Graceful, no error.
+    if(!cohortId){ body.innerHTML=""; body.appendChild(el("div","cert-empty","No scores yet.")); return; }
+    var unitLensIds={2:[],3:[],4:[]};
+    cats.forEach(function(cat){ var u=Number(cat.unit); if(u>=2&&u<=4){ unitLensIds[u].push(cat.id); } });
+    function unitCounts(u){
+      var ids=unitLensIds[u]||[]; var n=0;
+      ids.forEach(function(lid){
+        var rows=byLens[lid]||[];
+        for(var i=0;i<rows.length;i++){ if(rows[i].review_status==="reviewed" && typeof rows[i].score==="number"){ n++; break; } }
+      });
+      return {scored:n, total:ids.length};
+    }
+    supabaseClient.rpc("get_participant_final_score",{p_profile_id:participantId,p_cohort_id:cohortId}).then(function(res){
+      if(res.error){ console.warn("[collection] get_participant_final_score:",res.error); body.innerHTML=""; body.appendChild(el("div","cert-empty","Certification progress is unavailable right now.")); return; }
+      var d=Array.isArray(res.data)?res.data[0]:res.data;
+      renderCert(body, d, unitCounts);
+    }, function(err){ console.warn("[collection] cert rpc failed:",err); body.innerHTML=""; body.appendChild(el("div","cert-empty","Certification progress is unavailable right now.")); });
+  }
+
+  function renderCert(body, d, unitCounts){
+    body.innerHTML="";
+    if(!d){ body.appendChild(el("div","cert-empty","No scores yet.")); return; }
+    var unitName={2:"Direction",3:"Influence",4:"Grounding"};
+    [2,3,4].forEach(function(u){
+      var cc=unitCounts(u);
+      var row=el("div","cert-row"); row.appendChild(el("span","cert-k",unitName[u]));
+      var v;
+      if(cc.total>0 && cc.scored<cc.total){
+        v=el("span","cert-v muted","in progress — "+cc.scored+" of "+cc.total+" lenses scored");
+      } else if(cc.total>0 && cc.scored===cc.total){
+        var avg=d["unit"+u+"_avg"];
+        v=(avg===null||avg===undefined) ? el("span","cert-v muted","in progress") : el("span","cert-v",String(avg)+" / 100");
+      } else {
+        v=el("span","cert-v muted","in progress");
+      }
+      row.appendChild(v); body.appendChild(row);
+    });
+    var cap=el("div","cert-row"); cap.appendChild(el("span","cert-k","Capstone")); cap.appendChild(el("span","cert-v muted","Pending")); body.appendChild(cap);
+    var pct=(d.final_pct===null||d.final_pct===undefined)?0:d.final_pct;
+    var fin=el("div","cert-final");
+    fin.appendChild(el("span","cert-final-label","Final"));
+    fin.appendChild(el("span","cert-pct",String(pct)+"%"));
+    var certified=d.certified===true;
+    fin.appendChild(el("span","cert-badge "+(certified?"yes":"no"), certified?"Certified":"Not yet certified"));
+    body.appendChild(fin);
+    var unscored=Number(d.unscored_lens_count||0);
+    if(unscored>0){ body.appendChild(el("div","cert-note", unscored+" reviewed lens"+(unscored===1?"":"es")+" not yet scored.")); }
+  }
+
   // ───────────────────────── boot ─────────────────────────
   function boot(){
     if(!participantId){ fatal("Missing participant","This collection link needs a ?participantId=<uuid> parameter."); return; }
@@ -1306,7 +1387,7 @@ function renderResponses(payload, lensId) {
 
   function loadAndRender(){
     var catP=supabaseClient.from("lens_catalog").select("id,unit,module,sequence,title,requires_lens").order("sequence",{ascending:true});
-    var subP=supabaseClient.from("submissions").select("lens_id,cohort_id,payload,submitted_at,review_status,facilitator_feedback").eq("profile_id",participantId).order("submitted_at",{ascending:false});
+    var subP=supabaseClient.from("submissions").select("lens_id,cohort_id,payload,submitted_at,review_status,facilitator_feedback,score").eq("profile_id",participantId).order("submitted_at",{ascending:false});
     Promise.all([catP,subP]).then(function(res){
       var cat=res[0], sub=res[1];
       if(cat.error||!cat.data||!cat.data.length){ console.error("[collection] lens_catalog read:",cat.error); fatal("Could not load chapters","The lens catalogue could not be read in this session (this needs a facilitator SELECT policy on lens_catalog). "+(cat.error?cat.error.message:"")); return; }
@@ -1318,8 +1399,12 @@ function renderResponses(payload, lensId) {
       resolveWho(cohortId).then(function(who){
         var root=document.getElementById("root"); root.innerHTML="";
         root.appendChild(buildCover(who.name, who.cohort));
+        var certSection=buildCertSection();
+        root.appendChild(certSection);
         root.appendChild(buildToc(cats));
         cats.forEach(function(c){ root.appendChild(chapterNode(c, byLens[c.id]||null)); });
+        // Progressive: cover/toc/chapters render now; cert section fills async.
+        fillCertSection(certSection, cohortId, cats, byLens);
       });
     }, function(err){ console.error("[collection] load error:",err); fatal("Could not load","An unexpected error occurred. Please refresh."); });
   }

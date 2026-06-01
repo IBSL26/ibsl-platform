@@ -2090,6 +2090,61 @@
     border-radius: 3px;
   }
 
+  /* ─── WS5.2: certification-score block (in report cohort / participant blocks) ─── */
+  .cert-score {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-default);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.03);
+  }
+  .cert-score--compact { margin-top: 10px; padding: 10px 12px; }
+  .cert-score__heading {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .cert-score__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 3px 0;
+    font-size: 13px;
+    color: rgba(255,255,255,0.82);
+  }
+  .cert-score__k { color: rgba(255,255,255,0.6); }
+  .cert-score__v { font-weight: 600; }
+  .cert-score__v--muted { font-weight: 400; font-style: italic; color: rgba(255,255,255,0.5); }
+  .cert-score__final {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-default);
+  }
+  .cert-score--compact .cert-score__final { margin-top: 8px; padding-top: 8px; }
+  .cert-score__final-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.6);
+  }
+  .cert-score__pct { font-size: 18px; font-weight: 700; }
+  .cert-badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+  }
+  .cert-badge--yes { background: rgba(39,174,96,0.16); color: #5fd08a; }
+  .cert-badge--no  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+  .cert-score__note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px; }
+  .cert-score__loading { font-size: 12px; color: rgba(255,255,255,0.45); font-style: italic; }
+
   @media (max-width: 720px) {
     .report-participant-block { padding: 18px 22px; }
     .report-participant-block__header { flex-direction: column; align-items: flex-start; }
@@ -2207,6 +2262,17 @@
       color: #444 !important;
       background: #fff !important;
     }
+
+    /* WS5.2 cert-score block: light palette for print */
+    .cert-score { background: #fafafa !important; border: 1px solid #ddd !important; }
+    .cert-score__heading { color: #444 !important; }
+    .cert-score__row, .cert-score__k, .cert-score__final-label, .cert-score__note {
+      color: #555 !important;
+    }
+    .cert-score__v, .cert-score__pct { color: #111 !important; }
+    .cert-score__v--muted { color: #777 !important; }
+    .cert-badge--yes { background: #fff !important; color: #1d7a45 !important; border: 1px solid #1d7a45 !important; }
+    .cert-badge--no  { background: #fff !important; color: #555 !important; border: 1px solid #999 !important; }
 
     /* Tags */
     .suspended-tag {
@@ -9531,6 +9597,7 @@ sam@gamma.org, Sam Lee, participant,`;
             <span>${cs.completed_count} of ${cs.total} lenses (${cs.completion_percentage}%)</span>
             <div class="report-cohort__bar"><div class="report-cohort__bar-fill" style="width:${pct}%"></div></div>
           </div>
+          <div data-cert-variant="full" data-cert-cohort="${escapeHtml(String(c.id || ''))}"><div class="cert-score__loading">Loading score…</div></div>
           ${participantFoundationsRowHtml(c.foundations)}
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
@@ -9609,6 +9676,7 @@ sam@gamma.org, Sam Lee, participant,`;
         return;
       }
       container.innerHTML = participantReportTemplateHtml(reportParticipantState.data);
+      hydrateCertScores(container);   // WS5.2: fill per-cohort score slots
     }
 
     async function loadParticipantReport(userId) {
@@ -9750,6 +9818,7 @@ sam@gamma.org, Sam Lee, participant,`;
             <span>${ps.completed_count} of ${ps.total} lenses (${ps.completion_percentage}%)</span>
             <div class="report-participant-block__bar"><div class="report-participant-block__bar-fill" style="width:${pct}%"></div></div>
           </div>
+          <div data-cert-variant="compact" data-cert-profile="${escapeHtml(String(p.id || ''))}"><div class="cert-score__loading">Loading score…</div></div>
           ${participantFoundationsRowHtml(p.foundations)}
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
@@ -9846,6 +9915,7 @@ sam@gamma.org, Sam Lee, participant,`;
         return;
       }
       container.innerHTML = cohortReportTemplateHtml(reportCohortState.data);
+      hydrateCertScores(container);   // WS5.2: fill per-participant score slots
     }
 
     async function loadCohortReport(cohortId) {
@@ -9870,6 +9940,79 @@ sam@gamma.org, Sam Lee, participant,`;
         reportCohortState.error   = e.message || 'Network error.';
         renderCohortReport();
       }
+    }
+
+    // -----------------------------------------------------------
+    // WS5.2: certification-score hydration (shared by participant + cohort reports)
+    // Renders flat get_participant_final_score output:
+    //   unit2_avg, unit3_avg, unit4_avg (number|null), capstone_avg (null),
+    //   capstone_pending (bool), final_pct (number), certified (bool),
+    //   unscored_lens_count (int).
+    // Reports set innerHTML from template strings, so we emit placeholder slots
+    // and fill them async after render — each slot fires independently (no block).
+    // -----------------------------------------------------------
+    function certScoreMarkup(d, variant) {
+      if (!d) return '<div class="cert-score__loading">Score unavailable.</div>';
+      const unitName = { 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
+      function unitRow(u) {
+        const v = d['unit' + u + '_avg'];
+        const cell = (v === null || v === undefined)
+          ? '<span class="cert-score__v cert-score__v--muted">in progress</span>'
+          : '<span class="cert-score__v">' + escapeHtml(String(v)) + ' / 100</span>';
+        return '<div class="cert-score__row"><span class="cert-score__k">' +
+               escapeHtml(unitName[u]) + '</span>' + cell + '</div>';
+      }
+      const pct = (d.final_pct === null || d.final_pct === undefined) ? 0 : d.final_pct;
+      const certified = d.certified === true;
+      const unscored = Number(d.unscored_lens_count || 0);
+      const badge = certified
+        ? '<span class="cert-badge cert-badge--yes">Certified</span>'
+        : '<span class="cert-badge cert-badge--no">Not yet certified</span>';
+      const units = unitRow(2) + unitRow(3) + unitRow(4) +
+        '<div class="cert-score__row"><span class="cert-score__k">Capstone</span>' +
+        '<span class="cert-score__v cert-score__v--muted">Pending</span></div>';
+      const final =
+        '<div class="cert-score__final">' +
+          '<span class="cert-score__final-label">Final</span>' +
+          '<span class="cert-score__pct">' + escapeHtml(String(pct)) + '%</span>' +
+          badge +
+        '</div>';
+      const note = (unscored > 0)
+        ? '<div class="cert-score__note">' + unscored + ' reviewed lens' +
+          (unscored === 1 ? '' : 'es') + ' not yet scored.</div>'
+        : '';
+      const cls = (variant === 'compact') ? 'cert-score cert-score--compact' : 'cert-score';
+      const heading = (variant === 'compact') ? '' : '<div class="cert-score__heading">Certification score</div>';
+      return '<div class="' + cls + '">' + heading + units + final + note + '</div>';
+    }
+
+    function hydrateCertScores(container) {
+      if (!container) return;
+      const slots = container.querySelectorAll('[data-cert-variant]');
+      slots.forEach(function(slot) {
+        const variant = slot.getAttribute('data-cert-variant');
+        // participant report: profile from URL state, cohort from the block (c.id).
+        // cohort report:      cohort from URL state, profile from the block (p.id).
+        const profileId = slot.getAttribute('data-cert-profile') || reportParticipantState.currentId;
+        const cohortId  = slot.getAttribute('data-cert-cohort')  || reportCohortState.currentId;
+        if (!profileId || !cohortId) {
+          slot.innerHTML = '<div class="cert-score__loading">Score unavailable.</div>';
+          return;
+        }
+        sb.rpc('get_participant_final_score', { p_profile_id: profileId, p_cohort_id: cohortId })
+          .then(function(res) {
+            if (res.error) {
+              console.warn('[WS5.2] get_participant_final_score:', res.error);
+              slot.innerHTML = '<div class="cert-score__loading">Score unavailable.</div>';
+              return;
+            }
+            const d = Array.isArray(res.data) ? res.data[0] : res.data;
+            slot.innerHTML = certScoreMarkup(d, variant);
+          }, function(err) {
+            console.warn('[WS5.2] get_participant_final_score failed:', err);
+            slot.innerHTML = '<div class="cert-score__loading">Score unavailable.</div>';
+          });
+      });
     }
 
     // Hook handleRoute — ninth wrap. When URL is ?view=reports&type=cohort&id=X,
