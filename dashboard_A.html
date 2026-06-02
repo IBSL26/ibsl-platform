@@ -2953,6 +2953,12 @@
   .capstone-score-saved { font-size: 11px; color: rgba(255,255,255,0.45); }
   .capstone-score-ok { color: #5fd08a; font-size: 12px; font-weight: 700; }
   .capstone-score-err { font-size: 11px; color: #e06c6c; }
+  /* WS4: per-member certificate issue control */
+  .capstone-cert { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .capstone-issue-btn { font-size: 11px; padding: 5px 12px; }
+  .capstone-cert-issued { font-size: 12px; font-weight: 700; color: #5fd08a; white-space: nowrap; }
+  .capstone-cert-view { font-size: 11px; color: var(--gold); text-decoration: underline; white-space: nowrap; }
+  .capstone-cert-err { font-size: 11px; color: #e06c6c; }
 
   </style>
 </head>
@@ -12486,6 +12492,24 @@ sam@gamma.org, Sam Lee, participant,`;
           if (!profRes.error && Array.isArray(profRes.data)) profRes.data.forEach(function(p) { profById[p.id] = p; });
         }
 
+        // WS4: existing certificates for this cohort (one read) → participant_number by profile.
+        const certByProfile = {};
+        const certRes = await sb.from('capstone_certificate')
+          .select('profile_id, participant_number').eq('cohort_id', capstoneState.cohortId);
+        if (!certRes.error && Array.isArray(certRes.data)) {
+          certRes.data.forEach(function(r) { if (r && r.profile_id) certByProfile[r.profile_id] = r.participant_number; });
+        }
+
+        // WS4: per-member certified flag — one get_participant_final_score each, in parallel.
+        const certifiedByProfile = {};
+        await Promise.all(members.map(function(m) {
+          return sb.rpc('get_participant_final_score', { p_profile_id: m.profile_id, p_cohort_id: capstoneState.cohortId })
+            .then(function(sres) {
+              const sd = (sres && !sres.error && sres.data) ? (Array.isArray(sres.data) ? sres.data[0] : sres.data) : null;
+              certifiedByProfile[m.profile_id] = !!(sd && sd.certified === true);
+            }, function() { certifiedByProfile[m.profile_id] = false; });
+        }));
+
         const membersByTeam = {};
         const assignedIds = {};
         members.forEach(function(m) {
@@ -12494,7 +12518,9 @@ sam@gamma.org, Sam Lee, participant,`;
             id: m.id, profile_id: m.profile_id,
             score_pct: (m.capstone_final_pct === undefined ? null : m.capstone_final_pct),
             full_name: (profById[m.profile_id] && profById[m.profile_id].full_name) || '(unknown participant)',
-            email: (profById[m.profile_id] && profById[m.profile_id].email) || ''
+            email: (profById[m.profile_id] && profById[m.profile_id].email) || '',
+            certified: !!certifiedByProfile[m.profile_id],
+            participant_number: (m.profile_id in certByProfile) ? certByProfile[m.profile_id] : null
           });
         });
 
@@ -12564,10 +12590,98 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
+    // WS4: per-member certificate control — Issue button (enabled only when
+    // certified), or the already-issued state with a View link.
+    function capstoneCertControlHtml(m, cohortId) {
+      const viewHref = 'certificate.html?participantId=' + encodeURIComponent(m.profile_id) + '&cohortId=' + encodeURIComponent(cohortId);
+      if (m.participant_number) {
+        return '<span class="capstone-cert-issued">Certified · ' + capstoneEsc(m.participant_number) + '</span>' +
+               '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
+      }
+      if (m.certified === true) {
+        return '<button type="button" class="btn btn--primary capstone-issue-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
+               '" data-cohort-id="' + capstoneEsc(cohortId) + '">Issue certificate</button>';
+      }
+      return '<button type="button" class="btn--ghost capstone-issue-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
+             '" data-cohort-id="' + capstoneEsc(cohortId) + '" disabled title="Participant must pass (final &gt;= 80) to certify">Issue certificate</button>';
+    }
+
+    // WS4: one delegated handler for the per-member Issue-certificate buttons.
+    // Bound once to document (guarded). Insert WITHOUT participant_number — the
+    // column default assigns IBSL-{year}-{NNN} — then read it back via .select().
+    let _capstoneCertBound = false;
+    function bindCapstoneCertHandler() {
+      if (_capstoneCertBound) return;
+      _capstoneCertBound = true;
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.capstone-issue-btn');
+        if (!btn || btn.disabled) return;
+        const wrap = btn.closest('.capstone-cert');
+        const profile = btn.getAttribute('data-profile-id');
+        const cohort  = btn.getAttribute('data-cohort-id');
+        if (!wrap || !profile || !cohort) return;
+
+        const viewHref = 'certificate.html?participantId=' + encodeURIComponent(profile) + '&cohortId=' + encodeURIComponent(cohort);
+        function showIssued(num) {
+          wrap.innerHTML = '<span class="capstone-cert-issued">Certified · ' + escapeHtml(String(num)) + '</span>' +
+            '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
+        }
+        function showErr(msg) {
+          let err = wrap.querySelector('.capstone-cert-err');
+          if (!err) { err = document.createElement('span'); err.className = 'capstone-cert-err'; wrap.appendChild(err); }
+          err.textContent = msg;
+        }
+
+        const origLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Issuing…';
+        // 1) Re-confirm certified + get fresh final_pct (final_score column is integer).
+        sb.rpc('get_participant_final_score', { p_profile_id: profile, p_cohort_id: cohort }).then(function(sres) {
+          const sd = (sres && !sres.error && sres.data) ? (Array.isArray(sres.data) ? sres.data[0] : sres.data) : null;
+          if (!sd || sd.certified !== true) {
+            btn.disabled = false; btn.textContent = origLabel;
+            showErr('Participant is not certified yet.');
+            return;
+          }
+          const finalScore = Math.round(Number(sd.final_pct) || 0);
+          // 2) Existing certificate? Do not insert if so.
+          return sb.from('capstone_certificate').select('participant_number')
+            .eq('profile_id', profile).eq('cohort_id', cohort).maybeSingle().then(function(exist) {
+              if (exist && !exist.error && exist.data && exist.data.participant_number) {
+                showIssued(exist.data.participant_number);
+                return;
+              }
+              // 3) Insert WITHOUT participant_number (DB default assigns it); read it back.
+              return sb.from('capstone_certificate')
+                .insert({ profile_id: profile, cohort_id: cohort, final_score: finalScore })
+                .select('participant_number').single().then(function(ins) {
+                  if (ins.error || !ins.data) {
+                    // Possible race (another admin issued first) — re-check before erroring.
+                    return sb.from('capstone_certificate').select('participant_number')
+                      .eq('profile_id', profile).eq('cohort_id', cohort).maybeSingle().then(function(re) {
+                        if (re && !re.error && re.data && re.data.participant_number) { showIssued(re.data.participant_number); return; }
+                        btn.disabled = false; btn.textContent = origLabel;
+                        showErr((ins.error && ins.error.message) || 'Could not issue certificate.');
+                      });
+                  }
+                  showIssued(ins.data.participant_number);
+                });
+            });
+        }, function(err) {
+          btn.disabled = false; btn.textContent = origLabel;
+          showErr((err && err.message) || 'Network error.');
+        }).catch(function(err) {
+          btn.disabled = false; btn.textContent = origLabel;
+          showErr((err && err.message) || 'Network error.');
+        });
+      });
+    }
+
     function renderCapstoneTeams() {
       const container = document.getElementById('capstoneContainer');
       if (!container) return;
       bindCapstoneScoreHandler();
+      bindCapstoneCertHandler();
       const teams = capstoneState.teams;
       if (!teams.length) {
         container.innerHTML = '<div class="capstone-empty">No teams yet for this cohort. Enter a team name above and select Create Team to add the first one.</div>';
@@ -12587,6 +12701,9 @@ sam@gamma.org, Sam Lee, participant,`;
                   '<button type="button" class="btn--ghost capstone-score-save" data-profile-id="' + capstoneEsc(m.profile_id) +
                     '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">Save</button>' +
                   '<span class="capstone-score-saved">' + (hasScore ? 'saved: ' + capstoneEsc(String(m.score_pct)) : '') + '</span>' +
+                '</span>' +
+                '<span class="capstone-cert" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">' +
+                  capstoneCertControlHtml(m, t.cohort_id) +
                 '</span>' +
                 '<button type="button" class="btn--ghost capstone-remove-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
                   '" data-name="' + capstoneEsc(m.full_name) + '">Remove</button>' +
