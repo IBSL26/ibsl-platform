@@ -2146,6 +2146,10 @@
   .cert-badge--no  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
   .cert-score__pct.is-certified { color: var(--gold); }
   .cert-score.is-certified { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(201,168,76,0.35), 0 6px 22px rgba(201,168,76,0.14); }
+  /* Reports picker — per-cohort certified chip (table-sized; matches the prominent-certified language). */
+  .reports-cert { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; letter-spacing: 0.4px; white-space: nowrap; }
+  .reports-cert--yes { background: var(--green-unlock); color: #fff; border: 1px solid var(--gold); }
+  .reports-cert--no { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
   .cert-score__note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px; }
   .cert-score__loading { font-size: 12px; color: rgba(255,255,255,0.45); font-style: italic; }
 
@@ -9260,7 +9264,8 @@ sam@gamma.org, Sam Lee, participant,`;
                 <th>Name</th>
                 <th>Email</th>
                 <th>Organisation</th>
-                <th>Active cohorts</th>
+                <th>Cohort</th>
+                <th>Certified</th>
                 <th style="width:48px;"></th>
               </tr>
             </thead>
@@ -9330,13 +9335,18 @@ sam@gamma.org, Sam Lee, participant,`;
     }
 
     function reportsParticipantRowHtml(row) {
-      const cohortCount = row.active_cohort_count || 0;
+      // One row per active cohort: cohort name + per-cohort certified state.
+      const cohortName = row.cohort_name ? escapeHtml(row.cohort_name) : '—';
+      const certCell = (row.certified === true)
+        ? '<span class="reports-cert reports-cert--yes">✓ Certified</span>'
+        : '<span class="reports-cert reports-cert--no">Not certified</span>';
       return `
-        <tr data-row-id="${row.id}" data-row-kind="reports-participant" style="cursor:pointer;">
+        <tr data-row-id="${row.id}" data-row-kind="reports-participant" data-cohort-id="${escapeHtml(String(row.cohort_id || ''))}" style="cursor:pointer;">
           <td><span class="cohort-name" title="${escapeHtml(row.full_name)}">${escapeHtml(row.full_name)}</span></td>
           <td class="cell-secondary" title="${escapeHtml(row.email || '')}">${escapeHtml(row.email || '')}</td>
           <td class="cell-secondary" title="${escapeHtml(row.organisation_name || '')}">${escapeHtml(row.organisation_name || '—')}</td>
-          <td class="cell-secondary">${cohortCount}</td>
+          <td><span class="cohort-name">${cohortName}</span></td>
+          <td>${certCell}</td>
           <td class="cell-secondary" style="text-align:right;color:rgba(255,255,255,0.5);">›</td>
         </tr>
       `;
@@ -9415,9 +9425,45 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!container) return;
       if (!reportsPickerState.loaded[axis]) container.innerHTML = reportsSkeletonHtml(axis);
       try {
-        const { data, error } = axis === 'participant'
-          ? await sb.rpc('get_admin_user_list', { p_role_filter: null, p_search: null })
-          : await sb.rpc('get_admin_cohort_list');
+        if (axis === 'participant') {
+          const { data, error } = await sb.rpc('get_admin_user_list', { p_role_filter: null, p_search: null });
+          if (error) { container.innerHTML = reportsErrorHtml(error.message || 'RPC failed.'); return; }
+          const users = Array.isArray(data) ? data : [];
+          const participants = users.filter(function(u) { return u.role === 'participant'; });
+          // Expand each participant into one entry per active cohort, with its
+          // certified flag. Per-participant fetches run in parallel; no new RPCs.
+          const perParticipant = await Promise.all(participants.map(function(u) {
+            return sb.rpc('get_participant_completion_report', { p_profile_id: u.id }).then(function(rep) {
+              const rd = (rep && !rep.error && rep.data)
+                ? (Array.isArray(rep.data) ? rep.data[0] : rep.data) : null;
+              const cohorts = (rd && Array.isArray(rd.cohorts)) ? rd.cohorts : [];
+              if (!cohorts.length) {
+                // Zero active cohorts → keep the participant with a placeholder row.
+                return [Object.assign({}, u, { cohort_id: null, cohort_name: null, certified: null })];
+              }
+              return Promise.all(cohorts.map(function(c) {
+                return sb.rpc('get_participant_final_score', { p_profile_id: u.id, p_cohort_id: c.id }).then(function(sres) {
+                  const sd = (sres && !sres.error && sres.data)
+                    ? (Array.isArray(sres.data) ? sres.data[0] : sres.data) : null;
+                  const certified = !!(sd && sd.certified === true);
+                  return Object.assign({}, u, { cohort_id: c.id, cohort_name: c.name, certified: certified });
+                }, function() {
+                  return Object.assign({}, u, { cohort_id: c.id, cohort_name: c.name, certified: false });
+                });
+              }));
+            }, function() {
+              return [Object.assign({}, u, { cohort_id: null, cohort_name: null, certified: null })];
+            });
+          }));
+          const flat = [];
+          perParticipant.forEach(function(arr) { arr.forEach(function(e) { flat.push(e); }); });
+          reportsPickerState.rowsByAxis[axis] = flat;
+          reportsPickerState.loaded[axis] = true;
+          if (reportsPickerState.axis === axis) renderReportsPicker();
+          return;
+        }
+
+        const { data, error } = await sb.rpc('get_admin_cohort_list');
         if (error) {
           container.innerHTML = reportsErrorHtml(error.message || 'RPC failed.');
           return;
