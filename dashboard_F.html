@@ -4321,7 +4321,12 @@
             }
           });
         }, { rootMargin: '120px' });
-        io.observe(rowCertSummary);
+        // Observe the visible right column, NOT rowCertSummary itself: the
+        // mount starts empty and is display:none via `.row-cert-summary:empty`,
+        // and a display:none target never reports isIntersecting — observing it
+        // would deadlock (empty→hidden→never-observed→never-fetched). rightCol
+        // has real size from the dot strip, so it intersects normally.
+        io.observe(rightCol);
       } else {
         fetchRowCertSummary();
       }
