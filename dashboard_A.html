@@ -2908,6 +2908,20 @@
   .mod-pagination__btn:disabled { opacity: 0.3; cursor: default; }
   .mod-pagination__btn:not(:disabled):hover { background: rgba(255,255,255,0.06); }
 
+  /* ── Capstone teams (admin) ── */
+  .capstone-team { background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.18); border-radius: 6px; padding: 18px 20px; margin-bottom: 16px; }
+  .capstone-team__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
+  .capstone-team__name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.3rem; font-weight: 500; color: #fff; margin: 0; }
+  .capstone-team__members { display: flex; flex-direction: column; gap: 8px; }
+  .capstone-member { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; }
+  .capstone-member--empty { color: rgba(255,255,255,0.45); font-style: italic; justify-content: flex-start; }
+  .capstone-member__name { font-size: 13px; color: rgba(255,255,255,0.9); font-family: Montserrat, sans-serif; }
+  .capstone-member__email { color: rgba(255,255,255,0.45); font-size: 11px; margin-left: 6px; }
+  .capstone-remove-btn { font-size: 11px; padding: 5px 12px; }
+  .capstone-candidate { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; color: #fff; cursor: pointer; font-family: Montserrat, sans-serif; margin-bottom: 6px; }
+  .capstone-candidate:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
+  .capstone-candidate__add { color: var(--gold, #c9a84c); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+
   </style>
 </head>
 <body>
@@ -2930,6 +2944,7 @@
         <li class="nav__item" data-nav="invitations"><a href="?view=invitations"><span>Invitations</span></a></li>
         <li class="nav__item" data-nav="organisations"><a href="?view=organisations"><span>Organisations</span></a></li>
         <li class="nav__item" data-nav="reports"><a href="?view=reports"><span>Completion Reports</span></a></li>
+        <li class="nav__item" data-nav="capstone"><a href="?view=capstone"><span>Capstone</span></a></li>
         <li class="nav__item" data-nav="health"><a href="?view=health"><span>Health</span></a></li>
         <li class="nav__item" data-nav="activity"><a href="?view=activity"><span>Activity</span></a></li>
         <li class="nav__item" data-nav="support"><a href="?view=support"><span>Support</span></a></li>
@@ -3165,6 +3180,40 @@
           </div>
         </section>
 
+        <!-- Capstone: team management for a cohort (admin-only, gated by boot() + server RLS) -->
+        <section class="view" id="view-capstone" data-view="capstone">
+          <div class="view-header">
+            <div>
+              <div class="view-header__kicker">Capstone</div>
+              <h1 class="view-header__title">Capstone Teams</h1>
+              <div class="view-header__sub">Create capstone teams for a cohort and manage their members.</div>
+            </div>
+          </div>
+
+          <div class="filter-bar">
+            <div class="filter-group" style="flex:1 1 280px;">
+              <span class="filter-group__label">Cohort</span>
+              <select id="capstoneCohortSelect" aria-label="Select cohort"
+                      style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:340px;outline:none;">
+                <option value="">Loading cohorts…</option>
+              </select>
+            </div>
+            <div class="filter-group" style="flex:1 1 220px;">
+              <span class="filter-group__label">New team name</span>
+              <input type="text" id="capstoneNewTeamName" placeholder="e.g. Team Alpha" maxlength="120" disabled
+                     style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:4px;padding:8px 12px;color:#fff;font-family:Montserrat,sans-serif;font-size:13px;width:100%;max-width:300px;outline:none;">
+            </div>
+            <div class="filter-group">
+              <span class="filter-group__label">&nbsp;</span>
+              <button type="button" class="btn btn--primary" id="capstoneCreateTeamBtn" disabled>+ Create team</button>
+            </div>
+          </div>
+
+          <div id="capstoneContainer">
+            <!-- States rendered here by JS: prompt | skeleton | teams | empty | error -->
+          </div>
+        </section>
+
         <!-- A6: Platform health view -->
         <section class="view" id="view-health" data-view="health">
           <div class="view-header">
@@ -3370,13 +3419,14 @@
     // -----------------------------------------------------------
     // Boot — auth + role check, then render
     // -----------------------------------------------------------
-    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','health','activity','support','platform-settings','moderation'];
+    const VIEW_IDS = ['cohorts','users','invitations','organisations','reports','capstone','health','activity','support','platform-settings','moderation'];
     const VIEW_TITLES = {
       cohorts: 'Cohorts',
       users: 'Users',
       invitations: 'Invitations',
       organisations: 'Organisations',
       reports: 'Completion Reports',
+      capstone: 'Capstone Teams',
       health: 'Health',
       activity: 'Activity log',
       support: 'Support',
@@ -12254,6 +12304,290 @@ sam@gamma.org, Sam Lee, participant,`;
       }
     };
 
+    // ============================================================
+    // Capstone — team management for a cohort (admin-only).
+    // The whole page is admin-gated by boot() (non-admins are redirected),
+    // and every admin_* RPC enforces admin server-side, so the section needs
+    // no extra client gate. Mirrors the reports view: loads on ?view=capstone
+    // via a handleRoute wrap; uses sb.rpc / sb.from + showConfirmModal +
+    // window.showToast, matching existing admin conventions.
+    // ============================================================
+    const capstoneState = {
+      cohortsLoaded: false,
+      cohortId: null,
+      teams: [],            // [{ id, team_name }]
+      membersByTeam: {},    // team_id -> [{ id, profile_id, full_name, email }]
+      assignedIds: {},      // profile_id -> true (already on a team this cohort)
+    };
+    const capstonePickerState = { teamId: null, teamName: '', candidates: [], filter: '' };
+
+    function capstoneEsc(s) { return escapeHtml(s == null ? '' : String(s)); }
+
+    // Populate the cohort <select> once, reusing the admin cohort list RPC.
+    async function loadCapstoneCohorts() {
+      const sel = document.getElementById('capstoneCohortSelect');
+      if (!sel) return;
+      try {
+        const { data, error } = await sb.rpc('get_admin_cohort_list');
+        if (error) { sel.innerHTML = '<option value="">Could not load cohorts</option>'; return; }
+        const cohorts = Array.isArray(data) ? data : [];
+        capstoneState.cohortsLoaded = true;
+        sel.innerHTML = ['<option value="">Select a cohort…</option>'].concat(
+          cohorts.map(function(c) { return '<option value="' + capstoneEsc(c.id) + '">' + capstoneEsc(c.name) + '</option>'; })
+        ).join('');
+      } catch (e) {
+        sel.innerHTML = '<option value="">Could not load cohorts</option>';
+      }
+    }
+
+    // Load teams + members for the selected cohort (separate reads, joined in JS —
+    // no PostgREST embeds, matching this file's read conventions).
+    async function loadCapstoneTeams() {
+      const container = document.getElementById('capstoneContainer');
+      if (!container) return;
+      if (!capstoneState.cohortId) {
+        container.innerHTML = '<div class="cert-score__loading">Select a cohort to view its capstone teams.</div>';
+        return;
+      }
+      container.innerHTML = skeletonHtml();
+      try {
+        const teamsRes = await sb.from('capstone_team')
+          .select('id, team_name').eq('cohort_id', capstoneState.cohortId).order('team_name', { ascending: true });
+        if (teamsRes.error) { container.innerHTML = errorHtml(teamsRes.error.message || 'Could not load teams.'); return; }
+        const teams = Array.isArray(teamsRes.data) ? teamsRes.data : [];
+        const teamIds = teams.map(function(t) { return t.id; });
+
+        let members = [];
+        if (teamIds.length) {
+          const memRes = await sb.from('capstone_individual').select('id, team_id, profile_id').in('team_id', teamIds);
+          if (memRes.error) { container.innerHTML = errorHtml(memRes.error.message || 'Could not load team members.'); return; }
+          members = Array.isArray(memRes.data) ? memRes.data : [];
+        }
+
+        const profileIds = members.map(function(m) { return m.profile_id; }).filter(Boolean);
+        const profById = {};
+        if (profileIds.length) {
+          const profRes = await sb.from('profiles').select('id, full_name, email').in('id', profileIds);
+          if (!profRes.error && Array.isArray(profRes.data)) profRes.data.forEach(function(p) { profById[p.id] = p; });
+        }
+
+        const membersByTeam = {};
+        const assignedIds = {};
+        members.forEach(function(m) {
+          assignedIds[m.profile_id] = true;
+          (membersByTeam[m.team_id] = membersByTeam[m.team_id] || []).push({
+            id: m.id, profile_id: m.profile_id,
+            full_name: (profById[m.profile_id] && profById[m.profile_id].full_name) || '(unknown participant)',
+            email: (profById[m.profile_id] && profById[m.profile_id].email) || ''
+          });
+        });
+
+        capstoneState.teams = teams;
+        capstoneState.membersByTeam = membersByTeam;
+        capstoneState.assignedIds = assignedIds;
+        renderCapstoneTeams();
+      } catch (e) {
+        container.innerHTML = errorHtml(e.message || 'Network error.');
+      }
+    }
+
+    function renderCapstoneTeams() {
+      const container = document.getElementById('capstoneContainer');
+      if (!container) return;
+      const teams = capstoneState.teams;
+      if (!teams.length) {
+        container.innerHTML = '<div class="cert-score__loading">No capstone teams yet for this cohort. Create one above.</div>';
+        return;
+      }
+      container.innerHTML = teams.map(function(t) {
+        const members = capstoneState.membersByTeam[t.id] || [];
+        const rows = members.length
+          ? members.map(function(m) {
+              return '<div class="capstone-member">' +
+                '<span class="capstone-member__name">' + capstoneEsc(m.full_name) +
+                  (m.email ? '<span class="capstone-member__email">' + capstoneEsc(m.email) + '</span>' : '') + '</span>' +
+                '<button type="button" class="btn--ghost capstone-remove-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
+                  '" data-name="' + capstoneEsc(m.full_name) + '">Remove</button>' +
+              '</div>';
+            }).join('')
+          : '<div class="capstone-member capstone-member--empty">No members yet.</div>';
+        return '<div class="capstone-team">' +
+          '<div class="capstone-team__head">' +
+            '<h2 class="capstone-team__name">' + capstoneEsc(t.team_name) + '</h2>' +
+            '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
+              '" data-team-name="' + capstoneEsc(t.team_name) + '">+ Add participant</button>' +
+          '</div>' +
+          '<div class="capstone-team__members">' + rows + '</div>' +
+        '</div>';
+      }).join('');
+    }
+
+    async function createCapstoneTeam() {
+      const nameEl = document.getElementById('capstoneNewTeamName');
+      const name = ((nameEl && nameEl.value) || '').trim();
+      if (!capstoneState.cohortId) { window.showToast('Select a cohort first.', 3000); return; }
+      if (!name) { window.showToast('Enter a team name.', 3000); return; }
+      const btn = document.getElementById('capstoneCreateTeamBtn');
+      if (btn) btn.disabled = true;
+      try {
+        const { error } = await sb.rpc('admin_create_capstone_team', { p_cohort_id: capstoneState.cohortId, p_team_name: name });
+        if (error) { window.showToast(error.message || 'Could not create team.', 4000); return; }
+        if (nameEl) nameEl.value = '';
+        window.showToast('Team created', 3000);
+        loadCapstoneTeams();
+      } catch (e) {
+        window.showToast(e.message || 'Network error.', 4000);
+      } finally {
+        if (btn) btn.disabled = !capstoneState.cohortId;
+      }
+    }
+
+    // ── Add-participant picker ──
+    function openCapstonePicker(teamId, teamName) {
+      capstonePickerState.teamId = teamId;
+      capstonePickerState.teamName = teamName;
+      capstonePickerState.filter = '';
+      const modal = document.getElementById('capstoneMemberModal');
+      const title = document.getElementById('capstoneMemberModalTitle');
+      const search = document.getElementById('capstoneMemberModalSearch');
+      if (title) title.textContent = 'Add participant to ' + teamName;
+      if (search) search.value = '';
+      if (modal) { modal.classList.add('modal-backdrop--shown'); modal.setAttribute('aria-hidden', 'false'); }
+      loadCapstoneCandidates();
+    }
+
+    function closeCapstonePicker() {
+      const modal = document.getElementById('capstoneMemberModal');
+      if (modal) { modal.classList.remove('modal-backdrop--shown'); modal.setAttribute('aria-hidden', 'true'); }
+      capstonePickerState.teamId = null;
+    }
+
+    // Cohort participants (role = participant) not already on a capstone team here.
+    async function loadCapstoneCandidates() {
+      const body = document.getElementById('capstoneMemberModalBody');
+      if (!body) return;
+      body.innerHTML = '<div class="cert-score__loading">Loading participants…</div>';
+      try {
+        const memRes = await sb.from('cohort_memberships').select('profile_id').eq('cohort_id', capstoneState.cohortId);
+        if (memRes.error) { body.innerHTML = errorHtml(memRes.error.message || 'Could not load participants.'); return; }
+        const ids = (memRes.data || []).map(function(r) { return r.profile_id; }).filter(Boolean);
+        let candidates = [];
+        if (ids.length) {
+          const profRes = await sb.from('profiles').select('id, full_name, email, role').in('id', ids);
+          if (profRes.error) { body.innerHTML = errorHtml(profRes.error.message || 'Could not load participants.'); return; }
+          candidates = (profRes.data || []).filter(function(p) {
+            return p.role === 'participant' && !capstoneState.assignedIds[p.id];
+          });
+        }
+        candidates.sort(function(a, b) { return (a.full_name || '').localeCompare(b.full_name || ''); });
+        capstonePickerState.candidates = candidates;
+        renderCapstoneCandidates();
+      } catch (e) {
+        body.innerHTML = errorHtml(e.message || 'Network error.');
+      }
+    }
+
+    function renderCapstoneCandidates() {
+      const body = document.getElementById('capstoneMemberModalBody');
+      if (!body) return;
+      if (!capstonePickerState.candidates.length) {
+        body.innerHTML = '<div class="cert-score__loading">No eligible participants — everyone in this cohort is already on a capstone team.</div>';
+        return;
+      }
+      const f = capstonePickerState.filter.trim().toLowerCase();
+      const list = capstonePickerState.candidates.filter(function(p) {
+        if (!f) return true;
+        return ((p.full_name || '').toLowerCase().indexOf(f) !== -1) || ((p.email || '').toLowerCase().indexOf(f) !== -1);
+      });
+      if (!list.length) { body.innerHTML = '<div class="cert-score__loading">No participants match your search.</div>'; return; }
+      body.innerHTML = list.map(function(p) {
+        return '<button type="button" class="capstone-candidate" data-profile-id="' + capstoneEsc(p.id) + '">' +
+          '<span class="capstone-member__name">' + capstoneEsc(p.full_name || '(unnamed)') +
+            (p.email ? '<span class="capstone-member__email">' + capstoneEsc(p.email) + '</span>' : '') + '</span>' +
+          '<span class="capstone-candidate__add">Add →</span>' +
+        '</button>';
+      }).join('');
+    }
+
+    async function addCapstoneMember(profileId) {
+      if (!capstonePickerState.teamId || !profileId) return;
+      try {
+        const { error } = await sb.rpc('admin_add_capstone_member', { p_team_id: capstonePickerState.teamId, p_profile_id: profileId });
+        if (error) { window.showToast(error.message || 'Could not add participant.', 4000); return; }
+        window.showToast('Participant added', 3000);
+        closeCapstonePicker();
+        loadCapstoneTeams();
+      } catch (e) {
+        window.showToast(e.message || 'Network error.', 4000);
+      }
+    }
+
+    function confirmRemoveCapstoneMember(profileId, name) {
+      showConfirmModal({
+        title: 'Remove participant',
+        body: 'Remove <strong>' + capstoneEsc(name) + '</strong> from their capstone team?',
+        proceedLabel: 'Remove',
+        onProceed: async function() {
+          const { error } = await sb.rpc('admin_remove_capstone_member', { p_profile_id: profileId, p_cohort_id: capstoneState.cohortId });
+          if (error) { window.showToast(error.message || 'Could not remove participant.', 5000); return; }
+          window.showToast('Participant removed', 3000);
+          loadCapstoneTeams();
+        }
+      });
+    }
+
+    function wireCapstone() {
+      const sel = document.getElementById('capstoneCohortSelect');
+      if (sel) {
+        sel.addEventListener('change', function() {
+          capstoneState.cohortId = sel.value || null;
+          const nameEl = document.getElementById('capstoneNewTeamName');
+          const btn = document.getElementById('capstoneCreateTeamBtn');
+          const has = !!capstoneState.cohortId;
+          if (nameEl) nameEl.disabled = !has;
+          if (btn) btn.disabled = !has;
+          loadCapstoneTeams();
+        });
+      }
+      const createBtn = document.getElementById('capstoneCreateTeamBtn');
+      if (createBtn) createBtn.addEventListener('click', createCapstoneTeam);
+      const nameEl = document.getElementById('capstoneNewTeamName');
+      if (nameEl) nameEl.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); createCapstoneTeam(); } });
+
+      const container = document.getElementById('capstoneContainer');
+      if (container) {
+        container.addEventListener('click', function(e) {
+          const addBtn = e.target.closest('.capstone-add-btn');
+          if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team'); return; }
+          const remBtn = e.target.closest('.capstone-remove-btn');
+          if (remBtn) { confirmRemoveCapstoneMember(remBtn.getAttribute('data-profile-id'), remBtn.getAttribute('data-name') || 'this participant'); return; }
+        });
+      }
+
+      const search = document.getElementById('capstoneMemberModalSearch');
+      if (search) search.addEventListener('input', function() { capstonePickerState.filter = search.value || ''; renderCapstoneCandidates(); });
+      const pbody = document.getElementById('capstoneMemberModalBody');
+      if (pbody) pbody.addEventListener('click', function(e) {
+        const cand = e.target.closest('.capstone-candidate');
+        if (cand) addCapstoneMember(cand.getAttribute('data-profile-id'));
+      });
+      const closeBt = document.getElementById('capstoneMemberModalCloseBtn');
+      if (closeBt) closeBt.addEventListener('click', closeCapstonePicker);
+      const modal = document.getElementById('capstoneMemberModal');
+      if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) closeCapstonePicker(); });
+    }
+    document.addEventListener('DOMContentLoaded', wireCapstone);
+
+    // Hook handleRoute so the capstone view loads its cohort list on activation. Eleventh wrap.
+    const _origHandleRoute_uiCap = handleRoute;
+    handleRoute = function patchedHandleRouteForCapstone() {
+      _origHandleRoute_uiCap.apply(this, arguments);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('view') === 'capstone' && !capstoneState.cohortsLoaded) {
+        loadCapstoneCohorts();
+      }
+    };
+
     // -----------------------------------------------------------
     // Boot
     // -----------------------------------------------------------
@@ -12448,6 +12782,22 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" id="userEditModalBody">
           <!-- Form rendered here by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Capstone: add-participant picker modal -->
+    <div class="modal-backdrop" id="capstoneMemberModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="capstoneMemberModalTitle">Add participant</div>
+          <button type="button" class="modal-close" id="capstoneMemberModalCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-search">
+          <input type="text" class="modal-search__input" id="capstoneMemberModalSearch" placeholder="Search by name or email...">
+        </div>
+        <div class="modal-body" id="capstoneMemberModalBody">
+          <!-- Candidate list rendered here by JS -->
         </div>
       </div>
     </div>
