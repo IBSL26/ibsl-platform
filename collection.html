@@ -44,9 +44,12 @@ html,body{margin:0;padding:0;background:#101a16;color:#1c1c1c;font-family:"Monts
 .cert-final{display:flex;align-items:center;gap:14px;margin-top:18px;padding-top:14px;border-top:2px solid var(--gold);}
 .cert-final .cert-final-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#888;}
 .cert-final .cert-pct{font-size:1.6rem;font-weight:700;color:var(--forest);}
-.cert-badge{margin-left:auto;font-size:11px;padding:4px 14px;border-radius:999px;letter-spacing:.5px;}
-.cert-badge.yes{background:rgba(39,174,96,.14);color:#1d7a45;}
+.cert-badge{margin-left:auto;font-size:14px;font-weight:700;padding:5px 16px;border-radius:999px;letter-spacing:.6px;}
+/* Certified pops: solid green fill + gold border (print-safe, no faint alpha); not-certified stays calm grey. */
+.cert-badge.yes{background:#1d7a45;color:#fff;border:1px solid var(--gold);}
 .cert-badge.no{background:#eef2f0;color:#6b7d76;}
+.cert-pct.is-certified{color:var(--gold);}
+.cert-progress.is-certified{border-top:4px solid var(--gold);}
 .cert-note{font-size:12px;color:#8a978f;margin-top:12px;font-style:italic;}
 .cert-empty{font-size:14px;color:#6b7d76;font-style:italic;}
 .fatal{max-width:560px;margin:80px auto;background:#fff;border:1px solid #e0c9c9;border-radius:8px;padding:40px;text-align:center;}
@@ -1365,11 +1368,13 @@ function renderResponses(payload, lensId) {
     cap.appendChild(capPending ? el("span","cert-v muted","Pending") : el("span","cert-v",String(d.capstone_avg)+" / 100"));
     body.appendChild(cap);
     var pct=(d.final_pct===null||d.final_pct===undefined)?0:d.final_pct;
+    var certified=d.certified===true;
+    // Celebratory accent on the whole panel when certified (gold top border).
+    var section=body.parentNode; if(section) section.classList.toggle("is-certified", certified);
     var fin=el("div","cert-final");
     fin.appendChild(el("span","cert-final-label","Final"));
-    fin.appendChild(el("span","cert-pct",String(pct)+"%"));
-    var certified=d.certified===true;
-    fin.appendChild(el("span","cert-badge "+(certified?"yes":"no"), certified?"Certified":"Not yet certified"));
+    fin.appendChild(el("span","cert-pct"+(certified?" is-certified":""),String(pct)+"%"));
+    fin.appendChild(el("span","cert-badge "+(certified?"yes":"no"), certified?"✓ Certified":"Not yet certified"));
     body.appendChild(fin);
     var unscored=Number(d.unscored_lens_count||0);
     if(unscored>0){ body.appendChild(el("div","cert-note", unscored+" reviewed lens"+(unscored===1?"":"es")+" not yet scored.")); }

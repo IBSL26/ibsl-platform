@@ -1004,9 +1004,15 @@
   .ms-final { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 6px; }
   .ms-final-num { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 400; color: #fff; line-height: 1; }
   .ms-final-cap { font-size: 12px; color: rgba(255,255,255,0.5); font-family: 'Montserrat', sans-serif; }
-  .ms-cert { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; font-family: 'Montserrat', sans-serif; }
-  .ms-cert.is-certified { background: rgba(39,174,96,0.15); color: #6ed5cb; }
+  .ms-cert { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; font-family: 'Montserrat', sans-serif; }
+  /* Certified pops: strong green fill, light text, subtle gold ring + a one-shot entrance.
+     Participant flourish — slightly larger here than on the other surfaces. */
+  .ms-cert.is-certified { font-size: 15px; padding: 7px 18px; background: var(--green-unlock); color: #fff; border: 1px solid var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.18); animation: msCertPop 0.45s ease-out 1; }
   .ms-cert.not-certified { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); }
+  .ms-final-num.is-certified { color: var(--gold); }
+  .ms-card.is-certified { box-shadow: 0 0 0 1px rgba(201,168,76,0.45), 0 8px 30px rgba(201,168,76,0.16); }
+  .ms-card.is-certified::before { background: var(--gold); height: 3px; }
+  @keyframes msCertPop { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   .ms-units { margin-top: 22px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 18px; }
   .ms-unit-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 13px; font-family: 'Montserrat', sans-serif; border-bottom: 1px solid rgba(255,255,255,0.05); }
   .ms-unit-row:last-child { border-bottom: none; }
@@ -2037,6 +2043,9 @@ async function validateAccess() {
 
     var finalPct = (d.final_pct === null || d.final_pct === undefined) ? null : d.final_pct;
     var certified = d.certified === true;
+    // Celebratory accent on the whole panel when certified (gold glow + gold top bar).
+    var card = document.getElementById('msHeadlineCard');
+    if (card) card.classList.toggle('is-certified', certified);
     var capPending = d.capstone_pending === true || d.capstone_avg === null || d.capstone_avg === undefined;
     var unscored = Number(d.unscored_lens_count || 0);
 
@@ -2075,9 +2084,9 @@ async function validateAccess() {
 
     host.innerHTML =
       '<div class="ms-final">' +
-        '<span class="ms-final-num">' + (finalPct === null ? '&mdash;' : escapeHtml(String(finalPct)) + '%') + '</span>' +
+        '<span class="ms-final-num' + (certified ? ' is-certified' : '') + '">' + (finalPct === null ? '&mdash;' : escapeHtml(String(finalPct)) + '%') + '</span>' +
         '<span class="ms-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
-          (certified ? 'Certified' : 'Not yet certified') + '</span>' +
+          (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
       capNote +
       '<div class="ms-units">' + unitRows + '</div>' +

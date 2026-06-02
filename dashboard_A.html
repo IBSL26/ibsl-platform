@@ -2135,13 +2135,17 @@
   .cert-score__pct { font-size: 18px; font-weight: 700; }
   .cert-badge {
     margin-left: auto;
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 5px 14px;
     border-radius: 999px;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.6px;
   }
-  .cert-badge--yes { background: rgba(39,174,96,0.16); color: #5fd08a; }
+  /* Certified pops: strong green fill + gold ring; not-certified stays a calm grey. */
+  .cert-badge--yes { background: var(--green-unlock); color: #fff; border: 1px solid var(--gold); }
   .cert-badge--no  { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.7); }
+  .cert-score__pct.is-certified { color: var(--gold); }
+  .cert-score.is-certified { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(201,168,76,0.35), 0 6px 22px rgba(201,168,76,0.14); }
   .cert-score__note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 8px; }
   .cert-score__loading { font-size: 12px; color: rgba(255,255,255,0.45); font-style: italic; }
 
@@ -10041,7 +10045,7 @@ sam@gamma.org, Sam Lee, participant,`;
       const certified = d.certified === true;
       const unscored = Number(d.unscored_lens_count || 0);
       const badge = certified
-        ? '<span class="cert-badge cert-badge--yes">Certified</span>'
+        ? '<span class="cert-badge cert-badge--yes">✓ Certified</span>'
         : '<span class="cert-badge cert-badge--no">Not yet certified</span>';
       // Capstone row is display-only here: show the value if scored, else muted "Pending".
       function capstoneRow() {
@@ -10055,14 +10059,15 @@ sam@gamma.org, Sam Lee, participant,`;
       const final =
         '<div class="cert-score__final">' +
           '<span class="cert-score__final-label">Final</span>' +
-          '<span class="cert-score__pct">' + escapeHtml(String(pct)) + '%</span>' +
+          '<span class="cert-score__pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(pct)) + '%</span>' +
           badge +
         '</div>';
       const note = (unscored > 0)
         ? '<div class="cert-score__note">' + unscored + ' reviewed lens' +
           (unscored === 1 ? '' : 'es') + ' not yet scored.</div>'
         : '';
-      const cls = (variant === 'compact') ? 'cert-score cert-score--compact' : 'cert-score';
+      let cls = (variant === 'compact') ? 'cert-score cert-score--compact' : 'cert-score';
+      if (certified) cls += ' is-certified';
       const heading = (variant === 'compact') ? '' : '<div class="cert-score__heading">Certification score</div>';
       return '<div class="' + cls + '">' + heading + units + final + note + '</div>';
     }

@@ -20,6 +20,7 @@
     --cream: #faf8f3;
     --ash: #9ca3af;
     --banner-amber: #f4c542;
+    --green-cert: #27ae60;
   }
 
   html, body { height: 100%; }
@@ -2505,12 +2506,17 @@
   .fss-final-pct { font-size: 18px; font-weight: 600; }
   .fss-cert {
     margin-left: auto;
-    font-size: 11px;
-    padding: 3px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    padding: 5px 14px;
     border-radius: 999px;
   }
-  .fss-cert.is-certified { background: rgba(39,174,96,0.15); color: #6ed5cb; }
-  .fss-cert.not-certified { background: rgba(255,255,255,0.07); opacity: 0.85; }
+  /* Certified pops: strong green fill + gold ring; not-certified stays a calm grey. */
+  .fss-cert.is-certified { background: var(--green-cert); color: #fff; border: 1px solid var(--gold); }
+  .fss-cert.not-certified { background: rgba(255,255,255,0.07); color: var(--ash); }
+  .fss-final-pct.is-certified { color: var(--gold); }
+  .final-score-summary.is-certified { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(201,168,76,0.4), 0 6px 22px rgba(201,168,76,0.16); }
   .fss-note { font-size: 11px; opacity: 0.7; margin-top: 8px; color: var(--ash); }
 
   /* ─── WS5.4: COMPACT ON-ROW CERT SUMMARY ─── */
@@ -2534,12 +2540,13 @@
   .rcs-pct.rcs-unscored { font-weight: 400; opacity: 0.5; color: var(--ash); }
   .rcs-cert {
     font-size: 10px;
-    padding: 2px 8px;
+    font-weight: 700;
+    padding: 3px 9px;
     border-radius: 999px;
     letter-spacing: 0.3px;
   }
-  .rcs-cert.is-certified { background: rgba(39,174,96,0.15); color: #6ed5cb; }
-  .rcs-cert.not-certified { background: rgba(255,255,255,0.07); opacity: 0.85; }
+  .rcs-cert.is-certified { background: var(--green-cert); color: #fff; border: 1px solid rgba(201,168,76,0.6); }
+  .rcs-cert.not-certified { background: rgba(255,255,255,0.07); color: var(--ash); }
 
   /* ─── F5: CONFIRMATION MODAL ─── */
   .commit-modal-backdrop {
@@ -5525,8 +5532,9 @@
     const certified = d.certified === true;
     mountEl.innerHTML =
       '<span class="rcs-pct">' + escapeHtml(String(d.final_pct)) + '%</span>' +
-      '<span class="rcs-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
-        (certified ? 'Certified' : 'Not yet') + '</span>';
+      (certified
+        ? '<span class="rcs-cert is-certified" title="Certified">✓ Certified</span>'
+        : '<span class="rcs-cert not-certified">Not yet</span>');
     mountEl.style.fontFamily = 'inherit';
   }
 
@@ -5538,6 +5546,8 @@
     const unitName = { 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
     const finalPct = (d.final_pct === null || d.final_pct === undefined) ? 0 : d.final_pct;
     const certified = d.certified === true;
+    // Celebratory accent on the whole panel when certified (gold ring + glow).
+    mountEl.classList.toggle('is-certified', certified);
     const capPending = d.capstone_pending === true || d.capstone_avg === null || d.capstone_avg === undefined;
     const unscored = Number(d.unscored_lens_count || 0);
 
@@ -5564,9 +5574,9 @@
       '</div>' +
       '<div class="fss-final">' +
         '<span class="fss-final-label">Final</span>' +
-        '<span class="fss-final-pct">' + escapeHtml(String(finalPct)) + '%</span>' +
+        '<span class="fss-final-pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(finalPct)) + '%</span>' +
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
-          (certified ? 'Certified' : 'Not yet certified') + '</span>' +
+          (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
       (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</div>' : '');
     mountEl.style.fontFamily = 'inherit';
