@@ -2921,6 +2921,10 @@
   .capstone-candidate { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; color: #fff; cursor: pointer; font-family: Montserrat, sans-serif; margin-bottom: 6px; }
   .capstone-candidate:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
   .capstone-candidate__add { color: var(--gold, #c9a84c); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+  /* Cohort dropdown: keep option text legible (some browsers render dark-on-dark otherwise). */
+  #capstoneCohortSelect { color: #fff; }
+  #capstoneCohortSelect option { background: #1a3a2a; color: #fff; }
+  .capstone-msg { margin: 0 0 16px; padding: 10px 14px; border: 1px solid rgba(201,168,76,0.5); border-radius: 4px; background: rgba(201,168,76,0.10); color: var(--gold, #c9a84c); font-family: Montserrat, sans-serif; font-size: 13px; }
 
   </style>
 </head>
@@ -3208,6 +3212,8 @@
               <button type="button" class="btn btn--primary" id="capstoneCreateTeamBtn" disabled>+ Create team</button>
             </div>
           </div>
+
+          <div id="capstoneCreateMsg" class="capstone-msg" role="alert" style="display:none;"></div>
 
           <div id="capstoneContainer">
             <!-- States rendered here by JS: prompt | skeleton | teams | empty | error -->
@@ -12323,6 +12329,24 @@ sam@gamma.org, Sam Lee, participant,`;
 
     function capstoneEsc(s) { return escapeHtml(s == null ? '' : String(s)); }
 
+    // Enable the team-name input + Create button only when a cohort is selected.
+    function syncCapstoneCreateControls() {
+      const has = !!capstoneState.cohortId;
+      const nameEl = document.getElementById('capstoneNewTeamName');
+      const btn = document.getElementById('capstoneCreateTeamBtn');
+      if (nameEl) nameEl.disabled = !has;
+      if (btn) btn.disabled = !has;
+    }
+
+    // Inline message beneath the create controls (replaces silent toasts for
+    // the "no cohort / no team name" cases). Pass '' to clear.
+    function setCapstoneMsg(text) {
+      const el = document.getElementById('capstoneCreateMsg');
+      if (!el) return;
+      el.textContent = text || '';
+      el.style.display = text ? 'block' : 'none';
+    }
+
     // Populate the cohort <select> once, reusing the admin cohort list RPC.
     async function loadCapstoneCohorts() {
       const sel = document.getElementById('capstoneCohortSelect');
@@ -12332,9 +12356,20 @@ sam@gamma.org, Sam Lee, participant,`;
         if (error) { sel.innerHTML = '<option value="">Could not load cohorts</option>'; return; }
         const cohorts = Array.isArray(data) ? data : [];
         capstoneState.cohortsLoaded = true;
-        sel.innerHTML = ['<option value="">Select a cohort…</option>'].concat(
-          cohorts.map(function(c) { return '<option value="' + capstoneEsc(c.id) + '">' + capstoneEsc(c.name) + '</option>'; })
-        ).join('');
+        if (!cohorts.length) {
+          sel.innerHTML = '<option value="">No cohorts available</option>';
+          capstoneState.cohortId = null;
+          syncCapstoneCreateControls();
+          loadCapstoneTeams();
+          return;
+        }
+        // Default to the first cohort so one is always selected without needing a change event.
+        sel.innerHTML = cohorts.map(function(c) {
+          return '<option value="' + capstoneEsc(c.id) + '">' + capstoneEsc(c.name) + '</option>';
+        }).join('');
+        capstoneState.cohortId = sel.value || null;   // initialise from the selected (first) option
+        syncCapstoneCreateControls();
+        loadCapstoneTeams();
       } catch (e) {
         sel.innerHTML = '<option value="">Could not load cohorts</option>';
       }
@@ -12424,19 +12459,25 @@ sam@gamma.org, Sam Lee, participant,`;
 
     async function createCapstoneTeam() {
       const nameEl = document.getElementById('capstoneNewTeamName');
+      const sel = document.getElementById('capstoneCohortSelect');
       const name = ((nameEl && nameEl.value) || '').trim();
-      if (!capstoneState.cohortId) { window.showToast('Select a cohort first.', 3000); return; }
-      if (!name) { window.showToast('Enter a team name.', 3000); return; }
+      // Fall back to the dropdown's current value if no change event has set the state,
+      // so creation always uses the cohort actually shown.
+      const cohortId = capstoneState.cohortId || (sel && sel.value) || null;
+      if (cohortId) capstoneState.cohortId = cohortId;
+      if (!cohortId) { setCapstoneMsg('Please select a cohort before creating a team.'); if (sel) sel.focus(); return; }
+      if (!name) { setCapstoneMsg('Please enter a team name.'); if (nameEl) nameEl.focus(); return; }
+      setCapstoneMsg('');
       const btn = document.getElementById('capstoneCreateTeamBtn');
       if (btn) btn.disabled = true;
       try {
-        const { error } = await sb.rpc('admin_create_capstone_team', { p_cohort_id: capstoneState.cohortId, p_team_name: name });
-        if (error) { window.showToast(error.message || 'Could not create team.', 4000); return; }
+        const { error } = await sb.rpc('admin_create_capstone_team', { p_cohort_id: cohortId, p_team_name: name });
+        if (error) { setCapstoneMsg(error.message || 'Could not create team.'); return; }
         if (nameEl) nameEl.value = '';
         window.showToast('Team created', 3000);
         loadCapstoneTeams();
       } catch (e) {
-        window.showToast(e.message || 'Network error.', 4000);
+        setCapstoneMsg(e.message || 'Network error.');
       } finally {
         if (btn) btn.disabled = !capstoneState.cohortId;
       }
@@ -12541,11 +12582,8 @@ sam@gamma.org, Sam Lee, participant,`;
       if (sel) {
         sel.addEventListener('change', function() {
           capstoneState.cohortId = sel.value || null;
-          const nameEl = document.getElementById('capstoneNewTeamName');
-          const btn = document.getElementById('capstoneCreateTeamBtn');
-          const has = !!capstoneState.cohortId;
-          if (nameEl) nameEl.disabled = !has;
-          if (btn) btn.disabled = !has;
+          setCapstoneMsg('');
+          syncCapstoneCreateControls();
           loadCapstoneTeams();
         });
       }
