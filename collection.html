@@ -1260,7 +1260,11 @@ function renderResponses(payload, lensId) {
     var latest = subs && subs.length ? subs[0] : null;
     if(latest){
       var sub=el("div","sub"); var dt=fmtDate(latest.submitted_at);
-      sub.textContent = dt ? ("Submitted "+dt) : "";
+      var subText = dt ? ("Submitted "+dt) : "";
+      // WS5.5: append the lens score when present. Foundations / unscored lenses
+      // have a null score \u2192 date shown alone, no "\u00b7 Score" suffix.
+      if(typeof latest.score==="number"){ subText += (subText ? " \u00b7 " : "") + "Score: "+latest.score+" / 100"; }
+      sub.textContent = subText;
       if(subs.length>1){ var rb=el("span","revised","Revised \u00d7"+subs.length); sub.appendChild(document.createTextNode(" ")); sub.appendChild(rb); }
       head.appendChild(sub);
     }

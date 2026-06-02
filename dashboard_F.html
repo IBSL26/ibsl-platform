@@ -3837,9 +3837,17 @@
 
     // Fetch the cohort metadata (for the header) and the participants in parallel
     try {
-      const [cohortMetaResult, participantsResult] = await Promise.all([
+      const [cohortMetaResult, participantsResult, lensScoresResult] = await Promise.all([
         supabaseClient.rpc('get_facilitator_cohorts'),
-        supabaseClient.rpc('get_cohort_participants', { p_cohort_id: cohortId })
+        supabaseClient.rpc('get_cohort_participants', { p_cohort_id: cohortId }),
+        // WS5.5: per-lens facilitator scores for the whole cohort, in one read
+        // (parallel — no extra round-trip). Facilitators already hold SELECT on
+        // these rows (see findSubmissionId). Ascending by submitted_at so the
+        // latest submission's score wins when a lens was revised.
+        supabaseClient.from('submissions')
+          .select('profile_id,lens_id,score,submitted_at')
+          .eq('cohort_id', cohortId)
+          .order('submitted_at', { ascending: true })
       ]);
 
       // [PILLAR] Ensure unit map is populated (may not be if navigated directly to ?cohort=)
@@ -3871,6 +3879,24 @@
       }
 
       console.log('[F3] Received ' + participants.length + ' participant(s)');
+
+      // WS5.5: attach each lens's facilitator score onto its lens_state so the
+      // roster dots can show it on hover (see lensDotEl). Non-fatal — if the
+      // read failed, dots simply render without a score in the tooltip.
+      if (lensScoresResult && !lensScoresResult.error && Array.isArray(lensScoresResult.data)) {
+        const scoreByKey = {};
+        lensScoresResult.data.forEach(function(r) {
+          if (r) scoreByKey[r.profile_id + '|' + r.lens_id] = r.score;  // asc → latest wins
+        });
+        participants.forEach(function(p) {
+          if (!Array.isArray(p.lens_states)) return;
+          p.lens_states.forEach(function(ls) {
+            const sc = scoreByKey[p.participant_id + '|' + ls.lens_id];
+            if (typeof sc === 'number') ls.score = sc;
+          });
+        });
+      }
+
       renderRoster(cohort, participants);
     } catch (err) {
       console.error('[F3] Unexpected exception:', err);
@@ -5203,7 +5229,11 @@
       return dot;
     }
 
-    const tooltip = (lensState.lens_title || lensState.lens_id) + ' — ' + capitalize(status);
+    // WS5.5: surface the lens's facilitator score on hover (attached to the
+    // lens_state at roster load). Only when numeric — unscored/Foundations dots
+    // keep the plain title — status tooltip, no clutter.
+    const scoreSuffix = (typeof lensState.score === 'number') ? ' · Score: ' + lensState.score + ' / 100' : '';
+    const tooltip = (lensState.lens_title || lensState.lens_id) + ' — ' + capitalize(status) + scoreSuffix;
     dot.setAttribute('data-tooltip', tooltip);
     dot.setAttribute('aria-label', tooltip);
 
