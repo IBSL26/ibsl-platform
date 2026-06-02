@@ -2925,6 +2925,8 @@
   #capstoneCohortSelect { color: #fff; }
   #capstoneCohortSelect option { background: #1a3a2a; color: #fff; }
   .capstone-msg { margin: 0 0 16px; padding: 10px 14px; border: 1px solid rgba(201,168,76,0.5); border-radius: 4px; background: rgba(201,168,76,0.10); color: var(--gold, #c9a84c); font-family: Montserrat, sans-serif; font-size: 13px; }
+  /* Calm, informational empty state — an invitation to create the first team, not an error. */
+  .capstone-empty { padding: 22px 20px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 6px; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6); font-family: Montserrat, sans-serif; font-size: 13px; line-height: 1.6; }
 
   </style>
 </head>
@@ -12431,7 +12433,7 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!container) return;
       const teams = capstoneState.teams;
       if (!teams.length) {
-        container.innerHTML = '<div class="cert-score__loading">No capstone teams yet for this cohort. Create one above.</div>';
+        container.innerHTML = '<div class="capstone-empty">No teams yet for this cohort. Enter a team name above and select Create Team to add the first one.</div>';
         return;
       }
       container.innerHTML = teams.map(function(t) {
