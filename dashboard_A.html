@@ -12331,7 +12331,7 @@ sam@gamma.org, Sam Lee, participant,`;
       membersByTeam: {},    // team_id -> [{ id, profile_id, full_name, email }]
       assignedIds: {},      // profile_id -> true (already on a team this cohort)
     };
-    const capstonePickerState = { teamId: null, teamName: '', cohortId: null, candidates: [], filter: '' };
+    const capstonePickerState = { teamId: null, teamName: '', cohortId: null, candidates: [], filter: '', enrolledCount: 0 };
 
     function capstoneEsc(s) { return escapeHtml(s == null ? '' : String(s)); }
 
@@ -12485,7 +12485,15 @@ sam@gamma.org, Sam Lee, participant,`;
       if (btn) btn.disabled = true;
       try {
         const { error } = await sb.rpc('admin_create_capstone_team', { p_cohort_id: cohortId, p_team_name: name });
-        if (error) { setCapstoneMsg(error.message || 'Could not create team.'); return; }
+        if (error) {
+          // Globally-unique team_name → a duplicate raises a Postgres unique violation.
+          const dupMsg = error.message || '';
+          const isDuplicate = error.code === '23505' || /duplicate key|unique/i.test(dupMsg);
+          setCapstoneMsg(isDuplicate
+            ? 'A team with that name already exists. Please choose a different name.'
+            : (dupMsg || 'Could not create team.'));
+          return;
+        }
         if (nameEl) nameEl.value = '';
         window.showToast('Team created', 3000);
         loadCapstoneTeams();
@@ -12532,6 +12540,7 @@ sam@gamma.org, Sam Lee, participant,`;
           .select('profile_id, role_in_cohort').eq('cohort_id', cohortId).eq('role_in_cohort', 'participant');
         if (memRes.error) { body.innerHTML = errorHtml(memRes.error.message || 'Could not load participants.'); return; }
         const ids = (memRes.data || []).map(function(r) { return r.profile_id; }).filter(Boolean);
+        capstonePickerState.enrolledCount = ids.length;   // participants enrolled in this cohort
 
         // 2) Freshly re-query who is already on a capstone team IN THIS COHORT
         //    (via the cohort's own teams), so the exclusion is never stale/empty.
@@ -12564,7 +12573,10 @@ sam@gamma.org, Sam Lee, participant,`;
       const body = document.getElementById('capstoneMemberModalBody');
       if (!body) return;
       if (!capstonePickerState.candidates.length) {
-        body.innerHTML = '<div class="cert-score__loading">No eligible participants — everyone in this cohort is already on a capstone team.</div>';
+        var emptyMsg = (capstonePickerState.enrolledCount === 0)
+          ? 'This cohort has no participants enrolled yet.'
+          : 'No eligible participants — everyone in this cohort is already on a capstone team.';
+        body.innerHTML = '<div class="cert-score__loading">' + emptyMsg + '</div>';
         return;
       }
       const f = capstonePickerState.filter.trim().toLowerCase();
