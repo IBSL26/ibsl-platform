@@ -2513,6 +2513,34 @@
   .fss-cert.not-certified { background: rgba(255,255,255,0.07); opacity: 0.85; }
   .fss-note { font-size: 11px; opacity: 0.7; margin-top: 8px; color: var(--ash); }
 
+  /* ─── WS5.4: COMPACT ON-ROW CERT SUMMARY ─── */
+  /* Right column stacks the dot strip over the compact cert summary. */
+  .roster-right-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 7px;
+    flex-shrink: 0;
+  }
+  .row-cert-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .row-cert-summary:empty { display: none; }
+  .rcs-pct { font-weight: 600; color: var(--white); }
+  .rcs-pct.rcs-unscored { font-weight: 400; opacity: 0.5; color: var(--ash); }
+  .rcs-cert {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.3px;
+  }
+  .rcs-cert.is-certified { background: rgba(39,174,96,0.15); color: #6ed5cb; }
+  .rcs-cert.not-certified { background: rgba(255,255,255,0.07); opacity: 0.85; }
+
   /* ─── F5: CONFIRMATION MODAL ─── */
   .commit-modal-backdrop {
     position: fixed;
@@ -4259,9 +4287,45 @@
       dots.appendChild(lensDotEl(ls, p));
     });
 
+    // WS5.4: right column — dot strip on top, compact certification summary
+    // directly beneath it (in the vertical space under the dots). The summary
+    // is filled async (see lazy fetch below) and is hidden while empty.
+    const rightCol = document.createElement('div');
+    rightCol.className = 'roster-right-col';
+    rightCol.appendChild(dots);
+    const rowCertSummary = document.createElement('div');
+    rowCertSummary.className = 'row-cert-summary';
+    rightCol.appendChild(rowCertSummary);
+
     row.appendChild(toggle);
     row.appendChild(identity);
-    row.appendChild(dots);
+    row.appendChild(rightCol);
+
+    // WS5.4: compact per-row certification summary (final % + cert badge),
+    // shown WITHOUT expanding the row. Fetched lazily as the row scrolls into
+    // view — one RPC per row — so a 20+ participant cohort doesn't fire a burst
+    // of simultaneous RPCs on initial load; rows already in the viewport fetch
+    // immediately, so the summary still appears without any user interaction.
+    // Fire-and-forget: never blocks the roster from rendering. Skips gracefully
+    // when cohortId is unavailable (summary stays empty → hidden by CSS).
+    if (cohortId && p.participant_id) {
+      const fetchRowCertSummary = function() {
+        loadParticipantFinalScore(p.participant_id, cohortId, rowCertSummary, renderRowCertSummary);
+      };
+      if (typeof IntersectionObserver === 'function') {
+        const io = new IntersectionObserver(function(entries, obs) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              obs.disconnect();
+              fetchRowCertSummary();
+            }
+          });
+        }, { rootMargin: '120px' });
+        io.observe(rowCertSummary);
+      } else {
+        fetchRowCertSummary();
+      }
+    }
 
     // F12: notes panel — full structure (list + add form). Initial state is
     // 'loading' but no fetch fires until the toggle is opened the first time.
@@ -5390,7 +5454,11 @@
   // per-participant row, so the IDs come straight from the roster (no submission
   // lookup): p_profile_id = p.participant_id, p_cohort_id = cohortId. Fire-and-
   // forget — fails silent (summary simply absent) so it never blocks the row.
-  async function loadParticipantFinalScore(profileId, cohortId, mountEl) {
+  // The optional `renderer` lets callers choose the presentation while sharing
+  // the RPC + error handling. Defaults to the full WS5.3 expanded-panel
+  // breakdown (renderFinalScoreSummary); WS5.4 passes renderRowCertSummary for
+  // the compact on-row summary. Existing 3-arg call sites are unaffected.
+  async function loadParticipantFinalScore(profileId, cohortId, mountEl, renderer) {
     if (!mountEl || !profileId || !cohortId) return;
     try {
       const res = await supabaseClient.rpc('get_participant_final_score', {
@@ -5402,10 +5470,29 @@
         return;
       }
       const d = Array.isArray(res.data) ? res.data[0] : res.data;
-      renderFinalScoreSummary(mountEl, d);
+      (renderer || renderFinalScoreSummary)(mountEl, d);
     } catch (e) {
       console.error('[WS5.3] loadParticipantFinalScore error:', e);
     }
+  }
+
+  // WS5.4: compact on-row certification summary — one line, final % + cert
+  // badge, rendered beneath the dot strip without expanding the row. Reads the
+  // same FLAT get_participant_final_score shape as renderFinalScoreSummary.
+  // Null/undefined final_pct → a quiet "Not yet scored" (never an error).
+  function renderRowCertSummary(mountEl, d) {
+    const hasPct = d && d.final_pct !== null && d.final_pct !== undefined;
+    if (!hasPct) {
+      mountEl.innerHTML = '<span class="rcs-pct rcs-unscored">Not yet scored</span>';
+      mountEl.style.fontFamily = 'inherit';
+      return;
+    }
+    const certified = d.certified === true;
+    mountEl.innerHTML =
+      '<span class="rcs-pct">' + escapeHtml(String(d.final_pct)) + '%</span>' +
+      '<span class="rcs-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
+        (certified ? 'Certified' : 'Not yet') + '</span>';
+    mountEl.style.fontFamily = 'inherit';
   }
 
   // WS5.3: reads the FLAT get_participant_final_score shape (unit2_avg/unit3_avg/
