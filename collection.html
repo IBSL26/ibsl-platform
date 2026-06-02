@@ -30,6 +30,7 @@ html,body{margin:0;padding:0;background:#101a16;color:#1c1c1c;font-family:"Monts
 .chapter-head h2{font-family:"Cormorant Garamond",serif;font-weight:400;font-size:1.9rem;color:var(--forest);margin:0;}
 .chapter-head .sub{font-size:11px;letter-spacing:1px;color:#888;margin-top:6px;}
 .chapter-head .revised{display:inline-block;margin-left:10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#b06a00;background:#fbe9c8;border-radius:3px;padding:2px 8px;vertical-align:middle;}
+.chapter-head .lens-score{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:700;color:var(--forest);margin-top:4px;margin-bottom:2px;letter-spacing:0.5px;}
 .not-submitted{color:#999;font-style:italic;padding:18px 0;}
 .section-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:26px 0 10px;}
 .feedback-block{margin-top:24px;border-left:3px solid var(--teal);background:#f3f8f6;padding:16px 18px;border-radius:0 4px 4px 0;}
@@ -1261,10 +1262,11 @@ function renderResponses(payload, lensId) {
     if(latest){
       var sub=el("div","sub"); var dt=fmtDate(latest.submitted_at);
       var subText = dt ? ("Submitted "+dt) : "";
-      // WS5.5: append the lens score when present. Foundations / unscored lenses
-      // have a null score \u2192 date shown alone, no "\u00b7 Score" suffix.
-      if(typeof latest.score==="number"){ subText += (subText ? " \u00b7 " : "") + "Score: "+latest.score+" / 100"; }
       sub.textContent = subText;
+      if(typeof latest.score==="number"){
+        var scoreEl = el("div","lens-score","Score: "+latest.score+" / 100");
+        head.appendChild(scoreEl);
+      }
       if(subs.length>1){ var rb=el("span","revised","Revised \u00d7"+subs.length); sub.appendChild(document.createTextNode(" ")); sub.appendChild(rb); }
       head.appendChild(sub);
     }
