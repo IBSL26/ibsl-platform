@@ -2931,6 +2931,20 @@
   /* Quieter, secondary destructive action — not a primary gold button. */
   .capstone-delete-btn { font-size: 11px; padding: 5px 12px; color: rgba(224,108,108,0.85); border-color: rgba(224,108,108,0.4); }
   .capstone-delete-btn:hover { color: #e06c6c; border-color: rgba(224,108,108,0.7); }
+  /* WS4: per-member capstone scoring */
+  .capstone-score { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .capstone-score-input {
+    width: 70px; padding: 4px 8px; font-size: 13px; font-family: Montserrat, sans-serif;
+    background: rgba(255,255,255,0.06); border: 1px solid var(--border-default); border-radius: 4px;
+    color: #fff; outline: none;
+  }
+  .capstone-score-input:focus { border-color: var(--gold); }
+  .capstone-score-save { font-size: 11px; padding: 5px 12px; color: var(--gold); border-color: rgba(201,168,76,0.4); }
+  .capstone-score-save:hover:not(:disabled) { border-color: rgba(201,168,76,0.7); }
+  .capstone-score-save:disabled { opacity: 0.5; cursor: default; }
+  .capstone-score-saved { font-size: 11px; color: rgba(255,255,255,0.45); }
+  .capstone-score-ok { color: #5fd08a; font-size: 12px; font-weight: 700; }
+  .capstone-score-err { font-size: 11px; color: #e06c6c; }
 
   </style>
 </head>
@@ -10029,9 +10043,15 @@ sam@gamma.org, Sam Lee, participant,`;
       const badge = certified
         ? '<span class="cert-badge cert-badge--yes">Certified</span>'
         : '<span class="cert-badge cert-badge--no">Not yet certified</span>';
-      const units = unitRow(2) + unitRow(3) + unitRow(4) +
-        '<div class="cert-score__row"><span class="cert-score__k">Capstone</span>' +
-        '<span class="cert-score__v cert-score__v--muted">Pending</span></div>';
+      // Capstone row is display-only here: show the value if scored, else muted "Pending".
+      function capstoneRow() {
+        const head = '<div class="cert-score__row"><span class="cert-score__k">Capstone</span>';
+        if (d.capstone_pending !== true) {
+          return head + '<span class="cert-score__v">' + escapeHtml(String(d.capstone_avg)) + ' / 100</span></div>';
+        }
+        return head + '<span class="cert-score__v cert-score__v--muted">Pending</span></div>';
+      }
+      const units = unitRow(2) + unitRow(3) + unitRow(4) + capstoneRow();
       const final =
         '<div class="cert-score__final">' +
           '<span class="cert-score__final-label">Final</span>' +
@@ -12403,7 +12423,7 @@ sam@gamma.org, Sam Lee, participant,`;
 
         let members = [];
         if (teamIds.length) {
-          const memRes = await sb.from('capstone_individual').select('id, team_id, profile_id').in('team_id', teamIds);
+          const memRes = await sb.from('capstone_individual').select('id, team_id, profile_id, capstone_final_pct').in('team_id', teamIds);
           if (memRes.error) { container.innerHTML = errorHtml(memRes.error.message || 'Could not load team members.'); return; }
           members = Array.isArray(memRes.data) ? memRes.data : [];
         }
@@ -12421,6 +12441,7 @@ sam@gamma.org, Sam Lee, participant,`;
           assignedIds[m.profile_id] = true;
           (membersByTeam[m.team_id] = membersByTeam[m.team_id] || []).push({
             id: m.id, profile_id: m.profile_id,
+            score_pct: (m.capstone_final_pct === undefined ? null : m.capstone_final_pct),
             full_name: (profById[m.profile_id] && profById[m.profile_id].full_name) || '(unknown participant)',
             email: (profById[m.profile_id] && profById[m.profile_id].email) || ''
           });
@@ -12435,9 +12456,67 @@ sam@gamma.org, Sam Lee, participant,`;
       }
     }
 
+    // WS4: one delegated handler for the per-member capstone Save buttons.
+    // Bound once to document (guarded) so dynamically-rendered rows are covered.
+    let _capstoneScoreBound = false;
+    function bindCapstoneScoreHandler() {
+      if (_capstoneScoreBound) return;
+      _capstoneScoreBound = true;
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.capstone-score-save');
+        if (!btn) return;
+        const wrap = btn.closest('.capstone-score');
+        const input = wrap ? wrap.querySelector('.capstone-score-input') : null;
+        const savedEl = wrap ? wrap.querySelector('.capstone-score-saved') : null;
+        if (!wrap || !input) return;
+        const profile = btn.getAttribute('data-profile-id');
+        const cohort  = btn.getAttribute('data-cohort-id');
+
+        function showErr(msg) {
+          let err = wrap.querySelector('.capstone-score-err');
+          if (!err) { err = document.createElement('span'); err.className = 'capstone-score-err'; wrap.appendChild(err); }
+          err.textContent = msg;
+        }
+        function clearErr() {
+          const err = wrap.querySelector('.capstone-score-err');
+          if (err) err.remove();
+        }
+
+        clearErr();
+        const raw = (input.value || '').trim();
+        const pct = Number(raw);
+        if (raw === '' || !/^\d+$/.test(raw) || !Number.isFinite(pct) || pct < 0 || pct > 100) {
+          showErr('Enter a whole number from 0 to 100.');
+          return;
+        }
+
+        const origLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Saving…';
+        sb.rpc('admin_set_capstone_score', { p_profile_id: profile, p_cohort_id: cohort, p_pct: pct })
+          .then(function(res) {
+            btn.disabled = false;
+            btn.textContent = origLabel;
+            if (res.error) { showErr(res.error.message || 'Could not save score.'); return; }
+            if (savedEl) savedEl.textContent = 'saved: ' + pct;
+            // brief confirmation tick, auto-removed
+            const ok = document.createElement('span');
+            ok.className = 'capstone-score-ok';
+            ok.textContent = '✓';
+            wrap.appendChild(ok);
+            setTimeout(function() { if (ok.parentNode) ok.parentNode.removeChild(ok); }, 2000);
+          }, function(err) {
+            btn.disabled = false;
+            btn.textContent = origLabel;
+            showErr((err && err.message) || 'Network error.');
+          });
+      });
+    }
+
     function renderCapstoneTeams() {
       const container = document.getElementById('capstoneContainer');
       if (!container) return;
+      bindCapstoneScoreHandler();
       const teams = capstoneState.teams;
       if (!teams.length) {
         container.innerHTML = '<div class="capstone-empty">No teams yet for this cohort. Enter a team name above and select Create Team to add the first one.</div>';
@@ -12447,9 +12526,17 @@ sam@gamma.org, Sam Lee, participant,`;
         const members = capstoneState.membersByTeam[t.id] || [];
         const rows = members.length
           ? members.map(function(m) {
+              const hasScore = typeof m.score_pct === 'number';
               return '<div class="capstone-member">' +
                 '<span class="capstone-member__name">' + capstoneEsc(m.full_name) +
                   (m.email ? '<span class="capstone-member__email">' + capstoneEsc(m.email) + '</span>' : '') + '</span>' +
+                '<span class="capstone-score">' +
+                  '<input type="number" min="0" max="100" step="1" placeholder="0–100" class="capstone-score-input" aria-label="Capstone score (0–100)"' +
+                    (hasScore ? ' value="' + capstoneEsc(String(m.score_pct)) + '"' : '') + '>' +
+                  '<button type="button" class="btn--ghost capstone-score-save" data-profile-id="' + capstoneEsc(m.profile_id) +
+                    '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">Save</button>' +
+                  '<span class="capstone-score-saved">' + (hasScore ? 'saved: ' + capstoneEsc(String(m.score_pct)) : '') + '</span>' +
+                '</span>' +
                 '<button type="button" class="btn--ghost capstone-remove-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
                   '" data-name="' + capstoneEsc(m.full_name) + '">Remove</button>' +
               '</div>';

@@ -2058,12 +2058,20 @@ async function validateAccess() {
           valHtml +
         '</div>';
     });
-    // Capstone — not yet built, always pending for now.
+    // Capstone row mirrors the unit rows: show the score when present, else muted "Pending".
     unitRows +=
       '<div class="ms-unit-row">' +
         '<span class="ms-unit-name">Capstone</span>' +
-        '<span class="ms-unit-val pending">' + (capPending ? 'Pending' : '&mdash;') + '</span>' +
+        (capPending
+          ? '<span class="ms-unit-val pending">Pending</span>'
+          : '<span class="ms-unit-val">' + escapeHtml(String(d.capstone_avg)) + ' / 100</span>') +
       '</div>';
+
+    // While pending, explain the weighting + that the capstone is still required.
+    // Once a capstone score exists the sub-line is misleading, so suppress it entirely.
+    var capNote = capPending
+      ? '<p class="ms-final-cap">Weighted across Units 2, 3 and 4. Certification also requires the capstone, which is not yet available.</p>'
+      : '';
 
     host.innerHTML =
       '<div class="ms-final">' +
@@ -2071,7 +2079,7 @@ async function validateAccess() {
         '<span class="ms-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? 'Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
-      '<p class="ms-final-cap">Weighted across Units 2, 3 and 4. Certification also requires the capstone, which is not yet available.</p>' +
+      capNote +
       '<div class="ms-units">' + unitRows + '</div>' +
       (unscored > 0
         ? '<p class="ms-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</p>'

@@ -1360,7 +1360,10 @@ function renderResponses(payload, lensId) {
       }
       row.appendChild(v); body.appendChild(row);
     });
-    var cap=el("div","cert-row"); cap.appendChild(el("span","cert-k","Capstone")); cap.appendChild(el("span","cert-v muted","Pending")); body.appendChild(cap);
+    var cap=el("div","cert-row"); cap.appendChild(el("span","cert-k","Capstone"));
+    var capPending=(d.capstone_pending===true)||(d.capstone_avg===null)||(d.capstone_avg===undefined);
+    cap.appendChild(capPending ? el("span","cert-v muted","Pending") : el("span","cert-v",String(d.capstone_avg)+" / 100"));
+    body.appendChild(cap);
     var pct=(d.final_pct===null||d.final_pct===undefined)?0:d.final_pct;
     var fin=el("div","cert-final");
     fin.appendChild(el("span","cert-final-label","Final"));
