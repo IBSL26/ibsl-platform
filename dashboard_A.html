@@ -12327,7 +12327,7 @@ sam@gamma.org, Sam Lee, participant,`;
       membersByTeam: {},    // team_id -> [{ id, profile_id, full_name, email }]
       assignedIds: {},      // profile_id -> true (already on a team this cohort)
     };
-    const capstonePickerState = { teamId: null, teamName: '', candidates: [], filter: '' };
+    const capstonePickerState = { teamId: null, teamName: '', cohortId: null, candidates: [], filter: '' };
 
     function capstoneEsc(s) { return escapeHtml(s == null ? '' : String(s)); }
 
@@ -12365,13 +12365,16 @@ sam@gamma.org, Sam Lee, participant,`;
           loadCapstoneTeams();
           return;
         }
-        // Default to the first cohort so one is always selected without needing a change event.
-        sel.innerHTML = cohorts.map(function(c) {
-          return '<option value="' + capstoneEsc(c.id) + '">' + capstoneEsc(c.name) + '</option>';
-        }).join('');
-        capstoneState.cohortId = sel.value || null;   // initialise from the selected (first) option
-        syncCapstoneCreateControls();
-        loadCapstoneTeams();
+        // Cohort starts UNSELECTED — the admin must actively choose one. A
+        // non-selectable placeholder is shown first; no cohort is auto-selected.
+        sel.innerHTML = ['<option value="" disabled selected>Select a cohort…</option>'].concat(
+          cohorts.map(function(c) {
+            return '<option value="' + capstoneEsc(c.id) + '">' + capstoneEsc(c.name) + '</option>';
+          })
+        ).join('');
+        capstoneState.cohortId = null;   // set only when the admin picks a real cohort
+        syncCapstoneCreateControls();    // keeps the team-name input + Create button disabled
+        loadCapstoneTeams();             // shows the "Select a cohort to begin." prompt
       } catch (e) {
         sel.innerHTML = '<option value="">Could not load cohorts</option>';
       }
@@ -12383,13 +12386,13 @@ sam@gamma.org, Sam Lee, participant,`;
       const container = document.getElementById('capstoneContainer');
       if (!container) return;
       if (!capstoneState.cohortId) {
-        container.innerHTML = '<div class="cert-score__loading">Select a cohort to view its capstone teams.</div>';
+        container.innerHTML = '<div class="capstone-empty">Select a cohort to begin.</div>';
         return;
       }
       container.innerHTML = skeletonHtml();
       try {
         const teamsRes = await sb.from('capstone_team')
-          .select('id, team_name').eq('cohort_id', capstoneState.cohortId).order('team_name', { ascending: true });
+          .select('id, team_name, cohort_id').eq('cohort_id', capstoneState.cohortId).order('team_name', { ascending: true });
         if (teamsRes.error) { container.innerHTML = errorHtml(teamsRes.error.message || 'Could not load teams.'); return; }
         const teams = Array.isArray(teamsRes.data) ? teamsRes.data : [];
         const teamIds = teams.map(function(t) { return t.id; });
@@ -12452,7 +12455,7 @@ sam@gamma.org, Sam Lee, participant,`;
           '<div class="capstone-team__head">' +
             '<h2 class="capstone-team__name">' + capstoneEsc(t.team_name) + '</h2>' +
             '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
-              '" data-team-name="' + capstoneEsc(t.team_name) + '">+ Add participant</button>' +
+              '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
           '</div>' +
           '<div class="capstone-team__members">' + rows + '</div>' +
         '</div>';
@@ -12486,9 +12489,10 @@ sam@gamma.org, Sam Lee, participant,`;
     }
 
     // ── Add-participant picker ──
-    function openCapstonePicker(teamId, teamName) {
+    function openCapstonePicker(teamId, teamName, cohortId) {
       capstonePickerState.teamId = teamId;
       capstonePickerState.teamName = teamName;
+      capstonePickerState.cohortId = cohortId || null;   // bind the picker to the TEAM's cohort
       capstonePickerState.filter = '';
       const modal = document.getElementById('capstoneMemberModal');
       const title = document.getElementById('capstoneMemberModalTitle');
@@ -12505,21 +12509,25 @@ sam@gamma.org, Sam Lee, participant,`;
       capstonePickerState.teamId = null;
     }
 
-    // Cohort participants (role = participant) not already on a capstone team here.
+    // Candidates = participants of the TEAM'S cohort (cohort_memberships with
+    // role_in_cohort = 'participant') who are not already on a capstone team in
+    // that cohort. Bound to the team's stored cohort, not the dropdown value.
     async function loadCapstoneCandidates() {
       const body = document.getElementById('capstoneMemberModalBody');
       if (!body) return;
+      const cohortId = capstonePickerState.cohortId;
       body.innerHTML = '<div class="cert-score__loading">Loading participants…</div>';
       try {
-        const memRes = await sb.from('cohort_memberships').select('profile_id').eq('cohort_id', capstoneState.cohortId);
+        const memRes = await sb.from('cohort_memberships')
+          .select('profile_id, role_in_cohort').eq('cohort_id', cohortId).eq('role_in_cohort', 'participant');
         if (memRes.error) { body.innerHTML = errorHtml(memRes.error.message || 'Could not load participants.'); return; }
         const ids = (memRes.data || []).map(function(r) { return r.profile_id; }).filter(Boolean);
         let candidates = [];
         if (ids.length) {
-          const profRes = await sb.from('profiles').select('id, full_name, email, role').in('id', ids);
+          const profRes = await sb.from('profiles').select('id, full_name, email').in('id', ids);
           if (profRes.error) { body.innerHTML = errorHtml(profRes.error.message || 'Could not load participants.'); return; }
           candidates = (profRes.data || []).filter(function(p) {
-            return p.role === 'participant' && !capstoneState.assignedIds[p.id];
+            return !capstoneState.assignedIds[p.id];
           });
         }
         candidates.sort(function(a, b) { return (a.full_name || '').localeCompare(b.full_name || ''); });
@@ -12598,7 +12606,7 @@ sam@gamma.org, Sam Lee, participant,`;
       if (container) {
         container.addEventListener('click', function(e) {
           const addBtn = e.target.closest('.capstone-add-btn');
-          if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team'); return; }
+          if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team', addBtn.getAttribute('data-cohort-id')); return; }
           const remBtn = e.target.closest('.capstone-remove-btn');
           if (remBtn) { confirmRemoveCapstoneMember(remBtn.getAttribute('data-profile-id'), remBtn.getAttribute('data-name') || 'this participant'); return; }
         });
