@@ -9561,13 +9561,12 @@ sam@gamma.org, Sam Lee, participant,`;
     function participantLensRowHtml(lens) {
       const status = lens.status || 'locked';
       const seq    = (lens.sequence != null) ? `Lens ${lens.sequence}` : '—';
-      const dateText = lensStatusDate(lens);
       return `
         <tr>
           <td><span class="report-lens-seq">${escapeHtml(seq)}</span></td>
           <td><span class="report-lens-title">${escapeHtml(lens.title || '')}</span></td>
           <td><span class="lens-pip lens-pip--${status}"></span><span class="lens-status">${lensStatusLabel(status)}</span></td>
-          <td class="cell-secondary">${dateText || '—'}</td>
+          <td class="cell-secondary">${typeof lens.score === 'number' ? lens.score + '%' : '—'}</td>
         </tr>
       `;
     }
@@ -9602,7 +9601,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
               <thead>
-                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Date</th></tr>
+                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
               </thead>
               <tbody>${lensRows}</tbody>
             </table>
@@ -9823,7 +9822,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
               <thead>
-                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Date</th></tr>
+                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
               </thead>
               <tbody>${lensRows}</tbody>
             </table>
