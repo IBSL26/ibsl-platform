@@ -2927,6 +2927,10 @@
   .capstone-msg { margin: 0 0 16px; padding: 10px 14px; border: 1px solid rgba(201,168,76,0.5); border-radius: 4px; background: rgba(201,168,76,0.10); color: var(--gold, #c9a84c); font-family: Montserrat, sans-serif; font-size: 13px; }
   /* Calm, informational empty state — an invitation to create the first team, not an error. */
   .capstone-empty { padding: 22px 20px; border: 1px dashed rgba(255,255,255,0.18); border-radius: 6px; background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.6); font-family: Montserrat, sans-serif; font-size: 13px; line-height: 1.6; }
+  .capstone-team__actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  /* Quieter, secondary destructive action — not a primary gold button. */
+  .capstone-delete-btn { font-size: 11px; padding: 5px 12px; color: rgba(224,108,108,0.85); border-color: rgba(224,108,108,0.4); }
+  .capstone-delete-btn:hover { color: #e06c6c; border-color: rgba(224,108,108,0.7); }
 
   </style>
 </head>
@@ -12454,8 +12458,12 @@ sam@gamma.org, Sam Lee, participant,`;
         return '<div class="capstone-team">' +
           '<div class="capstone-team__head">' +
             '<h2 class="capstone-team__name">' + capstoneEsc(t.team_name) + '</h2>' +
-            '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
-              '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
+            '<div class="capstone-team__actions">' +
+              '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
+                '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
+              '<button type="button" class="btn--ghost capstone-delete-btn" data-team-id="' + capstoneEsc(t.id) +
+                '" data-team-name="' + capstoneEsc(t.team_name) + '">Delete team</button>' +
+            '</div>' +
           '</div>' +
           '<div class="capstone-team__members">' + rows + '</div>' +
         '</div>';
@@ -12517,18 +12525,32 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!body) return;
       const cohortId = capstonePickerState.cohortId;
       body.innerHTML = '<div class="cert-score__loading">Loading participants…</div>';
+      if (!cohortId) { body.innerHTML = errorHtml('This team has no cohort context. Reopen it from the team list and try again.'); return; }
       try {
+        // 1) Participants of THIS team's cohort.
         const memRes = await sb.from('cohort_memberships')
           .select('profile_id, role_in_cohort').eq('cohort_id', cohortId).eq('role_in_cohort', 'participant');
         if (memRes.error) { body.innerHTML = errorHtml(memRes.error.message || 'Could not load participants.'); return; }
         const ids = (memRes.data || []).map(function(r) { return r.profile_id; }).filter(Boolean);
+
+        // 2) Freshly re-query who is already on a capstone team IN THIS COHORT
+        //    (via the cohort's own teams), so the exclusion is never stale/empty.
+        const assigned = {};
+        const cohortTeamsRes = await sb.from('capstone_team').select('id').eq('cohort_id', cohortId);
+        if (cohortTeamsRes.error) { body.innerHTML = errorHtml(cohortTeamsRes.error.message || 'Could not load team membership.'); return; }
+        const cohortTeamIds = (cohortTeamsRes.data || []).map(function(t) { return t.id; });
+        if (cohortTeamIds.length) {
+          const assignedRes = await sb.from('capstone_individual').select('profile_id').in('team_id', cohortTeamIds);
+          if (assignedRes.error) { body.innerHTML = errorHtml(assignedRes.error.message || 'Could not load team membership.'); return; }
+          (assignedRes.data || []).forEach(function(r) { if (r.profile_id) assigned[r.profile_id] = true; });
+        }
+
+        // 3) Eligible = cohort participants not already assigned to a team.
         let candidates = [];
         if (ids.length) {
           const profRes = await sb.from('profiles').select('id, full_name, email').in('id', ids);
           if (profRes.error) { body.innerHTML = errorHtml(profRes.error.message || 'Could not load participants.'); return; }
-          candidates = (profRes.data || []).filter(function(p) {
-            return !capstoneState.assignedIds[p.id];
-          });
+          candidates = (profRes.data || []).filter(function(p) { return !assigned[p.id]; });
         }
         candidates.sort(function(a, b) { return (a.full_name || '').localeCompare(b.full_name || ''); });
         capstonePickerState.candidates = candidates;
@@ -12587,6 +12609,21 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
+    function confirmDeleteCapstoneTeam(teamId, teamName) {
+      showConfirmModal({
+        title: 'Delete team',
+        body: 'Delete the team <strong>' + capstoneEsc(teamName) + '</strong>? This removes the team from this cohort.',
+        proceedLabel: 'Delete team',
+        onProceed: async function() {
+          const { error } = await sb.rpc('admin_delete_capstone_team', { p_team_id: teamId });
+          if (error) { setCapstoneMsg(error.message || 'Could not delete team.'); return; }
+          setCapstoneMsg('');
+          window.showToast('Team deleted', 3000);
+          loadCapstoneTeams();
+        }
+      });
+    }
+
     function wireCapstone() {
       const sel = document.getElementById('capstoneCohortSelect');
       if (sel) {
@@ -12607,6 +12644,8 @@ sam@gamma.org, Sam Lee, participant,`;
         container.addEventListener('click', function(e) {
           const addBtn = e.target.closest('.capstone-add-btn');
           if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team', addBtn.getAttribute('data-cohort-id')); return; }
+          const delBtn = e.target.closest('.capstone-delete-btn');
+          if (delBtn) { confirmDeleteCapstoneTeam(delBtn.getAttribute('data-team-id'), delBtn.getAttribute('data-team-name') || 'this team'); return; }
           const remBtn = e.target.closest('.capstone-remove-btn');
           if (remBtn) { confirmRemoveCapstoneMember(remBtn.getAttribute('data-profile-id'), remBtn.getAttribute('data-name') || 'this participant'); return; }
         });
