@@ -1782,7 +1782,23 @@ async function validateAccess() {
         document.body.style.overflow = 'hidden';
         return;
       } else if (checkResult === 'pending') {
-        // A pending confirmation already exists
+        // A pending confirmation already exists — the earlier email may have
+        // expired or gone unseen, so issue a fresh token and resend it.
+        var { data: token, error: reqErr } = await supabaseClient.rpc('request_device_confirmation', {
+          p_fingerprint: fp,
+          p_device_label: label
+        });
+        if (reqErr) {
+          console.error('Device confirmation request error:', reqErr);
+          error.textContent = 'We couldn\'t verify this device. Please try again or contact info@ibsleadership.com.';
+          error.style.display = 'block';
+          await supabaseClient.auth.signOut();
+          return;
+        }
+        await supabaseClient.auth.signInWithOtp({
+          email: email,
+          options: { emailRedirectTo: window.location.origin + '/confirm-device.html?token=' + token }
+        });
         await supabaseClient.auth.signOut();
         closeModal();
         document.getElementById('deviceOverlay').style.display = 'flex';
