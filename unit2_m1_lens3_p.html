@@ -338,7 +338,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.1.1 &mdash; The Problem with Well-Written OKRs</span>
+  <span class="acc-t">1.1 &mdash; The Problem with Well-Written OKRs</span>
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
@@ -360,7 +360,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.1.2 &mdash; The Four ABCV Integrity Checkpoints</span>
+  <span class="acc-t">1.2 &mdash; The Four ABCV Integrity Checkpoints</span>
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Core Framework</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
@@ -476,7 +476,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.2.1 &mdash; The Industry Illusion &amp; Arena Shift</span>
+  <span class="acc-t">2.1 &mdash; The Industry Illusion &amp; Arena Shift</span>
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Strategic Pattern</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
@@ -502,7 +502,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.2.2 &mdash; Naming the Must-Be-Trues</span>
+  <span class="acc-t">2.2 &mdash; Naming the Must-Be-Trues</span>
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">From Belief to Commitment</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
@@ -553,7 +553,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.3.1 &mdash; The Executive Hot Zone: Role-Based Blind Spots</span>
+  <span class="acc-t">3.1 &mdash; The Executive Hot Zone: Role-Based Blind Spots</span>
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Click a Role</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
@@ -1280,7 +1280,7 @@ window.addEventListener("load",renderSignedInBadge);
 async function loadSubmissionFeedback(){
   try{
     var ctx=await S2R.context();
-    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this lens.");return;}
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this unit.");return;}
     var _c=S2R._client;
     var result=await _c.from("submissions")
       .select("id,review_status,facilitator_feedback,submitted_at,reviewed_at")
@@ -1288,7 +1288,7 @@ async function loadSubmissionFeedback(){
       .order("submitted_at",{ascending:false}).limit(20);
     if(result.error){console.error("[unit2_m1_lens3_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn\u2019t load feedback right now \u2014 please reload the page.");return;}
     var rows=result.data||[];
-    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this lens.");return;}
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this unit.");return;}
     var newest=rows[0];
     var row=null;
     for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}

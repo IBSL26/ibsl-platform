@@ -6981,7 +6981,7 @@
       const scoreHelp = document.createElement('div');
       scoreHelp.className = 'score-input-help';
       scoreHelp.style.fontFamily = 'inherit';
-      scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this lens reviewed.';
+      scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this unit reviewed.';
       scoreWrap.appendChild(scoreHelp);
 
       wrap.appendChild(scoreWrap);
@@ -7687,11 +7687,11 @@
     let bodyHtml = 'Unlock <strong>' + escapeHtml(lensTitle) + '</strong> for this cohort?<br><br>';
     if (lockedCount > 0) {
       bodyHtml += '<strong>' + lockedCount + '</strong> participant' + (lockedCount === 1 ? '' : 's') +
-                  ' currently locked on this lens — will be unlocked.<br>';
+                  ' currently locked on this unit — will be unlocked.<br>';
     }
     if (alreadyAhead > 0) {
       bodyHtml += '<strong>' + alreadyAhead + '</strong> participant' + (alreadyAhead === 1 ? '' : 's') +
-                  ' already at or past this lens — no change.';
+                  ' already at or past this unit — no change.';
     }
     if (lockedCount === 0 && alreadyAhead === 0) {
       bodyHtml += 'No participants in this cohort.';
@@ -7808,7 +7808,7 @@
           toastMsg += ' (' + skipped + ' already at or past this unit.)';
         }
       } else {
-        toastMsg = 'No participants needed unlocking — all already at or past this lens.';
+        toastMsg = 'No participants needed unlocking — all already at or past this unit.';
       }
       closeCohortUnlockModal();
       showToast(toastMsg);
