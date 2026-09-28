@@ -2802,7 +2802,7 @@
   <div class="main-inner">
     <div class="welcome">
       <h1 id="welcomeHeading">Welcome</h1>
-      <p>Your cohort overview is below. Clicking a cohort opens its participant roster; clicking a submitted lens dot opens that submission for review. Messaging, document review, and private notes follow as Phase 2 progresses.</p>
+      <p>Your cohort overview is below. Clicking a cohort opens its participant roster; clicking a submitted unit dot opens that submission for review. Messaging, document review, and private notes follow as Phase 2 progresses.</p>
     </div>
 
     <!-- ─── F2: COHORT SECTION (populated by loadFacilitatorCohorts) ─── -->
@@ -2877,7 +2877,7 @@
       <div class="commit-modal">
         <h3 class="commit-modal-title" id="revisionModalTitle">Return for revision</h3>
         <p class="commit-modal-body" id="revisionModalBody">…</p>
-        <p class="commit-modal-detail" id="revisionModalDetail">The participant will receive your feedback and be able to revise their submission. The next lens stays locked.</p>
+        <p class="commit-modal-detail" id="revisionModalDetail">The participant will receive your feedback and be able to revise their submission. The next unit stays locked.</p>
         <div class="commit-modal-error" id="revisionModalError" role="alert"></div>
         <div class="commit-modal-actions">
           <button type="button" class="btn-modal-cancel" id="revisionModalCancel">Cancel</button>
@@ -3366,8 +3366,8 @@
 
   // Human-readable pillar name from unit integer (matches lens_catalog unit values)
   function unitName(u) {
-    var names = { 1: 'Foundations', 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
-    return names[Number(u)] || ('Unit ' + u);
+    var names = { 1: 'Foundation', 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
+    return names[Number(u)] || ('Module ' + u);
   }
 
   // Build pillar badge HTML for a cohort card (empty string when no units assigned)
@@ -3391,27 +3391,27 @@
   var LENS_MANUAL_MAP = {
     1: [
       // Foundations: single consolidated file covers all foundation modules
-      { label: 'Foundations Facilitator Manual', file: 'unit1_F.html', live: true }
+      { label: 'Unit 1 — Behavioural Strategy Fundamentals', file: 'unit1_F.html', live: true }
     ],
     2: [
       // Direction — Pillar 1 (3 lenses across 2 modules)
-      { label: 'Lens 1 — Strategy Visioning & SiP',             file: 'unit2_m1_lens1_f.html', live: true },
-      { label: 'Lens 2 — KISS Mapping & OKR Definition',        file: 'unit2_m1_lens2_f.html', live: true },
-      { label: 'Lens 3 — Direction Integrity (ABCV-MBT)',       file: 'unit2_m1_lens3_f.html', live: true }
+      { label: 'Unit 2 — Strategy Visioning & SiP',             file: 'unit2_m1_lens1_f.html', live: true },
+      { label: 'Unit 3 — KISS Mapping & OKR Definition',        file: 'unit2_m1_lens2_f.html', live: true },
+      { label: 'Unit 4 — Direction Integrity (ABCV-MBT)',       file: 'unit2_m1_lens3_f.html', live: true }
     ],
     3: [
       // Influence — Pillar 2 (5 lenses across 2 modules)
-      { label: 'Lens 4 — Aligning Heart & Mind',               file: 'unit3_m1_lens4_f.html', live: true },
-      { label: 'Lens 5 — Performance Management Setup',         file: 'unit3_m1_lens5_f.html', live: true },
-      { label: 'Lens 6 — Establishing Performance Expectations', file: 'unit3_m1_lens6_f.html', live: true },
-      { label: 'Lens 7 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: true },
-      { label: 'Lens 8 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: true }
+      { label: 'Unit 5 — Aligning Heart & Mind',               file: 'unit3_m1_lens4_f.html', live: true },
+      { label: 'Unit 6 — Performance Management Setup',         file: 'unit3_m1_lens5_f.html', live: true },
+      { label: 'Unit 7 — Establishing Performance Expectations', file: 'unit3_m1_lens6_f.html', live: true },
+      { label: 'Unit 8 — Performance Measurement',              file: 'unit3_m2_lens7_f.html', live: true },
+      { label: 'Unit 9 — Strategic Unclogging',                 file: 'unit3_m2_lens8_f.html', live: true }
     ],
     4: [
       // Grounding — Pillar 3 (3 lenses across 1 module)
-      { label: 'Lens 9 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: true },
-      { label: 'Lens 10 — Culture Reinforcement & Organisational Health',  file: 'unit4_m1_lens10_f.html', live: true },
-      { label: 'Lens 11 — Sustaining Performance',            file: 'unit4_m2_lens11_f.html', live: true }
+      { label: 'Unit 10 — ESRG Alignment',                       file: 'unit4_m1_lens9_f.html',  live: true },
+      { label: 'Unit 11 — Culture Reinforcement & Organisational Health',  file: 'unit4_m1_lens10_f.html', live: true },
+      { label: 'Unit 12 — Sustaining Performance',            file: 'unit4_m2_lens11_f.html', live: true }
     ]
   };
 
@@ -3748,7 +3748,7 @@
       : '';
     const cohortPart = '<span>' + escapeHtml(r.cohort_name || '—') + '</span>';
     const lensPart   = '<span class="meta-sep">·</span><span class="lens-title">' +
-                       escapeHtml(r.lens_title || r.lens_id || 'Lens') + '</span>';
+                       escapeHtml(r.lens_title || r.lens_id || 'Unit') + '</span>';
 
     identity.innerHTML =
       '<div class="inbox-row-name">' + escapeHtml(r.participant_name || 'Participant') + '</div>' +
@@ -5559,7 +5559,7 @@
     [2, 3, 4].forEach(function(u) {
       rows +=
         '<div class="fss-unit-row">' +
-          '<span class="fss-unit-name">Unit ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
+          '<span class="fss-unit-name">Module ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
           '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(d['unit' + u + '_avg'])) + '</span>' +
         '</div>';
     });
@@ -5578,7 +5578,7 @@
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
-      (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</div>' : '');
+      (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</div>' : '');
     mountEl.style.fontFamily = 'inherit';
   }
 
@@ -5621,8 +5621,7 @@
 
   function buildLensMetaLine(lens) {
     const parts = [];
-    if (lens.unit !== null && lens.unit !== undefined) parts.push('Unit ' + escapeHtml(String(lens.unit)));
-    if (lens.module !== null && lens.module !== undefined) parts.push('Module ' + escapeHtml(String(lens.module)));
+    if (lens.unit !== null && lens.unit !== undefined) parts.push('Module ' + escapeHtml(String(lens.unit)));
     if (lens.id) parts.push('<code style="font-family:Menlo,Consolas,monospace; font-size:11px; opacity:0.7;">' + escapeHtml(lens.id) + '</code>');
     if (parts.length === 0) return '';
     return parts.join('<span class="meta-sep">·</span>');
@@ -5821,7 +5820,7 @@
 
       const heading = document.createElement('div');
       heading.className = 'response-module-heading';
-      heading.textContent = 'Module ' + num;
+      heading.textContent = 'Section ' + num;
       heading.addEventListener('click', function() {
         moduleEl.classList.toggle('collapsed');
       });
@@ -6793,7 +6792,7 @@
         editInput.max = '100';
         editInput.step = '1';
         editInput.inputMode = 'numeric';
-        editInput.setAttribute('aria-label', 'Edit lens score, 0 to 100');
+        editInput.setAttribute('aria-label', 'Edit unit score, 0 to 100');
         editInput.style.font = 'inherit';
         // Inside the clickable collapsible card: stop click AND keydown from
         // bubbling so neither selecting nor typing collapses the card.
@@ -6955,7 +6954,7 @@
       const scoreLabel = document.createElement('label');
       scoreLabel.className = 'score-input-label';
       scoreLabel.setAttribute('for', 'scoreInputBox');
-      scoreLabel.textContent = 'Lens score (0–100)';
+      scoreLabel.textContent = 'Unit score (0–100)';
       scoreLabel.style.fontFamily = 'inherit';
       scoreWrap.appendChild(scoreLabel);
 
@@ -6967,7 +6966,7 @@
       scoreInput.max = '100';
       scoreInput.step = '1';
       scoreInput.inputMode = 'numeric';
-      scoreInput.setAttribute('aria-label', 'Lens score, 0 to 100');
+      scoreInput.setAttribute('aria-label', 'Unit score, 0 to 100');
       scoreInput.style.font = 'inherit';   // inherit the page font stack
       // Prefill if this row already carries a score (pending rows are normally
       // unscored; defensive against re-render of an already-scored row).
@@ -7143,7 +7142,7 @@
     // don't depend on the DOM structure of the meta grid (which F10–F12 may
     // restructure when threaded messaging and notes panels arrive).
     const safeParticipant = participantName || 'the participant';
-    const safeLens = lensTitle || 'this lens';
+    const safeLens = lensTitle || 'this unit';
 
     primaryBtn.addEventListener('click', function() {
       if (commitInFlight) return;
@@ -7350,7 +7349,7 @@
       return 'Reviewed. Unlock held — participant cannot proceed yet.';
     }
     if (data.next_lens_unlocked === true) {
-      const nextTitle = data.next_lens_title || 'Next lens';
+      const nextTitle = data.next_lens_title || 'Next unit';
       return 'Reviewed. ' + nextTitle + ' is now unlocked.';
     }
     if (data.next_lens_was_already_unlocked === true) {
@@ -7404,7 +7403,7 @@
 
   function wireRevisionAction(textareaEl, returnBtn, submissionId, participantName, lensTitle) {
     const safeParticipant = participantName || 'the participant';
-    const safeLens        = lensTitle || 'this lens';
+    const safeLens        = lensTitle || 'this unit';
 
     returnBtn.addEventListener('click', function() {
       if (commitInFlight || revisionInFlight) return;
@@ -7445,7 +7444,7 @@
       'This will send your feedback to <strong>' + escapeHtml(participantName) + '</strong> ' +
       'and re-open <strong>' + escapeHtml(lensTitle) + '</strong> for them to revise. ' +
       'The next lens will <strong>not</strong> be unlocked.';
-    detailEl.textContent = 'The participant will receive your feedback and be able to revise their submission. The next lens stays locked.';
+    detailEl.textContent = 'The participant will receive your feedback and be able to revise their submission. The next unit stays locked.';
 
     revisionModalConfirmHandler = function() {
       if (revisionInFlight) return;
@@ -7806,7 +7805,7 @@
       if (unlocked > 0) {
         toastMsg = 'Unlocked ' + lensTitle + ' for ' + unlocked + ' participant' + (unlocked === 1 ? '' : 's') + '.';
         if (skipped > 0) {
-          toastMsg += ' (' + skipped + ' already at or past this lens.)';
+          toastMsg += ' (' + skipped + ' already at or past this unit.)';
         }
       } else {
         toastMsg = 'No participants needed unlocking — all already at or past this lens.';

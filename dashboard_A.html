@@ -3180,7 +3180,7 @@
             <div>
               <div class="view-header__kicker">Reporting</div>
               <h1 class="view-header__title">Completion Reports</h1>
-              <div class="view-header__sub">View per-participant or per-cohort lens completion progress across the programme</div>
+              <div class="view-header__sub">View per-participant or per-cohort unit completion progress across the programme</div>
             </div>
           </div>
 
@@ -4206,10 +4206,10 @@
         if (isLead) {
           roleBadge = '<span class="people-list__role-badge people-list__role-badge--lead">Lead Facilitator</span>';
         } else {
-          const unitNames = ['Foundations', 'Direction', 'Influence', 'Grounding'];
+          const unitNames = ['Foundation', 'Direction', 'Influence', 'Grounding'];
           const units = Array.isArray(p.units) ? p.units : [];
           const unitLabel = units.length > 0
-            ? units.map(u => unitNames[u - 1] || `Unit ${u}`).join(', ')
+            ? units.map(u => unitNames[u - 1] || `Module ${u}`).join(', ')
             : 'No sections';
           roleBadge = `<span class="people-list__role-badge">${escapeHtml(unitLabel)}</span>`;
         }
@@ -5179,7 +5179,7 @@
       // ── Step: unit selection ──────────────────────────────────────
       if (memberPickerState.step === 'units') {
         const name = escapeHtml(memberPickerState.selectedName || '');
-        const unitLabels = ['Foundations', 'Direction', 'Influence', 'Grounding'];
+        const unitLabels = ['Foundation', 'Direction', 'Influence', 'Grounding'];
         body.innerHTML = `
           <div style="padding:4px 0 12px;font-size:12px;color:var(--ash);">
             <strong style="color:var(--white)">${name}</strong> — select the sections they will facilitate:
@@ -5189,7 +5189,7 @@
               <label class="unit-picker__item">
                 <input type="checkbox" class="unit-picker__cb" value="${i + 1}" id="unitCb${i + 1}">
                 <span class="unit-picker__name">${label}</span>
-                <span class="unit-picker__num">Unit ${i + 1}</span>
+                <span class="unit-picker__num">Module ${i + 1}</span>
               </label>
             `).join('')}
           </div>
@@ -9679,7 +9679,7 @@ sam@gamma.org, Sam Lee, participant,`;
       const dateText = lensStatusDate(f);
       return `
         <div class="report-foundations">
-          <div class="report-foundations__label">Programme Orientation</div>
+          <div class="report-foundations__label">Module 1 · Unit 1</div>
           <div class="report-foundations__title">${escapeHtml(f.title || 'Foundations')}</div>
           <div class="report-foundations__status">
             <span class="lens-pip lens-pip--${status}"></span>
@@ -9692,7 +9692,7 @@ sam@gamma.org, Sam Lee, participant,`;
 
     function participantLensRowHtml(lens) {
       const status = lens.status || 'locked';
-      const seq    = (lens.sequence != null) ? `Lens ${lens.sequence}` : '—';
+      const seq    = (lens.sequence != null) ? `Unit ${Number(lens.sequence) + 1}` : '—';
       return `
         <tr>
           <td><span class="report-lens-seq">${escapeHtml(seq)}</span></td>
@@ -9733,7 +9733,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
               <thead>
-                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
+                <tr><th style="width:80px;">Unit</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
               </thead>
               <tbody>${lensRows}</tbody>
             </table>
@@ -9770,7 +9770,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-summary">
             <div>
               <div class="report-summary__num">${s.completed_count || 0} <span class="report-summary__denom">/ ${s.total_lens_slots || 0}</span></div>
-              <div class="report-summary__label">Lenses completed</div>
+              <div class="report-summary__label">Units completed</div>
             </div>
             <div>
               <div class="report-summary__num">${(s.completion_percentage != null) ? s.completion_percentage : 0}%</div>
@@ -9954,7 +9954,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-lens-table-wrap">
             <table class="report-lens-table">
               <thead>
-                <tr><th style="width:80px;">Lens</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
+                <tr><th style="width:80px;">Unit</th><th>Title</th><th style="width:200px;">Status</th><th style="width:140px;">Score</th></tr>
               </thead>
               <tbody>${lensRows}</tbody>
             </table>
@@ -10009,7 +10009,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="report-summary">
             <div>
               <div class="report-summary__num">${s.completed_count || 0} <span class="report-summary__denom">/ ${s.total_lens_slots || 0}</span></div>
-              <div class="report-summary__label">Lenses completed</div>
+              <div class="report-summary__label">Units completed</div>
             </div>
             <div>
               <div class="report-summary__num">${(s.completion_percentage != null) ? s.completion_percentage : 0}%</div>
@@ -10115,8 +10115,8 @@ sam@gamma.org, Sam Lee, participant,`;
           badge +
         '</div>';
       const note = (unscored > 0)
-        ? '<div class="cert-score__note">' + unscored + ' reviewed lens' +
-          (unscored === 1 ? '' : 'es') + ' not yet scored.</div>'
+        ? '<div class="cert-score__note">' + unscored + ' reviewed unit' +
+          (unscored === 1 ? '' : 's') + ' not yet scored.</div>'
         : '';
       let cls = (variant === 'compact') ? 'cert-score cert-score--compact' : 'cert-score';
       if (certified) cls += ' is-certified';
@@ -10208,9 +10208,9 @@ sam@gamma.org, Sam Lee, participant,`;
       device_confirmed:                   'Device confirmed',
       device_revoked:                     'Device revoked',
       device_binding_reset:               'Device binding reset (lockout recovery)',
-      lens_unlocked:                      'Lens unlocked',
-      lens_locked:                        'Lens locked',
-      lens_completed:                     'Lens completed',
+      lens_unlocked:                      'Unit unlocked',
+      lens_locked:                        'Unit locked',
+      lens_completed:                     'Unit completed',
       submission_created:                 'Submission created',
       submission_reviewed:                'Submission reviewed',
       submission_returned_for_revision:   'Submission returned for revision',
@@ -11396,7 +11396,7 @@ sam@gamma.org, Sam Lee, participant,`;
         : `<div class="cohort-table-wrap">
              <table class="cohort-table">
                <thead><tr>
-                 <th>Lens</th><th>Cohort</th><th>Status</th><th>Submitted</th><th>Reviewed</th>
+                 <th>Unit</th><th>Cohort</th><th>Status</th><th>Submitted</th><th>Reviewed</th>
                </tr></thead>
                <tbody>
                  ${submissions.map(s => `
@@ -11426,11 +11426,11 @@ sam@gamma.org, Sam Lee, participant,`;
       const respEntryWord = responses.length === 1 ? 'entry' : 'entries';
       const responsesCountLabel = `${responses.length} ${respEntryWord} · ${responsesTotal} response key${responsesTotal === 1 ? '' : 's'} total`;
       const responsesBody = responses.length === 0
-        ? `<div class="support-empty-inline">No lens progress or response data yet.</div>`
+        ? `<div class="support-empty-inline">No unit progress or response data yet.</div>`
         : `<div class="cohort-table-wrap">
              <table class="cohort-table">
                <thead><tr>
-                 <th>Lens</th><th>Cohort</th><th>Progress</th><th>Keys</th><th>Last activity</th>
+                 <th>Unit</th><th>Cohort</th><th>Progress</th><th>Keys</th><th>Last activity</th>
                </tr></thead>
                <tbody>
                  ${responses.map(r => `

@@ -624,7 +624,7 @@ function renderResponses(payload, lensId) {
 
       const heading = document.createElement('div');
       heading.className = 'response-module-heading';
-      heading.textContent = 'Module ' + num;
+      heading.textContent = 'Section ' + num;
       heading.addEventListener('click', function() {
         moduleEl.classList.toggle('collapsed');
       });
@@ -1258,7 +1258,7 @@ function renderResponses(payload, lensId) {
     var ch=el("div","chapter"); ch.id="ch-"+cat.id;
     var head=el("div","chapter-head");
     var seq=Number(cat.sequence);
-    var h2=el("h2", null, seq===0 ? "Foundations" : ("Lens "+seq+" \u00b7 "+(cat.title||cat.id)));
+    var h2=el("h2", null, seq===0 ? "Unit 1 \u00b7 Behavioural Strategy Fundamentals" : ("Unit "+(seq+1)+" \u00b7 "+(cat.title||cat.id)));
     head.appendChild(h2);
     var latest = subs && subs.length ? subs[0] : null;
     if(latest){
@@ -1305,7 +1305,7 @@ function renderResponses(payload, lensId) {
   function buildToc(cats){
     var t=el("div","toc"); t.appendChild(el("h2","","Contents"));
     var ol=el("ol");
-    cats.forEach(function(cat){ var seq=Number(cat.sequence); var li=el("li"); var a=el("a"); a.href="#ch-"+cat.id; a.textContent = seq===0?"Foundations":("Lens "+seq+" \u00b7 "+(cat.title||cat.id)); li.appendChild(a); ol.appendChild(li); });
+    cats.forEach(function(cat){ var seq=Number(cat.sequence); var li=el("li"); var a=el("a"); a.href="#ch-"+cat.id; a.textContent = seq===0?"Unit 1 \u00b7 Behavioural Strategy Fundamentals":("Unit "+(seq+1)+" \u00b7 "+(cat.title||cat.id)); li.appendChild(a); ol.appendChild(li); });
     t.appendChild(ol); return t;
   }
 
