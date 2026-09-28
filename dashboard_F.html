@@ -4178,7 +4178,7 @@
 
     const filler = document.createElement('div');
     filler.className = 'lens-header-filler';
-    filler.textContent = 'Click a lens to unlock for whole cohort →';
+    filler.textContent = 'Click a unit to unlock for the whole cohort →';
     row.appendChild(filler);
 
     const strip = document.createElement('div');
@@ -6995,7 +6995,7 @@
     primaryBtn.type = 'button';
     primaryBtn.id = 'commitPrimaryBtn';
     primaryBtn.className = 'btn-commit-primary';
-    primaryBtn.textContent = 'Mark as reviewed and unlock next lens';
+    primaryBtn.textContent = 'Mark as reviewed and unlock next unit';
     actions.appendChild(primaryBtn);
 
     // ─── F7: TERTIARY ACTION — RETURN FOR REVISION ───
@@ -7013,7 +7013,7 @@
     help.textContent = 'Drafts auto-save 2 seconds after you stop typing. Reviewing is durable. To pause before unlocking, leave this submission pending and message the participant via Conversation to discuss. Return for revision sends the submission back to the participant with your feedback and keeps the next lens locked.';
     wrap.appendChild(help);
 
-    // WS5: gate "Mark as reviewed and unlock next lens" on a valid integer
+    // WS5: gate "Mark as reviewed and unlock next unit" on a valid integer
     // score (0–100). Return-for-revision is intentionally NOT gated — sending a
     // submission back does not require a score.
     // WS5.1: only when a score input exists (i.e. not Foundations). On Foundations
@@ -7172,10 +7172,10 @@
     confirmBtn.textContent = 'Confirm';
 
     if (mode === 'unlock') {
-      titleEl.textContent = 'Mark as reviewed and unlock next lens';
+      titleEl.textContent = 'Mark as reviewed and unlock next unit';
       bodyEl.innerHTML =
         'This will commit your feedback to <strong>' + escapeHtml(participantName) + '</strong>, ' +
-        'mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed, and unlock the next lens.';
+        'mark <strong>' + escapeHtml(lensTitle) + '</strong> as completed, and unlock the next unit.';
       detailEl.textContent = 'Reviews are durable. Return for revision is the way to send a submission back without committing.';
     }
     // Note: legacy 'reviewed_only' mode has been removed from the UI. The
@@ -7315,7 +7315,7 @@
           unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
         } else if (code === 'ambiguous_successor') {
           showCommitError(errorEl,
-            'The next lens cannot be determined automatically — multiple successors are configured. Please contact support before continuing.');
+            'The next unit cannot be determined automatically — multiple successors are configured. Please contact support before continuing.');
           unlockButtons(confirmBtn, cancelBtn, primaryBtn, secondaryBtn, true);
         } else if (code === 'not_authenticated') {
           showCommitError(errorEl, 'Your session has expired. Please sign in again.');
@@ -7353,10 +7353,10 @@
       return 'Reviewed. ' + nextTitle + ' is now unlocked.';
     }
     if (data.next_lens_was_already_unlocked === true) {
-      return 'Reviewed. Next lens was already unlocked.';
+      return 'Reviewed. Next unit was already unlocked.';
     }
     // unlock_next was true but no successor existed (final lens of the curriculum)
-    return 'Reviewed. This is the final lens — no further unlock.';
+    return 'Reviewed. This is the final unit — no further unlock.';
   }
 
   function showCommitError(errorEl, message) {
@@ -7443,7 +7443,7 @@
     bodyEl.innerHTML =
       'This will send your feedback to <strong>' + escapeHtml(participantName) + '</strong> ' +
       'and re-open <strong>' + escapeHtml(lensTitle) + '</strong> for them to revise. ' +
-      'The next lens will <strong>not</strong> be unlocked.';
+      'The next unit will <strong>not</strong> be unlocked.';
     detailEl.textContent = 'The participant will receive your feedback and be able to revise their submission. The next unit stays locked.';
 
     revisionModalConfirmHandler = function() {
@@ -7784,7 +7784,7 @@
         if (code === 'not_authorised') {
           showCohortUnlockError(errorEl, 'You do not have permission to unlock for this cohort.');
         } else if (code === 'lens_not_found') {
-          showCohortUnlockError(errorEl, 'Could not find that lens. Please refresh and try again.');
+          showCohortUnlockError(errorEl, 'Could not find that unit. Please refresh and try again.');
         } else if (code === 'not_authenticated') {
           showCohortUnlockError(errorEl, 'Your session has expired. Please sign in again.');
         } else {

@@ -1444,7 +1444,7 @@
         <h3 class="portal-name">Participant<br>Journey Portal</h3>
         <p class="portal-desc">
           The guided learning environment for enrolled CESI candidates. Engage 
-          with each lens, submit perspectives from your assigned executive leader role, and 
+          with each unit, submit perspectives from your assigned executive leader role, and 
           build your certification portfolio.
         </p>
         <ul class="portal-features">
@@ -2107,7 +2107,7 @@ async function validateAccess() {
       capNote +
       '<div class="ms-units">' + unitRows + '</div>' +
       (unscored > 0
-        ? '<p class="ms-note">' + unscored + ' reviewed lens' + (unscored === 1 ? '' : 'es') + ' not yet scored.</p>'
+        ? '<p class="ms-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</p>'
         : '');
   }
 
@@ -2223,7 +2223,7 @@ async function validateAccess() {
   function pPortalLock(){
     if (currentRole !== 'Participant Access') return;                          // facilitators / admin console untouched
     if (typeof supabaseClient === 'undefined' || !supabaseClient.auth) return; // no client → leave portal open
-    var LOCK_TIP = 'Locked — your facilitator will unlock the next lens after reviewing your previous submission.';
+    var LOCK_TIP = 'Locked — your facilitator will unlock the next unit after reviewing your previous submission.';
     var ACCESSIBLE = { unlocked:1, in_progress:1, submitted:1, reviewed:1, completed:1 };
     function toast(msg){
       var t = document.getElementById('p-lock-toast');
