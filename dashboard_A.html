@@ -2959,6 +2959,15 @@
   .capstone-cert-issued { font-size: 12px; font-weight: 700; color: #5fd08a; white-space: nowrap; }
   .capstone-cert-view { font-size: 11px; color: var(--gold); text-decoration: underline; white-space: nowrap; }
   .capstone-cert-err { font-size: 11px; color: #e06c6c; }
+  /* Capstone build: cohort brief panel + Blueprint progress per team */
+  .capstone-brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+  .capstone-brief-field { display: flex; flex-direction: column; gap: 6px; }
+  .capstone-brief-field--wide { grid-column: 1 / -1; }
+  .capstone-brief-field input, .capstone-brief-field textarea { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 8px 12px; color: #fff; font-family: Montserrat, sans-serif; font-size: 13px; outline: none; width: 100%; }
+  .capstone-brief-field textarea { resize: vertical; line-height: 1.6; }
+  .capstone-brief-field input:focus, .capstone-brief-field textarea:focus { border-color: var(--gold); }
+  .capstone-brief-field input[type="datetime-local"] { color-scheme: dark; }
+  .capstone-bp { font-size: 11px; color: rgba(255,255,255,0.6); font-family: Montserrat, sans-serif; white-space: nowrap; }
 
   </style>
 </head>
@@ -3248,6 +3257,27 @@
           </div>
 
           <div id="capstoneCreateMsg" class="capstone-msg" role="alert" style="display:none;"></div>
+
+          <!-- Capstone build: cohort brief (case, brief text, dates), shown on participants' capstone page -->
+          <div id="capstoneBriefPanel" class="capstone-team" style="display:none;">
+            <div class="capstone-team__head"><h2 class="capstone-team__name">Cohort brief</h2></div>
+            <div class="capstone-brief-grid">
+              <label class="capstone-brief-field"><span class="filter-group__label">Case</span>
+                <input type="text" id="capBriefCase" maxlength="160" placeholder="e.g. Company X or Mining sector"></label>
+              <label class="capstone-brief-field capstone-brief-field--wide"><span class="filter-group__label">Brief</span>
+                <textarea id="capBriefText" rows="6" placeholder="Paste the brief for this cohort"></textarea></label>
+              <label class="capstone-brief-field"><span class="filter-group__label">Submission deadline</span>
+                <input type="datetime-local" id="capBriefDue"></label>
+              <label class="capstone-brief-field"><span class="filter-group__label">Showcase date and time</span>
+                <input type="datetime-local" id="capBriefShowcase"></label>
+              <label class="capstone-brief-field"><span class="filter-group__label">Showcase venue</span>
+                <input type="text" id="capBriefVenue" maxlength="200"></label>
+            </div>
+            <div class="capstone-team__actions" style="margin-top:14px;">
+              <button type="button" class="btn btn--primary" id="capBriefSaveBtn">Save brief</button>
+              <span id="capBriefMsg" class="capstone-score-saved"></span>
+            </div>
+          </div>
 
           <div id="capstoneContainer">
             <!-- States rendered here by JS: prompt | skeleton | teams | empty | error -->
@@ -12477,8 +12507,10 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!container) return;
       if (!capstoneState.cohortId) {
         container.innerHTML = '<div class="capstone-empty">Select a cohort to begin.</div>';
+        const bp = document.getElementById('capstoneBriefPanel'); if (bp) bp.style.display = 'none';
         return;
       }
+      loadCapstoneBrief();   // Capstone build: cohort brief panel
       container.innerHTML = skeletonHtml();
       try {
         const teamsRes = await sb.from('capstone_team')
@@ -12492,6 +12524,15 @@ sam@gamma.org, Sam Lee, participant,`;
           const memRes = await sb.from('capstone_individual').select('id, team_id, profile_id, capstone_final_pct').in('team_id', teamIds);
           if (memRes.error) { container.innerHTML = errorHtml(memRes.error.message || 'Could not load team members.'); return; }
           members = Array.isArray(memRes.data) ? memRes.data : [];
+        }
+
+        // Capstone build: Blueprint progress per team (sections agreed).
+        const agreedByTeam = {};
+        if (teamIds.length) {
+          const bpRes = await sb.from('capstone_blueprint_section').select('team_id, status').in('team_id', teamIds);
+          if (!bpRes.error && Array.isArray(bpRes.data)) {
+            bpRes.data.forEach(function(r) { if (r.status === 'agreed') agreedByTeam[r.team_id] = (agreedByTeam[r.team_id] || 0) + 1; });
+          }
         }
 
         const profileIds = members.map(function(m) { return m.profile_id; }).filter(Boolean);
@@ -12536,6 +12577,7 @@ sam@gamma.org, Sam Lee, participant,`;
         });
 
         capstoneState.teams = teams;
+        capstoneState.agreedByTeam = agreedByTeam;
         capstoneState.membersByTeam = membersByTeam;
         capstoneState.assignedIds = assignedIds;
         renderCapstoneTeams();
@@ -12727,6 +12769,8 @@ sam@gamma.org, Sam Lee, participant,`;
           '<div class="capstone-team__head">' +
             '<h2 class="capstone-team__name">' + capstoneEsc(t.team_name) + '</h2>' +
             '<div class="capstone-team__actions">' +
+              '<span class="capstone-bp">Blueprint: ' + ((capstoneState.agreedByTeam && capstoneState.agreedByTeam[t.id]) || 0) + ' of 11 agreed</span>' +
+              '<a class="capstone-cert-view" href="capstone_P.html?teamId=' + encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Open Blueprint</a>' +
               '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
                 '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
               '<button type="button" class="btn--ghost capstone-delete-btn" data-team-id="' + capstoneEsc(t.id) +
@@ -12904,7 +12948,61 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
+    // Capstone build: cohort brief — load into the panel / save via admin_set_capstone_brief.
+    function capIsoToLocalInput(iso) {
+      if (!iso) return '';
+      const d = new Date(iso); if (isNaN(d.getTime())) return '';
+      const pad = function(n) { return String(n).padStart(2, '0'); };
+      return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+    function capLocalInputToIso(v) {
+      if (!v) return null;
+      const d = new Date(v); return isNaN(d.getTime()) ? null : d.toISOString();
+    }
+    async function loadCapstoneBrief() {
+      const panel = document.getElementById('capstoneBriefPanel');
+      if (!panel) return;
+      const cohortId = capstoneState.cohortId;
+      const msg = document.getElementById('capBriefMsg'); if (msg) msg.textContent = '';
+      ['capBriefCase','capBriefText','capBriefDue','capBriefShowcase','capBriefVenue'].forEach(function(id) { const el = document.getElementById(id); if (el) el.value = ''; });
+      if (!cohortId) { panel.style.display = 'none'; return; }
+      panel.style.display = '';
+      const res = await sb.from('capstone_brief').select('case_name, brief_text, submission_due, showcase_at, showcase_venue').eq('cohort_id', cohortId).maybeSingle();
+      if (cohortId !== capstoneState.cohortId) return;   // cohort changed while loading
+      if (res.error) { if (msg) msg.textContent = 'Could not load the brief.'; return; }
+      const b = res.data;
+      if (!b) { if (msg) msg.textContent = 'No brief saved for this cohort yet.'; return; }
+      document.getElementById('capBriefCase').value = b.case_name || '';
+      document.getElementById('capBriefText').value = b.brief_text || '';
+      document.getElementById('capBriefDue').value = capIsoToLocalInput(b.submission_due);
+      document.getElementById('capBriefShowcase').value = capIsoToLocalInput(b.showcase_at);
+      document.getElementById('capBriefVenue').value = b.showcase_venue || '';
+    }
+    async function saveCapstoneBrief() {
+      const msg = document.getElementById('capBriefMsg');
+      const btn = document.getElementById('capBriefSaveBtn');
+      const cohortId = capstoneState.cohortId;
+      const caseName = (document.getElementById('capBriefCase').value || '').trim();
+      if (!cohortId) { if (msg) msg.textContent = 'Select a cohort first.'; return; }
+      if (!caseName) { if (msg) msg.textContent = 'Enter the case name.'; document.getElementById('capBriefCase').focus(); return; }
+      if (btn) btn.disabled = true;
+      if (msg) msg.textContent = 'Saving…';
+      const venue = (document.getElementById('capBriefVenue').value || '').trim();
+      const res = await sb.rpc('admin_set_capstone_brief', {
+        p_cohort_id: cohortId,
+        p_case_name: caseName,
+        p_brief_text: document.getElementById('capBriefText').value || null,
+        p_submission_due: capLocalInputToIso(document.getElementById('capBriefDue').value),
+        p_showcase_at: capLocalInputToIso(document.getElementById('capBriefShowcase').value),
+        p_showcase_venue: venue || null
+      });
+      if (btn) btn.disabled = false;
+      if (msg) msg.textContent = res.error ? ('Could not save: ' + (res.error.message || 'error')) : 'Brief saved.';
+    }
+
     function wireCapstone() {
+      const briefBtn = document.getElementById('capBriefSaveBtn');
+      if (briefBtn) briefBtn.addEventListener('click', saveCapstoneBrief);
       const sel = document.getElementById('capstoneCohortSelect');
       if (sel) {
         sel.addEventListener('change', function() {

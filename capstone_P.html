@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Capstone — Blueprint Showcase</title>
+<script src="supabase.umd.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--teal:#1a7a6a;--green:#27ae60;--red:#e06c6c;}
+body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;}
+.nav-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teal);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-right{display:flex;align-items:center;gap:18px;}
+.nav-back,.nav-print{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:inherit;}
+.nav-back:hover,.nav-print:hover{color:var(--teal);}
+.unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;}
+.main{max-width:1100px;margin:0 auto;padding:32px 40px 100px;}
+.card{background:#1c2a1e;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:28px 32px;margin-bottom:20px;}
+.card-label{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.card h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;margin-bottom:10px;}
+.muted{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;}
+.brief-text{font-size:13px;color:rgba(255,255,255,.75);line-height:1.8;white-space:pre-wrap;margin-top:6px;}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;}
+.fact{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:12px 14px;}
+.fact-k{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.8);margin-bottom:6px;}
+.fact-v{font-size:13px;color:rgba(255,255,255,.85);}
+.members{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.member{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:6px 12px;font-size:12px;color:rgba(255,255,255,.8);}
+.crit-group{margin-top:14px;}
+.crit-head{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.crit{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;margin:0 0 6px 0;}
+.crit strong{color:#fff;font-weight:600;}
+/* Blueprint sections */
+.sec{border:1px solid rgba(255,255,255,.08);border-radius:3px;margin-bottom:10px;background:rgba(255,255,255,.02);}
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;}
+.sec-h:hover .sec-t{color:var(--gold);}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.9);}
+.sec-b{display:none;padding:4px 18px 20px;}
+.sec.open .sec-b{display:block;}
+.chip{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;border-radius:2px;white-space:nowrap;}
+.chip.locked{color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.15);}
+.chip.draft{color:var(--gold);border:1px solid rgba(201,168,76,.4);}
+.chip.awaiting{color:#8ab0e8;border:1px solid rgba(107,143,204,.45);}
+.chip.agreed{color:#5fd08a;border:1px solid rgba(95,208,138,.45);}
+.sec-note{font-size:12px;color:rgba(255,255,255,.55);margin:6px 0 14px;line-height:1.6;}
+.box{margin-bottom:16px;}
+.box-l{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;}
+.box-i{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:8px;}
+.box-ta{width:100%;min-height:96px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}
+.box-ta:focus{outline:none;border-color:rgba(201,168,76,.6);}
+.box-v{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;white-space:pre-wrap;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:10px 12px;min-height:20px;}
+.box-v.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.ptext{display:none;}
+.meta{font-size:11px;color:rgba(255,255,255,.45);margin:4px 0 12px;}
+.confirms{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px;}
+.cf{font-size:11px;padding:4px 10px;border-radius:2px;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);}
+.cf.yes{border-color:rgba(95,208,138,.45);color:#5fd08a;}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px;}
+.btn{font-family:inherit;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 18px;border-radius:2px;cursor:pointer;border:1px solid rgba(201,168,76,.45);background:none;color:var(--gold);}
+.btn:hover:not(:disabled){background:rgba(201,168,76,.12);}
+.btn.primary{background:var(--gold);color:#1c1c1c;border-color:var(--gold);}
+.btn.primary:hover:not(:disabled){background:#d8b95e;}
+.btn:disabled{opacity:.5;cursor:default;}
+.msg{font-size:12px;line-height:1.6;margin-top:10px;padding:8px 12px;border-radius:3px;display:none;}
+.msg.show{display:block;}
+.msg.err{color:#f0b0a0;background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.4);}
+.msg.ok{color:#5fd08a;background:rgba(95,208,138,.08);border:1px solid rgba(95,208,138,.35);}
+.banner{font-size:12px;line-height:1.6;padding:12px 16px;border-radius:3px;margin-bottom:16px;color:#f0d59a;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.4);}
+.admin-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;}
+.res-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;}
+.res-row:last-child{border-bottom:none;}
+.res-k{color:rgba(255,255,255,.6);}
+.res-v{color:#fff;font-weight:600;text-align:right;}
+.res-v.pending{color:rgba(255,255,255,.45);font-weight:400;}
+.res-v a{color:var(--gold);}
+.state{max-width:640px;margin:80px auto;text-align:center;padding:0 24px;}
+.state h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.8rem;margin-bottom:12px;}
+.state p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;}
+@media (max-width:640px){
+  .unit-nav{padding:12px 16px;}
+  .unit-header{padding:36px 16px 28px;}
+  .main{padding:20px 16px 80px;}
+  .card{padding:20px 18px;}
+  .sec-h{padding:14px 12px;}
+  .sec-b{padding:4px 12px 16px;}
+}
+@media print{
+  body{background:#fff;color:#111;}
+  .unit-nav,.actions,.msg,.admin-bar,.banner,.box-ta,.no-print{display:none !important;}
+  .unit-header{background:none;border-bottom:2px solid #1a3a2a;padding:0 0 16px;}
+  .unit-title,.card h2,.sec-t{color:#111;}
+  .unit-desc,.muted,.brief-text,.crit,.box-i,.meta,.sec-note,.fact-v,.member,.res-k,.res-v{color:#222 !important;}
+  .main{padding:16px 0;max-width:none;}
+  .card,.sec,.fact,.member{background:none;border-color:#bbb;}
+  .sec-b{display:block !important;}
+  .sec{break-inside:auto;}
+  .box{break-inside:avoid;}
+  .box-l{color:#111;}
+  .box-v,.ptext{display:block;color:#111 !important;background:none;border:1px solid #ccc;white-space:pre-wrap;padding:8px 10px;font-size:12px;line-height:1.6;}
+  .box-v.empty{color:#777 !important;}
+  .chip{color:#111 !important;border-color:#999 !important;}
+  .cf{color:#333 !important;border-color:#bbb !important;}
+}
+</style>
+</head>
+<body>
+
+<nav class="unit-nav">
+  <div class="nav-left">
+    <div class="nav-brand">Strategy2Result®<strong>IBSL · Capstone</strong></div>
+    <span class="nav-badge" id="viewBadge">Participant View</span>
+  </div>
+  <div class="nav-right">
+    <button class="nav-print" id="printBtn" onclick="window.print()" style="display:none;">Print Blueprint</button>
+    <button class="nav-back" id="backBtn" onclick="goBack()">&#8592; Back to Platform</button>
+  </div>
+</nav>
+
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Capstone</div>
+    <h1 class="unit-title">Strategy2Results Blueprint Showcase</h1>
+    <div class="unit-sub">A live business-system presentation</div>
+    <p class="unit-desc" id="introText">Your team is the executive leadership team of your case organisation. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.</p>
+  </div>
+</div>
+
+<div class="main" id="root">
+  <div class="state"><p>Loading your capstone…</p></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // === Supabase connection (same project and session storage as the rest of the platform) ===
+  var SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storage: window.localStorage }
+  });
+
+  var params = new URLSearchParams(window.location.search);
+  var adminTeamId = params.get('teamId');   // admin mode: capstone_P.html?teamId=<uuid>
+
+  // === Blueprint structure (approved wording). [Case] is replaced with the cohort's case name. ===
+  var BLUEPRINT = [
+    { key:'u2', unit:2, title:'Strategic Intent & Success in Practice', boxes:[
+      ['2A','Strategic Intent Statement','State what [Case] pursues, why, how and by when, in a single agreed statement.'],
+      ['2B','Maturity gaps and corrective actions','Name the three areas of strategic maturity where [Case] falls furthest short of its ambition. For each, state the corrective action the executive team commits to.'],
+      ['2C','SiP · Customer Experience & Value','Describe what customers observe and experience when [Case] has reached its intended future position.'],
+      ['2D','SiP · Operational Capability','Describe the operational capability [Case] demonstrates at its intended future position.'],
+      ['2E','SiP · People & Culture','Describe how [Case]’s people work, behave and lead at its intended future position.'],
+      ['2F','SiP · Enterprise Value','Describe the value [Case] creates for its shareholders and stakeholders at its intended future position.'],
+      ['2G','SiP Headline','One sentence stating the destination that every leader in [Case] can repeat.'],
+      ['2H','SiP Storyline','Describe [Case] at its destination, written as if it already exists.']
+    ]},
+    { key:'u3', unit:3, title:'KISS Reflection & Enterprise OKRs', boxes:[
+      ['3A','Keep','The current practices at [Case] that already advance the SiP and must be protected.'],
+      ['3B','Improve','The practices that support the SiP but fall short of the standard it requires.'],
+      ['3C','Start','The practices [Case] must introduce to reach the SiP.'],
+      ['3D','Stop','The practices that constrain progress towards the SiP and must end.'],
+      ['3E','Enterprise priorities','State the enterprise priorities that emerge from the KISS reflection. Express each one independently of the function that proposed it.'],
+      ['3F','Enterprise OKRs','For each priority, write one Objective and its Key Results, each Key Result in the form: verb of change + metric + from X to Y + by deadline. Name the contributing roles for each Key Result.']
+    ]},
+    { key:'u4', unit:4, title:'Direction Integrity Checkpoints', boxes:[
+      ['4A','Arena','State the functional, emotional and social outcome [Case]’s customers pursue, and the Must-Be-True condition your strategy depends on.'],
+      ['4B','Boundaries','Name the regulatory, structural and behavioural constraints operating on [Case]’s strategy, and the Must-Be-True condition on each.'],
+      ['4C','Competition','Map every meaningful alternative available to [Case]’s customers, including those outside the industry, and the Must-Be-True condition on your landscape.'],
+      ['4D','Value Proposition','State the combination of choices that gives [Case] a defensible advantage, what [Case] will not do, and the Must-Be-True condition that protects it.'],
+      ['4E','Verification ownership','For each critical Must-Be-True condition, name the executive accountable for verifying it, the evidence required and the date.'],
+      ['4F','Executive blind spots','Identify the checkpoint [Case]’s executive team is most likely to overlook, and the enterprise risk if it does.']
+    ]},
+    { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
+      ['5A','Interpretation risks','Identify how functional expertise, cognitive bias and emotion across the executive team could distort how [Case]’s strategy is interpreted.'],
+      ['5B','Emotional climate','Name the dominant emotion [Case]’s people carry into this strategy, and its effect on commitment.'],
+      ['5C','Alignment hot zones','Name the COMPASS zones most at risk in [Case], and the warning signals that show alignment escalating into crisis.'],
+      ['5D','Shared enterprise interpretation','State how each executive role connects to the others to support coordinated action on the strategy.'],
+      ['5E','Leadership behaviour commitment','State the behavioural change the executive team commits to model, and how it will be observed.']
+    ]},
+    { key:'u6', unit:6, title:'Performance Management Setup', boxes:[
+      ['6A','Performance scorecard','Set the weighting across the three sights (Strategy OKRs, Operational KPIs, Behavioural & Values Alignment) for each leadership level in [Case].'],
+      ['6B','Leader and team accountability','Define which outcomes executives are measured on and which are measured at team level.'],
+      ['6C','Scoring logic','State how performance is rated on the 1–5 scale, and the leadership response each rating requires.'],
+      ['6D','Collective Progress Signal','Define the single enterprise signal of progress for [Case], and the executive questions it anchors.'],
+      ['6E','Reporting cadence and tools','Set the review rhythm, the forums and the reports through which [Case]’s performance is managed.']
+    ]},
+    { key:'u7', unit:7, title:'Establishing Performance Expectations', boxes:[
+      ['7A','Critical delivery expectation','Select one Key Result for [Case]. State what must be delivered, by when, to what standard, and how success will be recognised.'],
+      ['7B','Expectations chain','Name the upline, downline and lateral contributors on whom that result depends.'],
+      ['7C','Ownership readiness','Assess the owner’s clarity, capability and commitment, and state how each gap will be closed.'],
+      ['7D','Commitment record','Record the commitments made by the owner and the executive team, the alignment score reached, and how any gap was resolved.'],
+      ['7E','Enterprise practice','State how [Case]’s leaders will establish expectations consistently across the organisation.']
+    ]},
+    { key:'u8', unit:8, title:'Performance Measurement', boxes:[
+      ['8A','Review discipline','Set [Case]’s review–realign–restore rhythm: the forums, their frequency and who attends.'],
+      ['8B','Progress signals and responses','For [Case]’s priority Key Results, define what counts as progress confirmation, early warning and a significant gap, and the leadership response each requires.'],
+      ['8C','Breakdown risk','Identify where the review and interpretation of performance evidence are most likely to break down in [Case].'],
+      ['8D','Enterprise performance intelligence','Record the collective trajectory, early warnings and execution learning from a simulated executive review, and the decisions taken.'],
+      ['8E','Accountability loop','State how the executive team responds when a Key Result falls below expectation: root cause, action and follow-up.']
+    ]},
+    { key:'u9', unit:9, title:'Strategic Unclogging', boxes:[
+      ['9A','Friction signals','Name the observable friction signals present in [Case]’s execution.'],
+      ['9B','Clog diagnosis','Identify the clogs stalling [Case]’s priorities, separating each visible symptom from its underlying cause.'],
+      ['9C','Unclogging levers','Select the lever for each clog, and the reason it fits.'],
+      ['9D','Unclogging rhythm','Set the leadership rhythm through which [Case] surfaces and resolves friction.'],
+      ['9E','Unclogging agenda','List each unclogging action with a named owner and completion date.']
+    ]},
+    { key:'u10', unit:10, title:'ESRG Alignment', boxes:[
+      ['10A','Environment','Assess whether [Case]’s physical and behavioural environment supports its priorities, and the intervention required.'],
+      ['10B','Systems','Assess whether [Case]’s processes, data and approvals support its priorities, and the intervention required.'],
+      ['10C','Resources','Assess whether [Case]’s people, funding and capacity support its priorities, and the intervention required.'],
+      ['10D','Governance','Assess whether [Case]’s decision rights, oversight and accountability support its priorities, and the intervention required.'],
+      ['10E','Cultural Operating Code','Translate [Case]’s values into named, observable behavioural norms.'],
+      ['10F','Enterprise ESRG agenda','State the enterprise actions that align [Case]’s operating conditions with its strategic priorities.']
+    ]},
+    { key:'u11', unit:11, title:'Culture & Organisational Health', boxes:[
+      ['11A','Health reading','Assess [Case] against the five traits: Minimal Politics, Minimal Confusion, High Morale, High Productivity and Low Turnover. State its temperature band.'],
+      ['11B','Health foundations','Identify the trust, experiences and beliefs producing that reading.'],
+      ['11C','Cost of poor health','Name the hidden costs [Case] carries, or risks carrying, from its current health.'],
+      ['11D','Health stewardship','Assign each health domain to the executive role that anchors it, and name any neglected domain.'],
+      ['11E','Guardrails and coaching','State the ACE-IT guardrail priorities for [Case], and the coaching conversations the executive team commits to.']
+    ]},
+    { key:'u12', unit:12, title:'Sustaining Performance', boxes:[
+      ['12A','Performance gravity','Name the force most active on [Case] and the performance gravity it produces.'],
+      ['12B','Force detection','Identify where force movements appear first across [Case]’s leadership domains, and the early warning signals.'],
+      ['12C','Navigation diagnostic','Use the ABCV checkpoints to state what those movements mean for [Case]’s strategic position.'],
+      ['12D','KISS navigation response','Record the executive team’s Keep, Improve, Start and Stop decisions for the next performance cycle.'],
+      ['12E','Navigation commitment','Set [Case]’s collective intelligence review rhythm and the navigation decision the team commits to, with a date.']
+    ]}
+  ];
+  var BY_KEY = {}; BLUEPRINT.forEach(function(s){ BY_KEY[s.key] = s; });
+
+  // === State ===
+  var S = { mode:'participant', cohortId:null, uid:null, data:null, bp:null, caseName:'', openKeys:{}, dirty:{} };
+
+  // === Helpers ===
+  function esc(s){ if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function fmtDateTime(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleString('en-GB',{ weekday:'short', day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+  function fmtDate(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleDateString('en-GB',{ day:'numeric', month:'long', year:'numeric' }); }
+  function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your case organisation')); }
+  function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 80) return ''; if (n <= 84) return 'Proficient Integrator'; if (n <= 90) return 'Advanced Integrator'; return 'Master Integrator'; }
+  function stateHtml(title, msg){ return '<div class="state"><h2>' + esc(title) + '</h2><p>' + esc(msg) + '</p></div>'; }
+  function fatal(title, msg){ document.getElementById('root').innerHTML = stateHtml(title, msg); }
+  function one(res){ if (!res || res.error || !res.data) return null; return Array.isArray(res.data) ? res.data[0] : res.data; }
+
+  window.goBack = function(){
+    location.href = (S.mode === 'admin') ? 'dashboard_A.html?view=capstone' : 'index.html';
+  };
+
+  // Keep unsaved text across re-renders; warn before leaving with unsaved text.
+  function hasDirty(){ for (var k in S.dirty){ if (S.dirty[k]) return true; } return false; }
+  window.addEventListener('beforeunload', function(e){ if (hasDirty()){ e.preventDefault(); e.returnValue = ''; } });
+
+  // === Boot ===
+  function boot(){
+    sb.auth.getSession().then(function(sres){
+      var session = sres && sres.data && sres.data.session;
+      if (!session){ fatal('Not signed in', 'Sign in to the S2R Portal, then reopen the capstone from your portal.'); return; }
+      S.uid = session.user.id;
+      if (adminTeamId){ S.mode = 'admin'; return loadAdmin(); }
+      return sb.from('cohort_memberships').select('cohort_id,role_in_cohort,joined_at')
+        .eq('profile_id', S.uid).order('joined_at', { ascending:false }).then(function(mres){
+          var rows = (mres && mres.data) || [];
+          var mine = rows.filter(function(r){ return r.role_in_cohort === 'participant'; });
+          if (!mine.length){ fatal('Participant page', 'This page is for participants. Sign in with a participant account to use it.'); return; }
+          S.cohortId = mine[0].cohort_id;
+          return loadParticipant();
+        });
+    }).catch(function(err){ console.error('[capstone] boot error:', err); fatal('Could not load', 'An unexpected error occurred. Please refresh and try again.'); });
+  }
+
+  function loadParticipant(){
+    return sb.rpc('get_my_capstone', { p_cohort_id: S.cohortId }).then(function(res){
+      if (res.error){ console.error('[capstone] get_my_capstone:', res.error); fatal('Could not load', 'Your capstone could not be loaded. Please refresh and try again.'); return; }
+      S.data = res.data || {};
+      S.bp = S.data.blueprint || null;
+      S.caseName = (S.data.brief && S.data.brief.case_name) || '';
+      if (S.data.access_open !== true){
+        fatal('Capstone not open yet', 'The capstone opens when Unit 2 opens.');
+        return;
+      }
+      render();
+    });
+  }
+
+  function loadAdmin(){
+    document.getElementById('viewBadge').textContent = 'Admin View';
+    document.getElementById('backBtn').innerHTML = '&#8592; Back to Admin Console';
+    return sb.from('profiles').select('role').eq('id', S.uid).maybeSingle().then(function(pr){
+      var role = (pr && pr.data && pr.data.role) || '';
+      if (role !== 'admin'){ fatal('Access restricted', 'This view is for administrators only.'); return; }
+      return sb.rpc('get_capstone_blueprint', { p_team_id: adminTeamId }).then(function(res){
+        if (res.error){ console.error('[capstone] get_capstone_blueprint:', res.error); fatal('Could not load', 'This team’s Blueprint could not be loaded.'); return; }
+        S.bp = res.data || null;
+        S.data = { brief: S.bp && S.bp.brief, cohort: S.bp && S.bp.cohort };
+        S.caseName = (S.bp && S.bp.brief && S.bp.brief.case_name) || '';
+        render();
+      });
+    });
+  }
+
+  function reload(){
+    captureDirty();
+    return (S.mode === 'admin') ? loadAdmin() : loadParticipant();
+  }
+
+  // === Render ===
+  function render(){
+    document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
+    var intro = document.getElementById('introText');
+    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.';
+    var html = '';
+    html += briefCard();
+    html += teamCard();
+    html += criteriaCard();
+    html += blueprintCard();
+    if (S.mode === 'participant') html += resultCard();
+    document.getElementById('root').innerHTML = html;
+    restoreDirty();
+  }
+
+  function briefCard(){
+    var b = S.data && S.data.brief;
+    var h = '<div class="card"><div class="card-label">The brief</div>';
+    if (!b){
+      h += '<p class="muted">IBSL will publish your cohort’s brief shortly.</p>';
+    } else {
+      h += '<h2>' + esc(b.case_name) + '</h2>';
+      if (b.brief_text) h += '<div class="brief-text">' + esc(b.brief_text) + '</div>';
+      h += '<div class="facts">' +
+        fact('Submission deadline', fmtDateTime(b.submission_due)) +
+        fact('Showcase', fmtDateTime(b.showcase_at)) +
+        fact('Venue', b.showcase_venue) +
+      '</div>';
+    }
+    return h + '</div>';
+  }
+  function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
+
+  function teamCard(){
+    var h = '<div class="card"><div class="card-label">' + (S.mode === 'admin' ? 'Team' : 'Your team') + '</div>';
+    if (!S.bp){ return h + '<p class="muted">IBSL will confirm your team.</p></div>'; }
+    h += '<h2>' + esc(S.bp.team && S.bp.team.name) + '</h2><div class="members">';
+    (S.bp.members || []).forEach(function(m){ h += '<span class="member">' + esc(m.full_name) + '</span>'; });
+    return h + '</div></div>';
+  }
+
+  function criteriaCard(){
+    return '<div class="card"><div class="card-label">Assessment criteria</div>' +
+      '<p class="muted">An external panel assesses the Blueprint and each member’s showcase, and combines these into your capstone score.</p>' +
+      '<div class="crit-group"><div class="crit-head">Team Blueprint · 60%</div>' +
+        '<p class="crit"><strong>Direction</strong> (Units 2–4): the coherence of strategic intent, success definition, priorities and direction integrity.</p>' +
+        '<p class="crit"><strong>Influence</strong> (Units 5–9): the strength of the alignment, performance and unclogging architecture.</p>' +
+        '<p class="crit"><strong>Grounding</strong> (Units 10–12): how well operating conditions, organisational health and navigation sustain the strategy.</p>' +
+      '</div>' +
+      '<div class="crit-group"><div class="crit-head">Individual showcase · 40%</div>' +
+        '<p class="crit"><strong>Command</strong>: the member’s grasp of the Blueprint and their executive role within it.</p>' +
+        '<p class="crit"><strong>Delivery</strong>: how clearly and credibly the member presents and defends the team’s decisions to the panel.</p>' +
+      '</div></div>';
+  }
+
+  function blueprintCard(){
+    if (!S.bp) return '';
+    var h = '<div class="card"><div class="card-label">The Blueprint</div>';
+    var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
+    h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 11 sections agreed.</p>';
+    if (S.mode === 'admin'){
+      h += '<div class="admin-bar">' +
+        (S.bp.team && S.bp.team.reopened
+          ? '<button class="btn" onclick="capAdminReopenAll(false)">Lock Blueprint</button><span class="muted">Reopened: the team can edit after the deadline.</span>'
+          : '<button class="btn" onclick="capAdminReopenAll(true)">Reopen Blueprint</button><span class="muted">Lets the team edit after the deadline.</span>') +
+        '</div><div class="msg" id="msg_admin"></div>';
+    }
+    if (S.bp.locked && S.mode === 'participant'){
+      h += '<div class="banner">The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.</div>';
+    }
+    (S.bp.sections || []).forEach(function(sec){ h += sectionHtml(sec); });
+    return h + '</div>';
+  }
+
+  function statusOf(sec){
+    if (!sec.open) return 'locked';
+    return sec.status || 'draft';
+  }
+
+  function sectionHtml(sec){
+    var def = BY_KEY[sec.key]; if (!def) return '';
+    var st = statusOf(sec);
+    var members = S.bp.members || [];
+    var confirmed = {}; (sec.confirmations || []).forEach(function(c){ confirmed[c.profile_id] = c.confirmed_at; });
+    var nConf = Object.keys(confirmed).length;
+    var chipText = { locked:'Locked', draft:'Draft', awaiting:'Awaiting confirmation', agreed:'Agreed' }[st];
+    var isMember = S.mode === 'participant';
+    var editable = isMember && st === 'draft' && !S.bp.locked;
+    var content = sec.content || {};
+
+    var h = '<div class="sec' + (S.openKeys[sec.key] ? ' open' : '') + '" id="sec_' + sec.key + '">' +
+      '<div class="sec-h" onclick="capToggle(\'' + sec.key + '\')">' +
+        '<span class="sec-t">Unit ' + def.unit + ' · ' + esc(def.title) + '</span>' +
+        '<span class="chip ' + st + '">' + chipText + (st === 'awaiting' ? ' · ' + nConf + ' of ' + members.length : '') + '</span>' +
+      '</div><div class="sec-b">';
+
+    if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.</p>';
+    if (st === 'awaiting') h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
+    if (st === 'agreed') h += '<p class="sec-note">Agreed · ' + esc(fmtDateTime(sec.agreed_at)) + '</p>';
+
+    def.boxes.forEach(function(b){
+      var val = content[b[0]] || '';
+      h += '<div class="box"><div class="box-l">' + esc(b[0]) + ' · ' + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
+      if (editable){
+        h += '<textarea class="box-ta" data-sec="' + sec.key + '" data-box="' + esc(b[0]) + '" oninput="capInput(this)">' + esc(val) + '</textarea>' +
+             '<div class="ptext" id="pt_' + sec.key + '_' + esc(b[0]) + '">' + esc(val) + '</div>';
+      } else if (st !== 'locked'){
+        h += '<div class="box-v' + (val ? '' : ' empty') + '">' + (val ? esc(val) : 'Not yet entered') + '</div>';
+      }
+      h += '</div>';
+    });
+
+    if (st !== 'locked' && sec.updated_by_name) h += '<div class="meta">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
+
+    if (st === 'awaiting' || st === 'agreed'){
+      h += '<div class="confirms">';
+      members.forEach(function(m){
+        var at = confirmed[m.profile_id];
+        h += '<span class="cf' + (at ? ' yes' : '') + '">' + (at ? '✓ ' : '') + esc(m.full_name) + (at ? ' · ' + esc(fmtDateTime(at)) : ' · pending') + '</span>';
+      });
+      h += '</div>';
+    }
+
+    // Actions
+    var a = '';
+    if (isMember && !S.bp.locked){
+      if (st === 'draft'){
+        a += '<button class="btn" onclick="capSave(\'' + sec.key + '\')">Save draft</button>' +
+             '<button class="btn primary" onclick="capSend(\'' + sec.key + '\')">Send for team confirmation</button>';
+      } else if (st === 'awaiting'){
+        if (!confirmed[S.uid]) a += '<button class="btn primary" onclick="capConfirm(\'' + sec.key + '\')">I confirm this is our agreed text</button>';
+        a += '<button class="btn" onclick="capChange(\'' + sec.key + '\')">Request a change</button>';
+      }
+    }
+    if (S.mode === 'admin' && (st === 'awaiting' || st === 'agreed')){
+      a += '<button class="btn" onclick="capAdminReopenSection(\'' + sec.key + '\')">Reopen section</button>';
+    }
+    if (a) h += '<div class="actions">' + a + '</div>';
+    h += '<div class="msg" id="msg_' + sec.key + '"></div>';
+    return h + '</div></div>';
+  }
+
+  function resultCard(){
+    var sc = (S.data && S.data.score) || null;
+    var cert = S.data && S.data.certificate;
+    var h = '<div class="card"><div class="card-label">Your result</div>';
+    if (!sc){ return h + '<p class="muted">Your result is not available yet.</p></div>'; }
+    var capPending = sc.capstone_pending === true || sc.capstone_avg === null || sc.capstone_avg === undefined;
+    h += '<div class="res-row"><span class="res-k">Capstone score</span>' +
+      (capPending ? '<span class="res-v pending">Pending — scored by IBSL after the Blueprint Showcase</span>' : '<span class="res-v">' + esc(String(sc.capstone_avg)) + ' / 100</span>') + '</div>';
+    h += '<div class="res-row"><span class="res-k">Final score</span><span class="res-v">' + (sc.final_pct === null || sc.final_pct === undefined ? '—' : esc(String(sc.final_pct)) + '%') + '</span></div>';
+    var certText;
+    if (cert && cert.participant_number){
+      var lvl = levelFromScore(cert.final_score);
+      certText = 'Certified' + (lvl ? ' · ' + esc(lvl) : '') + ' · ' + esc(cert.participant_number);
+    } else if (sc.certified === true){
+      certText = 'Certified — IBSL will issue your certificate';
+    } else {
+      certText = 'Not yet certified';
+    }
+    h += '<div class="res-row"><span class="res-k">Certification</span><span class="res-v">' + certText + '</span></div>';
+    if (cert && cert.participant_number){
+      h += '<div class="res-row"><span class="res-k">Certificate</span><span class="res-v"><a href="certificate.html?participantId=' + encodeURIComponent(S.uid) + '&cohortId=' + encodeURIComponent(S.cohortId) + '" target="_blank" rel="noopener">View certificate</a></span></div>';
+    }
+    return h + '</div>';
+  }
+
+  // === Interaction ===
+  window.capToggle = function(key){
+    S.openKeys[key] = !S.openKeys[key];
+    var el = document.getElementById('sec_' + key);
+    if (el) el.classList.toggle('open', !!S.openKeys[key]);
+  };
+
+  window.capInput = function(ta){
+    var key = ta.getAttribute('data-sec');
+    var pt = document.getElementById('pt_' + key + '_' + ta.getAttribute('data-box'));
+    if (pt) pt.textContent = ta.value;
+    S.dirty[key] = true;
+  };
+
+  function sectionContent(key){
+    var out = {};
+    var tas = document.querySelectorAll('textarea.box-ta[data-sec="' + key + '"]');
+    for (var i = 0; i < tas.length; i++) out[tas[i].getAttribute('data-box')] = tas[i].value;
+    return out;
+  }
+  function sectionFromState(key){
+    var list = (S.bp && S.bp.sections) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].key === key) return list[i];
+    return null;
+  }
+
+  // Unsaved text survives a reload of the data (only restored while the section is still an editable Draft).
+  var _dirtyCache = {};
+  function captureDirty(){
+    _dirtyCache = {};
+    Object.keys(S.dirty).forEach(function(key){ if (S.dirty[key]) _dirtyCache[key] = sectionContent(key); });
+  }
+  function restoreDirty(){
+    Object.keys(_dirtyCache).forEach(function(key){
+      var vals = _dirtyCache[key];
+      var tas = document.querySelectorAll('textarea.box-ta[data-sec="' + key + '"]');
+      if (!tas.length){ S.dirty[key] = false; return; }
+      for (var i = 0; i < tas.length; i++){
+        var b = tas[i].getAttribute('data-box');
+        if (vals[b] !== undefined){ tas[i].value = vals[b]; var pt = document.getElementById('pt_' + key + '_' + b); if (pt) pt.textContent = vals[b]; }
+      }
+    });
+    _dirtyCache = {};
+  }
+
+  function showMsg(key, text, kind, withReload){
+    var el = document.getElementById('msg_' + key);
+    if (!el) return;
+    el.className = 'msg show ' + (kind || 'err');
+    el.innerHTML = esc(text) + (withReload ? ' <button class="btn" style="margin-left:8px;padding:6px 12px;" onclick="capReload(\'' + key + '\')">Reload</button>' : '');
+  }
+  function errText(key, r){
+    var def = BY_KEY[key];
+    switch (r && r.error){
+      case 'stale': return 'A teammate saved this section at ' + fmtDateTime(r.updated_at) + '. Reload to see their changes before saving.';
+      case 'incomplete': return 'Complete every box before sending for confirmation.';
+      case 'locked': return 'The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.';
+      case 'section_closed': return 'This section opens when every team member has completed Unit ' + (def ? def.unit : '') + '.';
+      case 'not_draft': case 'not_awaiting': return 'This section has changed. Reload to see its current status.';
+      case 'not_authenticated': return 'Your session has expired. Please sign in again.';
+      default: return 'Could not complete this action. Please try again.';
+    }
+  }
+  function needsReload(r){ return r && (r.error === 'stale' || r.error === 'not_draft' || r.error === 'not_awaiting'); }
+
+  function setBusy(key, busy){
+    var el = document.getElementById('sec_' + key); if (!el) return;
+    var btns = el.querySelectorAll('.actions .btn');
+    for (var i = 0; i < btns.length; i++) btns[i].disabled = !!busy;
+  }
+
+  // Discard this section's unsaved text and fetch the latest.
+  window.capReload = function(key){ S.dirty[key] = false; reload(); };
+
+  function doSave(key){
+    var sec = sectionFromState(key);
+    return sb.rpc('capstone_save_section', {
+      p_team_id: S.bp.team.id, p_key: key, p_content: sectionContent(key),
+      p_expected_updated_at: (sec && sec.updated_at) || null
+    }).then(function(res){
+      if (res.error){ console.error('[capstone] save:', res.error); return { ok:false, error:'rpc' }; }
+      return res.data || { ok:false };
+    });
+  }
+
+  window.capSave = function(key){
+    setBusy(key, true);
+    doSave(key).then(function(r){
+      if (!r.ok){ setBusy(key, false); showMsg(key, errText(key, r), 'err', needsReload(r)); return; }
+      S.dirty[key] = false;
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, 'Draft saved.', 'ok'); });
+    });
+  };
+
+  window.capSend = function(key){
+    setBusy(key, true);
+    var first = S.dirty[key] || !sectionFromState(key) || !sectionFromState(key).updated_at ? doSave(key) : Promise.resolve({ ok:true });
+    first.then(function(r){
+      if (!r.ok){ setBusy(key, false); showMsg(key, errText(key, r), 'err', needsReload(r)); return; }
+      S.dirty[key] = false;
+      return sb.rpc('capstone_send_for_confirmation', { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+        var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+        if (!d.ok){
+          S.openKeys[key] = true;
+          reload().then(function(){ showMsg(key, errText(key, d), 'err', needsReload(d)); });
+          return;
+        }
+        S.openKeys[key] = true;
+        reload().then(function(){ showMsg(key, d.status === 'agreed' ? 'Section agreed.' : 'Sent for team confirmation. Your confirmation is recorded.', 'ok'); });
+      });
+    });
+  };
+
+  function simpleAction(fn, key, okText){
+    setBusy(key, true);
+    sb.rpc(fn, { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+      var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, d.ok ? okText(d) : errText(key, d), d.ok ? 'ok' : 'err', !d.ok && needsReload(d)); });
+    });
+  }
+  window.capConfirm = function(key){ simpleAction('capstone_confirm_section', key, function(d){ return d.status === 'agreed' ? 'Section agreed by every member.' : 'Your confirmation is recorded.'; }); };
+  window.capChange  = function(key){ simpleAction('capstone_request_change', key, function(){ return 'Section returned to Draft. All confirmations have been cleared.'; }); };
+
+  // === Admin actions ===
+  window.capAdminReopenSection = function(key){
+    setBusy(key, true);
+    sb.rpc('admin_reopen_capstone_section', { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, res.error ? 'Could not reopen this section.' : 'Section reopened as Draft. Confirmations cleared.', res.error ? 'err' : 'ok'); });
+    });
+  };
+  window.capAdminReopenAll = function(on){
+    sb.rpc('admin_set_blueprint_reopened', { p_team_id: S.bp.team.id, p_reopened: !!on }).then(function(res){
+      reload().then(function(){ showMsg('admin', res.error ? 'Could not update the Blueprint.' : (on ? 'Blueprint reopened.' : 'Blueprint locked.'), res.error ? 'err' : 'ok'); });
+    });
+  };
+
+  // Print: open every section so the full Blueprint prints.
+  window.addEventListener('beforeprint', function(){
+    var els = document.querySelectorAll('.sec'); for (var i = 0; i < els.length; i++) els[i].classList.add('open');
+  });
+  window.addEventListener('afterprint', function(){
+    var els = document.querySelectorAll('.sec');
+    for (var i = 0; i < els.length; i++){ var k = els[i].id.replace('sec_',''); els[i].classList.toggle('open', !!S.openKeys[k]); }
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>

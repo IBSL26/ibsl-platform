@@ -260,13 +260,14 @@
     try {
       const sres = await supabaseClient.auth.getSession();
       const session = sres && sres.data && sres.data.session;
-      if (!session) { fatal('Not signed in', 'Sign in to the S2R Portal as an admin or facilitator, then reopen this certificate.'); return; }
+      if (!session) { fatal('Not signed in', 'Sign in to the S2R Portal, then reopen this certificate.'); return; }
 
-      // Role gate — admin or facilitator only (case-sensitive).
+      // Role gate — admin or facilitator (case-sensitive), or the participant viewing their own certificate.
       const pr = await supabaseClient.from('profiles').select('role, full_name').eq('id', session.user.id).maybeSingle();
       const role = (pr && pr.data && pr.data.role) || '';
-      if (!(role === 'admin' || role === 'facilitator')) {
-        fatal('Access restricted', 'This certificate is viewable by administrators and facilitators only.');
+      const isSelf = session.user.id === participantId;
+      if (!(role === 'admin' || role === 'facilitator' || isSelf)) {
+        fatal('Access restricted', 'This certificate is viewable by its holder, administrators and facilitators only.');
         return;
       }
 
@@ -276,7 +277,9 @@
         supabaseClient.rpc('get_participant_completion_report', { p_profile_id: participantId }),
         supabaseClient.from('capstone_certificate')
           .select('participant_number, final_score, issued_at')
-          .eq('profile_id', participantId).eq('cohort_id', cohortId).maybeSingle()
+          .eq('profile_id', participantId).eq('cohort_id', cohortId).maybeSingle(),
+        // Self-view: cohort name via the participant's own capstone record (best-effort).
+        isSelf ? supabaseClient.rpc('get_my_capstone', { p_cohort_id: cohortId }) : Promise.resolve(null)
       ]);
 
       const profRow = results[0];
@@ -293,6 +296,8 @@
         const c = cohorts.find(function(x) { return String(x.id) === String(cohortId); });
         if (c && c.name) cohortName = c.name;
       }
+      const mine = results[3];
+      if (!cohortName && mine && !mine.error && mine.data && mine.data.cohort && mine.data.cohort.name) cohortName = mine.data.cohort.name;
       if (!name) name = 'Participant';
       if (!cohortName) cohortName = 'their cohort';
 

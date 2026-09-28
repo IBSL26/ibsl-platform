@@ -1020,6 +1020,10 @@
   .ms-unit-val { color: var(--gold); font-weight: 600; }
   .ms-unit-val.pending { color: rgba(255,255,255,0.45); font-weight: 400; font-style: italic; }
   .ms-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 16px; font-family: 'Montserrat', sans-serif; }
+  /* Capstone build: participant links under the Overall Result card */
+  .ms-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; font-family: 'Montserrat', sans-serif; }
+  .ms-links a { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); text-decoration: none; }
+  .ms-links a:hover { text-decoration: underline; }
   .ms-lens-score { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--gold); font-family: 'Montserrat', sans-serif; white-space: nowrap; margin-left: 12px; }
   .ms-lens-score.unscored { color: rgba(255,255,255,0.4); font-weight: 400; font-style: italic; letter-spacing: 0; }
 
@@ -1113,6 +1117,7 @@
     <div class="ms-card" id="msHeadlineCard" style="display:none;">
       <p class="ms-card-label">Overall result</p>
       <div id="msHeadline"></div>
+      <div class="ms-links" id="msLinks" style="display:none;"></div>
     </div>
 
     <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:48px;">
@@ -1219,6 +1224,16 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Capstone: Blueprint Showcase. Carries no lens attribute, so the lens lock logic never touches it; setCapstoneState() drives it. -->
+      <div id="capstoneCard" style="background:#1c2a1e;border:1px solid rgba(201,168,76,0.3);border-radius:4px;padding:28px;position:relative;grid-column:1/-1;">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:#c9a84c;border-radius:4px 4px 0 0;"></div>
+        <p id="capstoneBadge" style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#c9a84c;font-family:Montserrat,sans-serif;margin-bottom:6px;">CAPSTONE</p>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:4px;">Blueprint Showcase</h3>
+        <p style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;font-family:Montserrat,sans-serif;margin-bottom:12px;">Strategy2Results&reg;</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;font-family:Montserrat,sans-serif;">Present your team&rsquo;s Strategy2Results Blueprint as a live business system.</p>
+        <a id="capstoneLink" href="#" onclick="openCapstone(); return false;" style="display:inline-block;margin-top:16px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 20px;border-radius:2px;text-decoration:none;cursor:pointer;">Open Capstone &rarr;</a>
       </div>
 
     </div>
@@ -2139,11 +2154,53 @@ async function validateAccess() {
       supabaseClient.from('submissions')
         .select('lens_id,score,submitted_at,review_status')
         .eq('profile_id', pid).eq('cohort_id', cohortId)
-        .order('submitted_at', { ascending: false })
+        .order('submitted_at', { ascending: false }),
+      supabaseClient.from('capstone_certificate').select('participant_number')
+        .eq('profile_id', pid).eq('cohort_id', cohortId).maybeSingle()
     ]).then(function(results) {
       renderHeadline(results[0]);
       renderPortalLensScores(results[1], results[2]);
+      renderParticipantLinks(pid, cohortId, results[3]);
+      var sd = (results[0] && !results[0].error && results[0].data) ? (Array.isArray(results[0].data) ? results[0].data[0] : results[0].data) : null;
+      _capScored = !!(sd && sd.capstone_avg !== null && sd.capstone_avg !== undefined);
+      updateCapstoneCard();
     }).catch(function(err) { console.error('[p-portal-scores] load error:', err); });
+  }
+
+  // Capstone build: "My portfolio" (always) and "View certificate" (once issued) under the Overall Result card.
+  function renderParticipantLinks(pid, cohortId, certRes) {
+    var host = document.getElementById('msLinks');
+    if (!host) return;
+    var cert = (certRes && !certRes.error) ? certRes.data : null;
+    var html = '<a href="collection.html?participantId=' + encodeURIComponent(pid) + '&feedback=on" target="_blank" rel="noopener">My portfolio &rarr;</a>';
+    if (cert && cert.participant_number) {
+      html += '<a href="certificate.html?participantId=' + encodeURIComponent(pid) + '&cohortId=' + encodeURIComponent(cohortId) + '" target="_blank" rel="noopener">View certificate &rarr;</a>';
+    }
+    host.innerHTML = html;
+    host.style.display = 'flex';
+  }
+
+  // Capstone card state. Opens when Unit 2 opens; SCORED once a capstone score exists.
+  // Advisory only: capstone_P.html and the database re-check access.
+  var _capOpen = true, _capKnown = false, _capScored = false;
+  function setCapstoneState(isOpen) { _capOpen = !!isOpen; _capKnown = true; updateCapstoneCard(); }
+  function updateCapstoneCard() {
+    var badge = document.getElementById('capstoneBadge');
+    var link = document.getElementById('capstoneLink');
+    var card = document.getElementById('capstoneCard');
+    if (!badge || !link || !card || !_capKnown) return;
+    badge.textContent = !_capOpen ? 'CAPSTONE · LOCKED' : (_capScored ? 'CAPSTONE · SCORED' : 'CAPSTONE · OPEN');
+    card.style.opacity = _capOpen ? '1' : '0.6';
+    link.innerHTML = _capOpen ? 'Open Capstone &rarr;' : 'Opens when Unit 2 opens';
+    link.style.cursor = _capOpen ? 'pointer' : 'not-allowed';
+    link.style.background = _capOpen ? 'var(--gold)' : 'rgba(255,255,255,0.12)';
+    link.style.color = _capOpen ? '#1c1c1c' : 'rgba(255,255,255,0.55)';
+  }
+  function openCapstone() {
+    if (!_capOpen) return;
+    sessionStorage.setItem('ibsl_portal_role', currentRole);
+    sessionStorage.setItem('ibsl_portal_days', document.getElementById('portalDaysLeft').textContent);
+    window.location.href = 'capstone_P.html';
   }
 
   function showPortal(role, daysMsg) {
@@ -2151,6 +2208,8 @@ async function validateAccess() {
     document.getElementById('portalRoleLabel').textContent = isFac ? 'FACILITATOR PORTAL' : 'PARTICIPANT PORTAL';
     document.getElementById('portalWelcome').textContent   = isFac ? 'Facilitator Control Hub' : 'Participant Journey Portal';
     document.getElementById('portalDaysLeft').textContent  = daysMsg;
+    var capCard = document.getElementById('capstoneCard');
+    if (capCard) capCard.style.display = isFac ? 'none' : '';
     document.getElementById('portalView').style.display    = 'block';
     document.body.style.overflow = 'hidden';
     window.scrollTo(0, 0);
@@ -2197,6 +2256,7 @@ async function validateAccess() {
             .eq('profile_id', pid).eq('cohort_id', cohortId).then(function(res){
               if (res.error){ console.error('[p-portal-lock] lens_progress read error:', res.error); return; } // leave open
               var byId = {}; (res.data || []).forEach(function(r){ byId[r.lens_id] = r.status; });
+              setCapstoneState(!!(byId['u2m1_lens1'] && ACCESSIBLE[byId['u2m1_lens1']]));   // Capstone opens with Unit 2
               var u1Badge = document.getElementById('unit1Badge');
               if (u1Badge){
                 var u1St = byId['u1_foundations'];
