@@ -3900,6 +3900,15 @@
     }
 
     // Minimal HTML escape for any text we drop into table cells.
+    // Certification level from the final score — same bands as certificate.html (80–84 / 85–90 / 91–100).
+    function certLevelFromScore(score) {
+      const n = Math.round(Number(score));
+      if (!Number.isFinite(n) || n < 80) return '';
+      if (n <= 84) return 'Proficient Integrator';
+      if (n <= 90) return 'Advanced Integrator';
+      return 'Master Integrator';
+    }
+    function certLevelSuffix(score) { const l = certLevelFromScore(score); return l ? ' · ' + escapeHtml(l) : ''; }
     function escapeHtml(s) {
       if (s == null) return '';
       return String(s)
@@ -9344,7 +9353,7 @@ sam@gamma.org, Sam Lee, participant,`;
       // One row per active cohort: cohort name + per-cohort certified state.
       const cohortName = row.cohort_name ? escapeHtml(row.cohort_name) : '—';
       const certCell = (row.certified === true)
-        ? '<span class="reports-cert reports-cert--yes">✓ Certified</span>'
+        ? '<span class="reports-cert reports-cert--yes">✓ Certified' + certLevelSuffix(row.final_pct) + '</span>'
         : '<span class="reports-cert reports-cert--no">Not certified</span>';
       return `
         <tr data-row-id="${row.id}" data-row-kind="reports-participant" data-cohort-id="${escapeHtml(String(row.cohort_id || ''))}" style="cursor:pointer;">
@@ -9452,7 +9461,7 @@ sam@gamma.org, Sam Lee, participant,`;
                   const sd = (sres && !sres.error && sres.data)
                     ? (Array.isArray(sres.data) ? sres.data[0] : sres.data) : null;
                   const certified = !!(sd && sd.certified === true);
-                  return Object.assign({}, u, { cohort_id: c.id, cohort_name: c.name, certified: certified });
+                  return Object.assign({}, u, { cohort_id: c.id, cohort_name: c.name, certified: certified, final_pct: sd ? sd.final_pct : null });
                 }, function() {
                   return Object.assign({}, u, { cohort_id: c.id, cohort_name: c.name, certified: false });
                 });
@@ -10097,7 +10106,7 @@ sam@gamma.org, Sam Lee, participant,`;
       const certified = d.certified === true;
       const unscored = Number(d.unscored_lens_count || 0);
       const badge = certified
-        ? '<span class="cert-badge cert-badge--yes">✓ Certified</span>'
+        ? '<span class="cert-badge cert-badge--yes">✓ Certified' + certLevelSuffix(pct) + '</span>'
         : '<span class="cert-badge cert-badge--no">Not yet certified</span>';
       // Capstone row is display-only here: show the value if scored, else muted "Pending".
       function capstoneRow() {
@@ -12494,10 +12503,11 @@ sam@gamma.org, Sam Lee, participant,`;
 
         // WS4: existing certificates for this cohort (one read) → participant_number by profile.
         const certByProfile = {};
+        const certScoreByProfile = {};
         const certRes = await sb.from('capstone_certificate')
-          .select('profile_id, participant_number').eq('cohort_id', capstoneState.cohortId);
+          .select('profile_id, participant_number, final_score').eq('cohort_id', capstoneState.cohortId);
         if (!certRes.error && Array.isArray(certRes.data)) {
-          certRes.data.forEach(function(r) { if (r && r.profile_id) certByProfile[r.profile_id] = r.participant_number; });
+          certRes.data.forEach(function(r) { if (r && r.profile_id) { certByProfile[r.profile_id] = r.participant_number; certScoreByProfile[r.profile_id] = r.final_score; } });
         }
 
         // WS4: per-member certified flag — one get_participant_final_score each, in parallel.
@@ -12520,7 +12530,8 @@ sam@gamma.org, Sam Lee, participant,`;
             full_name: (profById[m.profile_id] && profById[m.profile_id].full_name) || '(unknown participant)',
             email: (profById[m.profile_id] && profById[m.profile_id].email) || '',
             certified: !!certifiedByProfile[m.profile_id],
-            participant_number: (m.profile_id in certByProfile) ? certByProfile[m.profile_id] : null
+            participant_number: (m.profile_id in certByProfile) ? certByProfile[m.profile_id] : null,
+            cert_score: (m.profile_id in certScoreByProfile) ? certScoreByProfile[m.profile_id] : null
           });
         });
 
@@ -12595,7 +12606,7 @@ sam@gamma.org, Sam Lee, participant,`;
     function capstoneCertControlHtml(m, cohortId) {
       const viewHref = 'certificate.html?participantId=' + encodeURIComponent(m.profile_id) + '&cohortId=' + encodeURIComponent(cohortId);
       if (m.participant_number) {
-        return '<span class="capstone-cert-issued">Certified · ' + capstoneEsc(m.participant_number) + '</span>' +
+        return '<span class="capstone-cert-issued">Certified' + certLevelSuffix(m.cert_score) + ' · ' + capstoneEsc(m.participant_number) + '</span>' +
                '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
       }
       if (m.certified === true) {
@@ -12622,8 +12633,9 @@ sam@gamma.org, Sam Lee, participant,`;
         if (!wrap || !profile || !cohort) return;
 
         const viewHref = 'certificate.html?participantId=' + encodeURIComponent(profile) + '&cohortId=' + encodeURIComponent(cohort);
+        let issuedScore = null;
         function showIssued(num) {
-          wrap.innerHTML = '<span class="capstone-cert-issued">Certified · ' + escapeHtml(String(num)) + '</span>' +
+          wrap.innerHTML = '<span class="capstone-cert-issued">Certified' + certLevelSuffix(issuedScore) + ' · ' + escapeHtml(String(num)) + '</span>' +
             '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
         }
         function showErr(msg) {
@@ -12644,6 +12656,7 @@ sam@gamma.org, Sam Lee, participant,`;
             return;
           }
           const finalScore = Math.round(Number(sd.final_pct) || 0);
+          issuedScore = finalScore;
           // 2) Existing certificate? Do not insert if so.
           return sb.from('capstone_certificate').select('participant_number')
             .eq('profile_id', profile).eq('cohort_id', cohort).maybeSingle().then(function(exist) {
