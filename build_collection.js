@@ -185,6 +185,10 @@ function extractPrompts(html, lensId){
     // 1) explicit <label for="key">
     let fm = forRe(key).exec(html);
     if (fm){ const t = stripTags(fm[1]); if (t){ prompts[key] = t; found++; return; } }
+    // 1b) table row: <td>Question</td><td><textarea id="key"> — use the question cell
+    { const rowWin = html.slice(Math.max(0, pos - 800), pos);
+      const tm = /<td\b[^>]*>([^<]{5,300})<\/td>\s*<td\b[^>]*>\s*$/i.exec(rowWin);
+      if (tm){ const t = stripTags(tm[1]); if (t){ prompts[key] = t; found++; return; } } }
     // 2) nearest preceding label-ish element within a 2500-char window
     const winStart = Math.max(0, pos - 2500);
     const window = html.slice(winStart, pos);

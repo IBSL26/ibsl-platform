@@ -243,6 +243,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
 .slo-box li:last-child{border-bottom:none;}
 .slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+/* Facilitator file = preparation only: matrix is for reference, not data entry */
+#pmMatrix{pointer-events:none;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -785,12 +787,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Record Group Input</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Task 1</div><p><strong>Running the task:</strong> Before the group begins, remind participants — <em>"Every item you enter must be anchored to the SiP. Not 'we should improve communication' — but 'we should improve cross-functional handover time from 72 to 24 hours because the SiP describes seamless execution rhythm.'"</em></p><p><strong>Individual before collective:</strong> Ask participants to write their own inputs first (2–3 minutes per domain), then share with the group. The facilitator captures the agreed items in the tool. This prevents the first speaker from dominating the KISS landscape.</p><p><strong>After all four domains are captured:</strong> Ask the group — <em>"Look across all four domains. What are the 2–3 patterns that keep appearing? What does the organisation most consistently need to START, STOP, or IMPROVE relative to the SiP?"</em> These patterns become the strategic themes that anchor the Objectives in Task 2.</p><p><strong>Time discipline:</strong> Aim for 3–4 items per KISS element per domain. More than 5 items per element means the group has not prioritised — push for selection, not exhaustion.</p><p><em>Suggested time: 15–20 minutes.</em></p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Task 1</div><p><strong>Running the task:</strong> Before the group begins, remind participants — <em>"Every item you enter must be anchored to the SiP. Not 'we should improve communication' — but 'we should improve cross-functional handover time from 72 to 24 hours because the SiP describes seamless execution rhythm.'"</em></p><p><strong>Individual before collective:</strong> Ask participants to write their own inputs first (2–3 minutes per domain), then share with the group. The facilitator captures the agreed items in the tool. This prevents the first speaker from dominating the KISS landscape.</p><p><strong>After all four domains are captured:</strong> Ask the group — <em>"Look across all four domains. What are the 2–3 patterns that keep appearing? What does the organisation most consistently need to START, STOP, or IMPROVE relative to the SiP?"</em> These patterns become the strategic themes that anchor the Objectives in Task 2.</p><p><strong>Time discipline:</strong> Aim for 3–4 items per KISS element per domain. More than 5 items per element means the group has not prioritised — push for selection, not exhaustion.</p><p><em>Suggested time: 15–20 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
   <p>Record the leadership team's collective KISS reflection across all four future-reality domains. Click each domain to expand its four reflection inputs.</p>
-  <div id="kissCaptureList"></div>
+  <div id="kissCaptureList" hidden style="display:none"></div>
   <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
-    <button class="btn" onclick="saveAllKISS()">Save All KISS Reflections</button>
-    <button class="btn" onclick="clearKISS()" style="border-color:rgba(231,76,60,.3);color:rgba(231,100,80,.8);background:rgba(231,76,60,.05);">Clear All</button>
+    
+    
   </div>
 </div>
 </div>
@@ -802,15 +804,15 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Objectives · 2 Key Results Each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Task 2</div><p><strong>Running the OKR build:</strong> Work through each Objective one at a time with the full group. For each, allow 3–4 minutes for individual Key Result drafting before the group discusses. Apply the formula rigorously — Verb of Change + Metric + From X to Y + Deadline. If a Key Result cannot pass the "can you check it off a task list?" test, it is a task, not a KR.</p><p><strong>The alignment test in real time:</strong> Before a KR is entered, ask — <em>"Does this result move the whole enterprise forward — or only one function?"</em> This is Step 4 from the Integration section applied live. Do not skip it for any KR.</p><p><strong>Assembling the de-labelled landscape:</strong> Once all KRs are entered, click "Assemble Landscape." Walk the group through the de-labelled view and ask — <em>"Looking at this landscape without knowing who proposed what — which KRs are clearly enterprise-level? Which ones feel functional even without the label? What does that tell you?"</em></p><p><strong>The Less is More Rule:</strong> Enforce it here — maximum 4 Objectives, maximum 3 Key Results per Objective. Any KR that does not survive the de-labelled scrutiny should be released, not carried.</p><p><em>Suggested time: 20–25 minutes.</em></p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Task 2</div><p><strong>Running the OKR build:</strong> Work through each Objective one at a time with the full group. For each, allow 3–4 minutes for individual Key Result drafting before the group discusses. Apply the formula rigorously — Verb of Change + Metric + From X to Y + Deadline. If a Key Result cannot pass the "can you check it off a task list?" test, it is a task, not a KR.</p><p><strong>The alignment test in real time:</strong> Before a KR is entered, ask — <em>"Does this result move the whole enterprise forward — or only one function?"</em> This is Step 4 from the Integration section applied live. Do not skip it for any KR.</p><p><strong>Assembling the de-labelled landscape:</strong> Once all KRs are entered, click "Assemble Landscape." Walk the group through the de-labelled view and ask — <em>"Looking at this landscape without knowing who proposed what — which KRs are clearly enterprise-level? Which ones feel functional even without the label? What does that tell you?"</em></p><p><strong>The Less is More Rule:</strong> Enforce it here — maximum 4 Objectives, maximum 3 Key Results per Objective. Any KR that does not survive the de-labelled scrutiny should be released, not carried.</p><p><em>Suggested time: 20–25 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
   <p>For each enterprise Objective, define 2 Key Results following the formula. Assign the contributing role to each Key Result. Once complete, the de-labeled landscape view assembles all OKRs with role labels removed.</p>
-  <div id="okrBuilderList"></div>
+  <div id="okrBuilderList" hidden style="display:none"></div>
   <div style="margin-top:20px;border:1px solid rgba(201,168,76,.15);border-radius:4px;overflow:hidden;">
     <div style="padding:13px 18px;background:rgba(201,168,76,.06);border-bottom:1px solid rgba(201,168,76,.1);display:flex;align-items:center;justify-content:space-between;">
       <div><span style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);">De-labeled OKR Landscape</span><span style="font-size:11px;color:rgba(255,255,255,.35);margin-left:12px;">— Role attribution removed. The enterprise now owns these outcomes.</span></div>
-      <button class="btn" onclick="buildDelabel()" style="padding:7px 14px;font-size:9px;">Assemble Landscape</button>
+      
     </div>
-    <div id="delabelPanel" style="padding:18px;"><p style="font-size:12px;color:rgba(255,255,255,.3);font-style:italic;">Complete Task 2 above and click "Assemble Landscape" to generate the de-labeled view.</p></div>
+    <div id="delabelPanel" hidden style="display:none;padding:18px;"><p style="font-size:12px;color:rgba(255,255,255,.3);font-style:italic;">Complete Task 2 above and click "Assemble Landscape" to generate the de-labeled view.</p></div>
   </div>
 </div>
 </div>
@@ -823,26 +825,13 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 </div>
 <div class="acc-b cb">
   <div class="fac-note-full"><div class="fac-note-full-label">📋 FACILITATOR NOTE — Task 3</div><p><strong>Before placing any items:</strong> Establish shared definitions — ask the group: <em>"What does 'high impact' mean for this organisation specifically? What does 'high effort' mean in our context — time, money, change management, or all three?"</em> Without shared definitions, the placements will be meaningless.</p><p><strong>Running the exercise:</strong> Place OKRs one at a time. For each, ask the group to call out their placement before showing any individual view. Disagreements are the data — do not resolve them too quickly. Ask: <em>"Why do you see this as high impact? What would need to be true for this to be low effort?"</em></p><p><strong>The existing Facilitator Move note applies here:</strong> Listen for disagreements about impact versus effort — this is where collective intelligence is built in real time. The quality of the debate is as valuable as the final matrix.</p><p><strong>Closing the session:</strong> After the matrix is complete, ask — <em>"Looking at this matrix — what does it tell you about where to focus your first 90 days? What must start immediately? What can wait?"</em> Then direct the group to produce their individual portfolio commitments in the participant file before closing.</p><p><em>Suggested time: 10–15 minutes.</em></p></div>
-  <p>Evaluate each OKR initiative against Impact and Effort. Click a cell to assign selected Key Results to that position. The matrix becomes the strategic conversation device for aligning the leadership team on execution priority.</p>
+  <p>Evaluate each OKR initiative against Impact and Effort. The matrix becomes the strategic conversation device for aligning the leadership team on execution priority.</p>
   <div id="pmMatrix"></div>
   <div class="fac-note" style="margin-top:14px;"><div class="fac-label">Facilitator Move</div><p>As the team debates placements, listen for disagreements about what constitutes "high impact" versus "high effort." These disagreements are where collective intelligence is built. Do not rush to consensus — the quality of the debate is as valuable as the final placement.</p></div>
 </div>
 </div>
 
 <!-- EXPORT -->
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">Facilitator · Session Report Export</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">PDF · Email</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb">
-  <p>Export the complete session output — KISS reflections, OKR landscape, and prioritisation decisions — for distribution and record-keeping.</p>
-  <div class="export-bar">
-    <button class="export-btn" onclick="exportScreen()"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 16,21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Screen View</button>
-    <button class="export-btn" onclick="exportPDF()"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>Save as PDF</button>
-  </div>
-</div>
-</div>
 
 <!-- CHAPTER SUMMARY -->
 <div class="acc">
