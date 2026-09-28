@@ -54,6 +54,11 @@ function sliceBetween(src, startMarker, endMarker, label){
   assert(b > a, 'pipeline end marker not found (' + label + '): ' + endMarker);
   return src.slice(a, b);
 }
+// Deviation already applied upstream in dashboard_F.html -> accept it as-is instead of failing.
+function replaceOnceOrApplied(s, find, repl, label){
+  if (s.split(find).length - 1 === 0 && s.split(repl).length - 1 === 1) { note('Already upstream: ' + label); return s; }
+  return replaceOnce(s, find, repl, label);
+}
 function replaceOnce(s, find, repl, label){
   const n = s.split(find).length - 1;
   assert(n === 1, 'expected exactly 1 occurrence of [' + label + '] in span, found ' + n);
@@ -91,13 +96,13 @@ assert(spanB.indexOf('function renderReviewAccessDenied') < 0, 'renderReviewAcce
 
 // ── 1b. The ONE documented deviation: thread lensId through renderValue (prevents ReferenceError;
 //        behaviour-identical for all real nested data). Plus the prompt-primary label hook. ──
-spanB = replaceOnce(spanB, 'function renderValue(value, depth) {', 'function renderValue(value, depth, lensId) {', 'renderValue signature');
-spanB = replaceOnce(spanB, 'const valueEl = renderValue(value, depth);', 'const valueEl = renderValue(value, depth, lensId);', 'renderFieldEntry->renderValue');
-spanB = replaceOnce(spanB, 'li.appendChild(renderValue(item, depth + 1));', 'li.appendChild(renderValue(item, depth + 1, lensId));', 'array-item renderValue');
-spanB = replaceOnce(spanB, 'body.appendChild(renderValue(val, 0));', 'body.appendChild(renderValue(val, 0, lensId));', 'sip_data renderValue');
+spanB = replaceOnceOrApplied(spanB, 'function renderValue(value, depth) {', 'function renderValue(value, depth, lensId) {', 'renderValue signature');
+spanB = replaceOnceOrApplied(spanB, 'const valueEl = renderValue(value, depth);', 'const valueEl = renderValue(value, depth, lensId);', 'renderFieldEntry->renderValue');
+spanB = replaceOnceOrApplied(spanB, 'li.appendChild(renderValue(item, depth + 1));', 'li.appendChild(renderValue(item, depth + 1, lensId));', 'array-item renderValue');
+spanB = replaceOnceOrApplied(spanB, 'body.appendChild(renderValue(val, 0));', 'body.appendChild(renderValue(val, 0, lensId));', 'sip_data renderValue');
 // prompt-primary hook: renderFieldEntry uses labelFor() (defined in collection.html) which prefers an
 // extracted question prompt and falls back to the verbatim humanizeFieldName.
-spanB = replaceOnce(spanB, 'label.textContent = humanizeFieldName(fieldName, lensId);', 'label.textContent = labelFor(fieldName, lensId);', 'labelFor hook');
+spanB = replaceOnceOrApplied(spanB, 'label.textContent = humanizeFieldName(fieldName, lensId);', 'label.textContent = labelFor(fieldName, lensId);', 'labelFor hook');
 
 const PIPELINE = '  // ── Ported verbatim from dashboard_F.html lines ' + SRC.spanA[0] + '-' + SRC.spanA[1] +
   ' and ' + SRC.spanB[0] + '-' + SRC.spanB[1] + ' (build_collection.js).\n' +
@@ -171,7 +176,7 @@ function extractPrompts(html, lensId){
   const dkRe = /\bdata-key="([a-z0-9_]+)"/gi;
   while ((m = dkRe.exec(html)) !== null) if (keys[m[1]] === undefined) keys[m[1]] = m.index;
 
-  const labelRe = /<(?:div|p|label|span|h[2-6])\b[^>]*class="[^"]*(?:ref-label|score-notes-lbl|field-label|prompt|q-label|reflection-prompt)[^"]*"[^>]*>([\s\S]*?)<\/(?:div|p|label|span|h[2-6])>/gi;
+  const labelRe = /<(?:div|p|label|span|h[2-6])\b[^>]*class="[^"]*(?:ref-label|score-notes-lbl|field-label|prompt|q-label|reflection-prompt|port-desc)[^"]*"[^>]*>([\s\S]*?)<\/(?:div|p|label|span|h[2-6])>/gi;
   const forRe = function(key){ return new RegExp('<label\\b[^>]*\\bfor="' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[^>]*>([\\s\\S]*?)<\\/label>', 'i'); };
 
   let found = 0; const missed = [];

@@ -235,7 +235,28 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
     if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
     if(canFac===false){ showDenied('You are not assigned to facilitate this unit. Please contact your administrator.'); return; }
   }
+  // Facilitator notes: saved per facilitator and unit in public.facilitator_notes.
+  window.saveFacNote = async function(key, body){
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(!session) throw new Error('Not signed in');
+    const { error } = await supabaseClient.from('facilitator_notes').upsert(
+      { facilitator_id: session.user.id, lens_id: LENS_ID, note_key: key, body: body, updated_at: new Date().toISOString() },
+      { onConflict: 'facilitator_id,lens_id,note_key' });
+    if(error) throw error;
+  };
+  async function loadFacNotes(){
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(!session) return;
+    const { data, error } = await supabaseClient.from('facilitator_notes')
+      .select('note_key, body').eq('facilitator_id', session.user.id).eq('lens_id', LENS_ID);
+    if(error){ console.warn('[notes] load failed:', error); return; }
+    (data||[]).forEach(function(r){
+      const ta = document.querySelector('textarea[data-note-key="'+r.note_key+'"]');
+      if(ta && !ta.value) ta.value = r.body || '';
+    });
+  }
   document.addEventListener('DOMContentLoaded', checkAccess);
+  document.addEventListener('DOMContentLoaded', loadFacNotes);
 })();
 </script>
 </head>
@@ -266,13 +287,6 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
     <h1 class="unit-title">Performance Management Setup</h1>
     <div class="unit-sub">Building the Architecture of Execution Accountability</div>
     <p class="unit-desc">A performance management system is not a measurement exercise &mdash; it is an execution architecture. This unit equips leaders to design systems that translate strategy into individual accountability, calibrate progress rhythms, and sustain collective ownership across the enterprise.</p>
-    <div class="arc-bar">
-      <div class="arc-seg aw">Awareness<span>What</span></div>
-      <div class="arc-seg in">Intelligence<span>Why</span></div>
-      <div class="arc-seg ex">Extrapolating<span>Where</span></div>
-      <div class="arc-seg iz">Integration<span>How</span></div>
-      <div class="arc-seg ap">Application<span>In Practice</span></div>
-    </div>
     <div class="klo-bar">
       <span class="klo-label">Key learning outcomes</span>
       <span class="klo">Evaluate whether organisational performance arrangements support the achievement of strategic priorities.</span>
@@ -629,7 +643,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 1: PM Scorecard Architecture</h4>
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design a PM Scorecard for the Chief Operations Officer. The scorecard must integrate all Three Sights of Progress and reflect the organisation&rsquo;s strategic outcomes.</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify three to five metrics for each of the Three Sights (Strategic OKRs, Operational KPIs, Behavioural/Values Alignment)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Assign a weighting to each Sight that reflects the COO&rsquo;s role and strategic context</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Confirm that at least one metric in the Strategic OKR category is directly traceable to the MyHealth Live Portal strategic outcomes</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify the single metric you consider the most critical lead indicator of overall execution traction</li></ul>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 1</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations on the group scorecard designs..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 1</div><textarea data-note-key="task1" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations on the group scorecard designs..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -640,7 +654,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 2: Scoring Logic Design</h4>
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the scoring logic for Outcome 1 (complaint resolution time). The logic must define how performance is translated into a 1&ndash;5 rating.</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Define what performance level earns each rating from 1 to 5 for the complaint resolution time metric</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Specify what evidence is required to confirm each rating (not just the number &mdash; how it is verified)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify any contextual factors that might legitimately affect the rating (e.g. facility size, patient volume)</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Describe the leadership response that each rating should trigger in the monthly review</li></ul>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 2</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 2</div><textarea data-note-key="task2" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note your observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -652,7 +666,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Using the Cumulative Progress formula, calculate the current cumulative progress % for each strategic outcome. Assume the following data at month 6 of an 18-month cycle:</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Outcome 1:</strong> Current = 40 hrs | Baseline = 48 hrs | Target = 12 hrs</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Outcome 2:</strong> Current = 8 days | Baseline = 10 days | Target = 3 days</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;"><strong style="color:#fff;">Outcome 3:</strong> Current = 42% | Baseline = 30% | Target = 70%</li></ul>
 <div style="background:#0a1a0d;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:16px 20px;margin:12px 0;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin-bottom:8px;">Cumulative % = (Baseline &minus; Current) &divide; (Baseline &minus; Target) &times; 100</p><p style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;">Expected progress at month 6 of an 18-month cycle = 33%. Which outcome is most at risk? What Execution Intervention would you recommend?</p></div>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 3</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Outcome 1: ___% | Outcome 2: ___% | Outcome 3: ___% | Observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 3</div><textarea data-note-key="task3" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Outcome 1: ___% | Outcome 2: ___% | Outcome 3: ___% | Observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -663,7 +677,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 4: Reporting Cadence Design</h4>
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the full Reporting Cadence for the MyHealth Live Portal PM system, spanning from daily operational tracking through to the quarterly executive review.</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">For each cadence level (daily, weekly, monthly, quarterly), specify: what is reviewed, by whom, and what decisions can be made at that level</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify which CXO Hot Zones must be present at the quarterly executive review and what each must bring</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Design the escalation rule: at what threshold does a monthly performance gap automatically trigger a quarterly Execution Intervention discussion?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">How would the cadence need to change at month 12 if Outcome 3 is still below 50%?</li></ul>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 4</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on cadence design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 4</div><textarea data-note-key="task4" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on cadence design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -674,7 +688,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 5: Periodic Measures Selection</h4>
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Select the Periodic Measures that will be tracked monthly across the three strategic outcomes. Each measure must be current, comparable, and actionable.</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify three to four Periodic Measures for each strategic outcome; specify: what it tracks, how frequently collected, who owns the data, what action it triggers if it deteriorates</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;">Identify one leading indicator for each outcome &mdash; a measure that signals future performance before the outcome metric itself changes</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify any measures that would represent a Measurement Blind Spot if excluded</li></ul>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 5</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 5</div><textarea data-note-key="task5" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -685,7 +699,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <h4 style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 12px;">Task 6: Reporting Tool Design</h4>
 <p style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:10px;">Design the structure of the reporting tool supporting the MyHealth Live Portal PM system. This is a content and structure design task: what information must the tool present, to whom, and at what level of detail?</p>
 <ul style="padding-left:20px;margin-bottom:12px;"><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Executive Summary view:</strong> What does the CEO see on a single page that tells them whether the Portal strategy is on track?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Operational Detail view:</strong> What does the COO see to manage execution and flag issues for escalation?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:6px;"><strong style="color:#fff;">Team Performance view:</strong> What does a facility-level team leader see that connects their daily work to the strategic outcomes?</li><li style="font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;">Identify the three most critical EXECUTION principles that must be embedded in the tool&rsquo;s structure</li></ul>
-<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 6</div><textarea style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on tool design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
+<div style="margin-top:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Facilitator Notes &mdash; Task 6</div><textarea data-note-key="task6" style="width:100%;background:#0a1a0d;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:13px;line-height:1.7;resize:vertical;min-height:80px;outline:none;" placeholder="Note observations on tool design choices..."></textarea><button onclick="saveTA(this)" style="margin-top:6px;padding:8px 18px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:2px;color:var(--gold);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Save Note</button></div>
 </div>
 </div></div></div>
 
@@ -719,6 +733,20 @@ function showMod(n){
 function tA(h){h.closest('.acc').classList.toggle('open');}
 function toggleP(c){c.classList.toggle('open');}
 function saveTA(btn){
+  const ta=btn.parentElement.querySelector('textarea[data-note-key]');
+  if(ta && window.saveFacNote){
+    const label=btn.textContent;
+    btn.textContent='Saving…';
+    window.saveFacNote(ta.getAttribute('data-note-key'), ta.value).then(function(){
+      btn.textContent='Saved ✓';btn.style.color='#5ecba1';
+      setTimeout(()=>{btn.textContent=label;btn.style.color='';},2200);
+    }).catch(function(e){
+      console.error('[notes] save failed:', e);
+      btn.textContent='Not saved — try again';btn.style.color='#e06c6c';
+      setTimeout(()=>{btn.textContent=label;btn.style.color='';},3500);
+    });
+    return;
+  }
   const o=btn.textContent;
   btn.textContent='Saved ✓';
   btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';

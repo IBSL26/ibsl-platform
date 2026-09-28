@@ -1,0 +1,7 @@
+# Netlify build settings for the S2R Portal.
+# On every deploy, rebuild collection.html (the printable participant portfolio)
+# from the current unit files, so it never falls out of date.
+# If the builder fails, the deploy stops and the last good version stays live.
+[build]
+  publish = "."
+  command = "node build_collection.js"
