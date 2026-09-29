@@ -1,11 +1,11 @@
 # S2R Portal Standards
 
 Agreed rules for every file, deck and change in this folder. Read this before any work.
-Run `node check_standards.js` before every commit: it tests rules 1–8, 11, 12 and 16 and lists every breach.
+Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and 24–27 and lists every breach.
 
 ## Structure and labels (all 24 unit files, participant and facilitator)
 
-1. Units are "units". Never "lens" or "lenses" to mean a unit — in any file, deck or message.
+1. The word "lens" is not used anywhere in visible text, file, deck or message. A unit is a "unit"; the four ABCV elements are "checkpoints"; a role's point of view is a "perspective".
 2. Section tabs read "Section N / Name / Anchor"; headings read "Section N · Name — Anchor":
    Awareness — What · Intelligence — Why · Extrapolating — Where · Integration — Collective · Application — In Practice.
    Unit 1 adds "Orientation — Overview" as Section 1. "Integration Zone" and "Integrating" are not used.
@@ -16,12 +16,20 @@ Run `node check_standards.js` before every commit: it tests rules 1–8, 11, 12 
 7. Facilitator guidance labels read "FACILITATOR GUIDANCE".
 8. Portfolio blocks are named "Portfolio Artefact".
 9. Participant and facilitator files carry identical section and part numbering.
-10. Facilitator files are preparation-only: no entry fields, nothing saved. Where an activity was removed, a "Participant activity" note appears.
+10. Facilitator files are preparation-only: no entry fields, nothing saved. Where participants do an activity, a "PARTICIPANT ACTIVITY" note tells the facilitator what participants do in their own file.
+
+## Unit titles and labels
+
+24. Official unit titles, used everywhere (unit files, home page, dashboards, Blueprint, decks):
+    1 Behavioural Strategy Fundamentals · 2 Strategy Visioning & Success in Practice (SiP) · 3 SiP KISS Mapping & OKR Definition · 4 Direction Integrity (ABCV-MBT) · 5 Aligning Heart & Mind · 6 Performance Management Setup · 7 Establishing Performance Expectations · 8 Performance Measurement · 9 Strategic Unclogging · 10 ESRG Alignment · 11 Culture Reinforcement & Organisational Health · 12 Sustaining Performance.
+25. Reflection boxes are labelled "✎ Reflection" or "✎ Reflection — [topic]"; their button reads "Save Reflection".
+26. The sub-line under each part heading is identical in the participant and facilitator files (where the part titles match).
+27. The Unit Summary sub-line reads "Unit N synthesis" (facilitator) and "Unit N synthesis · Review before submitting" (participant). Unit 12 facilitator adds "· S2R® Programme Close".
 
 ## Wording
 
 11. British spelling throughout.
-12. The brand is "Strategy2Results®".
+12. The brand is "Strategy2Results®"; "Strategy2Results" and "S2R" always carry ® in visible text (the square S2R logo mark excepted).
 13. No "not X — it is Y" constructions. Tight, functional copy.
 14. Key learning outcomes are action-verb capability statements; they never name the tool or how the concept is delivered.
 15. Two learning outcomes per section, aligned with the unit's Key learning outcomes and faithful to what the section teaches.
@@ -39,7 +47,3 @@ Run `node check_standards.js` before every commit: it tests rules 1–8, 11, 12 
 21. Preserve file format (CRLF line endings, UTF-8); back up before editing.
 22. Never change IDs, lens_id / data-lens-id values, links, lock logic, scoring or database calls unless the build requires it and Carol has approved.
 23. After every change, verify: counts of id / onclick / href / lens_id against the backup, `<div>` balance, syntax check of every inline script, a browser run, a phone screenshot.
-
-## Open decision
-
-- Units 2 and 4 call the four ABCV elements (Arena, Boundaries, Competition, Value Proposition) "lenses". Decide whether rule 1 also covers this, with "checkpoint" as the replacement. Until decided, the check script reports these separately and does not count them as breaches.
