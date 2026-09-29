@@ -1606,7 +1606,8 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
 // ─── DEVICE FINGERPRINT (B.3 device binding) ───
 function getDeviceFingerprint() {
   var signals = [
-    navigator.userAgent || '',
+    // Version numbers are removed so a browser update does not register as a new device
+    (navigator.userAgent || '').replace(/[0-9]+([._][0-9]+)*/g, ''),
     navigator.language || '',
     screen.width + 'x' + screen.height,
     screen.colorDepth || '',
@@ -1771,10 +1772,17 @@ async function validateAccess() {
           return;
         }
         // Send magic link to email with confirm-device URL
-        await supabaseClient.auth.signInWithOtp({
+        var { error: otpErr } = await supabaseClient.auth.signInWithOtp({
           email: email,
           options: { emailRedirectTo: window.location.origin + '/confirm-device.html?token=' + token }
         });
+        if (otpErr) {
+          console.error('Device confirmation email error:', otpErr);
+          error.textContent = 'We could not send your device confirmation email just now. Please wait a few minutes and log in again. If a confirmation email has already reached you, use the link in that email.';
+          error.style.display = 'block';
+          await supabaseClient.auth.signOut();
+          return;
+        }
         // Sign out of the current session — user must confirm device first
         await supabaseClient.auth.signOut();
         closeModal();
@@ -1795,10 +1803,17 @@ async function validateAccess() {
           await supabaseClient.auth.signOut();
           return;
         }
-        await supabaseClient.auth.signInWithOtp({
+        var { error: otpErr } = await supabaseClient.auth.signInWithOtp({
           email: email,
           options: { emailRedirectTo: window.location.origin + '/confirm-device.html?token=' + token }
         });
+        if (otpErr) {
+          console.error('Device confirmation email error:', otpErr);
+          error.textContent = 'We could not send your device confirmation email just now. Please wait a few minutes and log in again. If a confirmation email has already reached you, use the link in that email.';
+          error.style.display = 'block';
+          await supabaseClient.auth.signOut();
+          return;
+        }
         await supabaseClient.auth.signOut();
         closeModal();
         document.getElementById('deviceOverlay').style.display = 'flex';
