@@ -485,3 +485,4 @@ Left as they are (descriptions of a state, with no denial-then-assertion): "rath
 | 475 | runs — not a panicked response to a crisis. | runs. |
 | 476 | P · People & Capability — not A · Allocation of Resources alone. | P · People & Capability as well as A · Allocation of Resources. |
 | 477 | Budget following history not strategy | Budget following history |
+| 478 | It acknowledges that strategic choices are never purely objective. Instead, they are the final output | It acknowledges that strategic choices are the final output |
