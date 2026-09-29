@@ -3,7 +3,7 @@
 /*
  * check_standards.js — tests the portal files and unit decks against STANDARDS.md.
  * Usage (from this folder):  node check_standards.js
- * Checks rules 1–13, 16 and 24–27. Rules 13–15 and 17–23 need a human read.
+ * Checks rules 1–13, 16 and 24–27. Rules 14, 15 and 17–23 need a human read.
  * Exit code 1 when any breach is found.
  */
 const fs = require('fs'), path = require('path'), zlib = require('zlib');
@@ -169,6 +169,10 @@ for (const f of [...UNITS, ...PAGES]) {
   const NOTX = /\b(?:is|are|was|were|isn't|aren't)\s+not\b[^.;:!?\n—–]{0,90}?\s*[—–;,]\s*(?:it|this|they|that|these)(?:'s|’s|\s+is|\s+are|\s+was)\b|\bnot\s+(?:just|merely|simply|about)\b[^.!?\n]{1,90}?(?:[—–;,]\s*(?:it|this|they)(?:'s|’s|\s+is|\s+are)\b|\bbut\b)|\b(?:isn't|aren't|isn’t|aren’t)\b[^.!?\n]{1,70}?[—–;,]\s*(?:it|they)(?:'s|’s|\s+is|\s+are)\b|(?:^|[.!?]\s+)Not\s+(?:because|through|in|what|about)\b[^.!?\n]{1,60}—/gm;
   let q; const visQ = vis.replace(/&mdash;/g, '—');
   while ((q = NOTX.exec(visQ))) add(13, f, `"not X — it is Y" … ${ctx(visQ, q.index, 60)}`);
+  // Rule 13 (wider): "rather than" / "instead of" contrasts, fragments opening "Not …", dash-led "— not …" and "… is not." teaching pairs, in visible text and script strings
+  const CONTRAST = /\b(?:rather than|instead of)\b|(?:^|[.!?"”:]\s+)(?:Not|Never)\s+(?:a|an|the|because|through|just|merely|simply|about|only|in|what)\b|[—–]\s*not\s+(?:a|an|the|just|merely|simply|about|because)\b|["”]\s+is\s+not\.|\b(?:is|are)\s+not\s+(?:fine|enough)\.|(?:^|[.!?]\s+)Instead\b/gim;
+  const jsNC = scriptStrings(html.replace(/^\s*\/\/.*$/gm, ''));   // code comments are not visible
+  for (const text of [visQ, jsNC]) { let c; while ((c = CONTRAST.exec(text))) add(13, f, `contrast "${c[0].trim()}" … ${ctx(text, c.index, 60)}`); }
   let r; const noReg = /\b(Strategy2Results|S2R)(?!®|\w)/g; const visR = vis.replace(/^S2R$/gm, '');   // the square S2R logo mark is exempt
   while ((r = noReg.exec(visR))) add(12, f, `"${r[1]}" without ® … ${ctx(vis, r.index)}`);
 }

@@ -486,3 +486,289 @@ Left as they are (descriptions of a state, with no denial-then-assertion): "rath
 | 476 | P · People & Capability — not A · Allocation of Resources alone. | P · People & Capability as well as A · Allocation of Resources. |
 | 477 | Budget following history not strategy | Budget following history |
 | 478 | It acknowledges that strategic choices are never purely objective. Instead, they are the final output | It acknowledges that strategic choices are the final output |
+
+## Deck-phase fixes (rows 479–545)
+
+Found while building the Unit decks, 29 September 2026. Same rule: no "not X — it is Y" constructions. Files are listed without the .html extension.
+
+| # | Before | After | File(s) |
+|---|---|---|---|
+| 479 | It does not need to be perfect today; it needs to be genuinely shared. | It needs to be genuinely shared today; refinement follows in later units. | unit2_m1_lens1_f |
+| 480 | "Improve communication" is not a KISS reflection — "Improve cross-functional handover time from 72 hours to 24 hours" is. | "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS reflection; "Improve communication" is too vague to act on. | unit2_m1_lens2_f |
+| 481 | The framework is rarely the problem. The problem is that organisations | The problem usually lies elsewhere: organisations | unit2_m1_lens2_f (interim wording, replaced by row 482) |
+| 482 | The problem usually lies elsewhere: organisations | The usual cause: organisations | unit2_m1_lens2_f |
+| 483 | An Objective should not look like a budget line — it should look like a transformation. | An Objective should look like a transformation. | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 484 | Most strategies don't fail from lack of effort — they fail from unnamed conditions. | Most strategies fail from unnamed conditions. | unit2_m1_lens3_f |
+| 485 | Most strategies don't fail because of a lack of effort; they fail because of 'unnamed conditions.' | Most strategies fail because of 'unnamed conditions.' | unit2_m1_lens3_f |
+| 486 | we don't just plan for success — we build the resilience | we plan for success and build the resilience | unit2_m1_lens3_f |
+| 487 | we don't compete in an 'industry'; we compete for a customer need. | we compete for a customer need. | unit2_m1_lens3_f |
+| 488 | You aren't just fighting peers; you're fighting anyone who solves that same problem in a different way. | You are fighting anyone who solves that same problem in a different way, peers included. | unit2_m1_lens3_f |
+| 489 | Customers don't wake up thinking “I need a banking product today.” They think: “I need to feel secure about my family's future.” | Customers wake up thinking: “I need to feel secure about my family's future.” | unit2_m1_lens3_f |
+| 490 | Most strategies don’t fail because of bad intentions — they fail because of unexamined assumptions. | Most strategies fail because of unexamined assumptions. | unit2_m1_lens3_f |
+| 491 | customers don’t just buy products — they chase functional, emotional, and social outcomes. | customers chase functional, emotional, and social outcomes. | unit2_m1_lens3_f |
+| 492 | Most strategies don't fail because of a lack of effort; they fail because of | Most strategies fail because of | unit2_m1_lens3_f |
+| 493 | 💣 Mine 3 — The Identity Crisis | 💣 Mine 4 — The Identity Crisis | unit2_m1_lens3_f |
+| 494 | Alignment of the mind (cognition) and heart (emotion) is not optional or “soft.” It is the first execution system. | Alignment of the mind (cognition) and heart (emotion) is the first execution system. | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 495 | Strategy never enters as a document — it enters through | Strategy enters through | unit3_m1_lens4_f |
+| 496 | Misalignment is not evenly spread — it concentrates in | Misalignment concentrates in | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 497 | Strategy never enters an organisation as a document — it enters through two human filters | Strategy enters an organisation through two human filters | unit3_m1_lens4_p |
+| 498 | Misalignment does not appear evenly — it concentrates in | Misalignment concentrates in | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 499 | We're not here to diagnose each other — we're here to understand the patterns | We're here to understand the patterns | unit1_F |
+| 500 | Friction is no longer a crisis — it is a signal | Friction is a signal | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 501 | They do not replace the strategy; they restore the conditions | They restore the conditions | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 502 | Execution does not begin when a delivery goal is written — it begins when | Execution begins when | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 503 | People do not ignore the strategy — they follow the incentives | People follow the incentives | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 504 | is not optional or “soft.” It is the first execution system. | is the first execution system. | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 505 | This is not “average.” This is exactly what the role requires. | This is exactly what the role requires. | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 506 | This is not “average.” A Rating 3 is Solid Gold | A Rating 3 is Solid Gold | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 507 | When the alignment score is below 9, the leader does not challenge the score or move past it. The number is data — it signals | When the alignment score is below 9, the leader treats the number as data — it signals | unit3_m1_lens6_f |
+| 508 | Strategy execution is often described as a systems challenge. It is fundamentally a behavioural challenge. | Strategy execution is fundamentally a behavioural challenge. | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 509 | why compliance and accountability are the first two casualties | why engagement and accountability are the first two casualties | unit3_m1_lens6_p |
+| 510 | Performance measurement rarely breaks down because organisations lack agreed goals and KPIs. Most modern organisations have dashboards, reporting tools, and performance frameworks. The problem is rarely the absence of measurement. The breakdown usually occurs | Most modern organisations have agreed goals and KPIs, dashboards, reporting tools, and performance frameworks. The breakdown usually occurs | unit3_m2_lens7_f |
+| 511 | stall rarely lies in the elegance of their strategy design. | stall emerges after the strategy is launched. | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 512 | The real difference emerges after the strategy is launched. It appears in | The difference appears in | unit3_m2_lens7_f |
+| 513 | The difference between the two determines whether performance management | This understanding determines whether performance management | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 514 | Performance measurement rarely breaks down because organisations lack agreed goals and KPIs. The breakdown usually occurs in | Most organisations have agreed goals and KPIs. Performance measurement usually breaks down in | unit3_m2_lens7_p |
+| 515 | When strategy stalls, the failure is rarely in the plan. It is in the system that carries the plan. | When strategy stalls, the failure usually sits in the system that carries the plan. | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 516 | It is no longer enough to simply design a brilliant strategy. The role | Designing a brilliant strategy is only the start. The role | unit3_m2_lens8_f |
+| 517 | Why Clogs Are Predictable Features, Not Random Failures | Why Clogs Are Predictable Features of Execution | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 518 | Clogs Are Design Signals, Not Operational Failures | Clogs Are Design Signals | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 519 | This is why execution breakdowns rarely occur because the strategy itself is incorrect. They occur because the organisation | This is why execution breakdowns usually occur because the organisation | unit3_m2_lens8_f |
+| 520 | Execution breakdowns rarely occur because the strategy itself is incorrect. They occur because the organisation | Execution breakdowns usually occur because the organisation | unit3_m2_lens8_p |
+| 521 | The question is not “What should we do?” It is “What type of friction is this | The first question is “What type of friction is this | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 522 | what is the first action you would take? Not a general direction. A specific action, with an owner and a date. | what is the first action you would take? A specific action, with an owner and a date. | unit3_m2_lens8_f |
+| 523 | Specific action, with an owner and a date. Not a general direction. | Specific action, with an owner and a date. | unit3_m2_lens8_p |
+| 524 | The Challenger Used Curiosity, Not Pressure | The Challenger Used Curiosity | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 525 | The clog is not the failure. The clog is the signal | The clog is the signal | unit3_m2_lens8_p |
+| 526 | Do not ask: “What is going wrong?” Ask: | Ask: | unit3_m2_lens8_f |
+| 527 | Values that are merely stated do not enable performance. Values that are demonstrable, measured, and enforced create a behavioural | Values enable performance when they are demonstrable, measured, and enforced. They create a behavioural | unit4_m1_lens9_f |
+| 528 | Values that are merely stated do not enable performance. Values that are demonstrable, measured, and enforced create a behavioural | Values enable performance when they are demonstrable, measured, and enforced. They create a behavioural | unit4_m1_lens9_p |
+| 529 | The purpose is not to question the destination. The purpose is to ensure | The purpose is to ensure | unit4_m1_lens9_f, unit4_m1_lens9_p |
+| 530 | Individual WATCH patterns are manageable — the pattern of what they are all pointing to is not. | The risk lies in the pattern that all the individual WATCH signals point to. | unit4_m1_lens9_f |
+| 531 | Execution friction is not random. Each domain generates predictable patterns — | Execution friction follows predictable patterns in each domain — | unit4_m1_lens9_f |
+| 532 | Courage in leadership is the decision to act despite it — to name | Courage in leadership is the decision to act despite fear — to name | unit4_m1_lens9_f |
+| 533 | Without the COC, values remain decoration. With it, they become the standard. | The COC turns values into the standard. | unit4_m1_lens9_f |
+| 534 | health is never created by statements about culture or values. It emerges from | health emerges from | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 535 | Priya is not failing because she lacks capability. She is failing because she has | Priya is failing because she has | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 536 | “I need you to be more accountable” is not. | “I need you to be more accountable” is too vague to act on. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 537 | the direction often changes informally” not “You undermine decisions.” | the direction often changes informally” names the behaviour; “You undermine decisions” is a judgement. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 538 | from someone who has stopped contributing is not fine. Pause | from someone who has stopped contributing is a warning sign. Pause | unit4_m1_lens10_f |
+| 539 | A commitment without a date, a measure, or a named action is not a commitment. | A real commitment has a date, a measure, and a named action. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 540 | The argument is not that performance is hard to sustain because leadership is difficult. The argument is that performance | The argument is that performance | unit4_m2_lens11_f |
+| 541 | The question is not “are we implementing a programme?” but “is the | The question is “is the | unit4_m2_lens11_f |
+| 542 | The question is never whether they have moved. The question is whether | The question is whether | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 543 | Not a leadership behaviour problem. A structural problem — | A structural problem — | unit4_m1_lens9_p |
+| 544 | Not a training problem. Constrained at three points | Constrained at three points | unit4_m1_lens9_p |
+| 545 | Not a general intention. One KISS | One KISS | unit4_m2_lens11_f, unit4_m2_lens11_p |
+
+## Approved fixes 1–6 (rows 546–750)
+
+Approved by Carol on 29 September 2026 ("Fix all 1 to 6"): "rather than" / "instead of" contrasts and teaching pairs removed across all unit files; Unit 2 → Unit 3 transition corrected; Unit 5 forward references now point to Unit 6 (Performance Management Setup); Meridian Health case study copied into the Unit 4 facilitator file; Unit 12 force numbering made to count five; check_standards.js widened to catch these constructions. Files are listed without the .html extension.
+
+| # | Before | After | File(s) |
+|---|---|---|---|
+| 546 | from an integrated enterprise perspective rather than from a single functional position | from an integrated enterprise perspective | unit1_F, unit1_P |
+| 547 | between two internal systems rather than a single linear path | between two internal systems | unit1_F, unit1_P |
+| 548 | Instead of exploring bold or different options, teams tend to make small adjustments to the current approach | Teams tend to make small adjustments to the current approach and leave bold or different options unexplored | unit1_F, unit1_P |
+| 549 | tend to be generated within organisational lanes rather than across them | tend to be generated inside each organisational lane | unit1_F, unit1_P |
+| 550 | a monument to the leader's identity rather than a response to the market | a monument to the leader's identity, detached from the market | unit1_F, unit1_P |
+| 551 | Rather than reading all six sequentially, ask participants to read them silently | Ask participants to read all six silently | unit1_F |
+| 552 | anchors judgement in reality rather than internal assumptions | anchors judgement in external reality | unit1_F |
+| 553 | , rather than relying on retrospective analysis after results are already fixed | while results can still be influenced | unit1_F |
+| 554 | You stop letting departments "defend" their own data. Instead, you force them to explain how their information affects everyone else | You require every department to explain how its information affects everyone else | unit1_F, unit1_P |
+| 555 | — rather than attributing the outcome primarily to external factors | (removed) | unit1_F, unit1_P |
+| 556 | , rather than waiting for them to be volunteered | before anyone volunteers them | unit1_F, unit1_P |
+| 557 | — rather than to qualify, defend, or redirect | (removed) | unit1_F, unit1_P |
+| 558 | — rather than relying on instinct and experience alone | alongside instinct and experience | unit1_F, unit1_P |
+| 559 | , rather than to validate a direction that has already formed | before a direction forms | unit1_F, unit1_P |
+| 560 | closes debate rather than opening it | closes debate | unit1_F |
+| 561 | loudly advocated examples rather than systematic evidence | loudly advocated examples, with systematic evidence sidelined | unit1_F |
+| 562 | are attributed to external factors rather than judgement | are attributed to external factors, leaving judgement unexamined | unit1_F |
+| 563 | Struggling initiatives are restructured rather than killed | Struggling initiatives are restructured and kept alive | unit1_P |
+| 564 | a functional ambition rather than an enterprise picture | a functional ambition that no longer describes the enterprise | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 565 | Value compounds rather than erodes | Value compounds over time | unit2_m1_lens1_f |
+| 566 | Leaders make deliberate moves rather than being moved by circumstance | Leaders make deliberate moves and shape their circumstances | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 567 | responding to what has already happened rather than anticipating what is coming | responding to what has already happened, with little anticipation of what is coming | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 568 | Consensus is assumed rather than built | Consensus is assumed without being built | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 569 | Growth is inconsistent, market-driven rather than strategy-driven | Growth is inconsistent and driven by the market | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 570 | treated as a market problem rather than a positioning problem | treated as a market problem when its root is positioning | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 571 | The SiP becomes a delivery plan rather than a future-state description | The SiP drifts into a delivery plan and loses its future-state description | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 572 | Translation into strategic impact rather than technical specification is required | Translation from technical specification into strategic impact is required | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 573 | May constrain rather than enable strategic ambition | May constrain strategic ambition | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 574 | It describes what the organisation avoids rather than what it achieves | It describes only what the organisation avoids | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 575 | shaping — rather than reacting to — its environment | shaping its environment | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 576 | trade-offs become visible in the room rather than in execution | trade-offs become visible in the room, before execution | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 577 | transactional rather than meaningful | transactional | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 578 | growth is accidental rather than traceable to specific strategic choices | growth is accidental and cannot be traced to specific strategic choices | unit2_m1_lens1_f, unit2_m1_lens1_p |
+| 579 | describe the desired transformation rather than an activity | describe the desired transformation | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 580 | Instead of clarity, teams end up with vague goals | Teams end up with vague goals | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 581 | Instead of pulling OKRs out of thin air, the team builds them from evidence | The team builds OKRs from evidence | unit2_m1_lens2_f |
+| 582 | drift into functional scorecards rather than enterprise priorities | drift into functional scorecards | unit2_m1_lens2_f |
+| 583 | Functional optimisation rather than enterprise progress | Functional optimisation that stalls enterprise progress | unit2_m1_lens2_f |
+| 584 | functional optimisation rather than enterprise progress | functional optimisation that stalls enterprise progress | unit2_m1_lens2_p |
+| 585 | concentrated rather than dispersed | concentrated | unit2_m1_lens2_f |
+| 586 | operated from the second question rather than the first | operated from the second question | unit2_m1_lens2_f |
+| 587 | operational optimisation rather than strategic transformation | operational optimisation | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 588 | technology delivery milestones rather than business outcomes | technology delivery milestones with no line of sight to business outcomes | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 589 | evaluate the outcome rather than the owner | evaluate the outcome on its merits | unit2_m1_lens2_f |
+| 590 | existing operations rather than a true strategic shift | existing operations and fall short of a true strategic shift | unit2_m1_lens2_f |
+| 591 | tweak existing operations rather than driving true strategic shifts | tweak existing operations and fall short of true strategic shifts | unit2_m1_lens2_p |
+| 592 | trying to optimise the past rather than transform toward the SiP | trying to optimise the past | unit2_m1_lens2_f |
+| 593 | optimising the past rather than transforming toward the SiP | optimising the past | unit2_m1_lens2_p |
+| 594 | produce functional OKRs instead of enterprise OKRs | produce functional OKRs where enterprise OKRs are needed | unit2_m1_lens2_f, unit2_m1_lens2_p |
+| 595 | write an enterprise-level Key Result rather than a functional one | write an enterprise-level Key Result | unit2_m1_lens2_p |
+| 596 | creates frustration and brand damage rather than growth | creates frustration and brand damage | unit2_m1_lens3_f, unit2_m1_lens3_p |
+| 597 | as a testable condition rather than a leadership belief | as a testable condition | unit2_m1_lens3_f |
+| 598 | address the root cause rather than the symptom | address the root cause | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 599 | to be real rather than assumed | to be real and visible | unit3_m1_lens4_f |
+| 600 | enforcing compliance rather than directing committed execution | enforcing compliance | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 601 | Mechanical rather than resilient | Mechanical and brittle | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 602 | mechanical rather than resilient | mechanical and brittle | unit3_m1_lens4_p |
+| 603 | act with ownership rather than obligation | act with ownership | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 604 | advance strategy rather than correct it | advance strategy | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 605 | re-explaining decisions rather than advancing strategy | re-explaining decisions that should already be settled | unit3_m1_lens4_f |
+| 606 | are explained rather than corrected | are explained and left uncorrected | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 607 | Leaders defending forecasts rather than updating them | Leaders defending forecasts the evidence no longer supports | unit3_m1_lens4_f |
+| 608 | treated as noise rather than intelligence | dismissed as noise | unit3_m1_lens4_f |
+| 609 | reinforce strategic intent rather than dispersing resources across competing priorities | reinforce strategic intent and concentrate resources on the agreed priorities | unit3_m1_lens4_f |
+| 610 | make trade-offs visible rather than deferring them | make trade-offs visible when they arise | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 611 | resources follow inertia rather than strategy | resources follow inertia | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 612 | produce demonstrations rather than capability shifts | produce demonstrations with no capability shift | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 613 | strengthen rather than dilute | strengthen | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 614 | enables rather than paralyses strategic ambition | enables strategic ambition | unit3_m1_lens4_f, unit3_m1_lens4_p |
+| 615 | Participants who list tasks rather than alignment contributions | Participants who list tasks; push them to name alignment contributions | unit3_m1_lens4_f |
+| 616 | PM becomes an event rather than a system | PM becomes an isolated event | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 617 | a visible trajectory rather than a binary pass/fail at year-end | a visible trajectory through the year | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 618 | becomes a constraint rather than a strategic navigation tool | becomes a constraint and loses its value as a strategic navigation tool | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 619 | When COO PM is activity-focused rather than outcome-focused | When COO PM is activity-focused | unit3_m1_lens5_f |
+| 620 | become execution crises rather than development investments | become execution crises | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 621 | focused on activity rather than velocity | focused on activity | unit3_m1_lens5_f |
+| 622 | execute their role description rather than the strategy | execute their role description and lose sight of the strategy | unit3_m1_lens5_f, unit3_m1_lens5_p |
+| 623 | focus on reporting rather than accelerating outcomes | focus on reporting | unit3_m1_lens6_f |
+| 624 | commitment-driven rather than compliance-driven | commitment-driven | unit3_m1_lens6_f |
+| 625 | proactive rather than reactive | proactive | unit3_m1_lens6_f |
+| 626 | wait for direction rather than proactively addressing emerging problems | wait for direction and leave emerging problems unaddressed | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 627 | revolve around explanations rather than ownership | revolve around explanations | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 628 | Conversations focus on constraints — resources, dependencies, external conditions — rather than solutions | Conversations focus on constraints: resources, dependencies, external conditions | unit3_m1_lens6_f |
+| 629 | Conversations focus on constraints rather than solutions | Conversations focus on constraints | unit3_m1_lens6_p |
+| 630 | patterns of setting rather than establishing expectations | patterns of setting expectations without establishing them | unit3_m1_lens6_f |
+| 631 | tendency to set rather than establish expectations | tendency to set expectations without establishing them | unit3_m1_lens6_f |
+| 632 | biases leaders toward setting rather than establishing | biases leaders toward setting expectations without establishing them | unit3_m1_lens6_p |
+| 633 | assumed rather than confirmed | assumed without confirmation | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 634 | stay procedural rather than internalised | stay procedural | unit3_m1_lens6_p |
+| 635 | is procedural rather than internalised | remains procedural | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 636 | assumed rather than established through dialogue | assumed without being established through dialogue | unit3_m1_lens6_f, unit3_m1_lens6_p |
+| 637 | in organisational purpose rather than isolated activity | in organisational purpose | unit3_m1_lens6_f |
+| 638 | on the result rather than the method | on the result | unit3_m1_lens6_f |
+| 639 | toward solutions rather than justification | toward solutions | unit3_m1_lens6_f |
+| 640 | real rather than aspirational | real and time-bound | unit3_m1_lens6_f |
+| 641 | visible rather than aspirational | visible and time-bound | unit3_m2_lens7_f |
+| 642 | is risk compliance procedural rather than owned | is risk compliance still only procedural | unit3_m1_lens6_p |
+| 643 | owns activities rather than results | owns activities | unit3_m1_lens6_p |
+| 644 | as verdicts rather than data | as verdicts | unit3_m2_lens7_f |
+| 645 | a leadership discipline rather than a reporting system | a leadership discipline | unit3_m2_lens7_f |
+| 646 | Instead of reporting effort, the organisation examines evidence of progress | The organisation examines evidence of progress | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 647 | depends entirely on personal commitment rather than organisational structure | depends entirely on personal commitment, with no organisational structure behind it | unit3_m2_lens7_f |
+| 648 | small enough to resolve rather than discovered only when targets have already been missed | small enough to resolve | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 649 | grounded in evidence rather than perception | grounded in evidence | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 650 | accidental rather than intentional | accidental | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 651 | proactive correction rather than retrospective explanation | proactive correction | unit3_m2_lens7_f |
+| 652 | with clarity rather than speculation | with clarity | unit3_m2_lens7_f |
+| 653 | recalibration rather than sources of blame | recalibration | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 654 | inside functions rather than across functions | inside functions, with no cross-functional view | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 655 | partial performance signals rather than the full execution pattern | partial performance signals and miss the full execution pattern | unit3_m2_lens7_f |
+| 656 | narrative explanations instead of verifiable indicators, evidence that reflects activity rather than progress | narrative explanations with no verifiable indicators, evidence that reflects activity alone | unit3_m2_lens7_p |
+| 657 | narrative explanations rather than verifiable indicators | narrative explanations with no verifiable indicators | unit3_m2_lens7_f |
+| 658 | reflects activity rather than progress toward the outcome | reflects activity alone, with no evidence of progress toward the outcome | unit3_m2_lens7_f |
+| 659 | whether the data can be trusted rather than what the data reveals about progress | whether the data can be trusted, and the review loses sight of what the data reveals about progress | unit3_m2_lens7_f |
+| 660 | whether the data can be trusted rather than what the data reveals | whether the data can be trusted, and the review loses sight of what the data reveals | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 661 | a reporting event rather than a continuous execution responsibility | a reporting event | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 662 | defend results rather than explore the deeper causes behind them | defend results and leave the deeper causes unexplored | unit3_m2_lens7_f |
+| 663 | defend results rather than explore deeper causes | defend results and leave deeper causes unexplored | unit3_m2_lens7_p |
+| 664 | defend results rather than explore causes | defend results and leave causes unexplored | unit3_m2_lens7_p |
+| 665 | connected to enterprise outcomes rather than fragmenting into isolated departmental conversations | connected to enterprise outcomes | unit3_m2_lens7_f |
+| 666 | real PM review data rather than hypothetical inputs | real PM review data | unit3_m2_lens7_f |
+| 667 | a practised skill rather than a described concept | a practised skill | unit3_m2_lens7_f |
+| 668 | defaults to pressure rather than diagnosis | defaults to pressure and skips diagnosis | unit3_m2_lens7_f |
+| 669 | verifiable performance data rather than opinion or assumption | verifiable performance data | unit3_m2_lens7_f |
+| 670 | a debate about effort rather than progress | a debate about effort | unit3_m2_lens7_f |
+| 671 | with curiosity rather than judgement | with curiosity | unit3_m2_lens7_f |
+| 672 | Was the tone diagnostic rather than prosecutorial | Was the tone diagnostic | unit3_m2_lens7_f |
+| 673 | focus only on evaluation rather than learning | focus only on evaluation | unit3_m2_lens7_f |
+| 674 | diagnose root cause rather than apply pressure or blame | diagnose root cause | unit3_m2_lens7_p |
+| 675 | — rather than just creating the appearance of movement | (removed) | unit3_m2_lens8_f |
+| 676 | at the level of recognition rather than moving to diagnosis and intervention | at the level of recognition and stalls before diagnosis and intervention | unit3_m2_lens8_f |
+| 677 | toward what is measured rather than what creates value | toward what is measured, whether or not it creates value | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 678 | Rather than interpreting clogs as operational problems, they treat them as | They treat clogs as | unit3_m2_lens8_f |
+| 679 | producing reports rather than decisions | producing reports with no decisions | unit3_m2_lens8_f |
+| 680 | reports rather than decisions | reports with no decisions | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 681 | tolerated rather than corrected | tolerated and left uncorrected | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 682 | creating drag rather than enabling flow | creating drag on flow | unit3_m2_lens8_f, unit3_m2_lens8_p |
+| 683 | creating friction rather than enabling flow | creating friction that blocks flow | unit3_m2_lens8_p |
+| 684 | a shared leadership habit rather than a crisis response | a shared leadership habit | unit3_m2_lens8_f |
+| 685 | constant firefighting rather than genuine improvement | constant firefighting with little genuine improvement | unit3_m2_lens8_f |
+| 686 | name the type of friction rather than reacting to the symptom | name the type of friction behind the symptom | unit3_m2_lens8_f |
+| 687 | Integrity — rather than reacting to surface symptoms | Integrity — and to look beneath surface symptoms | unit3_m2_lens8_p |
+| 688 | a discussion about what leaders would say rather than an actual coaching practice | a discussion about what leaders would say, with no actual coaching practice | unit4_m1_lens10_f |
+| 689 | becoming a discussion rather than a coaching practice | sliding into discussion and losing the coaching practice | unit4_m1_lens10_f |
+| 690 | happen quickly and honestly rather than being avoided until they become crises | happen quickly and honestly, well before they become crises | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 691 | shared priorities rather than informal power dynamics | shared priorities | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 692 | accumulates rather than constantly resetting through attrition | accumulates over time | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 693 | what serves the enterprise rather than defending functional territory | what serves the enterprise | unit4_m1_lens10_f |
+| 694 | raised openly in meetings rather than discussed in corridors afterwards | raised openly in the meeting where they can be resolved | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 695 | share information freely rather than controlling it to strengthen their own position | share information freely and openly | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 696 | directly and honestly rather than through informal influence | directly and honestly, in the open | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 697 | sustains commitment rather than draining it | sustains commitment | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 698 | support collaboration rather than creating friction between teams | support collaboration between teams | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 699 | managing technology rather than doing productive work | managing technology and lose productive time | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 700 | surface problems early rather than managing impressions | surface problems early | unit4_m1_lens9_f, unit4_m1_lens9_p |
+| 701 | supports rather than obstructs strategic momentum | supports strategic momentum | unit4_m1_lens9_f |
+| 702 | embedded in the workflow rather than added after the fact | embedded in the workflow | unit4_m1_lens9_f |
+| 703 | resolve problems rather than merely report progress | resolve problems | unit4_m1_lens9_f |
+| 704 | organised around hierarchy rather than coordination | organised around hierarchy | unit4_m1_lens9_f |
+| 705 | navigating obstacles rather than advancing work | navigating obstacles | unit4_m1_lens9_f |
+| 706 | function as decoration rather than direction | function as decoration | unit4_m1_lens9_f |
+| 707 | individual effort rather than on reliable organisational infrastructure | individual effort | unit4_m1_lens9_f |
+| 708 | to control risk rather than to enable execution speed | to control risk, with little regard for execution speed | unit4_m1_lens9_f |
+| 709 | debating accuracy rather than interpreting meaning | debating accuracy | unit4_m1_lens9_f |
+| 710 | produce reports rather than actions | produce reports with no actions | unit4_m1_lens9_f |
+| 711 | Advance despite uncertainty rather than waiting for certainty | Advance despite uncertainty | unit4_m1_lens9_f |
+| 712 | culture defaults rather than being taught | culture defaults to old habits | unit4_m1_lens9_p |
+| 713 | collective commitment rather than isolated functional ownership | collective commitment across functions | unit4_m1_lens9_p |
+| 714 | still a signal rather than waiting until it becomes a crisis | still a signal, well before it becomes a crisis | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 715 | perception and legitimacy rather than operational constraint | perception and legitimacy | unit4_m2_lens11_p |
+| 716 | historical spending and internal influence rather than strategic priorities | historical spending and internal influence | unit4_m2_lens11_f |
+| 717 | historical spending rather than strategic priorities | historical spending | unit4_m2_lens11_p |
+| 718 | focused on variance rather than strategic alignment | focused on variance alone | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 719 | prior-year baselines rather than current strategic requirements | prior-year baselines | unit4_m2_lens11_f |
+| 720 | who the customer was rather than who the customer is now | who the customer was | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 721 | external factors rather than examining internal execution patterns | external factors alone | unit4_m2_lens11_f |
+| 722 | external factors rather than examining internal execution | external factors alone | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 723 | reactive rather than anticipatory | reactive | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 724 | explained by execution rather than by the fundamental change in the competitive landscape | explained by execution, and the fundamental change in the competitive landscape goes unexamined | unit4_m2_lens11_f |
+| 725 | moving with the environment rather than being moved by it | moving with the environment | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 726 | “I have noticed X” is integrity. “I think you are Y” is judgement. | “I have noticed X” keeps the conversation in integrity. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 727 | “I need you to raise concerns in the room” is ownership. “I need you to be more accountable” is too vague to act on. | “I need you to raise concerns in the room” defines ownership precisely. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 728 | names the behaviour; “You undermine decisions” is a judgement. | names the behaviour. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 729 | “I’ll try to be more direct” closes nothing. “By next Friday’s review, you will raise your concern in the room” closes something. | “By next Friday’s review, you will raise your concern in the room” closes the loop. | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 730 | lands differently than silence | gives the person a reason to engage | unit4_m1_lens10_f, unit4_m1_lens10_p |
+| 731 | is a KISS reflection; "Improve communication" is too vague to act on. | is a KISS reflection. | unit2_m1_lens2_f |
+| 732 | Awareness is not enough. The goal is | The goal now is | unit1_F |
+| 733 | Participants may want to name other people's biases rather than their own. Gently redirect: | Participants may drift towards naming other people's biases. Gently redirect: | unit1_F |
+| 734 | perception and legitimacy rather than through operational constraint. | perception and legitimacy. | unit4_m2_lens11_f |
+| 735 | accumulate functional OKRs rather than enterprise OKRs. | accumulate functional OKRs where enterprise OKRs are needed. | unit2_m1_lens2_f |
+| 736 | produce functional OKRs rather than enterprise OKRs. | produce functional OKRs where enterprise OKRs are needed. | unit2_m1_lens2_p |
+| 737 | Instead of asking "What work was done?" the organisation begins asking "What changed because of the work?" | The question moves from "What work was done?" to "What changed because of the work?" | unit3_m2_lens7_f, unit3_m2_lens7_p |
+| 738 | The mindset shift: instead of asking “Why is the strategy failing?” ask | The mindset shift: move from asking “Why is the strategy failing?” to asking | unit3_m2_lens8_p |
+| 739 | actually made rather than how they are presented. | actually made. | unit1_P |
+| 740 | rests on confirmed conditions rather than on a well-written aspiration waiting for reality to intervene. | rests on confirmed conditions, tested before reality intervenes. | unit2_m1_lens3_p |
+| 741 | placeholder="Why I am naming this now rather than absorbing it silently..." | placeholder="Why I am naming this now..." | unit4_m1_lens9_p |
+| 742 | Unit 3 takes us into the competitive environment — the forces that will either enable or resist the journey toward that destination. | Unit 3 maps that destination through KISS and defines the OKRs that will measure our progress toward it. | unit2_m1_lens1_f |
+| 743 | connecting this unit to what follows — Success in Practice (SiP) and the translation of strategic direction into a shared picture of the future organisation. | connecting this unit to what follows — Performance Management Setup and the translation of strategy into individual accountability across the enterprise. | unit3_m1_lens4_f |
+| 744 | the human foundation for defining Success in Practice (SiP) and translating strategic direction into a shared picture of the future organisation. | the human foundation for Performance Management Setup and the translation of strategy into individual accountability across the enterprise. | unit3_m1_lens4_f |
+| 745 | Force 1 | Forces 1–2 | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 746 | Force 4 | Force 5 | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 747 | Force 3 | Force 4 | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 748 | Force 2 | Force 3 | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 749 | Each of the five force categories is a permanent feature of the environment in which every organisation operates. | Each of the five force categories is a permanent feature of the environment in which every organisation operates. Competitive and disruptive forces are examined together because they produce the same mechanism. | unit4_m2_lens11_f, unit4_m2_lens11_p |
+| 750 | Shared Meridian Health Group case study and team-exercise introduction present only in the participant file | Copied verbatim into the facilitator file, above the Step tabs in Section 4 | unit2_m1_lens3_f |
