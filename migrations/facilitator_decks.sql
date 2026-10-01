@@ -10,7 +10,8 @@
 --
 -- Access: a signed-in facilitator can read a deck only when they are assigned
 -- (cohort_memberships.role_in_cohort = 'facilitator') to that module (unit column)
--- in at least one cohort. Admins (profiles.role = 'admin') can read all decks.
+-- in at least one cohort, and never the .pptx files (reader images and notes only).
+-- Admins (profiles.role = 'admin') can read everything, including the .pptx files.
 -- No one can upload, change or delete through the portal; uploads are done in
 -- the Supabase dashboard, which uses the service role.
 
@@ -39,7 +40,8 @@ as $$
                where cm.profile_id = auth.uid()
                  and cm.role_in_cohort = 'facilitator'
                  and cm.unit is not null
-                 and split_part(object_name, '/', 1) = 'Module-' || cm.unit::text);
+                 and split_part(object_name, '/', 1) = 'Module-' || cm.unit::text
+                 and object_name not like '%.pptx');   -- facilitators read the deck reader files only
 $$;
 
 revoke all on function public.can_read_facilitator_deck(text) from public;

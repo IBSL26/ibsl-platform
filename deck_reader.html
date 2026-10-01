@@ -81,7 +81,7 @@
   <a class="back" id="backLink" href="dashboard_F.html">← Dashboard</a>
   <div class="title" id="deckTitle"><small>Facilitator deck</small>Loading…</div>
   <select class="jump" id="jump" aria-label="Go to slide"></select>
-  <button class="btn" id="downloadBtn" type="button">⬇ PPTX</button>
+  <button class="btn" id="downloadBtn" type="button" hidden>⬇ PPTX</button>
   <button class="btn primary" id="presentBtn" type="button">▶ Present</button>
 </div>
 
@@ -253,6 +253,7 @@
       if (profileErr || !profile || (profile.role !== 'facilitator' && profile.role !== 'admin')) {
         window.location.replace('index.html'); return;
       }
+      if (profile.role === 'admin') document.getElementById('downloadBtn').hidden = false;   // facilitators read only
       const { data: file, error } = await supabaseClient.storage.from(BUCKET).download(folder + '/manifest.json');
       if (error || !file) {
         console.error('[READER] manifest error:', error);

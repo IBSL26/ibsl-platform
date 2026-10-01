@@ -75,3 +75,5 @@ Done:
 - Present mode (`&mode=present`): opens a slide-only window for screen sharing; it stays in step with the reader (BroadcastChannel), arrow keys or click move both, Full screen button.
 - Files: `Module-<m>/unit-<NN>/s01.jpg …` and `manifest.json` (titles + notes) in the `facilitator_decks` bucket; same module access rule. Built by `Unit decks\_build\reader_assets.py <out_dir> <deck.pptx …>` (LibreOffice render, 1600 px JPEG).
 - When a deck changes: rebuild → `enrich.py` → `reader_assets.py` → re-upload the `.pptx` and the `unit-<NN>` folder.
+
+- Carol's decision (1 October 2026): facilitators cannot download the PPTX. The storage rule refuses .pptx to facilitators; the download buttons show only to admins (dashboard admin view and the reader).

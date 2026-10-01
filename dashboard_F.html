@@ -3433,7 +3433,9 @@
   // Decks live in the private Supabase Storage bucket 'facilitator_decks'
   // at Module-<module>/unit-<NN>.pptx. Storage policy (facilitator_decks.sql)
   // only lets a facilitator read decks for modules they are assigned to
-  // (cohort_memberships.unit); admins read all. Links are signed for 5 minutes.
+  // (cohort_memberships.unit) and never the .pptx files; admins read all.
+  // Facilitators get the reader only; the PPTX download shows in admin view.
+  // Download links are signed for 5 minutes.
   var DECK_FILE_NAMES = {
     1: 'Unit 01 - Behavioural Strategy Fundamentals.pptx',
     2: 'Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx',
@@ -3459,10 +3461,10 @@
     return '<a class="teaching-notes-link deck-read-link" href="' + readHref + '"' +
            ' aria-label="Read the Unit ' + unitNo + ' facilitator deck with presenter notes">' +
            '🖥 Read Unit ' + unitNo + ' deck</a>' +
-           '<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
+           (isAdminView ? ('<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
            ' data-deck-path="' + path + '" data-deck-name="' + DECK_FILE_NAMES[unitNo].replace(/&/g, '&amp;') + '"' +
            ' aria-label="Download the Unit ' + unitNo + ' facilitator deck (PowerPoint)">' +
-           '⬇ Unit ' + unitNo + ' deck (PPTX)</a>';
+           '⬇ Unit ' + unitNo + ' deck (PPTX)</a>') : '');
   }
 
   document.addEventListener('click', async function(e) {
