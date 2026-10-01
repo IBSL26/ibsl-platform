@@ -60,3 +60,11 @@ Done:
 - Content lives in `Unit decks\_build\enrich\u01.json` … `u12.json` (with a `_check` of each slide's opening text). `Unit decks\_build\enrich.py` applies them: `python3 enrich.py "<deck.pptx>" enrich/uNN.json`. Re-running replaces the block; slide XML is left untouched.
 - After any rebuild with `unitNN.js`, run `enrich.py` on the new deck, or the insights are lost.
 - QA passed: slide XML identical to the previous decks, original notes intact, pptx validator passed on all 12, notes scanned for contrast constructions, "lens" and US spelling, `node check_standards.js` reports "No breaches found".
+
+## 9. Decks on the facilitator dashboard (1 October 2026)
+
+- Carol's decisions: PowerPoint only; access by module (cohort_memberships.unit), since assignments are by module. Per-unit access would need a schema and admin-screen change later.
+- Private Supabase bucket `facilitator_decks`, layout `Module-<1..4>/unit-<NN>.pptx` (capital M, as created in Supabase). SQL: `migrations/facilitator_decks.sql` (bucket, `can_read_facilitator_deck()` security-definer check, read policy). Facilitators read only their assigned modules; admins read all; uploads only through the Supabase dashboard.
+- `dashboard_F.html`: a "⬇ Unit N deck (PPTX)" button beside each Manual link on the cohort card ([DECK] block); it creates a 5-minute signed link that downloads under the official file name.
+- `_redirects` + `404.html`: block `Unit decks`, `Claude outputs`, `migrations`, `recovered-not-yet-deployed`, `.claude` and working files from the live site.
+- When a deck changes: rebuild, run `enrich.py`, then re-upload it to its module folder in the bucket (overwrite).

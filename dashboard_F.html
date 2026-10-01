@@ -516,6 +516,16 @@
     background: rgba(201, 168, 76, 0.1);
     color: var(--gold);
   }
+  /* [DECK] Facilitator deck download beside each Manual link */
+  .deck-download-link {
+    cursor: pointer;
+    color: rgba(245, 240, 225, 0.8);
+    border-color: rgba(245, 240, 225, 0.25);
+  }
+  .deck-download-link[aria-busy="true"] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
   /* ─── F2: EMPTY STATE ─── */
   .empty-state-card {
@@ -3415,6 +3425,63 @@
     ]
   };
 
+  // ─── [DECK] FACILITATOR DECK DOWNLOADS ─────────────────────────────
+  // Decks live in the private Supabase Storage bucket 'facilitator_decks'
+  // at Module-<module>/unit-<NN>.pptx. Storage policy (facilitator_decks.sql)
+  // only lets a facilitator read decks for modules they are assigned to
+  // (cohort_memberships.unit); admins read all. Links are signed for 5 minutes.
+  var DECK_FILE_NAMES = {
+    1: 'Unit 01 - Behavioural Strategy Fundamentals.pptx',
+    2: 'Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx',
+    3: 'Unit 03 - SiP KISS Mapping & OKR Definition.pptx',
+    4: 'Unit 04 - Direction Integrity (ABCV-MBT).pptx',
+    5: 'Unit 05 - Aligning Heart & Mind.pptx',
+    6: 'Unit 06 - Performance Management Setup.pptx',
+    7: 'Unit 07 - Establishing Performance Expectations.pptx',
+    8: 'Unit 08 - Performance Measurement.pptx',
+    9: 'Unit 09 - Strategic Unclogging.pptx',
+    10: 'Unit 10 - ESRG Alignment.pptx',
+    11: 'Unit 11 - Culture Reinforcement & Organisational Health.pptx',
+    12: 'Unit 12 - Sustaining Performance.pptx'
+  };
+
+  function deckLinkHtml(moduleNo, label) {
+    var m = /^Unit (\d+)/.exec(label || '');
+    if (!m) return '';
+    var unitNo = Number(m[1]);
+    if (!DECK_FILE_NAMES[unitNo]) return '';
+    var path = 'Module-' + moduleNo + '/unit-' + (unitNo < 10 ? '0' : '') + unitNo + '.pptx';
+    return '<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
+           ' data-deck-path="' + path + '" data-deck-name="' + DECK_FILE_NAMES[unitNo].replace(/&/g, '&amp;') + '"' +
+           ' aria-label="Download the Unit ' + unitNo + ' facilitator deck (PowerPoint)">' +
+           '⬇ Unit ' + unitNo + ' deck (PPTX)</a>';
+  }
+
+  document.addEventListener('click', async function(e) {
+    var link = e.target && e.target.closest && e.target.closest('.deck-download-link');
+    if (!link) return;
+    e.preventDefault();
+    e.stopPropagation();
+    if (link.getAttribute('aria-busy') === 'true') return;
+    link.setAttribute('aria-busy', 'true');
+    try {
+      var result = await supabaseClient.storage
+        .from('facilitator_decks')
+        .createSignedUrl(link.dataset.deckPath, 300, { download: link.dataset.deckName });
+      if (result.error || !result.data || !result.data.signedUrl) {
+        console.error('[DECK] createSignedUrl error:', result.error);
+        showToast('This deck is not available yet. Please contact the programme administrator.');
+        return;
+      }
+      window.location.href = result.data.signedUrl;
+    } catch (err) {
+      console.error('[DECK] download exception:', err);
+      showToast('Could not download the deck. Please try again.');
+    } finally {
+      link.removeAttribute('aria-busy');
+    }
+  });
+
   // Build Facilitator Manual link HTML for a cohort card.
   // Iterates every unit assigned to this facilitator; for each unit shows
   // only the lens entries marked live: true. Non-live entries are suppressed —
@@ -3430,6 +3497,7 @@
         links += '<a class="teaching-notes-link" href="' + lens.file +
                  '?cohort=' + encodeURIComponent(cohortId) + '" onclick="event.stopPropagation();">' +
                  '📖 ' + lens.label + '</a>';
+        links += deckLinkHtml(Number(u), lens.label);
       });
     });
     if (!links) return '';
