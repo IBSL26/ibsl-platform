@@ -516,7 +516,11 @@
     background: rgba(201, 168, 76, 0.1);
     color: var(--gold);
   }
-  /* [DECK] Facilitator deck download beside each Manual link */
+  /* [DECK] Facilitator deck reader + download beside each Manual link */
+  .deck-read-link {
+    color: rgba(245, 240, 225, 0.8);
+    border-color: rgba(245, 240, 225, 0.25);
+  }
   .deck-download-link {
     cursor: pointer;
     color: rgba(245, 240, 225, 0.8);
@@ -3451,7 +3455,11 @@
     var unitNo = Number(m[1]);
     if (!DECK_FILE_NAMES[unitNo]) return '';
     var path = 'Module-' + moduleNo + '/unit-' + (unitNo < 10 ? '0' : '') + unitNo + '.pptx';
-    return '<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
+    var readHref = 'deck_reader.html?unit=' + unitNo + (isAdminView ? '&adminView=1' : '');
+    return '<a class="teaching-notes-link deck-read-link" href="' + readHref + '"' +
+           ' aria-label="Read the Unit ' + unitNo + ' facilitator deck with presenter notes">' +
+           '🖥 Read Unit ' + unitNo + ' deck</a>' +
+           '<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
            ' data-deck-path="' + path + '" data-deck-name="' + DECK_FILE_NAMES[unitNo].replace(/&/g, '&amp;') + '"' +
            ' aria-label="Download the Unit ' + unitNo + ' facilitator deck (PowerPoint)">' +
            '⬇ Unit ' + unitNo + ' deck (PPTX)</a>';

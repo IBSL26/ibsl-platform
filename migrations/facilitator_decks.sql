@@ -2,6 +2,7 @@
 -- Run once in the Supabase SQL editor.
 --
 -- Layout:  facilitator_decks / Module-<1..4> / unit-<01..12>.pptx
+--          facilitator_decks / Module-<1..4> / unit-<01..12> / s01.jpg … + manifest.json  (deck reader)
 --   Module-1: unit-01                      (Foundation)
 --   Module-2: unit-02, unit-03, unit-04    (Direction)
 --   Module-3: unit-05 … unit-09            (Influence)
@@ -13,10 +14,11 @@
 -- No one can upload, change or delete through the portal; uploads are done in
 -- the Supabase dashboard, which uses the service role.
 
--- 1. Private bucket (PowerPoint only, 50 MB limit)
+-- 1. Private bucket (PowerPoint decks, plus the deck-reader slide images and manifest; 50 MB limit)
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('facilitator_decks', 'facilitator_decks', false, 52428800,
-        array['application/vnd.openxmlformats-officedocument.presentationml.presentation'])
+        array['application/vnd.openxmlformats-officedocument.presentationml.presentation',
+              'image/jpeg', 'application/json'])
 on conflict (id) do update
   set public = false,
       file_size_limit = excluded.file_size_limit,

@@ -68,3 +68,10 @@ Done:
 - `dashboard_F.html`: a "⬇ Unit N deck (PPTX)" button beside each Manual link on the cohort card ([DECK] block); it creates a 5-minute signed link that downloads under the official file name.
 - `_redirects` + `404.html`: block `Unit decks`, `Claude outputs`, `migrations`, `recovered-not-yet-deployed`, `.claude` and working files from the live site.
 - When a deck changes: rebuild, run `enrich.py`, then re-upload it to its module folder in the bucket (overwrite).
+
+## 10. Deck reader (1 October 2026)
+
+- `deck_reader.html?unit=N`: in-portal reader for facilitators and admins. Slide image with full presenter notes below, Back/Next, slide jump, ⬇ PPTX button. Opened from "🖥 Read Unit N deck" on the cohort card.
+- Present mode (`&mode=present`): opens a slide-only window for screen sharing; it stays in step with the reader (BroadcastChannel), arrow keys or click move both, Full screen button.
+- Files: `Module-<m>/unit-<NN>/s01.jpg …` and `manifest.json` (titles + notes) in the `facilitator_decks` bucket; same module access rule. Built by `Unit decks\_build\reader_assets.py <out_dir> <deck.pptx …>` (LibreOffice render, 1600 px JPEG).
+- When a deck changes: rebuild → `enrich.py` → `reader_assets.py` → re-upload the `.pptx` and the `unit-<NN>` folder.
