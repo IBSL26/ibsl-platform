@@ -4383,6 +4383,8 @@
           </div>
         </div>
 
+        <div class="detail-card" id="cohortSessionsCard"></div>
+
         ${dangerZone}
       `;
     }
@@ -4438,6 +4440,8 @@
         return;
       }
       container.innerHTML = renderCohortDetailHtml(cohortDetailState.data);
+      // [SESSIONS] draw the Live sessions card (block near the end of this file)
+      if (window.ibslSessions) window.ibslSessions.mount(cohortDetailState.data);
     }
 
     // Fetch the bundle for a given cohort id.
@@ -13475,6 +13479,673 @@ sam@gamma.org, Sam Lee, participant,`;
       </div>
     </div>
     <script>_wireAdminMfaModal();</script>
+
+    <!-- [SESSIONS] Live sessions per cohort: Teams link, calendar invite, recording link.
+         Database: migrations/cohort_sessions.sql · Email: Edge Function send-session-email.
+         The card is drawn inside the cohort detail view (#cohortSessionsCard). -->
+    <style>
+      .ses-list { list-style: none; margin: 0; padding: 0; }
+      .ses-item { padding: 16px 0; border-bottom: 1px solid var(--border-subtle); }
+      .ses-item:last-child { border-bottom: 0; padding-bottom: 0; }
+      .ses-top { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+      .ses-title { font-family: var(--font-serif); font-size: 18px; color: var(--white); line-height: 1.25; }
+      .ses-item--past .ses-title, .ses-item--cancelled .ses-title { color: rgba(255,255,255,0.62); }
+      .ses-item--cancelled .ses-title { text-decoration: line-through; }
+      .ses-when { font-size: 12px; color: rgba(255,255,255,0.72); margin-top: 4px; }
+      .ses-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+      .ses-chip { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; border: 1px solid var(--border-default); color: rgba(255,255,255,0.70); white-space: nowrap; }
+      .ses-chip--ok { border-color: rgba(39,174,96,0.60); color: #7ddba3; }
+      .ses-chip--warn { border-color: var(--gold); color: var(--gold); }
+      .ses-chip--off { border-color: rgba(248,113,113,0.50); color: #f3a3a3; }
+      .ses-links { font-size: 12px; margin-top: 8px; display: flex; gap: 16px; flex-wrap: wrap; }
+      .ses-links a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(201,168,76,0.35); }
+      .ses-links a:hover { border-bottom-color: var(--gold); }
+      .ses-notes { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 6px; white-space: pre-wrap; line-height: 1.5; }
+      .ses-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+      .ses-btn { background: transparent; border: 1px solid var(--gold); color: var(--gold); font-family: var(--font-sans); font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 12px; border-radius: 2px; cursor: pointer; transition: background 0.18s ease, color 0.18s ease; }
+      .ses-btn:hover { background: var(--gold); color: var(--forest-dark); }
+      .ses-btn--solid { background: var(--gold); color: var(--forest-dark); }
+      .ses-btn--solid:hover { background: var(--gold-light); border-color: var(--gold-light); }
+      .ses-btn--quiet { border-color: var(--border-default); color: rgba(255,255,255,0.72); }
+      .ses-btn--quiet:hover { background: transparent; border-color: var(--gold); color: var(--gold); }
+      .ses-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+      .ses-subhead { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--ash); margin: 22px 0 2px; }
+      .ses-subhead:first-child { margin-top: 0; }
+      .ses-form-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
+      .ses-field { margin-bottom: 16px; }
+      .ses-check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1.45; }
+      .ses-check input { margin-top: 3px; accent-color: #c9a84c; }
+      .ses-hint { font-size: 11px; color: rgba(255,255,255,0.50); margin-top: 6px; line-height: 1.5; }
+      .ses-error { color: #f3a3a3; font-size: 12px; min-height: 18px; margin-top: 4px; }
+      .ses-confirm-body { margin: 0; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.6; }
+      .ses-confirm-body strong { color: var(--white); }
+      @media (max-width: 640px) { .ses-form-grid { grid-template-columns: 1fr; } }
+    </style>
+
+    <div class="modal-backdrop" id="sesFormModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesFormTitle">
+      <div class="modal-dialog" style="width:600px;max-height:88vh;">
+        <div class="modal-head">
+          <div class="modal-title" id="sesFormTitle">Add session</div>
+          <button type="button" class="modal-close" data-ses-close aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;">
+          <div class="ses-field">
+            <label class="form-label" for="sesUnit">Unit</label>
+            <select class="form-select" id="sesUnit"></select>
+          </div>
+          <div class="ses-field">
+            <label class="form-label" for="sesTitle">Session title <span class="form-label__required">*</span></label>
+            <input type="text" class="form-input" id="sesTitle" maxlength="140" placeholder="Unit 1 · Behavioural Strategy Fundamentals">
+          </div>
+          <div class="ses-field">
+            <div class="ses-form-grid">
+              <div>
+                <label class="form-label" for="sesDate">Date <span class="form-label__required">*</span></label>
+                <input type="date" class="form-input" id="sesDate" style="color-scheme:dark;">
+              </div>
+              <div>
+                <label class="form-label" for="sesTime">Start time <span class="form-label__required">*</span></label>
+                <input type="time" class="form-input" id="sesTime" style="color-scheme:dark;">
+              </div>
+              <div>
+                <label class="form-label" for="sesDuration">Length</label>
+                <select class="form-select" id="sesDuration">
+                  <option value="60">1 hour</option>
+                  <option value="90">1½ hours</option>
+                  <option value="120" selected>2 hours</option>
+                  <option value="150">2½ hours</option>
+                  <option value="180">3 hours</option>
+                  <option value="240">4 hours</option>
+                  <option value="480">8 hours</option>
+                </select>
+              </div>
+            </div>
+            <div class="ses-hint" id="sesTzHint"></div>
+          </div>
+          <div class="ses-field">
+            <label class="form-label" for="sesUrl">Teams link <span class="form-label__required">*</span></label>
+            <input type="url" class="form-input" id="sesUrl" placeholder="https://teams.microsoft.com/…" autocomplete="off">
+            <div class="ses-hint">Create the meeting in Teams, choose Copy join link, and paste it here.</div>
+          </div>
+          <div class="ses-field">
+            <label class="ses-check" for="sesRecord">
+              <input type="checkbox" id="sesRecord">
+              <span>This session will be recorded</span>
+            </label>
+            <div class="ses-hint">The invitation tells the cohort. Start the recording in Teams yourself when the session begins.</div>
+          </div>
+          <div class="ses-field">
+            <label class="form-label" for="sesNotes">Note to the cohort (optional)</label>
+            <textarea class="form-input" id="sesNotes" rows="3" maxlength="600" style="font-family:Montserrat,sans-serif;font-size:13px;line-height:1.5;resize:vertical;" placeholder="What to prepare or bring"></textarea>
+          </div>
+          <div class="ses-error" id="sesFormError" role="alert"></div>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" data-ses-close>Cancel</button>
+          <button type="button" class="btn btn--primary" id="sesFormSaveBtn">Save session</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="sesRecModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesRecTitle">
+      <div class="modal-dialog" style="width:540px;">
+        <div class="modal-head">
+          <div class="modal-title" id="sesRecTitle">Recording link</div>
+          <button type="button" class="modal-close" data-ses-close aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;min-height:0;">
+          <div class="ses-field">
+            <label class="form-label" for="sesRecUrl">Recording link</label>
+            <input type="url" class="form-input" id="sesRecUrl" placeholder="https://…" autocomplete="off">
+            <div class="ses-hint">Open the recording in Teams or OneDrive, choose Share, give access to the people in this cohort, then copy the link and paste it here. Leave the box empty to remove the link.</div>
+          </div>
+          <div class="ses-error" id="sesRecError" role="alert"></div>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" data-ses-close>Cancel</button>
+          <button type="button" class="btn btn--primary" id="sesRecSaveBtn">Save link</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="sesConfirmModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesConfirmTitle">
+      <div class="modal-dialog" style="width:500px;">
+        <div class="modal-head">
+          <div class="modal-title" id="sesConfirmTitle">Confirm</div>
+          <button type="button" class="modal-close" data-ses-close aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;min-height:0;">
+          <p class="ses-confirm-body" id="sesConfirmBody"></p>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" id="sesConfirmBackBtn" data-ses-close>Back</button>
+          <button type="button" class="btn btn--primary" id="sesConfirmBtn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    (function () {
+      'use strict';
+
+      var UNIT_TITLES = {
+        1: 'Behavioural Strategy Fundamentals',
+        2: 'Strategy Visioning & Success in Practice (SiP)',
+        3: 'SiP KISS Mapping & OKR Definition',
+        4: 'Direction Integrity (ABCV-MBT)',
+        5: 'Aligning Heart & Mind',
+        6: 'Performance Management Setup',
+        7: 'Establishing Performance Expectations',
+        8: 'Performance Measurement',
+        9: 'Strategic Unclogging',
+        10: 'ESRG Alignment',
+        11: 'Culture Reinforcement & Organisational Health',
+        12: 'Sustaining Performance'
+      };
+      var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+      var state = {
+        bundle: null,      // cohort detail bundle (cohort, facilitators, participants)
+        cohortId: null,
+        rows: [],
+        loaded: false,
+        error: null,
+        busy: false,
+        editing: null,     // row being edited, or null when adding
+        recFor: null,      // row whose recording link is open
+        confirmFn: null,
+        autoTitle: ''      // last title filled in from the unit picker
+      };
+
+      function $(id) { return document.getElementById(id); }
+      function esc(s) {
+        if (s == null) return '';
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function tzLabel(d) {
+        var o = -d.getTimezoneOffset();
+        var a = Math.abs(o), h = Math.floor(a / 60), m = a % 60;
+        return 'GMT' + (o >= 0 ? '+' : '−') + h + (m ? ':' + pad(m) : '');
+      }
+      function endOf(row) { return new Date(new Date(row.starts_at).getTime() + row.duration_minutes * 60000); }
+      function fmtWhen(row) {
+        var s = new Date(row.starts_at), e = endOf(row);
+        return DOW[s.getDay()] + ' ' + s.getDate() + ' ' + MON[s.getMonth()] + ' ' + s.getFullYear() +
+               ' · ' + pad(s.getHours()) + ':' + pad(s.getMinutes()) +
+               '–' + pad(e.getHours()) + ':' + pad(e.getMinutes()) + ' (' + tzLabel(s) + ')';
+      }
+      function fmtShort(ts) { var d = new Date(ts); return d.getDate() + ' ' + MON[d.getMonth()]; }
+      function isPast(row) { return endOf(row).getTime() < Date.now(); }
+      function hasStarted(row) { return new Date(row.starts_at).getTime() <= Date.now(); }
+      function httpsOk(u) { return /^https:\/\/\S+$/i.test(u); }
+      function toast(msg, ms) { if (window.showToast) window.showToast(msg, ms); }
+      function cohort() { return state.bundle ? state.bundle.cohort : null; }
+      function isArchived() { var c = cohort(); return !!(c && c.archived_at); }
+      function memberCounts() {
+        var b = state.bundle || {};
+        var p = (b.participants || []).length, f = (b.facilitators || []).length;
+        return { p: p, f: f, n: p + f };
+      }
+      function peopleText() {
+        var m = memberCounts();
+        return m.n + (m.n === 1 ? ' person' : ' people') + ' (' +
+               m.p + (m.p === 1 ? ' participant' : ' participants') + ', ' +
+               m.f + (m.f === 1 ? ' facilitator' : ' facilitators') + ')';
+      }
+
+      // ── Rendering ────────────────────────────────────────────────
+      function chipsHtml(r) {
+        var c = [];
+        if (r.status === 'cancelled') {
+          c.push('<span class="ses-chip ses-chip--off">Cancelled</span>');
+          if (r.last_sent_at && r.changed_since_sent) c.push('<span class="ses-chip ses-chip--warn">Cohort not yet told</span>');
+        } else if (!r.last_sent_at) {
+          c.push('<span class="ses-chip ses-chip--warn">Not yet sent</span>');
+        } else if (r.changed_since_sent) {
+          c.push('<span class="ses-chip ses-chip--warn">Changed · cohort not yet told</span>');
+        } else {
+          c.push('<span class="ses-chip ses-chip--ok">Sent ' + fmtShort(r.last_sent_at) + '</span>');
+        }
+        if (r.recording_url) {
+          c.push('<span class="ses-chip ses-chip--ok">' + (r.recording_sent_at ? 'Recording emailed' : 'Recording added') + '</span>');
+        } else if (r.will_record && r.status !== 'cancelled') {
+          c.push(isPast(r) ? '<span class="ses-chip ses-chip--warn">Recording link needed</span>'
+                           : '<span class="ses-chip">To be recorded</span>');
+        }
+        return c.join('');
+      }
+      function btn(action, label, kind) {
+        return '<button type="button" class="ses-btn' + (kind ? ' ses-btn--' + kind : '') + '"' +
+               ' data-session-action="' + action + '"' + (state.busy ? ' disabled' : '') + '>' + label + '</button>';
+      }
+      function actionsHtml(r) {
+        if (isArchived()) return '';
+        var a = [];
+        if (r.status === 'cancelled') {
+          if (r.last_sent_at && r.changed_since_sent) a.push(btn('send-cancel', 'Email cancellation', 'solid'));
+          if (!r.last_sent_at) a.push(btn('delete', 'Delete', 'quiet'));
+        } else if (!r.last_sent_at) {
+          if (!isPast(r)) a.push(btn('send-invite', 'Send to cohort', 'solid'));
+          if (hasStarted(r)) {
+            a.push(btn('recording', r.recording_url ? 'Change recording link' : 'Add recording link'));
+            if (r.recording_url) a.push(btn('send-recording', 'Email recording to cohort', 'solid'));
+          }
+          a.push(btn('edit', 'Edit'));
+          a.push(btn('delete', 'Delete', 'quiet'));
+        } else {
+          if (r.changed_since_sent && !isPast(r)) a.push(btn('send-update', 'Send update', 'solid'));
+          if (hasStarted(r)) {
+            a.push(btn('recording', r.recording_url ? 'Change recording link' : 'Add recording link', (!r.recording_url && isPast(r)) ? 'solid' : ''));
+            if (r.recording_url && !r.recording_sent_at) a.push(btn('send-recording', 'Email recording to cohort', 'solid'));
+          }
+          if (!isPast(r)) {
+            a.push(btn('edit', 'Edit'));
+            if (!r.changed_since_sent) a.push(btn('send-invite', 'Send again', 'quiet'));
+            a.push(btn('cancel', 'Cancel session', 'quiet'));
+          }
+        }
+        return a.length ? '<div class="ses-actions">' + a.join('') + '</div>' : '';
+      }
+      function itemHtml(r) {
+        var cls = 'ses-item' + (r.status === 'cancelled' ? ' ses-item--cancelled' : (isPast(r) ? ' ses-item--past' : ''));
+        var links = '<a href="' + esc(r.teams_url) + '" target="_blank" rel="noopener">Teams link ↗</a>';
+        if (r.recording_url) links += '<a href="' + esc(r.recording_url) + '" target="_blank" rel="noopener">Recording ↗</a>';
+        return '<li class="' + cls + '" data-session-id="' + esc(r.id) + '">' +
+                 '<div class="ses-top">' +
+                   '<div class="ses-title">' + esc(r.title) + '</div>' +
+                   '<div class="ses-chips">' + chipsHtml(r) + '</div>' +
+                 '</div>' +
+                 '<div class="ses-when">' + fmtWhen(r) + '</div>' +
+                 '<div class="ses-links">' + links + '</div>' +
+                 (r.notes ? '<div class="ses-notes">' + esc(r.notes) + '</div>' : '') +
+                 actionsHtml(r) +
+               '</li>';
+      }
+      function render() {
+        var card = $('cohortSessionsCard');
+        if (!card) return;
+        var upcoming = [], past = [];
+        state.rows.forEach(function (r) { (isPast(r) ? past : upcoming).push(r); });
+        past.reverse(); // most recent first
+
+        var count = state.loaded
+          ? upcoming.length + ' upcoming · ' + past.length + ' past'
+          : '';
+        var head =
+          '<div class="detail-card__head">' +
+            '<div>' +
+              '<div class="detail-card__title">Live sessions</div>' +
+              '<div class="detail-card__count">' + count + '</div>' +
+            '</div>' +
+            (isArchived() ? '' :
+              '<button type="button" class="detail-card__action" data-session-action="add"' + (state.busy ? ' disabled' : '') + '>+ Add session</button>') +
+          '</div>';
+
+        var body;
+        if (state.error) {
+          body = '<div class="people-list__empty">Could not load sessions: ' + esc(state.error) + '</div>';
+        } else if (!state.loaded) {
+          body = '<div class="people-list__empty">Loading sessions…</div>';
+        } else if (!state.rows.length) {
+          body = '<div class="people-list__empty">No sessions yet. Add one to send the cohort a Teams link and a calendar invite.</div>';
+        } else {
+          body = '';
+          if (upcoming.length) {
+            body += '<div class="ses-subhead">Upcoming</div><ul class="ses-list">' + upcoming.map(itemHtml).join('') + '</ul>';
+          }
+          if (past.length) {
+            body += '<div class="ses-subhead">Past</div><ul class="ses-list">' + past.map(itemHtml).join('') + '</ul>';
+          }
+        }
+        card.innerHTML = head + body;
+      }
+
+      // ── Data ─────────────────────────────────────────────────────
+      async function load() {
+        var id = state.cohortId;
+        if (!id) return;
+        try {
+          var res = await sb.rpc('admin_list_cohort_sessions', { p_cohort_id: id });
+          if (state.cohortId !== id) return; // moved to another cohort meanwhile
+          if (res.error) {
+            state.error = res.error.message || 'request failed';
+          } else {
+            state.error = null;
+            state.rows = res.data || [];
+          }
+        } catch (e) {
+          if (state.cohortId !== id) return;
+          state.error = e.message || 'network error';
+        }
+        state.loaded = true;
+        render();
+      }
+      function rowById(id) {
+        for (var i = 0; i < state.rows.length; i++) if (state.rows[i].id === id) return state.rows[i];
+        return null;
+      }
+      function setBusy(on) { state.busy = on; render(); }
+
+      // ── Modals ───────────────────────────────────────────────────
+      function openModal(id) {
+        var m = $(id);
+        m.classList.add('modal-backdrop--shown');
+        m.setAttribute('aria-hidden', 'false');
+      }
+      function closeModals() {
+        ['sesFormModal', 'sesRecModal', 'sesConfirmModal'].forEach(function (id) {
+          var m = $(id);
+          if (!m) return;
+          m.classList.remove('modal-backdrop--shown');
+          m.setAttribute('aria-hidden', 'true');
+        });
+        state.confirmFn = null;
+      }
+      function anyOpen() {
+        return ['sesFormModal', 'sesRecModal', 'sesConfirmModal'].some(function (id) {
+          var m = $(id); return m && m.classList.contains('modal-backdrop--shown');
+        });
+      }
+
+      function unitTitle(n) { return 'Unit ' + n + ' · ' + UNIT_TITLES[n]; }
+      function fillUnitOptions() {
+        var sel = $('sesUnit');
+        if (sel.options.length) return;
+        var html = '<option value="">General session (no unit)</option>';
+        for (var n = 1; n <= 12; n++) html += '<option value="' + n + '">' + esc(unitTitle(n)) + '</option>';
+        sel.innerHTML = html;
+      }
+      function openForm(row) {
+        fillUnitOptions();
+        state.editing = row || null;
+        state.autoTitle = '';
+        $('sesFormTitle').textContent = row ? 'Edit session' : 'Add session';
+        $('sesFormSaveBtn').textContent = 'Save session';
+        $('sesFormSaveBtn').disabled = false;
+        $('sesFormError').textContent = '';
+        $('sesUnit').value = row && row.unit_no ? String(row.unit_no) : '';
+        $('sesTitle').value = row ? row.title : '';
+        if (row) {
+          var d = new Date(row.starts_at);
+          $('sesDate').value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+          $('sesTime').value = pad(d.getHours()) + ':' + pad(d.getMinutes());
+        } else {
+          $('sesDate').value = '';
+          $('sesTime').value = '';
+        }
+        var dur = String(row ? row.duration_minutes : 120);
+        var durSel = $('sesDuration');
+        var has = Array.prototype.some.call(durSel.options, function (o) { return o.value === dur; });
+        if (!has) {
+          var o = document.createElement('option');
+          o.value = dur; o.textContent = dur + ' minutes';
+          durSel.appendChild(o);
+        }
+        durSel.value = dur;
+        $('sesUrl').value = row ? row.teams_url : '';
+        $('sesRecord').checked = !!(row && row.will_record);
+        $('sesNotes').value = row && row.notes ? row.notes : '';
+        $('sesTzHint').textContent = 'Times are in this computer’s time zone (' + tzLabel(new Date()) +
+          '). The calendar invite shows each person the time in their own zone.';
+        openModal('sesFormModal');
+        setTimeout(function () { $(row ? 'sesTitle' : 'sesUnit').focus(); }, 30);
+      }
+      async function saveForm() {
+        var err = $('sesFormError');
+        var title = $('sesTitle').value.trim();
+        var date = $('sesDate').value, time = $('sesTime').value;
+        var url = $('sesUrl').value.trim();
+        var unit = $('sesUnit').value ? parseInt($('sesUnit').value, 10) : null;
+        err.textContent = '';
+        if (!title) { err.textContent = 'Give the session a title.'; $('sesTitle').focus(); return; }
+        if (!date || !time) { err.textContent = 'Choose the date and the start time.'; return; }
+        var starts = new Date(date + 'T' + time + ':00');
+        if (isNaN(starts.getTime())) { err.textContent = 'The date or time is not valid.'; return; }
+        if (!httpsOk(url)) { err.textContent = 'Paste the full Teams link, starting with https://'; $('sesUrl').focus(); return; }
+
+        var btnEl = $('sesFormSaveBtn');
+        btnEl.disabled = true; btnEl.textContent = 'Saving…';
+        try {
+          var res = await sb.rpc('admin_save_cohort_session', {
+            p_cohort_id: state.cohortId,
+            p_title: title,
+            p_starts_at: starts.toISOString(),
+            p_teams_url: url,
+            p_session_id: state.editing ? state.editing.id : null,
+            p_unit_no: unit,
+            p_duration_minutes: parseInt($('sesDuration').value, 10),
+            p_will_record: $('sesRecord').checked,
+            p_notes: $('sesNotes').value.trim() || null
+          });
+          if (res.error) {
+            err.textContent = res.error.message || 'Could not save the session.';
+            btnEl.disabled = false; btnEl.textContent = 'Save session';
+            return;
+          }
+          var wasEdit = !!state.editing;
+          var wasSent = !!(state.editing && state.editing.last_sent_at);
+          closeModals();
+          await load();
+          toast(!wasEdit ? 'Session saved. Send it to the cohort when ready.'
+                : (wasSent ? 'Session updated. Send the update so the cohort is told.' : 'Session updated.'), 5000);
+        } catch (e) {
+          err.textContent = e.message || 'Network error.';
+          btnEl.disabled = false; btnEl.textContent = 'Save session';
+        }
+      }
+
+      function openRecording(row) {
+        state.recFor = row;
+        $('sesRecUrl').value = row.recording_url || '';
+        $('sesRecError').textContent = '';
+        $('sesRecSaveBtn').disabled = false;
+        $('sesRecSaveBtn').textContent = 'Save link';
+        openModal('sesRecModal');
+        setTimeout(function () { $('sesRecUrl').focus(); }, 30);
+      }
+      async function saveRecording() {
+        var row = state.recFor;
+        if (!row) return;
+        var err = $('sesRecError');
+        var url = $('sesRecUrl').value.trim();
+        err.textContent = '';
+        if (url && !httpsOk(url)) { err.textContent = 'Paste the full link, starting with https://'; return; }
+        var btnEl = $('sesRecSaveBtn');
+        btnEl.disabled = true; btnEl.textContent = 'Saving…';
+        try {
+          var res = await sb.rpc('admin_set_session_recording', { p_session_id: row.id, p_recording_url: url || null });
+          if (res.error) {
+            err.textContent = res.error.message || 'Could not save the link.';
+            btnEl.disabled = false; btnEl.textContent = 'Save link';
+            return;
+          }
+          closeModals();
+          await load();
+          toast(url ? 'Recording link saved. The cohort can watch it from their portal.' : 'Recording link removed.', 5000);
+        } catch (e) {
+          err.textContent = e.message || 'Network error.';
+          btnEl.disabled = false; btnEl.textContent = 'Save link';
+        }
+      }
+
+      function confirmThen(opts) {
+        $('sesConfirmTitle').textContent = opts.title;
+        $('sesConfirmBody').innerHTML = opts.bodyHtml;
+        $('sesConfirmBtn').textContent = opts.proceed;
+        $('sesConfirmBtn').className = 'btn ' + (opts.danger ? 'btn--danger' : 'btn--primary');
+        $('sesConfirmBtn').disabled = false;
+        $('sesConfirmBackBtn').textContent = opts.back || 'Back';
+        state.confirmFn = opts.run;
+        openModal('sesConfirmModal');
+      }
+      async function runConfirm() {
+        var fn = state.confirmFn;
+        if (!fn) return;
+        closeModals();
+        setBusy(true);
+        try { await fn(); }
+        catch (e) { toast(e.message || 'Something went wrong.'); }
+        state.busy = false;
+        await load();
+      }
+
+      // ── Email (Edge Function send-session-email) ─────────────────
+      async function sendEmail(row, kind) {
+        var sess = await sb.auth.getSession();
+        var token = sess && sess.data && sess.data.session ? sess.data.session.access_token : '';
+        var res = await sb.functions.invoke('send-session-email', {
+          body: { session_id: row.id, kind: kind },
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        var d = res.data || {};
+        if (res.error && res.error.context && typeof res.error.context.json === 'function') {
+          try { d = (await res.error.context.json()) || {}; } catch (e2) { /* keep the generic message */ }
+        }
+        if (res.error || !d.ok) {
+          var msg = d.error || (res.error && res.error.message) || 'unknown error';
+          toast('Email not sent: ' + msg, 7000);
+          return;
+        }
+        var failed = d.failed || [];
+        var text = 'Sent to ' + d.sent + (d.sent === 1 ? ' person.' : ' people.');
+        if (failed.length) text += ' Could not reach: ' + failed.join(', ') + '.';
+        toast(text, failed.length ? 9000 : 5000);
+      }
+      function titleWhen(row) { return '<strong>' + esc(row.title) + '</strong><br>' + fmtWhen(row); }
+
+      function onAction(action, row) {
+        if (state.busy) return;
+        var c = cohort();
+        var cname = c ? esc(c.name) : 'this cohort';
+        if (action === 'add') { openForm(null); return; }
+        if (!row) return;
+        if (action === 'edit') { openForm(row); return; }
+        if (action === 'recording') { openRecording(row); return; }
+
+        if (action.indexOf('send-') === 0 && memberCounts().n === 0) {
+          toast('This cohort has no members yet. Add participants or facilitators first.', 5000);
+          return;
+        }
+        if (action === 'send-invite') {
+          confirmThen({
+            title: row.last_sent_at ? 'Send this session again?' : 'Send this session to the cohort?',
+            bodyHtml: titleWhen(row) + '<br><br>An email with the Teams link and a calendar invite goes to ' + peopleText() +
+                      ' in ' + cname + '. The session shows on their portal with a Join session button.',
+            proceed: row.last_sent_at ? 'Send again' : 'Send to cohort',
+            run: function () { return sendEmail(row, 'invite'); }
+          });
+        } else if (action === 'send-update') {
+          confirmThen({
+            title: 'Send the updated details?',
+            bodyHtml: titleWhen(row) + '<br><br>An email with the new details and an updated calendar invite goes to ' + peopleText() + ' in ' + cname + '.',
+            proceed: 'Send update',
+            run: function () { return sendEmail(row, 'update'); }
+          });
+        } else if (action === 'send-cancel') {
+          confirmThen({
+            title: 'Email the cancellation?',
+            bodyHtml: titleWhen(row) + '<br><br>' + peopleText() + ' in ' + cname + ' are told this session is cancelled.',
+            proceed: 'Email cancellation',
+            run: function () { return sendEmail(row, 'cancel'); }
+          });
+        } else if (action === 'send-recording') {
+          confirmThen({
+            title: 'Email the recording to the cohort?',
+            bodyHtml: titleWhen(row) + '<br><br>' + peopleText() + ' in ' + cname +
+                      ' receive the recording link by email. It also shows on their portal under Watch recording.',
+            proceed: 'Email recording',
+            run: function () { return sendEmail(row, 'recording'); }
+          });
+        } else if (action === 'cancel') {
+          confirmThen({
+            title: 'Cancel this session?',
+            bodyHtml: titleWhen(row) + '<br><br>The session comes off the cohort’s portal straight away. You then email the cancellation with one more click.',
+            proceed: 'Cancel session',
+            back: 'Keep session',
+            danger: true,
+            run: async function () {
+              var res = await sb.rpc('admin_cancel_cohort_session', { p_session_id: row.id });
+              if (res.error) { toast(res.error.message || 'Could not cancel the session.'); return; }
+              toast('Session cancelled. Email the cancellation so the cohort is told.', 6000);
+            }
+          });
+        } else if (action === 'delete') {
+          confirmThen({
+            title: 'Delete this session?',
+            bodyHtml: titleWhen(row) + '<br><br>The cohort was never sent this session, so nobody needs telling.',
+            proceed: 'Delete',
+            back: 'Keep session',
+            danger: true,
+            run: async function () {
+              var res = await sb.rpc('admin_delete_cohort_session', { p_session_id: row.id });
+              if (res.error) { toast(res.error.message || 'Could not delete the session.'); return; }
+              toast('Session deleted.');
+            }
+          });
+        }
+      }
+
+      // ── Wiring (once) ────────────────────────────────────────────
+      document.addEventListener('click', function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var actEl = t.closest('[data-session-action]');
+        if (actEl) {
+          if (actEl.disabled) return;
+          var li = actEl.closest('[data-session-id]');
+          onAction(actEl.getAttribute('data-session-action'), li ? rowById(li.getAttribute('data-session-id')) : null);
+          return;
+        }
+        if (t.closest('[data-ses-close]')) { closeModals(); return; }
+        if (t.id === 'sesFormModal' || t.id === 'sesRecModal' || t.id === 'sesConfirmModal') { closeModals(); return; }
+        if (t.closest('#sesFormSaveBtn')) { saveForm(); return; }
+        if (t.closest('#sesRecSaveBtn')) { saveRecording(); return; }
+        if (t.closest('#sesConfirmBtn')) { runConfirm(); return; }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && anyOpen()) closeModals();
+      });
+      document.addEventListener('change', function (e) {
+        if (!e.target || e.target.id !== 'sesUnit') return;
+        // Fill the title from the unit, unless the admin has typed their own.
+        var titleEl = $('sesTitle');
+        var n = e.target.value ? parseInt(e.target.value, 10) : null;
+        if (titleEl.value.trim() === '' || titleEl.value === state.autoTitle) {
+          state.autoTitle = n ? unitTitle(n) : '';
+          titleEl.value = state.autoTitle;
+        }
+      });
+
+      // Called by renderCohortDetail() each time the cohort detail view is drawn.
+      window.ibslSessions = {
+        mount: function (bundle) {
+          if (!bundle || !bundle.cohort) return;
+          state.bundle = bundle;
+          if (state.cohortId !== bundle.cohort.id) {
+            state.cohortId = bundle.cohort.id;
+            state.rows = [];
+            state.loaded = false;
+            state.error = null;
+            state.busy = false;
+            render();
+            load();
+          } else {
+            render();
+            if (!state.loaded) load();
+          }
+        }
+      };
+      // If the cohort detail was drawn before this block loaded, draw the card now.
+      try {
+        if (typeof cohortDetailState !== 'undefined' && cohortDetailState.data) {
+          window.ibslSessions.mount(cohortDetailState.data);
+        }
+      } catch (e) { /* the next render mounts it */ }
+    })();
+    </script>
 
 <footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
   &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.

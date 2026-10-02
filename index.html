@@ -1120,6 +1120,12 @@
       <div class="ms-links" id="msLinks" style="display:none;"></div>
     </div>
 
+    <!-- [SESSIONS] Live sessions card — hidden until get_my_sessions() returns a session for this person (see ibslLiveSessions). -->
+    <div class="ms-card" id="liveSessionsCard" style="display:none;">
+      <p class="ms-card-label">Live sessions</p>
+      <div id="liveSessionsBody"></div>
+    </div>
+
     <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:48px;">
       Select a module below to begin. Units within each module will be released progressively as content is developed and approved.
     </p>
@@ -1576,6 +1582,146 @@
     &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.
   </div>
 </footer>
+
+<!-- [SESSIONS] Live sessions for the signed-in person's cohorts: Join session and Watch recording.
+     Draws into #liveSessionsCard / #liveSessionsBody. Data: get_my_sessions() (migrations/cohort_sessions.sql). -->
+<style>
+  .lses-item { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'Montserrat', sans-serif; }
+  .lses-group .lses-item:first-child { padding-top: 0; }
+  .lses-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .lses-main { min-width: 0; flex: 1; }
+  .lses-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 400; color: #fff; line-height: 1.25; }
+  .lses-when { font-size: 12px; color: rgba(255,255,255,0.72); margin-top: 5px; line-height: 1.5; }
+  .lses-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 5px; line-height: 1.5; white-space: pre-wrap; }
+  .lses-chip { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; border: 1px solid #c9a84c; color: #c9a84c; margin-left: 8px; vertical-align: middle; font-family: 'Montserrat', sans-serif; }
+  .lses-chip--live { background: #27ae60; border-color: #27ae60; color: #fff; }
+  .lses-join, .lses-watch { flex-shrink: 0; display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 18px; border-radius: 2px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+  .lses-join { background: #c9a84c; color: #1c1c1c; border: 1px solid #c9a84c; }
+  .lses-join:hover { background: #e8c96a; border-color: #e8c96a; }
+  .lses-watch { background: transparent; color: #c9a84c; border: 1px solid rgba(201,168,76,0.5); }
+  .lses-watch:hover { border-color: #c9a84c; background: rgba(201,168,76,0.1); }
+  .lses-pending { flex-shrink: 0; font-size: 11px; font-style: italic; color: rgba(255,255,255,0.45); font-family: 'Montserrat', sans-serif; }
+  .lses-subhead { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); font-family: 'Montserrat', sans-serif; margin: 22px 0 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
+  .lses-subhead:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+  .lses-tz { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 16px; font-family: 'Montserrat', sans-serif; }
+  .lses-panel { background: rgba(34,71,47,0.55); border: 1px solid rgba(201,168,76,0.25); border-radius: 8px; padding: 22px; margin-bottom: 34px; }
+  @media (max-width: 600px) {
+    .lses-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+</style>
+<script>
+(function () {
+  'use strict';
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var RECORDING_WAIT_DAYS = 14; // how long a past session shows "Recording to follow"
+  var seq = 0;
+
+  function esc(s) {
+    if (s == null) return '';
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function safeUrl(u) { return /^https:\/\//i.test(u || '') ? u : '#'; }
+  function tzLabel(d) {
+    var o = -d.getTimezoneOffset();
+    var a = Math.abs(o), h = Math.floor(a / 60), m = a % 60;
+    return 'GMT' + (o >= 0 ? '+' : '−') + h + (m ? ':' + pad(m) : '');
+  }
+  function endOf(r) { return new Date(new Date(r.starts_at).getTime() + r.duration_minutes * 60000); }
+  function dayText(d) { return DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' ' + d.getFullYear(); }
+  function whenText(r) {
+    var s = new Date(r.starts_at), e = endOf(r);
+    return dayText(s) + ' · ' + pad(s.getHours()) + ':' + pad(s.getMinutes()) + '–' + pad(e.getHours()) + ':' + pad(e.getMinutes());
+  }
+  function sameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+
+  function render(card, body, rows) {
+    var now = new Date();
+    var upcoming = [], recorded = [];
+    var cohorts = {};
+    rows.forEach(function (r) {
+      cohorts[r.cohort_id] = true;
+      if (endOf(r).getTime() >= now.getTime()) { upcoming.push(r); return; }
+      var ageDays = (now.getTime() - endOf(r).getTime()) / 86400000;
+      if (r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS)) recorded.push(r);
+    });
+    recorded.reverse(); // most recent first
+    if (!upcoming.length && !recorded.length) { card.style.display = 'none'; body.innerHTML = ''; return; }
+    var showCohort = Object.keys(cohorts).length > 1;
+
+    function cohortBit(r) { return showCohort ? ' · ' + esc(r.cohort_name) : ''; }
+    var html = '';
+    if (upcoming.length) {
+      html += '<div class="lses-subhead">Upcoming</div><div class="lses-group">';
+      upcoming.forEach(function (r) {
+        var s = new Date(r.starts_at);
+        var chip = s.getTime() <= now.getTime() ? '<span class="lses-chip lses-chip--live">Live now</span>'
+                 : (sameDay(s, now) ? '<span class="lses-chip">Today</span>' : '');
+        html += '<div class="lses-item">' +
+                  '<div class="lses-main">' +
+                    '<div class="lses-title">' + esc(r.title) + chip + '</div>' +
+                    '<div class="lses-when">' + whenText(r) + cohortBit(r) + '</div>' +
+                    (r.will_record ? '<div class="lses-note">This session will be recorded.</div>' : '') +
+                    (r.notes ? '<div class="lses-note">' + esc(r.notes) + '</div>' : '') +
+                  '</div>' +
+                  '<a class="lses-join" href="' + esc(safeUrl(r.teams_url)) + '" target="_blank" rel="noopener"' +
+                     ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>' +
+                '</div>';
+      });
+      html += '</div>';
+    }
+    if (recorded.length) {
+      html += '<div class="lses-subhead">Recordings</div><div class="lses-group">';
+      recorded.forEach(function (r) {
+        html += '<div class="lses-item">' +
+                  '<div class="lses-main">' +
+                    '<div class="lses-title">' + esc(r.title) + '</div>' +
+                    '<div class="lses-when">' + dayText(new Date(r.starts_at)) + cohortBit(r) + '</div>' +
+                  '</div>' +
+                  (r.recording_url
+                    ? '<a class="lses-watch" href="' + esc(safeUrl(r.recording_url)) + '" target="_blank" rel="noopener"' +
+                        ' aria-label="Watch recording: ' + esc(r.title) + '">Watch recording</a>'
+                    : '<span class="lses-pending">Recording to follow</span>') +
+                '</div>';
+      });
+      html += '</div>';
+    }
+    if (upcoming.length) html += '<div class="lses-tz">Times are shown in your time zone (' + tzLabel(now) + ').</div>';
+    body.innerHTML = html;
+    card.style.display = '';
+  }
+
+  function load() {
+    var card = document.getElementById('liveSessionsCard');
+    var body = document.getElementById('liveSessionsBody');
+    if (!card || !body) return;
+    if (typeof supabaseClient === 'undefined' || !supabaseClient || !supabaseClient.rpc) return;
+    var mine = ++seq;
+    Promise.resolve(supabaseClient.rpc('get_my_sessions')).then(function (res) {
+      if (mine !== seq) return;
+      if (res.error) {
+        console.error('[sessions] get_my_sessions error:', res.error);
+        card.style.display = 'none';
+        return;
+      }
+      render(card, body, res.data || []);
+    }).catch(function (err) {
+      console.error('[sessions] load error:', err);
+    });
+  }
+  function clear() {
+    seq++;
+    var card = document.getElementById('liveSessionsCard');
+    var body = document.getElementById('liveSessionsBody');
+    if (card) card.style.display = 'none';
+    if (body) body.innerHTML = '';
+  }
+
+  window.ibslLiveSessions = { load: load, clear: clear };
+})();
+</script>
 
 <script>
   var currentRole = '';
@@ -2232,6 +2378,7 @@ async function validateAccess() {
     sessionStorage.setItem('ibsl_portal_role', role);
     sessionStorage.setItem('ibsl_portal_days', daysMsg);
     pPortalLock();
+    if (window.ibslLiveSessions) window.ibslLiveSessions.load();   // [SESSIONS] Join session / Watch recording
   }
 
   /* ── Phase 2B: participant portal lock greying (advisory; the per-page #p-lock-overlay is the real gate). ── */
@@ -2435,6 +2582,7 @@ async function validateAccess() {
     sessionStorage.removeItem('ibsl_portal_role');
     sessionStorage.removeItem('ibsl_portal_days');
     sessionStorage.removeItem('ibsl_admin_viewing_as');
+    if (window.ibslLiveSessions) window.ibslLiveSessions.clear();   // [SESSIONS]
     if (typeof supabaseClient !== 'undefined' && supabaseClient.auth) {
       supabaseClient.auth.signOut();
     }
