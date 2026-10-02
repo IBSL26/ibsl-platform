@@ -35,29 +35,54 @@ const between = (lines, a, b) => { const i = lines.findIndex(l => l.startsWith(a
     { icon: 'FaHeart', title: 'Emotion — Heart', sub: 'How strategy is experienced', points: ['Engagement energy and morale', 'Friction load', 'Psychological safety and values'] }],
     band: 'Execution begins inside the human system.',
     notes: u.partNotes(1, 0) });
-  await d.list({ title: '1.2 · Five principles of aligning heart and mind', fontSize: 26, rows: [
-    { icon: 'FaUsers', label: '1', text: 'Strategy Moves Through People' },
-    { icon: 'FaRandom', label: '2', text: 'Misalignment Fragments Effort' },
-    { icon: 'FaDraftingCompass', label: '3', text: 'Alignment Must Be Designed' },
-    { icon: 'FaBrain', label: '4', text: 'Human Reactions Are Predictable' },
-    { icon: 'FaEye', label: '5', text: 'Execution Must Be Visible in Behaviour' }],
-    notes: u.partNotes(1, 1) });
-  await d.cards({ title: '1.2 · Principle 2: the cost of misalignment', cols: 3, items: [
-    { icon: 'FaCommentDots', title: 'Chinese Whispers', text: 'Intent mutates as it travels downward.' },
-    { icon: 'FaRedo', title: 'Clarification Debt', text: '60–80% of leadership time spent re-explaining.' },
-    { icon: 'FaUserSlash', title: 'Silent Disengagement', text: 'Outward compliance, inward withdrawal.' }],
-    band: 'Low alignment: 41% lower productivity, 48% higher turnover (Gallup; PMI).',
-    notes: N('1.2 · PRINCIPLE 2 — MISALIGNMENT FRAGMENTS EFFORT', 'Content:\n' + between(u.part(1, 1).content, 'Principle 2', 'Principle 3'),
-      'Guidance: Principle 2 (Misalignment Fragments Effort) generates the most immediate recognition — use it as a pivot.') });
+  {
+    const c12 = u.part(1, 1).content;
+    const pn = (n, extra) => N(`1.2 · PRINCIPLE ${n} — ${c12[from(c12, 'Principle ' + n) + 1].toUpperCase()}`, 'Content:\n' + between(c12, 'Principle ' + n, n < 5 ? 'Principle ' + (n + 1) : null), extra || '');
+    await d.list({ title: '1.2 · Five principles of aligning heart and mind', fontSize: 24, rows: [
+      { icon: 'FaUsers', label: '1 · Strategy Moves Through People', text: 'the human entry point of execution' },
+      { icon: 'FaRandom', label: '2 · Misalignment Fragments Effort', text: 'the cost of ignoring the human system' },
+      { icon: 'FaDraftingCompass', label: '3 · Alignment Must Be Designed', text: 'the tools that create alignment' },
+      { icon: 'FaBrain', label: '4 · Human Reactions Are Predictable', text: 'the behavioural dynamics that influence execution' },
+      { icon: 'FaEye', label: '5 · Execution Must Be Visible in Behaviour', text: 'the observable standard for alignment' }],
+      notes: u.partNotes(1, 1, { content: false, extra: 'Content: the five principles follow in order, one slide each. The detail for each principle is in the notes of its slide.' }) });
+    await d.compare({ title: 'Principle 1 — Strategy Moves Through People', cols: [
+      { icon: 'FaBrain', title: 'Cognitive alignment', sub: 'Mind · interpretation', points: ['Make decision biases visible', 'Name how they shape the S2R® process', 'Agree shared decision principles'] },
+      { icon: 'FaHeart', title: 'Emotional alignment', sub: 'Heart · experience', points: ['Name the current emotional state', 'Joy, Sadness, Anger, Fear, Disgust, Surprise', 'Each state shapes energy, morale and safety'] }],
+      band: 'Alignment of the mind and heart is the first execution system.',
+      notes: pn(1) });
+    await d.cards({ title: 'Principle 2 — Misalignment Fragments Effort', cols: 3, items: [
+      { icon: 'FaCommentDots', title: 'Chinese Whispers', text: 'Intent mutates as it travels downward.' },
+      { icon: 'FaRedo', title: 'Clarification Debt', text: '60–80% of leadership time spent re-explaining.' },
+      { icon: 'FaUserSlash', title: 'Silent Disengagement', text: 'Outward compliance, inward withdrawal.' }],
+      band: 'Low alignment: 41% lower productivity, 48% higher turnover (Gallup; PMI).',
+      notes: pn(2, 'Guidance: Principle 2 (Misalignment Fragments Effort) generates the most immediate recognition — use it as a pivot.') });
+    await d.cards({ title: 'Principle 3 — Alignment Must Be Designed', cols: 2, titleBeside: true, items: [
+      { icon: 'FaUserCog', title: 'OCEAVL Assessment', text: 'Surfaces the psychological tendencies that influence executive decision-making.' },
+      { icon: 'FaThermometerHalf', title: 'Emotional Climate Assessment', text: 'Identifies the prevailing state of being across six core emotions.' }],
+      band: 'Alignment rarely emerges naturally. It must be intentionally designed.',
+      notes: pn(3) });
+    await d.list({ title: 'Principle 4 — Human Reactions Are Predictable', fontSize: 26, rows: [
+      { icon: 'FaProjectDiagram', label: 'Predictable:', text: 'reactions to strategic change follow psychological patterns' },
+      { icon: 'FaExclamationTriangle', label: 'Threat circuitry:', text: 'the brain treats social change like physical danger' },
+      { icon: 'FaHeart', label: 'Emotion first:', text: 'change is evaluated emotionally before rationally' },
+      { icon: 'FaArrowRight', gold: true, text: 'The SCARF Model names the five triggers (1.5).' }],
+      notes: pn(4) });
+    await d.list({ title: 'Principle 5 — Execution Must Be Visible in Behaviour', fontSize: 26, rows: [
+      { icon: 'FaEye', label: 'Observable:', text: 'without behaviour, alignment remains theoretical' },
+      { icon: 'FaListUl', label: 'Five behaviours:', text: 'Accountability, Commitment, Engagement, Integrity, Transparency' },
+      { icon: 'FaBalanceScale', label: 'Independent of stated values:', text: 'the minimum standard for execution' },
+      { icon: 'FaArrowRight', gold: true, text: 'ACE-IT sets the observable standard (1.7).' }],
+      notes: pn(5) });
+  }
   {
     const p13 = u.part(1, 2), cut = from(p13.content, 'The 4 Checks of Mind, Heart, Hands and Habit');
     const g13 = p13.guidance[0].filter(l => /^(Key facilitation question|Watch for):/.test(l)).join('\n');
-    await d.compare({ title: '1.3 · Change management: event and transition', cols: [
+    await d.compare({ title: '1.3a · Change management: event and transition', cols: [
       { icon: 'FaCalendarCheck', title: 'The event', sub: 'Belongs to the organisation', points: ['Announced on a date', 'The structure, system or target is different', 'Leaders have finished their own transition'] },
       { icon: 'FaRoute', title: 'The transition', sub: 'Belongs to the person', points: ['Letting go of a familiar practice', 'Working out what the new one asks', 'Becoming able to do it'] }],
       band: 'Moving people from current practice to the practice the strategy requires.',
       notes: u.partNotes(1, 2, { content: false, extra: 'Content:\n' + p13.content.slice(0, cut).join('\n') }) });
-    await d.list({ title: '1.3 · The 4 Checks of Mind, Heart, Hands and Habit', fontSize: 24, rows: [
+    await d.list({ title: '1.3b · The 4 Checks of Mind, Heart, Hands and Habit', fontSize: 24, rows: [
       { icon: 'FaBrain', label: 'Mind · 3S · Explain', text: 'They understand the change, why it matters and what they do differently.' },
       { icon: 'FaHeart', label: 'Heart · SCARF · Involve', text: 'They want it to succeed.' },
       { icon: 'FaHandsHelping', label: 'Hands · STAT · Equip', text: 'They are able to do it.' },
@@ -164,7 +189,7 @@ const between = (lines, a, b) => { const i = lines.findIndex(l => l.startsWith(a
       { icon: 'FaUserTie', gold: true, label: 'Owner:', text: 'one named leader who answers for adoption' }],
       notes: N('APPLICATION EXERCISE · STEP 1 — THE CHANGE TRANSITION MAP', G5.slice(1, 3), 'Content:\n' + fc.slice(fMap, fRole).join('\n'),
         'Participant file (Section 5, Step 1) — what participants complete:\n' + pc.slice(pMap, pRole).join('\n')) });
-    await d.list({ title: 'Mapping how our roles connect', fontSize: 26, rows: [
+    await d.list({ title: 'Steps 2–4 · Mapping how our roles connect', fontSize: 26, rows: [
       { icon: 'FaUser', label: 'Step 2 · Role Connections (12–15 min):', text: 'your role and the two you depend on most' },
       { icon: 'FaExchangeAlt', label: 'Step 3 · Exchange & Dialogue (15–20 min):', text: 'test each other’s maps and tables' },
       { icon: 'FaUsers', label: 'Step 4 · Plenary Synthesis (20–25 min):', text: 'the weakest domain and the change sequence' },
