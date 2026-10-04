@@ -234,3 +234,12 @@ Records of the review: `Claude outputs\Unit 1 - Review notes.docx` (her 16 noteb
 - Slide 38 is still titled "Unit Summary · Return to the opening question", although the opening assumption question is gone from the deck and from F.
 - Phone layout is as before (pages wider than a phone screen); the new blocks stack correctly.
 - Lesson from 4 October: `device_commit_files` wrote the earlier content when the same staged path was used a second time. Use a new staged folder for every commit and check the md5 on Carol's computer afterwards.
+
+## 14. Unit 1 journal insights (4 October 2026, late)
+
+Carol attached ten devotional journals (January to October 2026) and asked for the Strategy, Leadership and Culture insights to go into the Unit 1 deck as facilitator notes. Same rules as the first enrichment: only the General Professional Insights (Strategy, Leadership, Culture); Integration and other categories, DIG axioms, spiritual insights and quotes are excluded; the Bible reference is removed and the business point kept; her writing rules applied; each entry is "Label: text" followed by "Source: Journal, <date> — Professional Insights: <category>". The journals stay out of the repository.
+
+- 55 insights added on 19 slides (5, 9, 10, 11, 12, 13, 17, 18, 21, 22, 23, 24, 25, 28, 29, 30, 31, 36, 37). 26 are the entries from the first enrichment, moved to the matching slides of Carol's deck; 29 are new, 22 of them from the October journal. Slide 31 already carried two entries; one was added. Slide 11 already carried two insights in Carol's own words; two different ones were added.
+- Spec: `Unit decks\_build\enrich\u01_carol_deck.json`. Script: `Unit decks\_build\insights_u01.py <deck.pptx> <spec>`. It inserts after the last "Professional insights" heading on the slide, or appends at the end, and never deletes; re-running skips what is already there. **Do not run `enrich.py` or `enrich\u01.json` on Unit 1**: `enrich.py` deletes everything after the marker, and Carol's notes continue after it on slides 10, 11, 18 and 22.
+- After the insights: reader pictures and manifest rebuilt (font-substituted render copy, as above), deck copied to `Unit decks\`. Checked: slide text identical, no original note paragraph changed, manifest notes equal the deck notes.
+- Carol must commit, push and replace `unit-01.pptx` and the `unit-01` folder in Supabase again.
