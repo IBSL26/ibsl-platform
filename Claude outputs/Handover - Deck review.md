@@ -217,13 +217,20 @@ Records of the review: `Claude outputs\Unit 1 - Review notes.docx` (her 16 noteb
 
 **Done in the deck:** 2.1a / 2.1b, MyHealth, "your" in the outcomes, "team members", "lens" replaced (perspective / focus), "programme", notes of slide 20 renumbered.
 
+**Later on 4 October (second pass):**
+
+- Carol's correction: the participant file must never take the facilitator slide notes wholesale. It carries a short version written for the participant; the full script stays in the facilitator file and the slide notes. P was reframed in 4.1 (short opening; each phase = one or two sentences, one line per bias, closing line, titled Scanner Question), the 4.2 opening, 4.2.1 and 4.2.2. Apply this rule to every unit.
+- Distortion Lab: P now holds only the debrief questions. The exercise (scenario, groups, Round 1 task, board options, enterprise task) is in F and on slides 34 to 36. The F note and the slide 34 notes say so.
+- SEET ("The Executive Leadership Perspective Simulation") added to Section 1 of both files, before "Why strategies fail in delivery".
+- Deck: the five "Time:" lines removed from the notes (slides 1, 3, 4, 7, 34) on Carol's instruction "Remove times from the slides"; the seven "rather than / instead of" sentences reworded; step durations inside the Distortion Lab instructions left in. F keeps its "Suggested time" lines.
+- The final deck was copied over `Unit decks\Unit 01 - Behavioural Strategy Fundamentals.pptx` so that git holds Carol's real deck. `_build\unit01.js` still describes the old deck: do not run it.
+- Deck-reader pictures: Carol's slides use Aptos and Georgia, which the device shell does not have, so text overlapped in the pictures. `reader_assets.py` was run on a temporary copy in which those typefaces are swapped for Carlito and Caladea (deck itself untouched). `Deck upload\Module-1\unit-01\` now holds 38 pictures and the new manifest; the two spare old pictures are in `Claude outputs\_to_delete\`.
+- `node check_standards.js`: the portal files are clean. It now reports 82 rule 16 breaches, all in the Unit 01 deck (text under 24pt on slides 14, 19, 24, 26, 32, 34, 36). These are Carol's own slides; she has been told and has not asked for a rework.
+
 **Open for Unit 1:**
 
-- Seven "rather than / instead of" sentences in the slide notes (slides 5, 13 ×2, 18, 22, 24 ×2). Rewordings were shown to Carol; apply only on her yes.
-- Slides 24, 34 and 36 hold text far under 24pt (down to 11pt) and render with overlapping text in the deck-reader pictures (LibreOffice). Slides 14, 19, 26 and 32 have 20pt text. Carol to decide how these slides are reworked.
-- The deck-reader folder `Deck upload\Module-1\unit-01\` still holds the old 40 pictures. Regenerate it with `reader_assets.py` once the deck is final. The device shell cannot delete files: build into the shell's home folder, copy the new files over the old ones, and move the two spare pictures (s39, s40) into a `_to_delete` folder for Carol.
-- Carol has not yet committed the Unit 1 portal files or uploaded the deck.
-- SEET: added to Section 1 of both files on Carol's instruction ("The Executive Leadership Perspective Simulation", before "Why strategies fail in delivery"; P in direct address, F in the slide 4 wording, plus one F guidance paragraph).
-- Carol's instruction: "Remove times from the slides." Five "Time:" lines are in the notes of slides 1, 3, 4, 7 and 34. Not yet removed: the deck was open in PowerPoint. The step durations inside the Distortion Lab running order (slide 34) and the Challenge Clock (slide 29) are instructions, left in unless Carol says otherwise. The F file keeps its "Suggested time" lines.
+- Carol to commit and push, then replace `unit-01.pptx` and the `unit-01` folder in Supabase (`facilitator_decks` → `Module-1`). Ask whether this was done before assuming.
+- Small text on the seven slides above (rule 16): her decision.
+- Slide 38 is still titled "Unit Summary · Return to the opening question", although the opening assumption question is gone from the deck and from F.
 - Phone layout is as before (pages wider than a phone screen); the new blocks stack correctly.
 - Lesson from 4 October: `device_commit_files` wrote the earlier content when the same staged path was used a second time. Use a new staged folder for every commit and check the md5 on Carol's computer afterwards.
