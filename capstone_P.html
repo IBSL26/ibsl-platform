@@ -55,6 +55,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .box{margin-bottom:16px;}
 .box-l{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;}
 .box-i{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:8px;}
+.pull{border-left:2px solid var(--gold);padding:2px 0 4px 14px;margin:6px 0 16px;}
+.pull .sec-note{margin:0 0 10px;}
 .box-ta{width:100%;min-height:96px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}
 .box-ta:focus{outline:none;border-color:rgba(201,168,76,.6);}
 .box-v{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;white-space:pre-wrap;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:10px 12px;min-height:20px;}
@@ -155,14 +157,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   // === Blueprint structure (approved wording). [Case] is replaced with the cohort's case name. ===
   var BLUEPRINT = [
     { key:'u2', unit:2, title:'Strategy Visioning & Success in Practice (SiP)', boxes:[
-      ['2A','Strategic Intent Statement','State what [Case] pursues, why, how and by when, in a single agreed statement.'],
-      ['2B','Maturity gaps and corrective actions','Name the three areas of strategic maturity where [Case] falls furthest short of its ambition. For each, state the corrective action the executive team commits to.'],
-      ['2C','SiP · Customer Experience & Value','Describe what customers observe and experience when [Case] has reached its intended future position.'],
-      ['2D','SiP · Operational Capability','Describe the operational capability [Case] demonstrates at its intended future position.'],
-      ['2E','SiP · People & Culture','Describe how [Case]’s people work, behave and lead at its intended future position.'],
-      ['2F','SiP · Enterprise Value','Describe the value [Case] creates for its shareholders and stakeholders at its intended future position.'],
-      ['2G','SiP Headline','One sentence stating the destination that every leader in [Case] can repeat.'],
-      ['2H','SiP Storyline','Describe [Case] at its destination, written as if it already exists.']
+      ['2A','Strategy Architecture','Set out the strategy architecture of [Case] under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.'],
+      ['2B','Strategy Intent Statement','State the strategic ambition of [Case] in one crisp statement that carries WHAT, WHY, HOW and WHEN.'],
+      ['2C','SiP · Customer Experience & Value','State what customers and other value recipients see and experience when the Strategy Intent of [Case] succeeds.'],
+      ['2D','SiP · Operational Capability & Execution Rhythm','State what is visible in how [Case] operates and executes when its Strategy Intent succeeds.'],
+      ['2E','SiP · People & Culture Dynamics','State what is visible in how the people of [Case] understand, decide and behave when its Strategy Intent succeeds.'],
+      ['2F','SiP · Enterprise Value Creation','State how [Case] benefits across its success metrics when its Strategy Intent succeeds.']
     ]},
     { key:'u3', unit:3, title:'SiP KISS Mapping & OKR Definition', boxes:[
       ['3A','Keep','The current practices at [Case] that already advance the SiP and must be protected.'],
@@ -240,8 +240,21 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   ];
   var BY_KEY = {}; BLUEPRINT.forEach(function(s){ BY_KEY[s.key] = s; });
 
+  // === Outputs brought in from the member's own unit page (added unit by unit as the units are rebuilt). ===
+  // Each row: Blueprint box, response key on the unit page, name in that page's list of confirmed outputs.
+  var PULL = {
+    u2: { lens:'u2m1_lens1', rows:[
+      ['2A','arch_output','Strategy Architecture'],
+      ['2B','intent_statement','Strategy Intent Statement'],
+      ['2C','sip_d1_st','SiP · Customer Experience & Value'],
+      ['2D','sip_d2_st','SiP · Operational Capability & Execution Rhythm'],
+      ['2E','sip_d3_st','SiP · People & Culture Dynamics'],
+      ['2F','sip_d4_st','SiP · Enterprise Value Creation']
+    ]}
+  };
+
   // === State ===
-  var S = { mode:'participant', cohortId:null, uid:null, data:null, bp:null, caseName:'', openKeys:{}, dirty:{} };
+  var S = { mode:'participant', cohortId:null, uid:null, data:null, bp:null, caseName:'', openKeys:{}, dirty:{}, pulled:{} };
 
   // === Helpers ===
   function esc(s){ if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
@@ -327,6 +340,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (S.mode === 'participant') html += resultCard();
     document.getElementById('root').innerHTML = html;
     restoreDirty();
+    autoPull();
   }
 
   function briefCard(){
@@ -410,7 +424,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         '<span class="chip ' + st + '">' + chipText + (st === 'awaiting' ? ' · ' + nConf + ' of ' + members.length : '') + '</span>' +
       '</div><div class="sec-b">';
 
-    if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.</p>';
+    if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.' + (PULL[sec.key] ? ' Your confirmed outputs from Unit ' + def.unit + ' are then brought in.' : '') + '</p>';
+    if (editable && PULL[sec.key]) h += '<div class="pull no-print"><p class="sec-note">Your confirmed outputs from Unit ' + def.unit + ' are brought in from your Unit ' + def.unit + ' page. Read them as a team, then send for team confirmation.</p>' +
+      '<button class="btn" onclick="capPull(\'' + sec.key + '\')">Bring in from my Unit ' + def.unit + ' page</button></div>';
     if (st === 'awaiting') h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
     if (st === 'agreed') h += '<p class="sec-note">Agreed · ' + esc(fmtDateTime(sec.agreed_at)) + '</p>';
 
@@ -551,6 +567,79 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var btns = el.querySelectorAll('.actions .btn');
     for (var i = 0; i < btns.length; i++) btns[i].disabled = !!busy;
   }
+
+  // === Bring confirmed outputs in from the member's own unit page ===
+  function sectionEmpty(sec){
+    var c = (sec && sec.content) || {};
+    for (var k in c){ if (String(c[k] || '').trim() !== '') return false; }
+    return true;
+  }
+  function readUnitOutputs(key){
+    var cfg = PULL[key];
+    var keys = cfg.rows.map(function(r){ return r[1]; }).concat(['confirmed_items']);
+    return sb.from('lens_responses').select('response_key,value')
+      .eq('profile_id', S.uid).eq('lens_id', cfg.lens).in('response_key', keys).then(function(res){
+        if (res.error){ console.error('[capstone] bring in:', res.error); return null; }
+        var v = {}; (res.data || []).forEach(function(r){ v[r.response_key] = r.value; });
+        var conf = v.confirmed_items;
+        if (typeof conf === 'string'){ try { conf = JSON.parse(conf); } catch (e){ conf = []; } }
+        if (!Array.isArray(conf)) conf = [];
+        var ready = [], missing = [];
+        cfg.rows.forEach(function(r){
+          var t = (typeof v[r[1]] === 'string') ? v[r[1]].trim() : '';
+          if (t && conf.indexOf(r[2]) !== -1) ready.push({ box:r[0], text:t, name:r[2] }); else missing.push(r[2]);
+        });
+        return { ready:ready, missing:missing };
+      });
+  }
+  function boxTa(key, box){ return document.querySelector('textarea.box-ta[data-sec="' + key + '"][data-box="' + box + '"]'); }
+  function fillBoxes(key, ready){
+    var n = 0;
+    ready.forEach(function(o){
+      var ta = boxTa(key, o.box);
+      if (ta && ta.value !== o.text){ ta.value = o.text; window.capInput(ta); n++; }
+    });
+    return n;
+  }
+
+  // First opening of an empty Draft: bring the full confirmed set in and save it as the team's draft.
+  function autoPull(){
+    if (S.mode !== 'participant' || !S.bp || S.bp.locked) return;
+    (S.bp.sections || []).forEach(function(sec){
+      var key = sec.key;
+      if (!PULL[key] || S.pulled[key] || statusOf(sec) !== 'draft' || S.dirty[key] || !sectionEmpty(sec)) return;
+      S.pulled[key] = true;
+      readUnitOutputs(key).then(function(o){
+        if (!o || o.missing.length || S.dirty[key] || !boxTa(key, PULL[key].rows[0][0])) return;
+        if (!fillBoxes(key, o.ready)) return;
+        doSave(key).then(function(r){
+          S.dirty[key] = false;
+          S.openKeys[key] = true;
+          reload().then(function(){
+            if (r && r.ok) showMsg(key, 'Brought in from your Unit ' + BY_KEY[key].unit + ' page and saved as a draft. Read the text as a team, then send for team confirmation.', 'ok');
+          });
+        });
+      });
+    });
+  }
+
+  // The button: bring in again from this member's unit page.
+  window.capPull = function(key){
+    if (!PULL[key] || S.mode !== 'participant') return;
+    var unit = BY_KEY[key].unit;
+    setBusy(key, true);
+    readUnitOutputs(key).then(function(o){
+      setBusy(key, false);
+      if (!o){ showMsg(key, 'Could not read your Unit ' + unit + ' page. Please try again.', 'err'); return; }
+      var missingText = o.missing.length ? ' Not yet confirmed on your Unit ' + unit + ' page: ' + o.missing.join(', ') + '. Confirm there, then bring in again.' : '';
+      if (!o.ready.length){ showMsg(key, 'Nothing is confirmed on your Unit ' + unit + ' page yet. Confirm your outputs there, then bring them in again.', 'err'); return; }
+      var replaces = o.ready.some(function(x){ var ta = boxTa(key, x.box); return ta && ta.value.trim() !== '' && ta.value.trim() !== x.text; });
+      if (replaces && !window.confirm('Replace the text in these boxes with the confirmed outputs from your Unit ' + unit + ' page?')) return;
+      var n = fillBoxes(key, o.ready);
+      showMsg(key, (n ? 'Brought in from your Unit ' + unit + ' page: ' + o.ready.map(function(x){ return x.box; }).join(', ') + '. Save the draft or send for team confirmation.'
+                      : 'The boxes already match your Unit ' + unit + ' page.') + missingText, o.missing.length ? 'err' : 'ok');
+    });
+  };
 
   // Discard this section's unsaved text and fetch the latest.
   window.capReload = function(key){ S.dirty[key] = false; reload(); };

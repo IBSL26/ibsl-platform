@@ -294,6 +294,21 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
 /* Facilitator file = preparation only: scoring controls and exports hidden */
 .s-score,.mat-total-box,.mat-export-bar{display:none!important;}
+/* UNIT 2 REBUILD (Oct 2026) */
+.u2-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;}
+.u2-card{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:14px 16px;}
+.u2-card-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--gold);}
+.u2-card p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;}
+.u2-chain{display:flex;align-items:stretch;gap:8px;margin:16px 0;}
+.u2-chain-box{flex:1;padding:14px 12px;text-align:center;background:#151c15;border:1px solid rgba(201,168,76,.25);border-radius:3px;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;}
+.u2-chain-box small{display:block;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u2-chain-arr{display:flex;align-items:center;color:var(--gold);font-size:1.1rem;}
+.u2-why{grid-column:1/-1;}
+.u2-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.u2-txt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;margin:0;}
+.u2-signs{margin:0;padding-left:18px;}.u2-signs li{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:5px;}
+.u2-ql{margin:0;padding-left:20px;}.u2-ql li{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:4px;}
+@media(max-width:700px){.u2-grid{grid-template-columns:1fr;}.u2-chain{flex-direction:column;}.u2-chain-arr{justify-content:center;transform:rotate(90deg);}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -358,10 +373,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="eyebrow">Module 2 · Direction · Unit 2</div>
     <h1 class="unit-title">Strategy Visioning &amp; Success in Practice <span style="color:var(--gold);font-style:italic;">(SiP)</span></h1>
     <div class="unit-sub">Collective Intelligence of Execution · Facilitator Guide</div>
-    <p class="unit-desc">This unit builds the master definition of strategy, the 3W1H framework, and produces two integrated outputs — a Strategic Intent Statement and a Success in Practice narrative — through collective executive co-creation.</p>
+    <p class="unit-desc">This unit helps leaders to determine the organisation&rsquo;s strategy architecture, articulate its strategic intent and define the Success in Practice (SiP) of the chosen Strategy Intent.</p>
     <div class="klo-bar">
       <span class="klo-label">Key learning outcomes</span>
-      <span class="klo">Articulate strategic intent in relation to the organisation&rsquo;s purpose, long-term value and stakeholder relevance.</span>
+      <span class="klo">Define strategy architecture and articulate strategic intent in relation to the organisation&rsquo;s purpose, long-term value and stakeholder relevance.</span>
       <span class="klo">Define a coherent future position and the organisational meaning of success.</span>
       <span class="klo">Evaluate the consistency between strategic ambition, organisational identity and the realities of the operating environment.</span>
       <span class="klo">Establish a shared strategic direction that supports consistent enterprise interpretation and decision-making.</span>
@@ -380,24 +395,25 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
 <div class="main">
 
-<!-- ═══ TAB 1: AWARENESS ═══ -->
+<!-- ═══ FACILITATOR GUIDE ═══ -->
 <div class="mod-panel active" id="mod0">
 <div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Unit 2 &mdash; Session Overview</h2><p>Use this tab to prepare before each section. It contains the unit intent, key facilitation questions, and tone and watch points for the full unit.</p></div>
 <div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
 <div class="fac-note-full"><div class="fac-note-full-label">&#9670; Unit Intent</div>
-<p>Unit 2 builds the direction every later unit depends on: a Strategic Intent Statement and a Success in Practice narrative co-created by the leadership team. The 3W1H framework gives intent its structure; the four SiP dimensions make success observable.</p>
-<p>The Strategy Maturity Assessment and the SiP contributions carry the unit. Protect time for executives to hear each other&rsquo;s role perspectives before the contributions are integrated into one shared view.</p>
+<p>Before the organisation can define where it is going, leaders must agree on what strategy actually means, in the precise, strategic sense, translated to operational reality, that makes every subsequent decision coherent.</p>
+<p>Three connected outputs carry the unit: the Strategy Architecture, the Strategy Intent Statement and Success in Practice. Protect the time in Section 4 for each group to build them in that order.</p>
 </div>
 <div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
-<li><em>&ldquo;Could every member of your executive team state your organisation&rsquo;s strategic intent in the same words? Where would the versions differ?&rdquo;</em></li>
-<li><em>&ldquo;What would a customer, an employee and a shareholder observe if your strategy were succeeding?&rdquo;</em></li>
-<li><em>&ldquo;Which SiP dimension does your leadership team discuss least? What drift does that silence create?&rdquo;</em></li>
-<li><em>&ldquo;Which of the 26 maturity areas surprised you most, and what corrective action does it demand?&rdquo;</em></li>
+<li><em>&ldquo;How well defined is each part of our strategy architecture today?&rdquo;</em></li>
+<li><em>&ldquo;If our Strategy Intent is successful, what should we see in practice?&rdquo;</em></li>
+<li><em>&ldquo;When a new initiative, investment or opportunity appears, what tells us whether it belongs in our strategy?&rdquo;</em></li>
+<li><em>&ldquo;From my executive role, what must I contribute for this Success in Practice to become real?&rdquo;</em></li>
 </ul></div>
 <div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
-<p><strong>Watch for:</strong> intent statements that describe activity. Push for the destination: <em>&ldquo;What position will the organisation hold when this is achieved?&rdquo;</em></p>
-<p><strong>Watch for:</strong> one SiP dimension dominating the conversation, most often Enterprise Value. Ask each role to speak for a dimension outside its function.</p>
-<p><strong>Application:</strong> the SiP Headline must be one sentence every leader can repeat. Test it by asking two participants to recite it back.</p>
+<p><strong>Watch for:</strong> a Strategy Intent Statement that carries every point from the Architecture. The Architecture contains the depth. The Intent must provide the clarity.</p>
+<p><strong>Watch for:</strong> SiP statements that list initiatives, projects or activities. Bring the group back to observable reality: <em>&ldquo;What is happening when the strategy is working?&rdquo;</em></p>
+<p><strong>Watch for:</strong> one perspective defining success for the whole organisation. Use the SiP Flammables as the balance check.</p>
+<p><strong>Application:</strong> general statements such as &ldquo;Support the strategy&rdquo;. Ask: <em>&ldquo;What does this role specifically decide, enable, coordinate, resource, protect or change?&rdquo;</em></p>
 </div>
 <div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
 </div></div>
@@ -405,42 +421,47 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-hero">
   <p class="mod-hero-label">Section 1 · Awareness — What</p>
   <h2>What is Strategy?</h2>
-  <p>Interrogative Anchor · What is strategy? What is strategic intent? What is Success in Practice?</p>
+  <p>Interrogative Anchor · What is the Strategy Architecture? What is the Strategy Intent Statement? What is Success in Practice?</p>
 </div>
 <div class="mod-body">
-<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Articulate strategic intent in terms of what the organisation pursues, why, how and when.</li><li>Distinguish the direction an organisation sets from the future position that defines its success.</li></ul></div>
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Redefine strategy to create a robust understanding of strategy architecture.</li><li>Distinguish the direction an organisation sets from the future position that defines its success.</li></ul></div>
 
-<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1 · Awareness</div><p><strong>Section intent:</strong> This section establishes the conceptual bedrock of the entire unit. Before any co-creation can happen, participants must share a single, precise definition of strategy and understand its three building blocks: the master definition, the 3W1H framework, and Success in Practice. Do not rush this. Every word in the master definition has strategic consequence.</p><p><strong>Opening the session:</strong> Before showing any content, ask participants — <em>"Write your definition of strategy in one sentence — right now, without consulting anyone."</em> Collect 3–4 responses. Note the differences on a whiteboard. This gap between answers is exactly the problem this unit solves. Use it as the opening provocation.</p><p><em>Suggested section time: 25–35 minutes across all three sections.</em></p></div>
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1 · Awareness</div><p><strong>Section intent:</strong> This section establishes the conceptual bedrock of the entire unit. Before any co-creation can happen, participants must share a single, precise definition of strategy and understand its three building blocks: the Strategy Architecture, the Strategy Intent Statement and Success in Practice. Do not rush this. Every word in the definition has strategic consequence.</p><p><strong>Opening the session:</strong> Before showing any content, ask participants — <em>"Write your definition of strategy in one sentence — right now, without consulting anyone."</em> Collect 3–4 responses. Note the differences on a whiteboard. This gap between answers is exactly the problem this unit solves. Use it as the opening provocation.</p></div>
 
 
 <div class="fac-note" style="margin-top:22px;">
   <div class="fac-label">Facilitator Script</div>
-  <p>Before this organisation can define where it is going, leaders must agree on what strategy actually means in the precise operational sense that makes every subsequent decision coherent. Open by asking: "If I asked each of you to write your definition of strategy on a card right now — would they match?" The gap between answers is the problem this unit solves.</p>
+  <p><strong>Set the frame:</strong> Before defining strategy, introduce Strategy Architecture as the underlying logic that gives a strategy its structure.</p>
+  <p style="margin-top:8px;"><strong>Explain:</strong> "Before we can express strategy clearly, we need to understand what sits underneath it. We call this the Strategy Architecture — the interconnected choices and logic that determine what the organisation will do, why, how and when; how it will create, deliver and sustain value; for whom; and within what environment."</p>
+  <p style="margin-top:8px;">Emphasise that the purpose of this section is to unpack the architecture before trying to produce a strategy statement. A strategy can sound compelling while important parts of its underlying logic remain weak, disconnected or undefined.</p>
+  <p style="margin-top:8px;">As participants work through the concepts, ask them to consider: "How well defined is each part of our strategy architecture today?"</p>
+  <p style="margin-top:8px;"><strong>Bridge to the definition:</strong> "We are now going to unpack the Strategy2Results® definition of strategy. Each concept in the definition represents part of the architecture. Once we understand the parts and how they connect, we can begin constructing a coherent strategic position."</p>
 </div>
 
-<!-- MASTER DEFINITION -->
+<!-- STRATEGY ARCHITECTURE -->
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.1 — Strategy Master Definition</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">7 Concepts · Click to expand each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">1.1 — Define the Strategy Architecture</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">9 Concepts · Click to expand each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1</div><p><strong>Directing participants through the 7 concepts:</strong> Ask participants to expand each concept card individually and read it before moving to the next. Allow 3–4 minutes of individual reading. Then ask: <em>"Which of these seven concepts is least visible in how your organisation currently talks about strategy?"</em></p><p><strong>Key concept to linger on:</strong> The distinction between <strong>Thinking &amp; Logic</strong> (OUTPUT concept) and <strong>Process</strong> (structured container). Most organisations have process but neglect thinking quality — the definition forces participants to see this gap.</p><p><strong>The Value Triad (Creates · Delivers · Sustains):</strong> Draw explicit attention to this concept. Ask: <em>"Is your current strategy as strong on Sustains as it is on Creates and Delivers? Where is the investment in sustainability of value?"</em> This often surfaces an uncomfortable silence.</p><p><em>Suggested time: 8–10 minutes.</em></p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.1</div><p><strong>Directing participants through the 9 concepts:</strong> Ask participants to expand each concept card individually and read it before moving to the next. Then ask: <em>"Which of these nine concepts is least visible in how your organisation currently talks about strategy?"</em></p><p><strong>Key concept to linger on:</strong> The distinction between <strong>Thinking &amp; Logic</strong> (the cognitive engine) and <strong>Process</strong> (the structured container). Most organisations have process but neglect thinking quality — the definition forces participants to see this gap.</p><p><strong>The Value Triad (Creates · Delivers · Sustains):</strong> Draw explicit attention to this concept. Ask: <em>"Is your current strategy as strong on Sustains as it is on Creates and Delivers? Where is the investment in sustainability of value?"</em> This often surfaces an uncomfortable silence.</p></div>
   <div class="quote"><p>"Strategy is the output of iterative thinking, logic and process to determine what, why, how and when an organisation creates, delivers and sustains value to its stakeholders while navigating the forces within its operating environment."</p></div>
   <p>Every word carries strategic weight. Expand each concept below.</p>
   <div id="conceptList"></div>
 </div>
 </div>
 
-<!-- 3W1H -->
+<!-- STRATEGY INTENT STATEMENT -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">1.2 — Strategic Intent: The 3W1H Framework</span>
+  <span class="acc-t">1.2 — Defining the Strategy Intent Statement</span>
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Dimensions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2</div><p><strong>Before opening the tabs:</strong> Draw attention to the Critical Insight box — <em>"Most strategies fail because HOW and WHEN are underdeveloped."</em> Ask participants to rate their organisation on each dimension privately (1–5) before exploring the content. This creates a diagnostic baseline.</p><p><strong>Directing through the 4 dimension tabs:</strong> Walk through WHAT, WHY, HOW, WHEN one at a time as a group. For each, ask one diagnostic question from the content and take 2–3 responses. The HOW and WHEN tabs typically reveal the most significant gaps — give them additional time.</p><p><strong>HOW tab — key facilitation moment:</strong> Ask: <em>"Does your operating model currently match your strategy — or is it a legacy structure that predates your current direction?"</em> This often opens the most honest conversation of the entire Awareness section.</p><p><strong>WHEN tab:</strong> Ask: <em>"Have you actually mapped the sequence of moves needed to achieve your strategy — or does the plan treat all initiatives as running in parallel?"</em></p><p><em>Suggested time: 10–12 minutes.</em></p></div>
-  <div class="hbox"><p><strong>Critical Insight:</strong> Most strategies fail because HOW and WHEN are underdeveloped. HOW must include the full operating model and capability architecture. WHEN must address market timing, pivot triggers, and sequencing.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.2</div><p><strong>Positioning the statement:</strong> The Strategy Architecture holds the depth and the supporting logic. The Strategy Intent Statement is crisp, directional and easy to express. Participants derive their own statement in Section 4; here they learn what it brings forward.</p><p><strong>Before opening the tabs:</strong> Ask participants to rate their organisation on each dimension privately (1–5) before exploring the content. This creates a diagnostic baseline.</p><p><strong>Directing through the 4 dimension tabs:</strong> Walk through WHAT, WHY, HOW, WHEN one at a time as a group. For each, ask one diagnostic question from the content and take 2–3 responses. The HOW and WHEN tabs typically reveal the most significant gaps — give them additional time.</p><p><strong>HOW tab — key facilitation moment:</strong> Ask: <em>"Does your operating model currently match your strategy — or is it a legacy structure that predates your current direction?"</em> This often opens the most honest conversation of the entire Awareness section.</p><p><strong>WHEN tab:</strong> Ask: <em>"Have you actually mapped the sequence of moves needed to achieve your strategy — or does the plan treat all initiatives as running in parallel?"</em></p></div>
+  <p>The Strategy Architecture provides the foundation from which the Strategy Intent Statement is derived. It has established the organisation's strategic choices and the logic connecting them.</p>
+  <p>The Strategy Intent Statement brings forward four dimensions from that architecture. Select each one.</p>
   <div class="ph-tabs" id="w1hTabs">
     <div class="ph-tab active" onclick="showPh('w1h',0)"><div class="ph-num">Dimension 1</div><div class="ph-name">WHAT</div></div>
     <div class="ph-tab" onclick="showPh('w1h',1)"><div class="ph-num">Dimension 2</div><div class="ph-name">WHY</div></div>
@@ -448,7 +469,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="ph-tab" onclick="showPh('w1h',3)"><div class="ph-num">Dimension 4</div><div class="ph-name">WHEN</div></div>
   </div>
   <div id="w1hPanels"></div>
-  <p style="margin-top:16px;">Without a clear strategic intent, every strategy discussion reverts to function-level interpretation. Strategic intent is the decision filter through which all other choices pass.</p>
+  <p style="margin-top:16px;">These four dimensions are then crystallised into one clear Strategy Intent Statement.</p>
+  <p>The strength of the statement comes from the architecture beneath it. It should therefore be crisp, directional and easy to express, while the Strategy Architecture holds the depth and supporting logic.</p>
+  <div class="hbox"><p>The resulting Strategy Intent becomes the organisation's directional anchor for strategic choices, alignment and execution.</p></div>
 </div>
 </div>
 
@@ -456,33 +479,19 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
   <span class="acc-t">1.3 — Success in Practice (SiP): From Intent to Future Reality</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">2 Forms · 4 Dimensions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Observable Domains</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3</div><p><strong>The critical facilitation shift:</strong> This section asks participants to make a mental move from planning to experiencing. Explicitly name this shift before entering the content — <em>"We are no longer asking 'What are we going to do?' We are asking: if it has already worked, what does the organisation look like?"</em> Insist on present tense throughout any discussion.</p><p><strong>The four observable domains:</strong> Walk through WHAT→, WHY→, HOW→, WHEN→ and ask participants to briefly describe what their organisation looks like in each domain today. Note the gaps — this is a preview of the SiP exercise that follows in the Integration section.</p><p><strong>Headline vs Storyline distinction:</strong> Ask: <em>"Does your organisation currently have a Headline — one sentence everyone repeats? If not, what does that tell you about strategic alignment?"</em> Then: <em>"Could every person in this room write one consistent Storyline — or would you get ten different versions?"</em></p><p><strong>Closing Awareness:</strong> After section 1.3, pause before moving to Intelligence. Ask participants — <em>"What is one word that describes the gap between where your organisation currently is and the SiP you just imagined?"</em> Capture the words — they will resurface in the Integration section.</p><p><em>Suggested time: 8–10 minutes.</em></p></div>
-  <div class="fac-note">
-    <div class="fac-label">The Critical Facilitation Move</div>
-    <p>"Before we move forward, we must be clear — this is the position we are committing to." Shift the question from "What are we going to do?" to "If this works, what will it look like in reality?" Position the team inside the future. Everything must be described in present tense as observable conditions.</p>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.3</div><p>The Strategy Intent Statement establishes the ambition. Success in Practice defines what must be seen, experienced and executed for that ambition to become reality within a given time horizon. <strong>Defining this together creates a shared picture of success, reducing the risk of different functions interpreting the same strategic intent differently.</strong></p><p>Position participants inside the future created by the Strategy Intent. Ask them to imagine that the intent has been successfully realised and describe the observable organisational reality.</p><p><strong>The central question:</strong> <em>"If our Strategy Intent is successful, what should we see in practice?"</em></p><p><strong>Facilitator emphasis:</strong> Keep participants focused on <strong>observable reality</strong>. The SiP describes what is happening when the strategy is working. Initiatives, projects and activities stay out of it. <strong>The aim is shared construction: leaders should leave with a common understanding of what success looks like across the organisation.</strong></p></div>
+  <div class="quote"><p>"If our Strategy Intent is successful, what should we see in practice?"</p></div>
+  <p>Success is considered across four observable domains:</p>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h" style="color:#8ab0e8;">D1 · Customer Experience &amp; Value</div><p>What customers and other value recipients experience when the strategic intent is working.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:var(--gold);">D2 · Operational Capability &amp; Execution Rhythm</div><p>How the organisation operates, coordinates, delivers and adapts when the capabilities required by the intent are functioning effectively.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#5ecba1;">D3 · People &amp; Culture Dynamics</div><p>How people understand the strategic intent, make decisions, collaborate, take ownership and behave when the intent is embedded in the organisation.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#c39de0;">D4 · Enterprise Value Creation</div><p>How the organisation benefits across its measures of enterprise success.</p></div>
   </div>
-  <p>The 3W1H must show up in lived form across four observable domains:</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:14px 0;">
-    <div style="background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">WHAT →</div><p style="font-size:11px;color:rgba(255,255,255,.55);margin:0;line-height:1.6;">How the value is experienced by customers</p></div>
-    <div style="background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">WHY →</div><p style="font-size:11px;color:rgba(255,255,255,.55);margin:0;line-height:1.6;">Why stakeholders trust, choose, and advocate for you</p></div>
-    <div style="background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">HOW →</div><p style="font-size:11px;color:rgba(255,255,255,.55);margin:0;line-height:1.6;">How the organisation actually operates (rhythm, coordination, capability)</p></div>
-    <div style="background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:2px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">WHEN →</div><p style="font-size:11px;color:rgba(255,255,255,.55);margin:0;line-height:1.6;">The pace, sequencing, and responsiveness visible in execution</p></div>
-  </div>
-  <p>The SiP narrative is anchored into four observable domains: <strong>Customer Experience &amp; Value · Operational Capability &amp; Execution Rhythm · People &amp; Culture Dynamics · Enterprise Value Creation</strong>. This structure forces completeness, cross-functional alignment, and the elimination of functional bias.</p>
-  <div class="quote"><p>"If our strategic intent is sound and our strategy works — what will the organisation actually look like, feel like, and perform like in practice?"</p></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
-    <div style="border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px;background:#151c15;">
-      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Headline — Strategic Vision Anchor</div>
-      <p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.65;margin:0;">One sentence capturing the strategic destination. Leaders repeat it in meetings, town halls, and board discussions. Signals the destination without describing the route.</p>
-    </div>
-    <div style="border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px;background:#151c15;">
-      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Storyline — Strategic Narrative</div>
-      <p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.65;margin:0;">A narrative of how the organisation operates when success has been achieved, structured across four observable future-reality dimensions. Leaders describe an operating reality they intend to build.</p>
-    </div>
-  </div>
+  <p>Together, the four domains create a shared organisational picture of success against which decisions, trade-offs and execution can be aligned.</p>
 </div>
 </div>
 
@@ -494,57 +503,23 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-panel" id="mod2">
 <div class="mod-hero">
   <p class="mod-hero-label">Section 2 · Intelligence — Why</p>
-  <h2>Why Strategic Intent Must Precede Success Definition</h2>
-  <p>Ignition Point · Why must intent be clear before success can be described? Why must both be co-created?</p>
+  <h2>The Importance and Relevance of SiP</h2>
+  <p>Ignition Point · Why do the Strategy Intent and SiP matter once they are defined? How do they shape alignment, choices and execution?</p>
 </div>
 <div class="mod-body">
-<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Explain why strategic intent and the meaning of success must be co-created by the leadership team.</li><li>Recognise how a shared direction filters decisions throughout execution.</li></ul></div>
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Explain how a shared strategic ambition and a shared picture of success keep leaders and functions aligned.</li><li>Recognise how a shared direction filters decisions throughout execution.</li></ul></div>
 
-<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2 · Intelligence</div><p><strong>Section intent:</strong> This section answers the "why bother?" question. Participants need to understand why co-creation is a strategic necessity — and why the Strategy Engine's three components must all be active for strategy to be durable. This section is the ignition point for the Integration section work that follows.</p><p><strong>Transition from Section 1:</strong> Open with — <em>"In Section 1 we established what strategy is. Now the question is: why does it so often fail to hold? The answer is almost never lack of intelligence or effort. It is almost always a failure of co-creation, thinking quality, or iteration discipline."</em></p><p><em>Suggested section time: 20–25 minutes.</em></p></div>
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2 · Intelligence</div><p><strong>Section intent:</strong> The Strategy Intent and SiP become useful when they begin to shape how the organisation <strong>aligns, makes choices and executes</strong>.</p><p>Explain that once leaders have established a shared strategic ambition and defined what success looks like in practice, those two outputs become common reference points across the organisation.</p><p>They serve three important functions:</p><ul><li><strong>Strategic Alignment</strong> — keeping people and functions oriented around the same ambition and picture of success.</li><li><strong>Decision Filter</strong> — providing a basis for determining which choices, opportunities and investments support the strategy.</li><li><strong>Execution Coherence</strong> — helping different functions understand how their individual contributions must connect to produce the enterprise outcome.</li></ul></div>
 
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">2.1 — Why Intent and SiP Must Be Co-Created</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Irreplaceable Results</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.1</div><p><strong>Opening the section:</strong> Before reading the content, ask participants — <em>"Was your current strategic direction genuinely co-created by the leadership team — or was it shaped at the top and distributed downward?"</em> Take 3–4 honest responses. Then read the three bullet points on screen and ask: <em>"Which of these three results is most absent from your current strategy process?"</em></p><p><strong>Key distinction to make explicit:</strong> "Compliance" versus "genuine shared construction." Ask: <em>"Can you tell the difference in your organisation between a leader who is aligned and a leader who has complied? What does that difference look like in execution?"</em></p><p><strong>Closing insight:</strong> Emphasise the last line — "This is the defining shift Unit 2 is designed to produce." Tell participants: everything in the Integration section section is designed to create the conditions for this shift in their own team, today.</p><p><em>Suggested time: 7–8 minutes.</em></p></div>
-  <p>The Strategic Intent Statement and SiP are co-created by the leadership team. This is a strategic requirement.</p>
-  <ul>
-    <li><strong>Leaders agree on the destination</strong> through genuine shared construction.</li>
-    <li><strong>Trade-offs become visible early</strong> — the tensions between functions surface in the room, before execution.</li>
-    <li><strong>Collective ownership is built</strong> — the only ownership that sustains during execution pressure.</li>
-  </ul>
-  <p>When executives participate in shaping both outputs, strategy moves from individual interpretation to shared strategic imagination. This is the defining shift Unit 2 is designed to produce.</p>
-</div>
-</div>
-
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">2.2 — The Strategy Engine: Thinking · Process · Iteration</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Interlocked Components</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.2</div><p><strong>Directing through the three layer tabs:</strong> Walk through each layer — Thinking Logic, Process, Iterative Nature — one at a time. For each, read the "Where it fails" content aloud and ask: <em>"Does this failure mode sound familiar in your organisation?"</em></p><p><strong>The critical red box:</strong> Draw explicit attention to the red highlight — "Most focus heavily on Process, add some Iteration, and largely ignore Thinking Logic." Ask participants: <em>"Where would you honestly place your organisation on this spectrum right now?"</em> Allow 2–3 candid responses.</p><p><strong>Thinking Logic vs Process:</strong> This distinction often surprises participants. The insight is that well-structured process can execute a wrong strategy efficiently. Ask: <em>"Can you think of a time when your strategy process was rigorous but reached the wrong conclusion — and how long did it take to recognise that?"</em></p><p><strong>Iterative Nature:</strong> Ask: <em>"How often does your organisation genuinely revisit and revise its strategy based on new evidence — versus defending a settled position?"</em></p><p><em>Suggested time: 8–10 minutes.</em></p></div>
-  <p>Strategy is the output of three interlocked components that must run simultaneously. Confusion between these components is itself a strategic failure mode.</p>
-  <div class="ph-tabs" id="engTabs">
-    <div class="ph-tab active" onclick="showPh('eng',0)"><div class="ph-num">Layer 1</div><div class="ph-name">Thinking Logic</div></div>
-    <div class="ph-tab" onclick="showPh('eng',1)"><div class="ph-num">Layer 2</div><div class="ph-name">Process</div></div>
-    <div class="ph-tab" onclick="showPh('eng',2)"><div class="ph-num">Layer 3</div><div class="ph-name">Iterative Nature</div></div>
-  </div>
-  <div id="engPanels"></div>
-  <div class="hbox red" style="margin-top:14px;"><p><strong>Where Most Organisations Fail:</strong> Most focus heavily on Process (frameworks, templates), add some Iteration (strategy days, quarterly reviews), and largely ignore Thinking Logic — the quality of the reasoning itself. The result: well-structured, regularly reviewed, genuinely wrong decisions.</p></div>
-</div>
-</div>
-
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">2.3 — Role of Intent &amp; SiP in the S2R® Architecture</span>
+  <span class="acc-t">2.1 — Role of Strategy Intent &amp; SiP in the S2R® Architecture</span>
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Functions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.3</div><p><strong>Purpose of this section:</strong> This section connects Unit 2 to the rest of the S2R® journey. It is important participants understand that what they are building today — the Intent Statement and SiP — will serve as the spine of every subsequent unit. Make this explicit.</p><p><strong>Directing through the 3 architecture functions:</strong> This content is rendered dynamically. Walk through each function — Strategic Alignment, Decision Filter, Execution Coherence — and for each, read the Strategic Intent and SiP columns. Ask: <em>"Where does your organisation currently lack this function — and what are the consequences?"</em></p><p><strong>Decision Filter — key facilitation point:</strong> Ask participants — <em>"When a new initiative appears on your agenda, what filter do you currently run it through? Is there a shared filter — or does it depend on who is in the room?"</em> This surfaces the practical cost of not having a clear Intent and SiP.</p><p><strong>Closing Intelligence:</strong> Before moving to Section 3, summarise — <em>"We now know what strategy is, and why co-creation and the full Engine are essential. Section 3 tells us where — in the actual life of an organisation — intent most commonly falls apart."</em></p><p><em>Suggested time: 5–7 minutes.</em></p></div><div id="archList"></div></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.1</div><p>Walk participants through each function and demonstrate how <strong>Strategy Intent and SiP work together</strong>. The Intent anchors the ambition and strategic choices; SiP anchors the organisational reality those choices are intended to produce.</p><p>As you move through the three functions, invite participants to consider: <em>"What happens in an organisation when this function is weak or absent?"</em></p><p>Use the <strong>Decision Filter</strong> to make the application particularly practical. Ask: <em>"When a new initiative, investment or opportunity appears, what tells us whether it belongs in our strategy?"</em></p><p>The Strategy Intent provides the test of <strong>strategic fit</strong>. SiP provides the test of <strong>strategic contribution</strong>: whether the choice moves the organisation closer to the success it has defined.</p></div><div id="archList"></div>
+</div>
 </div>
 
 <div class="mod-nav">
@@ -558,23 +533,23 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-panel" id="mod3">
 <div class="mod-hero">
   <p class="mod-hero-label">Section 3 · Extrapolating — Where</p>
-  <h2>Where Intent Fragments &amp; How SiP Reveals It</h2>
-  <p>Locate Hot Zones · Where does strategic intent fragment? How do SiP dimensions make fragmentation visible?</p>
+  <h2>Examining Success in Practice</h2>
+  <p>Locate Hot Zones · Depth within each SiP domain · Balance across all four SiP domains</p>
 </div>
 <div class="mod-body">
-<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Identify the observable signals that show whether the intended future position is being realised.</li><li>Recognise where the dominance of a single perspective causes strategic intent to drift.</li></ul></div>
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Use observable indicators to examine what success looks like within each of the four SiP domains.</li><li>Distinguish between conditions that demonstrate success and signals that those conditions are absent.</li></ul></div>
 
-<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3 · Extrapolating</div><p><strong>Section intent:</strong> This section moves from concept to diagnostic. Participants learn the four observable SiP dimensions in detail — and then see how imbalance in any one dimension produces predictable failure patterns (the Flammables). This section is the bridge between understanding the framework and applying it in the Integration section.</p><p><strong>Framing for participants:</strong> Open with — <em>"Strategic intent fragments predictably — at specific points and in specific ways. This section maps those points and gives you the diagnostic tools to find them in your own organisation."</em></p><p><em>Suggested section time: 20–25 minutes.</em></p></div>
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3 · Extrapolating</div><p><strong>Section intent:</strong> We have established that Success in Practice answers a central question: <em>"If our Strategy Intent is successful, what should we see in practice?"</em> This section takes that question deeper.</p><p>Each of the four SiP domains covers an important part of organisational reality. Broad statements about customer experience, operational capability, people and culture, or enterprise value fall short. Leaders need to be able to recognise <strong>what success would actually look like when it begins to show up in practice</strong>.</p><p>This is where <strong>observable indicators</strong> become useful. The indicators help us examine each SiP domain more deeply. They show the kinds of conditions we would expect to observe when that aspect of the Strategy Intent is working, as well as the signals that may indicate something is missing.</p><p>There is also a second discipline: <strong>balance across the four domains</strong>. A leadership team can develop a strong picture of customer success while overlooking the operational capability required to deliver it. It can describe an enabling culture without connecting that culture to enterprise value. It can define strong financial outcomes without describing the customer, operational and people conditions required to produce them.</p><p>This section therefore develops two disciplines: <strong>Depth within each SiP domain. Balance across all four SiP domains.</strong></p><p>We begin by examining the observable indicators within each domain. We then examine what happens when one domain becomes dominant and begins to distort the organisation's overall picture of success.</p></div>
 
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">3.1 — The Four SiP Dimensions: Observable Indicators</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Dimensions · Click indicators to expand</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">3.1 — SiP Observable Indicators</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Click indicators to expand</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3.1</div><p><strong>Directing through the dimension tabs:</strong> Walk through each dimension — D1 Customer Experience, D2 Operational Capability, D3 People &amp; Culture, D4 Enterprise Value — one at a time. For each, expand 2–3 indicator rows and ask participants: <em>"In your organisation — is this indicator in the 'What good looks like' column, or the 'What's missing' column?"</em></p><p><strong>D1 — Customer Experience:</strong> Focus on the CARE model (Connection, Access, Results, Effort). Ask: <em>"Which of these four value types does your organisation deliver most consistently — and which is the most exposed gap?"</em></p><p><strong>D2 — Operational Capability:</strong> Ask: <em>"Does your organisation have Priority Clarity — can every leader in this room state the top three priorities without checking a document, and would the answers match?"</em> Allow the discomfort if answers diverge.</p><p><strong>D3 — People &amp; Culture:</strong> Ask: <em>"What is the Dialogue Quality in your strategy meetings — honest challenge or performative consensus?"</em></p><p><strong>D4 — Enterprise Value:</strong> Ask: <em>"Is your growth strategy-driven or market-driven? Can you trace your current growth to specific strategic choices?"</em></p><p><em>Suggested time: 12–14 minutes.</em></p></div>
-  <p>Each SiP dimension is a multidimensional observable reality. These are the specific signals that tell an executive team whether the strategy is working in that domain.</p>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3.1</div><p>Each SiP domain is examined through a set of <strong>observable indicators</strong>. These indicators help leaders move from a broad description of success to the specific conditions through which that success would become visible in the organisation.</p><p>For every indicator, examine two positions:</p><p><strong>When Working</strong> describes what we would expect to observe when that aspect of the SiP is functioning effectively.</p><p><strong>Signal of Absence</strong> describes what may become visible when that condition is weak, missing or disconnected from the Strategy Intent.</p><p>Use both positions to deepen the discussion. Sometimes the absence of a condition provides the clearest evidence of why it matters.</p><p>The indicators sit alongside the organisation's SiP. They help leaders <strong>test, deepen and make observable the success they have defined.</strong></p></div>
+  <p>Each SiP domain is examined through a set of observable indicators. Every indicator has two positions: <strong>When Working</strong> and <strong>Signal of Absence</strong>.</p>
   <div class="dim-tabs" id="dimTabsF">
     <div class="dim-tab active" onclick="showDim(0)">D1 · Customer Experience &amp; Value</div>
     <div class="dim-tab" onclick="showDim(1)">D2 · Operational Capability</div>
@@ -587,14 +562,13 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">3.2 — SiP Flammables: Where Imbalance Creates Drift</span>
+  <span class="acc-t">3.2 — SiP Flammables: When the Picture of Success Becomes Distorted</span>
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Risk Patterns</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3.2</div><p><strong>Framing the Flammables:</strong> Explain — <em>"When one executive function dominates the SiP narrative, the strategy becomes a functional ambition that no longer describes the enterprise. These four patterns show what that looks like — and they are all recognisable."</em></p><p><strong>Directing through the four flammables:</strong> Read each pattern aloud. After each one, ask: <em>"Raise your hand if you have seen this in an organisation you have worked in."</em> Expect near-universal recognition. Then ask: <em>"Which of these four is your organisation most at risk of right now?"</em></p><p><strong>Connecting to the Integration section:</strong> After all four have been explored, tell participants — <em>"In the Integration section, each of you will contribute a SiP from your assigned executive role. The Flammables are your quality check — use them to audit whether your own contribution is balanced or skewed."</em></p><p><strong>The existing facilitator guidance below applies here:</strong> After each leader describes their SiP perspective in the Integration section, ask the room which Flammable their perspective risks creating. Naming the imbalance explicitly is what prevents it from taking hold.</p><p><em>Suggested time: 6–8 minutes.</em></p></div>
-  <p>When one dimension dominates the SiP narrative, the strategy narrows into a functional ambition that no longer describes the enterprise.</p>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3.2</div><p>The four SiP domains are designed to describe <strong>one organisational reality</strong>.</p><p>In practice, leadership teams naturally bring different perspectives into the conversation. A commercial leader may see success primarily through customers and growth. An operations leader may emphasise efficiency, process and delivery. A people leader may focus on culture and capability. A finance leader may foreground financial and enterprise outcomes.</p><p>Each perspective contributes something important.</p><p>The strategic risk emerges when <strong>one perspective becomes so dominant that it begins to define success for the entire organisation</strong>.</p><p>This is what the <strong>SiP Flammables</strong> are designed to expose.</p><p>They provide a balance test for the SiP. They help leaders recognise when a legitimate dimension of success has become disproportionately influential and the enterprise picture has started to narrow into a functional one.</p></div>
+  <p>The four SiP domains describe one organisational reality. When one perspective becomes dominant, the enterprise picture narrows into a functional one. Expand each pattern to see what it creates, the indicators that reveal it and the strategic risk if it is not balanced.</p>
   <div id="flamList"></div>
-  <div class="fac-note"><div class="fac-label">Facilitator Move</div><p>After each leader describes their SiP perspective, ask the room: "Which of these four flammables does this perspective risk creating?" Name the imbalance explicitly.</p></div>
 </div>
 </div>
 
@@ -605,85 +579,92 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 </div>
 </div>
 
-<!-- ═══ TAB 4: INTEGRATION ZONE ═══ -->
+<!-- ═══ TAB 4: INTEGRATION ═══ -->
 <div class="mod-panel" id="mod4">
 <div class="mod-hero">
   <p class="mod-hero-label">Section 4 · Integration — Collective</p>
-  <h2>Building Strategic Intent &amp; SiP Together</h2>
-  <p>Collective Intelligence of Execution · Leadership biases · Strategy Maturity · SiP Exercise · Integration Synthesis</p>
+  <h2>Build the Architecture · Derive the Intent · Define Success in Practice</h2>
+  <p>Collective Intelligence of Execution · Strategy Architecture → Strategy Intent → Success in Practice</p>
 </div>
 <div class="mod-body">
-<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate the organisation&rsquo;s strategic maturity against the ambition it has set.</li><li>Contribute an enterprise perspective to a collective definition of success.</li></ul></div>
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Build a coherent Strategy Architecture.</li><li>Integrate different leadership perspectives into one shared enterprise position.</li></ul></div>
 
-<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4 · Integration</div><p><strong>Section intent:</strong> This is the production section. Everything in Awareness, Intelligence, and Extrapolating has been preparation for this. Four activities run in sequence: understanding executive role biases, completing the Strategy Maturity Assessment, contributing individual SiP narratives, and synthesising toward collective outputs. Allow sufficient time — this is the core deliverable of Unit 2.</p><p><strong>Framing for participants:</strong> Open with — <em>"We have spent the first three sections building the conceptual architecture. This section is where the organisation's actual strategic picture gets built — collectively, in this room, today. What you produce here will be the foundation for every subsequent unit."</em></p><p><strong>Sequencing the four activities:</strong></p><ul><li><strong>4.1</strong> — Executive Role Perspectives (10–12 min): Understanding biases before the SiP exercise</li><li><strong>4.2</strong> — Strategy Maturity Assessment (15–20 min): Individual scoring, group debrief</li><li><strong>4.3</strong> — Collective SiP Exercise (20–30 min): Individual contribution, synthesis</li><li><strong>Summary</strong> — Unit Summary debrief (8–10 min): What this unit produced</li></ul><p><em>Suggested total section time: 55–75 minutes.</em></p></div>
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4 · Integration</div><p><strong>Section intent:</strong> This is the production section of the unit. Participants now apply the concepts developed through Awareness, Intelligence and Extrapolating to construct the organisation's Strategy Intent Design.</p><p>The work happens collectively because strategy requires more than agreement with a finished statement. Leaders need to contribute to the thinking, surface different interpretations, work through tensions and arrive at a position they can collectively own.</p><p>Each group will work through <strong>three connected stages</strong>:</p><ul><li><strong>4.1</strong> — Build the Strategy Architecture: Work through the 14 elements, then write the group's Strategy Architecture output.</li><li><strong>4.2</strong> — Derive the Strategy Intent Statement: Use the completed architecture to crystallise WHAT, WHY, HOW and WHEN into one clear statement of strategic ambition.</li><li><strong>4.3</strong> — Build Success in Practice: Define what must be seen, experienced and executed across the four SiP domains, confirm each domain statement, and bring the four together into the group's SiP.</li></ul><p>Emphasise the sequence. Each output provides the foundation for the next: <strong>Strategy Architecture → Strategy Intent → Success in Practice</strong></p><p>The quality of the final SiP therefore depends on the quality of the Intent, and the quality of the Intent depends on the thinking captured in the Architecture.</p><p><strong>Working in groups:</strong> Participants work in their assigned groups throughout the exercise. Encourage groups to surface differences before resolving them. Different interpretations are useful because they expose assumptions, trade-offs and areas where the organisation's strategic thinking is not yet coherent.</p><p>The objective is <strong>collective construction of one enterprise position</strong>.</p></div>
 
 
-<!-- EXECUTIVE LEADER PERSPECTIVES -->
+<!-- STEP 1: STRATEGY ARCHITECTURE -->
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">4.1 — Executive Leader Perspectives: Natural Biases &amp; Integration Challenges</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Executive Roles · Click to expand</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">4.1 — Step 1: Build the Strategy Architecture</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">14 Elements · One Integrated Architecture</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.1</div><p><strong>Purpose before the SiP exercise:</strong> This section is a bias-awareness primer before the SiP exercise. Participants must understand their natural perspective before they can transcend it.</p><p><strong>Directing participants:</strong> Ask each participant to click their assigned executive role card. Give them 2 minutes to read their role's bias and integration challenge. Then ask: <em>"Does this description of your role's natural bias feel accurate? Where does it resonate most strongly?"</em></p><p><strong>Group debrief:</strong> Ask 3–4 participants to read their "Integration Challenge" aloud. Then ask the full group — <em>"If these biases all operate simultaneously in a SiP exercise — what happens to the collective picture? Which dimensions get over-represented and which get left behind?"</em></p><p><strong>Key facilitation point:</strong> Emphasise that the goal is to make the functional bias visible so the collective can compensate for it. The integration challenge is structural information the group needs.</p><p><em>Suggested time: 10–12 minutes.</em></p></div>
-  <p>When executive leaders describe strategic intent, they naturally emphasise their domain. This produces multiple partial pictures that are each accurate — and collectively incomplete. The Integration section transforms these into one picture.</p>
-  <div class="cxo-grid" id="cxoGrid"></div>
-  <div class="cxo-detail" id="cxoDetail"></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.1</div><p>This is the foundation of the exercise.</p><p>Each group works through the <strong>14 elements of the Strategy2Results® Strategy Definition</strong>. The purpose is to establish the thinking and logic underneath the organisation's strategic position before attempting to express that position concisely.</p><p>Remind participants that the elements are interconnected. A strong answer to one element can expose a weakness or contradiction in another. For example, the value the organisation intends to create must be supported by its HOW; its WHEN must reflect the capabilities that need to be built; and its approach to sustaining value must respond to the forces within its operating environment.</p><p>Encourage participants to capture <strong>actual strategic choices</strong> and to leave broad organisational aspirations out.</p><p>As each element is completed, the group should review what it has written and confirm: <em>"Is this what we mean?"</em></p><p>The purpose of confirmation is to ensure that the written position represents the group's thinking before it becomes part of the architecture.</p><p><strong>Producing the Strategy Architecture:</strong> Once all 14 elements have been completed, the group should step back from the individual responses and examine them as <strong>one strategic system</strong>. Ask groups to consider: <em>"What is this architecture collectively saying about the organisation's strategy?"</em></p><p>They should then write out their <strong>Strategy Architecture output</strong>. The output should bring together the major strategic choices and logic revealed through the 14 elements. It should be sufficiently detailed to preserve the thinking underneath the strategy while showing how the different choices connect.</p><p>Before finalising, ask groups to check:</p><ul><li>Do our choices reinforce one another?</li><li>Where are there contradictions or unresolved tensions?</li><li>Does our HOW support what we have chosen to achieve?</li><li>Does our timing and sequencing reflect the realities of our capability and environment?</li><li>Have we addressed how value will be created, delivered <strong>and sustained</strong>?</li><li>Does the architecture represent the strategic position we collectively intend?</li></ul><p>The completed Strategy Architecture becomes the source for Step 2.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>The group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page of the participant file, in the session or after it.</p><p>Each group works in 4.1 of the participant file, one element at a time:</p><ul><li>It answers the four questions of the element and selects <strong>Generate what this is saying</strong>.</li><li>The page shows what the group's inputs are saying and asks: <em>"Is this what you mean?"</em></li><li>The group selects <strong>Yes, confirm</strong>, or <strong>No, refine</strong> and states what the position should say.</li><li>A progress bar counts the confirmed elements. When all 14 are confirmed, the Strategy Architecture output unlocks. The group reviews it, refines it and confirms it. It can then be printed.</li></ul><p>The elements, guides and questions below are for your preparation.</p></div>
+  <p>The 14 elements follow the Strategy2Results® definition of strategy. OUTPUT, the first concept in 1.1, is what the 14 elements produce: the Strategy Architecture. Click each element to expand.</p>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">1 · ITERATIVE</strong>Continuously refined</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Strategy is never finished in one pass. It is a hypothesis that loops: form → test against reality → revise → repeat. This rules out strategy as an annual ritual and rules in strategy as a living capability.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What core hypotheses does the strategy depend on?</li><li>How will reality test those hypotheses?</li><li>What evidence would trigger refinement?</li><li>How and when will strategic choices be revisited?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">2 · THINKING &amp; LOGIC</strong>The cognitive engine</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Thinking = divergent, exploratory, hypothesis-generating. Logic = convergent, analytical, assumption-testing. Both are required in sequence.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What alternative possibilities were explored?</li><li>What assumptions underpin the preferred direction?</li><li>What must be true for this strategy to work?</li><li>What evidence supports or challenges the logic?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">3 · PROCESS</strong>Structured container</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Process turns ad hoc thinking into a repeatable, auditable, scalable method. It defines who is involved, what inputs are needed, what tools are used, and what decisions get made at each stage.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>Who must participate in shaping the strategy?</li><li>What inputs and evidence are required?</li><li>What decision stages will be used?</li><li>How will decisions and rationale be recorded?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">4 · WHAT</strong>Scope &amp; definition</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">What value are we creating? What business are we actually in? What do we offer and deliberately not offer? This sets the boundary of the organisation's field of play.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What business are we actually in?</li><li>What value are we choosing to create?</li><li>What will we offer?</li><li>What will we deliberately not offer or pursue?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">5 · WHY</strong>Purpose &amp; rationale</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Why does this organisation exist? Why would stakeholders choose us? The North Star that makes all other decisions coherent and gives the strategy its internal logic.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>Why does the organisation exist?</li><li>Why should stakeholders choose or support us?</li><li>Why are these strategic choices appropriate?</li><li>What unifying rationale makes the choices coherent?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">6 · HOW</strong>Mechanism &amp; model</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">How do we actually deliver the value? What capabilities, processes, structures and partnerships make it possible? This is where strategy meets the operating model.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What operating mechanism makes the strategy work?</li><li>Which capabilities are essential?</li><li>Which processes and structures must support it?</li><li>Which partnerships or ecosystem relationships are required?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">7 · WHEN</strong>Timing &amp; sequencing</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">When do we move? When do we hold? When do we exit? Timing determines whether the right move wins or fails. Sequencing determines whether capability is built in the right order.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What must happen first, next and later?</li><li>What determines when we move, hold or exit?</li><li>Which dependencies shape the sequence?</li><li>What timing assumptions could change the strategy?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">8 · CREATES VALUE</strong>Origination layer</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Value comes into existence through creation: product/service development, innovation, capability building, IP, brand equity — activities that generate new or improved worth.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What new or improved value will come into existence?</li><li>Through which activities is that value created?</li><li>What capabilities or assets enable creation?</li><li>How will we know that genuine value has been created?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">9 · DELIVERS VALUE</strong>Distribution &amp; access layer</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Creating value means nothing if it does not reach intended recipients. Delivery is the full system of transmission: channels, distribution, customer experience, partnerships and pricing.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>How will created value reach each intended recipient?</li><li>Which channels and access mechanisms matter?</li><li>What experience must recipients have?</li><li>What could prevent value from reaching them?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">10 · SUSTAINS VALUE</strong>Durability &amp; compounding layer</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Sustaining requires investment in the conditions that make value possible: relationships, infrastructure, culture, financial health and continued relevance.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What makes this value durable over time?</li><li>What must be continually invested in or renewed?</li><li>What could erode the value?</li><li>How will relevance and viability be sustained?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">11 · STAKEHOLDERS</strong>Full universe of value recipients</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Broader than customers: everyone with a stake in the organisation's actions, including employees, investors, communities, regulators, partners and future generations.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>Who has a material stake in our actions?</li><li>What value does each stakeholder group receive or contribute?</li><li>Where do stakeholder interests reinforce or conflict?</li><li>Whose interests could be overlooked by this strategy?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">12 · NAVIGATING</strong>Active, skilful movement</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Navigation implies agency, skill and continuous course correction. Read the environment, interpret it and make deliberate moves through it — putting the forces to use.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>How will the organisation sense changes in its environment?</li><li>How will signals be interpreted and translated into decisions?</li><li>Where can external forces be used to advantage?</li><li>What enables deliberate course correction?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">13 · THE FORCES</strong>What must be navigated</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">Competitive, macro, disruptive, social and environmental forces shape strategic viability: rivals, substitutes, regulation, economics, technology, business models, ESG and demographic shifts.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>Which competitive forces materially shape the strategy?</li><li>Which macro and regulatory forces matter most?</li><li>Which disruptive forces could alter the model?</li><li>Which social or environmental forces create risk or opportunity?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">14 · OPERATING ENVIRONMENT</strong>The bounded context</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">The full system within which the organisation exists: industry, economy, regulation, technology, social context and physical environment. Strategy only makes sense within a defined environment.</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql"><li>What is the defined operating context for this strategy?</li><li>Which industry and market conditions shape it?</li><li>Which regulatory, technological and social conditions matter?</li><li>Where would this strategy stop making sense if the context changed?</li></ol></div></div></div>
+  <h4>The Strategy Architecture Output</h4>
+  <p>The page brings the 14 confirmed elements together under five headings. The group refines the text until it accurately represents the organisation's strategic architecture.</p>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h">Strategic Position</div><p>WHAT · WHY</p></div>
+    <div class="u2-card"><div class="u2-card-h">Strategic Model</div><p>HOW · WHEN</p></div>
+    <div class="u2-card"><div class="u2-card-h">Value Architecture</div><p>CREATES VALUE · DELIVERS VALUE · SUSTAINS VALUE · STAKEHOLDERS</p></div>
+    <div class="u2-card"><div class="u2-card-h">Strategic Navigation</div><p>NAVIGATING · THE FORCES · OPERATING ENVIRONMENT</p></div>
+    <div class="u2-card"><div class="u2-card-h">Strategy Discipline</div><p>ITERATIVE · THINKING &amp; LOGIC · PROCESS</p></div>
+  </div>
 </div>
 </div>
 
-<!-- ASSESSMENT -->
+<!-- STEP 2: STRATEGY INTENT STATEMENT -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">4.2 — Strategy Maturity Assessment: 26 Areas</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">6 Groups · Score 0–3</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">4.2 — Step 2: Derive the Strategy Intent Statement</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">WHAT · WHY · HOW · WHEN → One Strategic Ambition</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.2</div><p><strong>Setting up the assessment:</strong> Before participants begin scoring, read the instruction aloud — <em>"Score the organisation as it actually is right now. Honest assessment is the only kind that is useful."</em> Emphasise that this is a diagnostic tool.</p><p><strong>Individual vs collective scoring:</strong> For maximum insight, ask each participant to score independently first — without discussion. Allow 8–10 minutes of silent individual scoring across all six groups. Then compare scores across the group. Significant divergence on the same item is itself a strategic finding — it signals that different leaders have fundamentally different views of organisational reality.</p><p><strong>Group debrief after scoring:</strong> Use these three questions in sequence:<ul><li><em>"Which group (A–F) scored lowest across the team — and was there consensus on that?"</em></li><li><em>"Where was the widest divergence in scores? What does that disagreement tell us?"</em></li><li><em>"What is the single most important corrective action this score points to in the next 90 days?"</em></li></ul></p><p><strong>Using the export function:</strong> Direct participants (or the lead facilitator) to use "Screen View" or "Save as PDF" to generate the maturity report. This becomes a baseline document for the organisation's S2R® journey — it should be retained and revisited at the end of the programme.</p><p><strong>Score interpretation:</strong> 0–26 = Foundational Gaps (strategy is fragile, personality-dependent). 27–52 = Developing Capability (key dimensions present but integration incomplete). 53–78 = Strategic Maturity (strategy is embedded as organisational capability). Most first-time groups score in the 20–45 range — normalise this and focus on the direction of travel.</p><p><em>Suggested time: 15–20 minutes including individual scoring and group debrief.</em></p></div>
-  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>The executive team assesses the organisation across 26 strategy components. Score: <strong>0</strong> = Not addressed · <strong>1</strong> = Partially · <strong>2</strong> = Substantially · <strong>3</strong> = Fully embedded.</p>
-  <div class="ag-tabs" id="agTabs"></div>
-  <div id="agPanels"></div>
-  <div class="mat-totals">
-    <div class="mat-zone z1"><div class="rng">0–26</div><div class="lbl">Foundational Gaps</div><div class="desc">Strategy remains fragile and personality-dependent.</div></div>
-    <div class="mat-zone z2"><div class="rng">27–52</div><div class="lbl">Developing Capability</div><div class="desc">Key dimensions present; integration incomplete.</div></div>
-    <div class="mat-zone z3"><div class="rng">53–78</div><div class="lbl">Strategic Maturity</div><div class="desc">Strategy is embedded as organisational capability.</div></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.2</div><p>With the Strategy Architecture established, groups now crystallise that thinking into a <strong>Strategy Intent Statement</strong>.</p><p>The Architecture contains the depth. The Intent must provide the clarity.</p><p>Bring forward the four dimensions already established through the architecture:</p><p><strong>WHAT</strong> — the value the organisation has chosen to create and its field of play.</p><p><strong>WHY</strong> — the rationale for those choices and why they matter.</p><p><strong>HOW</strong> — the operating model, capabilities and mechanisms through which the value will be delivered.</p><p><strong>WHEN</strong> — the timing, sequencing and strategic moves through which the ambition will be pursued.</p><p>Ask groups to review these four dimensions together and derive <strong>one crisp Strategy Intent Statement</strong>.</p><p><strong>Facilitator emphasis:</strong> Protect the Intent from becoming overloaded. Participants may try to carry every important point from the Architecture into the statement. Remind them that the Architecture already holds that detail.</p><p>The Strategy Intent Statement <strong>crystallises the ambition</strong>. The Architecture keeps the detail.</p><p>A strong Intent should allow a leader to understand the organisation's strategic position without needing a paragraph of explanation.</p><p>Once drafted, have the group read the statement against its completed Architecture and confirm: <em>"Does this statement faithfully express the strategic ambition contained in our Architecture?"</em></p><p>Where the statement exposes a contradiction in the Architecture, resolve the underlying contradiction before finalising the Intent.</p><p>The confirmed Strategy Intent becomes the source for Step 3.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>In 4.2 of the participant file each group sees its own answers for WHAT, WHY, HOW and WHEN, deduces one crisp Strategy Intent Statement from them and types it in. The group confirms the statement. It can then be printed. Every member types the agreed statement into their own page.</p></div>
+  <p>The four dimensions brought forward from the architecture:</p>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h">WHAT</div><p>The value the organisation has chosen to create and its field of play.</p></div>
+    <div class="u2-card"><div class="u2-card-h">WHY</div><p>The rationale for those choices and why they matter.</p></div>
+    <div class="u2-card"><div class="u2-card-h">HOW</div><p>The operating model, capabilities and mechanisms through which the value will be delivered.</p></div>
+    <div class="u2-card"><div class="u2-card-h">WHEN</div><p>The timing, sequencing and strategic moves through which the ambition will be pursued.</p></div>
   </div>
-  <div class="mat-total-box">
-    <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:6px;">Total Score</div>
-    <div class="mat-score" id="matScore">0</div><div class="mat-max"> / 78</div>
-    <div class="mat-level" id="matLevel">Complete the assessment above</div>
-  </div>
-  <div class="mat-export-bar">
-    <button class="mat-export-btn" onclick="exportMatScreen()">
-      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 16,21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-      Screen View
-    </button>
-    <button class="mat-export-btn" onclick="exportMatPDF()">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10,9 9,9 8,9"/></svg>
-      Save as PDF
-    </button>
-  </div>
+  <div class="quote"><p>"Does this statement faithfully express the strategic ambition contained in our Architecture?"</p></div>
 </div>
 </div>
 
-<!-- SiP EXERCISE -->
+<!-- STEP 3: SUCCESS IN PRACTICE -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">4.3 — Collective SiP Exercise: Four Dimensions per Executive Role</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Executive Roles · 4 Dimensions each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">4.3 — Step 3: Build Success in Practice</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · 4 Confirmed Statements · One SiP</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.3</div><p><strong>This is the core deliverable of Unit 2.</strong> Everything prior has been preparation for this exercise. Protect the time — do not compress it.</p><p><strong>Setting up the exercise:</strong></p><ul><li>Assign executive roles before participants begin — do not allow self-selection. The learning comes partly from being required to inhabit a perspective that is not naturally yours.</li><li>Remind participants: <em>"Write in the present tense of the future: 'we have...', 'customers experience...'"</em></li><li>Reinforce the Flammable risk: <em>"As you write, notice when you are defaulting to your functional comfort zone. Push yourself into the dimensions that feel less natural."</em></li></ul>
-<p><strong>Individual writing time:</strong> Allow 10–12 minutes for each participant to complete all four dimensions from their assigned role. This must be done in silence — the independent perspective is what makes the synthesis valuable. Group discussion before individual writing contaminates the outputs.</p><p><strong>Running the synthesis:</strong> After individual contributions are complete, use the "View All Responses" function to display contributions side by side. Facilitate the synthesis using four questions:<ul><li><em>"Where do all perspectives converge? This is your strongest strategic signal."</em></li><li><em>"Where do perspectives compete or contradict? This is where trade-off decisions are needed."</em></li><li><em>"Which SiP dimension is least well-described across all contributions? This is your white space — who owns it?"</em></li><li><em>"Which functional perspective dominates the collective narrative? How do we rebalance?"</em></li></ul></p><p><strong>Producing the collective output:</strong> The facilitator (or a nominated scribe) drafts a single integrated SiP from the synthesis discussion. This draft becomes the working SiP for the organisation — it will be tested, refined, and embedded across subsequent units. It needs to be genuinely shared today; refinement follows in later units.</p><p><em>Suggested time: 20–30 minutes including individual writing, synthesis discussion, and collective draft.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>Each leader describes all four SiP dimensions from their assigned role's perspective, written in the <strong>present tense of the future</strong> — as if the strategy has already succeeded.</p>
-  <div class="fac-note"><div class="fac-label">&#9670; FACILITATOR GUIDANCE</div><p>After all leaders complete, lead a structured synthesis: identify convergence (where all align), tension (where perspectives compete), missing dimensions (where no leader adequately described the future state), and dominant bias (which functional perspective over-represents the narrative).</p></div>
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div><p>Participants write the four SiP dimensions from their assigned role in Section 4.3 of their own file, in silence. When all have finished, lead the synthesis from their responses.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.3</div><p>The Strategy Intent Statement establishes the ambition. The group now defines what must be <strong>seen, experienced and executed</strong> for that ambition to become reality within the agreed time horizon.</p><p>Position the group inside the future described by its Strategy Intent. Use one central question: <em>"If our Strategy Intent is successful, what should we see in practice?"</em></p><p>The group works through the four SiP domains:</p><p><strong>1. Customer Experience &amp; Value</strong> — Describe what customers and other value recipients experience when the Strategy Intent is working. Use the observable indicators explored in Section 3 to deepen the discussion where useful, but keep the group's final output focused on its <strong>specific Strategy Intent</strong>. The group produces <strong>one Customer Experience &amp; Value statement</strong>.</p><p><strong>2. Operational Capability &amp; Execution Rhythm</strong> — Describe how the organisation operates, coordinates, delivers and adapts when the capabilities required by the Strategy Intent are functioning effectively. The group produces <strong>one Operational Capability &amp; Execution Rhythm statement</strong>.</p><p><strong>3. People &amp; Culture Dynamics</strong> — Describe how people understand the Strategy Intent, make decisions, collaborate, take ownership and behave when the intent is embedded in organisational practice. The group produces <strong>one People &amp; Culture Dynamics statement</strong>.</p><p><strong>4. Enterprise Value Creation</strong> — Describe how the organisation is benefiting across the measures of enterprise success that matter to this Strategy Intent. The group produces <strong>one Enterprise Value Creation statement</strong>.</p><p><strong>Confirming each SiP domain:</strong> After drafting each statement, pause and ask: <em>"Is this what success in this domain should look like if our Strategy Intent is realised?"</em> Refine the statement until the group confirms it.</p><p>This is important. The SiP should emerge from the group's own definition of success. Generic descriptions of a successful organisation have no place in it.</p><p>Once all four statements are confirmed, place them together and read them as <strong>one Success in Practice</strong>.</p><p><strong>Test the SiP:</strong> Use the two quality checks from Section 3.</p><p><strong>Depth:</strong> Is each statement specific enough that we could recognise the condition if we saw it in practice?</p><p><strong>Balance:</strong> Do the four statements collectively describe enterprise success, or has one perspective become dominant?</p><p>Use the <strong>SiP Flammables</strong> as the final balance check.</p><p>The four confirmed statements together become the organisation's <strong>Success in Practice</strong>.</p><p><strong>Closing Section 4:</strong> Each group now holds three connected outputs: its Strategy Architecture, its Strategy Intent Statement and its Success in Practice. Close the exercise by having each group display or print the three together: <strong>Strategy Architecture → Strategy Intent → Success in Practice</strong></p><p>Then reinforce the connection: <strong>The Architecture provides the logic. The Intent crystallises the ambition. Success in Practice makes the ambition observable.</strong></p><p>These three outputs become the strategic foundation that subsequent S2R® work will carry into alignment, execution and performance.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>In 4.3 of the participant file, for each SiP domain the group:</p><ul><li>answers the three input questions;</li><li>derives one statement for the domain from those answers and types it in;</li><li>confirms the statement.</li></ul><p>The group writes every statement, and every member types the agreed entries into their own page. When all four statements are confirmed, they appear together, numbered 1 to 4, as the group's Success in Practice. The group confirms it. It can then print its three outputs as one report: the Strategy Intent Design.</p><p><strong>Into the Capstone:</strong> the three confirmed outputs feed the team's Capstone Blueprint. Its Unit 2 section opens once every member of the team has completed Unit 2, and brings the three outputs in from the member's page. The team reads them together and confirms them there.</p></div>
+  <div class="quote"><p>"If our Strategy Intent is successful, what should we see in practice?"</p></div>
+  <p>Click each domain to see its lead question and input questions.</p>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:#8ab0e8;margin-right:8px;">D1 · Customer Experience &amp; Value</strong></span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Lead question</p><p class="u2-txt">If the intent succeeds, what should customers and other value recipients see and experience?</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The three input questions</p><ol class="u2-ql"><li>What will customers or value recipients experience differently?</li><li>What value or result will they consistently receive?</li><li>What observable evidence will tell us this is true?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">D2 · Operational Capability &amp; Execution Rhythm</strong></span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Lead question</p><p class="u2-txt">If the intent succeeds, what should be visible in how the organisation operates and executes?</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The three input questions</p><ol class="u2-ql"><li>What capabilities and operating conditions will be functioning effectively?</li><li>How will priorities, decisions, coordination and delivery work in practice?</li><li>What observable evidence will show that execution is working?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:#5ecba1;margin-right:8px;">D3 · People &amp; Culture Dynamics</strong></span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Lead question</p><p class="u2-txt">If the intent succeeds, what should be visible in how people understand, decide and behave?</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The three input questions</p><ol class="u2-ql"><li>What will people understand about the strategic intent and their contribution?</li><li>How will people decide, collaborate, take ownership and behave?</li><li>What observable evidence will show that these conditions are embedded?</li></ol></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:#c39de0;margin-right:8px;">D4 · Enterprise Value Creation</strong></span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Lead question</p><p class="u2-txt">If the intent succeeds, how should the organisation benefit across its success metrics?</p></div><div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The three input questions</p><ol class="u2-ql"><li>What enterprise outcomes should improve as a result of the strategy?</li><li>What strategic or market position should the organisation achieve?</li><li>What evidence will show that value is being sustained within the time horizon?</li></ol></div></div></div>
 </div>
 </div>
-
-<!-- SUMMARY -->
-
 
 <div class="mod-nav"><button class="btn" onclick="showMod(3)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(5)">Section 5 — Application →</button></div>
 </div>
@@ -693,150 +674,48 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-panel" id="mod5">
 <div class="mod-hero">
   <p class="mod-hero-label">Section 5 · Application — In Practice</p>
-  <h2>From Assessment to Application</h2>
-  <p>The executive team uses the Strategy Maturity Assessment results to define corrective actions across the four SiP dimensions, then completes the CXO contribution table written in the present tense of the future.</p>
+  <h2>From Success in Practice to Leadership Contribution</h2>
+  <p>Each participant applies the agreed Success in Practice to an executive role and defines what that role must contribute to make the Strategy Intent real.</p>
 </div>
 <div class="mod-body">
-<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Define the actions needed to close the gap between current maturity and the intended future position.</li><li>Establish a shared statement of success that supports consistent enterprise decision-making.</li></ul></div>
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Apply the agreed Success in Practice to specific executive roles.</li><li>Define what each leadership role must contribute to make the Strategy Intent real.</li></ul></div>
 
-<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5 · Application</div><p><strong>Section intent:</strong> This is the synthesis and application section. Participants move from understanding and assessing (Sections 1–4) to producing two integrated outputs: corrective action priorities and a fully completed CXO × SiP table. The headline and storyline produced here become the destination anchor for the entire S2R® journey.</p><p><strong>Sequencing the four activities:</strong></p><ul><li><strong>5.1</strong> — Corrective Actions (10–15 min): Each participant reviews their assessment score and identifies actions per SiP dimension</li><li><strong>5.2</strong> — CXO SiP Application Table (20–30 min): Each CXO completes their row in present-tense future language</li><li><strong>5.3</strong> — SiP Headline &amp; Storyline (10–15 min): Individual contribution, then group synthesis</li><li><strong>5.4</strong> — Integration Summary (15–20 min): Facilitator leads synthesis of convergence, tension, missing dimensions, dominant bias</li></ul><p><em>Suggested total section time: 55–80 minutes.</em></p></div>
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5 · Application</div><p><strong>Section intent:</strong> This section moves the group from the agreed <strong>Success in Practice</strong> into practical executive contribution.</p><p>In Section 4, the group has already produced: <strong>Strategy Architecture → Strategy Intent → Success in Practice</strong></p><p>Success is already defined. The work in this section is to apply it.</p><p>Each participant now asks: <em>"From my executive role, what must I contribute for this Success in Practice to become real?"</em></p><p>The Application section helps the group see whether the agreed strategy is supported by clear leadership contribution, cross-functional ownership and shared accountability.</p><p><strong>Sequencing the two activities:</strong></p><ul><li><strong>5.1</strong> — Role Contribution to SiP: Each participant completes the table from an assigned executive role</li><li><strong>5.2</strong> — SiP Statement Collective Application: Each group shares its SiP statement and explains how the role contributions support it</li></ul></div>
 
-<!-- 1.5.1 CORRECTIVE ACTIONS -->
+<!-- ROLE CONTRIBUTION -->
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">5.1 — Using Assessment Results: Defining Corrective Actions</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Assessment → Action</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">5.1 — Role Contribution to SiP</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Roles · 4 Domains</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.1</div><p><strong>Opening the section:</strong> Ask participants to open Section 4.2 in a side window or navigate back to review their assessment score before completing this section. Say: <em>"Your assessment revealed where your organisation's strategic capability is strongest and most fragile. This section asks you to convert those diagnostic results into specific corrective actions — the precise changes that must happen for your SiP to become real."</em></p><p><strong>Key facilitation point:</strong> The corrective actions must be specific and cross-functional. Push back on vague responses like "improve communication" — ask: <em>"Improve it how, between whom, and in what rhythm?"</em></p><p><strong>Group debrief:</strong> After participants have completed their corrective actions, ask 3–4 to share the most critical action in each dimension. Note where multiple participants identify the same gap — this is a convergence point that strengthens the collective SiP.</p><p><em>Suggested time: 10–15 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>Participants use their Strategy Maturity Assessment results from Section 4 to identify the most critical corrective actions required across the four SiP dimensions. The assessment score across all 26 areas reveals where the organisation's strategic capability is strongest — and where it is most fragile.</p>
-  <div class="hbox teal"><p>The corrective actions identified here become the inputs into the SiP Application Table in 5.2. Before completing their SiP dimensions, each participant should review their assessment results and identify the specific gaps that must be addressed for the strategy to succeed.</p></div>
-  <h4>Assessment Score Reference</h4>
-  <div id="appScoreRefF" style="background:#0a1a0d;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:18px 22px;margin:10px 0;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <div>
-        <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:4px;">Group Assessment Score</div>
-        <div style="display:flex;align-items:baseline;gap:6px;">
-          <span id="appScoreValF" style="font-size:2.5rem;font-weight:700;color:var(--gold);line-height:1;">—</span>
-          <span style="font-size:1rem;color:rgba(255,255,255,.3);">/ 78</span>
-        </div>
-        <div id="appScoreLvlF" style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;margin-top:4px;">Score reflects the group assessment from Section 4</div>
-      </div>
-      <button class="btn" onclick="showMod(4)" style="font-size:9px;padding:8px 16px;">← Go to Assessment</button>
-    </div>
-  </div>
-  <h4>Corrective Actions — Group Capture</h4>
-  <p>Use this space to capture the group's collective corrective actions across the four dimensions as they emerge from the debrief.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:#8ab0e8;">D1 · Customer Experience &amp; Value</div><div class="port-desc">What must change to close the gap between the current customer experience and the SiP vision?</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:var(--gold);">D2 · Operational Capability &amp; Execution Rhythm</div><div class="port-desc">What operational gaps must be closed for the strategy to execute reliably?</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:#5ecba1;">D3 · People &amp; Culture Dynamics</div><div class="port-desc">What cultural and behavioural shifts are required to bring the SiP to life?</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:#c39de0;">D4 · Enterprise Value Creation</div><div class="port-desc">What must be strengthened to ensure the strategy creates durable enterprise value?</div></div>
-      
-      
-      
-    </div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.1</div><p><strong>Purpose:</strong> This table captures how each executive role contributes to the agreed Success in Practice.</p><p>Ask participants to return to the four SiP statements produced in Section 4: Customer Experience &amp; Value · Operational Capability &amp; Execution Rhythm · People &amp; Culture Dynamics · Enterprise Value Creation.</p><p>Each participant now completes the table from the perspective of their assigned executive role. Use this central question: <em>"From this role, what must be contributed so that the agreed Success in Practice becomes real?"</em></p><p>Participants should write in the <strong>present tense of the future</strong>, as if the strategy is already working. For example:</p><ul><li>"Customers experience…"</li><li>"Operations are able to…"</li><li>"People consistently…"</li><li>"The organisation creates value through…"</li></ul><p>Encourage practical and role-specific responses. Push back on general statements such as:</p><ul><li>"Support the strategy"</li><li>"Improve communication"</li><li>"Collaborate better"</li><li>"Drive performance"</li></ul><p>Ask in response: <em>"What does this role specifically decide, enable, coordinate, resource, protect or change?"</em></p><p>After completing the row, each participant should check whether their contribution strengthens all four SiP domains or only reflects the priorities of their own function.</p><p><strong>Recording:</strong> Participants enter their own responses from their screens.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Each participant selects the assigned executive role in 5.1 of the participant file and completes the four domains of the table from that role. The group's four SiP statements from Section 4 are shown above the table.</p></div>
+  <div class="quote"><p>"From this role, what must be contributed so that the agreed Success in Practice becomes real?"</p></div>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h" style="color:#8ab0e8;">D1 · Customer Experience &amp; Value</div><p>What this role contributes so that customers and other value recipients experience what the SiP describes.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:var(--gold);">D2 · Operational Capability &amp; Execution Rhythm</div><p>What this role contributes so that the organisation operates, coordinates, delivers and adapts as the SiP describes.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#5ecba1;">D3 · People &amp; Culture Dynamics</div><p>What this role contributes so that people understand the Strategy Intent, decide, collaborate, take ownership and behave as the SiP describes.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#c39de0;">D4 · Enterprise Value Creation</div><p>What this role contributes so that the organisation benefits across its measures of enterprise success.</p></div>
   </div>
 </div>
 </div>
 
-<!-- 1.5.2 FULL CXO SiP TABLE -->
+<!-- COLLECTIVE APPLICATION -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">5.2 — CXO SiP Application Table: All Executive Roles</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Roles · 4 Dimensions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+  <span class="acc-t">5.2 — SiP Statement Collective Application</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Share · Explain · Observe</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.2</div><p><strong>Purpose:</strong> This table captures each CXO's description of the four SiP dimensions from their assigned role's perspective. It is the primary deliverable of the Application section and produces the raw material for the integration synthesis in 5.4.</p><p><strong>Directing the exercise:</strong> Ask each participant to select their assigned role and complete all four dimensions simultaneously. Enforce present-tense future language throughout — interrupt any responses that slip into planning or future-tense description.</p><p><strong>Quality check:</strong> After each CXO completes their row, ask them to self-audit against the Flammable patterns from Section 3.2. Ask: <em>"Which Flammable does your response risk creating? What would you add to balance it?"</em></p><p><strong>Facilitator can record directly:</strong> Use the full table view below to capture group responses as they are shared verbally, or ask participants to enter their own responses from their screens.</p><p><em>Suggested time: 20–30 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>Each executive leader describes the four SiP dimensions from the perspective of their assigned role. All responses must be written in the <strong>present tense of the future</strong> — as if the strategy has already succeeded.</p>
-  <div class="hbox"><p><strong>Facilitator:</strong> After all CXO rows are completed, use the Integration Summary in Section 5.4 to identify convergence, tension, missing dimensions, and dominant bias across all contributions.</p></div>
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div><p>Participants complete their row of the CXO SiP Application Table in Section 5.2 of their own file.</p></div>
-</div>
-</div>
-
-<!-- 1.5.3 HEADLINE & STORYLINE -->
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">5.3 — SiP Headline &amp; Storyline: Collective Synthesis</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Headline · Storyline · Synthesis</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.3</div><p><strong>The synthesis move:</strong> After all CXO rows in 5.2 are completed, invite each participant to distil their perspective into a Headline and a Storyline. Then — and this is the critical facilitation move — bring the group together to synthesise these individual contributions into one shared Headline and one co-owned Storyline.</p><p><strong>Headline synthesis:</strong> Read all individual Headlines aloud. Ask the group: <em>"What words appear in most headlines? What is the common destination we are all pointing at?"</em> Draft a composite headline together — do not let one executive write it alone.</p><p><strong>Storyline synthesis:</strong> Ask each CXO to read their Storyline aloud. Capture themes on a whiteboard across the four dimensions. The shared Storyline emerges from points of convergence.</p><p><em>Suggested time: 15–20 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>Individual contributions from each CXO are synthesised here into one shared Strategic Intent Statement and one co-owned SiP Headline and Storyline.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl">Emerging Shared SiP Headline</div><div class="port-desc">One sentence. The strategic destination that the collective executive team agrees on. Synthesised from individual contributions.</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl">Emerging Shared SiP Storyline</div><div class="port-desc">The collective narrative description of the future organisation, written in the present tense of the future across all four dimensions.</div></div>
-      
-      
-      
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- 1.5.4 INTEGRATION SUMMARY -->
-<div class="acc">
-<div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">5.4 — Integration Summary: The Emerging Collective View</span>
-  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Convergence · Tension · Gaps · Bias</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
-</div>
-<div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.4</div><p><strong>The integration synthesis:</strong> This is the most important facilitation moment in the entire unit. After all CXO contributions are captured in 5.2 and 5.3, lead the group through a structured analysis of the four dimensions below. Do not rush this — the most valuable strategic insight often emerges in the tension and missing dimensions.</p><p><strong>Sequencing the synthesis:</strong> Start with Convergence (build collective confidence), then move to Tension (surface productive disagreement), then Missing Dimensions (name the blind spots), then Dominant Bias (invite honest self-assessment from the dominant function). The order matters — starting with tension creates defensiveness that prevents the insight from landing.</p><p><strong>Closing the unit:</strong> End with the question: <em>"We have now described the organisation we intend to build. The gap between what we described and what we currently have — is that gap strategic or operational? And who in this room is accountable for closing it?"</em></p><p><em>Suggested time: 15–20 minutes.</em></p></div><div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete this activity in their own file. The content below is for your preparation.</p></div>
-  <p>The facilitator leads a structured synthesis to identify the four dimensions of the emerging collective view across all CXO contributions.</p>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:#5ecba1;">Points of Convergence</div><div class="port-desc">Where all CXO descriptions aligned. What the organisation consistently looks like across all perspectives.</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:rgba(231,100,80,.8);">Points of Tension</div><div class="port-desc">Where perspectives contradicted or competed. Which functions described incompatible futures.</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:var(--gold);">Missing Dimensions</div><div class="port-desc">Which SiP dimensions were inadequately described by any CXO. The collective blind spot.</div></div>
-      
-      
-      
-    </div>
-    <div class="port-block">
-      <div class="port-head"><div class="port-lbl" style="color:#c39de0;">Dominant Bias</div><div class="port-desc">Which functional perspective was over-represented. What this reveals about collective strategic blind spots.</div></div>
-      
-      
-      
-    </div>
-  </div>
-  <div class="ref-block" style="margin-top:6px;">
-    <div class="ref-head"><span class="ref-icon">📋</span><span class="ref-label">Facilitator Closing Note</span></div>
-    <div class="ref-prompt">Record the single most important strategic insight that emerged from the Application — the insight the group did not have at the start of the session.</div>
-    
-    
-    
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.2</div><p><strong>Purpose:</strong> This activity allows each group to apply its agreed SiP statement to the executive roles and examine how the strategy becomes practical through leadership contribution.</p><p>After all CXO rows have been completed, invite each group to share its SiP statement and explain how the different role contributions support it.</p><p>As groups share, listen for alignment, gaps, tensions and areas where the SiP statement may need clearer execution ownership.</p><p>The focus is on whether the agreed SiP can be supported by practical leadership contribution across the executive team.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>As groups share, participants record what they observe under four headings in 5.2 of the participant file. They then write their Section 5 reflection.</p></div>
+  <p>What to listen for as each group shares:</p>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h" style="color:#8ab0e8;">Alignment</div><p>Where the role contributions support the SiP statement and one another.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:var(--gold);">Gaps</div><p>Which part of the SiP statement has no role contributing to it.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#5ecba1;">Tensions</div><p>Where role contributions pull against one another.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#c39de0;">Execution Ownership</div><p>Where the SiP statement needs clearer execution ownership.</p></div>
   </div>
 </div>
 </div>
@@ -847,7 +726,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 2 synthesis</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Unit Summary</div><p><strong>Closing the unit:</strong> Expand the summary accordion and read each of the four sections aloud, or ask participants to read them in turn. The summary is deliberately concise — its role is to crystallise the arc of the unit.</p><p><strong>Return to the opening question:</strong> Go back to the definitions participants wrote at the start of Awareness. Ask 2–3 participants — <em>"Read your original definition of strategy. What would you change in it now — and why?"</em> The difference between their opening answer and their closing answer is the measure of what Unit 2 produced.</p><p><strong>Tangible outputs check:</strong> Before closing, confirm with the group that the following have been produced or are in progress:<ul><li>A collective Strategy Maturity Assessment score (with the lowest group identified)</li><li>Individual SiP contributions from all assigned executive roles</li><li>A working draft of the collective SiP (Headline + Storyline)</li></ul></p><p><strong>Closing commitment:</strong> Ask each participant to complete this sentence privately — <em>"Based on what Unit 2 revealed, the one thing I am committed to doing differently before our next session is…"</em> Invite 2–3 to share. These become the accountability anchors for Unit 3.</p><p><strong>Transition to Unit 3:</strong> Remind participants — <em>"What we built today is the strategic destination. Unit 3 maps that destination through KISS and defines the OKRs that will measure our progress toward it."</em></p><p><em>Suggested time: 8–10 minutes.</em></p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Unit Summary</div><p><strong>Closing the unit:</strong> Expand the summary accordion and read each of the five blocks aloud, or ask participants to read them in turn. The summary is deliberately concise — its role is to crystallise the arc of the unit.</p><p><strong>Return to the opening question:</strong> Go back to the definitions participants wrote at the start of Awareness. Ask 2–3 participants — <em>"Read your original definition of strategy. What would you change in it now — and why?"</em> The difference between their opening answer and their closing answer is the measure of what Unit 2 produced.</p><p><strong>Tangible outputs check:</strong> Before closing, confirm with the group that the following have been produced or are in progress:<ul><li>A Strategy Architecture output from each group</li><li>A confirmed Strategy Intent Statement from each group</li><li>Four confirmed SiP statements from each group</li><li>A role contribution row from each participant</li></ul></p><p><strong>Closing commitment:</strong> Ask each participant to complete this sentence privately — <em>"Based on what Unit 2 revealed, the one thing I am committed to doing differently before our next session is…"</em> Invite 2–3 to share. These become the accountability anchors for Unit 3.</p><p><strong>Transition to Unit 3:</strong> Remind participants — <em>"What we built today is the strategic foundation: the Architecture, the Intent and the Success in Practice. Unit 3 maps that Success in Practice through KISS and defines the OKRs that will measure our progress toward it."</em></p></div>
   <div id="summaryList"></div>
 </div>
 </div>
@@ -860,25 +739,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
 
 </div><!-- /main -->
-
-<!-- MATURITY REPORT MODAL -->
-<div id="matPrintRoot" style="display:none;">
-<div class="mat-modal-overlay open" id="matModal">
-  <div class="mat-modal-box">
-    <div class="mat-modal-head">
-      <div>
-        <div class="mat-modal-title">Strategy Maturity Assessment</div>
-        <div class="mat-modal-sub">S2R® · Module 2 · Unit 2 · Facilitator Report</div>
-      </div>
-      <button class="mat-modal-close" onclick="closeMatModal()">✕ Close</button>
-    </div>
-    <div class="mat-modal-actions">
-      <button class="mat-modal-print-btn" onclick="window.print()">🖨 Print / Save as PDF</button>
-    </div>
-    <div id="matReportBody"></div>
-  </div>
-</div>
-</div>
 
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
@@ -895,22 +755,16 @@ var CONCEPTS=[
 ];
 
 var W1H=[
-  {name:'WHAT',sub:'Scope & Definition',q:'What value are we creating? What business are we actually in? What do we offer — and deliberately not offer?',governs:'Scope, portfolio, product and service definition, boundary-setting, market choice, capability focus.',diag:['What arenas are we choosing to compete in?','What have we decided not to do?','Can every team member describe our WHAT in one sentence?']},
-  {name:'WHY',sub:'Purpose & Rationale',q:'Why does this organisation exist? Why would stakeholders choose us over every available alternative?',governs:'Purpose, mission, competitive differentiation, value proposition, organisational identity.',diag:['Does our WHY actually differentiate us, or could a competitor claim it unchanged?','Do our decisions consistently reflect this WHY?','Do stakeholders believe and repeat our WHY?']},
-  {name:'HOW',sub:'Mechanism & Model',q:'How do we actually deliver the value? What capabilities, processes, and structures make it possible?',governs:'Operating model, capabilities, processes, organisational design, technology architecture, partnerships.',diag:['Does our operating model match our strategy?','What capabilities are core and must be owned versus outsourced?','Where are the HOW gaps between strategic ambition and current capability?']},
-  {name:'WHEN',sub:'Timing & Sequencing',q:'When do we move into new markets? When do we hold, pivot, or exit? What is the right sequence of investments and initiatives?',governs:'Timing, sequencing, pacing, prioritisation, horizon planning, entry and exit decisions.',diag:['Have we mapped the sequence of moves needed to achieve the strategy?','Are we moving at the right pace?','What signals tell us when to accelerate or pause?']}
-];
-
-var ENGINE=[
-  {name:'Thinking Logic',sub:'The Mental Model — Layer 1: Foundation',what:'The quality of cognitive reasoning applied to strategic questions — the move from raw data to genuine strategic insight.',how:'Causal mapping (what drives what?), trade-off logic (what will we not do?), integration logic (how do choices reinforce each other?), temporal logic (what happens first, next, later?).',fail:'Weak mental models produce sophisticated-looking analysis that reaches the wrong conclusions. Most strategic errors are errors of logic.'},
-  {name:'Process',sub:'Structured Container — Layer 2: Scaffolding',what:'The formal scaffolding that turns private thinking into shared, tested, documented strategic positions.',how:'Five stages: Diagnose → Interpret → Design → Validate → Refine.',fail:'Over-engineered process kills thinking. Under-engineered process makes strategy personality-dependent. When the brilliant individual leaves, the capability collapses.'},
-  {name:'Iterative Nature',sub:'Feedback Loop — Layer 3: Motion',what:'Strategy is loop-based. Each cycle improves: Clarity (sharper choices), Coherence (fewer contradictions), Confidence (better-grounded assumptions).',how:'The loop: Observe → Learn → Repeat. Weekly signal scanning, monthly assumption testing, quarterly initiative review, annual environmental reset.',fail:'Weak strategy is rarely due to lack of intelligence. It is almost always due to poor iteration discipline — the refusal to revisit and revise in light of new evidence.'}
+  {name:'WHAT',sub:'Scope & Definition',def:"The value the organisation has chosen to create and its field of play.",governs:'Scope, portfolio, product and service definition, boundary-setting, market choice, capability focus.',diag:['What arenas are we choosing to compete in?','What have we decided not to do?','Can every team member describe our WHAT in one sentence?']},
+  {name:'WHY',sub:'Purpose & Rationale',def:"The rationale for those choices and why they matter.",governs:'Purpose, mission, competitive differentiation, value proposition, organisational identity.',diag:['Does our WHY actually differentiate us, or could a competitor claim it unchanged?','Do our decisions consistently reflect this WHY?','Do stakeholders believe and repeat our WHY?']},
+  {name:'HOW',sub:'Mechanism & Model',def:"The operating model, capabilities and mechanisms through which the value will be delivered.",governs:'Operating model, capabilities, processes, organisational design, technology architecture, partnerships.',diag:['Does our operating model match our strategy?','What capabilities are core and must be owned versus outsourced?','Where are the HOW gaps between strategic ambition and current capability?']},
+  {name:'WHEN',sub:'Timing & Sequencing',def:"The timing, sequencing and strategic moves through which the direction will be pursued.",governs:'Timing, sequencing, pacing, prioritisation, horizon planning, entry and exit decisions.',diag:['Have we mapped the sequence of moves needed to achieve the strategy?','Are we moving at the right pace?','What signals tell us when to accelerate or pause?']}
 ];
 
 var ARCH=[
-  {fn:'Strategic Alignment',si:'Ensures every executive is pursuing the same domain with the same differentiating logic.',sip:'Ensures every executive can visualise and describe the same future operating state.'},
-  {fn:'Decision Filter',si:'Does this initiative sit within our chosen arena and reinforce our WHY? If not — why are we doing it?',sip:'Does this move us closer to the organisation we described in our SiP? If not — what must change?'},
-  {fn:'Execution Coherence',si:'Provides the logic that connects every functional mandate to the enterprise direction — the WHY that all HOWs must serve.',sip:'Describes the organisation as a functioning system, helping leaders see how their individual functions contribute to the collective outcome.'}
+  {"n": "2.1.1", "fn": "Strategic Alignment", "why": "Strategy fragments when leaders and functions interpret the organisation's ambition differently. Alignment creates a common strategic reference point while allowing different parts of the organisation to make the contributions required of them.", "si": "Creates shared understanding of the organisation's strategic ambition and the choices that define it. Leaders are anchored to the same WHAT, WHY, HOW and WHEN.", "sip": "Creates a shared picture of what successful realisation of that ambition looks like. Functions may contribute differently, but they are working towards the same organisational reality."},
+  {"n": "2.1.2", "fn": "Decision Filter", "why": "Organisations continuously face competing opportunities, investments, initiatives and demands. Without a common strategic filter, priorities can become shaped by urgency, functional interests or whoever has the strongest influence in the room.", "si": "Provides the reference point for determining whether a choice is consistent with the organisation's strategic ambition and the choices already made.", "sip": "Tests whether that choice contributes to the conditions of success the organisation has defined. It connects individual decisions to the future reality they are expected to help create."},
+  {"n": "2.1.3", "fn": "Execution Coherence", "why": "Strategy is delivered through many functions, teams and decisions acting together. Each part can perform well individually while the organisation still fails to produce the intended enterprise outcome. Coherence ensures those contributions connect.", "si": "Provides the common strategic anchor that enables functions to interpret their mandates and choices in relation to the enterprise ambition.", "sip": "Shows what those combined contributions must produce across <strong>customer value, operational capability, people and culture, and enterprise value</strong>. It allows functions to see beyond their individual outputs to the organisational outcome they collectively enable."}
 ];
 
 var DIMS=[
@@ -941,76 +795,18 @@ var DIMS=[
 ];
 
 var FLAMS=[
-  {dim:'D1 Dominant — Customer Only',what:'The SiP reads as a marketing aspiration — vivid about the customer experience, silent on how the organisation will actually build and sustain it.',risk:'Execution capacity is underestimated. The customer promise is made without accounting for the operational and cultural conditions required to deliver it.'},
-  {dim:'D2 Dominant — Operations Only',what:'The SiP reads as a process optimisation plan — efficient and measurable, but stripped of the customer meaning and cultural texture that makes execution energising.',risk:'The organisation improves its machine while losing sight of what the machine is for. Execution becomes an end in itself.'},
-  {dim:'D3 Dominant — People Only',what:'The SiP reads as an OD narrative — values-rich but commercially unanchored, difficult to measure and easy to dismiss.',risk:'Culture work becomes disconnected from commercial outcomes. The strategy describes who the organisation wants to be and leaves what it intends to achieve undefined.'},
-  {dim:'D4 Dominant — Value Only',what:'The SiP reads as a financial target — measurable but motivationally thin, describing the score without describing the game.',risk:'Leaders optimise for metrics without creating the conditions that produce them. Short-termism disguises itself as strategic clarity.'}
+  {"dim": "D1 Dominant — Customer Only", "what": "The SiP reads as a marketing aspiration: vivid about the customer experience, silent on how the organisation will build and sustain it. The customer statement is rich and specific. The operational, people and enterprise statements are thin, or repeat the customer promise in other words. Leaders can describe what customers will feel and cannot describe the capability, the behaviour or the economics that produce it.", "signs": ["Every domain statement begins and ends with the customer.", "No statement names a capability, a decision right or a delivery rhythm.", "The enterprise statement assumes that growth follows from satisfaction, with no account of cost to serve."], "risk": "Execution capacity is underestimated. The customer promise is made without accounting for the operational and cultural conditions required to deliver it. The organisation commits publicly to an experience it cannot yet produce at scale, so delivery teams absorb the gap through workarounds and overtime. Service becomes inconsistent, cost to serve rises faster than revenue, and the promise that was meant to differentiate the organisation becomes the source of customer disappointment."},
+  {"dim": "D2 Dominant — Operations Only", "what": "The SiP reads as a process optimisation plan: efficient and measurable, and stripped of the customer meaning and cultural texture that make execution energising. Success is described in throughput, cycle time, cost and compliance. The customer appears as a recipient of efficiency. People appear as resources inside the process.", "signs": ["Statements describe how work flows and say little about who benefits.", "Every measure of success is internal: speed, cost, error rates.", "The people statement lists roles and procedures, with no behaviour or ownership."], "risk": "The organisation improves its machine while losing sight of what the machine is for. Execution becomes an end in itself. The efficiency gains are real, and the value they were meant to serve drifts: the organisation becomes faster at delivering what customers value less. People comply with the process without owning the outcome, so the system stops adapting when the market moves."},
+  {"dim": "D3 Dominant — People Only", "what": "The SiP reads as an organisational development narrative: rich in values, commercially unanchored, difficult to measure and easy to dismiss. Success is described through engagement, collaboration, trust and leadership behaviour. The customer outcome and the enterprise outcome are implied and never stated.", "signs": ["Statements describe how people feel and behave, with no link to a customer result or a commercial result.", "No statement could be tested against evidence within the time horizon.", "Operational capability is described as culture, with no mechanism behind it."], "risk": "Culture work becomes disconnected from commercial outcomes. The strategy describes who the organisation wants to be and leaves what it intends to achieve undefined. Investment in people and culture cannot be defended when results come under pressure, so it is the first budget to be cut. Leaders outside the people function disengage from the SiP, and culture becomes one function's project."},
+  {"dim": "D4 Dominant — Value Only", "what": "The SiP reads as a financial target: measurable and motivationally thin, describing the score without describing the game. Success is expressed in revenue, margin, market share and return. The statements say what the organisation will gain and say little about what customers, operations and people must look like to produce it.", "signs": ["Every statement resolves into a number.", "The customer statement is a sales target or a share target.", "No statement describes a capability or a behaviour that produces the result."], "risk": "Leaders optimise for metrics without creating the conditions that produce them. Short-termism disguises itself as strategic clarity. Targets are met through cost cutting, price moves and deferred investment, which weakens the capabilities and relationships that future results depend on. Functions compete for the numbers they are measured on, and the enterprise outcome erodes while each scorecard stays green."}
 ];
-
-var CXO={
-  CEO:{t:'Chief Executive Officer',b:'Defines strategic intent at enterprise level. Assumes functional leaders will translate it correctly. Focuses on WHAT at scale and WHY as competitive positioning.',c:'Direction may be abstract or insufficiently grounded in operational realities. The CEO\'s SiP often lacks the texture that functions can actually act on.'},
-  CFO:{t:'Chief Financial Officer',b:'Interprets strategic intent primarily through financial return milestones. Defines WHAT through a capital allocation perspective and WHY through shareholder value logic.',c:'The CFO\'s SiP tends toward metrics without narrative. Commercial rigour is present; the human and customer dimensions are underweighted.'},
-  COO:{t:'Chief Operating Officer',b:'Translates strategic intent immediately into operational milestones. Skips the cultural and customer narrative dimensions of the SiP.',c:'The COO operationalises before the strategic picture is fully formed. The SiP drifts into a delivery plan and loses its future-state description.'},
-  CHRO:{t:'Chief People & Culture Officer',b:'Defines strategic intent success as cultural transformation and people capability without anchoring to commercial outcomes.',c:'The CHRO\'s SiP is values-rich and commercially thin. Other leaders struggle to connect it to measurable business outcomes.'},
-  CTO:{t:'Chief Technology Officer',b:'Frames strategic intent around technological capability milestones. Technical language can alienate non-technical leaders in the integration process.',c:'The CTO\'s SiP may be precise and visionary but inaccessible. Translation from technical specification into strategic impact is required.'},
-  CMO:{t:'Chief Marketing Officer',b:'Defines strategic WHAT through market positioning and brand aspiration. May articulate a SiP that outpaces operational or financial capacity.',c:'The CMO\'s SiP may describe an experience the organisation cannot yet deliver. Inspiring but disconnected from execution reality.'},
-  CCO:{t:'Chief Commercial Officer',b:'Defines intent through revenue and growth targets. Underweights customer experience quality and internal capability dimensions.',c:'The CCO\'s SiP is growth-focused and delivery-light. Ambition is present; the conditions required to sustain growth are absent.'},
-  CPO:{t:'Chief Procurement Officer',b:'Defines intent through supply chain and cost efficiency milestones. Underweights strategic capability-building dimensions.',c:'The CPO\'s SiP emphasises cost discipline at the expense of strategic agility and value creation.'},
-  CRO:{t:'Chief Risk Officer',b:'Defines intent through risk mitigation milestones. May constrain strategic ambition in the SiP.',c:'The CRO\'s SiP is defensible but conservative. It describes only what the organisation avoids.'},
-  CSO:{t:'Chief Strategy Officer',b:'Treats strategic intent as a planning framework deliverable. May produce a SiP that is intellectually coherent but disconnected from execution reality.',c:'The CSO\'s SiP is architecturally sound but emotionally absent. Other leaders struggle to feel ownership of something designed by the strategy function.'}
-};
-
-var ASSESS=[
-  {id:'A',lbl:'A · Process',desc:'Strategy as a capability — process components.',items:[
-    {n:1,t:'OUTPUT — A decided position',s:'Strategy is a tangible, expressible, decided position.',q:'How clearly is your strategy expressed as a single, written, actionable position?'},
-    {n:2,t:'ITERATIVE — Continuously refined',s:'Strategy is loop-based: form → test → revise → repeat.',q:'How consistently is your strategy revisited and revised in response to new information?'},
-    {n:3,t:'THINKING & LOGIC — The cognitive engine',s:'Thinking = divergent. Logic = convergent. Both required in sequence.',q:'How well-embedded is the discipline of formally testing the uncomfortable assumptions your strategy rests on?'},
-    {n:4,t:'PROCESS — Structured container',s:'Repeatable, auditable, scalable method for strategic decision-making.',q:'How repeatable is your strategy process — could someone other than you run the next cycle?'}
-  ]},
-  {id:'B',lbl:'B · Intent (3W1H)',desc:'Strategic intent dimensions — the directional anchor.',items:[
-    {n:5,t:'WHAT — Scope & domain',s:'What value? What business? What do you offer — and not offer?',q:'How precisely is your WHAT defined — including what you have explicitly decided not to do?'},
-    {n:6,t:'WHY — Purpose & rationale',s:'Why does this organisation exist? Why would stakeholders choose you?',q:'How clearly does your WHY differentiate you from every available alternative — including doing nothing?'},
-    {n:7,t:'HOW — Mechanism & model',s:'How do you deliver the value? What capabilities make it possible?',q:'How well-defined are the two or three specific capabilities that make your strategy executable?'},
-    {n:8,t:'WHEN — Timing & sequencing',s:'When do you move? When do you hold? The sequencing logic of strategy.',q:'How clear and deliberate is the sequencing logic of your current strategy?'}
-  ]},
-  {id:'C',lbl:'C · Value',desc:'Value lifecycle — creates, delivers, sustains.',items:[
-    {n:9,t:'CREATES value — Origination layer',s:'Activities that generate new worth: innovation, capability, IP, brand equity.',q:'How consistently is your organisation generating new value that did not previously exist?'},
-    {n:10,t:'DELIVERS value — Distribution layer',s:'Full system of transmission: channels, experience, partnerships, pricing.',q:'How reliably does your created value reach the people it was designed for?'},
-    {n:11,t:'SUSTAINS value — Durability layer',s:'Investing in the conditions that make value possible long-term.',q:'How deliberately are you investing today in the conditions that ensure relevance in three to five years?'}
-  ]},
-  {id:'D',lbl:'D · Environment',desc:'Operating environment — stakeholders and navigation.',items:[
-    {n:12,t:'STAKEHOLDERS — Full universe',s:'Broader than customers: employees, investors, communities, regulators, partners.',q:'How comprehensively does your strategy address every stakeholder group it must serve?'},
-    {n:13,t:'NAVIGATING — Active, skilful movement',s:'Navigation implies agency and course correction.',q:'How actively and deliberately is your organisation shaping its environment?'},
-    {n:14,t:'THE FORCES — What must be navigated',s:'Competitive, macro, disruptive, and social/environmental forces.',q:'How well-mapped and monitored are the forces most likely to threaten your strategy in the next 18 months?'},
-    {n:15,t:'OPERATING ENVIRONMENT — Bounded context',s:'The full system within which the organisation exists.',q:'How responsively is your organisation reading and adapting to significant environmental shifts?'}
-  ]},
-  {id:'E',lbl:'E · Engine',desc:'The strategy engine — thinking, process, iteration.',items:[
-    {n:16,t:'THINKING LOGIC — Cognitive layer',s:'Causality, trade-off, integration, temporal, deductive, and inductive reasoning.',q:'How disciplined and complete is the reasoning applied to your major strategic decisions?'},
-    {n:17,t:'PROCESS — Structural logic',s:'Five stages: Diagnose → Interpret → Design → Validate → Refine.',q:'How consistently does your organisation follow all five process stages — Diagnose, Interpret, Design, Validate, Refine?'},
-    {n:18,t:'ITERATIVE NATURE — Dynamic feedback',s:'Weekly signals, monthly tests, quarterly reviews, annual reset.',q:'How disciplined are your weekly, monthly, quarterly, and annual iteration cycles in changing direction when evidence demands it?'}
-  ]},
-  {id:'F',lbl:'F · Strategic Chain',desc:'From inputs to coherent executable output.',items:[
-    {n:19,t:'INPUTS — Data, context, constraints',s:'Market data, competitive intelligence, performance data, environmental scans.',q:'How complete, current, and unbiased are your strategic inputs?'},
-    {n:20,t:'ITERATIVE THINKING LOGIC',s:'Causal mapping, trade-off logic, integration logic, temporal sequencing.',q:'How rigorously is your strategic thinking protected from assumption-confirming analysis?'},
-    {n:21,t:'STRUCTURED PROCESS CYCLES',s:'Workshops, governance forums, and decision protocols.',q:'How structured and consistent are your strategy workshops, governance forums, and decision protocols?'},
-    {n:22,t:'DECISIONS ACROSS WHAT / WHY / HOW / WHEN',s:'Explicit, documented choices across all four dimensions.',q:'How explicitly and consistently are your strategic choices documented across all four dimensions — WHAT, WHY, HOW, WHEN?'},
-    {n:23,t:'VALUE LIFECYCLE DESIGN',s:'Explicit design of the full value chain across all three layers.',q:'How deliberately is your value lifecycle designed across creating, delivering, and sustaining?'},
-    {n:24,t:'STAKEHOLDER ALIGNMENT',s:'Resolving competing expectations across all stakeholder groups.',q:'How well-aligned are the competing expectations across all your stakeholder groups?'},
-    {n:25,t:'ENVIRONMENTAL NAVIGATION',s:'Continuous reading and response to macro, micro, and internal forces.',q:'How continuously is your organisation reading and responding to macro, micro, and internal forces?'},
-    {n:26,t:'OUTPUT — Coherent, executable strategy',s:'A documentable, communicable, testable set of choices.',q:'How coherent and communicable is your strategy — could someone not in the room act on it?'}
-  ]}
-];
-
-var SIP_LABELS=['Customer Experience & Value','Operational Capability & Execution Rhythm','People & Culture Dynamics','Enterprise Value Creation'];
-var SIP_QS=['Describe how customers experience the organisation when the strategy is working. Write in present tense of the future.','Describe how the organisation operates internally. What rhythms, decision flows, and cross-functional disciplines are visible?','Describe the behavioural patterns and cultural signals that emerge when strategy is being lived.','Describe the commercial and strategic outcomes that confirm durable value is being created.'];
-var ROLES=['CEO','CFO','COO','CHRO','CTO','CMO','CCO','CPO','CRO','CSO'];
-var curRole='CEO';var curCXO=null;var matScores={};
 
 var SUMMARY=[
-  {arc:'Awareness — What',t:'What Was Established',body:'Strategy was defined precisely: the output of iterative thinking, logic, and process to determine what, why, how, and when an organisation creates, delivers, and sustains value to its stakeholders while navigating forces in its operating environment. Every word carries strategic weight — OUTPUT, ITERATIVE, THINKING & LOGIC, PROCESS, the 3Ws & H, the Value Triad, STAKEHOLDERS, and NAVIGATING — each with a named failure mode when absent. Success in Practice (SiP) was introduced as the translation of strategic intent into future operating reality — what the organisation will look like, feel like, and perform like if the strategy works. SiP takes two forms: the Headline (one sentence, the portable vision anchor) and the Storyline (the four-dimensional narrative structured across Customer Experience & Value, Operational Capability & Execution Rhythm, People & Culture Dynamics, and Enterprise Value Creation).'},
-  {arc:'Intelligence — Why',t:'Why It Matters',body:'Strategic intent and SiP must be co-created by the leadership team. Co-creation produces three irreplaceable results: leaders agree on the destination through genuine shared construction; trade-offs become visible in the room, before execution; and the organisation builds collective ownership of the future state — the only ownership that sustains under execution pressure. The Strategy Engine has three interlocked components. Thinking Logic is where strategic errors most often originate: errors of reasoning. Most organisations over-invest in Process and Iteration while systematically neglecting Thinking Logic — producing well-structured, regularly reviewed, genuinely wrong decisions.'},
-  {arc:'Extrapolating — Where',t:'Where Fragmentation Appears',body:'Each SiP dimension is a multidimensional observable reality. Fragmentation becomes visible when key indicators are absent: customers describe interactions as transactional (D1); leaders describe different priorities and decisions queue upward (D2); information is hoarded, silos dominate, and strategic alignment is absent from the floor (D3); growth is accidental and cannot be traced to specific strategic choices and the organisation harvests value faster than it creates it (D4). SiP Flammables reveal where imbalance creates strategic drift — when one dimension dominates, the SiP narrows into a functional ambition that no longer describes the enterprise.'},
-  {arc:'Integration — Collective',t:'What Was Built',body:'The executive team completed the 26-area Strategy Maturity Assessment across six groups: Process Components, Strategic Intent Dimensions (3W1H), Value Lifecycle, Operating Environment, Strategy Engine, and Strategic Chain. Each leader described the four SiP dimensions from their assigned role\'s perspective in the present tense of the future. The collective exercise surfaced convergence — where all perspectives aligned; tension — where they contradicted or competed; missing dimensions — where no leader adequately described the future state; and dominant bias — where one functional perspective over-represented the narrative. The integration produced one shared Strategic Intent Statement and one co-owned SiP — the destination anchor for the next stage of the S2R® process.'}
+  {"arc": "Awareness — What", "t": "What Was Established", "body": "Strategy was defined precisely: the output of iterative thinking, logic and process to determine what, why, how and when an organisation creates, delivers and sustains value to its stakeholders while navigating the forces within its operating environment. Each concept in the definition is part of the Strategy Architecture: the interconnected choices and logic that sit underneath a strategy. The Strategy Intent Statement brings forward four dimensions from that architecture (WHAT, WHY, HOW and WHEN) and crystallises them into one clear statement. Success in Practice (SiP) defines what must be seen, experienced and executed for that ambition to become reality, across four observable domains: Customer Experience & Value, Operational Capability & Execution Rhythm, People & Culture Dynamics, and Enterprise Value Creation."},
+  {"arc": "Intelligence — Why", "t": "Why It Matters", "body": "The Strategy Intent and SiP become useful when they shape how the organisation aligns, makes choices and executes. They serve three functions. Strategic Alignment keeps people and functions oriented around the same ambition and picture of success. The Decision Filter gives a basis for determining which choices, opportunities and investments support the strategy: the Strategy Intent tests strategic fit and SiP tests strategic contribution. Execution Coherence helps functions understand how their individual contributions connect to produce the enterprise outcome."},
+  {"arc": "Extrapolating — Where", "t": "Where Success Shows Up", "body": "Each SiP domain was examined through observable indicators in two positions: When Working and Signal of Absence. The indicators help leaders test, deepen and make observable the success they have defined. The SiP Flammables provide the balance test: they show when one legitimate perspective has become so dominant that the enterprise picture narrows into a functional one. Two disciplines result: depth within each SiP domain and balance across all four."},
+  {"arc": "Integration — Collective", "t": "What Was Built", "body": "Each group built three connected outputs in sequence. The Strategy Architecture: the integrated strategic logic constructed from the 14 elements. The Strategy Intent Statement: the crisp expression of the organisation's strategic ambition derived from WHAT, WHY, HOW and WHEN. Success in Practice: four confirmed statements describing what successful realisation of that ambition looks like across the organisation. The Architecture provides the logic. The Intent crystallises the ambition. Success in Practice makes the ambition observable."},
+  {"arc": "Application — In Practice", "t": "What Was Applied", "body": "Each participant applied the agreed Success in Practice to an assigned executive role and defined, in the present tense of the future, what that role must contribute across the four SiP domains. Each group then shared its SiP statement and explained how the role contributions support it. The group examined alignment, gaps, tensions and the areas where the SiP statement needs clearer execution ownership. The three outputs are the strategic foundation that later S2R® work carries into alignment, execution and performance."}
 ];
 
 // ── RENDER ────────────────────────────────────────────────────────────────────
@@ -1035,41 +831,34 @@ function renderW1H(){
   var el=document.getElementById('w1hPanels');if(!el)return;
   el.innerHTML=W1H.map(function(w,i){
     return '<div class="ph-panel'+(i===0?' active':'')+'" id="w1h_'+i+'">'+
-      '<div class="pp-col"><h5>Core Question</h5><p>'+w.q+'</p><div style="margin-top:10px;padding:8px 12px;background:rgba(201,168,76,.06);border-radius:2px;"><p style="font-size:11px;color:rgba(201,168,76,.8);font-weight:700;margin:0;">'+w.name+' — '+w.sub+'</p></div></div>'+
+      '<div class="pp-col"><h5>What It Brings Forward</h5><p>'+w.def+'</p><div style="margin-top:10px;padding:8px 12px;background:rgba(201,168,76,.06);border-radius:2px;"><p style="font-size:11px;color:rgba(201,168,76,.8);font-weight:700;margin:0;">'+w.name+' — '+w.sub+'</p></div></div>'+
       '<div class="pp-col"><h5>What It Governs</h5><p>'+w.governs+'</p></div>'+
       '<div class="pp-col"><h5>Diagnostic Questions</h5><ul>'+w.diag.map(function(d){return '<li>'+d+'</li>';}).join('')+'</ul></div>'+
     '</div>';
   }).join('');
 }
 
-function renderEngine(){
-  var el=document.getElementById('engPanels');if(!el)return;
-  el.innerHTML=ENGINE.map(function(e,i){
-    return '<div class="ph-panel'+(i===0?' active':'')+'" id="eng_'+i+'">'+
-      '<div class="pp-col"><h5>What It Is</h5><p>'+e.what+'</p><p style="font-size:10px;color:rgba(255,255,255,.35);margin-top:4px;">'+e.sub+'</p></div>'+
-      '<div class="pp-col"><h5>How It Works</h5><p>'+e.how+'</p></div>'+
-      '<div class="pp-col fail"><h5>Failure Mode</h5><p>'+e.fail+'</p></div>'+
-    '</div>';
-  }).join('');
-}
-
 function renderArch(){
   var el=document.getElementById('archList');if(!el)return;
-  el.innerHTML='<p>Intent and SiP serve three functions in the Strategy2Results® architecture. Click each to expand.</p>'+
+  el.innerHTML='<p>Strategy Intent and SiP serve three functions within the Strategy2Results® architecture. Click each to expand.</p>'+
   ARCH.map(function(a,i){
     return '<div class="sub-acc" id="arch_'+i+'">'+
       '<div class="sub-acc-h" onclick="tSA(this)">'+
-        '<span style="font-family:\'Cormorant Garamond\',serif;font-size:1.1rem;font-weight:400;color:#fff;">'+a.fn+'</span>'+
+        '<span style="font-family:\'Cormorant Garamond\',serif;font-size:1.1rem;font-weight:400;color:#fff;">'+a.n+' — '+a.fn+'</span>'+
         '<span class="sub-arr">▼</span>'+
       '</div>'+
       '<div class="sub-acc-b cols2">'+
-        '<div>'+
-          '<p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:8px;">Strategic Intent (WHAT + WHY)</p>'+
-          '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;margin:0;">'+a.si+'</p>'+
+        '<div class="u2-why">'+
+          '<p class="u2-lbl" style="color:rgba(255,255,255,.4);">Why It Matters</p>'+
+          '<p class="u2-txt">'+a.why+'</p>'+
         '</div>'+
         '<div>'+
-          '<p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(46,168,122,.6);margin-bottom:8px;">Success in Practice (SiP)</p>'+
-          '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;margin:0;">'+a.sip+'</p>'+
+          '<p class="u2-lbl" style="color:rgba(201,168,76,.6);">Strategy Intent</p>'+
+          '<p class="u2-txt">'+a.si+'</p>'+
+        '</div>'+
+        '<div>'+
+          '<p class="u2-lbl" style="color:rgba(46,168,122,.6);">Success in Practice (SiP)</p>'+
+          '<p class="u2-txt">'+a.sip+'</p>'+
         '</div>'+
       '</div>'+
     '</div>';
@@ -1107,69 +896,19 @@ function renderFlam(){
       '</div>'+
       '<div class="sub-acc-b cols2" style="padding-top:12px;">'+
         '<div>'+
-          '<p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;">What It Creates</p>'+
-          '<p style="font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;margin:0;">'+f.what+'</p>'+
+          '<p class="u2-lbl" style="color:rgba(255,255,255,.4);">What It Creates</p>'+
+          '<p class="u2-txt">'+f.what+'</p>'+
+          '<p class="u2-lbl" style="color:rgba(255,255,255,.4);margin-top:14px;">Indicators</p>'+
+          '<ul class="u2-signs">'+f.signs.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul>'+
         '</div>'+
         '<div>'+
-          '<p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,76,60,.5);margin-bottom:6px;">Strategic Risk</p>'+
-          '<p style="font-size:13px;color:rgba(231,100,80,.8);line-height:1.75;font-style:italic;margin:0;">'+f.risk+'</p>'+
+          '<p class="u2-lbl" style="color:rgba(231,76,60,.65);">Strategic Risk if Not Balanced</p>'+
+          '<p class="u2-txt" style="color:rgba(231,120,100,.9);">'+f.risk+'</p>'+
         '</div>'+
       '</div>'+
     '</div>';
   }).join('');
 }
-
-function renderCXO(){
-  var el=document.getElementById('cxoGrid');if(!el)return;
-  var roles=Object.keys(CXO);
-  el.innerHTML=roles.map(function(r){
-    return '<div class="cxo-card" id="cxo_'+r+'" onclick="showCXO(\''+r+'\')">'+
-      '<div class="cxo-top"><div class="cxo-role">'+r+'</div><div class="cxo-title">'+CXO[r].t+'</div></div>'+
-      '<div class="cxo-bar"></div>'+
-    '</div>';
-  }).join('');
-}
-function showCXO(r){
-  var det=document.getElementById('cxoDetail');
-  if(curCXO===r){det.classList.remove('visible');document.querySelectorAll('.cxo-card').forEach(function(c){c.classList.remove('active');});curCXO=null;return;}
-  curCXO=r;
-  document.querySelectorAll('.cxo-card').forEach(function(c){c.classList.remove('active');});
-  var card=document.getElementById('cxo_'+r);if(card)card.classList.add('active');
-  det.innerHTML='<div class="cxo-col"><h5>Natural Bias in Defining Intent & SiP</h5><p>'+CXO[r].b+'</p></div><div class="cxo-col"><h5>Integration Challenge</h5><p class="cxo-challenge">'+CXO[r].c+'</p></div>';
-  det.classList.add('visible');
-}
-
-function renderAssessment(){
-  var tabs=document.getElementById('agTabs');var panels=document.getElementById('agPanels');
-  if(!tabs||!panels)return;
-  tabs.innerHTML=ASSESS.map(function(g,i){return '<div class="ag-tab'+(i===0?' active':'')+'" onclick="showAG('+i+')">'+g.lbl+'</div>';}).join('');
-  panels.innerHTML=ASSESS.map(function(g,i){
-    return '<div class="ag-panel'+(i===0?' active':'')+'" id="ag_'+i+'">'+
-      '<div class="ag-desc">'+g.desc+'</div>'+
-      g.items.map(function(item){
-        return '<div class="s-row">'+
-          '<div class="s-num">'+item.n+'</div>'+
-          '<div class="s-content"><div class="s-title">'+item.t+'</div><div class="s-sub">'+item.s+'</div><div class="s-q">'+item.q+'</div></div>'+
-          '<div class="s-score">'+[0,1,2,3].map(function(sc){return '<button class="sc-btn" onclick="setMat(\'m'+item.n+'\','+sc+',this)">'+sc+'</button>';}).join('')+'</div>'+
-        '</div>';
-      }).join('')+
-    '</div>';
-  }).join('');
-}
-function showAG(i){
-  document.querySelectorAll('.ag-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
-  document.querySelectorAll('.ag-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
-}
-function setMat(k,v,btn){
-  matScores[k]=v;
-  btn.closest('.s-score').querySelectorAll('.sc-btn').forEach(function(b){b.classList.remove('sel');});
-  btn.classList.add('sel');
-  var total=Object.values(matScores).reduce(function(a,b){return a+b;},0);
-  var el=document.getElementById('matScore');if(el)el.textContent=total;
-  var lv=document.getElementById('matLevel');
-  if(lv&&total>0){lv.textContent=total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';}
-}
-
 
 function renderSummary(){
   var el=document.getElementById('summaryList');if(!el)return;
@@ -1183,62 +922,6 @@ function renderSummary(){
       '<div class="sum-body"><p>'+s.body+'</p></div>'+
     '</div>';
   }).join('');
-}
-
-// ── ASSESSMENT EXPORT ─────────────────────────────────────────────────────────
-function buildMatReport(){
-  var total=Object.values(matScores).reduce(function(a,b){return a+b;},0);
-  var level=total===0?'No scores recorded':total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';
-  var date=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-  var html='<div class="mat-report-score-banner">'+
-    '<div>'+
-      '<div class="mat-report-score-level">'+level+'</div>'+
-      '<div class="mat-report-score-date">Assessed: '+date+'</div>'+
-    '</div>'+
-    '<div style="text-align:right;">'+
-      '<span class="mat-report-score-num">'+total+'</span>'+
-      '<span class="mat-report-score-denom"> / 78</span>'+
-    '</div>'+
-  '</div>';
-  ASSESS.forEach(function(g){
-    var gTotal=g.items.reduce(function(s,item){return s+(matScores['m'+item.n]||0);},0);
-    var gMax=g.items.length*3;
-    html+='<div class="mat-report-group">'+
-      '<div class="mat-report-group-head">'+
-        '<span>'+g.lbl+' — '+g.desc+'</span>'+
-        '<span class="mat-report-group-subtotal">'+gTotal+' / '+gMax+'</span>'+
-      '</div>'+
-      g.items.map(function(item){
-        var sc=matScores['m'+item.n];
-        var hasScore=sc!==undefined;
-        var cls=hasScore?'s'+sc:'sn';
-        var label=hasScore?sc:'—';
-        return '<div class="mat-report-row">'+
-          '<div class="mat-report-num">'+item.n+'</div>'+
-          '<div class="mat-report-title">'+item.t+'</div>'+
-          '<div class="mat-report-score-pill '+cls+'">'+label+'</div>'+
-        '</div>';
-      }).join('')+
-    '</div>';
-  });
-  return html;
-}
-function exportMatScreen(){
-  document.getElementById('matReportBody').innerHTML=buildMatReport();
-  document.getElementById('matPrintRoot').style.display='block';
-  document.getElementById('matModal').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function exportMatPDF(){
-  document.getElementById('matReportBody').innerHTML=buildMatReport();
-  document.getElementById('matPrintRoot').style.display='block';
-  document.getElementById('matModal').classList.add('open');
-  setTimeout(function(){window.print();},200);
-}
-function closeMatModal(){
-  document.getElementById('matModal').classList.remove('open');
-  document.getElementById('matPrintRoot').style.display='none';
-  document.body.style.overflow='';
 }
 
 // ── GENERIC HELPERS ──────────────────────────────────────────────────────────
@@ -1262,34 +945,8 @@ function showMod(i){
 }
 
 document.body.style.overflow='';
-renderConcepts();renderW1H();renderEngine();renderArch();renderDims();renderFlam();
-renderCXO();renderAssessment();renderSummary();
-
-// ── APPLICATION TAB (Section 1.5) — FACILITATOR ───────────────────────────
-var APP_ROLES_F=['CEO','CFO','COO','CHRO','CTO','CMO','CCO','CPO','CRO','CSO'];
-var APP_DIMS_F=[
-  {id:'d1',label:'Customer Experience & Value',color:'#8ab0e8'},
-  {id:'d2',label:'Operational Capability & Execution Rhythm',color:'var(--gold)'},
-  {id:'d3',label:'People & Culture Dynamics',color:'#5ecba1'},
-  {id:'d4',label:'Enterprise Value Creation',color:'#c39de0'}
-];
-
-
-
-function loadAppScoreRefF(){
-  var total=Object.values(matScores||{}).reduce(function(a,b){return a+b;},0);
-  var sc=document.getElementById('appScoreValF');
-  var lv=document.getElementById('appScoreLvlF');
-  if(sc&&total>0){
-    sc.textContent=total;
-    if(lv)lv.textContent=total>=53?'Strategic Maturity':total>=27?'Developing Capability':'Foundational Gaps';
-  }
-}
-
-window.addEventListener('load',function(){
-  setTimeout(loadAppScoreRefF,300);
-});
-
+renderConcepts();renderW1H();renderArch();renderDims();renderFlam();
+renderSummary();
 
 </script>
 <footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
