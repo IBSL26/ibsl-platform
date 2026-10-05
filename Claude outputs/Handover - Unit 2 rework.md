@@ -240,3 +240,135 @@ git commit -m "Unit 2 rebuilt: Strategy Architecture, Strategy Intent Statement,
 ```
 
 Until she confirms both steps ran, treat the live portal as still on the old Unit 2. The portal keeps serving the old Unit 2 deck until the new one is built and uploaded. `Unit decks\_build\rebuild_u02\` goes in with the deck commit.
+
+## 19. The Unit 2 deck is rebuilt (5 October, night) — waiting for Carol's review in PowerPoint
+
+Carol said "Done" to section 18 (the database step and the commit of the unit files and `capstone_P.html` both ran; the live portal now carries the new Unit 2). She then asked for the deck: "Please ensure that you beef up the presenter notes properly."
+
+**The deck:** `Unit decks\Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx`, 48 slides, about 24,600 words of presenter notes (the old deck had 36 slides and about 15,200). No text under 24pt. The pptx validator passes. `node check_standards.js`: only the 82 known Unit 01 deck lines. The same file is at `Claude outputs\Deck upload\Module-2\unit-02.pptx`, and `Deck upload\Module-2\unit-02\` holds 48 pictures and the new `manifest.json` (made with `reader_assets.py` into a scratch folder, then copied over). Backups of the old deck and old build inputs: `Claude outputs\Unit 2 deck backups\`.
+
+**Slide map:** 1 cover · 2 Key learning outcomes · 3 The unit journey · 4 Section 1 · 5 Opening the session · 6 1.1a definition · 7 1.1b nine concepts · 8 1.2 · 9 1.3 · 10 Section 1 Reflections · 11 Section 2 · 12 2.1 overview · 13–15 2.1.1 to 2.1.3 · 16 Section 2 Reflections · 17 Section 3 · 18 3.1a overview · 19–22 3.1b to 3.1e (one SiP domain each) · 23 3.2a overview · 24–27 3.2b to 3.2e (one Flammable each) · 28 Section 3 Reflections · 29 Section 4 · 30 4.1a how the group works · 31 4.1b how each element works · 32 4.1c the 14 elements · 33–36 4.1d to 4.1g (elements 1–3, 4–7, 8–11, 12–14) · 37 4.1h Architecture output · 38 4.1i six checks · 39 4.2 · 40–42 4.3a to 4.3c · 43 Section 5 · 44 5.1a · 45 5.1b · 46 5.2 · 47 Section 5 Reflections · 48 Unit Summary. Section 4 has no reflection slide because the unit has no Section 4 reflection.
+
+**How the notes are built (every content slide):**
+1. FACILITATOR GUIDANCE and PARTICIPANT ACTIVITY blocks, word for word from the facilitator file (read through `outlines\u02.json`, so they cannot drift), the card content from the files' data arrays, and the participant prompts.
+2. "Source detail (S2R® manuscript)" and "Further detail / Probing question (S2R® manuscript)": the manuscript wording kept from the old deck where it still applies. The open-response questions of the old maturity assessment are reused as one probing question for each of the 14 elements in 4.1. Manuscript lines were adapted to her new terms ("domains", "Strategy Intent"). Headline, Storyline, maturity scoring and co-creation lines were left out with the content they belonged to.
+3. The 55 journal insights of the old deck, all re-placed inside the notes at the point they deepen (`enrich\u02_rebuild.json`; the build stops if one is unused or used twice). Eight had no title line and were given one. **No new insights were added: the journals were not attached in this chat.**
+4. Facilitation blocks written by Claude for this deck from her material: "How to run it", "Listen for", "Questions to ask", "Watch for", "Bridge", "What a strong reflection contains", the rebalancing questions on the Flammable slides, the six verbs on 5.1b. **She has not yet read these.**
+No timings anywhere. Nothing is asked of participants before the session. The notes never say that the page writes the Strategy Intent Statement or the SiP statements.
+
+**Build (cloud workspace; needs pptxgenjs, sharp, react-icons):**
+```
+python3 extract.py unit2_m1_lens1 outlines/u02        (only when the two HTML files change; they sit under src\)
+node unit02.js "<deck>.pptx" <logo.png> outlines/u02.json <F.html> <P.html>     (44 slides; writes reflections\u02\spec.json)
+python3 shoot_reflections.py <site folder> reflections/u02                        (only when a reflection prompt changes)
+python3 add_reflection_slides.py "<deck>.pptx" reflections/u02/spec.json "<final>.pptx"   (adds the four reflection slides: 48)
+```
+Notes live in `u02_notes.js` (helpers, front, Section 1), `u02_notes_b.js` (Sections 2 and 3), `u02_notes_c.js` (Sections 4 and 5, Unit Summary). Slide text and layout live in `unit02.js`. **Do not run `source_notes.py`, `enrich.py`, `embed_insights.py` or `deck_text_edits.py` on this deck**, and ignore `source\u02.json`, `enrich\u02.json`, `enrich\u02_embedded.json` and `edits\u02_deck_text.json`: they describe the old deck. Sections 5 and 6 of this handover (edit the old deck directly with python-pptx) no longer apply; the deck is rebuilt from the scripts above until Carol edits it herself in PowerPoint. If she does, her file becomes the master (section 6 rules).
+
+**Review guide for Carol:** `Claude outputs\Unit 2 deck - Guide for review.docx` (codes N1 to N8, slide map with the insights per slide; made with `rebuild_u02\make_deck_guide.js`). Sent into the chat with the deck.
+
+**Checked:** every slide rendered and looked at; an independent read of all 48 notes against the facilitator file (no guidance missing; its findings on sequence, repetition and wording were fixed); wording rules scanned (no contrast constructions, no "lens", ® present, no timings, no pre-work).
+
+**Found, not changed (needs her word):** the facilitator page gives WHEN two wordings: the 1.2 tab says "…through which the direction will be pursued", 4.2 says "…through which the ambition will be pursued". The participant page says "ambition" in both places. One word to change in `unit2_m1_lens1_f.html` (array `W1H`, `def` of WHEN) if she agrees.
+
+**Next, on her "Done" for the deck:** commit line `git add "Unit decks" "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` then `git commit -m "Unit 2 deck rebuilt: 48 slides, full presenter notes"; git push`; then Supabase: Storage → `facilitator_decks` → `Module-2` → tick `unit-02.pptx` and folder `unit-02` → Delete → drag both from `Claude outputs\Deck upload\Module-2`. If she edits the deck in PowerPoint, copy her file over `Deck upload\Module-2\unit-02.pptx` and remake the pictures and manifest first. Then Units 3 and 4 (they name things defined in Unit 2: check every mention of the SiP Headline, Storyline, maturity assessment and "Strategic Intent Statement").
+
+## 20. Teaching first, portal after; the opening definition on both pages (5 October, late night)
+
+Carol on the deck: "We need to add the define strategy in the participant file for this: Write your definition of strategy in one sentence — right now, without consulting anyone. And to the facilitator as well. The PPT is the teaching material. The logic is that the facilitator runs through the whole unit first and then allows the participants to go to the portal. So the speaking notes must not be written as if the facilitator is pointing the participants to the portal while teaching."
+
+**Rule for every unit from now on (apply to Units 3 to 12 and their decks):** the deck is the teaching material. The facilitator teaches the whole unit from the deck first. Participants go to the portal afterwards and complete their own page, in the session or after it. Presenter notes never ask participants to open, expand, select or type on the portal while the facilitator teaches. Facilitator-page guidance follows the same rule.
+
+**Changed (all on her computer; NOT yet committed, so the live portal still has the version of section 18):**
+
+1. `unit2_m1_lens1_p.html`: a box at the top of Section 1, "Opening the Session — Your Definition of Strategy", her sentence word for word, saved as response key `strategy_definition` (in `U2_FIELDS`; no database change). One helper line under the box is Claude's wording ("Enter the sentence you wrote when the session opened, exactly as you wrote it. You return to it at the Unit Summary."); she has not yet read it.
+2. `unit2_m1_lens1_f.html`: her sentence as a quote in Section 1 with a PARTICIPANT ACTIVITY note; one line added to Unit Intent ("How the unit runs: …"); six guidance lines reworded so that the facilitator teaches and does not steer participants through the page (1.1 "Taking participants through the 9 concepts", 1.2 "Before presenting the four dimensions" / "Taking participants through the 4 dimensions" / "HOW" / "WHEN", Unit Summary "Read each of the five summary blocks aloud", 5.1 "Each participant enters their own responses in their participant file"). Old and new wording are in the review guide, code N10.
+3. `dashboard_F.html`: family 'Opening — Definition of Strategy' and the label for `strategy_definition` (two exact insertions, CRLF kept; all inline scripts parse).
+4. `collection.html` rebuilt (Unit 2 now has 12 prompts).
+5. The deck (48 slides, same slides, about 25,650 words of notes): every "How to run it" block is now "How to teach it" and speaks from the slide; what participants do on the portal sits under "On the portal, after the teaching" and "PARTICIPANT ACTIVITY (on the portal, after the teaching)"; coaching for Sections 4 and 5 sits under "When the groups do the work" / "When the groups share"; the Unit Summary notes end with "Handing over to the portal". `Deck upload\Module-2\unit-02.pptx`, the 48 pictures and `manifest.json` are refreshed.
+6. Build scripts updated: `rebuild_u02\build_f.py`, `build_p.py`; `_build\u02_notes.js`, `u02_notes_b.js`, `u02_notes_c.js`, `outlines\u02.json`. Review guide is version 2 (`Claude outputs\Unit 2 deck - Guide for review.docx`, codes N0 to N10). Backups: `Unit 2 file backups\… (5 Oct late).html`, `Unit 2 deck backups\unit-02 - 48 slides, before teaching-first notes (5 Oct late).pptx`.
+
+Checked: both pages verified (tag balance, scripts, no duplicate ids), the new box saves and comes back after a reload, the Section 4 flow test still passes, standards check clean apart from the 82 Unit 01 deck lines, deck validator passes, no text under 24pt, notes scanned for wording rules and for any remaining portal-pointing phrase.
+
+**On her "Done":** one commit for everything: `git add "Unit decks" unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` then `git commit -m "Unit 2: deck rebuilt with teaching-first notes; opening definition of strategy on both pages"; git push`; then the Supabase replacement of `unit-02.pptx` and folder `unit-02` in `Module-2` (section 19). Check for a `~$` lock file before any further save of the deck.
+
+**Still open with her:** N8 ("direction" or "ambition" in the 1.2 WHEN tab of the facilitator page), the helper line under the new box (N9), new journal insights (journals not attached), C2 to C5 of the earlier review notes.
+
+## 21. Notes restructured on Carol's model; clear opening part on the facilitator page (5 October, late night)
+
+Carol sent back her own copy of the deck (she had cleaned the notes of slides 1 to 4) with four instructions: (a) remove the helper line under the opening-definition box on the participant page ("unnecessary"); (b) the facilitator page needs "a clear part for where they ask participant to define strategy in their own words properly", in place of the quote box and Claude's activity note; (c) she sees no relevance in Key Facilitation Questions and Tone & Watch Points in the slide notes ("otherwise we remove it completely or reword it"); (d) "For the PPT the guidance on how to use the slide must come up before the actual content notes… Write the notes properly: start with how to run the teaching content on the slide, then notes and insights on the slide content. Right now the notes are confusing. See how I have cleaned the first 4 slides. Follow that structure."
+
+**Rule for the notes of every deck from now on (apply to Units 3 to 12):**
+
+1. HEADING in capitals (part number and title).
+2. HOW TO TEACH IT first (HOW TO USE THIS SLIDE on reflection slides, HOW THIS SECTION RUNS on section slides): numbered steps. LISTEN FOR / QUESTIONS TO ASK follow straight after where they help.
+3. Then the notes on the slide content: FACILITATOR GUIDANCE (word for word, in one piece), CONTENT, the journal insights (after the guidance block or the card they deepen, never in the middle of a guidance block), SOURCE DETAIL (S2R® MANUSCRIPT).
+4. Last: ON THE PORTAL, AFTER THE TEACHING, and for group work WHEN THE GROUPS DO THE WORK.
+5. Every block heading in capitals and bold; one paragraph per line. Section slides carry only: heading, how the section runs, the section learning outcomes, the guidance with SECTION INTENT, and at most one short block. No Key Facilitation Questions or Tone & Watch Points block in slide notes.
+6. No repetition between the steps and the guidance, no bridges floating on their own: a bridge is the last step of HOW TO TEACH IT / HOW TO USE THIS SLIDE.
+
+**Her deck is now the master.** The deck in `Unit decks\` is her copy (her slides; her notes on slides 1 to 4, word for word) with the notes of slides 5 to 48 replaced. One correction inside her notes: slide 3 "using the list above" → "using the list below". Her copy as she sent it is kept in `Unit 2 deck backups\unit-02 - Carol's edited copy, slides 1 to 4 notes cleaned (5 Oct).pptx`.
+
+**How the deck is built now** (in `Unit decks\_build`, cloud needs `NODE_PATH=$(npm root -g)`):
+`node unit02.js build1.pptx <logo> outlines/u02.json <F html> <P html>` → `python3 add_reflection_slides.py build1.pptx reflections/u02/spec.json build2.pptx` → `python3 format_notes.py "<current deck in Unit decks>" build2.pptx "<deck out>"` (keeps the slides and the notes of slides 1 to 4 of the current deck; replaces notes from slide 5; a line starting with § in the generated notes is a heading and becomes bold; stops if the slide text of the two decks differs) → `python3 lint_notes.py "<deck out>" 5` (contrast constructions, "lens", timings, pre-work, portal-steering, ®, leftover §) → `python3 dump_notes.py "<deck out>" notes.txt` to read the notes → `reader_assets.py` into scratch, then copy over `Claude outputs\Deck upload\Module-2\unit-02\`. In the notes scripts, `H()` marks a heading, `GB()` prints a guidance block of the facilitator page under its own label, `ctx.divider()` and `ctx.reflection()` build section and reflection pages, `weave()` keeps a guidance block whole and puts its insights after it. `carol_notes_1_4.json` holds her notes for slides 1 to 4 (reference only: the deck itself is the source).
+
+**Changed in this round (on her computer, NOT yet committed):**
+
+1. `unit2_m1_lens1_p.html`: helper line under the opening box removed. The box and its key `strategy_definition` are unchanged.
+2. `unit2_m1_lens1_f.html`: at the top of Section 1 a guidance part "Opening the Session · Defining Strategy in Your Own Words" with Ask / Collect / Keep, and a one-line PARTICIPANT ACTIVITY note. The quote box and the earlier activity note are gone; the duplicate "Opening the session" paragraph in the Section 1 guidance is removed.
+3. Deck: notes of slides 5 to 48 rewritten in the structure above (about 25,500 words; all 55 insights placed once). `Deck upload\Module-2\unit-02.pptx`, the 48 pictures and `manifest.json` refreshed.
+4. `collection.html` rebuilt. Standards check: only the 82 Unit 01 deck lines.
+5. Review guide is version 3 (codes N0 to N11). Previews regenerated (`PREVIEW - Unit 2 Participant.html`, `PREVIEW - Unit 2 Facilitator.html`; never commit or upload them).
+6. Backups: `Unit 2 file backups\… (5 Oct, notes restructure).html`, `Unit 2 deck backups\unit-02 - 48 slides, before notes restructure (5 Oct).pptx` and `notes scripts before restructure (5 Oct)\`.
+
+**Open with her:**
+- N11a: step 4 of her slide 3 notes still says "Keep the four Key Facilitation Questions in front of you", although she deleted the block. Remove the step?
+- N11b: Key Facilitation Questions and Tone & Watch Points still sit in the Facilitator Guide tab of `unit2_m1_lens1_f.html` (STANDARDS rule 4 puts them in every facilitator file). Remove, reword or leave? If she says remove for all units, the standard itself must change with her approval.
+- N8: "direction" or "ambition" in the 1.2 WHEN tab of the facilitator page.
+- New journal insights (journals not attached); C2 to C5 of the earlier review notes.
+
+**On her "Done":** `git add "Unit decks" unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` then `git commit -m "Unit 2: deck notes restructured (how to teach first); opening definition of strategy on both pages"; git push`; then Supabase: Storage → `facilitator_decks` → `Module-2` → delete `unit-02.pptx` and folder `unit-02` → drag both from `Claude outputs\Deck upload\Module-2`. If she edits the deck again in PowerPoint, her file is the master: copy it over `Unit decks\` and `Deck upload\Module-2\unit-02.pptx`, and remake the pictures and manifest. Then Units 3 and 4.
+
+## 22. Notes rewritten as one classroom conversation; deck aligned with the two files (5 October, late night)
+
+Carol rejected the section 21 version: "After the script how is the facilitator supposed to use it? … The notes must flow as a conversation that the facilitator [has] during the class. Go through all the slides and arrange the notes properly." She asked for worked slides 6, 7 and 8 in the chat first, then approved: "the slide 6 and 7 format you gave me is what you must do". She also found the private 1-to-5 rating of 1.2 in the notes although it is no longer part of the unit: "Please align the PPT with the actual content on the facilitator and participant files … give me amended PPT with proper notes and relevant insights per notes."
+
+**This replaces rule 3 of section 21 for every deck (Units 3 to 12 too):**
+
+1. HEADING in capitals, then HOW TO TEACH IT (HOW TO USE THIS SLIDE on reflection slides).
+2. Numbered steps in class order. Each step has a short bold title. Under it: `Say: "…"`, `Ask: "…"`, what to do, `Listen for: …`.
+3. Nothing sits loose after the steps. The facilitator script, the card text (`What it means, say:` and so on), manuscript detail (`Add:`) and each journal insight (`Deepen, say:` then `(Insight: Title. Source: …)`) sit inside the step where they are used. No block headed CONTENT, FACILITATOR GUIDANCE, FACILITATOR SCRIPT or SOURCE DETAIL.
+4. Spoken lines speak to participants ("you", "your group"). Guidance of the facilitator page written about "participants" or "the group" is turned into speech; the cards are spoken word for word.
+5. Section slides: HOW THIS SECTION RUNS, SECTION LEARNING OUTCOMES (Carol's slide 4 model), then HOW TO OPEN THE SECTION as steps.
+6. Last blocks only: ON THE PORTAL, AFTER THE TEACHING, and LATER, WHEN THE GROUPS DO THE WORK ON THE PORTAL (coaching). Every bridge is the last step.
+7. The notes carry only what the facilitator and participant files carry today. Nothing that reads like an activity may be invented (no ratings, counts, private tasks, things "written down" that the page has no box for). Manuscript detail is allowed where it deepens content still on the pages. Ask her before adding any exercise.
+8. Read every notes page from first line to last before sending, then have an independent reader check the notes against the two files (done here with a second agent; its findings were applied).
+
+**Removed for alignment:** the 1.2 rating (also removed from `unit2_m1_lens1_f.html`: the guidance line "Before presenting the four dimensions: Ask participants to rate …" is gone; `build_f.py` updated), the "Critical Insight" manuscript lines, the probing questions of 4.1 (old maturity assessment), the "quick count" for the Flammables (4.3b), the private task in 3.2a, "written down with the name of the person who must decide it" (six checks), "each group applies the two tests in Section 4" (2.1.2). The three questions per Flammable are kept as facilitator questions ("questions that bring the other domains back"), with no claim that they return in Section 4.
+
+**Insights:** all 55 placed once, each spoken inside a step. Moved: the_one_thing → 2.1.2; destination_and_route → 1.2 HOW; shared_meaning_shared_action → 2.1.1; an_honest_baseline → Section 1 reflections; values_at_the_edges → 3.1d Dialogue Quality; a_common_baseline → 3.2a; signal_to_watch_for → 3.2c; top_down_cultures → 4.1a; right_destination_right_design → close of 4.1e; seeing_the_larger_system → 5.1b.
+
+**Tools (in `Unit decks\_build`):** `u02_notes.js`, `u02_notes_b.js`, `u02_notes_c.js` (helpers `S()` step, `page()`, `say()`, `ask()`, `IN()` insight, `pick()` takes one guidance line of the facilitator page and stops the build if the page changed, `divider()`, `reflection()`, `reflFor()`); `format_notes.py` (unchanged: Carol's deck is the base, her notes on slides 1 to 4 kept); `lint_notes.py` (now also flags removed content and loose blocks); `check_alignment.py <deck> outlines/u02.json outlines/u02_arrays.txt` (lists every sentence of the facilitator guidance and every card text that is not in the notes word for word: card text must show only the re-voiced domain intros and THE FORCES list; guidance sentences listed there are the ones turned into speech, read them).
+
+**State (on her computer, NOT committed):** `unit2_m1_lens1_f.html` (rating line removed; md5 9699929f…), `unit2_m1_lens1_p.html` (unchanged since section 21), deck in `Unit decks\` (48 slides, about 23,600 words of notes), `Deck upload\Module-2\unit-02.pptx` + 48 pictures + `manifest.json` refreshed, facilitator PREVIEW regenerated, review guide version 4 (N0 to N14). Backups: `Unit 2 file backups\unit2_m1_lens1_f - before rating line removed (5 Oct, conversation notes).html`, `Unit 2 deck backups\unit-02 - 48 slides, before conversation-style notes (5 Oct).pptx` and `notes scripts before conversation style (5 Oct)\`.
+
+**Open with her:** N14 (Unit Summary speaks of the group work as done although it is read before the portal work; her wording kept); N11a (step 4 of her slide 3 notes still names the Key Facilitation Questions); N11b (Key Facilitation Questions and Tone & Watch Points in the Facilitator Guide tab of the facilitator page); N8 ("direction" in the 1.2 WHEN tab, "ambition" in 4.2: both pages have both wordings).
+
+**On her "Done":** same commit line and Supabase steps as section 21 (commit message: "Unit 2: deck notes as a classroom conversation; rating removed; opening definition of strategy on both pages").
+
+## 23. Carol's three final decisions applied; Unit 2 ready to commit (5 October, late night)
+
+Carol on the section 22 deck: "Otherwise the PPT notes look good. So give me the final versions and we commit the revised versions." Her three answers:
+
+1. **Slide 3, step 4 removed** ("Keep the four Key Facilitation Questions in front of you…"). `format_notes.py` now makes this cut each time it runs on her copy (it stops if the text is no longer where it was); `carol_notes_1_4.json` updated.
+2. **Facilitator Guide tab reworded** ("Reword them accordingly"), in `unit2_m1_lens1_f.html` and `build_f.py`. Key Facilitation Questions now opens with "Four questions anchor the unit. Ask each one where it belongs as you teach from the deck." and each question carries where it is used (Sections 1 and 4 · Strategy Architecture; 1.3, Section 3 and 4.3 · Success in Practice; Section 2 · Decision Filter; Section 5 · Role contribution). Tone & Watch Points now opens with "These four points apply when the groups do the work on the portal, after the teaching." and each point carries its part (4.2 · Strategy Intent Statement; 4.3 · Success in Practice; 4.3 · Balance; 5.1 · Role contribution) with a Say or Ask. The questions and watch points themselves are unchanged. She has seen this wording in the chat reply only: change it if she comments.
+3. **"ambition" in the 1.2 WHEN line** on both pages (`W1H`, `def` of WHEN) and in the deck notes (slide 8). `build_f.py` and `build_p.py` updated. 1.2 and 4.2 now read the same.
+
+N14 (Unit Summary speaks of the group work as done) was not answered: her wording stays.
+
+**Final state on her computer (md5):** `unit2_m1_lens1_f.html` 5d5958c0…, `unit2_m1_lens1_p.html` 845ace53…, deck `Unit decks\Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx` ac09cc13… (same file as `Deck upload\Module-2\unit-02.pptx`; 48 pictures and `manifest.json` refreshed), `collection.html` rebuilt, standards check clean apart from the 82 Unit 01 deck lines, both PREVIEW files regenerated. Backups: `Unit 2 file backups\… (5 Oct, final).html`, `Unit 2 deck backups\unit-02 - 48 slides, before her three final decisions (5 Oct).pptx`. The review guide docx is version 4 and still lists N8 and N11 as open: they are closed by this section.
+
+**Given to her for the commit (she runs it herself in PowerShell; Claude never runs git):**
+`git add "Unit decks" unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` · `git commit -m "Unit 2: deck notes as a classroom conversation; rating removed; opening definition of strategy; guide tab reworded"` · `git push`. Then Supabase: Storage → `facilitator_decks` → `Module-2` → delete `unit-02.pptx` and folder `unit-02` → drag both in from `Claude outputs\Deck upload\Module-2`.
+
+**Next:** Units 3 and 4, with the teaching-first rule (section 20) and the conversation format for notes (section 22). Check every mention of the SiP Headline, Storyline, maturity assessment and "Strategic Intent Statement", and that nothing in a deck refers to content the two files no longer carry.

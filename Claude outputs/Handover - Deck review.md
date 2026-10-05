@@ -271,3 +271,57 @@ Carol's instruction: the journal insights must sit inside the presenter notes at
 - Unit 2 first-pass findings (deck untouched since 2 October, no notebook pages received yet): slides 6/7 both 1.1, 20/21 both 4.2, 22/23 both 4.3; slides 5, 10, 29 are unnumbered content slides between numbered ones; slide 1 notes carry a "Time:" line; slide 20 title says "six groups", portal part says "26 Areas". Lettering (1.1a/1.1b …) proposed; no answer yet.
 - Slip to avoid: this chat ran `git log` and `git status` once before reading rule 20. Never run git.
 - **Carol reviewed the deck in PowerPoint and said "Done" (5 October).** She made no edits of her own; master and `Unit decks` copy are identical. She was given the commit line and the Supabase steps for `Module-1`. Ask once whether both were done and whether the live reader shows the new notes. Next: Unit 2.
+
+## 17. Unit 2 — state at 5 October 2026 (review proposed, waiting for Carol)
+
+Carol's four asks for Unit 2: (1) check that the participant and facilitator files match in content flow; (2) check the wording of each file (participant file speaks to "you / your", never "their"); (3) add reflection slides with screenshots per section, as in her Unit 1 deck; (4) strengthen the presenter notes from the devotional journals.
+
+- **Asks 1 and 2: proposed, nothing changed in the HTML files.** `Claude outputs\Unit 2 - Review notes and proposed text.docx` holds every finding with a code: D1, D2 (decisions), B1 to B10 (flow), C1 to C13 (participant wording), W1 to W8 (facilitator wording), E1 to E5 (deck). Wait for "yes to all" or the codes to drop, then edit both files (backup first, CRLF, counts, `node --check`, browser run), re-run `node build_collection.js` because the Unit Summary changes, and retake any reflection picture whose prompt changed.
+  - D1: the unit promises a Strategic Intent Statement and neither file has a box for one. Option A adds a box to 5.3 in both files (saves through `S2R.save('u2m1_lens1', 'app_<id>', …)` like the Headline; no database change).
+  - D2: 4.3 and 5.2 ask for the same four SiP dimensions; the 4.3 synthesis and the 5.4 Integration Summary ask the same four questions.
+  - Method used: `extract.load()` from `Unit decks\_build\extract.py` for the visible text of both files, and the card arrays (CONCEPTS, W1H, ENGINE, DIMS, FLAMS, CXO, ASSESS, SUMMARY) evaluated with node and compared field by field. Structure and order are identical; the participant cards are shorter by design.
+- **Ask 3: done in the deck.** `Unit decks\Unit 02 …pptx` now has 36 slides: "Section N Reflections" at slides 11, 16, 20, 27, 34. Built with `Unit decks\_build\add_reflection_slides.py <in> reflections/u02/spec.json <out>` (run once only). Pictures: `Unit decks\_build\reflections\u02\ref_*.png`, shot from the participant page with Playwright in the cloud workspace (860px viewport, 3x, lock overlay hidden, all panels opened by CSS, fonts set to Carlito). Backup of the 31-slide deck: `Claude outputs\Unit 2 deck backups\`. Preview picture: `Claude outputs\Unit 2 deck - new reflection slides.png`.
+  - **From now on the Unit 2 deck is edited directly with python-pptx. Do not rebuild it with `unit02.js`**, and do not run `source_notes.py` / `enrich.py` on it: `source\u02.json` and `enrich\u02.json` are keyed to the old 31-slide numbering.
+  - `Claude outputs\Deck upload\Module-2\unit-02.pptx` and its `unit-02` folder are still the old 31-slide deck. Refresh them once, at the end of the Unit 2 work (`reader_assets.py` deletes old pictures, which the device shell may refuse; see section 13).
+  - When reading slide text with python-pptx, read the XML (`shape_text` in the script). `shape.text_frame` adds an empty text body to shapes that have none and so changes the slide.
+  - The 3.2 answer box is faint on the portal page, so it is faint on slide 20. Offered to raise the contrast on the portal and retake.
+- **Ask 4: waiting for the journals.** The journals are not in the folder. The deck carries 25 insights (January to September 2026) as a stand-alone block at the end of the notes on 14 slides. Carol was asked to attach the ten journals; then move all insights inside the notes (generalise `embed_insights_u01.py`: same "Label: text" + "Source:" format) and add new ones, same rules as section 14.
+- Deck items still unanswered (new slide numbers): E1 lettering 1.1a/1.1b (slides 6, 7), 4.2a/4.2b (23, 24), 4.3a/4.3b (25, 26); E2 remove the "Time:" line in the notes of slide 1; E3 slide 23 title "six groups" against "26 Areas"; E4 unnumbered question slides 5, 10, 33.
+
+## 18. Unit 2 — changes applied on 5 October 2026; Carol is reviewing
+
+Carol's answers to section 17: "make all the suggested changes"; D1 = the Strategic Intent Statement is the same thing as the SiP Headline and Storyline, so word it as "SiP statement"; D2 = keep 4.3 and 5.2 / 5.4 and say why (option A). She attached nine journals (January to August and October 2026; September was not among them). The journals stay out of the folder.
+
+**Portal files (done, verified):**
+- `Unit decks\_build\edits\apply_u02_review.py <folder> [--write]`: 22 exact replacements in `unit2_m1_lens1_p.html`, 35 in `unit2_m1_lens1_f.html` (B1 to B9, C1 to C13, W1 to W8, D1, D2). Backups: `Claude outputs\Unit 2 file backups\`. CRLF kept; counts of id, onclick, href, lens_id, textarea, saveRef, saveApp unchanged; every inline script passes `node --check`; browser run (desktop and phone width) with no new errors; Unit Summary shows five blocks in both files.
+- "Strategic Intent Statement" no longer appears in either Unit 2 file. `collection.html` rebuilt with `node build_collection.js` (only the Unit 2 lines changed).
+- **Not changed, raised with Carol:** `capstone_P.html` line 158 still lists Blueprint item 2A "Strategic Intent Statement — State what [Case] pursues, why, how and by when, in a single agreed statement." This conflicts with D1. Do not touch the Capstone without her word (database blueprint).
+
+**Deck (done, verified) — `Unit decks\Unit 02 …pptx`, 36 slides:**
+- `deck_text_edits.py <in> edits/u02_deck_text.json <out>`: 7 slide titles (1.1a, 1.1b, 1.3 "the four SiP dimensions", 4.2a "26 areas", 4.2b, 4.3a, 4.3b) and 52 exact notes edits that mirror the facilitator file, remove the "Time:" line on slide 1 and reword the manuscript lines that named the Strategic Intent Statement (slides 4, 13, 21, 36).
+- `embed_insights.py <in> enrich/u02_embedded.json <out> [report.json]` (general version of the Unit 1 script; handles insights already in the notes and new ones): 55 insights inside the notes on 20 slides: the 25 old ones moved from the end block, 30 new. No "Professional insights" heading is left. 11 pointer sentences removed.
+- New insights were chosen from the 538 Strategy / Leadership / Culture journal paragraphs that no deck uses (date and category checked against every `enrich\u*.json`), keeping only points the slide notes did not already make.
+- Guide for her review: `Claude outputs\Unit 2 - Insights in the notes (guide for review).docx`. Pictures: `Unit 2 deck - new reflection slides.png`, `Unit 2 deck - corrected slide titles.png`.
+- `Claude outputs\Deck upload\Module-2\unit-02.pptx` and the `unit-02` folder (36 pictures + manifest) are refreshed and match the deck. `reader_assets.py` was run into a scratch folder and the files copied over the old ones (no delete needed).
+- Backups: `Claude outputs\Unit 2 deck backups\` (31 slides; 36 slides before titles and notes).
+- `node check_standards.js`: only the 82 known rule 16 lines of the Unit 01 deck.
+
+**Left as they are (told to Carol):** E4, the unnumbered question slides 5, 10 and 33; the faint 3.2 answer box on slide 20; slide 1 subtitle "Building a shared Strategic Intent and a Success in Practice narrative".
+
+**Next:** Carol reviews the deck and the two pages. On "Done": give the commit line (`git add "Unit decks" unit2_m1_lens1_p.html unit2_m1_lens1_f.html collection.html "Claude outputs/Handover - Deck review.md"`) and the Supabase steps for `Module-2` (`unit-02.pptx` and folder `unit-02`). If she edits the deck herself, her file becomes the master: re-sync `Deck upload` and the manifest from it. Then Unit 3 with the same four steps (file check, wording, reflection slides, insights inside the notes); the journals must be attached again in a new chat.
+
+## 19. Transfer notes for the Unit 2 rework
+
+Carol asked for transfer notes on 5 October because Unit 2 is a big rework. They are in `Claude outputs\Handover - Unit 2 rework.md`: read that file first in a new chat. It summarises sections 17 and 18, lists the rules she set, the tools, the open items and the commit and Supabase steps. Unit 2 is still uncommitted and not uploaded.
+
+## 20. Unit 2 deck rebuilt from the rebuilt unit (5 October 2026, night)
+
+Sections 17 and 18 describe the old Unit 2 deck and are history. Unit 2 was rebuilt on 5 October (new files, Capstone section, then a new 48-slide deck). Read `Claude outputs\Handover - Unit 2 rework.md`, sections 13 to 19: section 19 has the slide map, how the notes are built, the build commands and what waits for Carol. `_build\unit02.js` is again the script that builds the Unit 2 deck (with `u02_notes*.js`); `source\u02.json`, `enrich\u02.json`, `enrich\u02_embedded.json` and `edits\u02_deck_text.json` belong to the old deck.
+
+## 21. Notes structure for every deck (Carol, 5 October 2026, late night)
+
+Carol cleaned the notes of slides 1 to 4 of the Unit 2 deck herself and asked for every notes page to follow that structure: heading in capitals; HOW TO TEACH IT first; then the notes and insights on the slide content; what participants do on the portal last; headings in capitals and bold; no Key Facilitation Questions or Tone & Watch Points block in slide notes. The full rule, the tools (`format_notes.py`, `lint_notes.py`, `dump_notes.py`) and the state of Unit 2 are in `Claude outputs\Handover - Unit 2 rework.md`, section 21. Apply the same structure when Units 3 to 12 are reviewed. Her edited copy of a deck is always the master.
+
+## 22. Notes as a classroom conversation (Carol, 5 October 2026) — replaces the layout in section 21
+
+Carol approved a new format on Unit 2 slides 6 and 7: numbered steps in class order, each with Say / Ask / Listen for; script, card text, manuscript detail and insights inside the step where they are used; nothing loose after the steps; notes aligned with what the facilitator and participant files carry today (no invented activities). Full rule and tools: `Claude outputs\Handover - Unit 2 rework.md`, section 22. Use it for every deck from now on.

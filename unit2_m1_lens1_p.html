@@ -454,6 +454,13 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 <div class="mod-body">
 <div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Redefine strategy to create a robust understanding of strategy architecture.</li><li>Distinguish the direction an organisation sets from the future position that defines its success.</li></ul></div>
 
+<div class="port-block" style="margin:0 0 22px;">
+  <div class="port-head"><div class="port-lbl">Opening the Session — Your Definition of Strategy</div><div class="port-desc">Write your definition of strategy in one sentence — right now, without consulting anyone.</div></div>
+  <textarea class="port-ta" id="strategy_definition" placeholder="Write your one-sentence definition here..."></textarea>
+  <button class="port-save" onclick="saveField('strategy_definition')">Save</button>
+  <div class="port-msg" id="strategy_definition-msg">✓ Saved</div>
+</div>
+
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
   <span class="acc-t">1.1 — Define the Strategy Architecture</span>
@@ -880,7 +887,7 @@ var W1H=[
   {name:'WHAT',sub:'Scope & Definition',def:"The value your organisation has chosen to create and its field of play.",governs:'Scope, portfolio, product and service definition, boundary-setting, market choice, capability focus.',diag:['What arenas are we choosing to compete in?','What have we decided not to do?','Can every team member describe our WHAT in one sentence?']},
   {name:'WHY',sub:'Purpose & Rationale',def:"The rationale for those choices and why they matter.",governs:'Purpose, mission, competitive differentiation, value proposition, organisational identity.',diag:['Does our WHY actually differentiate us, or could a competitor claim it unchanged?','Do our decisions consistently reflect this WHY?','Do stakeholders believe and repeat our WHY?']},
   {name:'HOW',sub:'Mechanism & Model',def:"The operating model, capabilities and mechanisms through which the value will be delivered.",governs:'Operating model, capabilities, processes, organisational design, technology architecture, partnerships.',diag:['Does our operating model match our strategy?','What capabilities are core and must be owned versus outsourced?','Where are the HOW gaps between strategic ambition and current capability?']},
-  {name:'WHEN',sub:'Timing & Sequencing',def:"The timing, sequencing and strategic moves through which the direction will be pursued.",governs:'Timing, sequencing, pacing, prioritisation, horizon planning, entry and exit decisions.',diag:['Have we mapped the sequence of moves needed?','Are we moving at the right pace?','What signals tell us when to accelerate or pause?']}
+  {name:'WHEN',sub:'Timing & Sequencing',def:"The timing, sequencing and strategic moves through which the ambition will be pursued.",governs:'Timing, sequencing, pacing, prioritisation, horizon planning, entry and exit decisions.',diag:['Have we mapped the sequence of moves needed?','Are we moving at the right pace?','What signals tell us when to accelerate or pause?']}
 ];
 var DIMS=[
   {name:'Customer Experience & Value',intro:'Customers encounter the organisation through People · Processes · Products · Platforms and experience four forms of value (the CARE Model):',inds:[
@@ -1447,7 +1454,7 @@ function refreshMirrors(){
 function u2RenderAll(){renderStep1();renderIntent();renderSip();refreshMirrors();}
 
 // ── Plain boxes: organisation, strategy period, Section 5.2 observations (id = response key) ──
-var U2_FIELDS=["org_name", "strategy_period", "col_alignment", "col_gaps", "col_tensions", "col_ownership"];
+var U2_FIELDS=["strategy_definition", "org_name", "strategy_period", "col_alignment", "col_gaps", "col_tensions", "col_ownership"];
 async function saveField(id){
   var el=u2el(id);if(!el)return false;
   var ok=await u2put(id,el.value);
