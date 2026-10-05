@@ -243,3 +243,31 @@ Carol attached ten devotional journals (January to October 2026) and asked for t
 - Spec: `Unit decks\_build\enrich\u01_carol_deck.json`. Script: `Unit decks\_build\insights_u01.py <deck.pptx> <spec>`. It inserts after the last "Professional insights" heading on the slide, or appends at the end, and never deletes; re-running skips what is already there. **Do not run `enrich.py` or `enrich\u01.json` on Unit 1**: `enrich.py` deletes everything after the marker, and Carol's notes continue after it on slides 10, 11, 18 and 22.
 - After the insights: reader pictures and manifest rebuilt (font-substituted render copy, as above), deck copied to `Unit decks\`. Checked: slide text identical, no original note paragraph changed, manifest notes equal the deck notes.
 - Carol must commit, push and replace `unit-01.pptx` and the `unit-01` folder in Supabase again.
+
+## 15. Where things stand (end of 4 October 2026) and what is next
+
+- Unit 1 is finished. Carol said "Done" after the last commit and the Supabase upload of `unit-01.pptx` and the `unit-01` folder. She has not yet said that she checked the live pages; ask once.
+- Next: **Module 2 (Units 2, 3 and 4)**, starting 5 October. Decks: `Unit decks\Unit 02 …`, `Unit 03 …`, `Unit 04 …`; files `unit2_m1_lens1`, `unit2_m1_lens2`, `unit2_m1_lens3` (`_p` and `_f`).
+- How Unit 1 went, to repeat for Module 2:
+  1. Ask Carol whether she has edited the deck herself. If she has, her deck is the master: work on her copy, back it up first, never rebuild it from the kit.
+  2. Type up her notebook notes, check each against the deck and both files, and give her the review notes (she likes them as a Word document).
+  3. Show the proposed text for the files and get her yes before editing.
+  4. The participant file gets a short version written for the participant. Never paste facilitator slide notes into it. Exercises run by the facilitator appear in the participant file as debrief only.
+  5. She wants no "Time:" lines in the slide notes.
+  6. Journal insights go into the notes with `insights_u01.py`-style insertion (never `enrich.py` on a deck she has edited).
+  7. Reader pictures: render from a copy with Aptos and Georgia swapped for Carlito and Caladea.
+  8. One commit and one Supabase upload at the end, with grade 5 steps.
+
+## 16. Unit 1 notes: insights moved inside the notes (5 October 2026, applied and approved)
+
+Carol's instruction: the journal insights must sit inside the presenter notes at the point they deepen, with no stand-alone "Professional insights" block. Unit 1 presenter notes only. She embedded slides 5 and 9 herself in the master (`Claude outputs\Deck upload\Module-1\unit-01.pptx`, saved 5 October 06:46); that is the pattern: title line, insight, Source line. Her master is now ahead of `Unit decks\Unit 01 …pptx`.
+
+- Proposal for the other 17 slides (53 insights): `Claude outputs\Unit 1 - Insights inside the notes (for approval).docx`. Each insight is shown with the line before and the line after.
+- Spec: `Unit decks\_build\enrich\u01_embedded.json`. Script: `Unit decks\_build\embed_insights_u01.py <deck_in> <spec> <deck_out> [report.json]`. It moves each entry to its anchor line, removes the heading and the 11 "Use this with …" pointer sentences, and stops if any other line of the notes would change. Tested on a copy only: slide text identical, 57 Source lines before and after, no heading left.
+- **Applied on 5 October after her "yes I will review the actual PPT".** Backup: `Claude outputs\Unit 1 deck backups\unit-01 - before insights moved inside the notes (5 Oct).pptx`. The master, `Unit decks\Unit 01 …pptx` and the notes in `Deck upload\Module-1\unit-01\manifest.json` now match (53 insights on 17 slides; manifest notes updated on 20 slides, which includes her own edits on slides 1, 5 and 9). No slide changed, so the reader pictures were left as they are. `node check_standards.js`: only the known rule 16 lines for the Unit 01 deck. **Still to do:** she reviews the notes in PowerPoint and may ask for moves (change `after` in the spec, restore the backup, re-run, re-sync the manifest and the `Unit decks` copy); then one commit (`git add "Unit decks" "Claude outputs/Handover - Deck review.md"`) and the Supabase replacement of `unit-01.pptx` and the `unit-01` folder in `Module-1`. If she edits the deck herself during the review, her saved file is the master: copy it over `Unit decks\` and refresh the manifest notes from it.
+- If she edits the notes again before saying yes, re-run on the fresh master; the script names any anchor line it can no longer find.
+- Do not run `insights_u01.py` or `enrich.py` on Unit 1 after this; both would rebuild the stand-alone block.
+- Apply the same rule to Units 2 to 12: insights go inside the notes, never as a block at the end.
+- Unit 2 first-pass findings (deck untouched since 2 October, no notebook pages received yet): slides 6/7 both 1.1, 20/21 both 4.2, 22/23 both 4.3; slides 5, 10, 29 are unnumbered content slides between numbered ones; slide 1 notes carry a "Time:" line; slide 20 title says "six groups", portal part says "26 Areas". Lettering (1.1a/1.1b …) proposed; no answer yet.
+- Slip to avoid: this chat ran `git log` and `git status` once before reading rule 20. Never run git.
+- **Carol reviewed the deck in PowerPoint and said "Done" (5 October).** She made no edits of her own; master and `Unit decks` copy are identical. She was given the commit line and the Supabase steps for `Module-1`. Ask once whether both were done and whether the live reader shows the new notes. Next: Unit 2.
