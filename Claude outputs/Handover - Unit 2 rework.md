@@ -372,3 +372,31 @@ N14 (Unit Summary speaks of the group work as done) was not answered: her wordin
 `git add "Unit decks" unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` · `git commit -m "Unit 2: deck notes as a classroom conversation; rating removed; opening definition of strategy; guide tab reworded"` · `git push`. Then Supabase: Storage → `facilitator_decks` → `Module-2` → delete `unit-02.pptx` and folder `unit-02` → drag both in from `Claude outputs\Deck upload\Module-2`.
 
 **Next:** Units 3 and 4, with the teaching-first rule (section 20) and the conversation format for notes (section 22). Check every mention of the SiP Headline, Storyline, maturity assessment and "Strategic Intent Statement", and that nothing in a deck refers to content the two files no longer carry.
+
+## 24. Unit 2 closed (5 October, late night)
+
+Carol: "Done." She ran the commit and push of section 23 and replaced `unit-02.pptx` and the folder `unit-02` in Supabase (`facilitator_decks` → `Module-2`). Unit 2 is live: both pages, the Capstone section and the deck. Nothing is waiting for her on Unit 2. This section itself is not yet committed: it goes with the next commit.
+
+**Next (her words: "We will move to unit 3 tomorrow"):** Unit 3, in a new chat. Start from sections 20, 22 and 23 of this file (teaching first; notes as a classroom conversation; deck aligned with what the two files carry), and attach the journals again if new insights are wanted.
+
+## 25. Fifth question for element 13 · THE FORCES: internal forces (6 October)
+
+Carol noticed that 1.1 teaches five force categories while element 13 in 4.1 asked about four. Her instruction: "Add the internal forces as fifth question on the files — participant and facilitator. Do not amend PPT … just amend 4.1 to add the culture and update the report if necessary."
+
+**Changed (on her computer, NOT yet committed):**
+
+1. `unit2_m1_lens1_p.html` and `unit2_m1_lens1_f.html`, element 13 only. Guide: "Competitive, macro, disruptive, social and environmental, and internal forces shape strategic viability: rivals, substitutes, regulation, economics, technology, business models, ESG, demographic shifts, culture and legacy identity." Fifth question: "Which internal forces (culture, behaviour patterns, institutional habits, legacy identity) work for or against the strategy?" New response key `arch_e13_q5` (no database change). Element 13 is the only element with five questions.
+2. Three wordings that said "four questions": participant 4.1 "Answer the questions of each element with actual strategic choices"; facilitator 4.1 activity "It answers the questions of the element"; facilitator element 13 heading "The five questions" (the other 13 elements keep "The four questions").
+3. The report needed no code change: the tool reads every question an element has, so the fifth answer flows into "what this is saying", the Strategy Architecture output and the printed report (tested end to end with `forces_test.py` in the cloud workspace: saved, reloaded, generated, built, printed).
+4. `dashboard_F.html`: label for `arch_e13_q5` added after `arch_e13_q4` (exact insertion, CRLF kept, inline scripts parse). `collection.html` rebuilt. Standards check: only the 82 Unit 01 deck lines.
+5. Build scripts: `rebuild_u02\common.py` (ELEMENTS), `build_f.py`, `sec4_p.py`. Backups: `Unit 2 file backups\… before fifth forces question (6 Oct).html`. Both PREVIEW files regenerated.
+
+**The deck was NOT touched, on her instruction.** She has reviewed the deck herself and saved her copy as `Claude outputs\Deck upload\Module-2\unit-02.pptx` on 6 October: **36 slides** (the build had 48). Her copy is the master. Things that follow from that, all waiting for her word:
+- `Deck upload\Module-2\unit-02\` (48 pictures + `manifest.json`) still comes from the 48-slide build, so the portal deck reader does not match her 36-slide file until the pictures and manifest are remade from her copy (`reader_assets.py` into scratch, copy over; the 12 surplus pictures must go to `_to_delete`).
+- `Unit decks\Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx` is still the 48-slide build. Her copy should replace it so that git holds the master.
+- Her deck's notes for element 13 may still list four questions and say every element has four. Do not change her deck unless she asks.
+- `unit02.js`, the notes scripts and `format_notes.py` no longer describe her deck (slide count differs). Do not rebuild Unit 2 from them without her say; edit her file directly if she asks for changes.
+
+**Commit line given to her:** `git add unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Unit decks" "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` · `git commit -m "Unit 2: internal forces added as fifth question of element 13"` · `git push`.
+
+**Next:** Unit 3.

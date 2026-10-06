@@ -200,13 +200,13 @@ el_list = ''
 for n, (nm, tag, el_guide, qs) in enumerate(ELEMENTS, 1):
     el_list += ('  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span><strong style="color:var(--gold);margin-right:8px;">%d · %s</strong>%s</span><span class="sub-arr">▼</span></div>'
                 '<div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Guide shown to participants</p><p class="u2-txt">%s</p></div>'
-                '<div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The four questions</p><ol class="u2-ql">%s</ol></div></div></div>\n'
-                ) % (n, amp(nm), amp(tag), el_guide, ''.join('<li>%s</li>' % q for q in qs))
+                '<div class="u2-why"><p class="u2-lbl" style="color:rgba(201,168,76,.6);">The %s questions</p><ol class="u2-ql">%s</ol></div></div></div>\n'
+                ) % (n, amp(nm), amp(tag), el_guide, {4: 'four', 5: 'five'}[len(qs)], ''.join('<li>%s</li>' % q for q in qs))
 out_heads = ''.join('    <div class="u2-card"><div class="u2-card-h">%s</div><p>%s</p></div>\n' % (amp(g), amp(' · '.join(names))) for g, names in ARCH_GROUPS)
 b41 = ('  ' + g41 + '\n  ' + activity(
     P('The group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page of the participant file, in the session or after it.',
       'Each group works in 4.1 of the participant file, one element at a time:') + UL([
-        'It answers the four questions of the element and selects <strong>Generate what this is saying</strong>.',
+        'It answers the questions of the element and selects <strong>Generate what this is saying</strong>.',
         'The page shows what the group\'s inputs are saying and asks: <em>"Is this what you mean?"</em>',
         'The group selects <strong>Yes, confirm</strong>, or <strong>No, refine</strong> and states what the position should say.',
         'A progress bar counts the confirmed elements. When all 14 are confirmed, the Strategy Architecture output unlocks. The group reviews it, refines it and confirms it. It can then be printed.']) +

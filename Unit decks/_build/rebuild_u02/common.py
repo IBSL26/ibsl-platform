@@ -98,8 +98,10 @@ ELEMENTS = [
      "Navigation implies agency, skill and continuous course correction. Read the environment, interpret it and make deliberate moves through it — putting the forces to use.",
      ["How will the organisation sense changes in its environment?", "How will signals be interpreted and translated into decisions?", "Where can external forces be used to advantage?", "What enables deliberate course correction?"]),
     ("THE FORCES", "What must be navigated",
-     "Competitive, macro, disruptive, social and environmental forces shape strategic viability: rivals, substitutes, regulation, economics, technology, business models, ESG and demographic shifts.",
-     ["Which competitive forces materially shape the strategy?", "Which macro and regulatory forces matter most?", "Which disruptive forces could alter the model?", "Which social or environmental forces create risk or opportunity?"]),
+     # Carol, 6 Oct 2026: internal forces added (guide and a fifth question), so that 4.1 asks for all five force categories taught in 1.1.
+     "Competitive, macro, disruptive, social and environmental, and internal forces shape strategic viability: rivals, substitutes, regulation, economics, technology, business models, ESG, demographic shifts, culture and legacy identity.",
+     ["Which competitive forces materially shape the strategy?", "Which macro and regulatory forces matter most?", "Which disruptive forces could alter the model?", "Which social or environmental forces create risk or opportunity?",
+      "Which internal forces (culture, behaviour patterns, institutional habits, legacy identity) work for or against the strategy?"]),
     ("OPERATING ENVIRONMENT", "The bounded context",
      "The full system within which the organisation exists: industry, economy, regulation, technology, social context and physical environment. Strategy only makes sense within a defined environment.",
      ["What is the defined operating context for this strategy?", "Which industry and market conditions shape it?", "Which regulatory, technological and social conditions matter?", "Where would this strategy stop making sense if the context changed?"]),
