@@ -16,7 +16,7 @@ Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and
 7. Facilitator guidance labels read "FACILITATOR GUIDANCE".
 8. Portfolio blocks are named "Portfolio Artefact".
 9. Participant and facilitator files carry identical section and part numbering.
-10. Facilitator files are preparation-only: no entry fields, nothing saved. Where participants do an activity, a "PARTICIPANT ACTIVITY" note tells the facilitator what participants do in their own file.
+10. Facilitator files are preparation-only: no entry fields, nothing saved. Where participants do an activity, a "PARTICIPANT ACTIVITY" note tells the facilitator what participants do in their own file. One exception: the Strategy Airport game in the Unit 3 facilitator file, which the facilitator plays with the room in the lesson; nothing entered there is saved.
 
 ## Unit titles and labels
 

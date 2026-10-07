@@ -99,7 +99,8 @@ for (const f of UNITS) {
 
   // Rule 10: facilitator files are preparation-only
   if (isFac(f)) {
-    const inputs = (html.match(/<textarea|<input(?![^>]*type=["'](?:hidden|radio|checkbox)["'])|<select|contenteditable/g) || []).length;
+    // The Strategy Airport lesson game in the Unit 3 facilitator file is the one agreed exception (played with the room; nothing is saved).
+    const inputs = (html.match(/<textarea(?! class="sa-ta")|<input(?! class="sa-in")(?![^>]*type=["'](?:hidden|radio|checkbox)["'])|<select|contenteditable/g) || []).length;
     if (inputs) add(10, f, `${inputs} entry field(s)`);
     const saves = (html.match(/localStorage\.setItem/g) || []).length;
     if (saves) add(10, f, `${saves} save call(s)`);

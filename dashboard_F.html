@@ -5990,7 +5990,11 @@
       { name: 'Reflections',              test: function (k) { return /^ref\d+$/i.test(k); } },
       { name: 'Portfolio',                test: function (k) { return /^port\d+$/i.test(k); } },
       { name: 'Objectives & Key Results', test: function (k) { return /^okr_o\d+$/i.test(k) || /^kr\d+$/i.test(k); } },
+      { name: 'Hot Zone Matching',        test: function (k) { return /^hz_match$/i.test(k); } },
       { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } },
+      { name: 'KISS Map — Confirmed',     test: function (k) { return /^kiss_(keep|improve|start|stop)$/i.test(k); } },
+      { name: 'Enterprise Priorities & OKRs', test: function (k) { return /^(okr_drafts|ent_priorities|ent_okrs)$/i.test(k); } },
+      { name: 'Strategy Airport',         test: function (k) { return /^game_(kiss|flight_plan|round)$/i.test(k); } },
       { name: 'SiP Flammables',           test: function (k) { return /^flam_\d+$/i.test(k); } },
       { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
       { name: 'Opening — Definition of Strategy', test: function (k) { return /^strategy_definition$/i.test(k); } },
@@ -6598,7 +6602,23 @@
       okr_o1: 'OKR · Customer Responsiveness',
       okr_o2: 'OKR · Execution Speed',
       okr_o3: 'OKR · Collaboration Culture',
-      okr_o4: 'OKR · Value Creation'
+      okr_o4: 'OKR · Value Creation',
+      hz_match: 'Typical Hot Zone and Alignment Question matched to each role (individual work)',
+      sip_d1_st: 'D1 · Customer Experience & Value — SiP statement used for the KISS map',
+      sip_d2_st: 'D2 · Operational Capability & Execution Rhythm — SiP statement used for the KISS map',
+      sip_d3_st: 'D3 · People & Culture Dynamics — SiP statement used for the KISS map',
+      sip_d4_st: 'D4 · Enterprise Value Creation — SiP statement used for the KISS map',
+      kiss_keep: 'Keep — confirmed',
+      kiss_improve: 'Improve — confirmed',
+      kiss_start: 'Start — confirmed',
+      kiss_stop: 'Stop — confirmed',
+      okr_drafts: 'Six steps — themes, Objectives and Key Results in progress',
+      ent_priorities: 'Enterprise Priorities — confirmed',
+      ent_okrs: 'Enterprise OKRs — confirmed',
+      confirmed_items: 'Confirmed by the group',
+      game_kiss: 'Gate 1 · Baggage Check — KISS choices (individual work)',
+      game_flight_plan: 'Gate 2 · Flight Plan — Objective, Key Results and contributing roles (individual work)',
+      game_round: 'Learning round'
     },
     u2m1_lens3: {
       ref1: 'The Problem with Well-Written OKRs',
@@ -6802,7 +6822,7 @@
     cx: 'Customer Experience & Value',
     op: 'Operational Capability & Execution Rhythm',
     pc: 'People & Culture Dynamics',
-    ev: 'Financial Performance & Value Creation'
+    ev: 'Enterprise Value Creation'
   };
 
   // Turn 'r_m1_intent' → 'Intent', 'leadership_strengths' → 'Leadership Strengths'
