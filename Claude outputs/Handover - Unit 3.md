@@ -208,3 +208,23 @@ The deck is committed after her deck review with: `git add "Unit decks"` · `git
 - Checks: browser test of both tools step by step (what each step shows, locked test until two Key Results, record, print pages, reload, un-confirm on change), earlier page tests, script syntax, no duplicate ids, CRLF, standards check (only the 82 Unit 01 deck lines).
 
 **Commit lines are the same as in section 11** (pages now; deck after her deck review).
+
+## 13. Change of 7 October 2026 (third): record above the step menu; section outcomes under review
+
+- On Carol's word the "Your Six-Step Record" block now sits before the step menu in 4.2 and 2.2. Confirm / Mark complete and Print stay under the steps, under the heading "Confirm and Print" / "Complete and Print". Facilitator instructions and deck notes say "above the steps". Not committed by her yet.
+- Carol then asked for the two learning outcomes of each section to be checked against the new content and the Key learning outcomes. Claude's check and proposed wording were given to her in chat for approval; nothing is changed in the files until she approves. Places to change once approved: both pages (section outcome boxes) and the deck (five section slides and their notes; `SLOS` in `u03_notes.js`).
+
+## 14. Section learning outcomes realigned (7 October 2026, Carol's wording)
+
+Carol gave the wording and allowed refinement without change of meaning. Written into both pages, the five section slides of the deck and `SLOS` in `u03_notes.js`. Section 3 and the four Key learning outcomes are unchanged.
+
+| Section | Outcome 1 | Outcome 2 |
+|---|---|---|
+| 1 | Distinguish the current practices that reinforce strategic progress from those that constrain it. (unchanged) | Translate strategic intent into measurable results. |
+| 2 | Recognise the benefits of mapping the terrain before setting goals. | Practise the translation of SiP into OKRs. |
+| 3 | Recognise how each leadership function's emphasis shapes the priorities it proposes. (unchanged) | Distinguish functional contributions from the enterprise priorities they serve. (unchanged) |
+| 4 | Apply the translation of SiP into OKRs as a group. | Gain collective intelligence for the strategic trajectory. |
+| 5 | Reinforce strategy translation capability. | Establish individual capability to set a strategic trajectory. |
+
+Claude's refinements of her words: "Understand" became "Recognise"; "Practice" became "Practise" (verb, British spelling); "SIp/SIP" became "SiP"; "Group application of translating SIP to OKR" became "Apply the translation of SiP into OKRs as a group"; "individual strategy trajectory setting capability" became "individual capability to set a strategic trajectory". Reverse any of these on her word.
+Not committed by her yet. Commit lines as in section 11.

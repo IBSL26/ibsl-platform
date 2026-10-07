@@ -94,3 +94,10 @@ Carol: "Step 2, 3, 4, 5, 6 must flow from step 1 … all this data must be store
 - Saved readable copy for the report: `okr_drafts` and `case_six_steps` now hold the full record, matrix position included (`sxText`). Keys are unchanged; no database change.
 - `build_f.py`: no tool in the facilitator file. The Participant Activity boxes of 2.2 and 4.2 give the step-by-step instructions.
 - Files before this change: `Claude outputs\Unit 3 file backups\… - before six-step flow (7 Oct).html`.
+
+## Change of 7 October 2026 (third): the six-step record sits above the step menu
+
+Carol: "Can this be before the step menu. it is confusing where it is now."
+- 4.2 order: intro · Your Six-Step Record (`okrRecP`) · The Six Steps (`okrToolP`) · Confirm and Print (`okrOutP`: Enterprise Priorities, Enterprise OKRs, the two buttons).
+- 2.2 order: case · Your Six-Step Record (`caseRecP`) · the six steps (`caseToolP`) · Complete and Print (`caseOutP`).
+- `sxSetRec`: when the record above the steps grows or shrinks, the page is scrolled by the same amount, so the box being typed in and the button about to be clicked stay where they are (tested with and without the browser's own scroll anchoring).

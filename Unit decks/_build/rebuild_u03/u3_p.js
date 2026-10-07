@@ -344,7 +344,18 @@ function sxText(S){
   if(S.why.trim())out.push('Trade-off: '+S.why.trim());
   return out.join('\n\n');
 }
-function sxSetHtml(el,html){if(el&&el.__h!==html){el.innerHTML=html;el.__h=html;}}
+// The record sits above the steps. When it grows or shrinks, the steps would move on the screen while someone is
+// typing or about to click; the page is scrolled by the same amount, so the steps stay exactly where they are.
+function sxSetRec(el,html,anchorId){
+  if(!el||el.__h===html)return;
+  var a=u3el(anchorId),on=a&&a.offsetParent!==null,t0=on?a.getBoundingClientRect().top:0;
+  el.innerHTML=html;el.__h=html;
+  if(on&&t0<window.innerHeight){
+    var d=a.getBoundingClientRect().top-t0;
+    if(d){try{window.scrollBy({top:d,left:0,behavior:'instant'});}catch(e){window.scrollBy(0,d);}}
+  }
+}
+var SX_EMPTY='<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test, the enterprise priority and the matrix position.</div>';
 // Print: the record on a plain page in a new window.
 function sxPrint(title,sub,S,headHtml,tailHtml){
   var rows=sxThemes(S).map(function(i){
@@ -426,17 +437,17 @@ function okrProblems(){
 }
 // The output block is built once; later calls only refresh what changed, so a click on a button is never lost to a redraw.
 function renderOkrOut(){
-  var host=u3el('okrOutP');if(!host)return;
+  var host=u3el('okrOutP'),rh=u3el('okrRecP');if(!host||!rh)return;
   if(!u3el('okrRec')){
-    host.innerHTML='<div class="u3-out"><div class="u3-out-h">Your six-step record</div><div class="u3-rec" id="okrRec"></div></div>'+
-      '<div id="okrFinal" style="display:none;">'+
+    rh.innerHTML='<div class="u3-out"><div class="u3-rec" id="okrRec"></div></div>';
+    host.innerHTML='<div id="okrFinal" style="display:none;">'+
       '<div class="u3-out"><div class="u3-out-h">Your Enterprise Priorities<span class="u3-pill" id="okrPillA" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrPriOut"></div></div>'+
       '<div class="u3-out"><div class="u3-out-h">Your Enterprise OKRs<span class="u3-pill" id="okrPillB" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrOkrOut"></div></div></div>'+
       '<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">✓ Confirm Enterprise Priorities and OKRs</button><button type="button" class="u3-b" onclick="okrPrint()">Print the six-step record</button></div>'+
       '<div class="u3-note" id="okrMsg" style="display:none;"></div>';
   }
   var done=okrConfirmed(),pri=okrPriText(),okr=okrOkrText();
-  sxSetHtml(u3el('okrRec'),sxRecord(OK)||'<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test, the enterprise priority and the matrix position.</div>');
+  sxSetRec(u3el('okrRec'),sxRecord(OK)||SX_EMPTY,'okrToolP');
   u3el('okrFinal').style.display=pri?'':'none';
   u3el('okrPriOut').textContent=pri;u3el('okrOkrOut').textContent=okr;
   u3el('okrPillA').style.display=done?'':'none';u3el('okrPillB').style.display=done?'':'none';
@@ -501,14 +512,14 @@ function cxProblems(){
   return p;
 }
 function renderCxOut(){
-  var host=u3el('caseOutP');if(!host)return;
+  var host=u3el('caseOutP'),rh=u3el('caseRecP');if(!host||!rh)return;
   if(!u3el('cxRec')){
-    host.innerHTML='<div class="u3-out"><div class="u3-out-h">Your six-step record<span class="u3-pill" id="cxPill" style="display:none;">Complete</span></div><div class="u3-rec" id="cxRec"></div><div class="u3-final-t" id="cxWhyOut" style="display:none;"></div></div>'+
-      '<div class="u3-btnrow"><button type="button" class="u3-b" id="cxBtn" onclick="cxComplete()">✓ Mark the exercise complete</button><button type="button" class="u3-b" onclick="cxPrint()">Print the six-step record</button></div>'+
+    rh.innerHTML='<div class="u3-out"><div class="u3-rec" id="cxRec"></div></div>';
+    host.innerHTML='<div class="u3-btnrow"><button type="button" class="u3-b" id="cxBtn" onclick="cxComplete()">✓ Mark the exercise complete</button><button type="button" class="u3-b" onclick="cxPrint()">Print the six-step record</button><span class="u3-pill" id="cxPill" style="display:none;">Complete</span></div>'+
       '<div class="u3-note" id="cxMsg" style="display:none;"></div>';
   }
-  sxSetHtml(u3el('cxRec'),sxRecord(CX)||'<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test, the enterprise priority and the matrix position.</div>');
-  var w=u3el('cxWhyOut');w.textContent=CX.why.trim()?'Trade-off: '+CX.why.trim():'';w.style.display=CX.why.trim()?'':'none';
+  var rec=sxRecord(CX);
+  sxSetRec(u3el('cxRec'),rec?rec+(CX.why.trim()?'<div class="u3-rec-item"><div class="u3-chain"><div class="u3-chain-row"><div class="u3-chain-l">Trade-off</div><div class="u3-chain-v">'+u3esc(CX.why.trim())+'</div></div></div></div>':''):SX_EMPTY,'caseToolP');
   u3el('cxPill').style.display=CX.done?'':'none';
   u3el('cxBtn').classList.toggle('ok',CX.done);
   if(CX.done)u3msg('cxMsg','');

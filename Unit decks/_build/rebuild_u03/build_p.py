@@ -159,11 +159,14 @@ rep('''Strategy transforms from a statement of intent into a living system.</p><
   <p>The case below gives you one simple SiP statement and the KISS table its leadership team produced. Take that KISS table through the six steps of 1.5: find the themes, write the Objectives and their Key Results, test them, choose the enterprise priorities and place them on the Prioritisation Matrix. Each step uses what you recorded in the step before it.</p>
   <div class="hbox teal"><p><strong>Individual work.</strong> Complete the exercise on your own, from Step 1 to Step 6. Your work is saved on this page and reaches your facilitator when you submit the unit.</p></div>
   <div id="caseP"></div>
+  <h4>Your Six-Step Record</h4>
+  <p>Everything you record in the six steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
+  <div id="caseRecP"></div>
   <h4>From KISS to OKRs: Your Six Steps</h4>
   <p>Work through the steps in order. Each step shows what you recorded in the steps before it: your themes become Objectives, each Objective receives its Key Results, each OKR is tested, the OKRs that pass are prioritised, and the priorities are placed on the matrix.</p>
   <div id="caseToolP"></div>
-  <h4>Your Six-Step Record</h4>
-  <p>Everything you record builds up below from Step 1, theme by theme, and is saved on this page. When the six steps are complete, mark the exercise complete. You can print the record.</p>
+  <h4>Complete and Print</h4>
+  <p>When the six steps are complete, mark the exercise complete. You can print your six-step record.</p>
   <div id="caseOutP"></div>
 ''')
 
@@ -212,9 +215,13 @@ S41 = '''  <p>Your group's four SiP statements describe the future organisation.
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Keep, Improve, Start and Stop feed your team's Capstone Blueprint. Its Unit 3 section opens once every member of your team has completed this unit, and brings your confirmed outputs in from your page. Your team then reads them together and confirms them.</p></div>
 '''
 S42 = '''  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the six steps of 1.5. Work through the steps in order. Each step shows what your group recorded in the steps before it: the themes of Step 1 become Objectives in Step 2, each Objective receives its Key Results in Step 3, each OKR is tested in Step 4, the OKRs that pass are prioritised in Step 5, and the priorities are placed on the matrix in Step 6.</p>
-  <div id="okrToolP"></div>
   <h4>Your Six-Step Record</h4>
-  <p>Everything your group records builds up below from Step 1, theme by theme, and is saved on this page. When the six steps are complete, read the record together, confirm your Enterprise Priorities and Enterprise OKRs, then print the record.</p>
+  <p>Everything your group records in the six steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
+  <div id="okrRecP"></div>
+  <h4>The Six Steps</h4>
+  <div id="okrToolP"></div>
+  <h4>Confirm and Print</h4>
+  <p>When the six steps are complete, read your six-step record together, confirm your Enterprise Priorities and Enterprise OKRs, then print the record.</p>
   <div id="okrOutP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Enterprise Priorities and Enterprise OKRs feed your team's Capstone Blueprint, together with your KISS map.</p></div>
 '''
@@ -222,7 +229,7 @@ SEC4 = ('<!-- TAB 4: INTEGRATION -->\n<div class="mod-panel" id="mod3">\n' +
         hero('Section 4 · Integration — Collective', 'Building Collective Intelligence: From SiP to KISS to Enterprise OKRs',
              'Integrator Zone · With your group you translate your Success in Practice into a KISS map and then into enterprise OKRs. This is Capstone work: your confirmed outputs feed your team\'s Capstone Blueprint.') +
         '<div class="mod-body">\n' +
-        slo('Determine the enterprise priorities that emerge from the leadership team&rsquo;s collective reflection.', 'Evaluate proposed outcomes on strategic merit, independent of their functional source.') +
+        slo('Apply the translation of SiP into OKRs as a group.', 'Gain collective intelligence for the strategic trajectory.') +
         S4_LEAD +
         acc('4.1 — Translating SiP to KISS', '4 Domains · Group Work', S41, True) + '\n' +
         acc('4.2 — Translating KISS to OKRs: The Six Steps', '6 Steps · Group Work', S42) +
@@ -238,7 +245,7 @@ SEC5_HEAD = ('<!-- TAB 5: APPLICATION -->\n<div class="mod-panel" id="mod4">\n' 
              hero('Section 5 · Application — In Practice', 'Strategy Airport: From Strategic Imagination to Operational Clearance',
                   'Individual work · Play the Strategy Airport game · Translate a Success in Practice statement into KISS insights and an OKR flight plan · Submit to your facilitator.') +
              '<div class="mod-body">\n' +
-             slo('Formulate clear and measurable outcomes for each enterprise priority.', 'Establish the link between each outcome, its contributing roles and the evidence of progress.') + '\n' +
+             slo('Reinforce strategy translation capability.', 'Establish individual capability to set a strategic trajectory.') + '\n' +
              acc('5.1 — Strategy Airport', '2 Gates · Learning Round', S51, True) + '\n')
 a = h.index('<!-- TAB 4: INTEGRATION -->')
 b = h.index('<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span>')
@@ -298,6 +305,10 @@ rep('''function showStepP(prefix,i){
   document.querySelectorAll("[id^=\\""+prefix+"_\\"]").forEach(function(p,x){p.classList.toggle("active",x===i);});
 }
 ''', '')
+
+# ── Section learning outcomes realigned to the rebuilt content (Carol, 7 Oct) ──
+rep('<li>Distinguish results that evidence progress from the activities that produce them.</li>', '<li>Translate strategic intent into measurable results.</li>')
+rep('<li>Explain why an honest review of current practice must precede the setting of priorities.</li><li>Recognise the cost of setting targets before the path to the future state is understood.</li>', '<li>Recognise the benefits of mapping the terrain before setting goals.</li><li>Practise the translation of SiP into OKRs.</li>')
 
 # ── 8. Checks, then write with CRLF ───────────────────────────────────────────────────────────────
 for gone in ('ref1', 'ref5', 'port1', 'savePort', 'renderBiasP', 'okrDraftP', 'kissExerciseP', 'Portfolio', 'Future-Reality', 'future-reality', 'narrative', 'Financial Performance', '4.2 — Breaking the Biases', '2.3 —', '3.2 —', '3.3 —', 'leadership team has'):

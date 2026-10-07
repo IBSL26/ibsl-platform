@@ -197,7 +197,7 @@ S22 = ('  ' + guide('Section 2.2',
                  '<li><strong>Step 5 — Enterprise Priority:</strong> the OKRs that passed Step 4 are shown in full. The participant selects no more than four as enterprise priorities and states the trade-off: which Objective was released or held back, and why.</li>'
                  '<li><strong>Step 6 — Priority Matrix:</strong> each selected priority is shown in full. The participant sets its Impact and its Effort.</li>'
                  '</ol>',
-                 '<strong>The six-step record:</strong> under the steps the participant\'s record builds from Step 1, theme by theme. It is saved on the page and can be printed. The participant then marks the exercise complete. The page asks for at least three themes with an Objective, one to four enterprise priorities, two Key Results in the formula with contributing roles and a matrix position for each priority, and the trade-off where an Objective was left out.',
+                 '<strong>The six-step record:</strong> above the steps the participant\'s record builds from Step 1, theme by theme. It is saved on the page and can be printed. The participant then marks the exercise complete. The page asks for at least three themes with an Objective, one to four enterprise priorities, two Key Results in the formula with contributing roles and a matrix position for each priority, and the trade-off where an Objective was left out.',
                  'Each participant\'s exercise reaches you with their submission. The worked answers below are in this file only. A participant\'s themes and Objectives may differ from the worked example and still be sound, provided each one can be traced to the KISS table, each Key Result follows the formula, and no more than four enterprise priorities are selected.') + '''
   <div id="caseF"></div>
   <div id="workedF"></div>
@@ -206,7 +206,7 @@ SEC2 = ('<!-- ══════════════════════
         hero('Section 2 · Intelligence — Why', 'Why the KISS-to-OKR Sequence Matters',
              'Ignition Point · Most OKR failures are reflection failures. The KISS-OKR transition provides the missing bridge between strategic intent and measurable execution.') +
         '<div class="mod-body">\n' +
-        slo('Explain why an honest review of current practice must precede the setting of priorities.', 'Recognise the cost of setting targets before the path to the future state is understood.') + '\n' +
+        slo('Recognise the benefits of mapping the terrain before setting goals.', 'Practise the translation of SiP into OKRs.') + '\n' +
         guide('Section 2 · Intelligence',
               '<strong>Section intent:</strong> This section answers the question participants are quietly asking: why can\'t we just write the OKRs directly? The answer — because OKRs without KISS become disconnected targets, fragmented efforts, and activity traps — must land personally. This section should prompt candid recognition.',
               '<strong>Framing before entering content:</strong> Ask — <em>"Has your organisation ever set goals that felt disconnected from the reality of what was actually happening on the ground? Where Key Results became a to-do list that nobody believed in?"</em> Use the responses to anchor why the sequence matters before content begins.', top=True) + '\n\n' +
@@ -287,7 +287,7 @@ S42 = ('  ' + guide('Section 4.2',
                 '<li><strong>Step 5 — Enterprise Priority:</strong> the OKRs that passed Step 4 are shown in full. The group selects no more than four as enterprise priorities.</li>'
                 '<li><strong>Step 6 — Priority Matrix:</strong> each selected priority is shown in full. The group sets its Impact and its Effort, and the priority takes its position on the matrix.</li>'
                 '</ol>',
-                '<strong>The six-step record:</strong> under the steps the group\'s record builds from Step 1, theme by theme: the theme, its Objective, its Key Results, the alignment test, the enterprise priority and the matrix position. It is saved on the page. When the six steps are complete the group reads the record, confirms its Enterprise Priorities and its Enterprise OKRs, and prints the record.',
+                '<strong>The six-step record:</strong> above the steps the group\'s record builds from Step 1, theme by theme: the theme, its Objective, its Key Results, the alignment test, the enterprise priority and the matrix position. It is saved on the page. When the six steps are complete the group reads the record, confirms its Enterprise Priorities and its Enterprise OKRs, and prints the record.',
                 'The group agrees each entry and one member acts as scribe; every member types the agreed entries into their own page. Both confirmed outputs feed the team\'s Capstone Blueprint.') + '''
   <p>With the KISS map confirmed, each group converts it into enterprise OKRs through the six steps of 1.5:</p>
   <ol>
@@ -303,7 +303,7 @@ SEC4 = ('<!-- ══════════════════════
         hero('Section 4 · Integration — Collective', 'Building Collective Intelligence: From SiP to KISS to Enterprise OKRs',
              'Integrator Zone · The groups translate their Success in Practice into a KISS map and then into enterprise OKRs. This is Capstone work: the confirmed outputs feed each team\'s Capstone Blueprint.') +
         '<div class="mod-body">\n' +
-        slo('Determine the enterprise priorities that emerge from the leadership team&rsquo;s collective reflection.', 'Evaluate proposed outcomes on strategic merit, independent of their functional source.') + '\n' +
+        slo('Apply the translation of SiP into OKRs as a group.', 'Gain collective intelligence for the strategic trajectory.') + '\n' +
         guide('Section 4 · Integration',
               '<strong>Section intent:</strong> This is the production section of the unit, and it is Capstone work. Everything in Awareness, Intelligence, and Extrapolating has been preparation for this. Each group translates its Success in Practice into a KISS map (4.1) and then into enterprise OKRs through the six steps (4.2).',
               '<strong>How this section runs:</strong> Explain both steps from the deck. The groups do the work itself on the portal after the teaching, in the session or after it. The guidance in 4.1 and 4.2 is for the moment the groups do the work.',
@@ -336,7 +336,7 @@ SEC5 = ('<!-- ══════════════════════
         hero('Section 5 · Application — In Practice', 'Strategy Airport: From Strategic Imagination to Operational Clearance',
              'The Strategy Airport game · Played with the room in the lesson · Then individual work that each participant submits.') +
         '<div class="mod-body">\n' +
-        slo('Formulate clear and measurable outcomes for each enterprise priority.', 'Establish the link between each outcome, its contributing roles and the evidence of progress.') + '\n' +
+        slo('Reinforce strategy translation capability.', 'Establish individual capability to set a strategic trajectory.') + '\n' +
         guide('Section 5 · Application',
               '<strong>Section intent:</strong> This is the application section. Participants have seen the full path from Success in Practice to KISS to OKRs. Strategy Airport lets them apply it to a case they have not met: first with you in the lesson, then on their own.', top=True) + '\n\n' +
         acc('5.1 — Strategy Airport', '2 Gates · Learning Round', S51, True) + '\n' +
@@ -358,6 +358,9 @@ rep('''function showStep(prefix,i){
   document.querySelectorAll('[id^="'+prefix+'_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});
 }
 ''', '')
+
+# ── Section learning outcomes realigned to the rebuilt content (Carol, 7 Oct) ──
+rep('<li>Distinguish results that evidence progress from the activities that produce them.</li>', '<li>Translate strategic intent into measurable results.</li>')
 
 # ── 5. Checks, then write with CRLF ───────────────────────────────────────────────────────────────
 vis = re.sub(r'<script[\s\S]*?</script>|<style[\s\S]*?</style>', ' ', h)
