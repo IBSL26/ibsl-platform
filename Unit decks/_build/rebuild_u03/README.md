@@ -101,3 +101,25 @@ Carol: "Can this be before the step menu. it is confusing where it is now."
 - 4.2 order: intro · Your Six-Step Record (`okrRecP`) · The Six Steps (`okrToolP`) · Confirm and Print (`okrOutP`: Enterprise Priorities, Enterprise OKRs, the two buttons).
 - 2.2 order: case · Your Six-Step Record (`caseRecP`) · the six steps (`caseToolP`) · Complete and Print (`caseOutP`).
 - `sxSetRec`: when the record above the steps grows or shrinks, the page is scrolled by the same amount, so the box being typed in and the button about to be clicked stay where they are (tested with and without the browser's own scroll anchoring).
+
+## Change of 7 October 2026 (fourth): five steps, worked example on both pages, portfolio work — pages aligned to Carol's final deck
+
+Carol's final deck is `Claude outputs\Deck upload\Module-2\unit-03.pptx` (34 slides). It is the master and is not changed by these scripts. `unit03.js` and `u03_notes.js` in `_build` are a record of the earlier generated deck only.
+
+- Five steps everywhere: Find Themes · Inspiring Objectives · Define Key Results · Alignment Test · Priority Matrix (`FIVE_STEPS` in `u3_shared.js`). Step 5 Enterprise Priority, the vote and the Less is More Rule are gone from 1.5, 2.2, 4.2, the guidance and the summaries.
+- 2.2 is a read-only worked example on both pages again: `WORKED` (case, five themes, five Objectives, Key Results, alignment test, matrix) and `renderCase` / `renderWorked` are in `u3_shared.js`. Step 1 shows the themes only. Four OKRs are aligned and placed on the matrix, as on slide 21; Objective 5 earns 3 of 4 and returns to Step 2.
+- The individual 2.2 exercise is removed: no `CX` tool, no `case_*` keys, no "Six-Step Exercise" report heading.
+- 4.2 group tool (slide 31): up to four themes, one Objective each, up to two Key Results with a contributing-roles box under each, alignment test, matrix. Every aligned OKR is an enterprise priority. Record and Print are named "five-step record". Keys unchanged: `__okr_work`, `okr_drafts`, `ent_priorities`, `ent_okrs`, `confirmed_items`.
+- 3.1 matching exercise and 5.1 Strategy Airport are "Portfolio work" in the participant file, each with a numbered "how to complete" box. Sub-lines on both pages: "10 Roles · Portfolio Work", "2 Gates · Portfolio Work". Both already appear in the Learning Portfolio (`collection.html`) under "Hot Zone Matching" and "Strategy Airport".
+- Section outcomes as on the deck's section slides (see handover section 15).
+- Files before this change: `Claude outputs\Unit 3 file backups\… - before five steps (7 Oct).html`.
+
+
+## Change of 7 October 2026 (fifth, final): four Objectives, Section 2 outcomes, deck edited to five steps
+
+- `WORKED` in `u3_shared.js` now holds four items (Customer responsiveness, Execution speed, Collaboration culture, Value creation). "Key account growth" is removed. All four earn 4 of 4 at Step 4 and go to the Step 5 matrix.
+- Section 2 outcomes on both pages and on slide 12: "Recognise the benefits of mapping the terrain before setting goals." / "Practise the translation of SiP into OKRs."
+- Carol allowed slide changes in this round. `edit_deck.py` makes them on her final deck with python-pptx (text runs only, plus removed rows re-spaced): five steps on slides 9, 10, 31; four themes and four Objectives on slides 17, 18; Section 2 outcomes on slide 12; "SiP" on slide 7; notes aligned on slides 1-4, 8, 9, 12, 14, 16, 21, 29, 31, 33, 34. Her untouched final is in `Claude outputs\Unit 3 deck backups\unit-03 - Carol final before five-step edits (7 Oct).pptx`.
+- `final_scan.py <deck> <participant page> <facilitator page>` compares the deck with both pages (KLOs, section outcomes, step names, worked example, 3.1 content, leftover terms, page-pair titles). Result on the final files: 0 differences.
+- Reader pictures `s01`-`s34` and `manifest.json` are remade from the edited final deck.
+- Files before this change: `Claude outputs\Unit 3 file backups\... - before final scan (7 Oct).html`.

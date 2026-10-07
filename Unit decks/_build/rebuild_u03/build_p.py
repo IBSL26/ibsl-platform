@@ -86,19 +86,19 @@ KR_GUIDE = '''  <div class="sub-acc">
 rep('  <div class="hbox red"><p><strong>Critical Distinction:</strong> OKRs define outcomes. If a statement can be checked off a to-do list, it is a task. Key Results describe the impact those tasks must produce.</p></div>\n',
     KR_GUIDE + '  <div class="hbox red"><p><strong>Critical Distinction:</strong> OKRs define outcomes. If a statement can be checked off a task list — "launch new platform" or "run customer survey" — it is a task. Those are activities that support the Key Result. Key Results describe the impact those activities must produce.</p></div>\n')
 
-# 1.5: the six steps (Carol: align 1.5 with 4.1; "Enterprise Priority")
-STEP_NAMES = ['Find Themes', 'Inspiring Objectives', 'Define Key Results', 'Alignment Test', 'Enterprise Priority', 'Priority Matrix']
+# 1.5: the five steps (Carol, 7 Oct: Step 5 Enterprise Priority removed)
+STEP_NAMES = ['Find Themes', 'Inspiring Objectives', 'Define Key Results', 'Alignment Test', 'Priority Matrix']
 def step_tabs(prefix):
     return ('  <div class="step-tabs" id="' + prefix + 'Tabs">\n' + ''.join(
         '    <div class="step-tab' + (' active' if i == 0 else '') + '" onclick="u3Tab(\'' + prefix + '\',' + str(i) + ')"><div class="step-num">Step ' + str(i + 1) + '</div><div class="step-name">' + n + '</div></div>\n'
         for i, n in enumerate(STEP_NAMES)) + '  </div>\n')
-SIX = step_tabs('six') + '''  <div id="six_0" class="step-panel active">
+FIVE = step_tabs('five') + '''  <div id="five_0" class="step-panel active">
     <h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5>
     <p>Review your KISS reflection and identify the 2–3 big shifts in your area that will contribute to moving the whole organisation forward. Ask: <em>"If the organisation is to reach the future it has described, what is the one thing my area can change that would make the biggest difference for everyone?"</em></p>
     <p>Then review the patterns that surfaced across the four SiP domains. Identify the strategic themes that repeatedly appeared in the KEEP, IMPROVE, START, and STOP reflections. These themes represent the most important shifts required to move the organisation toward the SiP.</p>
     <div class="u3-outp"><p><strong>Output produced:</strong> A small set of strategic themes that reflect the organisation's priority execution shifts.</p></div>
   </div>
-  <div id="six_1" class="step-panel">
+  <div id="five_1" class="step-panel">
     <h5 class="u3-gq">Guiding Question: If we get this theme right, what will we be known for?</h5>
     <p>Translate each theme into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. An Objective should look like a transformation. Ask: <em>"If the organisation actually pulls this off, what will customers and competitors say it is known for?"</em></p>
     <ul>
@@ -108,14 +108,14 @@ SIX = step_tabs('six') + '''  <div id="six_0" class="step-panel active">
     </ul>
     <div class="u3-outp"><p><strong>Output produced:</strong> A clear Objective that expresses the strategic ambition.</p></div>
   </div>
-  <div id="six_2" class="step-panel">
+  <div id="five_2" class="step-panel">
     <h5 class="u3-gq">Guiding Question: What measurable outcomes will prove the Objective is being achieved?</h5>
     <p>For every Objective, identify 2–3 measurable results that demonstrate progress toward it. Each Key Result must describe a meaningful shift in performance and must follow the Key Result formula: <strong>Verb + Metric + From X to Y + Deadline.</strong></p>
     <p><strong>Example:</strong> Shift response time from 12 hours (frustrating) to 4 hours (exceptional) by Q3.</p>
     <div class="quote"><p>Quick check: If the team can simply "check it off" a list, it is a task. Key Results describe outcomes — the actual change in the world that proves the Objective is being achieved.</p></div>
     <div class="u3-outp"><p><strong>Output produced:</strong> Measurable Key Results that define progress toward the Objective.</p></div>
   </div>
-  <div id="six_3" class="step-panel">
+  <div id="five_3" class="step-panel">
     <p>Before sharing your OKR with the group, test it against four questions:</p>
     <ul>
       <li>Does this truly get the organisation closer to the shared SiP vision?</li>
@@ -124,21 +124,16 @@ SIX = step_tabs('six') + '''  <div id="six_0" class="step-panel active">
       <li>Is there clear accountability for delivering this outcome?</li>
     </ul>
   </div>
-  <div id="six_4" class="step-panel">
-    <p>Once initial OKRs have been drafted, the leadership team determines which Objectives deserve enterprise focus now. Strategy execution fails when too many priorities are pursued simultaneously.</p>
-    <p>Each team member reviews the proposed Objectives and votes on which represent the most critical strategic movements at this moment.</p>
-    <div class="hbox teal"><p><strong>The Less is More Rule:</strong> No more than <strong>4 Enterprise Objectives</strong>. No more than <strong>3 Key Results per Objective</strong>. This constraint forces explicit trade-offs and concentrates execution energy on what matters most.</p></div>
-  </div>
-  <div id="six_5" class="step-panel">
+  <div id="five_4" class="step-panel">
     <p>The Prioritisation Matrix evaluates each initiative against two dimensions: <strong>Impact</strong> — the degree of strategic value delivered if achieved — and <strong>Effort</strong> — the time, resources, coordination, and organisational change required. This structured approach helps distinguish initiatives that accelerate strategic movement from those that consume resources without meaningful progress.</p>
     <div id="pmGuideP"></div>
     <p>Pay particular attention to initiatives in <strong>Strategic Catalysts</strong>, <strong>Accelerated Enablers</strong>, and <strong>Core Strategic Drivers</strong> — these represent the highest leverage execution signals.</p>
   </div>
 '''
 a, b = cut('<div class="acc">\n<div class="acc-h" onclick="tA(this)">\n  <span class="acc-t">1.5 — Three Steps: From KISS Output to OKRs</span>', '<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 2 — Intelligence →</button></div>')
-h = h[:a] + acc('1.5 — Six Steps: From KISS Output to Enterprise OKRs', '6 Steps · Click each to explore', SIX) + h[b:]
+h = h[:a] + acc('1.5 — Five Steps: From KISS Output to Enterprise OKRs', '5 Steps · Click each to explore', FIVE) + h[b:]
 
-# ── 3. Section 2: 2.1 kept; 2.2 removed; old 2.3 becomes 2.2 with the case and the individual six-step exercise (Carol, 7 Oct) ──
+# ── 3. Section 2: 2.1 kept; 2.2 removed; old 2.3 becomes 2.2 with the worked example of the five steps (read-only on both pages) ──
 rep('''People default to measuring busyness because they are unsure how to prove they are achieving real outcomes.</p></div>
   </div>
 </div></div>
@@ -151,23 +146,14 @@ a, b = cut('<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="
            '<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">2.3 — Turning Intent into Action')
 h = h[:a] + h[b:]
 rep('<span class="acc-t">2.3 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3-Part Logic</span>',
-    '<span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Case · 6 Steps</span>')
+    '<span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Worked Example</span>')
 rep('a vivid future state across four observable dimensions.</p></div>', 'a vivid future state across the four SiP domains.</p></div>')
 rep('''Strategy transforms from a statement of intent into a living system.</p></div>
 ''', '''Strategy transforms from a statement of intent into a living system.</p></div>
-  <h4>Exercise: One SiP Statement Through the Six Steps</h4>
-  <p>The case below gives you one simple SiP statement and the KISS table its leadership team produced. Take that KISS table through the six steps of 1.5: find the themes, write the Objectives and their Key Results, test them, choose the enterprise priorities and place them on the Prioritisation Matrix. Each step uses what you recorded in the step before it.</p>
-  <div class="hbox teal"><p><strong>Individual work.</strong> Complete the exercise on your own, from Step 1 to Step 6. Your work is saved on this page and reaches your facilitator when you submit the unit.</p></div>
+  <h4>Worked Example: One SiP Statement Through the Sequence</h4>
+  <p>The example below follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the five steps of 1.5. Open each step in turn. Refer to it when your group does its own work in Section 4.</p>
   <div id="caseP"></div>
-  <h4>Your Six-Step Record</h4>
-  <p>Everything you record in the six steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
-  <div id="caseRecP"></div>
-  <h4>From KISS to OKRs: Your Six Steps</h4>
-  <p>Work through the steps in order. Each step shows what you recorded in the steps before it: your themes become Objectives, each Objective receives its Key Results, each OKR is tested, the OKRs that pass are prioritised, and the priorities are placed on the matrix.</p>
-  <div id="caseToolP"></div>
-  <h4>Complete and Print</h4>
-  <p>When the six steps are complete, mark the exercise complete. You can print your six-step record.</p>
-  <div id="caseOutP"></div>
+  <div id="workedP"></div>
 ''')
 
 # ── 4. Section 3: 3.1, 3.2 and 3.3 fused into one 3.1 with the matching exercise (Carol) ───────────
@@ -189,13 +175,20 @@ S3 = '''  <p>Every leadership role tends to emphasise some of the four SiP domai
   <p>When your group names its natural biases explicitly, the conversation shifts from <em>functional interpretation of success</em> to <em>collective definition of success</em>.</p>
   <div class="quote"><p>Recognising these patterns allows the leadership team to integrate perspectives into a balanced execution system that reflects the full enterprise.</p></div>
   <h4>Exercise: Match the Hot Zone and the Alignment Question to Each Role</h4>
-  <p>Work through the ten leadership roles. For each role, the Dominant Future Realities and the Natural OKR Emphasis are suggested. Select the Typical Hot Zone and the Alignment Question that belong to that role. The page shows a green light for a match and a red alert when the choice belongs to another role.</p>
-  <div class="hbox teal"><p><strong>Individual work.</strong> Complete the exercise on your own. Your matches are saved on this page and reach your facilitator when you submit the unit.</p></div>
+  <div class="hbox teal u3-how"><p><strong>Portfolio work · How to complete the exercise</strong></p>
+    <ol>
+      <li>Select a role. Start with the first role and work through all ten.</li>
+      <li>Read the two suggested entries for the role: its Dominant Future Realities and its Natural OKR Emphasis.</li>
+      <li>Choose the Typical Hot Zone that this emphasis creates. A green light confirms the match. A red alert means the choice belongs to another role: read the emphasis again and choose again.</li>
+      <li>Choose the Alignment Question that brings the role back to the enterprise, in the same way.</li>
+      <li>Move to the next role. The exercise is complete when ten of ten roles are matched.</li>
+    </ol>
+    <p>Complete the exercise on your own. Your matches are saved on this page, become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
   <div id="hzMatchP"></div>
 ''' + ref('ref4', 'Which hot zone description most accurately reflects how you instinctively approach OKR definition? What would you need to do differently to write an enterprise-level Key Result?', ' style="margin-top:20px;"')
 a, b = cut('<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">3.1 — Natural OKR Emphasis Across Leadership Functions</span>',
            '<div class="mod-nav"><button class="btn" onclick="showMod(1)">← Section 2 — Intelligence</button>')
-h = h[:a] + acc('3.1 — Natural OKR Emphasis Across Leadership Functions', '10 Roles · Matching Exercise', S3, True) + h[b:]
+h = h[:a] + acc('3.1 — Natural OKR Emphasis Across Leadership Functions', '10 Roles · Portfolio Work', S3, True) + h[b:]
 rep('Every leadership role naturally emphasises certain future realities over others. Recognising your hot zone', 'Every leadership role naturally emphasises certain SiP domains over others. Recognising your hot zone')
 
 # ── 5. Section 4: group work for the Capstone — 4.1 SiP to KISS, 4.2 KISS to OKRs (Carol) ──────────
@@ -214,14 +207,14 @@ S41 = '''  <p>Your group's four SiP statements describe the future organisation.
   <div id="kissConfirmP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Keep, Improve, Start and Stop feed your team's Capstone Blueprint. Its Unit 3 section opens once every member of your team has completed this unit, and brings your confirmed outputs in from your page. Your team then reads them together and confirms them.</p></div>
 '''
-S42 = '''  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the six steps of 1.5. Work through the steps in order. Each step shows what your group recorded in the steps before it: the themes of Step 1 become Objectives in Step 2, each Objective receives its Key Results in Step 3, each OKR is tested in Step 4, the OKRs that pass are prioritised in Step 5, and the priorities are placed on the matrix in Step 6.</p>
-  <h4>Your Six-Step Record</h4>
-  <p>Everything your group records in the six steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
+S42 = '''  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the five steps of 1.5. Work through the steps in order. Each step shows what your group recorded in the steps before it: the themes of Step 1 become Objectives in Step 2, each Objective receives its Key Results and contributing roles in Step 3, each OKR is tested in Step 4, and the aligned OKRs are placed on the Prioritisation Matrix in Step 5.</p>
+  <h4>Your Five-Step Record</h4>
+  <p>Everything your group records in the five steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
   <div id="okrRecP"></div>
-  <h4>The Six Steps</h4>
+  <h4>The Five Steps</h4>
   <div id="okrToolP"></div>
   <h4>Confirm and Print</h4>
-  <p>When the six steps are complete, read your six-step record together, confirm your Enterprise Priorities and Enterprise OKRs, then print the record.</p>
+  <p>When the five steps are complete, read your five-step record together, confirm your Enterprise Priorities and Enterprise OKRs, then print the record.</p>
   <div id="okrOutP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Enterprise Priorities and Enterprise OKRs feed your team's Capstone Blueprint, together with your KISS map.</p></div>
 '''
@@ -232,21 +225,28 @@ SEC4 = ('<!-- TAB 4: INTEGRATION -->\n<div class="mod-panel" id="mod3">\n' +
         slo('Apply the translation of SiP into OKRs as a group.', 'Gain collective intelligence for the strategic trajectory.') +
         S4_LEAD +
         acc('4.1 — Translating SiP to KISS', '4 Domains · Group Work', S41, True) + '\n' +
-        acc('4.2 — Translating KISS to OKRs: The Six Steps', '6 Steps · Group Work', S42) +
+        acc('4.2 — Translating KISS to OKRs: The Five Steps', '5 Steps · Group Work', S42) +
         '<div class="mod-nav"><button class="btn" onclick="showMod(2)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(4)">Section 5 — Application →</button></div>\n</div></div>\n')
 
-# ── 6. Section 5: the Strategy Airport game, individual submission (Carol) ─────────────────────────
+# ── 6. Section 5: the Strategy Airport game, portfolio work (Carol, 7 Oct) ─────────────────────────
 S51 = '''  <p>You have built your group's KISS map and enterprise OKRs. Strategy Airport lets you practise the same translation on your own with a new case: a medical health company.</p>
   <p>Clear two gates. At <strong>Gate 1 · Baggage Check</strong> you decide what the company must keep, improve, start and stop. At <strong>Gate 2 · Flight Plan</strong> you convert one KISS theme into an Objective and two Key Results.</p>
-  <div class="hbox teal"><p><strong>Individual work.</strong> Play the learning round on your own. Your KISS choices and your flight plans are saved on this page and reach your facilitator when you submit the unit.</p></div>
+  <div class="hbox teal u3-how"><p><strong>Portfolio work · How to complete the learning round</strong></p>
+    <ol>
+      <li>Read the Success in Practice statement of the company.</li>
+      <li><strong>Gate 1 · Baggage Check:</strong> for each KISS filter, choose the options that belong to it. A green light confirms a choice. A red alert gives the reason the option fails the SiP. Collect at least two items for each filter.</li>
+      <li><strong>Gate 2 · Flight Plan:</strong> choose one KISS theme and convert it into one Objective, two Key Results and the contributing roles. Add the flight plan.</li>
+      <li>Finish the learning round.</li>
+    </ol>
+    <p>Play the learning round on your own. Your KISS choices and your flight plans are saved on this page, become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
   <div id="saHostP"></div>
 '''
 SEC5_HEAD = ('<!-- TAB 5: APPLICATION -->\n<div class="mod-panel" id="mod4">\n' +
              hero('Section 5 · Application — In Practice', 'Strategy Airport: From Strategic Imagination to Operational Clearance',
-                  'Individual work · Play the Strategy Airport game · Translate a Success in Practice statement into KISS insights and an OKR flight plan · Submit to your facilitator.') +
+                  'Portfolio work · Play the Strategy Airport game · Move from strategic imagination to operational clearance · Translate a Success in Practice statement into KISS insights and an OKR flight plan.') +
              '<div class="mod-body">\n' +
              slo('Reinforce strategy translation capability.', 'Establish individual capability to set a strategic trajectory.') + '\n' +
-             acc('5.1 — Strategy Airport', '2 Gates · Learning Round', S51, True) + '\n')
+             acc('5.1 — Strategy Airport', '2 Gates · Portfolio Work', S51, True) + '\n')
 a = h.index('<!-- TAB 4: INTEGRATION -->')
 b = h.index('<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span>')
 h = h[:a] + SEC4 + SEC5_HEAD + h[b:]
@@ -262,7 +262,7 @@ h = h[:a] + h[b:]
 a = h.index('window.addEventListener("load",async function(){\n  if(!window.S2R){console.warn(\'[unit2_m1_lens2_p] S2R helper not loaded\');return;}')
 b = h.index('document.body.style.overflow="";')
 LOAD = '''function u3RenderAll(){
-  renderKissGuideP();renderPMCards('pmGuideP');renderCase('caseP');renderCxTool();renderMatch();
+  renderKissGuideP();renderPMCards('pmGuideP');renderCase('caseP');renderWorked('workedP');renderMatch();
   renderSipCapture();renderKissForm();renderOkrTool();renderSummaryP();u3Mirrors();
 }
 window.addEventListener("load",async function(){
@@ -274,7 +274,7 @@ window.addEventListener("load",async function(){
       var ta=document.getElementById(id);
       if(ta&&responses[id]!=null)ta.value=responses[id];
     });
-    // Everything else: KISS entries (kex_*), SiP statements, confirmed outputs, matching, six steps, game
+    // Everything else: KISS entries (kex_*), SiP statements, confirmed outputs, matching, five steps, game
     Object.keys(responses).forEach(function(k){if(responses[k]!==null&&responses[k]!==undefined)U3.v[k]=responses[k];});
     if(Array.isArray(responses['confirmed_items']))U3.conf=responses['confirmed_items'].slice();
     var hz=responses['__hz_match'];
@@ -283,7 +283,6 @@ window.addEventListener("load",async function(){
       HZ.cur=(hz.cur>=0&&hz.cur<HOT_ZONES.length)?hz.cur:0;
     }
     okrLoad(responses['__okr_work']);
-    cxLoad(responses['__case_work']);
     u3RenderAll();
     saLoad(responses['__game']);
     // The group's four SiP statements: brought in from the Unit 2 page while the boxes are still empty
@@ -306,12 +305,13 @@ rep('''function showStepP(prefix,i){
 }
 ''', '')
 
-# ── Section learning outcomes realigned to the rebuilt content (Carol, 7 Oct) ──
-rep('<li>Distinguish results that evidence progress from the activities that produce them.</li>', '<li>Translate strategic intent into measurable results.</li>')
+# ── Section learning outcomes as on Carol's final deck (7 Oct): Section 1 outcome 2 and Section 2 reworded; Section 3 as it was;
+#    Sections 4 and 5 are set where those sections are built above ──
+rep('<li>Distinguish results that evidence progress from the activities that produce them.</li>', '<li>Translate the intent to measurable results.</li>')
 rep('<li>Explain why an honest review of current practice must precede the setting of priorities.</li><li>Recognise the cost of setting targets before the path to the future state is understood.</li>', '<li>Recognise the benefits of mapping the terrain before setting goals.</li><li>Practise the translation of SiP into OKRs.</li>')
 
 # ── 8. Checks, then write with CRLF ───────────────────────────────────────────────────────────────
-for gone in ('ref1', 'ref5', 'port1', 'savePort', 'renderBiasP', 'okrDraftP', 'kissExerciseP', 'Portfolio', 'Future-Reality', 'future-reality', 'narrative', 'Financial Performance', '4.2 — Breaking the Biases', '2.3 —', '3.2 —', '3.3 —', 'leadership team has'):
+for gone in ('ref1', 'ref5', 'port1', 'savePort', 'renderBiasP', 'okrDraftP', 'kissExerciseP', 'Portfolio Artefact', 'cxLoad', 'caseToolP', 'Six Steps', 'six steps', 'six-step', 'Step 6', 'Enterprise Priority<', 'Less is More', 'Future-Reality', 'future-reality', 'narrative', 'Financial Performance', '4.2 — Breaking the Biases', '2.3 —', '3.2 —', '3.3 —', 'leadership team has'):
     assert gone not in h, 'still present: ' + gone
 assert h.count('<script') == h.count('</script>'), 'script tags do not balance'
 open(out, 'wb').write(h.replace('\n', '\r\n').encode('utf-8'))

@@ -1,10 +1,10 @@
 // ── UNIT 3 · PARTICIPANT PAGE ───────────────────────────────────────────────────────────────────
 var LENS='u2m1_lens2';
 var SUMMARY=[
-  {arc:"Awareness — What",title:"The KISS Framework as Reflective Filter",body:"You saw that KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. Before defining Objectives and Key Results, you examine the organisation's current operating reality in relation to its Success in Practice. This step prevents the common strategic mistake of layering new ambitions on top of an unchanged operational system. Six steps then carry the KISS output into enterprise OKRs."},
-  {arc:"Intelligence — Why",title:"Most OKR Failures are Reflection Failures",body:"When organisations move directly from vision to targets, legacy routines remain in place, resources remain misaligned, and teams attempt to pursue transformational goals while still carrying the weight of outdated priorities. The KISS-to-OKR sequence resolves this tension: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress. You then took one SiP statement and its KISS table through the six steps on your own."},
+  {arc:"Awareness — What",title:"The KISS Framework as Reflective Filter",body:"You saw that KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. Before defining Objectives and Key Results, you examine the organisation's current operating reality in relation to its Success in Practice. This step prevents the common strategic mistake of layering new ambitions on top of an unchanged operational system. Five steps then carry the KISS output into enterprise OKRs."},
+  {arc:"Intelligence — Why",title:"Most OKR Failures are Reflection Failures",body:"When organisations move directly from vision to targets, legacy routines remain in place, resources remain misaligned, and teams attempt to pursue transformational goals while still carrying the weight of outdated priorities. The KISS-to-OKR sequence resolves this tension: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress. The worked example showed the full sequence in practice."},
   {arc:"Extrapolating — Where",title:"Functional Bias Creates OKR Hot Zones",body:"Each leader naturally emphasises different SiP domains. Unexamined, these perspectives produce functional OKRs where enterprise OKRs are needed. You matched each leadership role to its typical hot zone and its alignment question. Recognising these patterns allows your group to integrate perspectives into a balanced execution system that reflects the full enterprise."},
-  {arc:"Integration — Collective",title:"Individual Expertise into Collective Intelligence",body:"With your group you translated your Success in Practice into a confirmed KISS map across the four SiP domains, then into enterprise priorities and enterprise OKRs through the six steps. Each member began with insights from a functional domain, and the final outcome reflects the success of the enterprise as a whole. The Prioritisation Matrix concentrated execution energy on the priorities that will most accelerate progress toward the SiP. Your confirmed outputs feed your team's Capstone Blueprint."},
+  {arc:"Integration — Collective",title:"Individual Expertise into Collective Intelligence",body:"With your group you translated your Success in Practice into a confirmed KISS map across the four SiP domains, then into enterprise priorities and enterprise OKRs through the five steps. Each member began with insights from a functional domain, and the final outcome reflects the success of the enterprise as a whole. The Prioritisation Matrix concentrated execution energy on the priorities that will most accelerate progress toward the SiP. Your confirmed outputs feed your team's Capstone Blueprint."},
   {arc:"Application — In Practice",title:"From Strategic Imagination to Operational Clearance",body:"In Strategy Airport you applied the same translation on your own to a new case. You decided what the company must keep, improve, start and stop, then converted one KISS theme into an Objective and two Key Results with contributing roles. KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress."}
 ];
 var U3={v:{},conf:[]};
@@ -46,7 +46,7 @@ function renderSummaryP(){
   }).join("");
 }
 
-// ── 3.1 · Matching exercise: Typical Hot Zone and Alignment Question to each role (individual work) ──
+// ── 3.1 · Matching exercise: Typical Hot Zone and Alignment Question to each role (portfolio work) ──
 var HZ_ORDER={hot:[6,2,9,0,4,7,1,8,3,5],al:[3,8,1,5,9,0,6,2,7,4]};
 var HZ={cur:0,m:[],note:null};
 function hzBlank(){return HOT_ZONES.map(function(){return {hot:false,al:false,ht:0,at:0};});}
@@ -196,28 +196,28 @@ async function kissConfirm(){
   renderKissConfirm();okrRefreshMirror();
 }
 
-// ── THE SIX STEPS: one flow, used twice ─────────────────────────────────────────────────────────────
-//   4.2 · group work on the group's own KISS map (tool OKT, state OK)
-//   2.2 · individual exercise on the case (tool CXT, state CX)
+// ── 4.2 · THE FIVE STEPS: themes → Objectives → Key Results → alignment test → Priority Matrix (group work) ──
 // Each step shows what the steps before it produced: the theme is carried into Step 2, theme and Objective into
-// Step 3, theme, Objective and Key Results into Step 4, the tested OKR into Step 5 and the chosen priority into Step 6.
-// Underneath the steps one record builds from Step 1 onwards; it is saved with the page and can be printed.
+// Step 3, theme, Objective and Key Results into Step 4, and the aligned OKR into Step 5.
+// Above the steps one record builds from Step 1 onwards; it is saved with the page and can be printed.
+// Limits (Carol's deck, 4.2): up to four themes, one Objective for each theme, up to two Key Results for each Objective.
 var N_PRI='Enterprise priorities',N_OKR='Enterprise OKRs';
-var OKR_STEPS=['Find Themes','Inspiring Objectives','Define Key Results','Alignment Test','Enterprise Priority','Priority Matrix'];
+var OKR_STEPS=FIVE_STEPS;
 var OKR_TEST=['Does this truly get the organisation closer to the shared SiP vision?','Would fellow leaders see this as a win for the whole organisation — or just for one function?','Does it visibly improve culture, operations, or value creation?','Is there clear accountability for delivering this outcome?'];
-function sxBlank(){return {theme:'',obj:'',krs:[{t:'',r:''},{t:'',r:''},{t:'',r:''}],al:[false,false,false,false],pri:false,im:'',ef:''};}
-function sxState(){var s={step:0,items:[],why:'',done:false};for(var i=0;i<6;i++)s.items.push(sxBlank());return s;}
+var SX_THEMES=4,SX_KRS=2;
+function sxBlank(){var k=[];for(var j=0;j<SX_KRS;j++)k.push({t:'',r:''});return {theme:'',obj:'',krs:k,al:[false,false,false,false],im:'',ef:''};}
+function sxState(){var s={step:0,items:[]};for(var i=0;i<SX_THEMES;i++)s.items.push(sxBlank());return s;}
 function sxLoadInto(S,s){
   if(!s||typeof s!=='object'||!Array.isArray(s.items))return;
-  for(var i=0;i<6;i++){
+  for(var i=0;i<SX_THEMES;i++){
     var a=s.items[i]||{},b=sxBlank();
     b.theme=String(a.theme||'');b.obj=String(a.obj||'');
-    for(var j=0;j<3;j++){var kr=(a.krs&&a.krs[j])||{};b.krs[j]={t:String(kr.t||''),r:String(kr.r||'')};}
+    for(var j=0;j<SX_KRS;j++){var kr=(a.krs&&a.krs[j])||{};b.krs[j]={t:String(kr.t||''),r:String(kr.r||'')};}
     for(var q=0;q<4;q++)b.al[q]=!!(a.al&&a.al[q]);
-    b.pri=!!a.pri;b.im=String(a.im||'');b.ef=String(a.ef||'');
+    b.im=String(a.im||'');b.ef=String(a.ef||'');
     S.items[i]=b;
   }
-  S.step=(s.step>=0&&s.step<6)?s.step:0;S.why=String(s.why||'');S.done=!!s.done;
+  S.step=(s.step>=0&&s.step<OKR_STEPS.length)?s.step:0;
 }
 function okrKrOk(t){return /from\s+\w/i.test(t)&&/to\s+\w/i.test(t)&&/q[1-4]|fy|20\d\d|by/i.test(t);}
 function okrKrCheck(t){
@@ -226,41 +226,39 @@ function okrKrCheck(t){
 }
 function sxAl(o){return o.al.filter(Boolean).length;}
 function sxKrs(o){return o.krs.filter(function(k){return k.t.trim();});}
-function sxReady(o){return sxKrs(o).length>=2;}                 // an OKR is tested once it holds two Key Results
+function sxReady(o){return sxKrs(o).length>=1;}                 // an OKR is tested once it holds a Key Result
 function sxThemes(S){var out=[];S.items.forEach(function(o,i){if(o.theme.trim())out.push(i);});return out;}
 function sxWithObj(S){return sxThemes(S).filter(function(i){return S.items[i].obj.trim();});}
 function sxPassed(S){return sxWithObj(S).filter(function(i){var o=S.items[i];return sxReady(o)&&sxAl(o)===4;});}
-function sxPris(S){return sxPassed(S).filter(function(i){return S.items[i].pri;});}
 function sxNeed(text){return '<div class="u3-locked">'+text+'</div>';}
 function sxPlace(o){var c=pmFind(o.im,o.ef);return c?c.l+' ('+o.im+' impact, '+o.ef+' effort)':'';}
-// What one theme carries so far. upto: 1 theme · 2 Objective · 3 Key Results · 4 alignment test · 5 priority · 6 matrix.
+// What one theme carries so far. upto: 1 theme · 2 Objective · 3 Key Results · 4 alignment test · 5 matrix.
 // rec=true (the record): a row appears once it holds something. rec=false (inside a step): the rows the step works from.
 function sxChain(S,i,upto,rec){
   var o=S.items[i],r=[['Theme '+(i+1),u3esc(o.theme)]],k=sxKrs(o),n=sxAl(o),passed=sxReady(o)&&n===4;
   if(upto>=2&&(o.obj.trim()||!rec))r.push(['Objective '+(i+1),o.obj.trim()?u3esc(o.obj):'<em>Not written yet</em>']);
   if(upto>=3&&(k.length||!rec))r.push(['Key Results',k.length?'<ol>'+k.map(function(x){return '<li>'+u3esc(x.t)+(x.r.trim()?'<span class="u3-chain-roles">Contributing roles: '+u3esc(x.r)+'</span>':'')+'</li>';}).join('')+'</ol>':'<em>Not written yet</em>']);
-  if(upto>=4&&((k.length&&(n>0||!rec))||(!rec&&upto>4)))r.push(['Alignment test',n+' of 4'+(passed?' · passed':'')]);
-  if(upto>=5&&rec&&passed)r.push(['Enterprise priority',o.pri?'Yes':'No']);
-  if(upto>=6&&passed&&o.pri&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
+  if(upto>=4&&((k.length&&(n>0||!rec))||(!rec&&upto>4)))r.push(['Alignment test',n+' of 4'+(passed?' · aligned':'')]);
+  if(upto>=5&&passed&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
   return '<div class="u3-chain">'+r.map(function(x){return '<div class="u3-chain-row"><div class="u3-chain-l">'+x[0]+'</div><div class="u3-chain-v">'+x[1]+'</div></div>';}).join('')+'</div>';
 }
 function sxFrom(n){return '<div class="u3-from">From Step'+(n===1?' 1':n===2?'s 1 and 2':'s 1 to '+n)+'</div>';}
 function sxNav(T){
-  var s=T.S.step,p="'"+T.p+"'";
-  return '<div class="u3-elnav"><button type="button" class="btn" onclick="sxStep('+p+','+(s-1)+')"'+(s===0?' disabled':'')+'>← Previous step</button><button type="button" class="btn" onclick="sxStep('+p+','+(s+1)+')"'+(s===5?' disabled':'')+'>Next step →</button></div>';
+  var s=T.S.step,p="'"+T.p+"'",last=OKR_STEPS.length-1;
+  return '<div class="u3-elnav"><button type="button" class="btn" onclick="sxStep('+p+','+(s-1)+')"'+(s===0?' disabled':'')+'>← Previous step</button><button type="button" class="btn" onclick="sxStep('+p+','+(s+1)+')"'+(s===last?' disabled':'')+'>Next step →</button></div>';
 }
 function sxPanel(T){
   var S=T.S,P=T.p,q="'"+P+"'",s=S.step,x=T.t,h='';
   if(s===0){
     h='<h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5><p>'+x.s1+'</p>'+(T.mirror?'<div id="'+P+'KissMirror">'+T.mirror()+'</div>':'')+
-      S.items.map(function(o,i){return '<label class="u3-inlbl" for="'+P+'Theme_'+i+'">Theme '+(i+1)+'</label><input type="text" class="u3-in" id="'+P+'Theme_'+i+'" value="'+u3esc(o.theme)+'" placeholder="'+(i===0?x.ph1:'')+'" oninput="sxSet('+q+','+i+',\'theme\',this.value)" onchange="sxChanged('+q+')">';}).join('')+
+      S.items.map(function(o,i){return '<label class="u3-inlbl" for="'+P+'Theme_'+i+'">Theme '+(i+1)+'</label><input type="text" class="u3-in" id="'+P+'Theme_'+i+'" value="'+u3esc(o.theme)+'" oninput="sxSet('+q+','+i+',\'theme\',this.value)" onchange="sxChanged('+q+')">';}).join('')+
       '<p class="u3-small">'+x.s1small+'</p>';
   }else if(s===1){
     h='<h5 class="u3-gq">Guiding Question: If we get this theme right, what will we be known for?</h5><p>'+x.s2+'</p>';
     var th=sxThemes(S);
     h+=th.length?th.map(function(i){
       return '<div class="u3-test">'+sxFrom(1)+sxChain(S,i,1)+'<label class="u3-inlbl" for="'+P+'Obj_'+i+'">Objective '+(i+1)+' · for this theme</label><textarea class="u3-ta" id="'+P+'Obj_'+i+'" placeholder="Objective: start with a verb..." oninput="sxSet('+q+','+i+',\'obj\',this.value)" onchange="sxChanged('+q+')">'+u3esc(S.items[i].obj)+'</textarea></div>';
-    }).join(''):sxNeed('Record '+x.your+' themes in Step 1 first.');
+    }).join(''):sxNeed('Record your themes in Step 1 first.');
   }else if(s===2){
     h='<h5 class="u3-gq">Guiding Question: What measurable outcomes will prove the Objective is being achieved?</h5><p>'+x.s3+'</p>'+
       '<div class="okr-hint"><strong>Formula:</strong> Verb of Change + Metric + From X → Y + By Deadline &nbsp;|&nbsp; <strong>Test:</strong> Can this be checked off a list? If yes, it is a task.</div>';
@@ -268,51 +266,37 @@ function sxPanel(T){
     h+=ob.length?ob.map(function(i){
       var o=S.items[i];
       return '<div class="u3-test">'+sxFrom(2)+sxChain(S,i,2)+o.krs.map(function(k,j){
-          return '<div class="okr-kr"><label for="'+P+'Kr_'+i+'_'+j+'">Key Result '+(j+1)+' · for Objective '+(i+1)+(j===2?' (optional)':'')+'</label>'+
-            '<textarea class="okr-ta" id="'+P+'Kr_'+i+'_'+j+'" placeholder="'+(j===0?x.phKr:'')+'" oninput="sxKr('+q+','+i+','+j+',\'t\',this.value)" onchange="sxChanged('+q+')">'+u3esc(k.t)+'</textarea>'+
+          return '<div class="okr-kr"><label class="u3-inlbl" style="margin-top:0;" for="'+P+'Kr_'+i+'_'+j+'">Key Result '+(j+1)+' · for Objective '+(i+1)+(j>0?' (optional)':'')+'</label>'+
+            '<textarea class="u3-ta" id="'+P+'Kr_'+i+'_'+j+'" placeholder="Verb of Change + Metric + From X to Y + By Deadline" oninput="sxKr('+q+','+i+','+j+',\'t\',this.value)" onchange="sxChanged('+q+')">'+u3esc(k.t)+'</textarea>'+
             '<div class="okr-check" id="'+P+'Chk_'+i+'_'+j+'">'+okrKrCheck(k.t)+'</div>'+
-            '<label for="'+P+'Role_'+i+'_'+j+'" style="margin-top:10px;">Contributing roles</label>'+
-            '<input type="text" class="u3-in" id="'+P+'Role_'+i+'_'+j+'" value="'+u3esc(k.r)+'" placeholder="'+(j===0?x.phRole:'')+'" oninput="sxKr('+q+','+i+','+j+',\'r\',this.value)" onchange="sxChanged('+q+')"></div>';
+            '<label class="u3-inlbl" for="'+P+'Role_'+i+'_'+j+'">Contributing roles · for Key Result '+(j+1)+'</label>'+
+            '<textarea class="u3-ta u3-roles" id="'+P+'Role_'+i+'_'+j+'" placeholder="Name the roles that must contribute to this Key Result. E.g. Operations, Commercial, Technology" oninput="sxKr('+q+','+i+','+j+',\'r\',this.value)" onchange="sxChanged('+q+')">'+u3esc(k.r)+'</textarea></div>';
         }).join('')+'</div>';
-    }).join('')+(wait.length?'<p class="u3-small">Still in Step 2, without an Objective: '+wait.map(function(i){return 'Theme '+(i+1);}).join(' · ')+'.</p>':''):sxNeed('Write '+x.your+' Objectives in Step 2 first.');
+    }).join('')+(wait.length?'<p class="u3-small">Still in Step 2, without an Objective: '+wait.map(function(i){return 'Theme '+(i+1);}).join(' · ')+'.</p>':''):sxNeed('Write your Objectives in Step 2 first.');
   }else if(s===3){
     h='<p>'+x.s4+'</p>';
     var ob3=sxWithObj(S);
     h+=ob3.length?ob3.map(function(i){
       var o=S.items[i],n=sxAl(o),ready=sxReady(o);
-      return '<div class="u3-test">'+sxFrom(3)+(ready&&n===4?'<span class="u3-pill u3-pill-r">Passed</span>':'')+sxChain(S,i,3)+
+      return '<div class="u3-test">'+sxFrom(3)+(ready&&n===4?'<span class="u3-pill u3-pill-r">Aligned</span>':'')+sxChain(S,i,3)+
         (ready?OKR_TEST.map(function(t,y){return '<label class="u3-tick"><input type="checkbox"'+(o.al[y]?' checked':'')+' onchange="sxTick('+q+','+i+','+y+',this.checked)"><span>'+u3esc(t)+'</span></label>';}).join('')
-              :sxNeed('Write at least two Key Results for Objective '+(i+1)+' in Step 3 before you test it.'))+'</div>';
-    }).join('')+'<div class="hbox teal"><p><strong>Output of Step 4:</strong> '+sxPassed(S).length+' of '+x.your+' '+ob3.length+' OKRs pass the alignment test and go forward to Step 5.</p></div>':sxNeed('Write '+x.your+' Objectives in Step 2 first.');
-  }else if(s===4){
-    var pass=sxPassed(S),all=sxWithObj(S),sel=sxPris(S).length;
-    h='<p>'+x.s5+'</p>'+
-      '<div class="hbox teal"><p><strong>The Less is More Rule:</strong> No more than <strong>4 Enterprise Objectives</strong>. No more than <strong>3 Key Results per Objective</strong>. This constraint forces explicit trade-offs and concentrates execution energy on what matters most.</p></div>';
-    if(!all.length)h+=sxNeed('Write '+x.your+' Objectives in Step 2 first.');
-    else if(!pass.length)h+=sxNeed('No OKR has passed the alignment test yet. Complete Step 4 first.');
-    else{
-      h+='<div class="u3-progress-top" style="margin:14px 0 6px;"><span>Enterprise priorities selected</span><b>'+sel+' of 4</b></div>'+pass.map(function(i){
-        var o=S.items[i];
-        return '<div class="u3-test u3-pri'+(o.pri?' on':'')+'">'+sxFrom(4)+sxChain(S,i,4)+
-          '<label class="u3-tick"><input type="checkbox"'+(o.pri?' checked':'')+' onchange="sxPri('+q+','+i+',this)"><span><strong>Select Objective '+(i+1)+' as an enterprise priority</strong></span></label></div>';
-      }).join('')+'<div class="u3-note" id="'+P+'PriMsg" style="display:none;"></div>';
-      var back=all.filter(function(i){return pass.indexOf(i)<0;});
-      if(back.length)h+='<p class="u3-small">Still in Step 3 or Step 4: '+back.map(function(i){return 'Objective '+(i+1)+' ('+sxAl(S.items[i])+' of 4)';}).join(' · ')+'.</p>';
-      if(T.why)h+='<label class="u3-inlbl" for="'+P+'Why">Your trade-off: which Objective did you release or hold back, and why?</label>'+
-        '<textarea class="u3-ta" id="'+P+'Why" oninput="sxWhy('+q+',this.value)" onchange="sxChanged('+q+')">'+u3esc(S.why)+'</textarea>';
-    }
+              :sxNeed('Write a Key Result for Objective '+(i+1)+' in Step 3 before you test it.'))+'</div>';
+    }).join('')+'<div class="hbox teal"><p><strong>Output of Step 4:</strong> '+sxPassed(S).length+' of your '+ob3.length+' OKRs are aligned and go forward to Step 5.</p></div>':sxNeed('Write your Objectives in Step 2 first.');
   }else{
-    h='<p>'+x.s6+'</p>';
-    var pr=sxPris(S);
-    if(!pr.length)h+=sxNeed('Select '+x.your+' enterprise priorities in Step 5 first.');
+    h='<p>'+x.s5+'</p>';
+    var pr=sxPassed(S),all=sxWithObj(S);
+    if(!all.length)h+=sxNeed('Write your Objectives in Step 2 first.');
+    else if(!pr.length)h+=sxNeed('No OKR is aligned yet. Complete the alignment test in Step 4 first.');
     else{
       h+=pr.map(function(i){
         var o=S.items[i],c=pmFind(o.im,o.ef);
         var selH=function(f,opts,val,lab){return '<label class="u3-inlbl" for="'+P+'Mx_'+f+'_'+i+'">'+lab+'</label><select class="u3-in" id="'+P+'Mx_'+f+'_'+i+'" onchange="sxMx('+q+','+i+',\''+f+'\',this.value)"><option value="">Select…</option>'+opts.map(function(v){return '<option'+(val===v?' selected':'')+'>'+v+'</option>';}).join('')+'</select>';};
-        return '<div class="u3-test">'+sxFrom(5)+sxChain(S,i,4)+
+        return '<div class="u3-test">'+sxFrom(4)+sxChain(S,i,4)+
           '<div class="u3-meta"><div>'+selH('im',['High','Medium','Low'],o.im,'Impact')+'</div><div>'+selH('ef',['Low','Medium','High'],o.ef,'Effort')+'</div></div>'+
           (c?'<div class="u3-pos" style="border-left-color:'+c.c+';"><strong style="color:'+c.c+';">'+c.l+'</strong> '+u3esc(c.d)+'</div>':'')+'</div>';
       }).join('');
+      var back=all.filter(function(i){return pr.indexOf(i)<0;});
+      if(back.length)h+='<p class="u3-small">Still in Step 3 or Step 4: '+back.map(function(i){return 'Objective '+(i+1)+' ('+sxAl(S.items[i])+' of 4)';}).join(' · ')+'.</p>';
       h+='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
         ['High','Medium','Low'].map(function(im){
           return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
@@ -326,9 +310,9 @@ function sxPanel(T){
 }
 // The record: every theme with all it carries so far, in step order.
 function sxRecord(S){
-  return sxThemes(S).map(function(i){return '<div class="u3-rec-item">'+sxChain(S,i,6,true)+'</div>';}).join('');
+  return sxThemes(S).map(function(i){return '<div class="u3-rec-item">'+sxChain(S,i,5,true)+'</div>';}).join('');
 }
-// Readable copy of the record, saved for the facilitator's report.
+// Readable copy of the record, saved for the facilitator's report and the Learning Portfolio.
 function sxText(S){
   var out=[];
   sxThemes(S).forEach(function(i){
@@ -336,12 +320,11 @@ function sxText(S){
     if(o.obj.trim())lines.push('Objective '+(i+1)+': '+o.obj.trim());
     o.krs.forEach(function(k,j){if(k.t.trim())lines.push('Key Result '+(j+1)+': '+k.t.trim()+(k.r.trim()?' (Contributing roles: '+k.r.trim()+')':''));});
     if(o.obj.trim()){
-      var n=sxAl(o),pri=(sxReady(o)&&n===4&&o.pri);
-      lines.push('Alignment test: '+n+' of 4 · Enterprise priority: '+(pri?'yes':'no')+(pri&&sxPlace(o)?' · Matrix: '+sxPlace(o):''));
+      var n=sxAl(o),ok=(sxReady(o)&&n===4);
+      lines.push('Alignment test: '+n+' of 4'+(ok?' · aligned':'')+(ok&&sxPlace(o)?' · Matrix: '+sxPlace(o):''));
     }
     out.push(lines.join('\n'));
   });
-  if(S.why.trim())out.push('Trade-off: '+S.why.trim());
   return out.join('\n\n');
 }
 // The record sits above the steps. When it grows or shrinks, the steps would move on the screen while someone is
@@ -355,24 +338,23 @@ function sxSetRec(el,html,anchorId){
     if(d){try{window.scrollBy({top:d,left:0,behavior:'instant'});}catch(e){window.scrollBy(0,d);}}
   }
 }
-var SX_EMPTY='<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test, the enterprise priority and the matrix position.</div>';
+var SX_EMPTY='<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test and the matrix position.</div>';
 // Print: the record on a plain page in a new window.
 function sxPrint(title,sub,S,headHtml,tailHtml){
   var rows=sxThemes(S).map(function(i){
     var o=S.items[i],k=sxKrs(o),n=sxAl(o),passed=sxReady(o)&&n===4,r=[];
     if(o.obj.trim())r.push(['Objective '+(i+1),u3esc(o.obj)]);
     if(k.length)r.push(['Key Results','<ol>'+k.map(function(x){return '<li>'+u3esc(x.t)+(x.r.trim()?'<br><span class="s">Contributing roles: '+u3esc(x.r)+'</span>':'')+'</li>';}).join('')+'</ol>']);
-    if(o.obj.trim())r.push(['Alignment test',n+' of 4'+(passed?' · passed':'')]);
-    if(passed)r.push(['Enterprise priority',o.pri?'Yes':'No']);
-    if(passed&&o.pri&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
+    if(o.obj.trim())r.push(['Alignment test',n+' of 4'+(passed?' · aligned':'')]);
+    if(passed&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
     return '<h2>Theme '+(i+1)+' · '+u3esc(o.theme)+'</h2>'+(r.length?'<table>'+r.map(function(x){return '<tr><th>'+x[0]+'</th><td>'+x[1]+'</td></tr>';}).join('')+'</table>':'');
   }).join('');
-  var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>'+u3esc(title)+'</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:15px;margin:22px 0 6px}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;color:#043f2f;padding:6px 10px 6px 0;border-bottom:1px solid #e5e7eb}td{padding:6px 0;border-bottom:1px solid #e5e7eb;vertical-align:top}ol{margin:0;padding-left:18px}li{margin-bottom:4px}.s{color:#666;font-size:12px}p,pre{font-family:Arial,sans-serif;font-size:13px}pre{white-space:pre-wrap}.box{border-left:3px solid #c9a84c;padding:6px 12px;background:#faf7ee}</style></head><body><h1>'+u3esc(title)+'</h1><p class="sub">'+u3esc(sub)+'</p>'+(headHtml||'')+(rows||'<p>Nothing has been recorded yet.</p>')+(tailHtml||'')+'</body></html>';
+  var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>'+u3esc(title)+'</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:15px;margin:22px 0 6px}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;color:#043f2f;padding:6px 10px 6px 0;border-bottom:1px solid #e5e7eb}td{padding:6px 0;border-bottom:1px solid #e5e7eb;vertical-align:top}ol{margin:0;padding-left:18px}li{margin-bottom:4px}.s{color:#666;font-size:12px}p,pre{font-family:Arial,sans-serif;font-size:13px}pre{white-space:pre-wrap}</style></head><body><h1>'+u3esc(title)+'</h1><p class="sub">'+u3esc(sub)+'</p>'+(headHtml||'')+(rows||'<p>Nothing has been recorded yet.</p>')+(tailHtml||'')+'</body></html>';
   var w=window.open('','_blank');if(!w){window.print();return;}
   w.document.write(doc);w.document.close();w.focus();setTimeout(function(){w.print();},300);
 }
 
-// ── Handlers shared by the two tools ──
+// ── Handlers ──
 var SX={};
 function sxRenderTool(T){
   var host=u3el(T.host);if(!host)return;
@@ -382,7 +364,7 @@ function sxRenderTool(T){
   T.out();
 }
 function sxRepaint(T){var p=u3el(T.p+'Panel');if(p)p.innerHTML=sxPanel(T);T.out();}
-function sxStep(p,i){var T=SX[p];if(i<0||i>5)return;T.S.step=i;sxRenderTool(T);T.queue();}
+function sxStep(p,i){var T=SX[p];if(i<0||i>=OKR_STEPS.length)return;T.S.step=i;sxRenderTool(T);T.queue();}
 function sxTouch(T){T.touch();clearTimeout(T._o);T._o=setTimeout(T.out,500);}
 function sxSet(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;sxTouch(T);}
 function sxKr(p,i,j,f,val){
@@ -390,21 +372,10 @@ function sxKr(p,i,j,f,val){
   if(f==='t'){var c=u3el(p+'Chk_'+i+'_'+j);if(c)c.innerHTML=okrKrCheck(val);}
   sxTouch(T);
 }
-function sxWhy(p,val){var T=SX[p];T.S.why=val;sxTouch(T);}
 function sxChanged(p){SX[p].out();}
-function sxTick(p,i,y,on){
-  var T=SX[p],o=T.S.items[i];o.al[y]=!!on;
-  if(sxAl(o)<4)o.pri=false;
-  T.touch();sxRepaint(T);
-}
-function sxPri(p,i,box){
-  var T=SX[p];
-  if(box.checked&&sxPris(T.S).length>=4){box.checked=false;u3msg(p+'PriMsg','The Less is More Rule: no more than four Enterprise Objectives. Release one before you add another.');return;}
-  T.S.items[i].pri=box.checked;T.touch();sxRepaint(T);
-}
+function sxTick(p,i,y,on){var T=SX[p];T.S.items[i].al[y]=!!on;T.touch();sxRepaint(T);}
 function sxMx(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;T.touch();sxRepaint(T);}
 
-// ── 4.2 · Group work: the six steps on the group's confirmed KISS map ──────────────────────────────
 var OK=sxState();
 function okrLoad(s){sxLoadInto(OK,s);}
 function okrConfirmed(){return isConf(N_PRI)&&isConf(N_OKR);}
@@ -415,27 +386,28 @@ function okrMirrorHtml(){
   }).join('')+'</div>';
 }
 function okrRefreshMirror(){var m=u3el('okrKissMirror');if(m)m.innerHTML=okrMirrorHtml();}
+// The enterprise priorities are the aligned Objectives, each with its position on the matrix.
 function okrPriText(){
-  return sxPris(OK).map(function(i,n){var o=OK.items[i];return (n+1)+'. '+o.theme.trim()+(sxPlace(o)?' — '+sxPlace(o):'');}).join('\n');
+  return sxPassed(OK).map(function(i,n){var o=OK.items[i];return (n+1)+'. '+o.theme.trim()+(sxPlace(o)?' — '+sxPlace(o):'');}).join('\n');
 }
 function okrOkrText(){
-  return sxPris(OK).map(function(i,n){
+  return sxPassed(OK).map(function(i,n){
     var o=OK.items[i],j=0;
     return 'Objective '+(n+1)+': '+o.obj.trim()+'\n'+sxKrs(o).map(function(k){j++;return '   Key Result '+j+': '+k.t.trim()+(k.r.trim()?' (Contributing roles: '+k.r.trim()+')':'');}).join('\n');
   }).join('\n\n');
 }
 function okrProblems(){
-  var p=[],pr=sxPris(OK);
-  if(!pr.length)return [sxPassed(OK).length?'Select your enterprise priorities in Step 5.':'Complete Steps 1 to 4, then select your enterprise priorities in Step 5.'];
+  var p=[],pr=sxPassed(OK);
+  if(!pr.length)return ['Complete Steps 1 to 4 first: at least one OKR must be aligned.'];
   pr.forEach(function(i){
     var o=OK.items[i],n=i+1,filled=sxKrs(o);
     if(filled.some(function(k){return !okrKrOk(k.t);}))p.push('Each Key Result of Objective '+n+' needs a metric, From X to Y and a deadline (Step 3).');
     if(filled.some(function(k){return !k.r.trim();}))p.push('Name the contributing roles for each Key Result of Objective '+n+' (Step 3).');
-    if(!pmFind(o.im,o.ef))p.push('Place Objective '+n+' on the Prioritisation Matrix (Step 6).');
+    if(!pmFind(o.im,o.ef))p.push('Place Objective '+n+' on the Prioritisation Matrix (Step 5).');
   });
   return p;
 }
-// The output block is built once; later calls only refresh what changed, so a click on a button is never lost to a redraw.
+// The blocks are built once; later calls only refresh what changed, so a click on a button is never lost to a redraw.
 function renderOkrOut(){
   var host=u3el('okrOutP'),rh=u3el('okrRecP');if(!host||!rh)return;
   if(!u3el('okrRec')){
@@ -443,7 +415,7 @@ function renderOkrOut(){
     host.innerHTML='<div id="okrFinal" style="display:none;">'+
       '<div class="u3-out"><div class="u3-out-h">Your Enterprise Priorities<span class="u3-pill" id="okrPillA" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrPriOut"></div></div>'+
       '<div class="u3-out"><div class="u3-out-h">Your Enterprise OKRs<span class="u3-pill" id="okrPillB" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrOkrOut"></div></div></div>'+
-      '<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">✓ Confirm Enterprise Priorities and OKRs</button><button type="button" class="u3-b" onclick="okrPrint()">Print the six-step record</button></div>'+
+      '<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">✓ Confirm Enterprise Priorities and OKRs</button><button type="button" class="u3-b" onclick="okrPrint()">Print the five-step record</button></div>'+
       '<div class="u3-note" id="okrMsg" style="display:none;"></div>';
   }
   var done=okrConfirmed(),pri=okrPriText(),okr=okrOkrText();
@@ -478,86 +450,17 @@ async function okrConfirm(){
 }
 function okrPrint(){
   var pri=okrPriText(),okr=okrOkrText();
-  sxPrint('Unit 3 · Translating KISS to OKRs: Six-Step Record','Strategy2Results® · Module 2 · Unit 3 · Part 4.2 · Group work',OK,'',
+  sxPrint('Unit 3 · Translating KISS to OKRs: Five-Step Record','Strategy2Results® · Module 2 · Unit 3 · Part 4.2 · Group work',OK,'',
     pri?'<h3>Enterprise Priorities'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(pri)+'</pre><h3>Enterprise OKRs'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(okr)+'</pre>':'');
 }
-var OKT=SX.okr={S:OK,p:'okr',host:'okrToolP',why:false,mirror:okrMirrorHtml,touch:okrTouch,queue:okrQueue,out:renderOkrOut,t:{
-  your:'your',ph1:'',phKr:'Verb of Change + Metric + From X to Y + By Deadline',phRole:'E.g. Operations, Commercial, Technology',
+var OKT=SX.okr={S:OK,p:'okr',host:'okrToolP',mirror:okrMirrorHtml,touch:okrTouch,queue:okrQueue,out:renderOkrOut,t:{
   s1:'Each member first writes down the 2–3 big shifts they see in the KISS map. Share them, then agree your group\'s themes. A theme names one shift the organisation must make to reach the SiP.',
-  s1small:'Record up to six themes. Each theme you record is carried into Step 2, where your group turns it into an Objective.',
+  s1small:'Record up to four themes. Each theme you record is carried into Step 2, where your group turns it into an Objective.',
   s2:'Each theme from Step 1 is shown below. Translate it into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. Make it ambitious, keep it qualitative and keep it memorable.',
-  s3:'Each Objective from Step 2 is shown below with its theme. Write two or three Key Results for it and name the contributing roles for each one.',
-  s4:'Each OKR from Step 3 is shown below: the theme, the Objective and its Key Results. Test it against the four questions. Tick each question your group answers with a clear yes. An OKR that earns all four ticks goes forward to Step 5. An OKR that cannot earn all four goes back to Step 2 or Step 3.',
-  s5:'The OKRs that passed the alignment test in Step 4 are shown below in full. Your group now determines which of them deserve enterprise focus now. Strategy execution fails when too many priorities are pursued simultaneously.',
-  s6:'Each enterprise priority from Step 5 is shown below. Place it on the Prioritisation Matrix. <strong>Impact</strong> is the strategic value delivered if the Objective is achieved. <strong>Effort</strong> is the time, resources, coordination and organisational change required. Agree what high impact and high effort mean for your organisation before you place the first one.'}};
+  s3:'Each Objective from Step 2 is shown below with its theme. Write up to two Key Results for it and name the contributing roles for each one.',
+  s4:'Each OKR from Step 3 is shown below: the theme, the Objective and its Key Results. Test it against the four questions. Tick each question your group answers with a clear yes. An OKR that earns all four ticks is aligned and goes forward to Step 5. An OKR that cannot earn all four goes back to Step 2 or Step 3.',
+  s5:'Each aligned OKR from Step 4 is shown below. Place it on the Prioritisation Matrix. <strong>Impact</strong> is the strategic value delivered if the Objective is achieved. <strong>Effort</strong> is the time, resources, coordination and organisational change required. Agree what high impact and high effort mean for your organisation before you place the first one.'}};
 function renderOkrTool(){sxRenderTool(OKT);}
-
-// ── 2.2 · Individual exercise: the six steps on the case (saved and submitted with the unit) ──────
-// The case (SiP statement and KISS table) is shown by renderCase('caseP').
-// Saved as: __case_work (working state), case_six_steps (readable copy for the facilitator), case_status.
-var CX=sxState();
-function cxLoad(s){sxLoadInto(CX,s);}
-function cxStatus(){return CX.done?'Exercise complete':'In progress · Step '+(CX.step+1)+': '+OKR_STEPS[CX.step];}
-function cxProblems(){
-  var p=[],all=sxWithObj(CX),pass=sxPassed(CX),pr=sxPris(CX);
-  if(all.length<3)p.push('Record at least three themes, each with an Objective (Steps 1 and 2).');
-  if(!pr.length){p.push(pass.length?'Select your enterprise priorities in Step 5.':'Write two Key Results for each Objective in Step 3, complete the alignment test in Step 4, then select your enterprise priorities in Step 5.');return p;}
-  pr.forEach(function(i){
-    var o=CX.items[i],n=i+1,filled=sxKrs(o);
-    if(filled.some(function(k){return !okrKrOk(k.t);}))p.push('Each Key Result of Objective '+n+' needs a metric, From X to Y and a deadline (Step 3).');
-    if(filled.some(function(k){return !k.r.trim();}))p.push('Name the contributing roles for each Key Result of Objective '+n+' (Step 3).');
-    if(!pmFind(o.im,o.ef))p.push('Place Objective '+n+' on the Prioritisation Matrix (Step 6).');
-  });
-  if(all.length>pr.length&&!CX.why.trim())p.push('State your trade-off in Step 5: which Objective you released or held back, and why.');
-  return p;
-}
-function renderCxOut(){
-  var host=u3el('caseOutP'),rh=u3el('caseRecP');if(!host||!rh)return;
-  if(!u3el('cxRec')){
-    rh.innerHTML='<div class="u3-out"><div class="u3-rec" id="cxRec"></div></div>';
-    host.innerHTML='<div class="u3-btnrow"><button type="button" class="u3-b" id="cxBtn" onclick="cxComplete()">✓ Mark the exercise complete</button><button type="button" class="u3-b" onclick="cxPrint()">Print the six-step record</button><span class="u3-pill" id="cxPill" style="display:none;">Complete</span></div>'+
-      '<div class="u3-note" id="cxMsg" style="display:none;"></div>';
-  }
-  var rec=sxRecord(CX);
-  sxSetRec(u3el('cxRec'),rec?rec+(CX.why.trim()?'<div class="u3-rec-item"><div class="u3-chain"><div class="u3-chain-row"><div class="u3-chain-l">Trade-off</div><div class="u3-chain-v">'+u3esc(CX.why.trim())+'</div></div></div></div>':''):SX_EMPTY,'caseToolP');
-  u3el('cxPill').style.display=CX.done?'':'none';
-  u3el('cxBtn').classList.toggle('ok',CX.done);
-  if(CX.done)u3msg('cxMsg','');
-}
-var _cxTimer=null;
-function cxTouch(){
-  if(CX.done){CX.done=false;renderCxOut();}
-  cxQueue();
-}
-function cxQueue(){clearTimeout(_cxTimer);_cxTimer=setTimeout(cxSaveNow,900);}
-async function cxSaveNow(){
-  clearTimeout(_cxTimer);
-  await u3save('__case_work',CX);
-  await u3save('case_six_steps',sxText(CX));
-  await u3save('case_status',cxStatus());
-}
-async function cxComplete(){
-  var p=cxProblems();
-  if(p.length){u3msg('cxMsg',p.slice(0,4).join(' '));return;}
-  CX.done=true;
-  await cxSaveNow();
-  renderCxOut();
-}
-function cxPrint(){
-  sxPrint('Unit 3 · Six-Step Exercise: Six-Step Record','Strategy2Results® · Module 2 · Unit 3 · Part 2.2 · Individual work · '+cxStatus(),CX,
-    '<h3>The case · Success in Practice statement of a client services company</h3><p class="box">'+u3esc(WORKED.sip)+'</p>',
-    CX.why.trim()?'<h3>Trade-off</h3><p>'+u3esc(CX.why.trim())+'</p>':'');
-}
-var CXT=SX.cx={S:CX,p:'cx',host:'caseToolP',why:true,mirror:null,touch:cxTouch,queue:cxQueue,out:renderCxOut,t:{
-  your:'your',ph1:'',phKr:'Verb of Change + Metric + From X to Y + By Deadline',phRole:'',
-  s1:'Read across the four domains of the KISS table above. Which patterns keep appearing in the KEEP, IMPROVE, START and STOP entries? A theme names one shift this organisation must make to reach its SiP.',
-  s1small:'Record at least three themes and up to six. Each theme you record is carried into Step 2, where you turn it into an Objective.',
-  s2:'Each theme from Step 1 is shown below. Translate it into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. Make it ambitious, keep it qualitative and keep it memorable.',
-  s3:'Each Objective from Step 2 is shown below with its theme. Write two or three Key Results for it and name the contributing roles for each one.',
-  s4:'Each OKR from Step 3 is shown below: the theme, the Objective and its Key Results. Test it against the four questions. Tick each question you can answer with a clear yes. An OKR that earns all four ticks goes forward to Step 5. An OKR that cannot earn all four goes back to Step 2 or Step 3.',
-  s5:'The OKRs that passed your alignment test in Step 4 are shown below in full. Decide which of them deserve enterprise focus now. Strategy execution fails when too many priorities are pursued simultaneously.',
-  s6:'Each enterprise priority from Step 5 is shown below. Place it on the Prioritisation Matrix. <strong>Impact</strong> is the strategic value delivered if the Objective is achieved. <strong>Effort</strong> is the time, resources, coordination and organisational change required.'}};
-function renderCxTool(){sxRenderTool(CXT);}
 
 // ── 5.1 · Strategy Airport: the participant's own learning round is saved and submitted ──────────
 var _gameTimer=null;

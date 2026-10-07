@@ -228,3 +228,69 @@ Carol gave the wording and allowed refinement without change of meaning. Written
 
 Claude's refinements of her words: "Understand" became "Recognise"; "Practice" became "Practise" (verb, British spelling); "SIp/SIP" became "SiP"; "Group application of translating SIP to OKR" became "Apply the translation of SiP into OKRs as a group"; "individual strategy trajectory setting capability" became "individual capability to set a strategic trajectory". Reverse any of these on her word.
 Not committed by her yet. Commit lines as in section 11.
+
+## 15. Carol's final deck; pages cleaned and aligned to it (7 October 2026, afternoon)
+
+**Carol:** "DO NOT CHANGE THE PPT. THIS IS THE FINAL VERSION WHICH I HAVE SAVED IN DECK UPLOADS." Her deck: `Claude outputs\Deck upload\Module-2\unit-03.pptx`, 34 slides. No deck file was written in this change.
+
+**Her instructions and what was done in both pages (on her computer, not committed by her yet):**
+1. 2.2 is a worked example for the participant too, read-only. The exercise is removed.
+2. Step 5 Enterprise Priority removed: five steps in 1.5, 2.2, 4.2, guidance and summaries.
+3. Step 1 of the worked example shows the themes only.
+4. A clear box for contributing roles under each Key Result in 4.2 (participant).
+5. Matching exercise (3.1) and Strategy Airport (5.1) are Portfolio work, with instructions on how to complete them.
+6. Section outcomes: Section 4 and Section 5 as she gave them.
+
+**Choices made by Claude (reverse on Carol's word):**
+- Section 1 outcome 2 uses the deck's wording, "Translate the intent to measurable results." Section 2 outcomes are back to the pair on her final slide 12 ("Explain why an honest review…" / "Recognise the cost of setting targets…"), because 2.2 is no longer practised and the deck is final. Her earlier pair for Section 2 ("mapping the terrain" / "Practise the translation") is therefore not on the pages.
+- Worked example: five themes and Objectives as on slides 17–18; four placed on the matrix as on slide 21. To close the gap, Step 4 says Objective 5 (Key account growth) earns 3 of 4 and returns to Step 2.
+- 4.2 follows slide 31: up to four themes, up to two Key Results. With Step 5 gone, every aligned OKR is an enterprise priority.
+- The Less is More Rule no longer appears on the pages.
+
+**Open with Carol:**
+- Her final deck still says "six steps" in three places: slide 9 (title and the list with Step 5 Enterprise Priority and Step 6), slide 10 (title "Step 6"), slide 31 (title "The Six Steps"), and in several notes. The pages say five. She decides whether to change the slides.
+- Slide 7 is titled "1.3 · KISS Application Across SIP Domains"; the pages keep "1.3 — The KISS Reflection Table: Four SiP Domains".
+- The deck-reader folder `Deck upload\Module-2\unit-03` still holds the 36 pictures and manifest of the earlier generated deck. They must be remade from her final deck before upload (this does not change the PPT). `Unit decks\Unit 03 - SiP KISS Mapping & OKR Definition.pptx` is also the earlier generated deck. Both wait for her word.
+
+**Commit lines (she runs them, one at a time):**
+`cd C:\Users\Carol\ibsl-platform` · `git add unit2_m1_lens2_p.html unit2_m1_lens2_f.html capstone_P.html dashboard_F.html collection.html check_standards.js STANDARDS.md "Unit decks/_build/rebuild_u03" "Claude outputs/Handover - Unit 3.md" "Claude outputs/Unit 3 - Three-way match (findings).md"` · `git commit -m "Unit 3: five steps, worked example, portfolio work, aligned to final deck"` · `git push`
+
+
+## 16. FINAL STATE (7 October 2026, evening) — ready for Carol to commit
+
+This section replaces the "open with Carol" list at the end of section 15. All three points there are closed.
+
+**Carol's instruction:** Section 2 outcomes as below; four Objectives only; five steps everywhere, slides included; pictures remade from her final deck; final scan; final versions for committing.
+
+**Final files on her computer (not committed yet; she commits herself):**
+- `unit2_m1_lens2_p.html` (md5 cfe5ac7a…), `unit2_m1_lens2_f.html` (md5 5ed53789…), `dashboard_F.html`, `collection.html`, `capstone_P.html`.
+- Deck: `Claude outputs\Deck upload\Module-2\unit-03.pptx` and `Unit decks\Unit 03 - SiP KISS Mapping & OKR Definition.pptx` (identical, 34 slides, md5 d6b614d0…). This is Carol's final deck with the edits below. Her untouched final is in `Claude outputs\Unit 3 deck backups\unit-03 - Carol final before five-step edits (7 Oct).pptx`.
+- Reader folder `Claude outputs\Deck upload\Module-2\unit-03`: `s01.jpg`-`s34.jpg` and `manifest.json`, remade from the final deck. The old `s35.jpg` and `s36.jpg` are in `Claude outputs\_to_delete`.
+
+**What is final in the content:**
+- Five steps everywhere (pages and deck): Find Themes, Inspiring Objectives, Define Key Results, Alignment Test, Priority Matrix.
+- Worked example: four themes, four Objectives (Customer responsiveness, Execution speed, Collaboration culture, Value creation), two Key Results each with contributing roles; all four earn 4 of 4 and go to the matrix.
+- Section 2 outcomes on both pages and slide 12: "Recognise the benefits of mapping the terrain before setting goals." / "Practise the translation of SiP into OKRs."
+- Sections 1, 3, 4, 5 outcomes as in section 15.
+
+**Edits made to Carol's deck (text only; her design is untouched):**
+- Slide 7: "SIP" to "SiP" (title and notes).
+- Slide 9: title "Five Steps"; the Enterprise Priority row removed and the rows re-spaced; last row is "Step 5 · Priority Matrix".
+- Slide 10: title says Step 5.
+- Slide 12: the two Section 2 outcomes; notes say the worked example runs on seven slides.
+- Slides 17 and 18: four themes and four Objectives (Key account growth removed, rows re-spaced). Slide 18: Objective 1 "and"; Objective 3 "Create a culture of shared ownership…" with its text box widened so it sits on one line.
+- Slide 21: label "4 · Value creation"; notes heading "STEP 5: THE PRIORITISATION MATRIX".
+- Slide 31: title "The Five Steps"; notes say four themes and up to two Key Results.
+- Slide 32: a stray full stop removed.
+- Notes on slides 1, 2, 3, 4, 8, 14, 16, 29, 33, 34: six to five, "individual work" to "portfolio work", "maximum 2 Key Results each".
+
+**Final scan (`final_scan.py`, deck against both pages):** 0 differences in KLOs, section outcomes, step names, worked example, 3.1 content and part titles; no leftover "six", "Step 6", "Less is More", "Enterprise Priority" step, "individual work", "SIP" or "Key account" in the pages, the slides or the notes. Page tests clean (five-step tabs, 2.2 read-only, portfolio boxes, 4.2 flow with record and print, matching, KISS, Strategy Airport, no console errors).
+
+**One finding for Carol's decision (reported to her, not changed):** `check_standards.js` reports Rule 16 (slide text below 24pt) on her own designed slides: slide 16 (4 lines), 17 (10), 18 (24), 19 (10), 20 (10), 21 (50), 27 (34), 30 (4) = 146 lines, sizes 12.75pt to 20pt. This comes from her slide design. Nothing else is breached. The other 82 Rule 16 lines are the old Unit 01 ones. Do not resize her slides without her word.
+
+**Do not upload by mistake:** `Claude outputs\Deck upload\Module-2\Unit 03.pptx` (capital U, 13:10) is an older copy Carol saved. The one to upload is `unit-03.pptx`.
+
+**Commit lines (she runs them, one at a time, in PowerShell):**
+`cd C:\Users\Carol\ibsl-platform` · `git add unit2_m1_lens2_p.html unit2_m1_lens2_f.html capstone_P.html dashboard_F.html collection.html check_standards.js STANDARDS.md "Unit decks" "Claude outputs/Handover - Unit 3.md" "Claude outputs/Unit 3 - Three-way match (findings).md"` · `git commit -m "Unit 3 final: five steps, worked example, portfolio work, final deck"` · `git push`
+
+**After the push (Supabase, she does it):** Storage, bucket `facilitator_decks`, folder `Module-2`: replace `unit-03.pptx` and the whole folder `unit-03` (34 pictures and `manifest.json`) with the ones in `Claude outputs\Deck upload\Module-2`. The old folder in Supabase holds 36 pictures, so `s35.jpg` and `s36.jpg` must be deleted there. The `Deck upload` folder is not committed (same as Unit 2).
