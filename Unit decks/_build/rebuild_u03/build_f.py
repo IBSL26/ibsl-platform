@@ -27,7 +27,8 @@ def guide(label, *paras, **kw):
     return ('<div class="fac-note-full"' + (' style="margin-top:22px;"' if kw.get('top') else '') + '><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — ' + label + '</div>' +
             ''.join(p if p.startswith(('<ul', '<ol', '<p')) else '<p>' + p + '</p>' for p in paras) + '</div>')
 def activity(*paras):
-    return '<div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div>' + ''.join('<p>' + p + '</p>' for p in paras) + '</div>'
+    return ('<div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div>' +
+            ''.join(p if p.startswith(('<ul', '<ol', '<p')) else '<p>' + p + '</p>' for p in paras) + '</div>')
 def move(label, text, style=''):
     return '<div class="fac-note"' + style + '><div class="fac-label">' + label + '</div><p>' + text + '</p></div>'
 def slo(a, b):
@@ -48,7 +49,7 @@ rep('This unit guides the leadership team from the Success in Practice narrative
 rep('<p>Unit 3 converts the Success in Practice narrative into a measurable execution architecture.', '<p>Unit 3 converts Success in Practice into a measurable execution architecture.')
 rep('''<p>The six-step synthesis is the core of the unit. It moves executives from functional objectives to enterprise priorities judged on strategic merit.</p>
 ''', '''<p>The six-step path is the core of the unit. It moves executives from functional objectives to enterprise priorities judged on strategic merit.</p>
-<p><strong>How the unit runs:</strong> Teach the whole unit from the deck first, including one learning round of the Strategy Airport game played with the room. Participants then go to the portal, in the session or after it. The matching exercise in Section 3 and the game in Section 5 are individual work. Section 4 is group work for the Capstone.</p>
+<p><strong>How the unit runs:</strong> Teach the whole unit from the deck first, including one learning round of the Strategy Airport game played with the room. Participants then go to the portal, in the session or after it. The six-step exercise in Section 2, the matching exercise in Section 3 and the game in Section 5 are individual work. Section 4 is group work for the Capstone.</p>
 ''')
 rep('Use de-labelling so each proposal is judged on its merit.', 'Use the four-question alignment test so each proposal is judged on its merit.')
 
@@ -175,7 +176,8 @@ S21 = ('  ' + guide('Section 2.1',
 ''')
 S22 = ('  ' + guide('Section 2.2',
         '<strong>Teaching the three-stage sequence:</strong> Present Success in Practice, KISS and OKRs one at a time. For each, ask participants to briefly state what stage they are at in their current strategic cycle. This creates a live diagnostic of where the group\'s execution journey currently sits.',
-        '<strong>The worked example:</strong> Take the example in order: the SiP statement, the KISS table, then the six steps. At Step 2 say — <em>"Notice how the KISS item maps directly to the Objective. There is no gap. The Objective is the direct consequence of what the KISS reflection surfaced."</em> After Step 6 ask — <em>"At this level of specificity, could you trace every OKR back to a specific KISS observation? That is the standard we are working toward."</em>',
+        '<strong>The worked example:</strong> Take the example in order: the SiP statement, the KISS table, then the six steps. Each step uses what the step before it produced. At Step 2 say — <em>"Notice how the KISS item maps directly to the Objective. There is no gap. The Objective is the direct consequence of what the KISS reflection surfaced."</em> After Step 6 ask — <em>"At this level of specificity, could you trace every OKR back to a specific KISS observation? That is the standard we are working toward."</em>',
+        '<strong>Step 5 in the worked example:</strong> Show how the decision flows from Step 4. Five OKRs passed the alignment test and the Less is More Rule allows four, so the leadership team votes and one Objective is released. Ask — <em>"Which Objective would you have released, and what would that decision cost?"</em> The trade-off stated in the example is the model: the team names what it releases and why.',
         '<strong>The Facilitator Insight:</strong> Use the question in the Facilitator Insight below — <em>"At which point in this sequence does our organisation typically enter?"</em> — as a group discussion prompt. The honest answer often unlocks the most candid conversation of the unit.',
         '<strong>Closing Intelligence:</strong> Transition to Extrapolating by saying — <em>"Now we know why the sequence matters. The next section maps where it most commonly breaks down — and which leadership role is most responsible for each break point."</em>') + '''
   <p>Once these patterns are visible, strategy stops being a deck of slides and starts being a shared journey. The Strategy2Results® sequence makes the path forward clear and respectful of the people walking it:</p>
@@ -185,7 +187,19 @@ S22 = ('  ' + guide('Section 2.2',
     + SEQ('rgba(46,168,122,.2)', '#5ecba1', 'OKRs', 'The manageable, measurable steps taken to prove the organisation is moving. The execution compass.') + '''  </div>
   <div class="hbox green"><p>When this sequence is respected, OKRs become a way for the organisation to learn, breathe, and align. Strategy transforms from a statement of intent into a living system that actually helps people succeed.</p></div>
   <h4>Worked Example: One SiP Statement Through the Sequence</h4>
-  <p>The example follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the six steps of 1.5. Participants see the same example in their own file.</p>
+  <p>The example follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the six steps of 1.5. Each step takes its input from the step before it.</p>
+  ''' + activity('<strong>Instructions for the 2.2 exercise.</strong> Participants receive the same SiP statement and KISS table in 2.2 of their own file and take the case through the six steps themselves, as individual work, after the teaching. Each step shows what the participant recorded in the steps before it:',
+                 '<ol>'
+                 '<li><strong>Step 1 — Find Themes:</strong> the participant reads across the KISS table and records at least three themes and up to six.</li>'
+                 '<li><strong>Step 2 — Inspiring Objectives:</strong> each theme from Step 1 is shown. The participant writes one Objective under each theme.</li>'
+                 '<li><strong>Step 3 — Define Key Results:</strong> each theme is shown with its Objective. The participant writes two or three Key Results under each Objective and names the contributing roles for each Key Result.</li>'
+                 '<li><strong>Step 4 — Alignment Test:</strong> each OKR is shown in full: the theme, the Objective and its Key Results. The participant ticks each of the four questions answered with a clear yes. An Objective needs two Key Results before it is tested, and all four ticks to go forward.</li>'
+                 '<li><strong>Step 5 — Enterprise Priority:</strong> the OKRs that passed Step 4 are shown in full. The participant selects no more than four as enterprise priorities and states the trade-off: which Objective was released or held back, and why.</li>'
+                 '<li><strong>Step 6 — Priority Matrix:</strong> each selected priority is shown in full. The participant sets its Impact and its Effort.</li>'
+                 '</ol>',
+                 '<strong>The six-step record:</strong> under the steps the participant\'s record builds from Step 1, theme by theme. It is saved on the page and can be printed. The participant then marks the exercise complete. The page asks for at least three themes with an Objective, one to four enterprise priorities, two Key Results in the formula with contributing roles and a matrix position for each priority, and the trade-off where an Objective was left out.',
+                 'Each participant\'s exercise reaches you with their submission. The worked answers below are in this file only. A participant\'s themes and Objectives may differ from the worked example and still be sound, provided each one can be traced to the KISS table, each Key Result follows the formula, and no more than four enterprise priorities are selected.') + '''
+  <div id="caseF"></div>
   <div id="workedF"></div>
   ''' + move('Facilitator Insight', 'Ask the leadership team to pause and reflect: "At which point in this sequence does our organisation typically enter? Do we skip the KISS reality check and jump straight to targets?" The honest answer often unlocks the conversation about why previous goal-setting cycles felt frustrating.') + '\n')
 SEC2 = ('<!-- ══════════════════════════════════════════════ TAB 2: INTELLIGENCE ══ -->\n<div class="mod-panel" id="mod2">\n' +
@@ -198,7 +212,7 @@ SEC2 = ('<!-- ══════════════════════
               '<strong>Framing before entering content:</strong> Ask — <em>"Has your organisation ever set goals that felt disconnected from the reality of what was actually happening on the ground? Where Key Results became a to-do list that nobody believed in?"</em> Use the responses to anchor why the sequence matters before content begins.', top=True) + '\n\n' +
         move('Facilitator Frame', 'Open this section by asking the leadership team: "Has your organisation ever set goals that felt disconnected from reality — or where Key Results became to-do lists?" Use their answers to anchor why this sequence matters before moving into content.') + '\n\n' +
         acc('2.1 — The Danger of Moving Too Fast', '3 Human Problems', S21, True) + '\n' +
-        acc('2.2 — Turning Intent into Action: The Strategy2Results® Sequence', 'Worked Example', S22) + '\n' +
+        acc('2.2 — Turning Intent into Action: The Strategy2Results® Sequence', 'Case · 6 Steps', S22) + '\n' +
         nav(1, 'Section 1 — Awareness', 3, 'Section 3 — Extrapolating') + '</div>\n</div>\n\n')
 
 S31 = ('  ' + guide('Section 3.1',
@@ -264,8 +278,17 @@ S42 = ('  ' + guide('Section 4.2',
         '<strong>Step 4 — Alignment Test:</strong> Run the four-question test publicly. Ask each leader to read their OKR and answer the four questions aloud. The room will quickly surface whether the OKR is enterprise-level or functionally disguised.',
         '<strong>Step 5 — Enterprise Priority:</strong> Enforce the Less is More Rule — maximum 4 Enterprise Objectives, maximum 3 Key Results per Objective. This constraint is non-negotiable. The discomfort of trade-offs is the work.',
         '<strong>Step 6 — Priority Matrix:</strong> Walk through the matrix structure before the group places any items. Establish shared definitions first — <em>"What does \'high impact\' mean for this organisation specifically? What does \'high effort\' mean in our context — time, money, change management, or all three?"</em> The debate about what constitutes high impact versus high effort is often more valuable than the final placements.') + '\n  ' +
-       activity('In 4.2 of the participant file the group works through the six steps. It records up to six themes from its confirmed KISS map, turns each theme into an Objective, writes two or three Key Results for each Objective with the contributing roles, applies the four-question alignment test, selects no more than four Objectives as enterprise priorities and places each priority on the Prioritisation Matrix.',
-                'The group then confirms its Enterprise Priorities and its Enterprise OKRs. The group agrees each entry and one member acts as scribe; every member types the agreed entries into their own page. Both confirmed outputs feed the team\'s Capstone Blueprint.') + '''
+       activity('<strong>Instructions for 4.2.</strong> In 4.2 of the participant file the group works through the six steps in order. Each step shows what the steps before it produced, so the group always sees what it is working on:',
+                '<ol>'
+                '<li><strong>Step 1 — Find Themes:</strong> the group reads its confirmed KISS map and records up to six themes.</li>'
+                '<li><strong>Step 2 — Inspiring Objectives:</strong> each theme from Step 1 is shown. The group writes one Objective under each theme.</li>'
+                '<li><strong>Step 3 — Define Key Results:</strong> each theme is shown with its Objective. The group writes two or three Key Results under each Objective and names the contributing roles for each Key Result.</li>'
+                '<li><strong>Step 4 — Alignment Test:</strong> each OKR is shown in full: the theme, the Objective and its Key Results. The group ticks each of the four questions it answers with a clear yes. An Objective needs two Key Results before it is tested, and all four ticks to go forward.</li>'
+                '<li><strong>Step 5 — Enterprise Priority:</strong> the OKRs that passed Step 4 are shown in full. The group selects no more than four as enterprise priorities.</li>'
+                '<li><strong>Step 6 — Priority Matrix:</strong> each selected priority is shown in full. The group sets its Impact and its Effort, and the priority takes its position on the matrix.</li>'
+                '</ol>',
+                '<strong>The six-step record:</strong> under the steps the group\'s record builds from Step 1, theme by theme: the theme, its Objective, its Key Results, the alignment test, the enterprise priority and the matrix position. It is saved on the page. When the six steps are complete the group reads the record, confirms its Enterprise Priorities and its Enterprise OKRs, and prints the record.',
+                'The group agrees each entry and one member acts as scribe; every member types the agreed entries into their own page. Both confirmed outputs feed the team\'s Capstone Blueprint.') + '''
   <p>With the KISS map confirmed, each group converts it into enterprise OKRs through the six steps of 1.5:</p>
   <ol>
     <li><strong>Find Themes:</strong> up to six themes drawn from the confirmed KISS map.</li>
@@ -306,7 +329,7 @@ GSUM = guide('Unit Summary',
     '<strong>Closing the unit:</strong> Read each of the five summary blocks aloud, or ask participants to read them in turn. The summary is intentionally concise — it crystallises the arc of the unit without adding new content.',
     '<strong>Return to the opening question:</strong> Go back to the question you asked at the start of Awareness — <em>"If the Success in Practice we described is the future organisation, what must change in the organisation today to make that future possible?"</em> Ask 2–3 participants: <em>"Looking at the OKRs we have just built — have we answered that question? Where are the remaining gaps?"</em>',
     '<strong>Tangible outputs check:</strong> Confirm with the group that the following have been produced or are in progress:',
-    '<ul><li>The matching exercise from each participant (3.1)</li><li>A confirmed KISS map from each group (4.1)</li><li>Confirmed Enterprise Priorities and Enterprise OKRs from each group — maximum 4 Objectives, maximum 3 KRs each (4.2)</li><li>A completed Strategy Airport learning round from each participant (5.1)</li></ul>',
+    '<ul><li>The six-step exercise from each participant (2.2)</li><li>The matching exercise from each participant (3.1)</li><li>A confirmed KISS map from each group (4.1)</li><li>Confirmed Enterprise Priorities and Enterprise OKRs from each group — maximum 4 Objectives, maximum 3 KRs each (4.2)</li><li>A completed Strategy Airport learning round from each participant (5.1)</li></ul>',
     '<strong>Closing commitment:</strong> Ask each participant to complete this sentence privately — <em>"The one thing I am committing to before our next session to make these OKRs real is…"</em> Invite 2–3 to share. These are the accountability anchors between now and Unit 4.',
     '<strong>Transition to Unit 4:</strong> Close with — <em>"We have built our Strategy Intent Statement, described our future state through SiP, and now defined how we will measure our progress through OKRs. Unit 4 tests the integrity of that direction through ABCV — the conditions that must hold true for the journey toward the organisation we have described."</em>')
 SEC5 = ('<!-- ══════════════════════════════════════════════ TAB 5: APPLICATION ══ -->\n<div class="mod-panel" id="mod5">\n' +
@@ -329,7 +352,7 @@ a = h.index('// ── DATA ──')
 b = h.index('// ── GENERIC HELPERS ──')
 h = h[:a] + read('u3_shared.js').strip('\n') + '\n\n' + read('u3_f.js').strip('\n') + '\n\n' + h[b:]
 rep('renderKissGuide();renderHotZones();renderPMGuide();renderBiases();\nrenderAppExample();renderSummary();',
-    "renderKissGuide();renderHotZones();renderPMCards('pmGuideList');renderWorked('workedF');renderSummary();\nsaInit('saHostF','f',null);")
+    "renderKissGuide();renderHotZones();renderPMCards('pmGuideList');renderCase('caseF');renderWorked('workedF');renderSummary();\nsaInit('saHostF','f',null);")
 rep('''function showStep(prefix,i){
   document.querySelectorAll('#'+prefix+'Tabs .step-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
   document.querySelectorAll('[id^="'+prefix+'_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});

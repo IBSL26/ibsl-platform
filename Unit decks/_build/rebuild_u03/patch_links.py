@@ -17,11 +17,14 @@ def patch(path, edits):
 fam = "      { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } }," + NL
 lab = "      okr_o4: 'OKR · Value Creation'" + NL + "    }," + NL
 patch(dash, [
-    (fam, "      { name: 'Hot Zone Matching',        test: function (k) { return /^hz_match$/i.test(k); } }," + NL + fam +
+    (fam, "      { name: 'Six-Step Exercise',        test: function (k) { return /^case_(six_steps|status)$/i.test(k); } }," + NL +
+          "      { name: 'Hot Zone Matching',        test: function (k) { return /^hz_match$/i.test(k); } }," + NL + fam +
           "      { name: 'KISS Map — Confirmed',     test: function (k) { return /^kiss_(keep|improve|start|stop)$/i.test(k); } }," + NL +
           "      { name: 'Enterprise Priorities & OKRs', test: function (k) { return /^(okr_drafts|ent_priorities|ent_okrs)$/i.test(k); } }," + NL +
           "      { name: 'Strategy Airport',         test: function (k) { return /^game_(kiss|flight_plan|round)$/i.test(k); } }," + NL),
     (lab, "      okr_o4: 'OKR · Value Creation'," + NL +
+          "      case_six_steps: 'Six-step record on the case — themes, Objectives, Key Results, alignment test, enterprise priorities and matrix (individual work)'," + NL +
+          "      case_status: 'Six-step exercise — status'," + NL +
           "      hz_match: 'Typical Hot Zone and Alignment Question matched to each role (individual work)'," + NL +
           "      sip_d1_st: 'D1 · Customer Experience & Value — SiP statement used for the KISS map'," + NL +
           "      sip_d2_st: 'D2 · Operational Capability & Execution Rhythm — SiP statement used for the KISS map'," + NL +
@@ -31,7 +34,7 @@ patch(dash, [
           "      kiss_improve: 'Improve — confirmed'," + NL +
           "      kiss_start: 'Start — confirmed'," + NL +
           "      kiss_stop: 'Stop — confirmed'," + NL +
-          "      okr_drafts: 'Six steps — themes, Objectives and Key Results in progress'," + NL +
+          "      okr_drafts: 'Six-step record — themes, Objectives, Key Results, alignment test, enterprise priorities and matrix'," + NL +
           "      ent_priorities: 'Enterprise Priorities — confirmed'," + NL +
           "      ent_okrs: 'Enterprise OKRs — confirmed'," + NL +
           "      confirmed_items: 'Confirmed by the group'," + NL +

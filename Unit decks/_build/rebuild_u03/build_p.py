@@ -138,7 +138,7 @@ SIX = step_tabs('six') + '''  <div id="six_0" class="step-panel active">
 a, b = cut('<div class="acc">\n<div class="acc-h" onclick="tA(this)">\n  <span class="acc-t">1.5 — Three Steps: From KISS Output to OKRs</span>', '<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 2 — Intelligence →</button></div>')
 h = h[:a] + acc('1.5 — Six Steps: From KISS Output to Enterprise OKRs', '6 Steps · Click each to explore', SIX) + h[b:]
 
-# ── 3. Section 2: 2.1 kept; 2.2 removed; old 2.3 becomes 2.2 with the worked example of the six steps (Carol) ──
+# ── 3. Section 2: 2.1 kept; 2.2 removed; old 2.3 becomes 2.2 with the case and the individual six-step exercise (Carol, 7 Oct) ──
 rep('''People default to measuring busyness because they are unsure how to prove they are achieving real outcomes.</p></div>
   </div>
 </div></div>
@@ -151,13 +151,20 @@ a, b = cut('<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="
            '<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">2.3 — Turning Intent into Action')
 h = h[:a] + h[b:]
 rep('<span class="acc-t">2.3 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3-Part Logic</span>',
-    '<span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Worked Example</span>')
+    '<span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Case · 6 Steps</span>')
 rep('a vivid future state across four observable dimensions.</p></div>', 'a vivid future state across the four SiP domains.</p></div>')
 rep('''Strategy transforms from a statement of intent into a living system.</p></div>
 ''', '''Strategy transforms from a statement of intent into a living system.</p></div>
-  <h4>Worked Example: One SiP Statement Through the Sequence</h4>
-  <p>The example below follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the six steps of 1.5. Open each step in turn.</p>
-  <div id="workedP"></div>
+  <h4>Exercise: One SiP Statement Through the Six Steps</h4>
+  <p>The case below gives you one simple SiP statement and the KISS table its leadership team produced. Take that KISS table through the six steps of 1.5: find the themes, write the Objectives and their Key Results, test them, choose the enterprise priorities and place them on the Prioritisation Matrix. Each step uses what you recorded in the step before it.</p>
+  <div class="hbox teal"><p><strong>Individual work.</strong> Complete the exercise on your own, from Step 1 to Step 6. Your work is saved on this page and reaches your facilitator when you submit the unit.</p></div>
+  <div id="caseP"></div>
+  <h4>From KISS to OKRs: Your Six Steps</h4>
+  <p>Work through the steps in order. Each step shows what you recorded in the steps before it: your themes become Objectives, each Objective receives its Key Results, each OKR is tested, the OKRs that pass are prioritised, and the priorities are placed on the matrix.</p>
+  <div id="caseToolP"></div>
+  <h4>Your Six-Step Record</h4>
+  <p>Everything you record builds up below from Step 1, theme by theme, and is saved on this page. When the six steps are complete, mark the exercise complete. You can print the record.</p>
+  <div id="caseOutP"></div>
 ''')
 
 # ── 4. Section 3: 3.1, 3.2 and 3.3 fused into one 3.1 with the matching exercise (Carol) ───────────
@@ -204,10 +211,10 @@ S41 = '''  <p>Your group's four SiP statements describe the future organisation.
   <div id="kissConfirmP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Keep, Improve, Start and Stop feed your team's Capstone Blueprint. Its Unit 3 section opens once every member of your team has completed this unit, and brings your confirmed outputs in from your page. Your team then reads them together and confirms them.</p></div>
 '''
-S42 = '''  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the six steps of 1.5. Work through the steps in order. Each step uses what your group recorded in the step before it.</p>
+S42 = '''  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the six steps of 1.5. Work through the steps in order. Each step shows what your group recorded in the steps before it: the themes of Step 1 become Objectives in Step 2, each Objective receives its Key Results in Step 3, each OKR is tested in Step 4, the OKRs that pass are prioritised in Step 5, and the priorities are placed on the matrix in Step 6.</p>
   <div id="okrToolP"></div>
-  <h4>Confirm Your Enterprise Priorities and OKRs</h4>
-  <p>Your two outputs build up below as your group completes the steps. Read them together, then confirm them.</p>
+  <h4>Your Six-Step Record</h4>
+  <p>Everything your group records builds up below from Step 1, theme by theme, and is saved on this page. When the six steps are complete, read the record together, confirm your Enterprise Priorities and Enterprise OKRs, then print the record.</p>
   <div id="okrOutP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Enterprise Priorities and Enterprise OKRs feed your team's Capstone Blueprint, together with your KISS map.</p></div>
 '''
@@ -248,7 +255,7 @@ h = h[:a] + h[b:]
 a = h.index('window.addEventListener("load",async function(){\n  if(!window.S2R){console.warn(\'[unit2_m1_lens2_p] S2R helper not loaded\');return;}')
 b = h.index('document.body.style.overflow="";')
 LOAD = '''function u3RenderAll(){
-  renderKissGuideP();renderPMCards('pmGuideP');renderWorked('workedP');renderMatch();
+  renderKissGuideP();renderPMCards('pmGuideP');renderCase('caseP');renderCxTool();renderMatch();
   renderSipCapture();renderKissForm();renderOkrTool();renderSummaryP();u3Mirrors();
 }
 window.addEventListener("load",async function(){
@@ -269,6 +276,7 @@ window.addEventListener("load",async function(){
       HZ.cur=(hz.cur>=0&&hz.cur<HOT_ZONES.length)?hz.cur:0;
     }
     okrLoad(responses['__okr_work']);
+    cxLoad(responses['__case_work']);
     u3RenderAll();
     saLoad(responses['__game']);
     // The group's four SiP statements: brought in from the Unit 2 page while the boxes are still empty

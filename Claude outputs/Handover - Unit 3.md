@@ -176,3 +176,35 @@ Carol sent "unit 3 Amendments.docx" and her game file "Strategy_Airport_Game_Med
 (The `Deck upload` folder is for Supabase and is left out of the commit, as for Unit 2.)
 
 **Supabase after the commit:** Storage → `facilitator_decks` → `Module-2` → replace `unit-03.pptx` and the folder `unit-03` with the ones in `Claude outputs\Deck upload\Module-2`. The old folder holds 29 pictures and the new one 34: upload all 34 and the manifest.
+
+## 11. Change of 7 October 2026: 2.2 worked example and individual exercise
+
+**Carol's instruction:** "work on the intelligence enterprise priority - it has to be a working example flowing from step 4 in the facilitator file. In the participant file this is an exercise that they complete from step 1 to step 6 and they submit as individuals."
+
+**Done (on her computer, not committed by her yet):**
+- Facilitator file, 2.2: the worked example now carries five themes, Objectives and OKRs. Step 4 ends with the result of the alignment test (five go forward, one draft from one function is returned). Step 5 shows the vote of seven leaders, four enterprise priorities, Objective 5 (Key account growth) released, the trade-off and the Less is More check. Step 6 places the four. A Participant Activity box and one guidance paragraph on Step 5 were added.
+- Participant file, 2.2: the worked answers are removed. The page gives the SiP statement and the KISS table and a six-step tool for individual work, with "Mark the exercise complete". Saved under `case_six_steps` and `case_status`; reaches the facilitator with the unit submission.
+- Facilitator report: heading "Six-Step Exercise". Collection page rebuilt.
+- Deck: now 36 slides; worked example on seven slides; notes name three pieces of individual work (2.2 exercise, 3.1 matching, 5.1 game). Reader pictures `s01`–`s36` remade.
+- Checks: browser test of the exercise (messages when incomplete, fifth priority refused, completion, reload, edit after completion), the earlier page tests, script syntax, no duplicate ids, CRLF, standards check (only the 82 Unit 01 deck lines), deck checks.
+
+**Written by Claude and waiting for Carol's review:** the fifth theme and Objective (Key account growth) with its two Key Results; the vote numbers; the trade-off wording; the wording of the participant exercise; the guidance paragraph on Step 5.
+
+**Point for Carol:** the facilitator teaches the worked example from the deck, then each participant does the same case alone. The pages and notes say a participant's answers may differ from the example and still be sound when each one can be traced to the KISS table.
+
+**Commit lines (she runs them, one at a time; Claude never runs git):**
+`cd C:\Users\Carol\ibsl-platform` · `git add unit2_m1_lens2_p.html unit2_m1_lens2_f.html capstone_P.html dashboard_F.html collection.html check_standards.js STANDARDS.md "Unit decks/_build/rebuild_u03" "Claude outputs/Handover - Unit 3.md" "Claude outputs/Unit 3 - Three-way match (findings).md"` · `git commit -m "Unit 3: 2.2 worked example and individual six-step exercise"` · `git push`
+The deck is committed after her deck review with: `git add "Unit decks"` · `git commit -m "Unit 3 facilitator deck"` · `git push`, then the Supabase upload of `unit-03.pptx` and the folder `unit-03` (36 pictures and the manifest).
+
+## 12. Change of 7 October 2026 (second): clean flow through the six steps, one record, Print
+
+**Carol's instruction (with a screenshot of the two empty output boxes in 4.2):** the steps must flow from Step 1: themes pull into Step 2, Objectives into Step 3, Key Results into Step 4 and Step 5; all data stored and printable at the end. Then: "this is just for participant file. the facilitator file must just give the precise instructions."
+
+**Done (on her computer, not committed by her yet):**
+- Participant file, 4.2 (group) and 2.2 (individual exercise): each step shows what the steps before it produced. One "Your six-step record" builds under the steps from Step 1 and is saved; "Print the six-step record" prints it. The old empty boxes ("appear here as you complete Steps 5 and 6") are gone; Enterprise Priorities and Enterprise OKRs show once a priority is selected, and are confirmed as before for the Capstone.
+- Facilitator file: no working boxes. The Participant Activity boxes in 2.2 and 4.2 now give numbered, step-by-step instructions. The Unit Summary outputs list names the 2.2 exercise.
+- Facilitator report: `okr_drafts` and `case_six_steps` are labelled "Six-step record". Collection page rebuilt.
+- Deck: slides unchanged (36). Notes of 4.2a and the 2.2 hand-over describe the same flow, the record and printing.
+- Checks: browser test of both tools step by step (what each step shows, locked test until two Key Results, record, print pages, reload, un-confirm on change), earlier page tests, script syntax, no duplicate ids, CRLF, standards check (only the 82 Unit 01 deck lines).
+
+**Commit lines are the same as in section 11** (pages now; deck after her deck review).

@@ -68,3 +68,29 @@ The scripts are a record. Later edits to the two files are made directly, with e
 
 Needs node (pptxgenjs, react-icons, sharp), python-pptx, Playwright and LibreOffice: run in the cloud workspace, then save the results back.
 If Carol edits the deck herself, her file is the master: later changes are made in her file, and this script is a record.
+
+## Change of 7 October 2026: 2.2 becomes a working example (facilitator) and an individual exercise (participant)
+
+Carol: "the intelligence enterprise priority has to be a working example flowing from step 4 in the facilitator file. In the participant file this is an exercise that they complete from step 1 to step 6 and they submit as individuals."
+
+- `u3_shared.js` now holds only the case: `WORKED.sip`, `WORKED.kiss` and `renderCase(hostId)`. Both pages show it.
+- `u3_f.js` holds the worked answers: `WORKED_MODEL` (five themes, Objectives and OKRs; the alignment-test result; the failed draft; the vote; the trade-off; the matrix positions) and `renderWorked('workedF')`. The participant file carries none of it.
+- Each step takes its input from the step before: five OKRs pass Step 4, one draft is returned; in Step 5 seven leaders vote for three each (7, 6, 4, 3, 1), four become enterprise priorities and Objective 5 is released with the trade-off stated; Step 6 places the four.
+- `u3_p.js`, block "2.2 · Six-step exercise on the case": tool `CX` (functions `cx…`, element ids `cx…`), hosts `caseP`, `caseToolP`, `caseOutP`. Step 5 lists only the OKRs that earned 4 of 4 in Step 4. "Mark the exercise complete" asks for: at least three themes with an Objective; at least one and at most four enterprise priorities; for each priority two Key Results in the formula with contributing roles and a matrix position; the trade-off when an Objective is left out. An edit after completion sets the exercise back to "In progress".
+- New response keys (lens `u2m1_lens2`, no database change): `__case_work` (working state, hidden in the report), `case_six_steps` (readable copy), `case_status`.
+- `patch_links.py`: report heading "Six-Step Exercise" and labels for the two readable keys. `collection.html` rebuilt with `node build_collection.js`.
+- Sub-line of 2.2 on both pages: "Case · 6 Steps" (was "Worked Example").
+- Deck: 36 slides. The worked example runs on seven slides (SiP statement, KISS table, Steps 1 and 2, Step 3, Step 4, Step 5, Step 6). `u03_notes.js` reads the worked answers from `u3_f.js`.
+- Files as they stood before this change: `Claude outputs\Unit 3 file backups\… - before 2.2 exercise (7 Oct).html` and `Claude outputs\Unit 3 deck backups\… - before 2.2 rework (7 Oct).pptx`.
+
+## Change of 7 October 2026 (second): the six steps flow from Step 1, with one record and a Print button
+
+Carol: "Step 2, 3, 4, 5, 6 must flow from step 1 … all this data must be stored to be printed at the end." and "this is just for participant file. the facilitator file must just give the precise instructions."
+
+- `u3_p.js`: the group tool of 4.2 and the individual exercise of 2.2 now run on one shared flow (functions `sx…`; tools `OKT` and `CXT` in `SX`; states `OK` and `CX`). Element ids keep their prefixes `okr…` and `cx…`.
+- What each step shows (`sxChain`): Step 2 the theme; Step 3 the theme and its Objective; Step 4 the theme, Objective and Key Results; Step 5 the tested OKR in full; Step 6 the selected priority in full.
+- An Objective needs two Key Results before it is tested (Step 4). Step 5 lists only OKRs with 4 of 4. A lost tick removes the priority.
+- One record under the steps (`sxRecord`), built from Step 1. The two Capstone outputs (Enterprise Priorities, Enterprise OKRs) appear once a priority is selected. Print: `okrPrint()` and `cxPrint()` open the record on a plain page.
+- Saved readable copy for the report: `okr_drafts` and `case_six_steps` now hold the full record, matrix position included (`sxText`). Keys are unchanged; no database change.
+- `build_f.py`: no tool in the facilitator file. The Participant Activity boxes of 2.2 and 4.2 give the step-by-step instructions.
+- Files before this change: `Claude outputs\Unit 3 file backups\… - before six-step flow (7 Oct).html`.

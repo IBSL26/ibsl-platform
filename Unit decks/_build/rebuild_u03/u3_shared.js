@@ -83,7 +83,9 @@ function u3ToggleDomain(id){
   if(arr)arr.style.transform=open?'':'rotate(180deg)';
 }
 
-// ── 2.2 · WORKED EXAMPLE: one simple SiP statement taken through KISS and the six steps ─────────
+// ── 2.2 · THE CASE: one simple SiP statement and its KISS table (client services company) ───────
+// Both pages show the case. The worked answers of the six steps are in the facilitator file only (u3_f.js);
+// participants take the case through the six steps themselves (u3_p.js).
 var WORKED={
   sip:'We will be the service partner our clients rely on first, by ensuring every client experiences fast, consistent and effortless service. To achieve this, we will move quickly from insight to action across functions, build shared ownership of enterprise priorities and run scalable, efficient operations that strengthen enterprise performance.',
   kiss:[
@@ -91,62 +93,17 @@ var WORKED={
     {domain:'Operational Capability & Execution Rhythm',cls:'op',keep:'Clear strategic priorities already exist',improve:'Decision-making slows when multiple functions are involved',start:'Introduce cross-functional execution routines and faster decision forums',stop:'Excessive reporting cycles that delay action'},
     {domain:'People & Culture Dynamics',cls:'pc',keep:'Strong trust within teams',improve:'Collaboration across functions remains inconsistent',start:'Introduce shared ownership of enterprise priorities',stop:'Functional silos and escalation behaviours'},
     {domain:'Enterprise Value Creation',cls:'ev',keep:'Solid revenue base and loyal client segments',improve:'Profit margins fluctuate due to operational inefficiencies',start:'Develop scalable service delivery models',stop:'Low-value projects that absorb leadership attention'}
-  ],
-  items:[
-    {theme:'Customer responsiveness',shift:'Deliver faster and more reliable customer responsiveness.',obj:'Deliver consistently fast and effortless service experiences for customers',
-     krs:['Reduce average response time to customer requests from 12 hours to 4 hours by 30 June 2027','Increase customer requests resolved at first contact from 60% to 85% by 30 September 2027'],
-     roles:'Commercial, Operations, Customer Service, Technology',impact:'High',effort:'Medium'},
-    {theme:'Execution speed',shift:'Strengthen cross-functional execution speed.',obj:'Build a high-speed execution engine that moves quickly from insight to action',
-     krs:['Reduce cross-functional decision time from 5 days to 1 day by 30 June 2027','Reduce recurring management reports from 24 to 10 by 31 March 2027'],
-     roles:'Operations, Finance, Strategy',impact:'High',effort:'Low'},
-    {theme:'Collaboration culture',shift:'Build enterprise-wide ownership of strategic priorities.',obj:'Create a culture of shared ownership across functions for strategic priorities',
-     krs:['Increase enterprise priorities with a named cross-functional owner from 40% to 100% by 31 March 2027','Reduce issues escalated to the executive team from 30 to 10 per quarter by 30 September 2027'],
-     roles:'People & Culture, all functional heads',impact:'High',effort:'High'},
-    {theme:'Value creation',shift:'Improve operational efficiency to strengthen value creation.',obj:'Strengthen enterprise performance through scalable and efficient operations',
-     krs:['Improve operating margin from 14% to 18% by 31 December 2027','Reduce leadership time spent on low-value projects from 25% to 10% by 30 June 2027'],
-     roles:'Finance, Operations, Commercial',impact:'Medium',effort:'High'}
-  ],
-  test:[
-    ['Does this truly get the organisation closer to the shared SiP vision?','Yes. Fast, consistent and effortless service is the first line of the SiP statement.'],
-    ['Would fellow leaders see this as a win for the whole organisation — or just for one function?','The whole organisation. It needs Commercial, Operations, Customer Service and Technology, and no single function can deliver it alone.'],
-    ['Does it visibly improve culture, operations, or value creation?','Yes. Handovers improve in operations, and client retention strengthens value creation.'],
-    ['Is there clear accountability for delivering this outcome?','Yes. One executive owns the Objective and the contributing roles are named for each Key Result.']
   ]
 };
-function renderWorked(hostId){
+function renderCase(hostId){
   var host=document.getElementById(hostId);if(!host)return;
   var W=WORKED,col={keep:'#5ecba1',improve:'#f0c060',start:'#7ec8f0',stop:'#f08080'};
   var kiss=W.kiss.map(function(d){
     return '<div class="u3-wx-dom"><div class="u3-wx-dom-h"><span class="kiss-accent '+d.cls+'" style="display:inline-block;min-height:12px;height:12px;margin-right:8px;vertical-align:middle;"></span>'+u3esc(d.domain)+'</div><div class="u3-wx-row">'+
       KISS_EL.map(function(k){return '<div class="u3-wx-cell"><div class="u3-wx-k" style="color:'+col[k[0]]+';">'+k[1]+'</div><p>'+u3esc(d[k[0]])+'</p></div>';}).join('')+'</div></div>';
   }).join('');
-  var tabs=['Find Themes','Inspiring Objectives','Define Key Results','Alignment Test','Enterprise Priority','Priority Matrix'].map(function(n,i){
-    return '<div class="step-tab'+(i===0?' active':'')+'" onclick="u3Tab(\'wx\','+i+')"><div class="step-num">Step '+(i+1)+'</div><div class="step-name">'+n+'</div></div>';
-  }).join('');
-  var s1='<p>Reading across the four domains of the KISS table, the leadership team finds four patterns that keep appearing. Each becomes a strategic theme:</p>'+
-    W.items.map(function(o,i){return '<div class="u3-wx-line"><div class="u3-wx-l">'+(i+1)+' · '+u3esc(o.theme)+'</div><div class="u3-wx-r">'+u3esc(o.shift)+'</div></div>';}).join('');
-  var s2='<p>Each theme is translated into a bold, qualitative statement that starts with a verb and describes the transformation:</p>'+
-    W.items.map(function(o,i){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(o.theme)+'</div><div class="u3-wx-r"><strong>Objective '+(i+1)+':</strong> '+u3esc(o.obj)+'</div></div>';}).join('');
-  var s3='<p>Each Objective receives two Key Results in the form Verb + Metric + From X to Y + Deadline, with the contributing roles named:</p>'+
-    W.items.map(function(o,i){return '<div class="u3-wx-okr"><div class="u3-wx-okr-h">Objective '+(i+1)+' · '+u3esc(o.obj)+'</div><ul>'+o.krs.map(function(k){return '<li>'+u3esc(k)+'</li>';}).join('')+'</ul><div class="u3-wx-roles"><strong>Contributing roles:</strong> '+u3esc(o.roles)+'</div></div>';}).join('');
-  var s4='<p>Before the OKRs are shared, each one is tested against the four questions. Objective 1 is shown here:</p>'+
-    W.test.map(function(t){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(t[0])+'</div><div class="u3-wx-r">'+u3esc(t[1])+'</div></div>';}).join('')+
-    '<div class="hbox red"><p><strong>A draft that failed the test:</strong> "Launch the new CRM platform by June." It can be checked off a list, so it is a task, and it serves one function.</p></div>';
-  var s5='<p>The team holds four Objectives with two Key Results each, inside the Less is More Rule: no more than 4 Enterprise Objectives and no more than 3 Key Results per Objective.</p>'+
-    '<p>Two further drafts were released: a brand refresh and a finance system upgrade. Each served one function.</p>';
-  var grid='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
-    ['High','Medium','Low'].map(function(im){
-      return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
-        var c=pmFind(im,ef),here=[];W.items.forEach(function(o,i){if(o.impact===im&&o.effort===ef)here.push('<span class="u3-mx-tag">Objective '+(i+1)+' · '+u3esc(o.theme)+'</span>');});
-        return '<div class="u3-mx-cell" style="border-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
-      }).join('');
-    }).join('')+'</div>';
-  var s6='<p>Each enterprise Objective is placed on the Prioritisation Matrix by Impact and Effort:</p>'+grid+
-    '<div class="hbox teal"><p><strong>The execution signal:</strong> execution speed moves first, customer responsiveness follows, shared ownership is the long transformation, and the investment in scalable operations is timed with care.</p></div>';
-  var panels=[s1,s2,s3,s4,s5,s6].map(function(h,i){return '<div id="wx_'+i+'" class="step-panel'+(i===0?' active':'')+'">'+h+'</div>';}).join('');
-  host.innerHTML='<div class="u3-wx-sip"><div class="u3-wx-sip-h">Example · Success in Practice statement of a client services company</div><p>'+u3esc(W.sip)+'</p></div>'+
-    '<h4>From SiP to KISS</h4><p>The leadership team passes the SiP statement through the four KISS filters, one SiP domain at a time:</p>'+kiss+
-    '<h4>From KISS to OKRs: the six steps</h4><div class="step-tabs" id="wxTabs">'+tabs+'</div>'+panels;
+  host.innerHTML='<div class="u3-wx-sip"><div class="u3-wx-sip-h">Case · Success in Practice statement of a client services company</div><p>'+u3esc(W.sip)+'</p></div>'+
+    '<h4>From SiP to KISS</h4><p>The leadership team passes the SiP statement through the four KISS filters, one SiP domain at a time:</p>'+kiss;
 }
 
 // ── 5.1 · STRATEGY AIRPORT (Carol's game, Medical Health Company case) ─────────────────────────
