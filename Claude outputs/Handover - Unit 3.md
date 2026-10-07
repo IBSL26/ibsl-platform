@@ -296,3 +296,19 @@ This section replaces the "open with Carol" list at the end of section 15. All t
 **After the push (Supabase, she does it):** Storage, bucket `facilitator_decks`, folder `Module-2`: replace `unit-03.pptx` and the whole folder `unit-03` (34 pictures and `manifest.json`) with the ones in `Claude outputs\Deck upload\Module-2`. The old folder in Supabase holds 36 pictures, so `s35.jpg` and `s36.jpg` must be deleted there. The `Deck upload` folder is not committed (same as Unit 2).
 
 **Unit 2 (7 October, on Carol's "go"):** the reader folder `Deck upload\Module-2\unit-02` (36 pictures and manifest) and the `Unit decks` copy now match her 36-slide Unit 2 deck. See `Handover - Unit 2 rework.md` section 27. This closes the first two Unit 2 items in section 8.
+
+## 17. Portfolio work: Save to Portfolio; group work to the Capstone only (7 October 2026, late)
+
+Carol's questions on the committed-ready pages: where participants save the matching exercise and Strategy Airport to the portfolio and send them to the facilitator; whether Steps 2 to 5 take proper input per Objective; that the five-step work pulls into the Capstone and not the Learning Portfolio.
+
+**Done:**
+- 3.1 and 5.1 (participant file): a "Portfolio work · Save and submit" row under each exercise with **Save to Portfolio** (confirmation line, counts roles matched or states whether the learning round is finished) and **Go to Submit to Facilitator** (opens Section 5 at the unit's Submit to Facilitator button).
+- Decision taken as tech party: one Submit to Facilitator for the unit. A submit on each exercise would send the whole unit as a new submission each time. Carol can reverse this.
+- Learning Portfolio (`collection.html`, built by `build_collection.js`): for Unit 3 it now prints Reflections, Hot Zone Matching and Strategy Airport. The KISS map and the five-step outputs are left out; they feed the Capstone Blueprint (3A to 3F) and stay visible in the facilitator's report.
+- Steps 2 to 5 checked with entries: one Objective box per theme; two Key Result boxes and a contributing-roles box per Objective; four questions per OKR; Impact and Effort per aligned OKR. Picture sent to Carol.
+- Facilitator file: Participant Activity text of 3.1 and 5.1 updated. Deck not changed (its notes already say the work reaches the facilitator when the unit is submitted).
+- Seen, not changed: Unit 2's group work still prints in the Learning Portfolio. Same rule can be added for `u2m1_lens1` in `CAPSTONE_KEYS` on Carol's word.
+
+**Files (not committed yet):** `unit2_m1_lens2_p.html` (md5 b4501a5a…), `unit2_m1_lens2_f.html` (md5 12099399…), `collection.html`, `build_collection.js`, `Unit decks\_build\rebuild_u03\`. Commit line in section 16 now also needs `build_collection.js`.
+
+**Unit 2 added (7 October, on Carol's word):** `CAPSTONE_KEYS` in `build_collection.js` now also covers `u2m1_lens1`. The Unit 2 group work (Strategy Architecture, Strategy Intent Statement, Success in Practice: `arch_*`, `org_name`, `strategy_period`, `intent_statement`, `sip_d*_q*`, `sip_d*_st`, `sip_integrated`, `confirmed_items`) is left out of the Learning Portfolio and feeds the Capstone (2A to 2F). The Learning Portfolio for Unit 2 prints the reflections, the opening definition, Role Contribution to SiP and Collective Application. `collection.html` rebuilt and tested with stand-in data.

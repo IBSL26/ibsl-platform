@@ -123,3 +123,13 @@ Carol's final deck is `Claude outputs\Deck upload\Module-2\unit-03.pptx` (34 sli
 - `final_scan.py <deck> <participant page> <facilitator page>` compares the deck with both pages (KLOs, section outcomes, step names, worked example, 3.1 content, leftover terms, page-pair titles). Result on the final files: 0 differences.
 - Reader pictures `s01`-`s34` and `manifest.json` are remade from the edited final deck.
 - Files before this change: `Claude outputs\Unit 3 file backups\... - before final scan (7 Oct).html`.
+
+## Change of 7 October 2026 (sixth): Save to Portfolio on the two portfolio exercises; group work left out of the Learning Portfolio
+
+- Participant file, 3.1 and 5.1: a "Portfolio work · Save and submit" row under each exercise (`.u3-pf`, built in `build_p.py`). "Save to Portfolio" calls `pfSave('hz')` / `pfSave('game')` in `u3_p.js`, which saves the same keys as before (`__hz_match`, `hz_match`; `__game`, `game_kiss`, `game_flight_plan`, `game_round`) and reports the result in `pf_hz_msg` / `pf_game_msg`. "Go to Submit to Facilitator" calls `pfGoSubmit()`, which opens Section 5 and brings the unit's Submit to Facilitator button into view.
+- One submission for the unit is kept: `S2R.submit` inserts a snapshot of the whole unit each time, so the exercises do not carry their own submit.
+- `build_collection.js` (repo root): `CAPSTONE_KEYS` and `portfolioPayload()` leave the Unit 3 group work out of the Learning Portfolio (`kex_*`, `kiss_*`, `sip_d*_st`, `okr_drafts`, `ent_priorities`, `ent_okrs`, `confirmed_items`). The facilitator report in `dashboard_F.html` still shows everything. The Capstone still reads `kiss_*`, `ent_priorities`, `ent_okrs` (3A to 3F in `capstone_P.html`).
+- Facilitator file: the Participant Activity text of 3.1 and 5.1 names Save to Portfolio and Submit to Facilitator.
+- Files before this change: `Claude outputs\Unit 3 file backups\... - before portfolio save buttons (7 Oct).html` and `build_collection - before portfolio filter (7 Oct).js`.
+
+**Unit 2 added (7 October, on Carol's word):** `CAPSTONE_KEYS` in `build_collection.js` now also covers `u2m1_lens1`. The Unit 2 group work (Strategy Architecture, Strategy Intent Statement, Success in Practice: `arch_*`, `org_name`, `strategy_period`, `intent_statement`, `sip_d*_q*`, `sip_d*_st`, `sip_integrated`, `confirmed_items`) is left out of the Learning Portfolio and feeds the Capstone (2A to 2F). The Learning Portfolio for Unit 2 prints the reflections, the opening definition, Role Contribution to SiP and Collective Application. `collection.html` rebuilt and tested with stand-in data.
