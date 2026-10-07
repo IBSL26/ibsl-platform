@@ -294,3 +294,5 @@ This section replaces the "open with Carol" list at the end of section 15. All t
 `cd C:\Users\Carol\ibsl-platform` · `git add unit2_m1_lens2_p.html unit2_m1_lens2_f.html capstone_P.html dashboard_F.html collection.html check_standards.js STANDARDS.md "Unit decks" "Claude outputs/Handover - Unit 3.md" "Claude outputs/Unit 3 - Three-way match (findings).md"` · `git commit -m "Unit 3 final: five steps, worked example, portfolio work, final deck"` · `git push`
 
 **After the push (Supabase, she does it):** Storage, bucket `facilitator_decks`, folder `Module-2`: replace `unit-03.pptx` and the whole folder `unit-03` (34 pictures and `manifest.json`) with the ones in `Claude outputs\Deck upload\Module-2`. The old folder in Supabase holds 36 pictures, so `s35.jpg` and `s36.jpg` must be deleted there. The `Deck upload` folder is not committed (same as Unit 2).
+
+**Unit 2 (7 October, on Carol's "go"):** the reader folder `Deck upload\Module-2\unit-02` (36 pictures and manifest) and the `Unit decks` copy now match her 36-slide Unit 2 deck. See `Handover - Unit 2 rework.md` section 27. This closes the first two Unit 2 items in section 8.

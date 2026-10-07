@@ -400,3 +400,19 @@ Carol noticed that 1.1 teaches five force categories while element 13 in 4.1 ask
 **Commit line given to her:** `git add unit2_m1_lens1_p.html unit2_m1_lens1_f.html dashboard_F.html collection.html "Unit decks" "Claude outputs/Handover - Unit 2 rework.md" "Claude outputs/Handover - Deck review.md"` · `git commit -m "Unit 2: internal forces added as fifth question of element 13"` · `git push`.
 
 **Next:** Unit 3.
+
+## 26. Moving to Unit 3 (6 October)
+
+Carol moved to Unit 3 and asked for handover notes for a new chat. They are in `Claude outputs\Handover - Unit 3.md`: read that file first. It holds her instruction, the Unit 2 deck as the format model (her own 36-slide copy; notes dumped to `Unit 2 deck - notes as Carol approved them (format model).txt`), a first scan of the Unit 3 files, the questions to put to her and the Unit 2 items still open.
+
+
+## 27. Reader folder and `Unit decks` copy brought in line with Carol's 36-slide deck (7 October 2026)
+
+Carol's own Unit 2 deck (36 slides, saved 6 October 12:59, md5 a5006150…) was in `Claude outputs\Deck upload\Module-2\unit-02.pptx`, but the reader folder `unit-02` still held the 48 pictures and manifest of the earlier generated deck, and `Unit decks\` still held the 48-slide deck. On her "go":
+
+- `Deck upload\Module-2\unit-02\` now holds `s01.jpg`-`s36.jpg` and `manifest.json`, made with `reader_assets.py` from her deck. Her PPT was not changed.
+- `Unit decks\Unit 02 - Strategy Visioning & Success in Practice (SiP).pptx` is now a copy of her 36-slide deck (same md5).
+- Kept: `Unit 2 deck backups\Unit 02 - 48 slides, replaced by Carol's 36-slide deck (7 Oct).pptx` and `unit-02 manifest - 48-slide deck (7 Oct).json`. The 48 old pictures are in `Claude outputs\_to_delete\unit-02 old pictures (48-slide deck)\` for her to delete.
+- Her deck is the master. `_build\unit02.js` and the `u02_notes*.js` files build the 48-slide deck and are now only a record. The slide map in section 22 describes the 48-slide deck.
+- Seen in her deck, not changed: slides 28 and 29 both carry the label "4.1c"; slide 32 is "4.3c" while slide 31 is "4.3".
+- Supabase (she does it): Storage, `facilitator_decks`, `Module-2`: replace `unit-02.pptx` and the whole folder `unit-02` (delete the old folder first, it holds 48 pictures).
