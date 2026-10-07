@@ -314,7 +314,7 @@ function saRenderDone(){
     '<div class="sa-summary"><div class="sa-card"><div class="sa-big">1</div><div class="sa-card-h">KISS Themes Captured</div><ul><li>Keep: '+saLines(K.keep).length+'</li><li>Improve: '+saLines(K.improve).length+'</li><li>Start: '+saLines(K.start).length+'</li><li>Stop: '+saLines(K.stop).length+'</li></ul></div>'+
     '<div class="sa-card"><div class="sa-big">2</div><div class="sa-card-h">OKR Built From One Theme</div><ul>'+SA.state.okrs.map(function(o){return '<li><strong>'+u3esc(o.objective)+'</strong><br>'+u3esc(o.kr1)+'<br>'+u3esc(o.kr2)+'</li>';}).join('')+'</ul></div></div>'+
     '<div class="sa-msg success" style="margin-top:18px">Learning point: KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.</div>'+
-    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">Select Save to Portfolio below to place this learning round in your Learning Portfolio.</div>':'')+
+    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">This learning round is part of your Learning Portfolio. It reaches your facilitator when you select Submit to Facilitator at the end of the unit.</div>':'')+
     '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Start Again</button></div>';
 }
 function saReset(){

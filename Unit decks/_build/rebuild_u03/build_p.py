@@ -183,12 +183,8 @@ S3 = '''  <p>Every leadership role tends to emphasise some of the four SiP domai
       <li>Choose the Alignment Question that brings the role back to the enterprise, in the same way.</li>
       <li>Move to the next role. The exercise is complete when ten of ten roles are matched.</li>
     </ol>
-    <p>Complete the exercise on your own. Select Save to Portfolio when you finish. Your matches become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
+    <p>Complete the exercise on your own. Your matches become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
   <div id="hzMatchP"></div>
-  <div class="u3-pf"><div class="u3-pf-h">Portfolio work · Save and submit</div>
-    <p>Save your matches to your Learning Portfolio. Submit to Facilitator, at the end of the unit, sends your portfolio work to your facilitator.</p>
-    <div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="pfSave('hz')">Save to Portfolio</button><button type="button" class="u3-b" onclick="pfGoSubmit()">Go to Submit to Facilitator</button></div>
-    <div class="u3-note" id="pf_hz_msg" style="display:none;"></div></div>
 ''' + ref('ref4', 'Which hot zone description most accurately reflects how you instinctively approach OKR definition? What would you need to do differently to write an enterprise-level Key Result?', ' style="margin-top:20px;"')
 a, b = cut('<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">3.1 — Natural OKR Emphasis Across Leadership Functions</span>',
            '<div class="mod-nav"><button class="btn" onclick="showMod(1)">← Section 2 — Intelligence</button>')
@@ -242,12 +238,8 @@ S51 = '''  <p>You have built your group's KISS map and enterprise OKRs. Strategy
       <li><strong>Gate 2 · Flight Plan:</strong> choose one KISS theme and convert it into one Objective, two Key Results and the contributing roles. Add the flight plan.</li>
       <li>Finish the learning round.</li>
     </ol>
-    <p>Play the learning round on your own. Select Save to Portfolio when you finish. Your KISS choices and your flight plans become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
+    <p>Play the learning round on your own. Your KISS choices and your flight plans become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
   <div id="saHostP"></div>
-  <div class="u3-pf"><div class="u3-pf-h">Portfolio work · Save and submit</div>
-    <p>Save your learning round to your Learning Portfolio. Submit to Facilitator, at the end of the unit, sends your portfolio work to your facilitator.</p>
-    <div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="pfSave('game')">Save to Portfolio</button><button type="button" class="u3-b" onclick="pfGoSubmit()">Go to Submit to Facilitator</button></div>
-    <div class="u3-note" id="pf_game_msg" style="display:none;"></div></div>
 '''
 SEC5_HEAD = ('<!-- TAB 5: APPLICATION -->\n<div class="mod-panel" id="mod4">\n' +
              hero('Section 5 · Application — In Practice', 'Strategy Airport: From Strategic Imagination to Operational Clearance',

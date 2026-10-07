@@ -75,7 +75,7 @@ function renderMatch(){
   if(hzDone(i)&&!all)next='<div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="hzNext()">Next role →</button></div>';
   host.innerHTML='<div class="u3-progress"><div class="u3-progress-top"><span>Roles matched</span><b>'+n+' of '+HOT_ZONES.length+'</b></div><div class="u3-bar"><span style="width:'+Math.round(n/HOT_ZONES.length*100)+'%"></span></div></div>'+
     '<div class="u3-chips">'+chips+'</div>'+
-    (all?'<div class="hbox teal"><p><strong>All ten roles matched.</strong> Select any role above to review its full card. Select Save to Portfolio below.</p></div>':'')+
+    (all?'<div class="hbox teal"><p><strong>All ten roles matched.</strong> Select any role above to review its full card.</p></div>':'')+
     '<div class="u3-role"><div class="u3-role-h"><div class="u3-role-n">'+u3esc(h.role)+'</div><div class="u3-role-t">'+u3esc(h.title)+'</div></div>'+
       '<div class="u3-role-given"><div><h5>Dominant Future Realities <span>suggested</span></h5><p>'+u3esc(h.top2)+'</p></div><div><h5>Natural OKR Emphasis <span>suggested</span></h5><p>'+u3esc(h.emphasis)+'</p></div></div>'+
       '<div class="u3-role-q"><h5>Typical Hot Zone</h5><p class="u3-small">Which hot zone does this emphasis create?</p>'+hzOptions('hot')+hzNote('hot')+'</div>'+
@@ -473,32 +473,6 @@ function gameChanged(){
     await u3save('game_flight_plan',saPlanText());
     await u3save('game_round',st.step===3?'Learning round complete':st.step===2?'In progress · Gate 2: Flight Plan':'In progress · Gate 1: Baggage Check');
   },700);
-}
-
-// ── Portfolio work (3.1 and 5.1): Save to Portfolio, and the way to Submit to Facilitator ──────────
-async function pfSave(kind){
-  var id='pf_'+kind+'_msg',ok=false,done=false;
-  u3msg(id,'Saving…','');
-  try{
-    if(kind==='hz'){
-      var a=await u3save('__hz_match',{cur:HZ.cur,m:HZ.m}),b=await u3save('hz_match',hzText());
-      ok=!!(a&&b);done=hzCount()===HOT_ZONES.length;
-    }else{
-      clearTimeout(_gameTimer);
-      var st=SA.state,r=[await u3save('__game',st),await u3save('game_kiss',saKissText()),await u3save('game_flight_plan',saPlanText()),
-        await u3save('game_round',st.step===3?'Learning round complete':st.step===2?'In progress · Gate 2: Flight Plan':'In progress · Gate 1: Baggage Check')];
-      ok=r.every(function(x){return !!x;});done=st.step===3;
-    }
-  }catch(e){ok=false;}
-  if(!ok){u3msg(id,'Not saved. Check your connection, then select Save to Portfolio again.','');return;}
-  if(kind==='hz')u3msg(id,done?'✓ Saved to your portfolio. Ten of ten roles matched. Select Go to Submit to Facilitator when your unit is complete.':'✓ Saved to your portfolio. '+hzCount()+' of '+HOT_ZONES.length+' roles matched. Match the remaining roles, then save again.','ok');
-  else u3msg(id,done?'✓ Saved to your portfolio. Learning round complete. Select Go to Submit to Facilitator to send your unit.':'✓ Saved to your portfolio. Finish the learning round, then save again.','ok');
-}
-function pfGoSubmit(){
-  var b=document.querySelector('.send-btn');if(!b)return;
-  var panel=b.closest('.mod-panel'),panels=document.querySelectorAll('.mod-panel');
-  if(panel){panels.forEach(function(p,x){var on=p===panel;p.classList.toggle('active',on);var t=document.querySelectorAll('.mod-tab')[x];if(t)t.classList.toggle('active',on);});}
-  setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'center'});try{b.focus({preventScroll:true});}catch(e){}},60);
 }
 
 function toggleDomain(id){u3ToggleDomain(id);}

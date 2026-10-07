@@ -124,6 +124,17 @@ Carol's final deck is `Claude outputs\Deck upload\Module-2\unit-03.pptx` (34 sli
 - Reader pictures `s01`-`s34` and `manifest.json` are remade from the edited final deck.
 - Files before this change: `Claude outputs\Unit 3 file backups\... - before final scan (7 Oct).html`.
 
+## Change of 7 October 2026 (seventh): the "Portfolio work · Save and submit" row removed
+
+Carol's word (7 October, night): submit sits at the end of the unit, and all units are consistent. The row added in the sixth change is taken out again.
+
+- Participant file, 3.1 and 5.1: the `.u3-pf` row is removed (Save to Portfolio, Go to Submit to Facilitator, the `pf_*_msg` note). `pfSave` and `pfGoSubmit` are removed from `u3_p.js`; the `.u3-pf` styles are removed from `u3.css`.
+- Nothing is lost: the two exercises already save as the participant works (`hzPick` saves `__hz_match`, `hz_match`; the game saves `__game`, `game_kiss`, `game_flight_plan`, `game_round`). Tested: a match made in 3.1 is saved with no button.
+- Wording: the how-to boxes of 3.1 and 5.1 now end "... reach your facilitator when you select Submit to Facilitator at the end of the unit." The two on-page messages that named Save to Portfolio are reworded. Facilitator file: the Participant Activity text of 3.1 and 5.1 no longer names Save to Portfolio.
+- The rest of the sixth change stays (group work left out of the Learning Portfolio in `build_collection.js`).
+- Checked: both build scripts reproduce the two edited files byte for byte; `check_standards.js` reports no breaches.
+- Files before this change: `Claude outputs\Unit 3 file backups\unit2_m1_lens2_[p|f] - before portfolio row removed (7 Oct).html`.
+
 ## Change of 7 October 2026 (sixth): Save to Portfolio on the two portfolio exercises; group work left out of the Learning Portfolio
 
 - Participant file, 3.1 and 5.1: a "Portfolio work · Save and submit" row under each exercise (`.u3-pf`, built in `build_p.py`). "Save to Portfolio" calls `pfSave('hz')` / `pfSave('game')` in `u3_p.js`, which saves the same keys as before (`__hz_match`, `hz_match`; `__game`, `game_kiss`, `game_flight_plan`, `game_round`) and reports the result in `pf_hz_msg` / `pf_game_msg`. "Go to Submit to Facilitator" calls `pfGoSubmit()`, which opens Section 5 and brings the unit's Submit to Facilitator button into view.
