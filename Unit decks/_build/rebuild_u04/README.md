@@ -73,6 +73,13 @@ The Industry Illusion game is played in the lesson from the facilitator file, Se
 Files before: `Claude outputs\Unit 4 deck backups\` (the 18-slide deck of 2 October, its script and its reader folder).
 If Carol edits the deck herself, her file is the master: later changes are made in her file, and this script is a record.
 
+## 8 October 2026
+
+- Participant voice (Carol: "the framing must be in first person addressing the participant, not carrying facilitator instructions like ask, say"). `build_p.py`, list `VOICE`: 32 exact replacements on the participant page only. The "Ask" labels read "Your question"; "Now ask:", "Once Arena has been defined, ask:" and "Finally ask:" read as tests addressed to the reader; general "leaders" in the teaching text read "you"; the nine role cards of Section 3 address the reader in the role ("As COO, you optimise the machine…"). The scenario leaders of Section 5 stay in the third person.
+- CTO card (both pages): "functional, emotional, social" now reads "functional, experiential, consequential", the three depths of 1.1.
+- Carol edited the deck (29 slides, `Claude outputs\Deck upload\Module-2\unit-04.pptx`). Her file is the master. Notes only: "S2R" with ® (slide 10), "lens" and one "rather than" line reworded (slide 16). Reader folder remade: 29 pictures and the manifest; s30 to s38 moved to `Claude outputs\_to_delete`. `Unit decks` copy identical to hers. `unit04.js` and `u04_notes.js` are now a record only.
+- Seen, not changed: her slide 16 gives the CTO blind spot as Value Proposition; the pages give Arena. Her slides 5 and 6 are titled "The Problem with Well-Written OKRs" and "The Four ABCV Integrity Checkpoints"; the pages call that part "Overview — From Unit 3 to Unit 4".
+
 ## Still open
 
 - Capstone box 4E (verification ownership) has no source in the unit since Step 5 was removed; the team writes 4E and 4F by hand.

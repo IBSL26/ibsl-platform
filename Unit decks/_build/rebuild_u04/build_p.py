@@ -192,6 +192,56 @@ for gone in ('Q4:', 'Meridian', 'team_name', 'exec_role', 'syn_themes', 'own_tim
 assert h.count('<script') == h.count('</script>')
 closes = h.count('</div>') + h.count('<\\/div>')
 assert h.count('<div') == closes, 'div balance %d / %d' % (h.count('<div'), closes)
+# ── Participant voice (Carol, 8 October): the participant page speaks to the participant throughout. No facilitator cues
+#    ("Ask", "Now ask:", "Say which…"), and the role cards of Section 3 address the reader in the role. Each line must match exactly
+#    the number of times given, or the build stops. The facilitator page keeps its own wording.
+VOICE = [
+    ('<div class="u4-ask"><span>Ask</span>', '<div class="u4-ask"><span>Your question</span>', 4),
+    ('<strong>Ask of the Key Result:</strong>', '<strong>Your question for the Key Result:</strong>', 4),
+    ('Say which depth the condition rests on.', 'Name the depth your condition rests on.', 1),
+    ('Once Arena has been defined, ask:', 'Once you have defined the Arena, test it:', 1),
+    ('<p class="u4-mbt-lead">Now ask:</p>', '<p class="u4-mbt-lead">Then test the boundary:</p>', 1),
+    ('Now ask: who or what else can enable that?', 'Now the question becomes: who or what else can enable that?', 1),
+    ('Once the competitive landscape has been established, ask:', 'Once you have established the competitive landscape, test it:', 1),
+    ('<p class="u4-mbt-lead">Finally ask:</p>', '<p class="u4-mbt-lead">Finally, test the value proposition:</p>', 1),
+    ('ABCV forces leaders to examine the strategic logic through four checkpoints:', 'ABCV takes you through the strategic logic at four checkpoints:', 1),
+    ('can become the boundary of what leaders examine.', 'can become the boundary of what you examine.', 1),
+    ('Functional analysis prevents leaders from confusing what the organisation sells with what the customer needs accomplished.',
+     'Functional analysis prevents you from confusing what your organisation sells with what the customer needs accomplished.', 1),
+    ('because it helps leaders see the result behind the result.', 'because it helps you see the result behind the result.', 1),
+    ('If leaders define Arena through their industry, they will probably identify competitors through their industry.',
+     'If you define Arena through your industry, you will probably identify competitors through your industry.', 1),
+    ('Over time, leaders build a deep understanding of how their industry works', 'Over time, you build a deep understanding of how your industry works', 1),
+    ('a frame through which leaders interpret their environment.', 'a frame through which you interpret your environment.', 1),
+    ('so familiar that leaders begin to treat it as the boundary', 'so familiar that you begin to treat it as the boundary', 1),
+    ('That last one can generate particularly useful executive discussion.', 'Look closely at that last one: it is the boundary your own organisation can change.', 1),
+    ('That is an assumption leadership can now monitor.', 'That is an assumption you can now monitor.', 1),
+    ('</strong> Say which customer need the Key Result serves', '</strong> Name the customer need the Key Result serves', 1),
+    ('</strong> Say what about the Key Result will make customers choose you', '</strong> Name what about the Key Result will make customers choose you', 1),
+    ('the boundary of the world leaders examine. In the Industry Illusion game your own decisions showed what an industry frame leads leaders to notice, dismiss and trust.',
+     'the boundary of the world you examine. In the Industry Illusion game your own decisions showed what an industry frame leads you to notice, dismiss and trust.', 1),
+    # Section 3 · the nine role cards, addressed to the reader in the role
+    ('The CEO holds the vision and drives narrative &mdash; but operational friction is rarely in the chief executive&rsquo;s focus until execution stalls significantly.',
+     'As CEO, you hold the vision and drive the narrative &mdash; but operational friction is rarely in your focus until execution stalls significantly.', 1),
+    ('friction standing between the vision and its delivery.', 'friction standing between your vision and its delivery.', 1),
+    ('The CFO tracks whether the model works &mdash; but whether the underlying customer demand is still real and growing is often outside the financial reporting frame.',
+     'As CFO, you track whether the model works &mdash; but whether the underlying customer demand is still real and growing often sits outside your financial reporting frame.', 1),
+    ('Operational leaders optimise the machine &mdash; but if the machine is serving the wrong arena, efficiency just accelerates the organisation in the wrong direction.',
+     'As COO, you optimise the machine &mdash; but if the machine is serving the wrong arena, efficiency just accelerates your organisation in the wrong direction.', 1),
+    ('People alignment and engagement are the CHRO&rsquo;s primary focus &mdash;', 'As CHRO, people alignment and engagement are your primary focus &mdash;', 1),
+    ('Technical delivery is the CTO&rsquo;s primary accountability &mdash; but whether the solution addresses the customer&rsquo;s actual end-game (functional, emotional, social) is often assumed and left untested.',
+     'As CTO, technical delivery is your primary accountability &mdash; but whether the solution addresses the customer&rsquo;s actual end game (functional, experiential, consequential) is often assumed and left untested.', 1),
+    ('Does this solution address the functional, emotional, and social outcome the customer is actually pursuing?',
+     'Does this solution address the functional, experiential and consequential outcome the customer is actually pursuing?', 1),
+    ('The CMO creates demand &mdash; but if the operational infrastructure cannot fulfil that demand,', 'As CMO, you create demand &mdash; but if your operational infrastructure cannot fulfil that demand,', 1),
+    ('Revenue growth is the CCO&rsquo;s scorecard &mdash; but growing by winning the wrong business can dilute the organisation&rsquo;s distinctive identity',
+     'As CCO, revenue growth is your scorecard &mdash; but growing by winning the wrong business can dilute your organisation&rsquo;s distinctive identity', 1),
+    ('Cost reduction and supply chain resilience are the CPO&rsquo;s primary mandate &mdash;', 'As CPO, cost reduction and supply chain resilience are your primary mandate &mdash;', 1),
+    ('Strategy clarity is the CSO&rsquo;s domain &mdash;', 'As CSO, strategy clarity is your domain &mdash;', 1),
+]
+for a, b, n in VOICE:
+    assert h.count(a) == n, ('participant voice', h.count(a), a[:70])
+    h = h.replace(a, b)
 # The four reflection questions carry the marker the Learning Portfolio page looks for (build_collection.js), as in Units 2 and 3. No visible change.
 RP = '<p style="font-size:12px;color:rgba(255,255,255,.55);margin-bottom:8px;">'
 assert h.count(RP) == 4, h.count(RP)

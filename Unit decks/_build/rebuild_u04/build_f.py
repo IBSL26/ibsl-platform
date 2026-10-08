@@ -280,5 +280,10 @@ for bad in ('<textarea', '<input', '<select', 'contenteditable', 'localStorage.s
 assert h.count('id="mod') == 6 and h.count('class="mod-panel') == 6
 assert h.count('<script') == h.count('</script>')
 assert h.count('<div') == h.count('</div>'), 'div balance %d / %d' % (h.count('<div'), h.count('</div>'))
+# Section 3 · the CTO card reads the Customer End Game at the three depths taught in 1.1 (Carol, 8 October).
+for x, y in (('(functional, emotional, social)', '(functional, experiential, consequential)'),
+             ('the functional, emotional, and social outcome', 'the functional, experiential and consequential outcome')):
+    assert h.count(x) == 1, x
+    h = h.replace(x, y)
 open(out, 'wb').write(h.replace('\n', '\r\n').encode('utf-8'))
 print('facilitator file written:', out, len(h))
