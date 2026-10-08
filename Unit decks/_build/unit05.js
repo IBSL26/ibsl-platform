@@ -1,204 +1,274 @@
-// Unit 5 · Aligning Heart & Mind — facilitator deck with detailed presenter notes.
-// Run: node unit05.js "<output.pptx>" [logo.png] [outline.json] [unit F html] [unit P html]
-const { Deck, C, F, T, box } = require('./lib2');
-const { Unit, N, divider } = require('./kit');
+// Unit 5 · Aligning Heart & Mind — facilitator deck, rebuilt October 2026 after the three-way match of the Unit 5 pages.
+// Run from Unit decks\_build:  node unit05.js "<output.pptx>" [logo.png]
+// Then: add_reflection_slides.py (spec written by this script) and format_notes_u03.py; build_u05.sh runs all the steps.
+// The reflection pictures come from shoot_reflections_u05.py. See rebuild_u05/README.md, "The deck".
+//
+// Format: the same design system (lib2.js) and the same slide types as the Unit 2, Unit 3 and Unit 4 decks.
+// One slide for each part of the unit. 1.2 has an overview slide and one slide for each principle; 1.3 runs over two slides (1.3a, 1.3b).
+// Section 5 slides are titled by step. Slide text is page text, shortened; the presenter notes (u05_notes.js) carry the teaching.
+// Titles, outcomes and reflection questions come from u05_data.json, written by rebuild_u05/export_deck_data.py from the two pages.
+const { Deck, C, F, T, box, badge } = require('./lib2');
+const fs = require('fs');
 const path = require('path');
-const R = (...p) => path.join(__dirname, '..', '..', ...p);
-const [OUT, LOGO = R('logo.png'), JSONP = path.join(__dirname, 'outlines', 'u05.json'), FH = R('unit3_m1_lens4_f.html'), PH = R('unit3_m1_lens4_p.html')] = process.argv.slice(2);
-const u = new Unit(JSONP, FH, PH);
-const div = (d, i, x) => divider(d, u, i, x);
-const gl = b => b.map(l => l.replace(/^◆ /, '')).join('\n');
-const from = (lines, a) => { const i = lines.findIndex(l => l.startsWith(a)); if (i < 0) throw new Error('marker not found: ' + a); return i; };
-const between = (lines, a, b) => { const i = lines.findIndex(l => l.startsWith(a)), j = b ? lines.findIndex((l, k) => k > i && l.startsWith(b)) : lines.length; return lines.slice(i, j < 0 ? lines.length : j).join('\n'); };
+const HERE = __dirname;
+const [OUT, LOGO = [path.join(HERE, '..', '..', 'logo.png'), path.join(HERE, 'logo.png')].find(x => fs.existsSync(x))] = process.argv.slice(2);
+if (!OUT) { console.error('usage: node unit05.js <output.pptx> [logo.png]'); process.exit(1); }
+const INS = JSON.parse(fs.readFileSync(path.join(HERE, 'enrich', 'u05_rebuild.json'), 'utf8'));
+const { n, used, D } = require('./u05_notes.js')(INS);
+const { KLO, SECTIONS, PARTS, REFL, STEPS, CLOSING_Q } = D;
+const pt = (k, suffix = '') => `${k}${suffix} · ${PARTS[k.slice(0, 3)].title}`;
 
 (async () => {
   const d = new Deck({ unit: 5, module: 3, moduleName: 'Influence', title: 'Aligning Heart & Mind' });
-  const G = u.guide(), S5 = u.sec(5);
+  // Titles keep the page wording in full; the size steps down (never under 26pt) so that a long part title stays on the slide.
+  d.title = function (s, t, dark) {
+    const size = [36, 32, 30, 28, 26].find(z => t.length <= (12.1 * 72) / (z * 0.47) * 0.93) || 26;
+    T(s, t, { x: 0.6, y: 0.45, w: 12.1, h: 0.95, fontSize: size, fontFace: F.head, bold: true, color: dark ? C.white : C.forest, valign: 'middle' });
+  };
+  const div = k => d.section(Object.assign({}, SECTIONS[k - 1], { notes: n['s' + k] }));
+  const band = (s, text, y = 6.15, h = 0.85) => { box(s, 0.6, y, 12.13, h, C.deep); T(s, text, { x: 0.9, y, w: 11.6, h, fontSize: 24, italic: true, color: C.white, valign: 'middle' }); };
 
-  await d.cover({ logo: LOGO, subtitle: 'The human operating system that moves strategy from intention to execution',
-    notes: N('UNIT 5 · ALIGNING HEART & MIND\nModule 3 · Influence · Unit 5', G[0].replace('Unit Intent', 'Unit intent (Facilitator Guide):'),
-      'Unit overview (facilitator file): Before strategy becomes operational activity, it must be interpreted, experienced, and accepted by the people responsible for carrying it forward. This unit establishes the human operating system that enables strategy to move from intention to execution.',
-      'Time: section timings in the facilitator file add up to about 267–325 minutes (4½ to 5½ hours), plus breaks.') });
-  await d.list({ title: 'Key learning outcomes', fontSize: 24, rows: u.F.klo.map(t => ({ icon: 'FaCheck', text: t })),
-    notes: N('KEY LEARNING OUTCOMES (identical in the participant and facilitator files)', u.F.klo.map((t, k) => `${k + 1}. ${t}`).join('\n'), 'Each section slide carries that section’s two learning outcomes.') });
-  await d.list({ title: 'The unit journey', fontSize: 28, rows: [
-    { icon: 'FaEye', label: 'Section 1 · Awareness', text: '— What' }, { icon: 'FaLightbulb', label: 'Section 2 · Intelligence', text: '— Why' },
-    { icon: 'FaMapMarkedAlt', label: 'Section 3 · Extrapolating', text: '— Where' }, { icon: 'FaUsers', label: 'Section 4 · Integration', text: '— Collective' },
-    { icon: 'FaClipboardCheck', label: 'Section 5 · Application', text: '— In Practice' }],
-    notes: N('FACILITATOR GUIDE · SESSION OVERVIEW',
-      'Time by section (from the facilitator file):\n- Section 1 · Awareness — What: 80–100 minutes\n- Section 2 · Intelligence — Why: 35–40 minutes\n- Section 3 · Extrapolating — Where: 50–60 minutes\n- Section 4 · Integration — Collective: 40–50 minutes\n- Section 5 · Application — In Practice: Step 1 15 min · Step 2 12–15 min · Step 3 15–20 min · Step 4 20–25 min', G[1], G[2]) });
+  // A list with an optional band at the foot (as in unit03.js and unit04.js). A row may carry a tagline after its text.
+  async function rows(o) {
+    const s = d.slide(); d.title(s, o.title);
+    const bh = o.bandH || 0.85, k = o.rows.length, top = 1.65, avail = (o.band ? 5.2 - bh : 5.35), rh = avail / k, ib = Math.min(0.7, rh * 0.7);
+    for (let i = 0; i < k; i++) {
+      const r = o.rows[i], y = top + i * rh;
+      await badge(s, r.icon, 0.6, y + (rh - ib) / 2, ib, r.gold ? C.gold : C.forest, C.white);
+      const runs = [];
+      if (r.label) runs.push({ text: r.label + '  ', options: { bold: true, color: C.forest, fontFace: F.head } });
+      runs.push({ text: r.text || '' });
+      if (r.tag) { runs.push({ text: ' · ', options: { color: C.muted } }); runs.push({ text: r.tag, options: { italic: true, color: C.muted } }); }
+      T(s, runs, { x: 0.6 + ib + 0.35, y, w: 12.13 - ib - 0.35, h: rh, fontSize: o.fontSize || 26, valign: 'middle' });
+    }
+    if (o.band) band(s, o.band, 7.0 - bh, bh);
+    s.addNotes(o.notes);
+  }
 
-  // ── Section 1
-  await div(d, 1);
-  await d.compare({ title: '1.1 · The human terrain of strategy execution', cols: [
-    { icon: 'FaBrain', title: 'Cognition — Mind', sub: 'How strategy is interpreted', points: ['Professional expertise', 'Mental shortcuts and past experience', 'Risk perception'] },
-    { icon: 'FaHeart', title: 'Emotion — Heart', sub: 'How strategy is experienced', points: ['Engagement energy and morale', 'Friction load', 'Psychological safety and values'] }],
-    band: 'Execution begins inside the human system.',
-    notes: u.partNotes(1, 0) });
-  {
-    const c12 = u.part(1, 1).content;
-    const pn = (n, extra) => N(`1.2 · PRINCIPLE ${n} — ${c12[from(c12, 'Principle ' + n) + 1].toUpperCase()}`, 'Content:\n' + between(c12, 'Principle ' + n, n < 5 ? 'Principle ' + (n + 1) : null), extra || '');
-    await d.list({ title: '1.2 · Five principles of aligning heart and mind', fontSize: 24, rows: [
-      { icon: 'FaUsers', label: '1 · Strategy Moves Through People', text: 'the human entry point of execution' },
-      { icon: 'FaRandom', label: '2 · Misalignment Fragments Effort', text: 'the cost of ignoring the human system' },
-      { icon: 'FaDraftingCompass', label: '3 · Alignment Must Be Designed', text: 'the tools that create alignment' },
-      { icon: 'FaBrain', label: '4 · Human Reactions Are Predictable', text: 'the behavioural dynamics that influence execution' },
-      { icon: 'FaEye', label: '5 · Execution Must Be Visible in Behaviour', text: 'the observable standard for alignment' }],
-      notes: u.partNotes(1, 1, { content: false, extra: 'Content: the five principles follow in order, one slide each. The detail for each principle is in the notes of its slide.' }) });
-    await d.compare({ title: 'Principle 1 — Strategy Moves Through People', cols: [
-      { icon: 'FaBrain', title: 'Cognitive alignment', sub: 'Mind · interpretation', points: ['Make decision biases visible', 'Name how they shape the S2R® process', 'Agree shared decision principles'] },
-      { icon: 'FaHeart', title: 'Emotional alignment', sub: 'Heart · experience', points: ['Name the current emotional state', 'Joy, Sadness, Anger, Fear, Disgust, Surprise', 'Each state shapes energy, morale and safety'] }],
-      band: 'Alignment of the mind and heart is the first execution system.',
-      notes: pn(1) });
-    await d.cards({ title: 'Principle 2 — Misalignment Fragments Effort', cols: 3, items: [
-      { icon: 'FaCommentDots', title: 'Chinese Whispers', text: 'Intent mutates as it travels downward.' },
-      { icon: 'FaRedo', title: 'Clarification Debt', text: '60–80% of leadership time spent re-explaining.' },
-      { icon: 'FaUserSlash', title: 'Silent Disengagement', text: 'Outward compliance, inward withdrawal.' }],
-      band: 'Low alignment: 41% lower productivity, 48% higher turnover (Gallup; PMI).',
-      notes: pn(2, 'Guidance: Principle 2 (Misalignment Fragments Effort) generates the most immediate recognition — use it as a pivot.') });
-    await d.cards({ title: 'Principle 3 — Alignment Must Be Designed', cols: 2, titleBeside: true, items: [
-      { icon: 'FaUserCog', title: 'OCEAVL Assessment', text: 'Surfaces the psychological tendencies that influence executive decision-making.' },
-      { icon: 'FaThermometerHalf', title: 'Emotional Climate Assessment', text: 'Identifies the prevailing state of being across six core emotions.' }],
-      band: 'Alignment rarely emerges naturally. It must be intentionally designed.',
-      notes: pn(3) });
-    await d.list({ title: 'Principle 4 — Human Reactions Are Predictable', fontSize: 26, rows: [
-      { icon: 'FaProjectDiagram', label: 'Predictable:', text: 'reactions to strategic change follow psychological patterns' },
-      { icon: 'FaExclamationTriangle', label: 'Threat circuitry:', text: 'the brain treats social change like physical danger' },
-      { icon: 'FaHeart', label: 'Emotion first:', text: 'change is evaluated emotionally before rationally' },
-      { icon: 'FaArrowRight', gold: true, text: 'The SCARF Model names the five triggers (1.5).' }],
-      notes: pn(4) });
-    await d.list({ title: 'Principle 5 — Execution Must Be Visible in Behaviour', fontSize: 26, rows: [
-      { icon: 'FaEye', label: 'Observable:', text: 'without behaviour, alignment remains theoretical' },
-      { icon: 'FaListUl', label: 'Five behaviours:', text: 'Accountability, Commitment, Engagement, Integrity, Transparency' },
-      { icon: 'FaBalanceScale', label: 'Independent of stated values:', text: 'the minimum standard for execution' },
-      { icon: 'FaArrowRight', gold: true, text: 'ACE-IT sets the observable standard (1.7).' }],
-      notes: pn(5) });
+  // Two columns side by side, the second dark (as Deck.compare, with room for a two-line column title and no sub-line).
+  async function pair(o) {
+    const s = d.slide(); d.title(s, o.title);
+    const bottom = o.band ? 5.95 : 6.95;
+    for (let i = 0; i < 2; i++) {
+      const c = o.cols[i], x = 0.6 + i * 6.23, dark = i === 1;
+      box(s, x, 1.65, 5.9, bottom - 1.65, dark ? C.forest : C.tint);
+      await badge(s, c.icon, x + 0.3, 1.9, 0.8, dark ? C.gold : C.forest, dark ? C.deep : C.white);
+      T(s, c.title, { x: x + 1.3, y: 1.9, w: 4.45, h: 0.8, fontSize: 26, bold: true, fontFace: F.head, color: dark ? C.white : C.forest, valign: 'middle' });
+      T(s, c.points.map((p, j) => ({ text: p, options: { bullet: true, breakLine: j < c.points.length - 1 } })),
+        { x: x + 0.35, y: 2.95, w: 5.3, h: bottom - 0.1 - 2.95, fontSize: 24, color: dark ? C.white : C.ink, paraSpaceAfter: 6 });
+    }
+    if (o.band) band(s, o.band);
+    s.addNotes(o.notes);
   }
-  {
-    const p13 = u.part(1, 2), cut = from(p13.content, 'The 4 Checks of Mind, Heart, Hands and Habit');
-    const g13 = p13.guidance[0].filter(l => /^(Key facilitation question|Watch for):/.test(l)).join('\n');
-    await d.compare({ title: '1.3a · Change management: event and transition', cols: [
-      { icon: 'FaCalendarCheck', title: 'The event', sub: 'Belongs to the organisation', points: ['Announced on a date', 'The structure, system or target is different', 'Leaders have finished their own transition'] },
-      { icon: 'FaRoute', title: 'The transition', sub: 'Belongs to the person', points: ['Letting go of a familiar practice', 'Working out what the new one asks', 'Becoming able to do it'] }],
-      band: 'Moving people from current practice to the practice the strategy requires.',
-      notes: u.partNotes(1, 2, { content: false, extra: 'Content:\n' + p13.content.slice(0, cut).join('\n') }) });
-    await d.list({ title: '1.3b · The 4 Checks of Mind, Heart, Hands and Habit', fontSize: 24, rows: [
-      { icon: 'FaBrain', label: 'Mind · 3S · Explain', text: 'They understand the change, why it matters and what they do differently.' },
-      { icon: 'FaHeart', label: 'Heart · SCARF · Involve', text: 'They want it to succeed.' },
-      { icon: 'FaHandsHelping', label: 'Hands · STAT · Equip', text: 'They are able to do it.' },
-      { icon: 'FaSyncAlt', label: 'Habit · ACE-IT · Reinforce', text: 'It has become the way they work.' },
-      { icon: 'FaFlag', gold: true, text: 'A change stalls at the first check it fails.' }],
-      notes: N('1.3 · THE 4 CHECKS OF MIND, HEART, HANDS AND HABIT', 'Guidance:\n' + g13, 'Content:\n' + p13.content.slice(cut).join('\n')) });
+
+  // A grid of tinted boxes, each holding a bold name and a line of text (the ten roles of 4.2, the eight fields of the map).
+  function grid(o) {
+    const s = d.slide(); d.title(s, o.title);
+    const cols = o.cols, rws = Math.ceil(o.items.length / cols), gap = 0.2, top = 1.65, bottom = o.band ? 5.95 : 6.95;
+    const cw = (12.13 - gap * (cols - 1)) / cols, ch = (bottom - top - gap * (rws - 1)) / rws;
+    o.items.forEach((it, i) => {
+      const x = 0.6 + (i % cols) * (cw + gap), y = top + Math.floor(i / cols) * (ch + gap);
+      box(s, x, y, cw, ch, C.tint);
+      const runs = [{ text: it.name + '  ', options: { bold: true, color: C.forest, fontFace: F.head } }];
+      it.parts.forEach((p, j) => { if (j) runs.push({ text: ' · ', options: { color: C.muted } }); runs.push({ text: p }); });
+      T(s, runs, { x: x + 0.25, y, w: cw - 0.5, h: ch, fontSize: 24, valign: 'middle' });
+    });
+    if (o.band) band(s, o.band);
+    s.addNotes(o.notes);
   }
-  await d.cards({ title: '1.4 · The 3S Check: Shift, Stake, Step', cols: 3, items: [
+
+  // ── Front
+  await d.cover({ logo: LOGO, subtitle: 'The human operating system that enables strategy to move from intention to execution', notes: n.cover });
+  await d.list({ title: 'Key learning outcomes', fontSize: 24, rows: KLO.map(t => ({ icon: 'FaCheck', text: t })), notes: n.klo });
+  await d.list({ title: 'The unit journey', fontSize: 28, rows: SECTIONS.map((x, k) => ({ icon: ['FaEye', 'FaLightbulb', 'FaMapMarkedAlt', 'FaUsers', 'FaClipboardCheck'][k], label: `Section ${x.num} · ${x.name}`, text: '— ' + x.anchor })), notes: n.journey });
+
+  // ── Section 1 · Awareness — What
+  await div(1);
+  await pair({ title: pt('1.1'), cols: [
+    { icon: 'FaBrain', title: 'Cognition — Mind', points: ['How individuals interpret what strategy means.', 'Shaped by professional expertise, mental shortcuts, past experience, and risk perception.'] },
+    { icon: 'FaHeart', title: 'Emotion — Heart', points: ['How individuals experience the strategy.', 'Shapes engagement energy, morale, friction load, psychological safety, and values alignment.'] }],
+    band: 'Execution begins inside the human system.', notes: n.p11 });
+
+  // 1.2: the overview carries the part number; each principle then has its own slide, in order (Carol, 2 October 2026).
+  // The five taglines are from Carol's original content.
+  await rows({ title: pt('1.2'), fontSize: 24, rows: [
+    { icon: 'FaUsers', label: 'Principle 1', text: 'Strategy Moves Through People', tag: 'the human entry point of execution' },
+    { icon: 'FaUnlink', label: 'Principle 2', text: 'Misalignment Fragments Effort', tag: 'the cost of ignoring the human system' },
+    { icon: 'FaDraftingCompass', label: 'Principle 3', text: 'Alignment Must Be Designed', tag: 'the tools that create alignment' },
+    { icon: 'FaProjectDiagram', label: 'Principle 4', text: 'Human Reactions Are Predictable', tag: 'the behavioural dynamics that influence execution' },
+    { icon: 'FaEye', label: 'Principle 5', text: 'Execution Must Be Visible in Behaviour', tag: 'the observable standard for alignment' }], notes: n.p12 });
+  await pair({ title: 'Principle 1 — Strategy Moves Through People', cols: [
+    { icon: 'FaBrain', title: 'Cognitive alignment', points: ['Identify dominant decision biases at executive level', 'Name how those biases shape the S2R® process', 'Establish shared decision principles that counter predictable distortions'] },
+    { icon: 'FaHeart', title: 'Emotional alignment', points: ['Naming the current emotional state through which strategy is being experienced', 'Joy, Sadness, Anger, Fear, Disgust, Surprise'] }],
+    band: 'Alignment of the mind (cognition) and heart (emotion) is the first execution system.', notes: n.pr1 });
+  await d.cards({ title: 'Principle 2 — Misalignment Fragments Effort', cols: 3, titleSize: 26, textSize: 24, items: [
+    { icon: 'FaCommentDots', title: 'Chinese Whispers', text: 'Intent mutates as it travels downward.' },
+    { icon: 'FaRedo', title: 'Clarification Debt', text: '60–80% of leadership time spent re-explaining, correcting, realigning.' },
+    { icon: 'FaUserSlash', title: 'Silent Disengagement', dark: true, text: 'People comply outwardly but withdraw inwardly.' }],
+    band: 'Low-alignment organisations experience 41% lower productivity and 48% higher turnover.', notes: n.pr2 });
+  await d.cards({ title: 'Principle 3 — Alignment Must Be Designed', cols: 2, titleBeside: true, titleSize: 26, textSize: 24, items: [
+    { icon: 'FaUserCog', title: 'OCEAVL Assessment', text: 'Surfaces psychological tendencies influencing executive decision-making.' },
+    { icon: 'FaThermometerHalf', title: 'Emotional Climate Assessment', dark: true, text: 'Identifies the prevailing state of being across six core emotional categories: Joy, Sadness, Anger, Fear, Disgust, Surprise.' }],
+    band: 'Alignment rarely emerges naturally.', notes: n.pr3 });
+  await rows({ title: 'Principle 4 — Human Reactions Are Predictable', fontSize: 24, rows: [
+    { icon: 'FaChartLine', text: 'Reactions to strategic change follow predictable psychological patterns.' },
+    { icon: 'FaExclamationTriangle', text: 'The human brain processes social change using the same threat circuitry as physical danger' },
+    { icon: 'FaHeartbeat', text: 'Any new goal, system, or way of working is evaluated emotionally before it is evaluated rationally' }],
+    band: 'The SCARF Model (David Rock) explains five social conditions that trigger emotional responses during change.', bandH: 1.05, notes: n.pr4 });
+  await rows({ title: 'Principle 5 — Execution Must Be Visible in Behaviour', fontSize: 24, rows: [
+    { icon: 'FaEye', text: 'Strategic alignment ultimately becomes visible through behaviour.' },
+    { icon: 'FaEyeSlash', text: 'Without observable behaviour, alignment remains theoretical.' },
+    { icon: 'FaRulerCombined', text: 'With behavioural standards, alignment becomes visible, measurable, and sustainable.' }],
+    band: 'Accountability, Commitment, Engagement, Integrity, Transparency', notes: n.pr5 });
+
+  await pair({ title: '1.3a · Change Management: The Event and the Transition', cols: [
+    { icon: 'FaCalendarDay', title: 'The event', points: ['A change is an event.', 'It is announced on a date, and on that date the structure, the system or the target is different.', 'The event belongs to the organisation.'] },
+    { icon: 'FaWalking', title: 'The transition', points: ['Letting go of a familiar practice', 'Working out what the new one asks of them', 'Becoming able to do it', 'The transition belongs to the person.'] }],
+    band: 'Change management is the leadership discipline of moving people from current practice to the practice the strategy requires.', notes: n.p13a });
+  await rows({ title: pt('1.3', 'b'), fontSize: 24, rows: [
+    { icon: 'FaBrain', label: 'Mind · 3S · Explain', text: 'They understand the change, why it matters and what they do differently.' },
+    { icon: 'FaHeart', label: 'Heart · SCARF · Involve', text: 'They want it to succeed.' },
+    { icon: 'FaHandPaper', label: 'Hands · STAT · Equip', text: 'They are able to do it.' },
+    { icon: 'FaSyncAlt', label: 'Habit · ACE-IT · Reinforce', text: 'It has become the way they work.' }],
+    band: 'A change stalls at the first check it fails.', notes: n.p13b });
+
+  await d.cards({ title: pt('1.4'), cols: 3, titleSize: 28, textSize: 24, items: [
     { icon: 'FaExchangeAlt', title: 'Shift', text: '“What is changing?”' },
     { icon: 'FaBalanceScale', title: 'Stake', text: '“What do we gain if we change, and what do we lose if we stay as we are?”' },
-    { icon: 'FaShoePrints', title: 'Step', text: '“What do I do differently?”' }],
-    band: 'Mind passes when three people give the same Shift, Stake and Step.',
-    notes: u.partNotes(1, 3) });
-  await d.list({ title: '1.5 · SCARF: five triggers of human resistance', fontSize: 26, rows: [
-    { icon: 'FaCrown', label: 'Status', text: '“Will this reduce my importance?”' },
-    { icon: 'FaQuestionCircle', label: 'Certainty', text: '“Do I know what success looks like?”' },
-    { icon: 'FaUnlock', label: 'Autonomy', text: '“Am I losing control of my work?”' },
-    { icon: 'FaUserFriends', label: 'Relatedness', text: '“Do I still belong here?”' },
-    { icon: 'FaBalanceScale', label: 'Fairness', text: '“Is this being applied equitably?”' }],
-    notes: u.partNotes(1, 4) });
-  await d.cards({ title: '1.6 · The STAT Check: Skill, Time, Authority, Tools', cols: 2, titleBeside: true, items: [
+    { icon: 'FaShoePrints', title: 'Step', dark: true, text: '“What do I do differently?”' }],
+    band: 'Mind passes when the people affected can say three things about the change in their own words.', notes: n.p14 });
+  await rows({ title: pt('1.5'), fontSize: 26, rows: [
+    { icon: 'FaMedal', label: 'Status', text: '“Will this reduce my importance?”' },
+    { icon: 'FaCompass', label: 'Certainty', text: '“Do I know what success looks like?”' },
+    { icon: 'FaUnlockAlt', label: 'Autonomy', text: '“Am I losing control of my work?”' },
+    { icon: 'FaHandshake', label: 'Relatedness', text: '“Do I still belong here?”' },
+    { icon: 'FaBalanceScale', label: 'Fairness', text: '“Is this being applied equitably?”' }], notes: n.p15 });
+  await d.cards({ title: pt('1.6'), cols: 2, titleBeside: true, titleSize: 28, textSize: 24, items: [
     { icon: 'FaGraduationCap', title: 'Skill', text: '“Do they know how to do it?”' },
     { icon: 'FaClock', title: 'Time', text: '“Do they have the hours to do it?”' },
-    { icon: 'FaKey', title: 'Authority', text: '“Are they allowed to decide and act?”' },
-    { icon: 'FaTools', title: 'Tools', text: '“Do they have the systems and resources?”' }],
-    notes: u.partNotes(1, 5) });
-  await d.list({ title: '1.7 · ACE-IT: the observable behaviour standard', fontSize: 26, rows: [
-    { icon: 'FaUserCheck', label: 'A · Accountability', text: 'full ownership for results' },
-    { icon: 'FaAnchor', label: 'C · Commitment', text: 'anchored to agreed strategic intent' },
-    { icon: 'FaComments', label: 'E · Engagement', text: 'listening to understand' },
-    { icon: 'FaGem', label: 'I · Integrity', text: 'consistent with values, facts and truth' },
-    { icon: 'FaEye', label: 'T · Transparency', text: 'reasoning, progress and constraints visible' }],
-    notes: u.partNotes(1, 6) });
+    { icon: 'FaKey', title: 'Authority', dark: true, text: '“Are they allowed to decide and act?”' },
+    { icon: 'FaTools', title: 'Tools', dark: true, text: '“Do they have the systems and resources?”' }],
+    band: 'Hands passes when all four elements are in place.', notes: n.p16 });
+  await rows({ title: pt('1.7'), fontSize: 24, rows: [
+    { icon: 'FaUserCheck', label: 'Accountability', text: 'Taking full ownership for results.' },
+    { icon: 'FaAnchor', label: 'Commitment', text: 'Staying anchored to agreed strategic intent even when pressure rises.' },
+    { icon: 'FaComments', label: 'Engagement', text: 'Actively involving self and others in sense-making, dialogue, and execution.' },
+    { icon: 'FaShieldAlt', label: 'Integrity', text: 'Acting consistently with values, facts, and truth — even when inconvenient.' },
+    { icon: 'FaSearch', label: 'Transparency', text: 'Making reasoning, progress, and constraints visible to all stakeholders.' }],
+    band: 'These five behaviours are what hold a new practice in place.', notes: n.p17 });
 
-  // ── Section 2
-  await div(d, 2);
-  await d.prompt({ icon: 'FaBolt', label: '2.1 · The ignition point of strategy execution', text: '“This matters to me. I am willing to invest energy in making this succeed.”',
-    foot: 'Until that moment occurs across the organisation, strategy remains theoretical.',
-    notes: u.partNotes(2, 0) });
-  await d.compare({ title: '2.2 · Compliance and commitment', cols: [
-    { icon: 'FaClipboardList', title: 'Compliance', sub: 'Mind only', points: ['Authority, rules or monitoring', 'Continuous supervision', 'Mechanical'] },
-    { icon: 'FaHeart', title: 'Commitment', sub: 'Mind and heart', points: ['Understanding, belief, ownership', 'Discretionary effort', 'Resilient when leaders are absent'] }],
-    band: 'Alignment is the conversion point where strategic potential becomes movement.',
-    notes: u.partNotes(2, 1) });
-  await d.compare({ title: '2.3 · Installed and adopted', cols: [
-    { icon: 'FaPlug', title: 'Installed', sub: 'A project outcome', points: ['System, structure or KPI is in place', 'People have been told', 'Yields cost'] },
-    { icon: 'FaCheckDouble', title: 'Adopted', sub: 'A behavioural outcome', points: ['People work the new way unsupervised', 'The change has passed all four checks', 'Yields value'] }],
-    band: 'The time between installed and adopted is the adoption gap.',
-    notes: u.partNotes(2, 2) });
+  // ── Section 2 · Intelligence — Why
+  await div(2);
+  await d.prompt({ icon: 'FaFire', label: pt('2.1'), text: '“This matters to me. I am willing to invest energy in making this succeed.”',
+    foot: 'Until that moment occurs across the organisation, strategy remains theoretical.', notes: n.p21 });
+  await d.cards({ title: pt('2.2'), cols: 3, titleSize: 24, textSize: 24, items: [
+    { icon: 'FaBolt', title: 'I. Potential vs. Kinetic Energy Logic', text: 'The organisation does not move until people decide to move it.' },
+    { icon: 'FaBalanceScale', title: 'II. Compliance vs. Commitment Logic', text: 'Execution continues even when leaders are not present.' },
+    { icon: 'FaTrophy', title: 'III. The Strategic Payoff of Alignment', dark: true, text: 'Leaders spend less time correcting and more time advancing strategy.' }],
+    band: 'Aligning Heart & Mind is the mechanical conversion point where strategic potential becomes strategic movement.', notes: n.p22 });
+  await pair({ title: pt('2.3'), cols: [
+    { icon: 'FaPlug', title: 'Installed', points: ['The new system, structure or KPI is in place, and people have been told.', 'Installation is a project outcome.', 'What it yields: cost.'] },
+    { icon: 'FaCheckDouble', title: 'Adopted', points: ['People work the new way without supervision.', 'Adoption is a behavioural outcome.', 'What it yields: value.'] }],
+    band: 'The time between installed and adopted is the adoption gap.', notes: n.p23 });
 
-  // ── Section 3
-  await div(d, 3);
-  await d.list({ title: '3.1 · COMPASS: seven High Flammable Zones', fontSize: 24, rows: [
-    ['C', 'Clarity of Strategic Direction'], ['O', 'Organisational Alignment'], ['M', 'Management Discipline'], ['P', 'People & Capability'],
-    ['A', 'Allocation of Resources'], ['S', 'Sensing & Adaptation'], ['S', 'Systems & Execution']].map(([l, t]) => ({ icon: 'FaFire', label: l, text: t })),
-    notes: u.partNotes(3, 0) });
-  await d.compare({ title: '3.2 · From High Flammable to Burning Platform', cols: [
-    { icon: 'FaFire', title: 'High Flammable Zone', sub: 'A leverage point', points: ['Strong alignment: compounding momentum', 'Weak alignment: multiplying friction', 'Early intervention stabilises it'] },
-    { icon: 'FaExclamationTriangle', title: 'Burning Platform', sub: 'Past the escalation threshold', points: ['Breakdown visible and costly', 'Reactive fixes cost far more', 'Requires systemic rebuilding'] }],
-    notes: u.partNotes(3, 1) });
-  await d.list({ title: '3.3 · Change readiness: the scan', fontSize: 26, rows: [
+  // ── Section 3 · Extrapolating — Where
+  await div(3);
+  await rows({ title: pt('3.1'), fontSize: 24, rows: [
+    { icon: 'FaBullseye', label: 'C', text: 'Clarity of Strategic Direction' },
+    { icon: 'FaSitemap', label: 'O', text: 'Organisational Alignment' },
+    { icon: 'FaTasks', label: 'M', text: 'Management Discipline' },
+    { icon: 'FaUserFriends', label: 'P', text: 'People & Capability' },
+    { icon: 'FaCoins', label: 'A', text: 'Allocation of Resources' },
+    { icon: 'FaSatelliteDish', label: 'S', text: 'Sensing & Adaptation' },
+    { icon: 'FaCogs', label: 'S', text: 'Systems & Execution' }], notes: n.p31 });
+  await pair({ title: pt('3.2'), cols: [
+    { icon: 'FaBurn', title: 'High Flammable Zone', points: ['Organisational leverage points.', 'When alignment is strong: rapid clarity, coordinated effort, compounding momentum.', 'When alignment is weak: distorted interpretation, defensive behaviour, multiplying friction.'] },
+    { icon: 'FaFireAlt', title: 'Burning Platform', points: ['What a High Flammable becomes when misalignment persists and crosses the escalation threshold.', 'Execution breakdown is visible and costly.', 'Reactive interventions cost exponentially more than proactive alignment would have.'] }], notes: n.p32 });
+  await rows({ title: pt('3.3'), fontSize: 24, rows: [
     { icon: 'FaListUl', label: '1', text: 'Name one change and list the groups it affects.' },
-    { icon: 'FaTasks', label: '2', text: 'Rate each group on the 4 Checks: 1 (fully in place) to 5 (missing).' },
-    { icon: 'FaFlag', label: '3', text: 'Start at each group’s first check that scores 4 or 5.' },
-    { icon: 'FaFire', gold: true, text: 'Low readiness inside a High Flammable Zone comes first.' }],
-    notes: u.partNotes(3, 2) });
+    { icon: 'FaClipboardCheck', label: '2', text: 'Run the 4 Checks for each group. Rate each check from 1 (fully in place) to 5 (missing).' },
+    { icon: 'FaFlag', label: '3', text: 'Find each group’s first check that scores 4 or 5. Leadership effort for that group starts there.' }],
+    band: 'One change, three groups, three starting points.', notes: n.p33 });
 
-  // ── Section 4
-  await div(d, 4);
-  await d.compare({ title: '4.1 · The Converging Zone', cols: [
-    { icon: 'FaRandom', title: 'Without', sub: 'Collective Intelligence', points: ['Different interpretations transmitted', 'COMPASS domains drift', 'Competing signals'] },
-    { icon: 'FaCompressArrowsAlt', title: 'With', sub: 'Collective Intelligence', points: ['Direction clear across all layers', 'Resources reinforce priorities', 'One coherent signal'] }],
-    notes: u.partNotes(4, 0) });
+  // ── Section 4 · Integration — Collective
+  await div(4);
+  await pair({ title: pt('4.1'), cols: [
+    { icon: 'FaCheckCircle', title: 'With Collective Intelligence', points: ['Direction remains clear across all layers', 'Resources reinforce priorities', 'Systems enable execution', 'People move with coordinated effort'] },
+    { icon: 'FaTimesCircle', title: 'Without Collective Intelligence', points: ['Different leaders transmit different interpretations', 'COMPASS domains begin to drift', 'Functions receive competing signals', 'Strategic instability spreads invisibly'] }],
+    band: 'One coherent signal across the organisation.', notes: n.p41 });
+  grid({ title: pt('4.2'), cols: 2, items: [
+    { name: 'CEO', parts: ['Clarity of Direction', 'Organisational Alignment'] },
+    { name: 'CFO', parts: ['Allocation of Resources', 'Management Discipline'] },
+    { name: 'COO', parts: ['Systems & Execution', 'Management Discipline'] },
+    { name: 'CHRO', parts: ['People & Capability', 'Organisational Alignment'] },
+    { name: 'CTO/CIO', parts: ['Systems & Execution', 'Sensing & Adaptation'] },
+    { name: 'CMO', parts: ['Clarity of Direction', 'Sensing & Adaptation'] },
+    { name: 'CCO', parts: ['Allocation of Resources', 'Organisational Alignment'] },
+    { name: 'CPO', parts: ['Systems & Execution', 'Allocation of Resources'] },
+    { name: 'CRO', parts: ['Management Discipline', 'Systems & Execution'] },
+    { name: 'CSO', parts: ['Clarity of Direction', 'Sensing & Adaptation'] }], notes: n.p42 });
   {
-    const s = d.slide(); d.title(s, '4.2 · Collective intelligence by role');
-    const roles = [['CEO', 'Clarity · Alignment'], ['CFO', 'Resources · Discipline'], ['COO', 'Systems · Discipline'], ['CHRO', 'People · Alignment'], ['CTO/CIO', 'Systems · Sensing'],
-      ['CMO', 'Clarity · Sensing'], ['CCO', 'Resources · Alignment'], ['CPO', 'Systems · Resources'], ['CRO', 'Discipline · Systems'], ['CSO', 'Clarity · Sensing']];
-    T(s, 'Primary COMPASS activation by role', { x: 0.6, y: 1.55, w: 12, h: 0.5, fontSize: 24, italic: true, color: C.muted });
-    roles.forEach(([r, c], i) => {
-      const x = 0.6 + (i % 2) * 6.15, y = 2.15 + Math.floor(i / 2) * 0.98;
-      box(s, x, y, 5.95, 0.85, C.tint);
-      T(s, [{ text: r + '   ', options: { bold: true, color: C.forest, fontFace: F.head } }, { text: c }], { x: x + 0.25, y, w: 5.5, h: 0.85, fontSize: 24, valign: 'middle' });
-    });
-    s.addNotes(u.partNotes(4, 1));
+    const s = d.slide(); d.title(s, pt('4.3'));
+    const items = [
+      ['FaBullhorn', 'One message', 'Protects Mind', 'Every leader gives the same Shift, Stake and Step for each change.', false],
+      ['FaUserTie', 'One example', 'Protects Heart', 'Leaders show the ACE-IT behaviours the change needs before they ask for them.', false],
+      ['FaSortAmountDown', 'One sequence', 'Protects Hands', 'The team then agrees the order and the pace.', true],
+      ['FaUserCheck', 'One owner', 'Protects Habit', 'Each transition has one named leader who answers for adoption, through to Habit.', true]];
+    const gap = 0.3, top = 1.65, bottom = 6.95, cw = (12.13 - gap) / 2, ch = (bottom - top - gap) / 2, ib = 0.6;
+    for (let i = 0; i < 4; i++) {
+      const [ic, name, tag, text, dark] = items[i], x = 0.6 + (i % 2) * (cw + gap), y = top + Math.floor(i / 2) * (ch + gap);
+      box(s, x, y, cw, ch, dark ? C.forest : C.tint);
+      await badge(s, ic, x + 0.25, y + 0.22, ib, dark ? C.gold : C.forest, dark ? C.deep : C.white);
+      T(s, [{ text: name, options: { bold: true, fontFace: F.head, color: dark ? C.white : C.forest } }, { text: ' · ', options: { color: dark ? C.goldLight : C.muted } },
+        { text: tag, options: { italic: true, color: dark ? C.goldLight : C.muted } }], { x: x + 0.25 + ib + 0.2, y: y + 0.2, w: cw - ib - 0.7, h: 0.65, fontSize: 24, valign: 'middle' });
+      T(s, text, { x: x + 0.25, y: y + 1.0, w: cw - 0.5, h: ch - 1.15, fontSize: 24, color: dark ? C.white : C.ink });
+    }
+    s.addNotes(n.p43);
   }
-  await d.cards({ title: '4.3 · Leading change with one voice', cols: 2, titleBeside: true, items: [
-    { icon: 'FaBullhorn', title: 'One message', text: 'Protects Mind: every leader gives the same Shift, Stake and Step.' },
-    { icon: 'FaUserCheck', title: 'One example', text: 'Protects Heart: leaders show the behaviours before they ask for them.' },
-    { icon: 'FaListOl', title: 'One sequence', text: 'Protects Hands: the team agrees the order and pace of its changes.' },
-    { icon: 'FaUserTie', title: 'One owner', text: 'Protects Habit: one named leader answers for adoption.' }],
-    notes: u.partNotes(4, 2) });
 
-  // ── Section 5
-  await d.section({ num: 5, name: 'Application', anchor: 'In Practice', heading: S5.h2, outcomes: S5.slo,
-    notes: N('SECTION 5 · APPLICATION — IN PRACTICE\n' + S5.h2 + '\n' + S5.sub, 'Section learning outcomes:\n' + S5.slo.map((o, k) => `${k + 1}. ${o}`).join('\n'), gl(S5.lead.guidance[0])) });
-  {
-    const fc = S5.lead.content, pc = u.P.sections[4].lead.content, G5 = S5.lead.guidance.map(gl);
-    const fMap = from(fc, 'Work independently. Choose two changes'), fRole = from(fc, 'Work independently. For the two changes');
-    const pMap = from(pc, 'Work independently. Choose two changes'), pRole = from(pc, 'Work independently. For the two changes');
-    await d.list({ title: 'Step 1 · The Change Transition Map', fontSize: 26, rows: [
-      { icon: 'FaExchangeAlt', label: 'Two changes (15 min):', text: 'one practice to start, one to stop' },
-      { icon: 'FaTasks', label: 'Run the 4 Checks:', text: 'Mind · 3S, Heart · SCARF, Hands · STAT, Habit · ACE-IT' },
-      { icon: 'FaSearch', label: 'Weakest check:', text: 'the first check that fails, and what the group needs' },
-      { icon: 'FaUserTie', gold: true, label: 'Owner:', text: 'one named leader who answers for adoption' }],
-      notes: N('APPLICATION EXERCISE · STEP 1 — THE CHANGE TRANSITION MAP', G5.slice(1, 3), 'Content:\n' + fc.slice(fMap, fRole).join('\n'),
-        'Participant file (Section 5, Step 1) — what participants complete:\n' + pc.slice(pMap, pRole).join('\n')) });
-    await d.list({ title: 'Steps 2–4 · Mapping how our roles connect', fontSize: 26, rows: [
-      { icon: 'FaUser', label: 'Step 2 · Role Connections (12–15 min):', text: 'your role and the two you depend on most' },
-      { icon: 'FaExchangeAlt', label: 'Step 3 · Exchange & Dialogue (15–20 min):', text: 'test each other’s maps and tables' },
-      { icon: 'FaUsers', label: 'Step 4 · Plenary Synthesis (20–25 min):', text: 'the weakest domain and the change sequence' },
-      { icon: 'FaFlagCheckered', gold: true, label: '30-day commitment:', text: 'one behaviour, tied to a mapped change' }],
-      notes: N('APPLICATION EXERCISE · STEPS 2–4', G5.slice(3), 'Content:\n' + fc.slice(fRole).join('\n'),
-        'Participant file (Section 5, Steps 2–4) — what participants complete:\n' + pc.slice(pRole).join('\n')) });
-  }
-  await d.prompt({ icon: 'FaRedo', label: 'Unit Summary · Closing question', text: 'Which COMPASS domain is this team most likely rating too generously — and which executive role has quietly stopped carrying its alignment responsibility there?',
-    notes: u.partNotes(5, 0) });
+  // ── Section 5 · Application — In Practice (slides titled by step)
+  await div(5);
+  grid({ title: `Step 1 · ${STEPS[0]}`, cols: 2, items: [
+    { name: 'The change', parts: ['Name the practice, the group and the date.'] },
+    { name: 'Who is most affected', parts: ['The group whose daily work changes most.'] },
+    { name: 'Mind · 3S', parts: ['The Shift, the Stake and the Step'] },
+    { name: 'Heart · SCARF', parts: ['What they give up, and the trigger it is most likely to fire.'] },
+    { name: 'Hands · STAT', parts: ['What is in place and what is missing'] },
+    { name: 'Habit · ACE-IT', parts: ['How the five behaviours will hold the new practice in place'] },
+    { name: 'Weakest check', parts: ['The first check that fails'] },
+    { name: 'Leader who owns it', parts: ['One named leader who answers for adoption.'] }], notes: n.st1 });
+  await rows({ title: `Step 2 · ${STEPS[1]}`, fontSize: 24, rows: [
+    { icon: 'FaUser', label: 'Row 1: Your Own Role', text: 'How I Create Collective Intelligence' },
+    { icon: 'FaUserFriends', label: 'Row 2: First Closely Related Role', text: 'Why This Role’s Alignment Is Critical to Mine' },
+    { icon: 'FaUserFriends', label: 'Row 3: Second Closely Related Role', text: 'What Would Strengthen Our Alignment' }],
+    band: 'Focus on the alignment mechanism.', notes: n.st2 });
+  await rows({ title: `Step 3 · ${STEPS[2]}`, fontSize: 24, rows: [
+    { icon: 'FaComments', label: 'Exchange 1:', text: 'Does your colleague agree with how you described their alignment contribution?' },
+    { icon: 'FaLink', label: 'Exchange 2:', text: 'Additional connectivity your colleague identified' },
+    { icon: 'FaCodeBranch', label: 'Exchange 3:', text: 'Where your interpretations diverged and what that signals' },
+    { icon: 'FaCheckDouble', label: 'Exchange 4:', text: 'Does your colleague agree with the weakest check and the owner you named for each change?' }], notes: n.st3 });
+  await rows({ title: `Step 4 · ${STEPS[3]}`, fontSize: 24, rows: [
+    { icon: 'FaUsers', text: 'Most Frequently Underactivated COMPASS Domain(s)' },
+    { icon: 'FaUsers', text: 'Shared Patterns — Where Alignment Is Already Strong' },
+    { icon: 'FaUsers', text: 'Changes Landing on the Same Group, and the Sequence the Team Agrees' },
+    { icon: 'FaUser', gold: true, text: 'Your 30-Day Behavioural Commitment' }],
+    band: 'Step 4 is Capstone work: your group’s confirmed outputs feed your team’s Capstone Blueprint.', bandH: 1.05, notes: n.st4 });
+  await d.prompt({ icon: 'FaRedo', label: 'Unit Summary · The closing question', text: CLOSING_Q, notes: n.summary });
 
-  await d.save(OUT); console.log('saved');
+  if (used.size !== Object.keys(INS).length) throw new Error('insights not all used: ' + Object.keys(INS).filter(k => !used.has(k)).join(', '));
+  await d.save(OUT);
+
+  // Spec for add_reflection_slides.py: the reflection slides of Sections 1 to 4, each after the last content slide of its section.
+  // Section 1 has seven reflections and takes two slides. Where two slides share an anchor, the later one is listed first
+  // (the script places each straight after the anchor).
+  const pic = k => ({ part: k, file: `ref_${k}.png`, alt: `${k} ${REFL[k].label}: ${REFL[k].prompt}` });
+  const spec = { title_model: 'Key learning outcomes', slides: [
+    { title: 'Section 1 Reflections · 1.4 to 1.7', after: pt('1.7'), notes: n.ref1b, pictures: ['1.4', '1.5', '1.6', '1.7'].map(pic) },
+    { title: 'Section 1 Reflections · 1.1 to 1.3', after: pt('1.7'), notes: n.ref1a, pictures: ['1.1', '1.2', '1.3'].map(pic) },
+    { title: 'Section 2 Reflections', after: pt('2.3'), notes: n.ref2, pictures: ['2.1', '2.2', '2.3'].map(pic) },
+    { title: 'Section 3 Reflections', after: pt('3.3'), notes: n.ref3, pictures: ['3.1', '3.3'].map(pic) },
+    { title: 'Section 4 Reflections', after: pt('4.3'), notes: n.ref4, pictures: ['4.1', '4.2', '4.3'].map(pic) }] };
+  fs.mkdirSync(path.join(HERE, 'reflections', 'u05'), { recursive: true });
+  fs.writeFileSync(path.join(HERE, 'reflections', 'u05', 'spec.json'), JSON.stringify(spec, null, 1));
+  console.log('saved', OUT, '· insights used:', used.size);
 })().catch(e => { console.error(e); process.exit(1); });
