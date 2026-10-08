@@ -458,11 +458,6 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
 .u3-lead strong{color:rgba(255,255,255,.9);}
 @media(max-width:900px){.u3-kr4{grid-template-columns:1fr 1fr;}}
 @media(max-width:900px){.sa-badge{white-space:normal;}}
-/* Portfolio work: Save to Portfolio row under the 3.1 exercise and the 5.1 game */
-.u3-pf{margin-top:18px;padding:14px 16px 12px;border:1px solid rgba(201,168,76,.35);border-left:3px solid var(--gold);border-radius:3px;background:rgba(201,168,76,.05);}
-.u3-pf-h{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 4px;}
-.u3-pf p{font-size:13px!important;color:rgba(255,255,255,.8)!important;line-height:1.7!important;margin:0!important;}
-.u3-pf .u3-btnrow{margin-top:10px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
@@ -713,12 +708,8 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
       <li>Choose the Alignment Question that brings the role back to the enterprise, in the same way.</li>
       <li>Move to the next role. The exercise is complete when ten of ten roles are matched.</li>
     </ol>
-    <p>Complete the exercise on your own. Select Save to Portfolio when you finish. Your matches become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
+    <p>Complete the exercise on your own. Your matches become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
   <div id="hzMatchP"></div>
-  <div class="u3-pf"><div class="u3-pf-h">Portfolio work · Save and submit</div>
-    <p>Save your matches to your Learning Portfolio. Submit to Facilitator, at the end of the unit, sends your portfolio work to your facilitator.</p>
-    <div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="pfSave('hz')">Save to Portfolio</button><button type="button" class="u3-b" onclick="pfGoSubmit()">Go to Submit to Facilitator</button></div>
-    <div class="u3-note" id="pf_hz_msg" style="display:none;"></div></div>
   <div class="ref-block" style="margin-top:20px;"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">&#x270E; Reflection</span></div>
   <div class="ref-prompt">Which hot zone description most accurately reflects how you instinctively approach OKR definition? What would you need to do differently to write an enterprise-level Key Result?</div>
   <textarea class="ref-ta reflection-textarea" id="ref4" placeholder="Your reflection here..."></textarea>
@@ -789,12 +780,8 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
       <li><strong>Gate 2 · Flight Plan:</strong> choose one KISS theme and convert it into one Objective, two Key Results and the contributing roles. Add the flight plan.</li>
       <li>Finish the learning round.</li>
     </ol>
-    <p>Play the learning round on your own. Select Save to Portfolio when you finish. Your KISS choices and your flight plans become part of your Learning Portfolio and reach your facilitator when you submit the unit.</p></div>
+    <p>Play the learning round on your own. Your KISS choices and your flight plans become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
   <div id="saHostP"></div>
-  <div class="u3-pf"><div class="u3-pf-h">Portfolio work · Save and submit</div>
-    <p>Save your learning round to your Learning Portfolio. Submit to Facilitator, at the end of the unit, sends your portfolio work to your facilitator.</p>
-    <div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="pfSave('game')">Save to Portfolio</button><button type="button" class="u3-b" onclick="pfGoSubmit()">Go to Submit to Facilitator</button></div>
-    <div class="u3-note" id="pf_game_msg" style="display:none;"></div></div>
 </div></div>
 
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 3 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
@@ -1168,7 +1155,7 @@ function saRenderDone(){
     '<div class="sa-summary"><div class="sa-card"><div class="sa-big">1</div><div class="sa-card-h">KISS Themes Captured</div><ul><li>Keep: '+saLines(K.keep).length+'</li><li>Improve: '+saLines(K.improve).length+'</li><li>Start: '+saLines(K.start).length+'</li><li>Stop: '+saLines(K.stop).length+'</li></ul></div>'+
     '<div class="sa-card"><div class="sa-big">2</div><div class="sa-card-h">OKR Built From One Theme</div><ul>'+SA.state.okrs.map(function(o){return '<li><strong>'+u3esc(o.objective)+'</strong><br>'+u3esc(o.kr1)+'<br>'+u3esc(o.kr2)+'</li>';}).join('')+'</ul></div></div>'+
     '<div class="sa-msg success" style="margin-top:18px">Learning point: KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.</div>'+
-    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">Select Save to Portfolio below to place this learning round in your Learning Portfolio.</div>':'')+
+    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">This learning round is part of your Learning Portfolio. It reaches your facilitator when you select Submit to Facilitator at the end of the unit.</div>':'')+
     '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Start Again</button></div>';
 }
 function saReset(){
@@ -1261,7 +1248,7 @@ function renderMatch(){
   if(hzDone(i)&&!all)next='<div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="hzNext()">Next role →</button></div>';
   host.innerHTML='<div class="u3-progress"><div class="u3-progress-top"><span>Roles matched</span><b>'+n+' of '+HOT_ZONES.length+'</b></div><div class="u3-bar"><span style="width:'+Math.round(n/HOT_ZONES.length*100)+'%"></span></div></div>'+
     '<div class="u3-chips">'+chips+'</div>'+
-    (all?'<div class="hbox teal"><p><strong>All ten roles matched.</strong> Select any role above to review its full card. Select Save to Portfolio below.</p></div>':'')+
+    (all?'<div class="hbox teal"><p><strong>All ten roles matched.</strong> Select any role above to review its full card.</p></div>':'')+
     '<div class="u3-role"><div class="u3-role-h"><div class="u3-role-n">'+u3esc(h.role)+'</div><div class="u3-role-t">'+u3esc(h.title)+'</div></div>'+
       '<div class="u3-role-given"><div><h5>Dominant Future Realities <span>suggested</span></h5><p>'+u3esc(h.top2)+'</p></div><div><h5>Natural OKR Emphasis <span>suggested</span></h5><p>'+u3esc(h.emphasis)+'</p></div></div>'+
       '<div class="u3-role-q"><h5>Typical Hot Zone</h5><p class="u3-small">Which hot zone does this emphasis create?</p>'+hzOptions('hot')+hzNote('hot')+'</div>'+
@@ -1659,32 +1646,6 @@ function gameChanged(){
     await u3save('game_flight_plan',saPlanText());
     await u3save('game_round',st.step===3?'Learning round complete':st.step===2?'In progress · Gate 2: Flight Plan':'In progress · Gate 1: Baggage Check');
   },700);
-}
-
-// ── Portfolio work (3.1 and 5.1): Save to Portfolio, and the way to Submit to Facilitator ──────────
-async function pfSave(kind){
-  var id='pf_'+kind+'_msg',ok=false,done=false;
-  u3msg(id,'Saving…','');
-  try{
-    if(kind==='hz'){
-      var a=await u3save('__hz_match',{cur:HZ.cur,m:HZ.m}),b=await u3save('hz_match',hzText());
-      ok=!!(a&&b);done=hzCount()===HOT_ZONES.length;
-    }else{
-      clearTimeout(_gameTimer);
-      var st=SA.state,r=[await u3save('__game',st),await u3save('game_kiss',saKissText()),await u3save('game_flight_plan',saPlanText()),
-        await u3save('game_round',st.step===3?'Learning round complete':st.step===2?'In progress · Gate 2: Flight Plan':'In progress · Gate 1: Baggage Check')];
-      ok=r.every(function(x){return !!x;});done=st.step===3;
-    }
-  }catch(e){ok=false;}
-  if(!ok){u3msg(id,'Not saved. Check your connection, then select Save to Portfolio again.','');return;}
-  if(kind==='hz')u3msg(id,done?'✓ Saved to your portfolio. Ten of ten roles matched. Select Go to Submit to Facilitator when your unit is complete.':'✓ Saved to your portfolio. '+hzCount()+' of '+HOT_ZONES.length+' roles matched. Match the remaining roles, then save again.','ok');
-  else u3msg(id,done?'✓ Saved to your portfolio. Learning round complete. Select Go to Submit to Facilitator to send your unit.':'✓ Saved to your portfolio. Finish the learning round, then save again.','ok');
-}
-function pfGoSubmit(){
-  var b=document.querySelector('.send-btn');if(!b)return;
-  var panel=b.closest('.mod-panel'),panels=document.querySelectorAll('.mod-panel');
-  if(panel){panels.forEach(function(p,x){var on=p===panel;p.classList.toggle('active',on);var t=document.querySelectorAll('.mod-tab')[x];if(t)t.classList.toggle('active',on);});}
-  setTimeout(function(){b.scrollIntoView({behavior:'smooth',block:'center'});try{b.focus({preventScroll:true});}catch(e){}},60);
 }
 
 function toggleDomain(id){u3ToggleDomain(id);}
