@@ -17,7 +17,7 @@ tp, tf = plain(P), plain(F); vp, vf = plain(P, False), plain(F, False)
 low = (tp + ' ' + tf).lower()
 prs = Presentation(deck); bad = 0
 DECK_ONLY = [r'^Key learning outcomes$', r'^The unit journey$', r'^Section \d', r'^Section learning outcomes$', r'Facilitator deck$', r'^Module 3 · Influence · Unit 5$',
-  r'^\d\.\d[ab]? · ', r'^Principle \d — ', r'^Step \d · ', r'^Unit Summary · The closing question$',
+  r'^\d\.\d(\.\d)?[ab]? · ', r'^Principle \d — ', r'^Step \d · ', r'^Unit Summary · The closing question$',
   # 1.2 overview: three of the five taglines are from Carol's original content (her instruction of 2 October 2026); the other two are on the pages
   r'^the tools that create alignment$', r'^the behavioural dynamics that influence execution$', r'^the observable standard for alignment$',
   # 1.3b: check, tool and job on one label (each word is on the pages)
@@ -58,7 +58,7 @@ for i, sl in enumerate(texts, 1):
             bad += 1; print(f'  slide {i}: not on a page: {t[:120]}')
 print('   strings checked:', seen)
 print('3. Leftovers')
-pats = [r'Save to Portfolio', r'Go to Submit', r'\blens(es)?\b', r'\b\d+\s*(–|-|to)?\s*\d*\s*(minutes|mins?)\b', r'[Ss]uggested (section )?time', r'[Ww]hiteboard|flip chart|on the board|one sheet|[Cc]irculate',
+pats = [r'Save to Portfolio', r'Go to Submit', r'\blens(es)?\b', r'\b\d+\s*(–|-|to)?\s*\d*\s*(minutes|mins?)\b', r'[Ss]uggested (section )?time', r'[Ww]hiteboard|flip chart|on the board|one sheet|[Cc]irculate', r'COMPASS|Burning Platform|High Flammable|Change Readiness|readiness scan|Change Transition Map|Plenary Synthesis',
         r'in th(e|is) room', r'pre-?work', r'as they are today', r'Aligning Hearts', r'KISS table', r'Strategy2Results(?!®)', r'\bS2R(?!®)', r'\bSIP\b', r'rather than|instead of|in place of']
 notes = '\n'.join(s.notes_slide.notes_text_frame.text for s in prs.slides)
 for name, t in (('participant page', vp), ('facilitator page', vf), ('deck slides', ' | '.join(' | '.join(x) for x in texts)), ('deck notes', notes)):
@@ -68,8 +68,8 @@ print('4. Page pair')
 rp, rf = open(P, encoding='utf-8').read(), open(F, encoding='utf-8').read()
 parts = {}
 for lab, rx in (('part titles', r'class="acc-t[^"]*">(.*?)<'), ('sub-lines', r'class="acc-meta">(.*?)<')):
-    a = [html.unescape(x) for x in re.findall(rx, rp)][:16]; b = [html.unescape(x) for x in re.findall(rx, rf)][:16]   # the sixteen parts of Sections 1 to 4
-    same = a == b and len(a) == 16; print('   ', lab, 'identical on both pages:', same, '' if same else (a, b)); bad += (not same)
+    a = [html.unescape(x) for x in re.findall(rx, rp)][:14]; b = [html.unescape(x) for x in re.findall(rx, rf)][:14]   # the fourteen parts of Sections 1 to 4
+    same = a == b and len(a) == 14; print('   ', lab, 'identical on both pages:', same, '' if same else (a, b)); bad += (not same)
     if lab == 'part titles': titles = a
 print('5. Part titles and reflection questions in the deck')
 firsts = [sl[0] if sl else '' for sl in texts]; alltitles = [t for sl in texts for t in sl[:2]]
@@ -78,7 +78,7 @@ for t in titles:
     hit = [x for x in alltitles if re.match(re.escape(num) + r'[ab]? · ', x) and (name in x or (num == '1.3' and x.startswith('1.3a · Change Management:')))]
     if not hit: bad += 1; print('   part title not on a slide word for word:', t)
 qs = [norm(html.unescape(re.sub(r'<[^>]+>', ' ', x))) for x in re.findall(r'<label class="wp-label"[^>]*for="ref\d+">(.*?)</label>', rp)]
-assert len(qs) == 15
+assert len(qs) == 14
 nn = norm(notes)
 for q in qs:
     if nn.count(q) < 2: bad += 1; print('   reflection question not in the notes twice (its part and its reflection slide):', q[:80])

@@ -84,6 +84,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .res-v{color:#fff;font-weight:600;text-align:right;}
 .res-v.pending{color:rgba(255,255,255,.45);font-weight:400;}
 .res-v a{color:var(--gold);}
+.oc-team{border-left:2px solid var(--gold);padding:2px 0 4px 14px;}
+.oc-row{border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:10px 12px;margin:0 0 8px;}
+.oc-h{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:13px;color:#fff;margin-bottom:4px;}
+.oc-lv{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1c1c1c;background:var(--gold);border-radius:2px;padding:2px 8px;}
+.oc-c{font-size:11px;color:rgba(255,255,255,.5);}
+.oc-t{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.78);margin-top:3px;}
 .state{max-width:640px;margin:80px auto;text-align:center;padding:0 24px;}
 .state h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.8rem;margin-bottom:12px;}
 .state p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;}
@@ -107,6 +113,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   .sec{break-inside:auto;}
   .box{break-inside:avoid;}
   .box-l{color:#111;}
+  .oc-team,.oc-row{border-color:#bbb;}
+  .oc-h,.oc-t,.oc-c{color:#111 !important;}
+  .oc-lv{color:#111;background:none;border:1px solid #999;}
+  .oc-row{break-inside:avoid;}
   .box-v,.ptext{display:block;color:#111 !important;background:none;border:1px solid #ccc;white-space:pre-wrap;padding:8px 10px;font-size:12px;line-height:1.6;}
   .box-v.empty{color:#777 !important;}
   .chip{color:#111 !important;border-color:#999 !important;}
@@ -181,11 +191,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4F','Executive blind spots','Identify the checkpoint [Case]’s executive team is most likely to overlook, and the enterprise risk if it does.']
     ]},
     { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
-      ['5A','Interpretation risks','Identify how functional expertise, cognitive bias and emotion across the executive team could distort how [Case]’s strategy is interpreted.'],
-      ['5B','Emotional climate','Name the dominant emotion [Case]’s people carry into this strategy, and its effect on commitment.'],
-      ['5C','Alignment hot zones','Name the COMPASS zones most at risk in [Case], and the warning signals that show alignment escalating into crisis.'],
-      ['5D','Shared enterprise interpretation','State how each executive role connects to the others to support coordinated action on the strategy.'],
-      ['5E','Leadership behaviour commitment','State the behavioural change the executive team commits to model, and how it will be observed.']
+      ['5A','Team behavioural profile','Name the two OCEAVL dimensions on which the executive team profile of [Case] carries the highest risk for the strategy, and the response the team adopts for each.'],
+      ['5B','Alignment plan · Mind (3S)','State the 3S triggers most likely to surface as [Case] implements its strategy: where each will surface, what the executive team will do and the leader who owns it.'],
+      ['5C','Alignment plan · Heart (SCARF)','State the SCARF triggers most likely to surface as [Case] implements its strategy: where each will surface, what the executive team will do and the leader who owns it.'],
+      ['5D','Alignment plan · Hands (STAT)','State the STAT triggers most likely to surface as [Case] implements its strategy: where each will surface, what the executive team will do and the leader who owns it.'],
+      ['5E','Alignment plan · Habit (ACE-IT)','State the ACE-IT triggers most likely to surface as [Case] implements its strategy: where each will surface, what the executive team will do and the leader who owns it.']
     ]},
     { key:'u6', unit:6, title:'Performance Management Setup', boxes:[
       ['6A','Performance scorecard','Set the weighting across the three sights (Strategy OKRs, Operational KPIs, Behavioural & Values Alignment) for each leadership level in [Case].'],
@@ -266,7 +276,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4D','mbt_value','MBT · Value Proposition']
     ]},
     u5: { lens:'u3m1_lens4', rows:[
-      ['5C','syn_missing_compass','Synthesis · Underactivated COMPASS Domain(s)']
+      ['5B','kit_mind','Alignment Plan · Mind'],
+      ['5C','kit_heart','Alignment Plan · Heart'],
+      ['5D','kit_hands','Alignment Plan · Hands'],
+      ['5E','kit_habit','Alignment Plan · Habit']
     ]}
   };
 
@@ -344,6 +357,34 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     return (S.mode === 'admin') ? loadAdmin() : loadParticipant();
   }
 
+  // === Unit 5 · the team's OCEAVL profile (personal scores, read together once every member has submitted) ===
+  var OCEAVL = [{"n":"Openness","lv":{"Low":["Prefers safe and familiar ideas. Waits for certainty before acting. May miss external shifts.","Decisions stall waiting for certainty; teams default to legacy approaches; market shifts recognised too late.","Introduce a 70% certainty rule. Force strategic reframing via clean-slate questions. Commission one “What If” scenario memo each cycle.","Clarity Trial; Zero-Base Huddle; Trend Rotation"],"Balanced":["Mixes routine and creativity well. Tests ideas when supported by evidence. Open to learning.","Avoidance of discomfort over time; evidence-heavy culture slows experimentation; improvements stay incremental.","Mandate one deliberately uncomfortable experiment per cycle. Require one judgement-based pilot. Ask what a 10× outcome would require.","The Stretch Sync; The Intuition Log; The Moonshot Minute"],"High":["Enjoys new approaches. Quick to adapt. Multiple ideas compete simultaneously.","Too many ideas fragment focus; initiatives start without completing; priorities blur.","Enforce One In, One Out rule. Temporarily freeze new starts. Re-anchor every pivot to agreed strategic intent.","48-Hour Validation; Finish Line Friday; The Anchor Check"]}},{"n":"Conscientiousness","lv":{"Low":["Struggles to stay organised. May start tasks but not finish. Delivery is unpredictable.","Commitments missed; output quality varies; outcomes lack ownership.","Introduce a RAG status board. Mandate peer-review before closure. Assign a single named owner per key result.","Monday Commit; Quality Spot-Check; Ownership Stand-Up"],"Balanced":["Usually dependable but feels stress under sustained pressure. Tries to stay disciplined across many tasks.","Sustained workload erodes reliability; critical steps bypassed under pressure; long-term health traded for short-term delivery.","Actively rebalance demand to real capacity. Mandate checklists for high-risk tasks. Protect dedicated clean-up time.","Load Audit; Step-Check; Health Check"],"High":["Very organised and structured. Wants things done perfectly and on time.","Over-planning delays action; perfectionism blocks “good enough”; teams freeze when plans change.","Explicitly authorise Plan B approaches. Impose strict time limits on planning. Define Minimum Viable Result.","Pivot Sprint; Speed-to-Action; MVR Audit"]}},{"n":"Extraversion","lv":{"Low":["Quiet and reflective. Prefers small groups or time to think before speaking.","Critical insights remain unspoken; stress causes withdrawal; information is pulled not pushed.","Begin meetings with silent written input. Schedule intentional 1-on-1 reconnection. Enforce push-based reporting.","Digital Ink-Well; Pulse Check; Flash Update"],"Balanced":["Comfortable mixing with people. Can balance talking and listening well.","Meetings drift into social discussion; consensus delays decisions; purpose slips.","Restrict updates to blockers, decisions, actions only. Appoint a final decision-maker per forum. Restate strategic intent at every start.","Outcome-Only Syncs; 51/49 Rule; Intent Intro"],"High":["Loves people and energy in discussion. Enjoys leading from the front.","Dominant voices crowd out data; action runs ahead of evidence; competing agendas fragment effort.","Require senior leaders to speak last. Mandate data summary with all proposals. Resolve single most critical agenda overlap.","Rotating Facilitator; Evidence Gate; Synergy Sync"]}},{"n":"Agreeableness","lv":{"Low":["Can be very direct or firm in views. May struggle with patience for others’ ideas.","Conflict turns defensive and erodes trust; ego overrides outcomes; toxic seams between departments.","Shift to Problem/Data/Options language. Ask whether behaviours are helping or harming outcomes. Force cross-functional task swaps.","Issue-Evidence-Options; Result-First Review; Seam Huddle"],"Balanced":["Works well with most people. Manages conflict calmly. Balances kindness and firmness.","Feedback delayed; issues avoided to preserve harmony; apparent agreement masks unresolved risks.","Challenge work while explicitly demonstrating care. Name the uncomfortable issue at the start of the meeting. Ask the team to identify reasons the plan might fail.","Stop-Start-Continue; Hard-Talk Slot; Pre-Mortem"],"High":["Kind and warm. Ready to help others. Sometimes avoids saying no to preserve peace.","Agreement given without genuine commitment; team over-commits; resentment builds beneath surface harmony.","Assign a formal Devil’s Advocate role. Require explicit capacity check before accepting new work. Use anonymous mechanisms to surface tensions.","Rotating Challenger; No-Log; Radical Candor Loop"]}},{"n":"Emotional Stability","lv":{"Low":["Feels emotions strongly. May react fast under stress. Can take criticism personally.","Stress triggers impulsive decisions; errors hidden due to fear; anxiety grows from information gaps.","Mandatory 24-hour pause before high-stakes decisions. Leaders model safety by sharing their own failures. Regular factual briefings during volatile periods.","Morning-After Review; Error-Share; Daily Truth"],"Balanced":["Usually calm but can feel stress in long pressure periods. Manages emotions most of the time.","Important emotional signals missed; calm leadership misread as indifference; stability delays necessary urgency.","Increase visible leadership presence. Use explicit empathy language. Deliberately introduce strategic urgency where required.","Pulse Audit; Human Sync; Burn Rate Review"],"High":["Stays calm and steady even in chaos. Rarely loses control or reacts emotionally.","Calm misread as emotional distance; problems overlooked because everything appears fine; frontline disconnect.","Explicitly acknowledge effort, strain, and contribution. Demand objective data proving safety and control. Spend regular time embedded in operations.","Gratitude Minute; Red-Team Audit; Frontline Friday"]}},{"n":"Values Alignment","lv":{"Low":["May act differently from the group’s shared values. Can seem unsure about what the team stands for.","Personal preference overrides shared values; different parts of the organisation operate under conflicting value systems; trust erodes.","Publicly pause work that violates stated values. Rotate cultural ambassadors across silos. Conduct a formal review of promises versus delivery.","Value Filter; Culture Stand-Up; Integrity Scorecard"],"Balanced":["Understands values but may bend them when under pressure.","Values deprioritised under pressure; values exist conceptually but not operationally; ethical standards applied inconsistently.","Actively spotlight examples of values in action. Link each value to at least one active performance metric. Reference values during difficult decisions.","Narrative Share; Value KPI Check; Decision Audit"],"High":["Strongly lives by the organisation’s values. Acts as role model.","Strong conviction slows adaptation; external perspectives excluded; judgement focuses on style over results.","Periodically reassess whether values still support strategy. Deliberately introduce outsider viewpoints. Anchor feedback in outcomes and values only.","Value Evolution; Diversity Huddle; Merit Sync"]}},{"n":"Learning Orientation","lv":{"Low":["Feels nervous about feedback or change. Avoids new skills for fear of failing.","Capabilities decay as methods become outdated; feedback resisted because it threatens status; leaders do not invite feedback themselves.","Require one small new-tool experiment each month. Reframe mistakes as neutral learning data. Leaders explicitly ask for feedback first.","10-Minute Teach; Post-Mortem Pulse; Reverse Feedback"],"Balanced":["Likes learning when useful. Can lose interest in long or complex lessons.","Learning remains shallow and episodic; training does not translate into changed behaviour; teams fix symptoms and leave the causes.","Force reflection on root causes. Require a written application note after learning events. Apply Five Whys technique to failures.","Quarterly Growth Review; 7-Day Implementation; Root-Cause Sync"],"High":["Loves learning and shares knowledge freely. Enjoys experimenting with ideas and tools.","Excessive experimentation diffuses focus; teams outpace the organisation’s ability to absorb change; learning not institutionalised.","Cap learning and experimentation time deliberately. Slow learning cycles to match organisational readiness. Prevent new learning until existing lessons are embedded.","Playbook Build; Sync Cycle; Standard Build"]}}];
+  function loadTeamOc(){
+    if (!S.bp || !S.bp.team || S.ocBusy) return;
+    S.ocBusy = true;
+    sb.rpc('get_capstone_team_oceavl', { p_team_id: S.bp.team.id }).then(function(res){
+      S.ocBusy = false;
+      if (res.error){ console.warn('[capstone] get_capstone_team_oceavl:', res.error); S.oc = { error:true }; }
+      else S.oc = res.data || { error:true };
+      var host = document.getElementById('ocTeam'); if (host) host.innerHTML = ocTeamHtml();
+    });
+  }
+  function ocTeamHtml(){
+    var o = S.oc, h = '<div class="box-l">Team OCEAVL profile</div>';
+    if (!o) return h + '<div class="box-i">Loading your team’s profile…</div>';
+    if (o.error) return h + '<div class="box-i">Your team’s profile is not available yet.</div>';
+    if (!o.dims) return h + '<div class="box-i">Your team’s profile appears here once every member has submitted their OCEAVL scores in Unit 5, part 3.1. Submitted so far: ' +
+      esc(String(o.submitted || 0)) + ' of ' + esc(String(o.members || 0)) + ' members.</div>';
+    h += '<div class="box-i">The level held by most members is the team’s level. ' + esc(String(o.members)) + ' members submitted. No names and no single scores are shown.</div>';
+    OCEAVL.forEach(function(d, i){
+      var c = o.dims[i] || [0,0,0], H = c[0], Bn = c[1], L = c[2];
+      var lv = (H >= Bn && H >= L) ? 'High' : ((L >= Bn && L >= H) ? 'Low' : 'Balanced'), g = d.lv[lv];
+      h += '<div class="oc-row"><div class="oc-h"><strong>' + esc(d.n) + '</strong><span class="oc-lv">' + lv + '</span><span class="oc-c">High ' + H + ' · Balanced ' + Bn + ' · Low ' + L + '</span></div>' +
+        '<div class="oc-t">' + esc(g[0]) + '</div><div class="oc-t"><strong>Risk:</strong> ' + esc(g[1]) + '</div><div class="oc-t"><strong>Response:</strong> ' + esc(g[2]) + '</div><div class="oc-t"><strong>Routines:</strong> ' + esc(g[3]) + '</div></div>';
+    });
+    return h;
+  }
+
   // === Render ===
   function render(){
     document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
@@ -358,6 +399,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     document.getElementById('root').innerHTML = html;
     restoreDirty();
     autoPull();
+    loadTeamOc();
   }
 
   function briefCard(){
@@ -446,6 +488,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       '<button class="btn" onclick="capPull(\'' + sec.key + '\')">Bring in from my Unit ' + def.unit + ' page</button></div>';
     if (st === 'awaiting') h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
     if (st === 'agreed') h += '<p class="sec-note">Agreed · ' + esc(fmtDateTime(sec.agreed_at)) + '</p>';
+    if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
 
     def.boxes.forEach(function(b){
       var val = content[b[0]] || '';

@@ -122,3 +122,60 @@ Read `Unit decks\_build\rebuild_u05\README.md` first: it is the full record (fil
 - `reader_assets.py` ran in the cloud workspace with bare `soffice` this time. It removes old pictures first, which the device shell cannot do: run it in the cloud and write the folder back.
 - Reflection pictures: four on a slide is the limit at 24pt titles. Section 1 has seven, so it takes two slides (1.1 to 1.3, 1.4 to 1.7).
 - Python leaves a `__pycache__` folder beside the build scripts; move it to `_to_delete` before the commit lines are given.
+
+## 8. Amendments of 8 October (evening): her instructions (now written, see section 9)
+
+Carol sent amendments after section 7. They are built as review files only: `Claude outputs\PREVIEW - Unit 5 Participant.html` and `PREVIEW - Unit 5 Facilitator.html`. **The live pages, the deck, the Capstone, the facilitator report and the Learning Portfolio are unchanged.** On her word, write the pages, make the links, rebuild the deck and the reader folder, and give one block of commit lines.
+
+Build: `rebuild_u05\amend_p.py <live participant page> <new file>` and `amend_f.py <live facilitator page> <new file>` (they run on the pages as built by `build_p.py` / `build_f.py`). Content: `u5b_content.py`, `oceavl.json`, `u5b.css`, `u5b_p.js`. Previews: `make_previews.py`. Browser test in the cloud: 39 checks, all pass.
+
+**Her instructions, and what the previews hold**
+
+1. 1.2, Principle 1 takes her five-link text (Interpretation, Experience, Choices, Actions, Results) and her closing line, word for word. The lead line and the insight line stay.
+2. Change management is 1.3; the tools are 1.3.1 (3S), 1.3.2 (SCARF), 1.3.3 (STAT), 1.3.4 (ACE-IT). Cross-references follow.
+3. Participant voice, second pass: 12 more sentences speak to "you" (list `VOICE2` in `amend_p.py`).
+4. "3.2 From High Flammables to Burning Platforms" and "Change Readiness Across the Organisation" are deleted from both pages (her words: "Change readiness also must be removed from both"). Section 3 holds one part, 3.1. Reflection `ref14` leaves with it.
+5. Section 3: the OCEAVL Assessment takes the place of COMPASS. Source: her own OCEAVL tool (seven dimensions, three levels each: behavioural DNA, risk, response, routines). **It is a personal assessment** (her words: "each person completes the assessment. Then the system gives them the team score after they all submit to their capstone. It would be weird to say out one's score for another person to record it"). On the page each participant scores themselves 1 to 5 on the seven dimensions, reads their own profile and selects Submit to My Team's Capstone. No member names, no scribe. The team's profile (the level held by most members, shown as levels and counts with no names) is shown in the Capstone once every member has submitted. New reflection `ref16`.
+6. Section 4: COMPASS is removed. Each role card names its Alignment Hot Zone, aligned to the 17 elements of 3S, SCARF, STAT and ACE-IT (her words). Each role takes one element, and the card shows that element's trigger and two cues word for word from the toolkit: CEO Shift · CFO Transparency · COO Time · CHRO Skill · CTO/CIO Tools · CMO Engagement · CCO Fairness · CPO Authority · CRO Autonomy · CSO Stake. The choice of element for each role and the one linking sentence are Claude's, for her review. Step 2 of Section 5 tells the participant to start with the hot zone of their own role.
+7. Section 5 is the Alignment Toolkit (her brief: two cues and the likely trigger for each element; then, based on the Capstone, the triggers most likely to surface and what they will do; the Capstone part goes into the Capstone). Step 1 The Toolkit (17 elements of 3S, SCARF, STAT, ACE-IT) · Step 2 Your Watch List (individual, Portfolio work) · Step 3 Team Alignment Plan (group, Capstone work, Confirm and Print) · the 30-Day Behavioural Commitment stays. The Change Transition Map, Role Connections, Exchange & Dialogue and Plenary Synthesis leave.
+
+**New saved keys (lens `u3m1_lens4`, no database change):** `ref16`, `__oceavl_work` (`{s:[seven scores]}`), `oceavl_scores`, `oceavl_profile` (the participant's own), `__kit_me`, `kit_me`, `__kit_team`, `kit_team`, `kit_mind`, `kit_heart`, `kit_hands`, `kit_habit`; `confirmed_items` names "OCEAVL · My Scores", "Alignment Plan · Mind / Heart / Hands / Habit". No longer written: `ref7`, `ref14`, `ctm1_*`, `ctm2_*`, `wp_*`, `exch_*`, `syn_missing_compass`, `syn_strong_compass`, `syn_sequence`.
+
+**To do on her word**
+
+- Pages: run the two amend scripts on the live pages (back up first), write them back.
+- Capstone: the team OCEAVL profile must be worked out from every member's submitted scores. A participant can read only their own `lens_responses`, so this needs a new SECURITY DEFINER function (for example `capstone_team_oceavl(p_team_id)`: for each dimension the count of High, Balanced and Low among members whose `confirmed_items` holds "OCEAVL · My Scores", plus members submitted and members in the team; no names, no single scores). Give Carol the SQL to run in Supabase, with a read-only check first. `capstone_P.html` shows the team profile in section 5 once all members have submitted; the team then types the two highest-risk dimensions and its response. Proposed boxes: 5A from the OCEAVL team profile; 5B to 5E from the Team Alignment Plan, one box for each check. The five box titles and descriptions in `capstone_P.html` need new wording; `PULL.u5` needs five rows.
+- `dashboard_F.html`: labels for the new keys; `{7:"COMPASS Diagnostic"}` goes, `ref16` "OCEAVL" comes. `build_collection.js`: `CAPSTONE_KEYS.u3m1_lens4` covers `oceavl_*`, `kit_team`, `kit_mind|heart|hands|habit`, `__oceavl_work`, `__kit_team`; rebuild `collection.html`.
+- Deck: Principle 1 slide, numbering 1.3.1 to 1.3.4, Section 3 (OCEAVL in; COMPASS, Burning Platforms and Change Readiness out), 4.1 and 4.2, Section 5 (three steps), Unit Summary, reflection pictures (3.1 is new), notes, reader folder.
+- Section 3 and Section 5 learning outcomes still describe the old content. They are hers to reword.
+- Section 5 was made clearer on her word ("it is not just clear"): a "How Section 5 works" box above the steps, each trigger shown as a card with its trigger and cues always visible and a "Likely to surface…" button, a count for each check, one example, and a "Go to Step…" button at the foot of Steps 1 and 2.
+- New wording by Claude that she has not yet approved: the ACE-IT cues, the 3S / STAT / ACE-IT triggers, the element chosen for each role and its linking sentence, the 3.1 reflection, the guidance notes for 3.1 and Section 5.
+
+## 9. Final state (8 October 2026, late evening): the amendments are written
+
+Carol: "Happy for you to write the live pages." Everything in section 8 is now on the live files. The "To do on her word" list of section 8 is done. Full record: `Unit decks\_build\rebuild_u05\README.md`, section "Amendments of 8 October (evening): written to the portal files".
+
+- **Pages:** `unit3_m1_lens4_p.html`, `unit3_m1_lens4_f.html` (builds of `amend_p.py` / `amend_f.py`).
+- **Capstone:** `capstone_P.html`, Unit 5 section: 5A typed by the team under the team OCEAVL profile; 5B to 5E from the confirmed Team Alignment Plan.
+- **Report and Learning Portfolio:** `dashboard_F.html`, `build_collection.js`, `collection.html`.
+- **Deck:** 39 slides, identical in `Unit decks` and `Claude outputs\Deck upload\Module-3\unit-05.pptx`; reader folder 39 pictures and the manifest.
+- **Checks on the written files:** `final_scan.py` 39 slides, 0 problems; `check_standards.js` no Unit 5 breach.
+- **PREVIEW files** in `Claude outputs` match the live pages. Never commit or upload them.
+
+**Waiting on Carol (ask her; Claude cannot see git or Supabase)**
+
+1. Commit and push: `unit3_m1_lens4_p.html`, `unit3_m1_lens4_f.html`, `capstone_P.html`, `dashboard_F.html`, `collection.html`, `build_collection.js`, `Unit decks`, the findings, this handover and `Claude outputs/capstone_unit5_oceavl.sql`.
+2. Supabase SQL editor: run the five blocks of `Claude outputs\capstone_unit5_oceavl.sql`, one at a time. Block 1 must answer `jsonb`. Block 5 must answer 0; if it is above 0, a team has saved Unit 5 Capstone text under the old box titles and that text needs a look.
+3. Supabase Storage, `facilitator_decks`, `Module-3`: replace `unit-05.pptx` and the folder `unit-05` (39 pictures and `manifest.json`), and delete `s40.jpg` there.
+
+**Open, for her word only (one line each, no options)**
+
+- Claude's wording she has not yet approved: the element chosen for each role in 4.2 and its linking sentence; the ACE-IT cues; the triggers for 3S, STAT and ACE-IT; the 3.1 reflection; the guidance notes for 3.1 and Section 5.
+- Section 3 and Section 5 learning outcomes still describe content that has left the unit.
+- Seven of the 17 toolkit elements are tied to no role.
+
+**Lessons of this round**
+
+- She reviews in the real format. Build review files first when new wording or a new exercise is involved, and write the live files on her word.
+- When she says a page "is not just clear", make the page clearer in the same round as the explanation.
+- A personal assessment is never completed aloud or typed by another member. Group results from personal data come from the database, as counts with no names.

@@ -11,7 +11,8 @@
 //   4. Last blocks only: ON THE PORTAL, AFTER THE TEACHING and AFTER THE SESSION.
 // A line that starts with § is a heading or a step title: format_notes_u03.py removes the mark and makes the line bold.
 //
-// ALIGNMENT: the notes carry what the Unit 5 facilitator and participant files carry (three-way match of 8 October 2026).
+// ALIGNMENT: the notes carry what the Unit 5 facilitator and participant files carry (three-way match of 8 October 2026,
+// and Carol's amendments of that evening: Principle 1, 1.3.1 to 1.3.4, OCEAVL as a personal assessment, alignment hot zones, the Alignment Toolkit).
 // Titles, outcomes and reflection questions come word for word from u05_data.json, written by rebuild_u05/export_deck_data.py from the two pages.
 // TEACHING FLOW: the facilitator teaches the whole unit from the deck first; participants go to the portal afterwards.
 // Carol's rules: no timings, no pre-work, no contrast constructions, never "lens", British spelling, online delivery ("post in the chat").
@@ -49,7 +50,7 @@ module.exports = function (INS) {
     say('You write these reflections on the portal after the teaching, with as much depth as you can.'));
 
   const D = JSON.parse(fs.readFileSync(path.join(__dirname, 'u05_data.json'), 'utf8'));
-  const { KLO, SECTIONS, PARTS, REFL, STEPS, CLOSING_Q } = D;
+  const { KLO, SECTIONS, PARTS, REFL, STEPS, CLOSING_Q, OCEAVL, CHECKS, KIT, KIT_EXAMPLE, HOT, CHAIN, CHAIN_QUOTE } = D;
   const head = k => `${k} — ${PARTS[k].title.toUpperCase()} (${PARTS[k].meta.toUpperCase()})`;
   const refLine = k => `${k} ${REFL[k].label}: "${noq(REFL[k].prompt)}"`;
   const reflPortal = k => portal(`Participants write the reflection of ${k} in the participant file:`, `"${noq(REFL[k].prompt)}"`);
@@ -65,29 +66,29 @@ module.exports = function (INS) {
     block('UNIT INTENT',
       'Unit 5 establishes the human operating system of execution. Strategy moves through people, and functional expertise, bias and emotion shape how each leader interprets it.',
       'The unit builds a shared enterprise interpretation and the behaviours that sustain commitment.', '',
-      'SCARF explains resistance, ACE-IT sets the behaviour standard and COMPASS locates the hot zones.', '',
+      'SCARF explains resistance, ACE-IT sets the behaviour standard and the OCEAVL Assessment shows the behavioural profile the leadership team brings to the strategy.', '',
       'The 4 Checks of Mind, Heart, Hands and Habit give leaders one discipline for leading people through the changes the strategy requires: 3S tests Mind, SCARF reads Heart, STAT tests Hands and ACE-IT holds Habit.'),
     block('WHAT THE UNIT PRODUCES:',
-      '1. Each participant produces three pieces of portfolio work in Section 5: the Change Transition Map for two changes, the Role Connections table and the notes of the Exchange & Dialogue.',
-      '2. Each group produces its Plenary Synthesis record: the COMPASS domain most often underactivated, where alignment is already strong, and the sequence for the changes landing on the same group. This is Capstone work.',
-      '3. Each participant writes fifteen reflections and one 30-day behavioural commitment.'),
+      '1. Each participant completes the OCEAVL Assessment for themselves in 3.1 and builds a watch list in Step 2 of Section 5. Both are portfolio work.',
+      '2. Each group produces its Team Alignment Plan in Step 3 of Section 5: the triggers most likely to surface under each check, where each will surface, what the team will do and the leader who owns it. This is Capstone work.',
+      '3. Each participant writes fourteen reflections and one 30-day behavioural commitment.'),
     block('HOW THE UNIT RUNS:',
       '1. You teach the whole unit from this deck first, from Section 1 to the Unit Summary. The deck is the teaching material.',
-      '2. Participants then complete their own page on the portal, in the session or after it: the reflections and the four steps of Section 5.',
-      '3. Steps 1 to 3 of Section 5 are portfolio work. Steps 1 and 2 are completed by each participant alone, and Step 3 with a colleague.',
-      '4. Step 4 of Section 5 is group work for the Capstone. The group agrees each entry and one member acts as scribe.',
+      '2. Participants then complete their own page on the portal, in the session or after it: the reflections, the OCEAVL Assessment and the three steps of Section 5.',
+      '3. Step 1 of Section 5 is taught. Step 2 is portfolio work, completed by each participant alone.',
+      '4. Step 3 of Section 5 is group work for the Capstone. The group agrees each entry and one member acts as scribe.',
       'Every member then types the agreed entries into their own page.'),
     'Each slide’s notes end with a block headed "On the portal, after the teaching" wherever participants have something to complete for that part.',
-    'Your preparation as facilitator:\n- Read the Facilitator Guide tab and every section of the facilitator file.\n- Each participant needs one live change their strategy requires of a named group. They write it down in 1.3 and carry it to the end of the unit.\n- Each group needs the KISS map it confirmed in Unit 3: the two changes of Step 1 come from its Start and Stop lists.',
-    'Where the outputs go next:\n- The group’s confirmed entry on the underactivated COMPASS domain feeds box 5C of the team’s Capstone Blueprint.\n- The team writes boxes 5A, 5B, 5D and 5E in the Capstone itself.');
+    'Your preparation as facilitator:\n- Read the Facilitator Guide tab and every section of the facilitator file.\n- Each participant needs one live change their strategy requires of a named group. They write it down in 1.3 and carry it to the end of the unit.\n- Each group needs the KISS map it confirmed in Unit 3: Step 2 of Section 5 shows its Start and Stop lists.\n- OCEAVL is a personal assessment. No participant states a score to the group.',
+    'Where the outputs go next:\n- Each member’s submitted OCEAVL scores feed the team’s profile in the Capstone Blueprint once every member has submitted. The team sees levels and counts, with no names.\n- The group’s confirmed Team Alignment Plan feeds boxes 5B to 5E. The team writes box 5A under its team profile.');
 
   n.klo = N(H('KEY LEARNING OUTCOMES'),
     block('HOW TO USE THIS SLIDE:',
       'Read the four outcomes aloud and say where the unit delivers each one.',
       '- Outcome 1 is built in Section 1: the two human filters (1.1) and the five principles (1.2).',
-      '- Outcome 2 is built in Section 2 (commitment and compliance) and Section 4 (the Converging Zone), and produced in Step 4 of Section 5, where each group confirms its shared reading.',
-      '- Outcome 3 is built in Section 3: the seven COMPASS domains and the readiness scan.',
-      '- Outcome 4 is built in 1.3 to 1.7 (the 4 Checks and their four tools), in 2.3, 3.3 and 4.3, and produced in Step 1 of Section 5 (the Change Transition Map).'),
+      '- Outcome 2 is built in Section 2 (commitment and compliance) and Section 4 (the Converging Zone), and produced in Step 3 of Section 5, where each group confirms its Team Alignment Plan.',
+      '- Outcome 3 is built in Section 3 (the OCEAVL Assessment) and in 4.2 (the alignment hot zone of each role).',
+      '- Outcome 4 is built in 1.3 and its four parts, 1.3.1 to 1.3.4 (the 4 Checks and their four tools), in 2.3 and 4.3, and produced in Section 5 (the Alignment Toolkit).'),
     'Each section slide carries that section’s two learning outcomes.',
     block('QUESTION TO ASK:', '"What is the dominant emotion your team carries into the current strategy, and how does it change what people invest?"'),
     'Take two or three answers. They tell you where the group expects the most from the unit.');
@@ -95,19 +96,19 @@ module.exports = function (INS) {
   n.journey = N(H('FACILITATOR GUIDE · SESSION OVERVIEW'),
     block('HOW TO USE THIS SLIDE:',
       '1. Walk the five sections in one sentence each, using the list below.',
-      '2. Say plainly that Sections 1 to 4 prepare the thinking and Section 5 is where it is applied: three pieces of portfolio work, then the group work for the Capstone.',
+      '2. Say plainly that Sections 1 to 4 prepare the thinking and Section 5 is where it is applied: the watch list each participant builds, then the group work for the Capstone.',
       '3. Tell participants how the unit runs: you teach all five sections from the deck first, and they then complete the unit on the portal, in the session or after it.'),
     block('THE FIVE SECTIONS:',
       '- Section 1 · Awareness — What: the two human filters, the five principles, then change management: the 4 Checks of Mind, Heart, Hands and Habit and the tool for each check (3S, SCARF, STAT, ACE-IT).', '',
       '- Section 2 · Intelligence — Why: the ignition point of execution, the three foundational logics, and why a change delivers value only when it is adopted.', '',
-      '- Section 3 · Extrapolating — Where: the seven COMPASS domains, the threshold between a High Flammable Zone and a Burning Platform, and the readiness scan.', '',
-      '- Section 4 · Integration — Collective: the Converging Zone, the alignment responsibility of each leadership role, and leading change with one voice.', '',
-      '- Section 5 · Application — In Practice: the Change Transition Map, Role Connections, Exchange & Dialogue and the Plenary Synthesis.'),
+      '- Section 3 · Extrapolating — Where: the OCEAVL Assessment, which each participant completes for themselves, and the profile the team brings together.', '',
+      '- Section 4 · Integration — Collective: the Converging Zone, the alignment responsibility and the alignment hot zone of each leadership role, and leading change with one voice.', '',
+      '- Section 5 · Application — In Practice: the Alignment Toolkit, Your Watch List and the Team Alignment Plan.'),
     block('KEY FACILITATION QUESTIONS:',
       '- "What is the dominant emotion your team carries into the current strategy, and how does it change what people invest?"',
       '- "Which SCARF trigger does the current strategy activate most for your people?"',
       '- "For the most important change in your strategy, which check would your people fail first: Mind, Heart, Hands or Habit?"',
-      '- "Which COMPASS zone would flare first in your organisation under pressure? What is the early warning?"',
+      '- "On which OCEAVL dimension does your team’s level carry the highest risk for this strategy? Where has that risk already shown up?"',
       '- "What behavioural change will you model in the next month so others can see alignment in action?"'),
     block('TONE AND WATCH POINTS:',
       '- Watch for compliance mistaken for commitment. Probe: "Would they still act this way if no one were checking?"',
@@ -120,7 +121,7 @@ module.exports = function (INS) {
     '1. 1.1: the two human filters, Mind and Heart.',
     '2. 1.2: the five principles. One slide gives the overview and each principle then has its own slide.',
     '3. 1.3: change management, on two slides: the event and the transition, then the 4 Checks.',
-    '4. 1.4 to 1.7: the four tools, one for each check: 3S, SCARF, STAT and ACE-IT.',
+    '4. 1.3.1 to 1.3.4: the four tools, one for each check: 3S, SCARF, STAT and ACE-IT. All four are parts of change management.',
     '5. Two Section 1 Reflections slides: the seven reflections participants write on the portal after the teaching.'], SECTIONS[0].outcomes, [
     S('Open with the question that anchors the unit.',
       ask('Think of a strategy that was perfectly designed and then failed in execution. What broke? Was it the plan, or the people who had to carry it?'),
@@ -170,19 +171,14 @@ module.exports = function (INS) {
   n.pr1 = page('1.2 · PRINCIPLE 1 — STRATEGY MOVES THROUGH PEOPLE', [
     S('State the principle.',
       say('Strategy moves through people. This is the human entry point of execution. Alignment of the mind and the heart is the first execution system.')),
-    S('Teach cognitive alignment.',
-      say('Cognitive alignment focuses on making biases visible so they can be managed deliberately.'),
-      'In practice:',
-      '- identify dominant decision biases at executive level;',
-      '- name how those biases shape the S2R® process;',
-      '- establish shared decision principles that counter predictable distortions.'),
-    S('Teach emotional alignment.',
-      say('Emotional alignment requires naming the current emotional state through which strategy is being experienced. Leaders operate from a dominant state of being: Joy, Sadness, Anger, Fear, Disgust or Surprise. Each state influences engagement energy, morale drain, friction load, psychological safety, and values alignment.')),
+    S('Walk the five links on the slide, in order.',
+      CHAIN.map((c, k) => [k ? '' : null, c[0], say(c[1]), k === 0 ? IN('why') : null])),
+    S('Give the closing line.',
+      say(CHAIN_QUOTE.replace(/^“|”$/g, ''))),
     S('Ask leaders to name the emotion.',
       ask('What is the dominant emotion in your current team right now?'),
       'Online: ask for one word in the chat.',
-      say('If you cannot name it, you cannot manage it, and it will manage you.'),
-      IN('why'))]);
+      say('If you cannot name it, you cannot manage it, and it will manage you.'))]);
 
   n.pr2 = page('1.2 · PRINCIPLE 2 — MISALIGNMENT FRAGMENTS EFFORT', [
     S('State the principle.',
@@ -215,7 +211,7 @@ module.exports = function (INS) {
       'It allows leaders to stabilise engagement before demanding execution.'),
     S('Frame the assessments.',
       say('These assessments are diagnostic tools. Their power lies in the conversation they generate. Treat them as leadership mirrors.'),
-      'Both assessments are available on demand, in Excel or HTML format with facilitated report generation.')]);
+      'Each participant completes the OCEAVL Assessment in part 3.1. The Emotional Climate Assessment is available on demand.')]);
 
   n.pr4 = page('1.2 · PRINCIPLE 4 — HUMAN REACTIONS ARE PREDICTABLE', [
     S('State the principle.',
@@ -223,7 +219,7 @@ module.exports = function (INS) {
     S('Explain why.',
       say('The SCARF Model, developed by David Rock, explains five social conditions that trigger emotional responses during change. The human brain processes social change using the same threat circuitry as physical danger. Any new goal, system, or way of working is evaluated emotionally before it is evaluated rationally.')),
     S('Say where the model is taught.',
-      say('The five SCARF triggers are explored in detail in 1.5.'),
+      say('The five SCARF triggers are explored in detail in 1.3.2.'),
       say('The power of SCARF lies in the recognition. When a leader can name which trigger is driving resistance, they can address the root cause.'),
       'The SCARF Tool is available on demand for leaders who want to monitor observable behaviours and proactively strengthen their alignment of heart and mind.')]);
 
@@ -232,7 +228,7 @@ module.exports = function (INS) {
       say('Strategic alignment ultimately becomes visible through behaviour. Without observable behaviour, alignment remains theoretical. With behavioural standards, alignment becomes visible, measurable, and sustainable.')),
     S('Introduce ACE-IT.',
       say('The ACE-IT Framework defines five universally desired behaviours: Accountability, Commitment, Engagement, Integrity, Transparency. These behaviours are independent of an organisation’s stated values. They represent the minimum behavioural standard for any leadership team serious about execution.'),
-      'ACE-IT is explored in detail in 1.7.'),
+      'ACE-IT is explored in detail in 1.3.4.'),
     S('Ask the diagnostic question.',
       ask('If someone external observed your team for one week, which ACE-IT behaviour would they see most clearly? Which would be absent?'),
       'The honest answer is a diagnostic.'),
@@ -265,19 +261,19 @@ module.exports = function (INS) {
       say('A change is adopted when it passes four checks for the people it affects. Mind and Heart are the two filters from 1.1. Hands and Habit extend the same path to the point where the new practice is real. Each check asks one question and has one tool.')),
     S('Walk the four checks on the slide.',
       'Check 1 · Mind: they understand the change, why it matters and what they do differently.',
-      'Tool: the 3S Check (1.4).',
+      'Tool: the 3S Check (1.3.1).',
       'Passed when: people in the same team describe the change in the same way.',
       'Failed when: people repeat the slogan and cannot say what they personally do differently.', '',
       'Check 2 · Heart: they want it to succeed.',
-      'Tool: the SCARF Model (1.5).',
+      'Tool: the SCARF Model (1.3.2).',
       'Passed when: people bring problems and ideas to the change.',
       'Failed when: the room is quiet, effort is minimal and people say they are “waiting for alignment”.', '',
       'Check 3 · Hands: they are able to do it.',
-      'Tool: the STAT Check (1.6).',
+      'Tool: the STAT Check (1.3.3).',
       'Passed when: people do the new work unaided.',
       'Failed when: workarounds appear, decisions are passed upward and the new practice is done last.', '',
       'Check 4 · Habit: it has become the way they work.',
-      'Tool: ACE-IT (1.7).',
+      'Tool: ACE-IT (1.3.4).',
       'Passed when: the practice holds when the leader is absent.',
       'Failed when: the old way returns under the first pressure.'),
     S('Explain why the order matters.',
@@ -295,13 +291,13 @@ module.exports = function (INS) {
       'Industry parallel: the Prosci ADKAR® Model (Awareness, Desire, Knowledge, Ability, Reinforcement).'),
     S('Ask the key question.',
       ask('For the change you wrote down, which check would your people fail first?'),
-      'Take three answers. Note which checks are named and which are left out, and return to the list in 1.6.',
+      'Take three answers. Note which checks are named and which are left out, and return to the list in 1.3.3.',
       'Watch for: leaders who treat the four checks as four communications. Only the first is about the message.'),
     S('Land the insight of the part.',
       ask('For the last change you announced, which check has it reached today?'),
       say('If you cannot name the check, the change has been announced and left to chance.'))]);
 
-  n.p14 = page(head('1.4'), [
+  n.p14 = page(head('1.3.1'), [
     S('Frame the check.',
       say('3S is the Mind check. It asks whether the people affected have understood the change as the leader intended it. Understanding is interpretation. Each person rebuilds the message through their own expertise, mental shortcuts, past experience and risk perception.'),
       say('The Functional Bias Problem from 1.1 applies in full: finance hears a cost decision, operations hears a process change, and the front line hears a judgement on how they have worked until now.'),
@@ -343,9 +339,9 @@ module.exports = function (INS) {
       IN('knowledgegap'), '',
       'Watch for: Explain rated as complete because an announcement went out. Probe: "What would a front-line employee say back to you?"',
       'Watch for: a Step written for the organisation. Ask the leader to say it in the first person, as a member of the affected group.')],
-    reflPortal('1.4'));
+    reflPortal('1.3.1'));
 
-  n.p15 = page(head('1.5'), [
+  n.p15 = page(head('1.3.2'), [
     S('Frame the model.',
       say('SCARF is the Heart check. When a trigger fires, a person who understands the change still withholds their energy from it.')),
     S('Give each trigger with its question.',
@@ -387,9 +383,9 @@ module.exports = function (INS) {
       'When skipped: Silent Disengagement. People comply, do the minimum and wait to be chased.', '',
       'On involvement: involvement is about how the change is done. The decision that it will be done stays with the leader. Leaders who blur the two invite a debate they did not intend.',
       'The SCARF Tool is available on demand for leaders who want to actively monitor observable behaviours during strategy discussions or change initiatives.')],
-    reflPortal('1.5'));
+    reflPortal('1.3.2'));
 
-  n.p16 = page(head('1.6'), [
+  n.p16 = page(head('1.3.3'), [
     S('Frame the check.',
       say('STAT is the Hands check. It asks whether people who understand a change and want it are able to carry it out on an ordinary working day. Mind and Heart sit inside the person. Hands sits largely in the conditions around the person, and those conditions are set by leaders.')),
     S('Say why this check is misread.',
@@ -426,9 +422,9 @@ module.exports = function (INS) {
       'When skipped: willing people fail, and their failure is read as resistance. Heart, which had passed, begins to fail as well.',
       'Watch for: training offered as the answer to every Hands gap. Ask which STAT element the training closes.',
       ask('Which of the four is your organisation quickest to supply, and which is it slowest to grant?'))],
-    reflPortal('1.6'));
+    reflPortal('1.3.3'));
 
-  n.p17 = page(head('1.7'), [
+  n.p17 = page(head('1.3.4'), [
     S('Frame the standard.',
       say('ACE-IT is the Habit check. These five behaviours are what hold a new practice in place.'),
       'Key framing: ACE-IT is a behavioural standard, independent of the organisation’s stated values. It describes the minimum visible behaviours required for strategic alignment to be real and visible.'),
@@ -466,18 +462,18 @@ module.exports = function (INS) {
     S('Close Section 1.',
       'Ask each leader to state, for the change they are carrying, the check they expect it to fail first and the job that follows. Online: ask them to post the sentence in the chat.',
       'This sentence is the bridge into Section 2.')],
-    reflPortal('1.7'));
+    reflPortal('1.3.4'));
 
   n.ref1a = reflection('Section 1 Reflections · 1.1 to 1.3', ['1.1', '1.2', '1.3'], [
     say('For 1.1 and 1.2, give the evidence: what you saw or heard. For 1.3, name the change, the group and the date.'),
     'Watch for: a change with no named group. Ask: "Whose Monday morning changes?"'],
     ['Say that four more follow.', say('The next slide holds the reflections on the four tools.')],
     'Participants write these three reflections in Section 1 of the participant file, at the foot of parts 1.1, 1.2 and 1.3.');
-  n.ref1b = reflection('Section 1 Reflections · 1.4 to 1.7', ['1.4', '1.5', '1.6', '1.7'], [
-    say('For 1.4, write the Shift, the Stake and the Step in the words your people would use. For 1.5 and 1.7, name the observable evidence. For 1.6, say which STAT element is missing and what is yours to supply.'),
+  n.ref1b = reflection('Section 1 Reflections · 1.3.1 to 1.3.4', ['1.3.1', '1.3.2', '1.3.3', '1.3.4'], [
+    say('For 1.3.1, write the Shift, the Stake and the Step in the words your people would use. For 1.3.2 and 1.3.4, name the observable evidence. For 1.3.3, say which STAT element is missing and what is yours to supply.'),
     'Watch for: resistance named with no trigger. Ask: "Which of the five triggers is live?"'],
     ['Bridge to Section 2.', say('We know what alignment is and what a change must pass. Section 2 shows why this decides execution outcomes.')],
-    'Participants write these four reflections in Section 1 of the participant file, at the foot of parts 1.4, 1.5, 1.6 and 1.7.');
+    'Participants write these four reflections in Section 1 of the participant file, at the foot of parts 1.3.1, 1.3.2, 1.3.3 and 1.3.4.');
 
   // ════════════════════════════════════════════════════════════════ SECTION 2
   n.s2 = divider('SECTION 2 · INTELLIGENCE — WHY', [
@@ -564,129 +560,70 @@ module.exports = function (INS) {
 
   // ════════════════════════════════════════════════════════════════ SECTION 3
   n.s3 = divider('SECTION 3 · EXTRAPOLATING — WHERE', [
-    '1. 3.1: the COMPASS framework and its seven High Flammable Zones.',
-    '2. 3.2: the escalation threshold between a High Flammable Zone and a Burning Platform.',
-    '3. 3.3: the readiness scan, which reads each group of people on the 4 Checks for one change.',
-    '4. The Section 3 Reflections slide: the two reflections participants write on the portal after the teaching.'], SECTIONS[2].outcomes, [
+    '1. 3.1: the OCEAVL Assessment, on two slides: the seven dimensions, then how the profile is read.',
+    '2. The Section 3 Reflections slide: the reflection participants write on the portal after the teaching.'], SECTIONS[2].outcomes, [
     S('Say what the section does.',
-      say('This section makes alignment specific and urgent. You finish it knowing where your most significant alignment risks live, in named domains of your enterprise.')),
-    S('Run the diagnostic exercise.',
-      'Before teaching the COMPASS narratives, ask participants to rate each domain on their own, from 1 (strong alignment) to 5 (severe misalignment), and post the seven ratings in the chat.',
-      'Then compare the ratings across the group. Divergent ratings are themselves diagnostic.')]);
+      say('This section makes alignment specific to you and to your team. You finish it knowing the behavioural profile you bring to the strategy. Your team then sees the profile it brings together.')),
+    S('Say how the assessment runs.',
+      say('OCEAVL is a personal assessment. Each of you completes it alone, on your own page, after the teaching. No one states a score to the group.'),
+      'The team’s profile appears in the team’s Capstone Blueprint once every member has submitted.')]);
 
-  n.p31 = page(head('3.1'), [
-    S('Introduce the framework.',
-      say('The COMPASS framework identifies seven High Flammable Zones where human interpretation, emotional climate, and behaviour directly influence strategic outcomes. These are the leverage points and the danger zones.')),
-    S('Start with the domain most participants rated highest risk.',
-      ask('Who has a different view? Where does your assessment diverge?'),
-      'Divergence in the group is itself a signal. Name it explicitly.'),
-    S('Teach the seven domains on the slide.',
-      'C · Clarity of Strategic Direction',
-      'Whether people can describe the strategy in the same language, connect it to daily decisions, and hold it steady under pressure. When this signal flares: confidence in meetings, confusion in corridors.',
-      'Observable indicators: executives presenting polished strategies that fracture the moment they leave the room. Multiple competing priorities in different functions.',
-      'Signal lit: “Everyone has a different version of what we said.”',
-      ask('Can every person in this group describe the top three strategic priorities in the same order, using the same language? Try it now.'), '',
-      'O · Organisational Alignment',
-      'Alignment is coordinated behaviour outside the room. Leaders declare alignment after a planning session, observe nodding in forums, and interpret absence of challenge as shared commitment. True alignment is only visible in behaviour.',
-      'Observable indicators: agreements reached in meetings relitigated through resource approvals and parallel conversations. Senior arbitration required for decisions that should be self-coordinating.',
-      'Signal lit: “We agreed on this — why is it not happening?”',
-      ask('Where in your organisation do decisions made at the top not survive the journey to implementation? What sits between the decision and the delivery?'),
-      IN('adoption'), '',
-      'M · Management Discipline',
-      'Whether the operating rhythm (reviews, escalation norms, accountability structures, governance forums) is a genuine engine of delivery or an elaborate performance of oversight.',
-      'Observable indicators: accountability is diffuse. Leaders tolerate persistent underperformance.',
-      'Signal lit: “We keep discussing the same issues with no resolution.”',
-      ask('In your last three performance reviews, what was the single most recurring issue? Has it been resolved, or has it been re-explained?'), '',
-      'P · People & Capability',
-      'Organisations frequently approve strategies that their people are not yet equipped to deliver. This signal is slow-burning and easy to rationalise.',
-      'Observable indicators: middle managers stretched beyond bandwidth. Key talent exiting quietly. Institutional knowledge walking out the door.',
-      'Signal lit: “We have the strategy but not the people to execute it.”',
-      ask('If you had to deliver your strategy with the team you have today, which specific capability gaps would most limit you? When did you last name those gaps explicitly?'), '',
-      'A · Allocation of Resources',
-      'An organisation’s true strategy is found in its budget. Legacy spend continues by inertia. New priorities are approved in language but starved in practice.',
-      'Observable indicators: stated priorities and funded priorities are clearly different. Leaders handed responsibility without resources to honour it.',
-      'Signal lit: “We say this is a priority but the resources tell a different story.”',
-      ask('Look at your budget allocation. Does money follow the stated strategy? Where is the gap between declared priority and funded priority?'), '',
-      'S · Sensing & Adaptation',
-      'Whether the organisation is genuinely learning from what is happening around it. When leaders learn that raising uncomfortable signals carries social cost, the organisation gradually loses its early warning system entirely.',
-      'Observable indicators: customer data reviewed but not acted on. Leaders defending forecasts the evidence no longer supports.',
-      'Signal lit: “We knew this was coming, but we didn’t adapt fast enough.”',
-      ask('What is one market or customer signal your organisation is receiving that is not yet reflected in your strategic plan? What would it take to act on it?'), '',
-      'S · Systems & Execution',
-      'A new strategy running through an old machine will always produce the same result. Does the operating model match the strategic priorities?',
-      'Observable indicators: the organisation invests in transformation while being structurally configured to resist it.',
-      'Signal lit: “The structure is working against the strategy.”',
-      ask('Is your current operating model designed for the strategy you have now, or for a strategy you had two years ago? What would redesigning the machine actually require?')),
-    S('Draw the key distinction.',
-      say('High Flammables are leverage points. They are dangerous, and early intervention stabilises them. Burning Platforms are what happens when leverage points are ignored. The COMPASS diagnostic is about catching zones before they ignite.'))],
-    reflPortal('3.1'));
+  const lvl = (d, name) => { const l = OCEAVL.find(x => x.name === d).levels.find(x => x.level === name); return [`${d} · ${name}`, l.dna, 'Risk: ' + l.risk, 'Response: ' + l.resp, 'Routines: ' + l.rout]; };
+  n.p31a = page(head('3.1') + ' · THE SEVEN DIMENSIONS', [
+    S('Link the assessment to Principle 3.',
+      say('Principle 3 established that alignment must be designed. The OCEAVL Assessment is where the design starts. It surfaces the psychological tendencies that influence executive decision-making, across seven dimensions.'),
+      say('The assessment maps the behavioural dispositions that shape how a leader interprets strategy, manages disagreement and responds under pressure.')),
+    S('Walk the seven dimensions on the slide.',
+      OCEAVL.map(d => `- ${d.name}: ${d.desc}.`)),
+    S('Show the levels of one dimension.',
+      'Each dimension has three levels: Low, Balanced and High. Read two levels of Extraversion. All 21 are in the facilitator file, part 3.1.',
+      EX(lvl('Extraversion', 'Low'), '', lvl('Extraversion', 'High')),
+      say('Every level carries a risk. A High level is a disposition to manage, as Low and Balanced are.')),
+    S('Frame the assessment.',
+      say('Treat the assessment as a mirror. Its power lies in the conversation it generates.'),
+      'Watch for: a High level read as a strength with no risk. Ask participants to read the risk for their High levels first.')]);
 
-  n.p32 = page(head('3.2'), [
-    S('Teach the High Flammable Zone.',
-      say('High Flammable Zones are organisational leverage points. When alignment is strong: rapid clarity, coordinated effort, compounding momentum. When alignment is weak: distorted interpretation, defensive behaviour, multiplying friction.'),
-      say('Early intervention stabilises the zone and converts it into a performance amplifier.'),
-      IN('strain')),
-    S('Teach the Burning Platform.',
-      say('A Burning Platform is what a High Flammable becomes when misalignment persists and crosses the escalation threshold. By this point, execution breakdown is visible and costly. Reactive interventions cost exponentially more than proactive alignment would have.'),
-      say('The same zone that was manageable as a leverage point becomes a crisis requiring systemic rebuilding.')),
-    S('Ask where the threshold is closest.',
-      ask('Which of your COMPASS domains is closest to that threshold right now?'),
-      'The Enterprise COMPASS Screening Tool is available on demand. It helps teams move from vague alignment concerns to clear diagnosis and targeted intervention, and is recommended for use at strategy reviews and execution forums.')]);
+  n.p31b = page(head('3.1') + ' · HOW THE PROFILE IS READ', [
+    S('Walk the four lines on the slide.',
+      '1. Each participant scores themselves from 1 to 5 on each dimension: 1 is strongly low, 3 is balanced and 5 is strongly high.',
+      '2. A score of 4 or 5 is High, 3 is Balanced, and 1 or 2 is Low. This gives the participant’s own level on each dimension.',
+      '3. The level held by most members of a team is the team’s level for that dimension. The team’s profile appears in the team’s Capstone Blueprint once every member has submitted.',
+      '4. Each level carries a risk, a response and three routines that hold the response in place.'),
+    S('Say how each participant completes it.',
+      say('You complete the assessment alone, on your own page. You score yourself on the seven dimensions and read your own profile. You then select Submit to My Team’s Capstone.'),
+      'OCEAVL is a personal assessment. No one states a score to the group, and no one records a score for another member.'),
+    S('Say what the team sees.',
+      say('Your team sees the team’s level on each dimension and the count at each level. It sees no names and no single scores.'),
+      EX('Three members score Extraversion 2, 2 and 1. All three are Low, so the team is Low on Extraversion.',
+        'The team reads the risk of that level: ' + OCEAVL.find(x => x.name === 'Extraversion').levels.find(x => x.level === 'Low').risk)),
+    S('Ask the question of the part.',
+      ask('Which of your own levels carries the highest risk for how you read and lead the strategy?'),
+      'Take two or three answers. Each participant speaks of a level and its risk, never of a score.')],
+    portal('Each participant completes the OCEAVL Assessment alone in part 3.1 of the participant file. This is portfolio work.',
+      '1. They score themselves from 1 to 5 on each of the seven dimensions.',
+      '2. They read their own profile: their level on each dimension, with its risk, its response and its routines.',
+      '3. They select Submit to My Team’s Capstone.',
+      'They then write the reflection of 3.1 in the participant file:', `"${noq(REFL['3.1'].prompt)}"`),
+    after('Each participant’s scores and own profile reach you with their submission, under the heading OCEAVL Assessment.',
+      'The team’s profile appears in the team’s Capstone Blueprint once every member has submitted. The team then agrees, in box 5A, the two dimensions that carry the highest risk for the strategy.'));
 
-  n.p33 = page(head('3.3'), [
-    S('Link readiness to COMPASS.',
-      say('COMPASS shows where the organisation is exposed. Readiness shows how far each group of people has come through the 4 Checks for one specific change. The two are read together.'),
-      say('Readiness belongs to a group and a change together. The same group can be ready for one change and unready for another. The same change finds different groups at different checks, because it asks something different of each: one group gives up a decision, another gains one, a third carries on as before and feels overlooked.')),
-    S('Teach the three steps of the scan on the slide.',
-      '1. Name one change and list the groups it affects.',
-      '2. Run the 4 Checks for each group. Rate each check from 1 (fully in place) to 5 (missing).',
-      '3. Find each group’s first check that scores 4 or 5. Leadership effort for that group starts there.', '',
-      'Rating guide (scores of 2 and 4 fall between these descriptions):',
-      '- Mind · 3S. 1: people give the same Shift, Stake and Step. 3: people give the Shift and differ on the Stake or the Step. 5: people give different versions of the change.',
-      '- Heart · SCARF. 1: people bring ideas and problems to the change. 3: people comply and stay quiet. 5: a SCARF trigger is live and resistance is open or hidden.',
-      '- Hands · STAT. 1: skill, time, authority and tools are all in place. 3: one STAT element is missing. 5: two or more STAT elements are missing.',
-      '- Habit · ACE-IT. 1: the practice holds when the leader is absent. 3: the practice holds when it is checked. 5: the new practice has not started, or the old one has returned.'),
-    S('Walk the worked scan.',
-      EX('Worked scan · resolve complaints at first contact',
-        'Contact-centre agents: Mind 2 · Heart 3 · Hands 5 · Habit 4. Start here: Hands.',
-        'Agents understand the change and broadly accept it. They have no decision limit and no access to the refunds system. Further communication adds nothing for this group until authority and tools are in place.', '',
-        'Team leaders: Mind 1 · Heart 4 · Hands 2 · Habit 4. Start here: Heart.',
-        'Team leaders understand the change best of all. It moves decisions from them to their agents, which fires Status and Autonomy. Until that is addressed, they are unlikely to coach agents to use the new authority, and the agents’ Hands gap will stay open.', '',
-        'Back-office specialists: Mind 4 · Heart 4 · Hands 1 · Habit 3. Start here: Mind.',
-        'Specialists have the ability and have not been told what the change means for their own work. A strong Hands score has no effect while Mind fails.'),
-      'Draw attention to the team leaders. They score best on Mind and are the group most likely to block the change. Understanding a change and wanting it are separate checks.',
-      say('One change, three groups, three starting points. A single plan written for every group serves one of them.'),
-      IN('soil')),
-    S('Name the three misreadings to avoid.',
-      '- Reading quiet as ready. A group that complies and stays silent scores 3 on Heart. Silence is the absence of information.',
-      '- Reading a Hands gap as resistance. Late or partial practice looks the same whether people are unwilling or unable. Run STAT before concluding.',
-      '- Averaging the scores. A group strong on three checks and failing one is stalled at that one. The first failing check decides, and an average hides it.'),
-    S('Read readiness and COMPASS together.',
-      say('Now place each group in its COMPASS zone from 3.1. Low readiness inside a High Flammable Zone marks where a change is most likely to cross the escalation threshold and become a Burning Platform. Those groups come first.')),
-    S('Run the scan on a live change.',
-      'Participants rate their own change on their own, using the rating guide. Then pair participants who share an affected group to compare their ratings.',
-      'Where two leaders rate the same group differently, leave it unresolved and name it.',
-      say('You are leading the same people through the same change with two different readings.'),
-      'Watch for: one plan for every group. Ask which group the plan was written for.')],
-    reflPortal('3.3'));
-
-  n.ref3 = reflection('Section 3 Reflections', ['3.1', '3.3'], [
-    say('For 3.1, write your seven ratings first, then the evidence for the highest. For 3.3, name each group, rate each check and say which check fails first.'),
-    'Watch for: an average score for a group. Ask: "Which check fails first for this group?"'],
-    ['Bridge to Section 4.', say('We know where alignment is at risk. Section 4 shows how the leadership team holds it together.')],
-    'Participants write these two reflections in Section 3 of the participant file, at the foot of parts 3.1 and 3.3.');
+  n.ref3 = reflection('Section 3 Reflections', ['3.1'], [
+    say('Name the level, the risk it carries and one place where that risk has already shown up.'),
+    'Watch for: a reflection that lists scores. Ask for one level and its risk.'],
+    ['Bridge to Section 4.', say('You know the profile you bring. Section 4 shows how the leadership team holds alignment together.')],
+    'Participants write this reflection in Section 3 of the participant file, at the foot of part 3.1.');
 
   // ════════════════════════════════════════════════════════════════ SECTION 4
   n.s4 = divider('SECTION 4 · INTEGRATION — COLLECTIVE', [
     '1. 4.1: the Converging Zone and the two states it separates.',
-    '2. 4.2: the alignment responsibility of each leadership role.',
+    '2. 4.2: the alignment responsibility and the alignment hot zone of each leadership role.',
     '3. 4.3: the four commitments of leading change with one voice.',
     '4. The Section 4 Reflections slide: the three reflections participants write on the portal after the teaching.'], SECTIONS[3].outcomes, [
     S('Say what the section does.',
       say('This section lifts the focus from individual alignment to systemic leadership alignment. The Converging Zone is where individual functional expertise becomes coordinated leadership judgement.')),
     S('Say what is at stake.',
-      say('The executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system, stabilising all seven COMPASS domains.'),
-      'Without this, the organisation receives multiple interpretations of strategy, causing instability across all seven COMPASS domains.')]);
+      say('The executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system.'),
+      'Without this, the organisation receives multiple interpretations of strategy, causing instability across the organisation.')]);
 
   n.p41 = page(head('4.1'), [
     S('Teach the first state: with Collective Intelligence.',
@@ -694,56 +631,44 @@ module.exports = function (INS) {
       '- Resources reinforce priorities.',
       '- Systems enable execution.',
       '- People move with coordinated effort.',
-      say('One coherent signal across the organisation. COMPASS domains become leverage points for performance.')),
+      say('One coherent signal across the organisation. Changes pass the 4 Checks of Mind, Heart, Hands and Habit.')),
     S('Teach the second state: without Collective Intelligence.',
       '- Different leaders transmit different interpretations.',
-      '- COMPASS domains begin to drift.',
+      '- Changes stall at the first check they fail.',
       '- Functions receive competing signals.',
       '- Strategic instability spreads invisibly.',
-      say('Multiple conflicting signals. Leverage zones become sources of execution friction.')),
+      say('Multiple conflicting signals. Each function becomes a source of execution friction.')),
     S('Run the two states exercise.',
       ask('Which state is your organisation currently closer to?'),
       'Then ask: "What is the single most important convergence you need to achieve before your next major strategy initiative?"')],
     reflPortal('4.1'));
 
+  const ROLE_LINES = [
+      ['CEO', 'Integrates the functional perspectives of the leadership team into one coherent strategic narrative. The CEO’s primary alignment responsibility is preventing the “Chinese Whispers” effect by keeping the strategic story intact as it moves through the organisation.', 'When the CEO’s alignment is absent or inconsistent, all other roles struggle to converge.'],
+      ['CFO', 'Ensures capital allocation and financial discipline reinforce strategic intent and concentrate resources on the agreed priorities.', 'When the CFO’s alignment is absent, resources follow inertia, and the credibility of strategic priorities collapses.'],
+      ['COO', 'Converts strategy into operational flow, ensuring execution routines, coordination, and hand-offs move the organisation forward.', 'When COO alignment is absent, execution machinery runs efficiently but in the wrong direction.'],
+      ['CHRO', 'Aligns leadership behaviour, capability development, and organisational trust with the strategic direction.', 'When CHRO alignment is absent, strategy consistently exceeds the human system’s capacity to carry it.'],
+      ['CTO/CIO', 'Aligns technology architecture and data capability with the organisation’s strategic priorities and future operating model.', 'When CTO/CIO alignment is absent, technology investments produce demonstrations with no capability shift.'],
+      ['CMO', 'Aligns market positioning and brand promise with the organisation’s operational ability to deliver.', 'When CMO alignment is absent, market signals are disconnected from strategic direction, and brand promises outpace operational reality.'],
+      ['CCO', 'Aligns revenue generation and customer growth strategies with enterprise positioning and operational capacity.', 'When CCO alignment is absent, growth strategies create internal incoherence that compounds over time.'],
+      ['CPO', 'Ensures procurement decisions strengthen operational capability and reinforce strategic priorities.', 'When CPO alignment is absent, procurement optimises for cost at the expense of strategic capability.'],
+      ['CRO', 'Aligns enterprise risk interpretation so that strategic initiatives operate within a shared risk appetite framework.', 'When CRO alignment is absent, risk appetite becomes function-by-function interpretation, creating asymmetric exposure.'],
+      ['CSO', 'Maintains the integrity of the strategic narrative as it moves from formulation into execution across the organisation.', 'When CSO alignment is absent, the strategic narrative fragments and different layers execute different versions of the strategy.']];
+  const kit = id => KIT.find(k => k.id === id);
   n.p42 = page(head('4.2'), [
     S('Frame the grid on the slide.',
-      say('Each CXO function contributes to Collective Intelligence, and each most directly activates two COMPASS domains.')),
+      say('Each CXO function contributes to Collective Intelligence, and each carries an alignment hot zone: the element of 3S, SCARF, STAT or ACE-IT where the role is inclined to set off the trigger.'),
+      'Each role card in the facilitator file gives the likely trigger and the two cues from the Alignment Toolkit in Section 5.'),
     S('Ask each participant to find their own role first.',
       ask('Do you recognise this description? Is this how your team experiences your alignment contribution?'),
       'Then ask them to read the roles closest to their own. This is particularly powerful when the full CXO team attends.'),
     S('Walk the ten roles.',
-      'CEO · Clarity of Direction, Organisational Alignment.',
-      'Integrates all seven COMPASS domains into one coherent strategic narrative. The CEO’s primary alignment responsibility is preventing the “Chinese Whispers” effect by keeping the strategic story intact as it moves through the organisation.',
-      'When the CEO’s alignment is absent or inconsistent, all other roles struggle to converge.', '',
-      'CFO · Allocation of Resources, Management Discipline.',
-      'Ensures capital allocation and financial discipline reinforce strategic intent and concentrate resources on the agreed priorities.',
-      'When the CFO’s alignment is absent, resources follow inertia, and the credibility of strategic priorities collapses.', '',
-      'COO · Systems & Execution, Management Discipline.',
-      'Converts strategy into operational flow, ensuring execution routines, coordination, and hand-offs move the organisation forward.',
-      'When COO alignment is absent, execution machinery runs efficiently but in the wrong direction.', '',
-      'CHRO · People & Capability, Organisational Alignment.',
-      'Aligns leadership behaviour, capability development, and organisational trust with the strategic direction.',
-      'When CHRO alignment is absent, strategy consistently exceeds the human system’s capacity to carry it.', '',
-      'CTO/CIO · Systems & Execution, Sensing & Adaptation.',
-      'Aligns technology architecture and data capability with the organisation’s strategic priorities and future operating model.',
-      'When CTO/CIO alignment is absent, technology investments produce demonstrations with no capability shift.', '',
-      'CMO · Clarity of Direction, Sensing & Adaptation.',
-      'Aligns market positioning and brand promise with the organisation’s operational ability to deliver.',
-      'When CMO alignment is absent, market signals are disconnected from strategic direction, and brand promises outpace operational reality.', '',
-      'CCO · Allocation of Resources, Organisational Alignment.',
-      'Aligns revenue generation and customer growth strategies with enterprise positioning and operational capacity.',
-      'When CCO alignment is absent, growth strategies create internal incoherence that compounds over time.', '',
-      'CPO · Systems & Execution, Allocation of Resources.',
-      'Ensures procurement decisions strengthen operational capability and reinforce strategic priorities.',
-      'When CPO alignment is absent, procurement optimises for cost at the expense of strategic capability.', '',
-      'CRO · Management Discipline, Systems & Execution.',
-      'Aligns enterprise risk interpretation so that strategic initiatives operate within a shared risk appetite framework.',
-      'When CRO alignment is absent, risk appetite becomes function-by-function interpretation, creating asymmetric exposure.', '',
-      'CSO · Clarity of Direction, Sensing & Adaptation.',
-      'Maintains the integrity of the strategic narrative as it moves from formulation into execution across the organisation.',
-      'When CSO alignment is absent, the strategic narrative fragments and different layers execute different versions of the strategy.',
+      ROLE_LINES.map((r, k) => { const h = HOT[k], e = kit(h.el); if (h.role !== r[0]) throw new Error('role order: ' + r[0]);
+        return [k ? '' : null, `${r[0]} · ${h.tag}.`, r[1], h.f, 'Likely trigger: ' + e.trig, 'Look out for: ' + e.cues.join(' '), r[2]]; }),
       IN('whole')),
+    S('Read the hot zones together.',
+      say('Read the hot zones of your team together. They show where your team is most likely to stall its own changes.'),
+      ask('Which hot zones sit in this team, and which change in your strategy would set them off first?')),
     S('Ask the question that becomes a commitment.',
       'After each leader has reviewed their own role, invite them to look at the role most adjacent to theirs.',
       ask('What is the most important alignment conversation you need to have with that role in the next 30 days?'),
@@ -774,137 +699,112 @@ module.exports = function (INS) {
       ask('If this group can absorb two of these well, which two come first, and who tells the owners of the rest?'),
       'Watch for: each leader defending their own change. Return the discussion to the group that has to absorb them.'),
     S('Test one message.',
-      'Repeat the 3S test from 1.4 with the whole team on one enterprise-wide change. Participants post their versions in the chat.')],
+      'Repeat the 3S test from 1.3.1 with the whole team on one enterprise-wide change. Participants post their versions in the chat.')],
     reflPortal('4.3'));
 
   n.ref4 = reflection('Section 4 Reflections', ['4.1', '4.2', '4.3'], [
     say('For 4.1, name the state and one convergence. For 4.2, name the role and what the conversation must address. For 4.3, count the changes and name the weakest commitment.'),
     'Watch for: a conversation with no named role. Ask: "Which role, and by when?"'],
-    ['Bridge to Section 5.', say('We have the checks, the hot zones and the commitments. Section 5 applies them to two changes your strategy requires.')],
+    ['Bridge to Section 5.', say('We have the checks, the hot zones and the commitments. Section 5 applies them to the strategy in your Capstone Blueprint.')],
     'Participants write these three reflections in Section 4 of the participant file, at the foot of parts 4.1, 4.2 and 4.3.');
 
   // ════════════════════════════════════════════════════════════════ SECTION 5
   n.s5 = divider('SECTION 5 · APPLICATION — IN PRACTICE', [
-    '1. Step 1 · Change Transition Map: each participant maps two changes. Portfolio work.',
-    '2. Step 2 · Role Connections: each participant sets out their own role and the two roles they depend on most. Portfolio work.',
-    '3. Step 3 · Exchange & Dialogue: participants test the map and the table with a colleague. Portfolio work.',
-    '4. Step 4 · Plenary Synthesis: the group agrees three entries. Capstone work. Each participant then writes one 30-day behavioural commitment.'], SECTIONS[4].outcomes, [
-    S('Say what the exercise does.',
-      say('This exercise highlights how Collective Intelligence emerges when leaders understand each other’s alignment responsibilities. The goal is to move from individual interpretations to a shared understanding of how roles jointly stabilise all seven COMPASS domains. The exercise starts from two real changes your strategy requires.')),
+    '1. Step 1 · The Toolkit: two slides, the four checks with their tools and one worked example. It is taught.',
+    '2. Step 2 · Your Watch List: each participant selects the triggers most likely to surface in their own area and writes what they will do. Portfolio work.',
+    '3. Step 3 · Team Alignment Plan: the group agrees the triggers most likely to surface for the strategy in its Capstone Blueprint. Capstone work. Each participant then writes one 30-day behavioural commitment.'], SECTIONS[4].outcomes, [
+    S('Say what the toolkit is.',
+      say('The Alignment Toolkit brings the tools of the 4 Checks into one working page: 3S, SCARF, STAT and ACE-IT. For each element it gives two cues to look out for and the trigger likely to sit behind them. You apply it to the strategy in your team’s Capstone Blueprint.')),
     S('Say the order.',
-      say('Steps 1 and 2 are individual. Step 3 is a paired exchange. Step 4 is the plenary synthesis.'),
-      'Do not rush Steps 1–3. The quality of the plenary depends entirely on the depth of individual reflection and peer dialogue that precedes it.'),
+      say('Step 1 is reading. Step 2 you do on your own. Step 3 you do with your group.'),
+      'Give Step 2 its full depth: the quality of the team plan depends on the watch list each member brings.'),
     S('Say which work goes where.',
-      say('Steps 1 to 3 are portfolio work. Step 4 is Capstone work: your group’s confirmed outputs feed your team’s Capstone Blueprint.'))]);
+      say('Step 2 is portfolio work. Step 3 is Capstone work: your group’s confirmed plan feeds your team’s Capstone Blueprint.'))]);
 
-  n.st1 = page('SECTION 5 · STEP 1 — CHANGE TRANSITION MAP (PORTFOLIO WORK)', [
-    S('Say what the map is.',
-      say('The map turns the 4 Checks into a plan for one change: who it affects, where it will stall, what they need and who answers for it.')),
-    S('Say which changes are mapped.',
-      say('You choose two changes your strategy requires of people: one practice they must start and one they must stop. You take them from the Start and Stop lists your group confirmed in Unit 3. You complete the map once for each change.'),
-      'Leaders use the change they carried through the unit as their first map.'),
-    S('Walk the eight fields on the slide, using the worked example.',
-      EX('The change: one practice people must start, or one they must stop. Name the practice, the group and the date.',
-        'Worked example: Start: from March, resolve complaints at first contact.', '',
-        'Who is most affected: the group whose daily work changes most. Name a team, and avoid “staff” or “the business”.',
-        'Worked example: Contact-centre agents and their team leaders.', '',
-        'Mind · 3S: the Shift, the Stake and the Step, as this group should be able to say them.',
-        'Worked example: Shift: agents resolve complaints themselves, at first contact. Stake: we keep the customers who leave after a slow answer. If we stay as we are, complaints keep taking 48 hours. Step: I decide on the call, within my limit.', '',
-        'Heart · SCARF: what they give up, and the trigger it is most likely to fire.',
-        'Worked example: They give up passing difficult cases to the back office. Certainty: “What happens if I decide wrongly?”', '',
-        'Hands · STAT: what is in place and what is missing: skill, time, authority, tools.',
-        'Worked example: Skill: two practice sessions needed. Time: in place. Authority: no decision limit yet. Tools: no access to the refunds system.', '',
-        'Habit · ACE-IT: how the five behaviours will hold the new practice in place, and who notices.',
-        'Worked example: Accountability: each agent owns the case to closure. Transparency: first-contact resolution is shown every week. Team leaders recognise it in the weekly review.', '',
-        'Weakest check: the first check that fails, and the support and involvement this group needs.',
-        'Worked example: Hands. A decision limit, system access and two practice sessions. Team leaders help set the limits.', '',
-        'Leader who owns it: one named leader who answers for adoption.',
-        'Worked example: Chief Operating Officer.')),
-    S('Give the standard for a complete map.',
-      '- Names a specific group and a specific practice.',
-      '- Gives the Shift, the Stake and the Step in the group’s own words.',
-      '- Shows which STAT element is missing, with evidence.',
-      '- Names one person as owner.',
-      'Watch for: “staff” or “the business” as the affected group. Ask for the team whose Monday morning changes.',
-      'Watch for: a committee or a function named as owner. Hold out for one person.')],
-    portal('Each participant completes the Change Transition Map alone in Step 1 of the participant file. This is portfolio work.',
-      '1. They choose two changes: one practice people must start and one they must stop, taken from the Start and Stop lists the group confirmed in Unit 3. Their page shows the two lists.',
-      '2. They read the worked example.',
-      '3. They complete the eight fields for each change.'),
-    after('The maps reach you with each participant’s submission, under the heading Change Transition Map.',
-      'Check that each map names a specific group, a specific practice and one person as owner.'));
+  n.st1 = page('SECTION 5 · STEP 1 — THE TOOLKIT', [
+    S('Say how the toolkit is read.',
+      say('The toolkit is read check by check. Each check has its tool, and each element of the tool has two cues and a likely trigger.'),
+      say('A cue is what you see or hear. A trigger is the condition that sits behind the cue. Act on the trigger. A response aimed at the cue leaves the trigger in place.'),
+      IN('soil')),
+    S('Teach one check at a time.',
+      'For each element, read the two cues and ask the group to name the trigger before you give it.',
+      CHECKS.map((c, ci) => ['', `${c.name} · ${c.tool}: ${c.line}`, KIT.filter(k => k.c === ci).map(k => `- ${k.n}. Cues: ${k.cues.join(' ')} Trigger: ${k.trig}`)])),
+    S('Draw the key distinction.',
+      'A leader who answers the cue leaves the trigger in place.',
+      ask('Think of the last cue you answered. Which trigger sat behind it?'))],
+    portal('Participants read the toolkit in Step 1 of the participant file. They enter nothing in this step.'));
 
-  n.st2 = page('SECTION 5 · STEP 2 — ROLE CONNECTIONS (PORTFOLIO WORK)', [
-    S('Brief the table.',
-      say('For the two changes you mapped, you complete the table for your own role and for the two roles you depend on most. Focus on the alignment mechanism.'),
-      'Each person works independently, with the two changes they mapped in Step 1 in view.'),
-    S('Walk the three rows on the slide.',
-      'Row 1: Your Own Role. Leadership Role · Top Two COMPASS Domains Activated · How I Create Collective Intelligence.',
-      'Row 2: First Closely Related Role. Leadership Role · Top Two COMPASS Domains Activated · Why This Role’s Alignment Is Critical to Mine.',
-      'Row 3: Second Closely Related Role. Leadership Role · Top Two COMPASS Domains Activated · What Would Strengthen Our Alignment.'),
+  n.st1x = page('SECTION 5 · STEP 1 — THE TOOLKIT · WORKED EXAMPLE', [
+    S('Introduce the example.',
+      say('The worked example follows the change we carried through the unit: complaints are resolved at first contact.')),
+    S('Walk the four rows on the slide.',
+      EX(KIT_EXAMPLE.map((r, k) => [k ? '' : null, r[0], 'Cue to look out for: ' + r[1], 'Where it will surface: ' + r[2], 'What we will do: ' + r[3], 'Leader who owns it: ' + r[4]]))),
+    S('Point out the standard.',
+      'Each row names one group and one owner.',
+      'Watch for: a committee or a function named as owner. Hold out for one person.')]);
+
+  n.st2 = page('SECTION 5 · STEP 2 — YOUR WATCH LIST (PORTFOLIO WORK)', [
+    S('Brief the watch list.',
+      say('You work alone. Your page shows the Start and Stop lists your group confirmed in Unit 3. These are the changes your strategy asks of people.')),
+    S('Walk the three lines on the slide.',
+      '1. Each card is one trigger, with the two cues that show it.',
+      '2. Select “Likely to surface in my area” on the triggers you expect as these changes land. Start with the alignment hot zone of your own role in 4.2. Select at least one under each check.',
+      '3. In the box that opens, write what you will do.'),
+    S('Give the example.',
+      EX('Card: Step.',
+        'Cue: people agree with the change and carry on as before.',
+        'Trigger: the change has a Shift for the organisation and no Step for each role affected.',
+        'What I will do: “I give each of my team leads their own Step and ask them to say it back.”')),
     S('Set the standard.',
-      'The “How I Create Collective Intelligence” column must go beyond job description. It should describe the alignment mechanism the role provides to the organisation.',
-      'Watch for: participants who list tasks. Push them to name alignment contributions.',
-      say('That is what you do. What happens to the organisation’s alignment when you do it well? And when you don’t?'))],
-    portal('Each participant completes the table alone in Step 2 of the participant file. This is portfolio work.',
-      'Each row names the role, the two COMPASS domains it most directly activates and one statement on alignment.'),
-    after('The tables reach you with each participant’s submission, under the heading COMPASS Role Alignment.',
-      'Check that each row names a specific COMPASS domain and a concrete collaboration behaviour.'));
+      'Watch for: every trigger selected. Ask which ones will surface first, and in whose area.',
+      'Watch for: “communicate more” as the answer to every trigger. Ask which trigger the communication removes.',
+      'A cue is a reason to ask before it is a reason to correct.',
+      IN('openq'))],
+    portal('Each participant completes Your Watch List alone in Step 2 of the participant file. This is portfolio work.',
+      '1. They read the practices the strategy starts and stops. Their page shows the Start and Stop lists the group confirmed in Unit 3.',
+      '2. They read the cards under each check and select “Likely to surface in my area” on the triggers they expect, at least one under each check.',
+      '3. In the box that opens, they write what they will do.',
+      'The watch list saves as the participant works.'),
+    after('The watch lists reach you with each participant’s submission, under the heading Alignment Toolkit.',
+      'Check that each action answers its trigger and names something the participant will do.'));
 
-  n.st3 = page('SECTION 5 · STEP 3 — EXCHANGE & DIALOGUE (PORTFOLIO WORK)', [
-    S('Brief the exchange.',
-      say('You share your map and your table with the colleague, or colleagues, whose role you selected. You work through four exchange questions together.'),
-      'Pair participants from closely related roles.'),
-    S('Read the four exchange questions on the slide.',
-      'Exchange 1: Does your colleague agree with how you described their alignment contribution?',
-      'Exchange 2: Additional connectivity your colleague identified.',
-      'Exchange 3: Where your interpretations diverged and what that signals.',
-      'Exchange 4: Does your colleague agree with the weakest check and the owner you named for each change?'),
-    S('Hold the disagreements open.',
-      'Where leaders disagree, do not resolve it. Name it explicitly.',
-      say('That disagreement is diagnostic. It tells you something about how these roles are currently experienced in the organisation.'),
-      IN('openq')),
-    S('Take the divergences.',
-      'Ask each pair where their interpretations diverged. Treat divergence as diagnostic and leave it unresolved.')],
-    portal('Participants work in pairs from closely related roles. This is portfolio work.',
-      'Each shares the map and the table, the pair works through the four exchange questions, and each participant types their own notes in Step 3 of the participant file.'),
-    after('The notes reach you with each participant’s submission, under the heading Peer Exchange.'));
-
-  n.st4 = page('SECTION 5 · STEP 4 — PLENARY SYNTHESIS (CAPSTONE WORK)', [
+  n.st3 = page('SECTION 5 · STEP 3 — TEAM ALIGNMENT PLAN (CAPSTONE WORK)', [
     S('Explain how the group works.',
       say('Your group agrees each entry. One member acts as scribe and types the agreed wording. Every member then types the agreed entries into their own page, in the session or after it.')),
-    S('Ask the first synthesis question.',
-      ask('Looking across all the tables, which COMPASS domain appears most frequently as underactivated or poorly understood? That is your team’s most critical alignment vulnerability.')),
-    S('Ask where alignment is already strong.',
-      ask('Which COMPASS domains are being strongly activated? Where is Collective Intelligence already working well?')),
-    S('Ask the second synthesis question.',
-      ask('Which group appears on the most maps? What sequence does this team agree for the changes landing on it?')),
+    S('Walk the lines on the slide.',
+      '1. Compare the watch lists of your group.',
+      '2. Select “Likely to surface for our strategy” on the triggers your group agrees on, for the strategy in your Capstone Blueprint. Select at least one under each check.',
+      '3. In the boxes that open, write where the trigger will surface, what your team will do and the leader who owns it.',
+      '4. Read your record at the foot of this step, then select Confirm. Select Print for a copy.'),
+    S('Ask the synthesis question.',
+      ask('Across your watch lists, which trigger did most of you select? Which did only one of you select, and what does that member see from their seat?')),
     S('Name the patterns.',
-      'Your role in the plenary is to name patterns. When leaders disagree about connectivity, name it explicitly.',
-      say('That disagreement tells us something important about how alignment responsibilities are currently experienced in this team.')),
-    S('Say when the work is confirmed.',
-      say('When your group has agreed the three entries, each of you reads the record and confirms it.')),
+      'Your role in Step 3 is to name patterns. When members select different triggers for the same change, name it.',
+      say('Each of you is reading this change from a different seat. The plan has to cover all of them.'),
+      IN('adoption')),
+    S('Hold the standard for an owner.',
+      'Watch for: a committee or a function named as owner. Hold out for one person.'),
     S('Close with the commitment.',
-      'Each leader names one specific behavioural change in the next 30 days to strengthen their alignment contribution.',
-      'Ask each leader to tie the commitment to one of their mapped changes: the behaviour they will show first.',
+      'Each leader names one specific behavioural change in the next 30 days.',
+      'Ask each leader to tie the commitment to one trigger in the team plan: the behaviour they will show first.',
       'Make these visible: each participant posts the commitment in the chat. Follow up at the next leadership forum.')],
-    portal('Participants work as a group in Step 4 of the participant file. This is Capstone work.',
-      '1. The group agrees the COMPASS domain, or domains, most often underactivated.',
-      '2. The group agrees where alignment is already strong.',
-      '3. The group agrees which group of people appears on the most maps, and the order and pace for the changes landing on it.',
-      '4. A record shows the three entries. Each participant confirms the record. Print gives a copy.',
+    portal('Participants work as a group in Step 3 of the participant file. This is Capstone work.',
+      '1. The group compares the watch lists of its members.',
+      '2. The group selects the triggers it agrees on, at least one under each check.',
+      '3. For each trigger the group writes where it will surface, what the team will do and the leader who owns it.',
+      '4. A record shows the plan. Each participant confirms the record. Print gives a copy.',
       'Each participant then writes one 30-day behavioural commitment. This is portfolio work.'),
-    after('The record reaches you with each participant’s submission, under the heading Working Papers.',
-      'The confirmed entry on the underactivated COMPASS domain feeds box 5C of the team’s Capstone Blueprint.'));
+    after('The plan reaches you with each participant’s submission, under the heading Alignment Toolkit.',
+      'The confirmed plan feeds boxes 5B to 5E of the team’s Capstone Blueprint, one box for each check.'));
 
   n.summary = page('UNIT SUMMARY (UNIT 5 SYNTHESIS)', [
     S('Recap the unit, section by section.',
       say('This session was about the human conditions that decide whether a strategy ever moves. Aligning Heart & Mind treated execution as first a human problem: strategy moves through people before it moves through systems.'),
       '- 1 · Awareness: strategy enters through Cognition (Mind) and Emotion (Heart). Five principles describe how alignment is created and sustained.',
       '- 2 · Intelligence: Heart & Mind alignment is the ignition point that converts strategic potential energy into kinetic energy. Compliance yields short-term output. Commitment sustains execution when leaders are not present.',
-      '- 3 · Extrapolating: misalignment concentrates in seven High Flammable Zones, mapped by the COMPASS framework. A lit zone is a High Flammable or a Burning Platform.',
-      '- 4 · Integration: in the Converging Zone functional interpretations integrate into a shared leadership signal. Each CXO role carries a distinct alignment responsibility.',
-      '- 5 · Application: each participant maps the transition for two changes and tests it with a colleague. The group agrees its shared reading and the sequence for the changes landing on the same group.',
+      '- 3 · Extrapolating: each participant completes the OCEAVL Assessment across seven dimensions. The level held by most members is the team’s level, and every level carries a risk, a response and three routines.',
+      '- 4 · Integration: in the Converging Zone functional interpretations integrate into a shared leadership signal. Each CXO role carries a distinct alignment responsibility and an alignment hot zone.',
+      '- 5 · Application: each participant builds a watch list from the Alignment Toolkit. The group agrees its Team Alignment Plan: the triggers most likely to surface, where, what the team will do and who owns it.',
       '- Across the unit: a change is adopted when it passes the 4 Checks of Mind, Heart, Hands and Habit. The leader’s job is to explain, involve, equip and reinforce until it passes all four.'),
     S('Ask the closing question on the slide.',
       ask(CLOSING_Q),
@@ -913,10 +813,10 @@ module.exports = function (INS) {
       say('Aligned hearts and minds turn a strategy from a document the organisation has read into a direction the organisation is willing to move on.'),
       'Connect the unit to what follows: Performance Management Setup and the translation of strategy into individual accountability across the enterprise.'),
     S('Say what happens on the portal.',
-      say('You now complete the unit on the portal: your reflections, your Change Transition Map, your Role Connections, your exchange notes, your group’s Plenary Synthesis and your 30-day commitment. When your page is complete, you submit the unit.'))],
+      say('You now complete the unit on the portal: your reflections, your OCEAVL Assessment, your watch list, your group’s Team Alignment Plan and your 30-day commitment. When your page is complete, you submit the unit.'))],
     portal('Participants complete every part of the participant file and submit the unit to the facilitator from the end of Section 5.'),
     after('Each submission reaches you in the facilitator dashboard.',
-      'The group’s confirmed entry on the underactivated COMPASS domain feeds box 5C of the team’s Capstone Blueprint.'));
+      'Each member’s OCEAVL scores feed the team’s profile in the Capstone Blueprint. The group’s confirmed Team Alignment Plan feeds boxes 5B to 5E.'));
 
   return { n, used, D };
 };

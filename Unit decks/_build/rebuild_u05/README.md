@@ -98,3 +98,67 @@ Slides: cover, Key learning outcomes, unit journey · Section 1 (1.1; 1.2 overvi
 - Section 5, first outcome, says "one strategic change"; the exercise maps two. Outcomes are hers; left as written.
 - Step 1 says the two changes come from the Unit 3 Start and Stop lists; the facilitator briefing keeps "Leaders use the change they carried through the unit as their first map".
 - `Claude outputs\Unit 5 deck upload` is an older folder, superseded by `Claude outputs\Deck upload\Module-3`.
+
+## Amendments of 8 October (evening): written to the portal files
+
+Carol amended the unit the same evening and gave her word ("Happy for you to write the live pages"). **The sections above describe the unit as it stood after the three-way match. This section describes the unit as it stands now.** Her instructions are in `Claude outputs\Handover - Unit 5.md`, section 8.
+
+**Build chain for the pages:** file before the three-way match → `build_p.py` / `build_f.py` → `amend_p.py` / `amend_f.py`. The inputs of the amend scripts are kept as `Claude outputs\Unit 5 file backups\unit3_m1_lens4_[p|f] - before amendments (8 Oct evening).html`. The live pages reproduce from them byte for byte.
+
+| File | What it does |
+|---|---|
+| `u5b_content.py` | Amended content both pages share: Principle 1 (Carol's five links), the OCEAVL teaching text, the 17 toolkit elements (two cues and a trigger each), the worked example, the ten alignment hot zones, Section 5 wording, Unit Summary blocks. Lines marked NEW are Claude's wording. |
+| `oceavl.json` | Carol's OCEAVL tool: seven dimensions, three levels each (behavioural DNA, risk, response, routines). Three phrases reworded for the no-contrast and no-times rules. |
+| `amend_p.py <built participant page> <new file>` | Applies the amendments to the participant page. |
+| `amend_f.py <built facilitator page> <new file>` | Applies them to the facilitator page. Fails if an entry box or a time is left. |
+| `u5b_p.js` | Participant tools: OCEAVL personal assessment (3.1), Your Watch List and Team Alignment Plan (Section 5), the Unit 3 Start and Stop lists. It takes the place of `u5_p.js` on the page. |
+| `u5b.css` | Styles added to both pages. |
+| `patch_links_b.py <dashboard_F> <capstone_P> <build_collection.js> <folder>` | Capstone section 5, report labels, Learning Portfolio keys. Runs on the files as `patch_links.py` left them. |
+
+### The unit now
+
+- **Section 1:** 1.1 · 1.2 (Principle 1 carries Carol's five links: Interpretation, Experience, Choices, Actions, Results, and her closing line) · 1.3 Change Management · 1.3.1 3S · 1.3.2 SCARF · 1.3.3 STAT · 1.3.4 ACE-IT.
+- **Section 2:** unchanged.
+- **Section 3:** one part, 3.1 The OCEAVL Assessment. COMPASS, "From High Flammables to Burning Platforms" and "Change Readiness" are deleted. OCEAVL is a **personal** assessment: each participant scores themselves 1 to 5 on seven dimensions, reads their own profile and selects Submit to My Team's Capstone. The team's profile is shown in the Capstone once every member has submitted.
+- **Section 4:** COMPASS removed. Each role card in 4.2 names its Alignment Hot Zone, one of the 17 toolkit elements, with that element's trigger and two cues word for word: CEO Shift · CFO Transparency · COO Time · CHRO Skill · CTO/CIO Tools · CMO Engagement · CCO Fairness · CPO Authority · CRO Autonomy · CSO Stake.
+- **Section 5 · The Alignment Toolkit:** Step 1 The Toolkit (read) · Step 2 Your Watch List (individual, Portfolio work) · Step 3 Team Alignment Plan (group, Capstone work, Confirm and Print) · the 30-Day Behavioural Commitment. The Change Transition Map, Role Connections, Exchange & Dialogue and Plenary Synthesis are gone.
+- COMPASS appears nowhere in Unit 5.
+
+### Response keys (lens `u3m1_lens4`)
+
+- Reflections: `ref1` to `ref6`, `ref8` to `ref13`, `ref15`, `ref16` (3.1). `ref7` and `ref14` are no longer written.
+- OCEAVL: `__oceavl_work` (`{s:[seven scores]}`), `oceavl_scores`, `oceavl_profile` (the participant's own); `confirmed_items` name "OCEAVL · My Scores".
+- Watch list: `__kit_me`, `kit_me`.
+- Team plan: `__kit_team`, `kit_team` (record while the group works), `kit_mind`, `kit_heart`, `kit_hands`, `kit_habit` (written on Confirm); `confirmed_items` names "Alignment Plan · Mind", "· Heart", "· Hands", "· Habit". An edit removes the confirmation.
+- Commitment: `syn_30day`.
+- No longer written: `ctm1_*`, `ctm2_*`, `wp_*`, `exch_*`, `syn_missing_compass`, `syn_strong_compass`, `syn_sequence`.
+
+### Links
+
+- `capstone_P.html`, section Unit 5: 5A Team behavioural profile (typed by the team under the team OCEAVL profile) · 5B to 5E Alignment plan · Mind, Heart, Hands, Habit, brought in from `kit_mind` … `kit_habit` through `PULL.u5`. The team OCEAVL profile is read with the database function `get_capstone_team_oceavl(p_team_id)`.
+- **Database:** `Claude outputs\capstone_unit5_oceavl.sql`, five blocks, one new function. It returns counts of High, Balanced and Low for each dimension, with no names, and only when every member of the team has submitted. Tested in a local Postgres: signed out, non-member, none, some and all submitted, odd values, admin. Carol runs it in Supabase. Until she does, the Capstone shows "Your team's profile is not available yet" and everything else works.
+- `dashboard_F.html`: headings "OCEAVL Assessment" and "Alignment Toolkit", labels for the new keys.
+- `build_collection.js`: `CAPSTONE_KEYS.u3m1_lens4` also leaves out `kit_team`, `kit_mind|heart|hands|habit` and `oceavl_scores`. `collection.html` rebuilt.
+- Files before: `Claude outputs\Unit 5 file backups\[…] - before amendments (8 Oct evening)`.
+
+### The deck
+
+`Unit decks\Unit 05 - Aligning Heart & Mind.pptx`: **39 slides**. Changed: Principle 1 (five links), parts renumbered 1.3.1 to 1.3.4, Section 3 (3.1a the seven dimensions, 3.1b how the profile is read, one reflection), 4.1, 4.2 (hot zones), Section 5 (Step 1 The Toolkit, Step 1 Worked example, Step 2, Step 3), Unit Summary, notes throughout. 18 journal insights, each used once ("Listening to strain" left with the High Flammable Zones it names).
+
+- `export_deck_data.py <p> <f> <u05_data.json>` now also writes the OCEAVL, toolkit and hot-zone content for the notes.
+- `final_scan.py` on the final files: 39 slides, 0 problems (177 slide strings found on the pages, 14 part titles, 14 reflection questions, no leftovers, COMPASS included in the leftover list).
+- `lint_notes.py`: 4 hits, all OCEAVL wording ("from 1 to 5", "stress causes withdrawal").
+- Reader folder `Claude outputs\Deck upload\Module-3\unit-05`: 39 pictures and `manifest.json`. `s40.jpg` and five old reflection pictures are in `Claude outputs\_to_delete\unit-05 old files (8 Oct evening)`.
+- Files before: `Claude outputs\Unit 5 deck backups\[…] before amendments (8 Oct evening)`.
+
+### Tests
+
+- PREVIEW participant page in a real browser: 38 checks, all pass (numbering, Principle 1, OCEAVL scoring, submit, edit after submit, hot zones word for word against the toolkit, watch list, team plan, Confirm, reload, no script errors). Phone widths unchanged.
+- Capstone page with a stand-in database: team profile shown when all have submitted, count shown when some have, plain message when the function is missing; 5B to 5E brought in and saved.
+- `node check_standards.js`: no Unit 5, Capstone or report breach.
+
+### Still open (for Carol's word)
+
+- The element chosen for each role in 4.2 and its linking sentence, the ACE-IT cues, the triggers for 3S, STAT and ACE-IT, the 3.1 reflection and the new guidance notes are Claude's wording.
+- Section 3 outcomes still speak of misalignment escalating into crisis and of readiness; Section 5's first outcome still speaks of one strategic change and role connections. Outcomes are hers.
+- Seven of the 17 elements are tied to no role.
