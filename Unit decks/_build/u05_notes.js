@@ -12,7 +12,9 @@
 // A line that starts with § is a heading or a step title: format_notes_u03.py removes the mark and makes the line bold.
 //
 // ALIGNMENT: the notes carry what the Unit 5 facilitator and participant files carry (three-way match of 8 October 2026,
-// and Carol's amendments of that evening: Principle 1, 1.3.1 to 1.3.4, OCEAVL as a personal assessment, alignment hot zones, the Alignment Toolkit).
+// Carol's amendments of that evening: Principle 1, 1.3.1 to 1.3.4, OCEAVL as a personal assessment, alignment hot zones; and her amendments of 9 October:
+// 3.1 scores first with routine meanings, 4.1 Leading Change with One Voice (the old 4.1 and 4.3), 4.2 in plain words, Section 5 "Leading with Clarity"
+// (the group's Shift, Stake and Step, then the ACE-IT behaviours it expects from the leadership team), no watch list, no 30-day commitment).
 // Titles, outcomes and reflection questions come word for word from u05_data.json, written by rebuild_u05/export_deck_data.py from the two pages.
 // TEACHING FLOW: the facilitator teaches the whole unit from the deck first; participants go to the portal afterwards.
 // Carol's rules: no timings, no pre-work, no contrast constructions, never "lens", British spelling, online delivery ("post in the chat").
@@ -50,7 +52,7 @@ module.exports = function (INS) {
     say('You write these reflections on the portal after the teaching, with as much depth as you can.'));
 
   const D = JSON.parse(fs.readFileSync(path.join(__dirname, 'u05_data.json'), 'utf8'));
-  const { KLO, SECTIONS, PARTS, REFL, STEPS, CLOSING_Q, OCEAVL, CHECKS, KIT, KIT_EXAMPLE, HOT, CHAIN, CHAIN_QUOTE } = D;
+  const { KLO, SECTIONS, PARTS, REFL, STEPS, CLOSING_Q, OCEAVL, OC_STEPS_F, OC_EVERY, HOT, TERMS, G3, GA, ASK, ACE_ASK, STEP1_ACT_F, STEP2_ACT_F, STEP1_GUIDE_F, STEP2_GUIDE_F, CHAIN, CHAIN_QUOTE } = D;
   const head = k => `${k} — ${PARTS[k].title.toUpperCase()} (${PARTS[k].meta.toUpperCase()})`;
   const refLine = k => `${k} ${REFL[k].label}: "${noq(REFL[k].prompt)}"`;
   const reflPortal = k => portal(`Participants write the reflection of ${k} in the participant file:`, `"${noq(REFL[k].prompt)}"`);
@@ -69,26 +71,25 @@ module.exports = function (INS) {
       'SCARF explains resistance, ACE-IT sets the behaviour standard and the OCEAVL Assessment shows the behavioural profile the leadership team brings to the strategy.', '',
       'The 4 Checks of Mind, Heart, Hands and Habit give leaders one discipline for leading people through the changes the strategy requires: 3S tests Mind, SCARF reads Heart, STAT tests Hands and ACE-IT holds Habit.'),
     block('WHAT THE UNIT PRODUCES:',
-      '1. Each participant completes the OCEAVL Assessment for themselves in 3.1 and builds a watch list in Step 2 of Section 5. Both are portfolio work.',
-      '2. Each group produces its Team Alignment Plan in Step 3 of Section 5: the triggers most likely to surface under each check, where each will surface, what the team will do and the leader who owns it. This is Capstone work.',
-      '3. Each participant writes fourteen reflections and one 30-day behavioural commitment.'),
+      '1. Each participant completes the OCEAVL Assessment for themselves in 3.1. This is portfolio work.',
+      '2. Each group produces its record in Section 5: its Shift, Stake and Step for the strategy, and the behaviour it expects from the leadership team under each ACE-IT behaviour. This is Capstone work.',
+      '3. Each participant writes thirteen reflections.'),
     block('HOW THE UNIT RUNS:',
       '1. You teach the whole unit from this deck first, from Section 1 to the Unit Summary. The deck is the teaching material.',
-      '2. Participants then complete their own page on the portal, in the session or after it: the reflections, the OCEAVL Assessment and the three steps of Section 5.',
-      '3. Step 1 of Section 5 is taught. Step 2 is portfolio work, completed by each participant alone.',
-      '4. Step 3 of Section 5 is group work for the Capstone. The group agrees each entry and one member acts as scribe.',
+      '2. Participants then complete their own page on the portal, in the session or after it: the reflections, the OCEAVL Assessment and the two steps of Section 5.',
+      '3. Both steps of Section 5 are group work for the Capstone. The group agrees each entry and one member acts as scribe.',
       'Every member then types the agreed entries into their own page.'),
     'Each slide’s notes end with a block headed "On the portal, after the teaching" wherever participants have something to complete for that part.',
-    'Your preparation as facilitator:\n- Read the Facilitator Guide tab and every section of the facilitator file.\n- Each participant needs one live change their strategy requires of a named group. They write it down in 1.3 and carry it to the end of the unit.\n- Each group needs the KISS map it confirmed in Unit 3: Step 2 of Section 5 shows its Start and Stop lists.\n- OCEAVL is a personal assessment. No participant states a score to the group.',
-    'Where the outputs go next:\n- Each member’s submitted OCEAVL scores feed the team’s profile in the Capstone Blueprint once every member has submitted. The team sees levels and counts, with no names.\n- The group’s confirmed Team Alignment Plan feeds boxes 5B to 5E. The team writes box 5A under its team profile.');
+    'Your preparation as facilitator:\n- Read the Facilitator Guide tab and every section of the facilitator file.\n- Each participant needs one live change their strategy requires of a named group. They write it down in 1.3 and carry it to the end of the unit.\n- Each group needs the KISS map it confirmed in Unit 3: Step 1 of Section 5 shows its Start and Stop lists.\n- OCEAVL is a personal assessment. No participant states a score to the group.\n- Step 2 of Section 5 shows the team’s OCEAVL profile. Every member of a team completes and submits the assessment in 3.1 first.',
+    'Where the outputs go next:\n- Each member’s submitted OCEAVL scores feed the team’s profile in the Capstone Blueprint once every member has submitted. The team sees levels and counts, with no names.\n- The group’s confirmed record from Section 5 feeds boxes 5B and 5C. The team writes box 5A under its team profile.');
 
   n.klo = N(H('KEY LEARNING OUTCOMES'),
     block('HOW TO USE THIS SLIDE:',
       'Read the four outcomes aloud and say where the unit delivers each one.',
       '- Outcome 1 is built in Section 1: the two human filters (1.1) and the five principles (1.2).',
-      '- Outcome 2 is built in Section 2 (commitment and compliance) and Section 4 (the Converging Zone), and produced in Step 3 of Section 5, where each group confirms its Team Alignment Plan.',
-      '- Outcome 3 is built in Section 3 (the OCEAVL Assessment) and in 4.2 (the alignment hot zone of each role).',
-      '- Outcome 4 is built in 1.3 and its four parts, 1.3.1 to 1.3.4 (the 4 Checks and their four tools), in 2.3 and 4.3, and produced in Section 5 (the Alignment Toolkit).'),
+      '- Outcome 2 is built in Section 2 (commitment and compliance) and Section 4 (the Converging Zone), and produced in Section 5, where each group confirms its record.',
+      '- Outcome 3 is built in Section 3 (the OCEAVL Assessment) and in 4.2 (the Converging Zone Contribution and the Alignment Hot Zone of each role).',
+      '- Outcome 4 is built in 1.3 and its four parts, 1.3.1 to 1.3.4 (the 4 Checks and their four tools), in 2.3 and 4.1, and produced in Section 5 (Leading with Clarity).'),
     'Each section slide carries that section’s two learning outcomes.',
     block('QUESTION TO ASK:', '"What is the dominant emotion your team carries into the current strategy, and how does it change what people invest?"'),
     'Take two or three answers. They tell you where the group expects the most from the unit.');
@@ -96,14 +97,14 @@ module.exports = function (INS) {
   n.journey = N(H('FACILITATOR GUIDE · SESSION OVERVIEW'),
     block('HOW TO USE THIS SLIDE:',
       '1. Walk the five sections in one sentence each, using the list below.',
-      '2. Say plainly that Sections 1 to 4 prepare the thinking and Section 5 is where it is applied: the watch list each participant builds, then the group work for the Capstone.',
+      '2. Say plainly that Sections 1 to 4 prepare the thinking and Section 5 is where it is applied: the group work for the Capstone.',
       '3. Tell participants how the unit runs: you teach all five sections from the deck first, and they then complete the unit on the portal, in the session or after it.'),
     block('THE FIVE SECTIONS:',
       '- Section 1 · Awareness — What: the two human filters, the five principles, then change management: the 4 Checks of Mind, Heart, Hands and Habit and the tool for each check (3S, SCARF, STAT, ACE-IT).', '',
       '- Section 2 · Intelligence — Why: the ignition point of execution, the three foundational logics, and why a change delivers value only when it is adopted.', '',
       '- Section 3 · Extrapolating — Where: the OCEAVL Assessment, which each participant completes for themselves, and the profile the team brings together.', '',
-      '- Section 4 · Integration — Collective: the Converging Zone, the alignment responsibility and the alignment hot zone of each leadership role, and leading change with one voice.', '',
-      '- Section 5 · Application — In Practice: the Alignment Toolkit, Your Watch List and the Team Alignment Plan.'),
+      '- Section 4 · Integration — Collective: leading change with one voice, then the Converging Zone Contribution and the Alignment Hot Zone of each leadership role.', '',
+      '- Section 5 · Application — In Practice: Leading with Clarity. Each group states its Shift, Stake and Step, then the ACE-IT behaviours it expects from the leadership team.'),
     block('KEY FACILITATION QUESTIONS:',
       '- "What is the dominant emotion your team carries into the current strategy, and how does it change what people invest?"',
       '- "Which SCARF trigger does the current strategy activate most for your people?"',
@@ -114,7 +115,7 @@ module.exports = function (INS) {
       '- Watch for compliance mistaken for commitment. Probe: "Would they still act this way if no one were checking?"',
       '- Watch for installation reported as adoption. Probe: "Would the new practice hold on a busy day with no one checking?"',
       '- Watch for emotion treated as a side topic. Connect each emotional state to an execution consequence.',
-      '- Watch for commitments that describe intentions. Each behavioural change must be observable by the team.'));
+      '- Watch for expected behaviours that describe intentions. Each behaviour must be observable by the team.'));
 
   // ════════════════════════════════════════════════════════════════ SECTION 1
   n.s1 = divider('SECTION 1 · AWARENESS — WHAT', [
@@ -560,7 +561,7 @@ module.exports = function (INS) {
 
   // ════════════════════════════════════════════════════════════════ SECTION 3
   n.s3 = divider('SECTION 3 · EXTRAPOLATING — WHERE', [
-    '1. 3.1: the OCEAVL Assessment, on two slides: the seven dimensions, then how the profile is read.',
+    '1. 3.1: the OCEAVL Assessment, on two slides: how it is completed and read, then the seven dimensions.',
     '2. The Section 3 Reflections slide: the reflection participants write on the portal after the teaching.'], SECTIONS[2].outcomes, [
     S('Say what the section does.',
       say('This section makes alignment specific to you and to your team. You finish it knowing the behavioural profile you bring to the strategy. Your team then sees the profile it brings together.')),
@@ -568,44 +569,43 @@ module.exports = function (INS) {
       say('OCEAVL is a personal assessment. Each of you completes it alone, on your own page, after the teaching. No one states a score to the group.'),
       'The team’s profile appears in the team’s Capstone Blueprint once every member has submitted.')]);
 
-  const lvl = (d, name) => { const l = OCEAVL.find(x => x.name === d).levels.find(x => x.level === name); return [`${d} · ${name}`, l.dna, 'Risk: ' + l.risk, 'Response: ' + l.resp, 'Routines: ' + l.rout]; };
-  n.p31a = page(head('3.1') + ' · THE SEVEN DIMENSIONS', [
+  const lvl = (d, name) => { const l = OCEAVL.find(x => x.name === d).levels.find(x => x.level === name);
+    return [`${d} · ${name}`, l.dna, 'Risk: ' + l.risk, 'Response: ' + l.resp, 'Routines:', l.rd.map(r => `- ${r[0]}: ${r[1]}`)]; };
+  n.p31a = page(head('3.1') + ' · HOW THE ASSESSMENT IS COMPLETED AND READ', [
     S('Link the assessment to Principle 3.',
       say('Principle 3 established that alignment must be designed. The OCEAVL Assessment is where the design starts. It surfaces the psychological tendencies that influence executive decision-making, across seven dimensions.'),
       say('The assessment maps the behavioural dispositions that shape how a leader interprets strategy, manages disagreement and responds under pressure.')),
+    S('Walk the five lines on the slide.',
+      OC_STEPS_F.map((x, k) => `${k + 1}. ${x}`)),
+    S('Say the order.',
+      say('You score yourself first. You read the seven dimensions at all three levels after you have scored.'),
+      'OCEAVL is a personal assessment. No one states a score to the group, and no one records a score for another member.'),
+    S('Say what the team sees.',
+      say('Your team sees the team’s level on each dimension and the count at each level. It sees no names and no single scores.'),
+      EX('Three members score Extraversion 2, 2 and 1. All three are Low, so the team is Low on Extraversion.',
+        'The team reads the risk of that level: ' + OCEAVL.find(x => x.name === 'Extraversion').levels.find(x => x.level === 'Low').risk))]);
+
+  n.p31b = page(head('3.1') + ' · THE SEVEN DIMENSIONS', [
     S('Walk the seven dimensions on the slide.',
       OCEAVL.map(d => `- ${d.name}: ${d.desc}.`)),
     S('Show the levels of one dimension.',
       'Each dimension has three levels: Low, Balanced and High. Read two levels of Extraversion. All 21 are in the facilitator file, part 3.1.',
       EX(lvl('Extraversion', 'Low'), '', lvl('Extraversion', 'High')),
-      say('Every level carries a risk. A High level is a disposition to manage, as Low and Balanced are.')),
+      say(OC_EVERY)),
+    S('Explain the routines.',
+      say('Each level has three routines. A routine is a small, regular practice that holds the response in place. Each routine is named with what it is.')),
     S('Frame the assessment.',
       say('Treat the assessment as a mirror. Its power lies in the conversation it generates.'),
-      'Watch for: a High level read as a strength with no risk. Ask participants to read the risk for their High levels first.')]);
-
-  n.p31b = page(head('3.1') + ' · HOW THE PROFILE IS READ', [
-    S('Walk the four lines on the slide.',
-      '1. Each participant scores themselves from 1 to 5 on each dimension: 1 is strongly low, 3 is balanced and 5 is strongly high.',
-      '2. A score of 4 or 5 is High, 3 is Balanced, and 1 or 2 is Low. This gives the participant’s own level on each dimension.',
-      '3. The level held by most members of a team is the team’s level for that dimension. The team’s profile appears in the team’s Capstone Blueprint once every member has submitted.',
-      '4. Each level carries a risk, a response and three routines that hold the response in place.'),
-    S('Say how each participant completes it.',
-      say('You complete the assessment alone, on your own page. You score yourself on the seven dimensions and read your own profile. You then select Submit to My Team’s Capstone.'),
-      'OCEAVL is a personal assessment. No one states a score to the group, and no one records a score for another member.'),
-    S('Say what the team sees.',
-      say('Your team sees the team’s level on each dimension and the count at each level. It sees no names and no single scores.'),
-      EX('Three members score Extraversion 2, 2 and 1. All three are Low, so the team is Low on Extraversion.',
-        'The team reads the risk of that level: ' + OCEAVL.find(x => x.name === 'Extraversion').levels.find(x => x.level === 'Low').risk)),
+      'Watch for: a High level read as a strength with no risk. Ask participants to read the risk for their High levels first.'),
     S('Ask the question of the part.',
       ask('Which of your own levels carries the highest risk for how you read and lead the strategy?'),
       'Take two or three answers. Each participant speaks of a level and its risk, never of a score.')],
-    portal('Each participant completes the OCEAVL Assessment alone in part 3.1 of the participant file. This is portfolio work.',
-      '1. They score themselves from 1 to 5 on each of the seven dimensions.',
-      '2. They read their own profile: their level on each dimension, with its risk, its response and its routines.',
-      '3. They select Submit to My Team’s Capstone.',
+    portal('Each participant completes the OCEAVL Assessment alone in part 3.1 of the participant file. This is portfolio work. They score first and read the seven dimensions afterwards.',
+      OC_STEPS_F.map((x, k) => `${k + 1}. ${x}`),
       'They then write the reflection of 3.1 in the participant file:', `"${noq(REFL['3.1'].prompt)}"`),
     after('Each participant’s scores and own profile reach you with their submission, under the heading OCEAVL Assessment.',
-      'The team’s profile appears in the team’s Capstone Blueprint once every member has submitted. The team then agrees, in box 5A, the two dimensions that carry the highest risk for the strategy.'));
+      'The team’s profile appears in the team’s Capstone Blueprint once every member has submitted. The team then agrees, in box 5A, the two dimensions that carry the highest risk for the strategy.',
+      'The same team profile is shown to each group in Step 2 of Section 5.'));
 
   n.ref3 = reflection('Section 3 Reflections', ['3.1'], [
     say('Name the level, the risk it carries and one place where that risk has already shown up.'),
@@ -615,17 +615,20 @@ module.exports = function (INS) {
 
   // ════════════════════════════════════════════════════════════════ SECTION 4
   n.s4 = divider('SECTION 4 · INTEGRATION — COLLECTIVE', [
-    '1. 4.1: the Converging Zone and the two states it separates.',
-    '2. 4.2: the alignment responsibility and the alignment hot zone of each leadership role.',
-    '3. 4.3: the four commitments of leading change with one voice.',
-    '4. The Section 4 Reflections slide: the three reflections participants write on the portal after the teaching.'], SECTIONS[3].outcomes, [
+    '1. 4.1: leading change with one voice, on two slides: what one voice creates, then the four commitments.',
+    '2. 4.2: the Converging Zone Contribution and the Alignment Hot Zone of each leadership role, on two slides: the two terms, then the ten roles.',
+    '3. The Section 4 Reflections slide: the two reflections participants write on the portal after the teaching.'], SECTIONS[3].outcomes, [
     S('Say what the section does.',
       say('This section lifts the focus from individual alignment to systemic leadership alignment. The Converging Zone is where individual functional expertise becomes coordinated leadership judgement.')),
     S('Say what is at stake.',
       say('The executive team enters the Converging Zone, where individual functional perspectives integrate into a shared leadership interpretation. At this point, the leadership team begins operating as a single leadership system.'),
       'Without this, the organisation receives multiple interpretations of strategy, causing instability across the organisation.')]);
 
-  n.p41 = page(head('4.1'), [
+  n.p41a = page(head('4.1') + ' · WHAT ONE VOICE CREATES', [
+    S('Frame the part.',
+      say('The 4 Checks describe what one group of people needs from one leader. Most changes reach a group through several leaders at once. People hear from their own leader, watch the others, and compare. Where the leaders differ, the group takes the difference as the real message.')),
+    S('Say what one voice creates.',
+      say(TERMS.one)),
     S('Teach the first state: with Collective Intelligence.',
       '- Direction remains clear across all layers.',
       '- Resources reinforce priorities.',
@@ -640,44 +643,10 @@ module.exports = function (INS) {
       say('Multiple conflicting signals. Each function becomes a source of execution friction.')),
     S('Run the two states exercise.',
       ask('Which state is your organisation currently closer to?'),
-      'Then ask: "What is the single most important convergence you need to achieve before your next major strategy initiative?"')],
-    reflPortal('4.1'));
+      'Then ask: "What is the single most important convergence you need to achieve before your next major strategy initiative?"')]);
 
-  const ROLE_LINES = [
-      ['CEO', 'Integrates the functional perspectives of the leadership team into one coherent strategic narrative. The CEO’s primary alignment responsibility is preventing the “Chinese Whispers” effect by keeping the strategic story intact as it moves through the organisation.', 'When the CEO’s alignment is absent or inconsistent, all other roles struggle to converge.'],
-      ['CFO', 'Ensures capital allocation and financial discipline reinforce strategic intent and concentrate resources on the agreed priorities.', 'When the CFO’s alignment is absent, resources follow inertia, and the credibility of strategic priorities collapses.'],
-      ['COO', 'Converts strategy into operational flow, ensuring execution routines, coordination, and hand-offs move the organisation forward.', 'When COO alignment is absent, execution machinery runs efficiently but in the wrong direction.'],
-      ['CHRO', 'Aligns leadership behaviour, capability development, and organisational trust with the strategic direction.', 'When CHRO alignment is absent, strategy consistently exceeds the human system’s capacity to carry it.'],
-      ['CTO/CIO', 'Aligns technology architecture and data capability with the organisation’s strategic priorities and future operating model.', 'When CTO/CIO alignment is absent, technology investments produce demonstrations with no capability shift.'],
-      ['CMO', 'Aligns market positioning and brand promise with the organisation’s operational ability to deliver.', 'When CMO alignment is absent, market signals are disconnected from strategic direction, and brand promises outpace operational reality.'],
-      ['CCO', 'Aligns revenue generation and customer growth strategies with enterprise positioning and operational capacity.', 'When CCO alignment is absent, growth strategies create internal incoherence that compounds over time.'],
-      ['CPO', 'Ensures procurement decisions strengthen operational capability and reinforce strategic priorities.', 'When CPO alignment is absent, procurement optimises for cost at the expense of strategic capability.'],
-      ['CRO', 'Aligns enterprise risk interpretation so that strategic initiatives operate within a shared risk appetite framework.', 'When CRO alignment is absent, risk appetite becomes function-by-function interpretation, creating asymmetric exposure.'],
-      ['CSO', 'Maintains the integrity of the strategic narrative as it moves from formulation into execution across the organisation.', 'When CSO alignment is absent, the strategic narrative fragments and different layers execute different versions of the strategy.']];
-  const kit = id => KIT.find(k => k.id === id);
-  n.p42 = page(head('4.2'), [
-    S('Frame the grid on the slide.',
-      say('Each CXO function contributes to Collective Intelligence, and each carries an alignment hot zone: the element of 3S, SCARF, STAT or ACE-IT where the role is inclined to set off the trigger.'),
-      'Each role card in the facilitator file gives the likely trigger and the two cues from the Alignment Toolkit in Section 5.'),
-    S('Ask each participant to find their own role first.',
-      ask('Do you recognise this description? Is this how your team experiences your alignment contribution?'),
-      'Then ask them to read the roles closest to their own. This is particularly powerful when the full CXO team attends.'),
-    S('Walk the ten roles.',
-      ROLE_LINES.map((r, k) => { const h = HOT[k], e = kit(h.el); if (h.role !== r[0]) throw new Error('role order: ' + r[0]);
-        return [k ? '' : null, `${r[0]} · ${h.tag}.`, r[1], h.f, 'Likely trigger: ' + e.trig, 'Look out for: ' + e.cues.join(' '), r[2]]; }),
-      IN('whole')),
-    S('Read the hot zones together.',
-      say('Read the hot zones of your team together. They show where your team is most likely to stall its own changes.'),
-      ask('Which hot zones sit in this team, and which change in your strategy would set them off first?')),
-    S('Ask the question that becomes a commitment.',
-      'After each leader has reviewed their own role, invite them to look at the role most adjacent to theirs.',
-      ask('What is the most important alignment conversation you need to have with that role in the next 30 days?'),
-      'The answer frequently becomes a direct post-session commitment.')],
-    reflPortal('4.2'));
-
-  n.p43 = page(head('4.3'), [
-    S('Frame the part.',
-      say('The 4 Checks describe what one group of people needs from one leader. Most changes reach a group through several leaders at once. People hear from their own leader, watch the others, and compare. Where the leaders differ, the group takes the difference as the real message.'),
+  n.p41b = page(head('4.1') + ' · THE FOUR COMMITMENTS', [
+    S('Introduce the four commitments.',
       say('In the Converging Zone, the leadership team makes four commitments that no single function can make alone. Each one protects a check.')),
     S('Teach the four commitments on the slide.',
       'One message · Protects Mind',
@@ -700,102 +669,110 @@ module.exports = function (INS) {
       'Watch for: each leader defending their own change. Return the discussion to the group that has to absorb them.'),
     S('Test one message.',
       'Repeat the 3S test from 1.3.1 with the whole team on one enterprise-wide change. Participants post their versions in the chat.')],
-    reflPortal('4.3'));
+    reflPortal('4.1'));
 
-  n.ref4 = reflection('Section 4 Reflections', ['4.1', '4.2', '4.3'], [
-    say('For 4.1, name the state and one convergence. For 4.2, name the role and what the conversation must address. For 4.3, count the changes and name the weakest commitment.'),
+  const ROLE_LINES = [
+      ['CEO', 'Integrates the functional perspectives of the leadership team into one coherent strategic narrative. The CEO’s primary alignment responsibility is preventing the “Chinese Whispers” effect by keeping the strategic story intact as it moves through the organisation.', 'When the CEO’s alignment is absent or inconsistent, all other roles struggle to converge.'],
+      ['CFO', 'Ensures capital allocation and financial discipline reinforce strategic intent and concentrate resources on the agreed priorities.', 'When the CFO’s alignment is absent, resources follow inertia, and the credibility of strategic priorities collapses.'],
+      ['COO', 'Converts strategy into operational flow, ensuring execution routines, coordination, and hand-offs move the organisation forward.', 'When COO alignment is absent, execution machinery runs efficiently but in the wrong direction.'],
+      ['CHRO', 'Aligns leadership behaviour, capability development, and organisational trust with the strategic direction.', 'When CHRO alignment is absent, strategy consistently exceeds the human system’s capacity to carry it.'],
+      ['CTO/CIO', 'Aligns technology architecture and data capability with the organisation’s strategic priorities and future operating model.', 'When CTO/CIO alignment is absent, technology investments produce demonstrations with no capability shift.'],
+      ['CMO', 'Aligns market positioning and brand promise with the organisation’s operational ability to deliver.', 'When CMO alignment is absent, market signals are disconnected from strategic direction, and brand promises outpace operational reality.'],
+      ['CCO', 'Aligns revenue generation and customer growth strategies with enterprise positioning and operational capacity.', 'When CCO alignment is absent, growth strategies create internal incoherence that compounds over time.'],
+      ['CPO', 'Ensures procurement decisions strengthen operational capability and reinforce strategic priorities.', 'When CPO alignment is absent, procurement optimises for cost at the expense of strategic capability.'],
+      ['CRO', 'Aligns enterprise risk interpretation so that strategic initiatives operate within a shared risk appetite framework.', 'When CRO alignment is absent, risk appetite becomes function-by-function interpretation, creating asymmetric exposure.'],
+      ['CSO', 'Maintains the integrity of the strategic narrative as it moves from formulation into execution across the organisation.', 'When CSO alignment is absent, the strategic narrative fragments and different layers execute different versions of the strategy.']];
+  n.p42a = page(head('4.2') + ' · THE TWO TERMS', [
+    S('Say what the part teaches.',
+      say(TERMS.teach)),
+    S('Teach the first term: Converging Zone Contribution.',
+      say(TERMS.czc)),
+    S('Teach the second term: Alignment Hot Zone.',
+      say(TERMS.ahz)),
+    S('Say why the two are shown together.',
+      say(TERMS.why),
+      IN('whole')),
+    S('Show how a role card is read.',
+      'Use the CEO card as the example before participants read their own role: the contribution on the left, the hot zone on the right, and the one piece of work that produces both.',
+      'The hot zone opens with what people need, and then has four lines:',
+      TERMS.lines.map(x => '- ' + x))]);
+
+  n.p42b = page(head('4.2') + ' · THE ALIGNMENT HOT ZONE OF EACH ROLE', [
+    S('Ask each participant to find their own role first.',
+      ask('Do you recognise this description? Is this how your team experiences your alignment contribution?'),
+      'Then ask them to read the roles closest to their own. This is particularly powerful when the full CXO team attends.'),
+    S('Walk the ten roles.',
+      ROLE_LINES.map((r, k) => { const h = HOT[k]; if (h.role !== r[0]) throw new Error('role order: ' + r[0]);
+        return [k ? '' : null, `${r[0]} · ${h.tag}.`, 'Contribution: ' + r[1], r[2], 'What people need: ' + h.need, 'Why the role is inclined to it: ' + h.why,
+          'What sets it off: ' + h.trig, 'What is seen and heard: ' + h.cues, 'What it costs: ' + h.cost]; })),
+    S('Read the hot zones together.',
+      say(TERMS.close),
+      ask('Which hot zones sit in this team, and which change in your strategy would set them off first?'),
+      'What is seen and heard is a reason to ask before it is a reason to correct.',
+      IN('openq')),
+    S('Ask the question that becomes a commitment.',
+      'After each leader has reviewed their own role, invite them to look at the role most adjacent to theirs.',
+      ask('What is the most important alignment conversation you need to have with that role in the next 30 days?'),
+      'The answer frequently becomes a direct post-session commitment.')],
+    reflPortal('4.2'));
+
+  n.ref4 = reflection('Section 4 Reflections', ['4.1', '4.2'], [
+    say('For 4.1, count the changes and name the weakest commitment. For 4.2, name the role and what the conversation must address.'),
     'Watch for: a conversation with no named role. Ask: "Which role, and by when?"'],
-    ['Bridge to Section 5.', say('We have the checks, the hot zones and the commitments. Section 5 applies them to the strategy in your Capstone Blueprint.')],
-    'Participants write these three reflections in Section 4 of the participant file, at the foot of parts 4.1, 4.2 and 4.3.');
+    ['Bridge to Section 5.', say('We have the checks, the commitments and the hot zones. Section 5 applies two of the tools to the strategy in your Capstone Blueprint.')],
+    'Participants write these two reflections in Section 4 of the participant file, at the foot of parts 4.1 and 4.2.');
 
   // ════════════════════════════════════════════════════════════════ SECTION 5
   n.s5 = divider('SECTION 5 · APPLICATION — IN PRACTICE', [
-    '1. Step 1 · The Toolkit: two slides, the four checks with their tools and one worked example. It is taught.',
-    '2. Step 2 · Your Watch List: each participant selects the triggers most likely to surface in their own area and writes what they will do. Portfolio work.',
-    '3. Step 3 · Team Alignment Plan: the group agrees the triggers most likely to surface for the strategy in its Capstone Blueprint. Capstone work. Each participant then writes one 30-day behavioural commitment.'], SECTIONS[4].outcomes, [
-    S('Say what the toolkit is.',
-      say('The Alignment Toolkit brings the tools of the 4 Checks into one working page: 3S, SCARF, STAT and ACE-IT. For each element it gives two cues to look out for and the trigger likely to sit behind them. You apply it to the strategy in your team’s Capstone Blueprint.')),
-    S('Say the order.',
-      say('Step 1 is reading. Step 2 you do on your own. Step 3 you do with your group.'),
-      'Give Step 2 its full depth: the quality of the team plan depends on the watch list each member brings.'),
-    S('Say which work goes where.',
-      say('Step 2 is portfolio work. Step 3 is Capstone work: your group’s confirmed plan feeds your team’s Capstone Blueprint.'))]);
+    '1. Step 1 · The 3S Check: each group states its Shift, Stake and Step for its strategy. Capstone work.',
+    '2. Step 2 · ACE-IT: each group reads its team OCEAVL profile and states the behaviour it expects from the leadership team under each of the five behaviours. Capstone work.'], SECTIONS[4].outcomes, [
+    S('Say what the section does.',
+      say('In this section your group builds the case for the change your strategy asks of people. With the 3S Check you state the change. With ACE-IT you state the leadership behaviours that will hold it in place.')),
+    S('Say how the group works.',
+      say('Both steps are group work. Your group agrees each entry. One member acts as scribe. Every member then types the agreed entries into their own page, in the session or after it.')),
+    S('Say where the work goes.',
+      say('This is Capstone work. Your group’s confirmed record feeds your team’s Capstone Blueprint.'),
+      'Step 2 needs the team’s OCEAVL profile. Every member completes and submits the assessment in 3.1 first.')]);
 
-  n.st1 = page('SECTION 5 · STEP 1 — THE TOOLKIT', [
-    S('Say how the toolkit is read.',
-      say('The toolkit is read check by check. Each check has its tool, and each element of the tool has two cues and a likely trigger.'),
-      say('A cue is what you see or hear. A trigger is the condition that sits behind the cue. Act on the trigger. A response aimed at the cue leaves the trigger in place.'),
-      IN('soil')),
-    S('Teach one check at a time.',
-      'For each element, read the two cues and ask the group to name the trigger before you give it.',
-      CHECKS.map((c, ci) => ['', `${c.name} · ${c.tool}: ${c.line}`, KIT.filter(k => k.c === ci).map(k => `- ${k.n}. Cues: ${k.cues.join(' ')} Trigger: ${k.trig}`)])),
-    S('Draw the key distinction.',
-      'A leader who answers the cue leaves the trigger in place.',
-      ask('Think of the last cue you answered. Which trigger sat behind it?'))],
-    portal('Participants read the toolkit in Step 1 of the participant file. They enter nothing in this step.'));
-
-  n.st1x = page('SECTION 5 · STEP 1 — THE TOOLKIT · WORKED EXAMPLE', [
-    S('Introduce the example.',
-      say('The worked example follows the change we carried through the unit: complaints are resolved at first contact.')),
-    S('Walk the four rows on the slide.',
-      EX(KIT_EXAMPLE.map((r, k) => [k ? '' : null, r[0], 'Cue to look out for: ' + r[1], 'Where it will surface: ' + r[2], 'What we will do: ' + r[3], 'Leader who owns it: ' + r[4]]))),
-    S('Point out the standard.',
-      'Each row names one group and one owner.',
-      'Watch for: a committee or a function named as owner. Hold out for one person.')]);
-
-  n.st2 = page('SECTION 5 · STEP 2 — YOUR WATCH LIST (PORTFOLIO WORK)', [
-    S('Brief the watch list.',
-      say('You work alone. Your page shows the Start and Stop lists your group confirmed in Unit 3. These are the changes your strategy asks of people.')),
-    S('Walk the three lines on the slide.',
-      '1. Each card is one trigger, with the two cues that show it.',
-      '2. Select “Likely to surface in my area” on the triggers you expect as these changes land. Start with the alignment hot zone of your own role in 4.2. Select at least one under each check.',
-      '3. In the box that opens, write what you will do.'),
-    S('Give the example.',
-      EX('Card: Step.',
-        'Cue: people agree with the change and carry on as before.',
-        'Trigger: the change has a Shift for the organisation and no Step for each role affected.',
-        'What I will do: “I give each of my team leads their own Step and ask them to say it back.”')),
-    S('Set the standard.',
-      'Watch for: every trigger selected. Ask which ones will surface first, and in whose area.',
-      'Watch for: “communicate more” as the answer to every trigger. Ask which trigger the communication removes.',
-      'A cue is a reason to ask before it is a reason to correct.',
-      IN('openq'))],
-    portal('Each participant completes Your Watch List alone in Step 2 of the participant file. This is portfolio work.',
-      '1. They read the practices the strategy starts and stops. Their page shows the Start and Stop lists the group confirmed in Unit 3.',
-      '2. They read the cards under each check and select “Likely to surface in my area” on the triggers they expect, at least one under each check.',
-      '3. In the box that opens, they write what they will do.',
-      'The watch list saves as the participant works.'),
-    after('The watch lists reach you with each participant’s submission, under the heading Alignment Toolkit.',
-      'Check that each action answers its trigger and names something the participant will do.'));
-
-  n.st3 = page('SECTION 5 · STEP 3 — TEAM ALIGNMENT PLAN (CAPSTONE WORK)', [
-    S('Explain how the group works.',
-      say('Your group agrees each entry. One member acts as scribe and types the agreed wording. Every member then types the agreed entries into their own page, in the session or after it.')),
-    S('Walk the lines on the slide.',
-      '1. Compare the watch lists of your group.',
-      '2. Select “Likely to surface for our strategy” on the triggers your group agrees on, for the strategy in your Capstone Blueprint. Select at least one under each check.',
-      '3. In the boxes that open, write where the trigger will surface, what your team will do and the leader who owns it.',
-      '4. Read your record at the foot of this step, then select Confirm. Select Print for a copy.'),
-    S('Ask the synthesis question.',
-      ask('Across your watch lists, which trigger did most of you select? Which did only one of you select, and what does that member see from their seat?')),
-    S('Name the patterns.',
-      'Your role in Step 3 is to name patterns. When members select different triggers for the same change, name it.',
-      say('Each of you is reading this change from a different seat. The plan has to cover all of them.'),
+  const plain = s => s;
+  n.st1 = page('SECTION 5 · STEP 1 — THE 3S CHECK (CAPSTONE WORK)', [
+    S('Brief the step.',
+      say('Your page shows the Start and Stop lists your group confirmed in Unit 3. These are the changes your strategy asks of people. Your group states one Shift, one Stake and one Step for the strategy.')),
+    S('Teach each of the three with its guide.',
+      'The guide beside each box is the lesson of 1.3.1.',
+      G3.map((g, k) => [k ? '' : null, `${g.n} · ${g.q}`, 'What it is: ' + g.is, 'Weak: ' + g.weak, 'Clear: ' + g.clear, g.mv_l + ': ' + g.mv, 'The group answers: ' + ASK[g.n.toLowerCase()]])),
+    S('Hold the standard.',
+      STEP1_GUIDE_F.slice(1).map(plain),
       IN('adoption')),
-    S('Hold the standard for an owner.',
-      'Watch for: a committee or a function named as owner. Hold out for one person.'),
-    S('Close with the commitment.',
-      'Each leader names one specific behavioural change in the next 30 days.',
-      'Ask each leader to tie the commitment to one trigger in the team plan: the behaviour they will show first.',
-      'Make these visible: each participant posts the commitment in the chat. Follow up at the next leadership forum.')],
-    portal('Participants work as a group in Step 3 of the participant file. This is Capstone work.',
-      '1. The group compares the watch lists of its members.',
-      '2. The group selects the triggers it agrees on, at least one under each check.',
-      '3. For each trigger the group writes where it will surface, what the team will do and the leader who owns it.',
-      '4. A record shows the plan. Each participant confirms the record. Print gives a copy.',
-      'Each participant then writes one 30-day behavioural commitment. This is portfolio work.'),
-    after('The plan reaches you with each participant’s submission, under the heading Alignment Toolkit.',
-      'The confirmed plan feeds boxes 5B to 5E of the team’s Capstone Blueprint, one box for each check.'));
+    S('Test each statement against its guide.',
+      'A statement that could be said of any organisation has not yet been written for this strategy.',
+      ask('Could someone watching the work tell whether your Shift is happening?'))],
+    portal('Participants work as a group in Step 1 of Section 5 of the participant file. This is Capstone work.',
+      STEP1_ACT_F.map((x, k) => `${k + 1}. ${x}`)));
+
+  const agree = OCEAVL.find(x => x.name === 'Agreeableness').levels.find(x => x.level === 'High');
+  n.st2 = page('SECTION 5 · STEP 2 — ACE-IT (CAPSTONE WORK)', [
+    S('Open with the team’s OCEAVL profile.',
+      say('Your page shows your team’s OCEAVL profile: the team’s level on each dimension, with its risk and its response. It appears once every member of your team has submitted their scores in part 3.1.'),
+      'Where a member has not yet submitted, the profile shows how many have. The group completes 3.1 first.',
+      IN('soil')),
+    S('Ask the linking question.',
+      ask('Which level in your team’s profile carries the highest risk for this change? Which ACE-IT behaviour answers it?')),
+    S('Teach each of the five behaviours with its guide.',
+      'The guide beside each box is the lesson of 1.3.4.',
+      GA.map((g, k) => [k ? '' : null, g.n, 'Definition: ' + g.def, 'What it does for a new practice: ' + g.does, 'Observable: ' + g.obs]),
+      '', 'For each behaviour the group writes: ' + ACE_ASK.charAt(0).toLowerCase() + ACE_ASK.slice(1) + '.'),
+    S('Give the example.',
+      EX('The team’s level on Agreeableness is High.',
+        'Risk: ' + agree.risk,
+        'Expected behaviour under Commitment: “Each of us states our capacity before we accept new work for this change.”')),
+    S('Hold the standard.',
+      STEP2_GUIDE_F.slice(2).map(plain),
+      'Each participant reads the record at the foot of the step and confirms it.')],
+    portal('Participants work as a group in Step 2 of Section 5 of the participant file. This is Capstone work.',
+      STEP2_ACT_F.map((x, k) => `${k + 1}. ${x}`)),
+    after('The record reaches you with each participant’s submission, under the heading Leading with Clarity.',
+      'The confirmed record feeds boxes 5B and 5C of the team’s Capstone Blueprint: the Shift, Stake and Step in 5B, the expected leadership behaviours in 5C.'));
 
   n.summary = page('UNIT SUMMARY (UNIT 5 SYNTHESIS)', [
     S('Recap the unit, section by section.',
@@ -803,8 +780,8 @@ module.exports = function (INS) {
       '- 1 · Awareness: strategy enters through Cognition (Mind) and Emotion (Heart). Five principles describe how alignment is created and sustained.',
       '- 2 · Intelligence: Heart & Mind alignment is the ignition point that converts strategic potential energy into kinetic energy. Compliance yields short-term output. Commitment sustains execution when leaders are not present.',
       '- 3 · Extrapolating: each participant completes the OCEAVL Assessment across seven dimensions. The level held by most members is the team’s level, and every level carries a risk, a response and three routines.',
-      '- 4 · Integration: in the Converging Zone functional interpretations integrate into a shared leadership signal. Each CXO role carries a distinct alignment responsibility and an alignment hot zone.',
-      '- 5 · Application: each participant builds a watch list from the Alignment Toolkit. The group agrees its Team Alignment Plan: the triggers most likely to surface, where, what the team will do and who owns it.',
+      '- 4 · Integration: the leadership team leads change with one voice through four commitments. Each CXO role brings a Converging Zone Contribution and carries an Alignment Hot Zone.',
+      '- 5 · Application: each group states its Shift, Stake and Step for the strategy, reads its team OCEAVL profile and states the ACE-IT behaviours it expects from the leadership team.',
       '- Across the unit: a change is adopted when it passes the 4 Checks of Mind, Heart, Hands and Habit. The leader’s job is to explain, involve, equip and reinforce until it passes all four.'),
     S('Ask the closing question on the slide.',
       ask(CLOSING_Q),
@@ -813,10 +790,10 @@ module.exports = function (INS) {
       say('Aligned hearts and minds turn a strategy from a document the organisation has read into a direction the organisation is willing to move on.'),
       'Connect the unit to what follows: Performance Management Setup and the translation of strategy into individual accountability across the enterprise.'),
     S('Say what happens on the portal.',
-      say('You now complete the unit on the portal: your reflections, your OCEAVL Assessment, your watch list, your group’s Team Alignment Plan and your 30-day commitment. When your page is complete, you submit the unit.'))],
+      say('You now complete the unit on the portal: your reflections, your OCEAVL Assessment and your group’s record in Section 5. When your page is complete, you submit the unit.'))],
     portal('Participants complete every part of the participant file and submit the unit to the facilitator from the end of Section 5.'),
     after('Each submission reaches you in the facilitator dashboard.',
-      'Each member’s OCEAVL scores feed the team’s profile in the Capstone Blueprint. The group’s confirmed Team Alignment Plan feeds boxes 5B to 5E.'));
+      'Each member’s OCEAVL scores feed the team’s profile in the Capstone Blueprint. The group’s confirmed record feeds boxes 5B and 5C.'));
 
   return { n, used, D };
 };

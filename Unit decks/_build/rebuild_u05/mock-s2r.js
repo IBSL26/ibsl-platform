@@ -19,6 +19,6 @@
     save:function(lens,key,val){bag(lens)[key]=JSON.parse(JSON.stringify(val));try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}return Promise.resolve(true);},
     loadAll:function(lens){return Promise.resolve(JSON.parse(JSON.stringify(bag(lens))));},
     submit:function(){return Promise.resolve({ok:true,message:'Preview copy: nothing was sent.'});},
-    _client:{from:function(){return chain();},rpc:function(){return Promise.resolve({data:[],error:null});},storage:{from:function(){return {upload:function(){return Promise.resolve({error:{message:'preview'}});},remove:function(){}};}}}
+    _client:{from:function(){return chain();},rpc:function(name){if(name==='get_my_capstone')return Promise.resolve({data:{blueprint:{team:{id:'preview-team'}}},error:null});/* Sample team profile (preview only): five members, all submitted. */if(name==='get_capstone_team_oceavl')return Promise.resolve({data:(window.__teamOc||{members:5,submitted:5,dims:[[3,1,1],[2,2,1],[1,1,3],[4,1,0],[1,3,1],[2,2,1],[1,2,2]]}),error:null});return Promise.resolve({data:[],error:null});},storage:{from:function(){return {upload:function(){return Promise.resolve({error:{message:'preview'}});},remove:function(){}};}}}
   };
 })();

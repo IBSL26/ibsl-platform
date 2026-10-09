@@ -179,3 +179,83 @@ Carol: "Happy for you to write the live pages." Everything in section 8 is now o
 - She reviews in the real format. Build review files first when new wording or a new exercise is involved, and write the live files on her word.
 - When she says a page "is not just clear", make the page clearer in the same round as the explanation.
 - A personal assessment is never completed aloud or typed by another member. Group results from personal data come from the database, as counts with no names.
+
+## 10. Folder layout from 9 October (Carol asked for one working folder)
+
+- Carol reviews decks only in `Unit decks` (one deck per unit, always the current one). Her saved file there is the master.
+- Carol uploads to Supabase only from `Claude outputs\Deck upload`. Claude fills it after her review.
+- `Claude outputs\Backups` holds every "Unit N deck backups" and "Unit N file backups" folder, the old `Unit 5 deck upload (old copy, 2 Oct)` and the old loose Unit 01 deck copy of 29 September. New backups go here.
+- `Claude outputs\Review files` holds the PREVIEW pages, review notes, screenshots and `Unit 2 deck - notes as Carol approved them (format model).txt`. New review files go here.
+- The handover notes and the `.sql` files stay loose in `Claude outputs` (they are in git).
+- Unit 5 deck: awaiting Carol's review in `Unit decks`. After her review, remake the reader pictures and `Deck upload\Module-3\unit-05.pptx` from her copy; then she uploads.
+
+## 11. Amendments of 9 October (morning): built as review files, NOT yet on the live pages
+
+Carol's instructions, 9 October: (1) 3.1: the participant scores first, the assessment comes before the seven dimensions, and the assessment instructions merge with "How the profile is read"; (2) 4.1 merges with 4.3 under the header "Leading Change with One Voice", the old 4.1 becomes notes inside it, and it is the new 4.1; (3) 4.2 in plain words: what a Converging Zone Contribution is, what an Alignment Hot Zone is, why the two are linked, with a clear narrative for each role ("we are aligning hearts and minds so it must flow and reflect that"); (4) Section 5 applies the 3S Check and ACE-IT only, explained clearly.
+
+- Review files: `Claude outputs\Review files\PREVIEW - Unit 5 Participant.html` and `PREVIEW - Unit 5 Facilitator.html`. The live pages are unchanged (still the 8 October evening version).
+- Build: `Unit decks\_build\rebuild_u05\amend2_p.py`, `amend2_f.py`, `u5c_content.py`, `u5c.css`, `test_am2.py`. Chain: file before the three-way match -> build_[p|f].py -> amend_[p|f].py -> amend2_[p|f].py. Browser test: 39 checks, all pass.
+- What changed in the review files: 3.1 has one instruction block, then the scores (one row for each dimension with what it covers), own profile, submit, then the seven dimensions, then the reflection. Section 4 has two parts: 4.1 Leading Change with One Voice (with the with/without table as notes, one reflection ref15; ref8 has left) and 4.2 (the two terms explained, why they are shown together, how to read a card; each card: contribution on the left, hot zone on the right with need, why, what sets it off, what you will see and hear, what it costs). Roles keep their elements of 8 October. Section 5: eight elements (3S and ACE-IT), same three steps; the plan confirms as "Alignment Plan · Mind" and "Alignment Plan · Habit" (keys kit_mind, kit_habit; kit_heart and kit_hands are no longer written).
+- Still to do after Carol approves the wording: write the two live pages; Capstone Unit 5 boxes go from five to three (5A team behavioural profile, 5B Mind (3S), 5C Habit (ACE-IT)) and `capstone_section_box_count('u5')` goes from 5 to 3 (SQL for Carol, read-only check of the live function first); `dashboard_F.html` labels; rebuild `collection.html`; deck (3.1 order, Section 4 slides merged, Section 5 slides on two tools, reflection slides) and reader pictures. Carol holds her deck review until the deck is rebuilt.
+- New wording by Claude awaiting her approval: the 4.2 explanations and the ten role narratives; the "what people need" line and the "what it costs" line on each card; the "What one voice creates" note in 4.1; the Section 5 explanation box.
+
+### Second round, 9 October (same morning), in the same review files
+
+Carol: "let us have meanings for routine - people won't know what these are"; "We are still not clear on these in section 4, what do they actually mean" (the three lines on the role card: what sets it off, what you will see and hear, what it costs); "let us simplify the application and remove personal watch list, so that they just work as a group".
+
+- 3.1: each of the 63 OCEAVL routines now has one plain line of meaning (`ROUT` in `u5c_content.py`; new wording by Claude, each drawn from the response the routine holds in place, in the same order). Shown in the seven dimensions, in the participant's own profile and on the printed copy. Her source instrument carries routine names only.
+- 4.2: each role card now tells the role's own story in plain words (`STORY` in `u5c_content.py`): what sets it off, what is seen and heard, what it costs. They are no longer the toolkit lines word for word. "How to read a role card" says what each line is. Roles and elements are unchanged.
+- Section 5: two steps (The Toolkit; Team Alignment Plan). The personal watch list has left: `kit_me` and `__kit_me` are no longer written, ids `kitMe` and `sp0` have left. The Unit 3 Start and Stop lists now sit in Step 2. The 30-Day Behavioural Commitment stays as Portfolio work.
+- Browser test: 43 checks, all pass. Live pages still unchanged.
+- Added to the go-live list: the Capstone team profile shows routine names, so add the meanings there too; deck Section 5 has two steps.
+
+### Third round, 9 October (same morning), in the same review files
+
+Carol: "Let us remove the 30 day behavioural commitment". It has left both review files: the entry box and its note on the participant page, the closing line of "How Section 5 works", the facilitator's closing-commitment guidance and activity line, and the last sentence of the Section 5 block in both Unit Summaries. Key `syn_30day` is no longer written. Section 5 now ends with the Team Alignment Plan and the Unit Outcome. Browser test: 44 checks, all pass. Live pages still unchanged.
+
+- Fact reported to Carol: the second Section 5 learning outcome ("Demonstrate commitment through a behavioural change that strengthens collective alignment") described the commitment; it is hers to reword.
+- The 4.2 reflection ("the most important alignment conversation ... in the next 30 days") is a different item and stays.
+- Go-live list: deck notes and Unit Summary slide mention the commitment; `dashboard_F.html` keeps the old label for saved answers.
+
+### Fourth round, 9 October (same morning), in the same review files: Section 5 redesigned
+
+Carol: "for the 3 Ss let us have the groups complete it. So based on their strategy they state the shift, the stake and step. Bring back the guiding lesson from section 1. They state what is the change, what will the organisation gain, and what must be done differently. That way we help them reflect and build their case properly. We can then add the ACE-IT and ask them state what behaviours from a leadership team they will expect ... since they will have to check what the team score was on the OCEAVL."
+
+- Section 5 is group work in two steps. Step 1 · The 3S Check: three cards (Shift, Stake, Step), each with the page's own guide from part 1.3.1 (what it is, weak, clear, the move) and one box. Step 2 · ACE-IT: the team's OCEAVL profile, then five cards (Accountability, Commitment, Engagement, Integrity, Transparency), each with the guide from part 1.3.4 (definition, what it does for a new practice, observable) and one box "The behaviour we expect from our leadership team". Record, Confirm and Print at the foot of Step 2.
+- The cue-and-trigger toolkit tables and cards have left Section 5 (`toolkit_step1`, `KIT5`, `TEAM_HOW` in `u5c_content.py` are no longer used). The Section 4 role cards are unchanged.
+- The team's OCEAVL profile is shown on the unit page itself (read only): `S2R.context()` -> `get_my_capstone` -> `get_capstone_team_oceavl`. Not every member submitted: "Submitted so far: k of n members." Function missing or no team: a line sends the participant to the Capstone Blueprint. No new database object is needed.
+- Keys: `__align_work` (the eight answers), `kit_team` (all, as text), `kit_mind` (the 3S text) and `kit_habit` (the ACE-IT text) on Confirm; confirmed names still "Alignment Plan · Mind" and "Alignment Plan · Habit". No longer written: `__kit_team`, `__kit_me`, `kit_me`, `kit_heart`, `kit_hands`, `syn_30day`.
+- Build: `u5d_content.py` (content; reads the guide text from the page at build time), `u5d_p.js` (script), `amend2_p.py`, `amend2_f.py`, `u5c.css`; `mock-s2r.js` now returns a sample team profile for the review file. Browser test: 50 checks, all pass. Live pages still unchanged.
+- Go-live list now: write the two pages; Capstone Unit 5 boxes five -> three (5A team behavioural profile, 5B the 3S Check, 5C ACE-IT leadership behaviours) with reworded prompts, and `capstone_section_box_count('u5')` 5 -> 3 (read the live function first); routine meanings in the Capstone team profile; `dashboard_F.html` labels; `collection.html`; deck Sections 3, 4 and 5 and reader pictures.
+- Facts reported to Carol: the section is still titled "The Alignment Toolkit"; both Section 5 learning outcomes describe content that has changed (hers to reword); the team profile in the review file is sample figures.
+
+## 12. State after the live write of 9 October (morning)
+
+Carol approved the review files ("Am Happy partner Please build the live files") and changed the Section 5 title to "Leading with Clarity".
+
+Written to her computer and checked by checksum:
+- `unit3_m1_lens4_p.html` (md5 ba4e92bc4c663dcd6225f12f00c3a4d4), `unit3_m1_lens4_f.html` (md5 90389c03e3ccc50429e637a7a12335c9).
+- `capstone_P.html` (Unit 5: 5A team behavioural profile, 5B the change · Shift, Stake and Step, 5C leadership behaviours · ACE-IT; routine meanings in the team profile), `dashboard_F.html` (labels "Leading with Clarity"), `collection.html` (rebuilt; `build_collection.js` unchanged).
+- `Claude outputs\capstone_unit5_boxes.sql` (three blocks; sets the Unit 5 box count to 3 and keeps every other unit as it is; tested in a local stand-in database).
+- Deck, 38 slides: `Claude outputs\Deck upload\Module-3\unit-05.pptx` (md5 b85a2f9f32ac6de85d5907827f90abdb) with 38 pictures and `manifest.json` in `unit-05`. `s39.jpg` and `ref_4.3.png` moved to `Claude outputs\_to_delete\unit-05 old files (9 Oct)`.
+- NOT yet written: `Unit decks\Unit 05 - Aligning Heart & Mind.pptx`. The file was open in PowerPoint on Carol's computer and locked. It still holds the 39-slide deck of 8 October (md5 b2b070c36fdb93b35a8fce166e474a83). When she has closed it, copy the 38-slide deck there (same file as the Deck upload copy).
+- Backups: `Claude outputs\Backups\Unit 5 file backups\... - before amendments (9 Oct)` and `Unit 5 deck backups\... - before amendments (9 Oct)`.
+- Checks: browser test 52 checks pass; Capstone stand-in test passes (all submitted, some submitted, function missing); `final_scan.py` 38 slides, 0 problems; `node check_standards.js` 228 Rule 16 hits, all in the Unit 01 and Unit 03 decks as before.
+
+Waiting on Carol: (1) close the Unit 5 deck in PowerPoint and say so; (2) the push; (3) the three SQL blocks in `capstone_unit5_boxes.sql`; (4) review the deck in `Unit decks`, then the Storage upload (replace `unit-05.pptx`, upload 38 pictures and `manifest.json`, delete `s39.jpg` and `s40.jpg` in the `unit-05` folder).
+
+Open items for her word: both Section 5 learning outcomes and the second Section 3 outcome describe content that has changed; wording by Claude not yet reviewed line by line: the 63 routine meanings, the ten role stories, the Section 5 example lines, the deck notes for the changed slides.
+
+## 13. Carol's own deck is the master (9 October, later in the morning)
+
+While the live files were being built, Carol reworked the Unit 5 deck herself in `Unit decks` (she took slides from the 38-slide build, wrote her own 3.1 notes, put her own pictures on 4.2 and cut the deck to 35 slides) and attached it: "Please use this one to upload to the deck upload folder. I worked on the notes."
+
+- Her deck as attached is kept in `Claude outputs\Backups\Unit 5 deck backups\Unit 05 - Aligning Heart & Mind - Carol's own deck as attached (9 Oct).pptx` (md5 5ba38151ac2c1bad32038e1843ba8530).
+- `Unit decks\_build\rebuild_u05\carol_deck_align.py` brought it in line with the live pages and changed nothing else: notes of slides 1 to 3 and of the Unit Summary (hers were untouched and described the old Section 5), the part lists on the Section 3 and Section 4 openers, "4.3" -> "4.1" on her 4.1 slide, the ten role blocks in the 4.2 notes (now the wording of the live role cards), the Section 4 Reflections slide (two reflections; the "which state" reflection has left the page), Section 5 outcome 1, the closing question, and the ® on Strategy2Results® and S2R® in her 3.1 notes.
+- Result: `Unit decks\Unit 05 - Aligning Heart & Mind.pptx` = `Claude outputs\Deck upload\Module-3\unit-05.pptx` (md5 ead55464d8a8189f27a4189b9b276ad0), 35 slides, with 35 pictures and `manifest.json` in `unit-05`. The pictures of slides 36 to 38 went to `_to_delete`.
+- THE GENERATOR NO LONGER REPRODUCES THE DECK. `unit05.js` and `u05_notes.js` build the 38-slide version of 9 October. Any later change to the Unit 5 deck is made in Carol's file, by hand or by a small script on top of it.
+- Section 5 learning outcome 1 is now "Determine how the organisation will land the strategy agenda." (her wording; `SLO5_1_NEW` in `u5d_content.py`). Outcome 2 is unchanged. Her message ended at "Instead we must have" with nothing after it; reported to her.
+- Live pages now: `unit3_m1_lens4_p.html` md5 247f098d064dc14aaafb75b73a903ad8, `unit3_m1_lens4_f.html` md5 824ee601df622a05e69dd94c773e9c7b; `collection.html` rebuilt.
+- Scan of her deck against the pages: three items, all her own choices, reported to her: the 3.1 slide title ("Where Does the Leadership Team Stand?") differs from the part title on the pages; her 3.1 notes do not carry the 3.1 reflection question; her 3.1 notes carry "instead of" once and several "not X" lines. `check_standards.js` reports 15 hits of 18pt on slides 32 to 34: empty end-of-paragraph marks left by pasting, with no visible text.
+- Waiting on Carol: the push; the three SQL blocks in `capstone_unit5_boxes.sql`; the Storage upload (replace `unit-05.pptx`, upload 35 pictures and `manifest.json`, delete `s36.jpg` to `s40.jpg`).
+

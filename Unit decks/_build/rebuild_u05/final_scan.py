@@ -59,6 +59,7 @@ for i, sl in enumerate(texts, 1):
 print('   strings checked:', seen)
 print('3. Leftovers')
 pats = [r'Save to Portfolio', r'Go to Submit', r'\blens(es)?\b', r'\b\d+\s*(–|-|to)?\s*\d*\s*(minutes|mins?)\b', r'[Ss]uggested (section )?time', r'[Ww]hiteboard|flip chart|on the board|one sheet|[Cc]irculate', r'COMPASS|Burning Platform|High Flammable|Change Readiness|readiness scan|Change Transition Map|Plenary Synthesis',
+        r'Alignment Toolkit|[Ww]atch [Ll]ist|Behavioural Commitment|Team Alignment Plan|likely trigger|5B to 5E',
         r'in th(e|is) room', r'pre-?work', r'as they are today', r'Aligning Hearts', r'KISS table', r'Strategy2Results(?!®)', r'\bS2R(?!®)', r'\bSIP\b', r'rather than|instead of|in place of']
 notes = '\n'.join(s.notes_slide.notes_text_frame.text for s in prs.slides)
 for name, t in (('participant page', vp), ('facilitator page', vf), ('deck slides', ' | '.join(' | '.join(x) for x in texts)), ('deck notes', notes)):
@@ -68,8 +69,8 @@ print('4. Page pair')
 rp, rf = open(P, encoding='utf-8').read(), open(F, encoding='utf-8').read()
 parts = {}
 for lab, rx in (('part titles', r'class="acc-t[^"]*">(.*?)<'), ('sub-lines', r'class="acc-meta">(.*?)<')):
-    a = [html.unescape(x) for x in re.findall(rx, rp)][:14]; b = [html.unescape(x) for x in re.findall(rx, rf)][:14]   # the fourteen parts of Sections 1 to 4
-    same = a == b and len(a) == 14; print('   ', lab, 'identical on both pages:', same, '' if same else (a, b)); bad += (not same)
+    a = [html.unescape(x) for x in re.findall(rx, rp)][:13]; b = [html.unescape(x) for x in re.findall(rx, rf)][:13]   # the thirteen parts of Sections 1 to 4
+    same = a == b and len(a) == 13; print('   ', lab, 'identical on both pages:', same, '' if same else (a, b)); bad += (not same)
     if lab == 'part titles': titles = a
 print('5. Part titles and reflection questions in the deck')
 firsts = [sl[0] if sl else '' for sl in texts]; alltitles = [t for sl in texts for t in sl[:2]]
@@ -78,7 +79,7 @@ for t in titles:
     hit = [x for x in alltitles if re.match(re.escape(num) + r'[ab]? · ', x) and (name in x or (num == '1.3' and x.startswith('1.3a · Change Management:')))]
     if not hit: bad += 1; print('   part title not on a slide word for word:', t)
 qs = [norm(html.unescape(re.sub(r'<[^>]+>', ' ', x))) for x in re.findall(r'<label class="wp-label"[^>]*for="ref\d+">(.*?)</label>', rp)]
-assert len(qs) == 14
+assert len(qs) == 13
 nn = norm(notes)
 for q in qs:
     if nn.count(q) < 2: bad += 1; print('   reflection question not in the notes twice (its part and its reflection slide):', q[:80])

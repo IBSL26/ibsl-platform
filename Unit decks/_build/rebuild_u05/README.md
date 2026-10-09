@@ -162,3 +162,26 @@ Carol amended the unit the same evening and gave her word ("Happy for you to wri
 - The element chosen for each role in 4.2 and its linking sentence, the ACE-IT cues, the triggers for 3S, STAT and ACE-IT, the 3.1 reflection and the new guidance notes are Claude's wording.
 - Section 3 outcomes still speak of misalignment escalating into crisis and of readiness; Section 5's first outcome still speaks of one strategic change and role connections. Outcomes are hers.
 - Seven of the 17 elements are tied to no role.
+
+## Amendments of 9 October 2026: written to the portal files
+
+Chain for the two pages: file before the three-way match -> `build_[p|f].py` -> `amend_[p|f].py` -> `amend2_[p|f].py`.
+`amend2_p.py` and `amend2_f.py` read `u5c_content.py` (3.1 order and routine meanings, 4.1, 4.2), `u5d_content.py` and `u5d_p.js` (Section 5, "Leading with Clarity") and `u5c.css`.
+
+- 3.1: one instruction block, then scores, own profile and submit, then the seven dimensions, then the reflection. Each routine has one line of meaning (`ROUT`).
+- 4.1 Leading Change with One Voice (the old 4.3, with the old 4.1 as notes; reflection ref15; ref8 has left). 4.2: the two terms, why they are shown together, how to read a card; each card tells the role's own story (`STORY`).
+- Section 5 "Leading with Clarity", group work in two steps: Step 1 the 3S Check (Shift, Stake, Step, each with the guide of 1.3.1 and one box), Step 2 ACE-IT (the team's OCEAVL profile, then five behaviours, each with the guide of 1.3.4 and one box). No cue-and-trigger toolkit, no watch list, no 30-day commitment.
+- Keys written by the participant page: ref1-6, ref9-13, ref15, ref16, `__oceavl_work`, `oceavl_scores`, `oceavl_profile`, `__align_work`, `kit_team`, `kit_mind` (3S), `kit_habit` (ACE-IT), `confirmed_items` ("OCEAVL · My Scores", "Alignment Plan · Mind", "Alignment Plan · Habit").
+- Linked files: `patch_links_c.py` (Capstone: Unit 5 has three boxes, 5B from `kit_mind`, 5C from `kit_habit`, routine meanings in the team profile; dashboard labels). `collection.html` rebuilt with `node build_collection.js` (21 prompts, 0 fallbacks). Database: `Claude outputs\capstone_unit5_boxes.sql` sets the Unit 5 box count to 3.
+- Tests: `test_am2.py` on the PREVIEW copies (`make_previews.py` with `mock-s2r.js`, which now returns a sample team profile): 52 checks pass.
+
+### The deck (38 slides)
+
+`export_deck_data.py` (13 parts, 2 steps, 13 reflections; also exports the 3.1 steps, the 4.2 terms and role stories, the guides of 1.3.1 and 1.3.4) -> `u05_data.json`; `shoot_reflections_u05.py` (13 pictures); `build_u05.sh` (`unit05.js`, `u05_notes.js`); `final_scan.py` (13 part titles, 13 reflection questions; 0 problems); `reader_assets.py` (38 pictures and `manifest.json`).
+Slides changed: 3.1a how the assessment is completed and read, 3.1b the seven dimensions; 4.1a what one voice creates, 4.1b the four commitments; 4.2a the two terms, 4.2b the alignment hot zone of each role; Section 4 Reflections (4.1, 4.2); Step 1 · The 3S Check; Step 2 · ACE-IT; closing question.
+Insights moved: "whole" to 4.2a, "openq" to 4.2b, "adoption" to Step 1, "soil" to Step 2. All 18 are used once.
+
+### The deck after 9 October: Carol's file is the master (35 slides)
+
+Carol reworked the deck herself. `carol_deck_align.py <her deck> <the 38-slide build> u05_data.json <out>` brings her deck in line with the live pages and changes nothing else (see its header for the list). `unit05.js` and `u05_notes.js` still build the 38-slide version and no longer reproduce the deck in `Unit decks`. Reader pictures: `reader_assets.py` on her aligned deck (35 pictures and `manifest.json`).
+

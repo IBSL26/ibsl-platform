@@ -1,11 +1,12 @@
 // Unit 5 · Aligning Heart & Mind — facilitator deck, rebuilt October 2026 after the three-way match of the Unit 5 pages,
-// and amended on 8 October 2026 (evening) with the pages: Principle 1, parts 1.3.1 to 1.3.4, OCEAVL in Section 3, alignment hot zones in 4.2, the Alignment Toolkit in Section 5.
+// amended on 8 October 2026 (evening) with the pages (Principle 1, parts 1.3.1 to 1.3.4, OCEAVL in Section 3, alignment hot zones in 4.2),
+// and on 9 October 2026: 3.1 scores first, 4.1 Leading Change with One Voice (the old 4.1 and 4.3), 4.2 in plain words, Section 5 "Leading with Clarity" (the 3S Check and ACE-IT, group work).
 // Run from Unit decks\_build:  node unit05.js "<output.pptx>" [logo.png]
 // Then: add_reflection_slides.py (spec written by this script) and format_notes_u03.py; build_u05.sh runs all the steps.
 // The reflection pictures come from shoot_reflections_u05.py. See rebuild_u05/README.md, "The deck".
 //
 // Format: the same design system (lib2.js) and the same slide types as the Unit 2, Unit 3 and Unit 4 decks.
-// One slide for each part of the unit. 1.2 has an overview slide and one slide for each principle; 1.3 and 3.1 run over two slides (a, b).
+// One slide for each part of the unit. 1.2 has an overview slide and one slide for each principle; 1.3, 3.1, 4.1 and 4.2 run over two slides (a, b).
 // Section 5 slides are titled by step. Slide text is page text, shortened; the presenter notes (u05_notes.js) carry the teaching.
 // Titles, outcomes and reflection questions come from u05_data.json, written by rebuild_u05/export_deck_data.py from the two pages.
 const { Deck, C, F, T, box, badge } = require('./lib2');
@@ -175,43 +176,32 @@ const pt = (k, suffix = '') => `${k}${suffix} · ${PARTS[k].title}`;
     { icon: 'FaCheckDouble', title: 'Adopted', points: ['People work the new way without supervision.', 'Adoption is a behavioural outcome.', 'What it yields: value.'] }],
     band: 'The time between installed and adopted is the adoption gap.', notes: n.p23 });
 
-  // ── Section 3 · Extrapolating — Where
+  // ── Section 3 · Extrapolating — Where (3.1 on two slides: participants score first, then read the seven dimensions)
   await div(3);
   await rows({ title: pt('3.1', 'a'), fontSize: 24, rows: [
+    { icon: 'FaUser', label: '1', text: 'Score yourself from 1 to 5 on each of the seven dimensions.' },
+    { icon: 'FaSlidersH', label: '2', text: 'A score of 4 or 5 is High, 3 is Balanced, and 1 or 2 is Low.' },
+    { icon: 'FaClipboardList', label: '3', text: 'Each level carries a risk, a response and three routines that hold the response in place.' },
+    { icon: 'FaPaperPlane', label: '4', text: 'Select Submit to My Team’s Capstone.' },
+    { icon: 'FaUsers', label: '5', text: 'The level held by most members of your team is the team’s level for that dimension.' }],
+    band: 'Every level carries a risk.', notes: n.p31a });
+  await rows({ title: '3.1b · The seven dimensions', fontSize: 24, rows: [
     { icon: 'FaLightbulb', label: 'Openness', text: 'Curiosity, creativity, adaptability to new approaches' },
     { icon: 'FaTasks', label: 'Conscientiousness', text: 'Discipline, planning, follow-through on commitments' },
     { icon: 'FaComments', label: 'Extraversion', text: 'Outward energy, communication, collaboration comfort' },
     { icon: 'FaHandshake', label: 'Agreeableness', text: 'Harmony orientation, conflict management, cooperation' },
     { icon: 'FaAnchor', label: 'Emotional Stability', text: 'Composure under pressure, emotional resilience' },
     { icon: 'FaShieldAlt', label: 'Values Alignment', text: 'Consistency between stated values and lived behaviour' },
-    { icon: 'FaGraduationCap', label: 'Learning Orientation', text: 'Growth mindset, openness to feedback, skill development' }], notes: n.p31a });
-  await rows({ title: '3.1b · How the profile is read', fontSize: 24, rows: [
-    { icon: 'FaUser', label: '1', text: 'Each participant scores themselves from 1 to 5 on each dimension.' },
-    { icon: 'FaSlidersH', label: '2', text: 'A score of 4 or 5 is High, 3 is Balanced, and 1 or 2 is Low.' },
-    { icon: 'FaUsers', label: '3', text: 'The level held by most members of a team is the team’s level for that dimension.' },
-    { icon: 'FaClipboardList', label: '4', text: 'Each level carries a risk, a response and three routines that hold the response in place.' }],
-    band: 'Every level carries a risk.', notes: n.p31b });
+    { icon: 'FaGraduationCap', label: 'Learning Orientation', text: 'Growth mindset, openness to feedback, skill development' }], notes: n.p31b });
 
-  // ── Section 4 · Integration — Collective
+  // ── Section 4 · Integration — Collective (4.1 and 4.2 each run over two slides)
   await div(4);
-  await pair({ title: pt('4.1'), cols: [
+  await pair({ title: pt('4.1', 'a'), cols: [
     { icon: 'FaCheckCircle', title: 'With Collective Intelligence', points: ['Direction remains clear across all layers', 'Resources reinforce priorities', 'Systems enable execution', 'People move with coordinated effort'] },
     { icon: 'FaTimesCircle', title: 'Without Collective Intelligence', points: ['Different leaders transmit different interpretations', 'Changes stall at the first check they fail', 'Functions receive competing signals', 'Strategic instability spreads invisibly'] }],
-    band: 'One coherent signal across the organisation.', notes: n.p41 });
-  // 4.2: each role with its alignment hot zone, one of the 17 elements of the toolkit (the page's own tags).
-  grid({ title: pt('4.2'), cols: 2, items: [
-    { name: 'CEO', parts: ['Mind · 3S · Shift'] },
-    { name: 'CFO', parts: ['Habit · ACE-IT · Transparency'] },
-    { name: 'COO', parts: ['Hands · STAT · Time'] },
-    { name: 'CHRO', parts: ['Hands · STAT · Skill'] },
-    { name: 'CTO/CIO', parts: ['Hands · STAT · Tools'] },
-    { name: 'CMO', parts: ['Habit · ACE-IT · Engagement'] },
-    { name: 'CCO', parts: ['Heart · SCARF · Fairness'] },
-    { name: 'CPO', parts: ['Hands · STAT · Authority'] },
-    { name: 'CRO', parts: ['Heart · SCARF · Autonomy'] },
-    { name: 'CSO', parts: ['Mind · 3S · Stake'] }], notes: n.p42 });
+    band: 'One coherent signal across the organisation.', notes: n.p41a });
   {
-    const s = d.slide(); d.title(s, pt('4.3'));
+    const s = d.slide(); d.title(s, '4.1b · The four commitments');
     const items = [
       ['FaBullhorn', 'One message', 'Protects Mind', 'Every leader gives the same Shift, Stake and Step for each change.', false],
       ['FaUserTie', 'One example', 'Protects Heart', 'Leaders show the ACE-IT behaviours the change needs before they ask for them.', false],
@@ -226,33 +216,24 @@ const pt = (k, suffix = '') => `${k}${suffix} · ${PARTS[k].title}`;
         { text: tag, options: { italic: true, color: dark ? C.goldLight : C.muted } }], { x: x + 0.25 + ib + 0.2, y: y + 0.2, w: cw - ib - 0.7, h: 0.65, fontSize: 24, valign: 'middle' });
       T(s, text, { x: x + 0.25, y: y + 1.0, w: cw - 0.5, h: ch - 1.15, fontSize: 24, color: dark ? C.white : C.ink });
     }
-    s.addNotes(n.p43);
+    s.addNotes(n.p41b);
   }
+  // 4.2a: the two terms. 4.2b: each role with its alignment hot zone, one of the 17 elements (the page's own tags).
+  await pair({ title: pt('4.2', 'a'), cols: [
+    { icon: 'FaHandsHelping', title: 'Converging Zone Contribution', points: ['What your role brings so that your leadership team reads the strategy as one.', 'The part of that reading only your role can supply.'] },
+    { icon: 'FaFire', title: 'Alignment Hot Zone', points: ['The one place where your role is most likely to lose people as it does its normal work.', 'One of the 17 elements of 3S, SCARF, STAT and ACE-IT'] }],
+    band: 'They come from the same work.', notes: n.p42a });
+  grid({ title: '4.2b · The alignment hot zone of each role', cols: 2, items: D.HOT.map(h => ({ name: h.role, parts: [h.tag] })), notes: n.p42b });
 
-  // ── Section 5 · Application — In Practice (slides titled by step)
+  // ── Section 5 · Application — In Practice (slides titled by step; both steps are group work)
   await div(5);
-  await rows({ title: `Step 1 · ${STEPS[0]}`, fontSize: 24, rows: [
-    { icon: 'FaBrain', label: 'Mind · 3S', text: 'They understand the change, why it matters and what they do differently.' },
-    { icon: 'FaHeart', label: 'Heart · SCARF', text: 'They want it to succeed.' },
-    { icon: 'FaHandPaper', label: 'Hands · STAT', text: 'They are able to do it.' },
-    { icon: 'FaSyncAlt', label: 'Habit · ACE-IT', text: 'It has become the way they work.' }],
-    band: 'Act on the trigger. A response aimed at the cue leaves the trigger in place.', bandH: 1.05, notes: n.st1 });
-  grid({ title: 'Step 1 · Worked example: resolve complaints at first contact', cols: 2, items: [
-    { name: 'Mind · Step', parts: ['People agree with the change and carry on as before.'] },
-    { name: 'Heart · Status', parts: ['Withholding information or cooperation.'] },
-    { name: 'Hands · Authority', parts: ['People ask permission for what the change asks them to do.'] },
-    { name: 'Habit · Accountability', parts: ['A missed commitment passes without a fix.'] }], notes: n.st1x });
-  await rows({ title: `Step 2 · ${STEPS[1]}`, fontSize: 24, rows: [
-    { icon: 'FaIdCard', text: 'Each card is one trigger, with the two cues that show it.' },
-    { icon: 'FaCheckSquare', text: 'Select “Likely to surface in my area” on the triggers you expect as these changes land.' },
-    { icon: 'FaPen', text: 'In the box that opens, write what you will do.' }],
-    band: 'Start with the alignment hot zone of your own role in 4.2.', notes: n.st2 });
-  await rows({ title: `Step 3 · ${STEPS[2]}`, fontSize: 24, rows: [
-    { icon: 'FaUsers', text: 'Compare the watch lists of your group.' },
-    { icon: 'FaCheckSquare', text: 'Select “Likely to surface for our strategy” on the triggers your group agrees on, for the strategy in your Capstone Blueprint.' },
-    { icon: 'FaPen', text: 'In the boxes that open, write where the trigger will surface, what your team will do and the leader who owns it.' },
-    { icon: 'FaUser', gold: true, text: 'Your 30-Day Behavioural Commitment' }],
-    band: 'Read your record at the foot of this step, then select Confirm.', notes: n.st3 });
+  await d.cards({ title: `Step 1 · ${STEPS[0]}`, cols: 3, titleSize: 28, textSize: 24, items: [
+    { icon: 'FaExchangeAlt', title: 'Shift', text: D.ASK.shift },
+    { icon: 'FaBalanceScale', title: 'Stake', text: D.ASK.stake },
+    { icon: 'FaShoePrints', title: 'Step', dark: true, text: D.ASK.step }],
+    band: 'Your group states three things for the strategy in your Capstone Blueprint.', notes: n.st1 });
+  await rows({ title: `Step 2 · ${STEPS[1]}`, fontSize: 24, rows: D.GA.map((g, k) => ({ icon: ['FaUserCheck', 'FaAnchor', 'FaComments', 'FaShieldAlt', 'FaSearch'][k], label: g.n, text: g.does })),
+    band: 'Where your team’s level carries a risk for this change, state the behaviour that answers it.', bandH: 1.05, notes: n.st2 });
   await d.prompt({ icon: 'FaRedo', label: 'Unit Summary · The closing question', text: CLOSING_Q, notes: n.summary });
 
   if (used.size !== Object.keys(INS).length) throw new Error('insights not all used: ' + Object.keys(INS).filter(k => !used.has(k)).join(', '));
@@ -266,8 +247,8 @@ const pt = (k, suffix = '') => `${k}${suffix} · ${PARTS[k].title}`;
     { title: 'Section 1 Reflections · 1.3.1 to 1.3.4', after: pt('1.3.4'), notes: n.ref1b, pictures: ['1.3.1', '1.3.2', '1.3.3', '1.3.4'].map(pic) },
     { title: 'Section 1 Reflections · 1.1 to 1.3', after: pt('1.3.4'), notes: n.ref1a, pictures: ['1.1', '1.2', '1.3'].map(pic) },
     { title: 'Section 2 Reflections', after: pt('2.3'), notes: n.ref2, pictures: ['2.1', '2.2', '2.3'].map(pic) },
-    { title: 'Section 3 Reflections', after: '3.1b · How the profile is read', notes: n.ref3, pictures: ['3.1'].map(pic) },
-    { title: 'Section 4 Reflections', after: pt('4.3'), notes: n.ref4, pictures: ['4.1', '4.2', '4.3'].map(pic) }] };
+    { title: 'Section 3 Reflections', after: '3.1b · The seven dimensions', notes: n.ref3, pictures: ['3.1'].map(pic) },
+    { title: 'Section 4 Reflections', after: '4.2b · The alignment hot zone of each role', notes: n.ref4, pictures: ['4.1', '4.2'].map(pic) }] };
   fs.mkdirSync(path.join(HERE, 'reflections', 'u05'), { recursive: true });
   fs.writeFileSync(path.join(HERE, 'reflections', 'u05', 'spec.json'), JSON.stringify(spec, null, 1));
   console.log('saved', OUT, '· insights used:', used.size);
