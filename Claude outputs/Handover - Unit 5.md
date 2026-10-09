@@ -259,3 +259,11 @@ While the live files were being built, Carol reworked the Unit 5 deck herself in
 - Scan of her deck against the pages: three items, all her own choices, reported to her: the 3.1 slide title ("Where Does the Leadership Team Stand?") differs from the part title on the pages; her 3.1 notes do not carry the 3.1 reflection question; her 3.1 notes carry "instead of" once and several "not X" lines. `check_standards.js` reports 15 hits of 18pt on slides 32 to 34: empty end-of-paragraph marks left by pasting, with no visible text.
 - Waiting on Carol: the push; the three SQL blocks in `capstone_unit5_boxes.sql`; the Storage upload (replace `unit-05.pptx`, upload 35 pictures and `manifest.json`, delete `s36.jpg` to `s40.jpg`).
 
+## 14. Unit 5 closed and live (9 October)
+
+- Push confirmed without git: `.git\refs\heads\main` and `.git\refs\remotes\origin\main` both hold `a5ba52fb7be683ab307135580a4446e04b54db8f`; the five pages in the head commit match the files on her computer.
+- Live check: the participant and facilitator pages on ibslportal.netlify.app show the new content (Section 5 "Leading with Clarity", parts 4.1 and 4.2, routine meanings, no watch list, no 30-day commitment). The fetch tool first returned an old stored copy of the participant page; `https://main--ibslportal.netlify.app/unit3_m1_lens4_p.html` showed the true state.
+- SQL: the three blocks of `capstone_unit5_boxes.sql` ran (Unit 5 box count 3; units 2, 3, 4 and 10 at 6; unit 6 at 5).
+- Storage upload: Carol reported it done (35 slides). It cannot be seen from the workspace.
+- Left as they are on her word ("Ok that is alright"): Section 5 outcome 2 and Section 3 outcome 2.
+- Next: Unit 6, see `Claude outputs\Handover - Unit 6.md`.
