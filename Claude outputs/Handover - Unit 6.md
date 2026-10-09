@@ -191,3 +191,11 @@ Checked with `e2e_u06.py` and `fake-supabase.js` (folder `Unit decks\_build\rebu
 - Learning Portfolio: it reads the submission, so a member's reflections appear after that member selects Send to Facilitator. The Unit 6 chapter shows the eight reflections under their questions and leaves the group work out. Reflection 1.2 (FACES scores) shows under "Biggest gap & what closing it would change", as before the change.
 - Control: with the Unit 6 line taken out of `collection.html` the group work shows in the Portfolio; with the Unit 6 rows taken out of `capstone_P.html` there is no bring-in. So the test does catch both.
 - Not checked: the live site (no push yet) and the live database (SQL not run yet).
+
+## Push done (9 Oct, 17:06)
+
+- Carol pushed. Head and origin both `e431c08` (parent `a5ba52f`). Every named file in the commit equals her local file (blob check).
+- Live participant and facilitator pages read: twelve part titles as built, Section 5 "Designing the PM Architecture" with four steps, no MyHealth, no 30-day commitment.
+- `capstone_P.html` and `collection.html` cannot be read through the fetch tool (script only); they are in the same commit.
+- Still waiting: the three SQL blocks (block 1 given to her first), then "closed" for the deck, then the deck line and the Storage upload. This note and the deck go in the next `git add`.
+- 17:15: the PowerPoint lock file was gone and her deck was unchanged (md5 bf0490ba…), so the 28-slide deck was written to `Unit decks\Unit 06 - Performance Management Setup.pptx` (md5 570180bc…, same as `Deck upload\Module-3\unit-06.pptx`). Her 27-slide deck is in `Backups\Unit 6 deck backups`. Deck not yet committed.
