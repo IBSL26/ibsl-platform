@@ -327,6 +327,9 @@ def build(v, src, other):
     # Section 5 opening
     old5 = re.search(r'<h2>Role Play &mdash; Establishing Delivery Expectations</h2><p>You are a CXO establishing delivery expectations with a team member or Head of Department\..*?</p>', t); assert old5
     t = t[:old5.start()] + '<h2>%s</h2><p>%s</p>' % (C.S5_TITLE, C.S5_LEAD[v]) + t[old5.end():]
+    # Section 4 title: one title on both pages, the facilitator's (Carol, 11 October 13:37: "Use this - Cross-Leadership Expectation Architecture")
+    if v == 'p': t = once(t, '<h2>The Expectation Architecture</h2>', '<h2>%s</h2>' % C.S4_TITLE)
+    assert t.count('<h2>%s</h2>' % C.S4_TITLE) == 1
     # section learning outcomes, amended to the content (Carol, 11 October)
     for old, new in C.SLO_EDITS: t = once(t, '<li>%s</li>' % old, '<li>%s</li>' % new)
     # styles

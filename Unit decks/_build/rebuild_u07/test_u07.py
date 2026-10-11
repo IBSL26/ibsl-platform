@@ -90,6 +90,7 @@ with sync_playwright() as pw:
     # Section 5
     pg.evaluate("showMod(4,null)"); pg.evaluate("document.querySelectorAll('#mod4 .acc').forEach((a,i)=>{if(i<2)a.classList.add('open')})"); pg.wait_for_timeout(300)
     ok('P S5 title', pg.eval_on_selector('#mod4 .mod-hero h2', 'e=>e.textContent') == 'Establishing Delivery Expectations')
+    ok('P S4 title as on the facilitator page', pg.eval_on_selector('#mod3 .mod-hero h2', 'e=>e.textContent') == 'Cross-Leadership Expectation Architecture')
     ok('P S5 four tabs', pg.eval_on_selector_all('#mod4 .step-name', 'els=>els.map(e=>e.textContent)') == ['Start With the Future', 'Clarify the Delivery Expectation', 'Identify the Expectations Chain', 'Confirm Ownership'])
     ok('P S5 marked as Capstone and group work, once', alltext.count('This is group work and Capstone work.') == 1 and alltext.count('Working as a group.') == 0 and pg.evaluate("Array.from(document.querySelectorAll('#mod4 .acc-meta')).slice(0,2).map(e=>e.textContent)") == ['Four steps · Capstone Work', 'GROW coaching model · Capstone Work'])
     ok('P S5 has no read-only lists', pg.evaluate("document.querySelectorAll('#u7Okrs,#u7Sip,#mod4 .u7-from').length") == 0)

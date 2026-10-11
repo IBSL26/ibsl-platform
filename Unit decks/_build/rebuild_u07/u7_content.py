@@ -232,6 +232,7 @@ COMPLETES_42_F = ['<strong>One drop-down list:</strong> the Key Result for which
                   '<strong>Four boxes, one for each GROW stage:</strong> Goal · Reality · Options · Will. The lesson from part 1.4 sits above each box.']
 
 # ── Section 5 · four steps on two Objectives (group work, Capstone work; Carol's amendment of 11 October) ─
+S4_TITLE = 'Cross-Leadership Expectation Architecture'   # Carol, 11 October 13:37: the same Section 4 title on both pages and on the slide
 S5_TITLE = 'Establishing Delivery Expectations'
 S5_OLD_H2 = 'Role Play &mdash; Establishing Delivery Expectations'
 S5_LEAD = {  # NEW
