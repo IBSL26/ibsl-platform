@@ -134,7 +134,7 @@ set_notes(rp, ['§4.2 — THE ACCOUNTABILITY LOOP ROLE PLAY (PRACTICE IN CLASS)'
   'Say: "Accountability without a pathway back becomes punishment. Correct firmly where necessary, and deliberately restore trust, contribution and dignity when change is evident." (Journal, 16 September 2026, Professional Insights: Leadership)', '',
   '§5. Debrief.', 'The observer posts in the chat how the CXO used each stage of GROW and the root cause that surfaced.',
   'Ask the CXO: "If you ran this conversation again, what would you change first?"', '',
-  '§ON THE PORTAL, AFTER THE TEACHING:', 'After class, participants complete personal Portfolio work in part 4.2 of their own file. They read a scripted conversation on a different case, in which the root cause is never named. They deduce which of the three root causes is evident and the lines that rule out the other two, write how they would use GROW to resolve it and move the alignment close to 10, and judge how the CXO applied the Accountability Loop against the GROW model.'], watch_ok=True)
+  '§ON THE PORTAL, AFTER THE TEACHING:', 'After class, participants complete personal Portfolio work in part 4.2 of their own file. They read a scripted conversation on a different case, in which the root cause is never named. They deduce which of the three root causes is evident and the lines that rule out the other two, work out how GROW was used to resolve it and move the alignment close to 10, and judge how the CXO applied the Accountability Loop against the GROW model.'], watch_ok=True)
 
 # ═══ slide 19 · the criteria slide becomes the GROW slide ═════════════════════════════════════════════
 gs = S[18]
@@ -170,7 +170,7 @@ set_notes(gs, ['§4.2 — ANALYSING THE CONVERSATION WITH GROW', '', '§HOW TO U
   '§4. Use GROW in the debrief.', 'The observer posts how the CXO used each stage. Ask the room which stage was hardest to hold, and why.',
   'Say: "Leaders who either conceal failure or weaponise it prevent learning. Mature accountability names what went wrong, understands why it happened and moves people toward responsible change." (Journal, 10 August 2026, Professional Insights: Leadership)',
   'Say: "Holding people accountable for outcomes without considering intent produces a culture of blame. Intent matters." (Journal, 17 March 2026, Professional Insights)', '',
-  '§ON THE PORTAL, AFTER THE TEACHING:', 'After class, in part 4.2 of their own file, participants deduce the root cause in a scripted conversation, use GROW to plan its resolution, and judge how the CXO applied the Accountability Loop.'], watch_ok=True)
+  '§ON THE PORTAL, AFTER THE TEACHING:', 'After class, in part 4.2 of their own file, participants deduce the root cause in a scripted conversation, work out how GROW was used to resolve it, and judge how the CXO applied the Accountability Loop.'], watch_ok=True)
 
 # ═══ slides 20, 21 · Section 4 Reflections ════════════════════════════════════════════════════════════
 refill(S[19], 'Section 4 Reflections', [('4.1', 'ref_4.1b.png'), ('4.1', 'ref_4.1c.png')])
@@ -181,7 +181,7 @@ set_notes(S[19], ['§SECTION 4 REFLECTIONS (1 OF 2)', '', '§HOW TO USE THIS SLI
 refill(S[20], 'Section 4 Reflections', [('4.1', 'ref_4.1a.png'), ('4.2', 'ref_4.2.png')])
 set_notes(S[20], ['§SECTION 4 REFLECTIONS (2 OF 2)', '', '§HOW TO USE THIS SLIDE:', '',
   '§1. Show the slide and read the prompt and the Portfolio work aloud.', rq('4.1a', 'The Conversation Type Most Difficult for Your Team'), '4.2 Portfolio work: the Accountability Loop case, read and analysed alone.', '',
-  '§2. Say what the work is for.', 'Say: "In 4.2, you read a full Accountability Loop conversation on a different case from the role play. The conversation never names the root cause: you deduce which of the three it is, write how you would use GROW to resolve it and move the alignment close to 10, and judge how the CXO applied the loop against GROW. This is personal work, and it builds your learning portfolio."', '',
+  '§2. Say what the work is for.', 'Say: "In 4.2, you read a full Accountability Loop conversation on a different case from the role play. The conversation never names the root cause: you deduce which of the three it is, work out how GROW was used to resolve it and move the alignment close to 10, and judge how the CXO applied the loop against GROW. This is personal work, and it builds your learning portfolio."', '',
   '§3. Bridge to Section 5.', 'Say: "You have seen the enterprise view and practised the loop on one Key Result. Section 5 brings back the four consequences of weak review discipline, and your group guards its own strategy against them."', '',
   '§ON THE PORTAL, AFTER THE TEACHING:', 'Participants write the reflection at the foot of part 4.1, and complete the Portfolio work of part 4.2.'])
 

@@ -374,12 +374,12 @@ def grow_html():
 RP_FIELDS = [  # participant Portfolio work in 4.2: (key, label, placeholder)
     ('rp_review', 'Review &middot; What does the evidence show about the Key Result, and what has happened to the alignment score? Quote the lines.', 'The evidence:\nThe alignment score, then and now:\nThe lines that show it:'),
     ('app_rootcause', 'Realign &middot; Which of the three root causes is evident? Which lines point to it, and which lines rule out the other two?', 'The root cause:\nThe lines that point to it:\nThe lines that rule out the other two:'),
-    ('app_corrective', 'Restore with GROW &middot; How would you use the GROW model to resolve this root cause and move the alignment close to 10? Write what you would do at each stage.', 'Goal:\nReality:\nOptions:\nWill:\nThe alignment score I would aim for, and why:'),
+    ('app_corrective', 'Restore with GROW &middot; How was the GROW model used to resolve this root cause and move the alignment close to 10?', 'Goal:\nReality:\nOptions:\nWill:\nWhere the alignment ended, and why:'),
     ('rp_judge', 'Your judgement &middot; How well did the CXO apply the Accountability Loop, against the GROW model? What would you do differently?', 'Goal:\nReality:\nOptions:\nWill:\nWhat I would do differently:'),
 ]
 HOW_42_P = ['Read the scenario, then read the conversation between the CXO and the Head of Logistics, who owns the Key Result. This case is different from the one you role played in class.',
             'Deduce which of the three root causes of part 1.4 is evident. The conversation does not name it.',
-            'Use the GROW model (Goal, Reality, Options, Will) to plan how you would resolve the root cause and move the alignment close to 10, and to judge how the CXO ran the conversation.',
+            'Use the GROW model (Goal, Reality, Options, Will) to work out how it was used to resolve the root cause and move the alignment close to 10, and to judge how the CXO ran the conversation.',
             'Answer the four questions below. Quote the lines of the conversation that support each answer.',
             'This is personal work. Your answers save as you type and go to your facilitator when you select Submit to Facilitator.']
 KEY_42_F = [  # what the Portfolio conversation shows (facilitator preparation)
@@ -484,7 +484,7 @@ def sec4(v):
             activity('After the role play, participants complete personal Portfolio work in their own file. They read a scripted conversation on a different case, deduce the root cause and analyse the conversation with the GROW model:', [
                 'Review: what the evidence shows and what has happened to the alignment score.',
                 'Realign: which of the three root causes is evident, the lines that point to it and the lines that rule out the other two.',
-                'Restore with GROW: how they would resolve the root cause at each stage of GROW and move the alignment close to 10.',
+                'Restore with GROW: how the GROW model was used to resolve the root cause and move the alignment close to 10.',
                 'Their own judgement of how the CXO applied the Accountability Loop against the GROW model, and what they would do differently.'])))
     out.append('')
     return NL.join(out)
