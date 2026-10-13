@@ -5,7 +5,7 @@ Each reflection picture shows its label and its question, as on the portal; ref_
 import asyncio, sys, os, json, pathlib
 from playwright.async_api import async_playwright
 PAGE, OUT = sys.argv[1], sys.argv[2]
-REFL = [('1.1', 'ref1'), ('1.4', 'ref2'), ('3.1', 'ref4'), ('4.1a', 'ref5'), ('4.1b', 'ref6'), ('4.1c', 'ref7')]
+REFL = [('1.1', 'ref1'), ('1.4', 'ref2'), ('2.1', 'ref8'), ('3.1', 'ref4'), ('4.1a', 'ref5'), ('4.1b', 'ref6'), ('4.1c', 'ref7')]
 CSS = ('.mod{display:block!important}.acc-b{display:block!important;max-height:none!important}.step-panel{display:block!important}'
        'body>div[style*="position:fixed"]{display:none!important}*{font-family:Carlito,Arial,sans-serif!important}')
 async def main():

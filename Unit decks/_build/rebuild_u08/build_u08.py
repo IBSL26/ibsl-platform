@@ -77,7 +77,7 @@ def build(v, t):
         summ = (',' + NL).join('{arc:%s,title:%s,body:%s}' % tuple(json.dumps(x, ensure_ascii=True) for x in s) for s in C.SUM_P)
         t = t[:m.start()] + 'var SUMMARY=[' + NL + summ + NL + '];' + NL + t[m.end():]
         t = once(t, 'var KEYS=["team_name","ref1","ref2","ref3","ref4","ref5","ref6","ref7","app_syn_pattern","app_syn_repeat","app_syn_depend","app_syn_chain","app_syn_decision","app_rootcause","app_corrective","app_loop_reflection"];',
-                 'var KEYS=["ref1","ref2","ref4","ref5","ref6","ref7","rp_review","app_rootcause","app_corrective","rp_judge"];')
+                 'var KEYS=["ref1","ref2","ref8","ref4","ref5","ref6","ref7","rp_review","app_rootcause","app_corrective","rp_judge"];')
         a = 'hydrateScores("ref4");'
         t = once(t, a, a + NL + '    u8Init(responses);')
         FL = C.fields()
@@ -105,7 +105,7 @@ def build(v, t):
         for bad in ('Timing', 'Spend time', 'Protect time', 'adequate time', 'five working days', 'five-day', 'non-negotiable', 'physical or digital', 'Collective Intelligence Board', 'Report Role', 'session runs short'):
             assert bad not in vis, bad
     vis = tag(re.sub(r'<(script|style)\b.*?</\1>', '', t, flags=re.S))
-    for bad in ('Collective Intelligence Circle', 'Collective Intelligence Principle', 'Synthesis Layer', 'Execution Discipline: The Real', 'Three Progress Signals', 'Enables Learning', 'Course Correction', 'Visibility Shift', 'Leader Avoided Blame', 'KR/KPI', 'KPI/KR', 'ROI', 'lens', 'rather than', 'instead of', 'in place of', 'fundamentally different', 'four criteria'):
+    for bad in ('Collective Intelligence Circle', 'Collective Intelligence Principle', 'Synthesis Layer', 'Execution Discipline: The Real', 'Three Progress Signals', 'Enables Learning', 'Course Correction', 'Visibility Shift', 'Leader Avoided Blame', 'KR/KPI', 'KPI/KR', 'ROI', 'lens', 'rather than', 'instead of', 'in place of', 'fundamentally different', 'four criteria', 'three criteria', 'Criterion 0', 'Evaluation Criteria', 'Brigade', 'Your Progress Signal'):
         assert bad not in vis, (v, bad)
     assert '\n' not in t.replace('\r\n', ''), 'bare line feed in the page'
     return t

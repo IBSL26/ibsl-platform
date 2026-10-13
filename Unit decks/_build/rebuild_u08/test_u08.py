@@ -30,6 +30,8 @@ with sync_playwright() as pw:
         subs = pg.eval_on_selector_all('.acc-meta', 'els=>els.map(e=>e.textContent.trim())')
         if name == 'p': psub = subs
         else: fsub = subs
+        allv = pg.content()
+        check('Brigade' not in allv and 'Criterion 0' not in allv, name + ': no Brigade, no criteria')
         if name == 'f':
             check(pg.locator('#main textarea, .main textarea, .main input, .main select').count() == 0, 'facilitator page has no entry box')
             for i in range(6):
@@ -38,14 +40,18 @@ with sync_playwright() as pw:
             pg.evaluate('u8Step(3)'); pg.wait_for_timeout(100)
             check(pg.locator('#u8sp4.active').count() == 1, 'facilitator step 4 opens')
             vis = pg.inner_text('body')
-            for w in ('Timing', 'five working days', 'Collective Intelligence Board', 'Report Role', 'Watch for: leaders in the Integration', 'Synthesis Layer', 'three signals:'):
+            for w in ('Brigade', 'Criterion', 'criteria', 'Timing', 'five working days', 'Collective Intelligence Board', 'Report Role', 'Watch for: leaders in the Integration', 'Synthesis Layer', 'three signals:'):
                 check(w not in vis, 'facilitator: ' + w)
-            check(pg.locator('.u8-activity').count() == 6, 'facilitator: 6 PARTICIPANT ACTIVITY notes (got %d)' % pg.locator('.u8-activity').count())
+            check(pg.locator('.u8-activity').count() == 7, 'facilitator: 7 PARTICIPANT ACTIVITY notes (got %d)' % pg.locator('.u8-activity').count())
         else:
             for i in range(5):
                 pg.evaluate('showMod(%d,null)' % i); pg.wait_for_timeout(150)
                 if shots: pg.screenshot(path=os.path.join(shots, 'p_mod%d.png' % i), full_page=True)
-            check(pg.locator('.ref-prompt').count() == 6, 'participant: 6 ref-prompt questions (got %d)' % pg.locator('.ref-prompt').count())
+            check(pg.locator('.ref-prompt').count() == 7, 'participant: 7 ref-prompt questions (got %d)' % pg.locator('.ref-prompt').count())
+            pg.evaluate('showMod(1,null)'); pg.fill('#ref8', 'Velocity gap here.'); pg.wait_for_timeout(1500)
+            check(pg.evaluate('window.__store["u3m2_lens7"]').get('ref8') == 'Velocity gap here.', 'ref8 (velocity) saves')
+            check(pg.locator('#mod3 .u8-grow4 > div').count() == 4, 'GROW panel in 4.2')
+            check(pg.locator('#mod0 .u8-growl').count() == 3, 'GROW recovery in each 1.4 card')
             # reflection saves
             pg.evaluate('showMod(0,null)'); pg.fill('#ref1', 'Activity: projects. Progress: resolution time.'); pg.wait_for_timeout(1500)
             st = pg.evaluate('window.__store["u3m2_lens7"]')
@@ -55,7 +61,7 @@ with sync_playwright() as pw:
             pg.wait_for_timeout(1600)
             st = pg.evaluate('window.__store["u3m2_lens7"]')
             check(all(st.get(k) == 'Answer ' + k for k in ('rp_review', 'app_rootcause', 'app_corrective', 'rp_judge')), 'the four 4.2 answers save')
-            check(pg.locator('.u8-dlg-r').count() == 20 // 2 * 2, 'conversation shown')
+            check(pg.locator('.u8-dlg-r').count() == 16, 'conversation shown')
             # 3.2 cards
             pg.evaluate('showMod(2,null)'); pg.evaluate("document.querySelectorAll('#mod2 .acc').forEach(a=>a.classList.add('open'))")
             pg.locator('.u8-cx-card').nth(2).click(); pg.wait_for_timeout(100)

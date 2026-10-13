@@ -32,6 +32,23 @@ CAUSES14 = [  # (label, name, in full, recovery)
      'The issue lies beyond motivation and skill development. The individual&rsquo;s strengths do not align with the specific responsibilities, or the role requires capabilities that the individual does not naturally bring to the task.',
      'Structural alignment. The task may be redistributed across the team. Responsibilities may be adjusted. In some situations the individual may be repositioned into a role that better aligns with their strengths.'),
 ]
+GROW14 = [  # Carol, 13 October: each recovery achieved through the GROW model of Unit 7 (Goal, Reality, Options, Will)
+    ['Reconnect the KPI to the enterprise outcome it supports, and agree what an alignment of 9 or 10 would look like.',
+     'Explore what has drawn attention away from the KPI and how the individual now sees the target.',
+     'The individual names how they will restore focus on the KPI among competing priorities.',
+     'The individual restates ownership, the actions and the follow-up date, and the leader asks the alignment question again.'],
+    ['Agree the result the KPI requires, the capability it calls for, and what an alignment of 9 or 10 would look like.',
+     'Establish which part of the task the individual cannot yet do, and what they can already do well.',
+     'Choose together among targeted coaching, peer support, formal training and an adjusted timeline.',
+     'Agree the development plan, any adjusted milestones and the follow-up, and ask the alignment question again.'],
+    ['Agree the outcome the KPI must deliver, whoever delivers it.',
+     'Establish where the demands of the role and the strengths of the individual, or the structure around them, do not match.',
+     'Consider redistributing the task, adjusting responsibilities or, in a separate role conversation, repositioning the individual.',
+     'Agree the structural change, who decides it and by when, and ask the alignment question again with whoever now owns the KPI.'],
+]
+GROW_NAMES = ['Goal', 'Reality', 'Options', 'Will']
+def grow_list(items):
+    return '<ul class="u8-growl">' + ''.join('<li><b>%s</b>%s</li>' % (n, x) for n, x in zip(GROW_NAMES, items)) + '</ul>'
 def sec1(v):
     you = v == 'p'
     out = [hero('Section 1 · Awareness — What', 'What is Performance Measurement?',
@@ -42,7 +59,7 @@ def sec1(v):
             '<strong>1.1 · The Execution Visibility Infrastructure.</strong> Open with the provocation: <em>"Work is happening. Teams are busy. Initiatives are underway. But can you confidently say the work being done is actually advancing the strategy?"</em> Then teach performance measurement as the visibility infrastructure of the strategy: without it, strategy stays interpretive, each function develops its own sense of progress and activity is mistaken for advancement. The shift to land is from <em>"What work was done?"</em> to <em>"What changed because of the work?"</em>',
             '<strong>1.2 · The Four Strategic Purposes.</strong> Teach execution rhythm first: regular reviews reveal the subtle signals early and prevent the most common leadership surprise, discovering failure at the end of the reporting period. Then teach the four purposes one card at a time. Most leaders can name visibility and accountability; fewer name execution intelligence (data interpreted into decision insight through disciplined conversation) and timely correction.',
             '<strong>1.3 · From Performance Measurement to Execution Recovery.</strong> Link the four purposes to the Review&ndash;Realign&ndash;Restore Cycle (R3): Review brings together visibility, accountability and execution intelligence; Realign diagnoses the gap through the Accountability Loop; Restore activates timely correction. Name the outcome of each stage, and close on how the cycle stays continuous: the next Review checks whether the corrective actions worked.',
-            '<strong>1.4 · The Accountability Loop.</strong> Start from the default response to a gap: pushing harder. The key facilitation moment is when leaders understand that most performance gaps have a diagnosable cause, and that the three root causes (accountability, skill, structural misfit) require different responses. Help leaders distinguish between team members who cannot perform and those who will not: inability needs development, and unwillingness needs accountability. Close on keeping the performance conversation separate from the role conversation.'))
+            '<strong>1.4 · The Accountability Loop.</strong> Start from the default response to a gap: pushing harder. The key facilitation moment is when leaders understand that most performance gaps have a diagnosable cause, and that the three root causes (accountability, skill, structural misfit) require different responses. Help leaders distinguish between team members who cannot perform and those who will not: inability needs development, and unwillingness needs accountability. Then teach how each recovery is achieved through the GROW model of Unit 7 (Goal, Reality, Options, Will), and that every recovery closes with the alignment question asked again. Close on keeping the performance conversation separate from the role conversation.'))
         out.append('')
     # 1.1
     open_ = ('Your performance management system has been set and the mechanisms for establishing performance are in place. Your commitments have been secured. Now the most important discipline of execution begins.' if you else
@@ -110,9 +127,10 @@ def sec1(v):
         'The next Review examines whether the corrective actions have produced the expected improvement. If gaps remain, the cycle continues until execution returns to the required trajectory.')
     out.append(acc(T13, M13, b13)); out.append('')
     # 1.4 · the Accountability Loop
-    cards14 = [pcard(a, ['#f0a070', '#8ab0e8', '#c39de0'][i], b, c + '</p><p><strong>Recovery:</strong> ' + d, '') for i, (a, b, c, d) in enumerate(CAUSES14)]
+    cards14 = [pcard(a, ['#f0a070', '#8ab0e8', '#c39de0'][i], b, c + '</p><p><strong>Recovery:</strong> ' + d + '</p><p><strong>Achieving the recovery through GROW:</strong>', grow_list(GROW14[i])) for i, (a, b, c, d) in enumerate(CAUSES14)]
     b14 = para('Many organisations respond to performance gaps with one default response: they push harder. More urgency is applied. More pressure is introduced. Deadlines are reinforced. Pressure alone rarely solves execution challenges because pressure does not identify the underlying cause of the problem.',
-        'When a gap is identified, the leader activates the <strong>Accountability Loop</strong>: a structured diagnostic process designed to restore traction and ownership without collapsing into unproductive performance pressure. Most performance gaps emerge from one of three underlying conditions. Select each to explore.',
+        'When a gap is identified, the leader activates the <strong>Accountability Loop</strong>: a structured diagnostic process designed to restore traction and ownership without collapsing into unproductive performance pressure. Most performance gaps emerge from one of three underlying conditions, and each calls for its own recovery.',
+        'The leader achieves the recovery through the <strong>GROW model</strong> %s for the Alignment Dialogue in Unit 7: <strong>Goal</strong>, <strong>Reality</strong>, <strong>Options</strong> and <strong>Will</strong>. The goal of the conversation is ownership of the KPI: an alignment score of 9 or 10. Select each root cause to explore its recovery.' % ('you used' if you else 'participants used'),
         '<div class="principle-stack">' + NL + NL.join(cards14) + NL + '</div>',
         '<div class="u8-h">Keep the two conversations separate</div>',
         'The performance conversation must remain separate from the role conversation. Performance discussions focus on progress toward outcomes. Role alignment discussions focus on placing individuals where their capabilities can generate the greatest organisational value. By maintaining this distinction, the organisation protects both fairness and clarity.',
@@ -139,6 +157,15 @@ CONSEQ = [  # (number, name, text, participant question, facilitator prompt, sho
      'What is the current level of strategic commitment in your organisation? How much of that is shaped by what leaders consistently review, and how much by what they announce?', 'What is the current level of strategic commitment in your organisation? How much of that is shaped by what leaders consistently review, and how much by what they announce?', 'Leadership Credibility'),
 ]
 T21, M21 = '2.1 &mdash; Four Consequences of Weak Review Discipline', 'Click each to explore'
+# Carol, 13 October: execution velocity (her notes of the 2.1 slide, word for word) and a personal reflection on the velocity gap
+VELOCITY = ['<div class="u8-h">Execution velocity</div>',
+    'Execution velocity is the rate at which an organisation converts strategic intent into measurable results. That rate is shaped by how quickly leaders detect progress or deviation, understand its causes, make decisions and translate those decisions into action.',
+    'Performance measurement provides the evidence. Review discipline converts that evidence into timely decisions.',
+    'This is why organisations can have well-designed strategies, clearly assigned KPIs and detailed execution plans, yet still experience slow progress. The measures may exist, but the rhythm of examining them, resolving constraints and adjusting execution may be weak.',
+    '<div class="u8-h">Four consequences of weak review discipline</div>']
+REF_VEL = ('ref8', 'Where You Have Seen the Velocity Gap',
+    'The velocity gap is the distance between the pace of progress you planned and the pace you achieved. Think of a strategic priority in your own setting that moved more slowly than planned while its measures were in place. Where did the velocity gap open: in detecting the deviation, understanding its cause, making the decision or translating the decision into action? Which of the four consequences followed, and what did the delay cost?',
+    'The priority:\nWhere the velocity gap opened (detect / understand / decide / act):\nThe consequence that followed:\nWhat the delay cost:')
 def sec2(v):
     out = [hero('Section 2 · Intelligence — Why', 'Why Performance Measurement Determines Execution Velocity',
                 'Understanding why the discipline of review conversations is the factor that determines whether strategy execution sustains momentum or quietly stalls.'),
@@ -146,13 +173,16 @@ def sec2(v):
     if v == 'f':
         out.append(guide('FACILITATOR GUIDANCE — Intelligence',
             'The key shift in this section is from measurement as tool to measurement as leadership discipline. Most leaders accept the logic of measurement; fewer have internalised that the rhythm of review conversations is itself a strategic capability, and that allowing that rhythm to weaken has predictable, compounding consequences.',
+            '<strong>2.1 · Execution velocity.</strong> Open with the question <em>&ldquo;What determines the velocity of the flight?&rdquo;</em> and teach execution velocity: the rate at which an organisation converts strategic intent into measurable results, shaped by how quickly leaders detect, understand, decide and act. Performance measurement provides the evidence; review discipline converts it into timely decisions.',
             '<strong>2.1 · Four Consequences of Weak Review Discipline.</strong> Teach the four consequences as one chain, one card at a time: missed early warnings lead to diffused accountability; diffused accountability suppresses learning; suppressed learning erodes leadership credibility. Ask the question on each card once the card is taught, so participants recognise the chain in their own organisations.',
             'Section 5 returns to these four consequences: each group sets two decision points against each of them.'))
         out.append('')
     red = 'rgba(231,76,60,.8)'
     cards = [pcard(n, red, nm, tx, ask(v, pq, fq)) for n, nm, tx, pq, fq, s in CONSEQ]
-    out.append(acc(T21, M21, para('When performance reviews occur inconsistently or superficially, several predictable patterns begin to emerge. These are the foreseeable consequences of allowing the review rhythm to weaken.') + NL +
-                   '<div class="principle-stack">' + NL + NL.join(cards) + NL + '</div>', open_=True))
+    b21 = (para(*VELOCITY) + NL + para('When performance reviews occur inconsistently or superficially, several predictable patterns begin to emerge. These are the foreseeable consequences of allowing the review rhythm to weaken.') + NL +
+           '<div class="principle-stack">' + NL + NL.join(cards) + NL + '</div>')
+    if v == 'p': out.append(acc(T21, M21, b21 + NL + reflection(*REF_VEL), open_=True))
+    else: out.append(acc(T21, M21, b21, activity(REF + 'where they have seen the velocity gap in their own setting: a strategic priority that moved more slowly than planned, where the gap opened (detecting the deviation, understanding its cause, making the decision or translating it into action), the consequence that followed and what the delay cost.'), open_=True))
     out.append('')
     return NL.join(out)
 
@@ -298,7 +328,7 @@ def sec3(v):
                  ('Explore your own role first, then the two roles closest to yours.' if you else 'Teach each participant&rsquo;s own role first, then the two roles closest to it.'))
     body32 = (intro + NL + '<div class="u8-cx-grid">' + NL + tiles + NL + '</div>' + NL + NL.join(det) + NL +
               '<div class="u8-h">Where the four fractures most often begin</div>' + NL + gap_map() + NL +
-              para('No single role opens a fracture alone. The Alignment Brigade closes the four fractures when each leader sees how the habits in their own reviews feed them, and the executive team reviews the chain of execution together.'))
+              para('No single role opens a fracture alone. The leadership team, acting as the collective intelligence for execution discipline, closes the four fractures when each leader sees how the habits in their own reviews feed them, and the executive team reviews the chain of execution together.'))
     out.append(acc(T32, M32, body32)); out.append('')
     return NL.join(out)
 
@@ -308,49 +338,61 @@ T42 = '4.2 &mdash; The Accountability Loop Role Play'
 M42 = 'Practice in class &middot; Portfolio Work'
 SLO4 = ('Interpret individual performance signals within a shared enterprise view of progress.', 'Determine the root cause of underperformance and the leadership action it requires.')
 CRITERIA3 = [CRITERIA[0], ('Criterion 02',) + CRITERIA[2][1:], ('Criterion 03',) + CRITERIA[3][1:]]
-SCENARIO2 = ('<p>You are a CXO responsible for the Objective and Key Result (OKR): <strong>&ldquo;Reduce customer complaint resolution time from 48 hours to 12 hours.&rdquo;</strong></p>' + NL +
-             '<p>The latest performance review shows that progress has stalled and complaint resolution is still averaging <strong>36 hours</strong>. The target deadline is six weeks away. You must now activate the Accountability Loop.</p>')
-DIALOGUE = [  # (speaker, line) · CXO = the Chief Operating Officer; HCS = the Head of Customer Service who owns the Key Result
-    ('CXO', 'Thank you for making time. Before we talk about what to do, let us look at what the evidence shows. Your self-assessment rates the complaint resolution Key Result at 2. My own assessment, from the same dashboard, is also a 2. Average resolution time is 36 hours. We started at 48, and the target is 12 hours, six weeks from now.'),
-    ('HCS', 'Yes. We came down from 48 to 36 in the first two months, and since then it has stayed at 36. I check the numbers every day.'),
-    ('CXO', 'So the early progress was real, and then it stalled. Let us check the agreed activities. Which of them have been carried out?'),
-    ('HCS', 'Most of them. The weekly team huddles are running. The new escalation rule is in place. The new ticketing system went live, and the two extra agents you approved have started. The one that is behind is the triage redesign: sorting complaints by type so that the simple ones are closed at first contact.'),
-    ('CXO', 'So the people and the system are in place. Why is the triage redesign behind?'),
-    ('HCS', 'Honestly? I have opened the routing reports in the new system several times. I can see thousands of tickets, but I cannot tell which complaint types are causing the delays. I have never had to redesign a process from data before. In the meantime, my team and I have been clearing the backlog by hand over the weekends.'),
-    ('CXO', 'I can see how much effort you are putting in, and that matters. How do you feel about the target itself? Is it still the right one?'),
-    ('HCS', 'Absolutely. Customers tell us every week that waiting two days is the reason they leave. I want this to work.'),
-    ('CXO', 'And the role itself: does it fit what this Key Result now asks of you?'),
-    ('HCS', 'I think so. Running the team, handling escalations and coaching the agents is what I do well. It is the analysis I am missing.'),
-    ('CXO', 'That helps. The eastern branch moved from 40 hours to 15 hours last quarter with the same system. Their operations analyst built the triage categories from the routing data. What if she works with you for the next two weeks?'),
-    ('HCS', 'That would help a great deal. I would also like to attend the system&rsquo;s reporting training next week.'),
-    ('CXO', 'Agreed. Let us set it out. First, the analyst works with you from Monday to identify the three complaint types that cause most of the delays. Second, you attend the reporting training next week. Third, the redesigned triage goes live in three weeks, and the weekend clearing stops. The interim milestone of 24 hours moves from week two to week four, and the final deadline stays. You own the triage redesign, and we review progress together every Friday.'),
-    ('HCS', 'That works for me.'),
-    ('CXO', 'Before we close: on a scale of 1 to 10, how aligned are you with delivering 12 hours by the deadline?'),
-    ('HCS', 'When I walked in, I would have said a 5. With the analyst and the training, I am at an 8.'),
-    ('CXO', 'What would move you to a 9 or a 10?'),
-    ('HCS', 'Seeing the first week of data after the triage goes live, and knowing the analyst stays available if the categories need adjusting.'),
-    ('CXO', 'Then I will confirm with the eastern branch today that she stays available until the deadline. Where does that leave you?'),
-    ('HCS', 'At a 9.'),
+SCENARIO2 = ('<p>You are a CXO responsible for the Objective and Key Result (OKR): <strong>&ldquo;Reduce customer complaint resolution time from 48 hours to 12 hours.&rdquo;</strong> The Key Result supports the enterprise Objective of improving customer retention.</p>' + NL +
+             '<p>At the start of the quarter, in the Alignment Dialogue, the Head of Customer Service rated their alignment with this Key Result at <strong>9</strong>. The latest Review of the Review&ndash;Realign&ndash;Restore Cycle shows that progress has stalled at <strong>36 hours</strong>, six weeks before the deadline, and that alignment has fallen. You must now activate the Accountability Loop to determine which of the three root causes is behind the gap.</p>')
+SCENARIO_P = ('<p>The CXO, the Chief Operating Officer, is responsible for the Objective and Key Result (OKR): <strong>&ldquo;Increase on-time delivery of customer orders from 82% to 95%.&rdquo;</strong> The Key Result supports the enterprise Objective of improving customer retention.</p>' + NL +
+              '<p>At the start of the quarter, in the Alignment Dialogue, the Head of Logistics rated their alignment with this Key Result at <strong>9</strong>. The latest Review of the Review&ndash;Realign&ndash;Restore Cycle shows that on-time delivery has stalled at <strong>87%</strong>, six weeks before the deadline, and that alignment has fallen. The CXO activates the Accountability Loop to determine which of the three root causes is behind the gap.</p>')
+DIALOGUE = [  # Portfolio case (a different case from the class role play) · CXO = the Chief Operating Officer; HL = the Head of Logistics who owns the Key Result. The root cause is never named.
+    ('CXO', 'Thank you for making time. Let us start with the evidence. Your self-assessment rates the on-time delivery Key Result at 2, and so does mine. On-time delivery is at 87%. We started at 82%, and the target is 95%, six weeks from now.'),
+    ('HL', 'Yes. We reached 87% in the first two months. Since then it has not moved.'),
+    ('CXO', 'When we agreed this Key Result at the start of the quarter, you rated your alignment at 9. On a scale of 1 to 10, where is it today?'),
+    ('HL', 'A 5, if I am honest.'),
+    ('CXO', 'What has moved it from 9 to 5?'),
+    ('HL', 'Since March, most of my week has gone to the warehouse move. The CEO asked me to lead the move to the northern warehouse, and that is where the pressure is. My shift supervisors run the daily dispatch meetings now. I read their summaries when I can.'),
+    ('CXO', 'Which of the agreed activities have been carried out?'),
+    ('HL', 'The route planning software is live, the two extra drivers have started and the new carrier contracts are signed. The loading schedule redesign is behind. I built the first version of the schedule myself in the first month, and that is what took us from 82% to 87%. The next version needs a few days of my time with the dispatch data, and I have not given it those days.'),
+    ('CXO', 'Do you have what you need to finish it?'),
+    ('HL', 'Yes. The team has the people, and the system gives me all the data I need. Running dispatch is the job I know best.'),
+    ('CXO', 'How do you see the 95% target now?'),
+    ('HL', 'Honestly, it has started to feel like a head office number. The warehouse move is what the CEO asks about every week. Nobody has asked me about on-time delivery since the quarter started.'),
+    ('CXO', 'The 95% matters, and I need the loading schedule redesign done. From next week I will add on-time delivery to the weekly operations report, so the number is in front of everyone.'),
+    ('HL', 'I will try to fit it in around the warehouse move.'),
+    ('CXO', 'Good. Have the redesign live in three weeks. We will look at the number again at the end of the month.'),
+    ('HL', 'Understood.'),
 ]
-SPEAKER = {'CXO': 'CXO &middot; Chief Operating Officer', 'HCS': 'Head of Customer Service &middot; owner of the Key Result'}
+SPEAKER = {'CXO': 'CXO &middot; Chief Operating Officer', 'HL': 'Head of Logistics &middot; owner of the Key Result'}
 def dialogue_html():
     return ('<div class="u8-dlg">' + NL + NL.join('<div class="u8-dlg-r u8-dlg-%s"><b>%s</b><p>%s</p></div>' % (s.lower(), SPEAKER[s], l) for s, l in DIALOGUE) + NL + '</div>')
-RP_FIELDS = [  # participant Portfolio work in 4.2: (key, label, placeholder)
-    ('rp_review', 'Review &middot; How did the CXO establish execution reality? Name the evidence used and the lines that show it.', 'The evidence the CXO used:\nThe lines that show it:'),
-    ('app_rootcause', 'Realign &middot; Which root cause did the CXO diagnose? Which clues in the conversation point to it, and how did the CXO rule out the other two?', 'The root cause:\nThe clues that point to it:\nHow the other two root causes were ruled out:'),
-    ('app_corrective', 'Restore &middot; What corrective actions, owner and follow-up were agreed? How do they match the root cause, and how did the alignment score move?', 'Corrective actions, owner and follow-up:\nHow they match the root cause:\nHow the alignment score moved, and why:'),
-    ('rp_judge', 'Your judgement &middot; How well did the CXO apply the Accountability Loop, against the three criteria? What would you do differently?', 'Criterion 01:\nCriterion 02:\nCriterion 03:\nWhat I would do differently:'),
+GROW42 = [  # the GROW model applied in the Accountability Loop (Unit 7 wording, carried into the loop)
+    ('G', 'Goal', 'What the individual wants to reach. In the Accountability Loop: ownership of the Key Result again, an alignment score of 9 or 10.', '&ldquo;What would a 9 or 10 look like for you on this Key Result?&rdquo;'),
+    ('R', 'Reality', 'What is true today. The leader explores what stands behind the score and the gap, and listens without defending the target.', '&ldquo;What has moved your alignment from where it was?&rdquo;'),
+    ('O', 'Options', 'What could be done. The individual generates the ways forward, matched to the root cause.', '&ldquo;What could you do? What support would make the difference?&rdquo;'),
+    ('W', 'Will', 'What will be done, and by whom. The actions, the owner and the follow-up are agreed, and the alignment question is asked again.', '&ldquo;With that agreed, where is your alignment now, on the scale of 1&ndash;10?&rdquo;'),
 ]
-HOW_42_P = ['Read the scenario, then read the conversation between the CXO and the Head of Customer Service, who owns the Key Result.',
-            'Find where the conversation moves through Review, Realign and Restore.',
+def grow_html():
+    return ('<div class="u8-grow4">' + NL + NL.join('  <div><div class="g-l">%s</div><div class="g-n">%s</div><p>%s</p><p class="g-q">%s</p></div>' % g for g in GROW42) + NL + '</div>')
+RP_FIELDS = [  # participant Portfolio work in 4.2: (key, label, placeholder)
+    ('rp_review', 'Review &middot; What does the evidence show about the Key Result, and what has happened to the alignment score? Quote the lines.', 'The evidence:\nThe alignment score, then and now:\nThe lines that show it:'),
+    ('app_rootcause', 'Realign &middot; Which of the three root causes is evident? Which lines point to it, and which lines rule out the other two?', 'The root cause:\nThe lines that point to it:\nThe lines that rule out the other two:'),
+    ('app_corrective', 'Restore with GROW &middot; How would you use the GROW model to resolve this root cause and move the alignment close to 10? Write what you would do at each stage.', 'Goal:\nReality:\nOptions:\nWill:\nThe alignment score I would aim for, and why:'),
+    ('rp_judge', 'Your judgement &middot; How well did the CXO apply the Accountability Loop, against the GROW model? What would you do differently?', 'Goal:\nReality:\nOptions:\nWill:\nWhat I would do differently:'),
+]
+HOW_42_P = ['Read the scenario, then read the conversation between the CXO and the Head of Logistics, who owns the Key Result. This case is different from the one you role played in class.',
+            'Deduce which of the three root causes of part 1.4 is evident. The conversation does not name it.',
+            'Use the GROW model (Goal, Reality, Options, Will) to plan how you would resolve the root cause and move the alignment close to 10, and to judge how the CXO ran the conversation.',
             'Answer the four questions below. Quote the lines of the conversation that support each answer.',
             'This is personal work. Your answers save as you type and go to your facilitator when you select Submit to Facilitator.']
-KEY_42_F = [  # what the conversation shows (facilitator preparation)
-    '<strong>Review.</strong> The CXO opens with both assessments (the owner&rsquo;s self-assessment and the leader&rsquo;s parallel assessment, both a 2) and the evidence: 48 hours to 36 hours, then a stall, against a target of 12. The CXO then checks which agreed activities occurred: all except the triage redesign.',
-    '<strong>Realign.</strong> The CXO tests each root cause. Ownership: the owner checks the numbers daily, works weekends and wants the target, so accountability is present. Role or structure: the people and the system are in place, and the owner&rsquo;s strengths fit the role. Capability: the owner cannot read the routing data and has never redesigned a process from data. The root cause is a <strong>lack of skill</strong>.',
-    '<strong>Restore.</strong> The recovery matches the root cause: peer support (the eastern branch analyst), formal training and a timeline adjustment of the interim milestone, with the final deadline kept, a named owner and a weekly review. The alignment score moves from 5 to 8, and to 9 once the analyst&rsquo;s availability is confirmed.',
-    '<strong>Criteria.</strong> Evidence was used from the first line. The root cause emerged from the conversation. The corrective actions are specific, owned and followed up.',
+KEY_42_F = [  # what the Portfolio conversation shows (facilitator preparation)
+    '<strong>Review.</strong> Both assessments rate the Key Result at 2. On-time delivery rose from 82% to 87%, then stalled, against a target of 95%. Alignment has fallen from 9 at the Alignment Dialogue to 5.',
+    '<strong>The root cause: lack of accountability.</strong> The owner&rsquo;s attention has moved to the warehouse move since March; the shift supervisors run the dispatch meetings; the owner has not given the loading schedule redesign the days it needs; the target &ldquo;feels like a head office number&rdquo;; and nobody has asked about on-time delivery this quarter. Skill is ruled out: the owner built the first loading schedule, which delivered the rise from 82% to 87%. Role or structure is ruled out: the people, the system and the data are in place, and the role fits the owner&rsquo;s strengths.',
+    '<strong>The CXO against GROW.</strong> Goal: the CXO asks for the alignment score but never agrees what a 9 or 10 would look like, or reconnects the Key Result to customer retention. Reality: explored well, through open questions on the score, the activities and the target. Options: skipped; the CXO prescribes the solution and adds pressure through the weekly report, the default response that part 1.4 warns against. Will: the owner commits only to &ldquo;try to fit it in&rdquo;, the follow-up is vague and the alignment question is not asked again.',
+    '<strong>A recovery that matches the root cause: reconnect purpose and ownership through GROW.</strong> Goal: reconnect the 95% to customer retention and ask what a 9 or 10 would look like. Reality: name the shift of attention and the absence of review. Options: the owner proposes how to protect the days for the redesign alongside the warehouse move. Will: the owner states the actions and dates, a weekly review is set, and the alignment question is asked again, aiming for 9 or 10.',
 ]
+TM_BRIEF = 'You own the complaint resolution Key Result and you want the 12-hour target: customers tell you every week that waiting two days is why they leave. You check the numbers every day, and you and your team have been clearing the backlog by hand over weekends. The people and the new ticketing system are in place, and running the team is what you do well. The triage redesign is behind because you cannot tell from the routing reports which complaint types cause the delays, and you have never redesigned a process from data. Share this only when the CXO&rsquo;s questions bring it out.'
+ROLE_PLAY_SHOWS = 'The role play case is built on a <strong>lack of skill</strong>: the owner is committed and the structure is in place, but the capability to redesign the process from data is missing. A recovery that matches it, through GROW: Goal, agree what a 9 or 10 would look like; Reality, establish what the owner cannot yet do; Options, the owner chooses among coaching, peer support, training and an adjusted interim milestone; Will, agree the plan, the follow-up and the alignment question again. The Portfolio case participants analyse after class is built on a different root cause.'
+ROLES42 = [('CXO Role', 'Conducts the accountability conversation on the case. Opens with the evidence and the alignment score, then works through the GROW model with the team member: Goal, Reality, Options and Will. Aims to move the alignment close to 10.'),
+           ('Team Member Role', 'Owns the Key Result. Responds authentically to the conversation, and may show defensiveness, uncertainty or genuine constraint.'),
+           ('Observer Role', 'Notes how the CXO used each stage of the GROW model. Gives feedback after the role play and does not intervene during it.')]
 
 EPIC_SIGNALS = [  # (tab name, the question it answers, what each leader brings, how the leader says it, examples, what the executive team sees)
     ('Collective Trajectory', 'Where are we on execution?',
@@ -363,7 +405,7 @@ EPIC_SIGNALS = [  # (tab name, the question it answers, what each leader brings,
      'One or two warning signals that emerged in their PM review conversations, with the evidence from the review sheets. An early warning appears before a KPI or Key Result is formally off target.',
      '&ldquo;An emerging risk is [signal], supported by [evidence].&rdquo;',
      ['An operational process beginning to slow delivery times', 'A capability gap that may affect upcoming milestones', 'A supply constraint that could delay implementation of strategic initiatives', 'A change in customer feedback signalling emerging dissatisfaction'],
-     'Where a signal in one function is connected to activity in another. What looked like an isolated operational issue shows itself as a <strong>cross-functional execution dependency</strong>, and the Alignment Brigade can act on it before it becomes a measurable performance gap.'),
+     'Where a signal in one function is connected to activity in another. What looked like an isolated operational issue shows itself as a <strong>cross-functional execution dependency</strong>, and the leadership team, acting as the collective intelligence for execution discipline, can act on it before it becomes a measurable performance gap.'),
     ('Execution Learning', 'What is execution teaching us?',
      'One key learning from their PM reviews, with the evidence behind it: a capability insight, a coordination improvement, a leadership practice that strengthened execution, or a structural obstacle that slowed progress.',
      '&ldquo;A key execution learning is [insight], supported by [evidence].&rdquo;',
@@ -372,10 +414,11 @@ EPIC_SIGNALS = [  # (tab name, the question it answers, what each leader brings,
 ]
 EPIC_PRODUCES = ['A clear snapshot of enterprise progress toward the strategic Key Results.', 'Emerging risks visible early enough for coordinated intervention.', 'Execution learning captured to strengthen future performance.']
 REF_SIG = [
-    ('ref5', 'Your Progress Signal', 'For one of your Key Results or KPIs: what is your current percentage progress, what evidence supports it, and is your momentum accelerating, stable or slowing?', 'My Key Result or KPI progress: ____%\nSupporting evidence: ...\nMomentum: Accelerating / Stable / Slowing\nBecause: ...'),
+    None,  # Signal 1: no reflection in the tab (ref5 is reframed and sits at the foot of 4.1)
     ('ref6', 'Your Early Warning Signal', 'Which one or two early warning signals have emerged in your area? What evidence supports each, and what could it affect?', 'Warning signal 1: ...\nEvidence: ...\nPotential impact: ...\n\nWarning signal 2 (if applicable): ...'),
     ('ref7', 'Your Execution Learning', 'What is one key execution learning from your performance reviews? What evidence supports it, and does it apply to your function or to the enterprise?', 'Key execution learning: ...\nEvidence: ...\nWhere it applies (function / enterprise): ...'),
 ]
+REF_CONV = ('ref5', 'The Conversation Type Most Difficult for Your Team', 'Which conversation type is most difficult for you and your team: reporting progress against evidence, naming an early warning, or sharing an execution learning? What makes it difficult, and what would make it easier?', 'The conversation type most difficult for us:\nWhat makes it difficult:\nWhat would make it easier:')
 def sec4(v):
     you = v == 'p'
     out = [hero('Section 4 · Integration — Collective', 'Cross-Leadership Performance Intelligence',
@@ -386,7 +429,7 @@ def sec4(v):
             'The shift in this section is from function to enterprise. The question that guides it is the question of part 3.2: <em>&ldquo;Is the chain of execution across our functions holding together?&rdquo;</em>',
             '<strong>4.1 · The Enterprise Performance Intelligence Circle (EPIC).</strong> Teach what EPIC is for before its detail: it turns the separate PM reviews of each function into one shared view of enterprise execution. Then teach the three signals each leader brings from their PM review sheet, each by the question it answers: progress, <em>&ldquo;Where are we on execution?&rdquo;</em>; early warnings, <em>&ldquo;What is starting to break?&rdquo;</em>; execution learning, <em>&ldquo;What is execution teaching us?&rdquo;</em> For each signal, teach what the leader brings, the sentence the leader uses and what the executive team sees. Progress comes first because it gives the other two their meaning.',
             'Teach the evidence rule with the examples of each signal: every signal names the PM review evidence behind it. This single discipline separates EPIC from an opinion forum.',
-            '<strong>4.2 · The Accountability Loop Role Play.</strong> The section then moves from the enterprise view to one Key Result: the Accountability Loop practised in a role play. The guidance for running it online sits in part 4.2.'))
+            '<strong>4.2 · The Accountability Loop Role Play.</strong> The section then moves from the enterprise view to one Key Result. In class, participants role play the case using the GROW model. After class, each participant analyses a scripted conversation on a different case and deduces the root cause alone. The guidance for running the role play online sits in part 4.2.'))
         out.append('')
     panels = []
     for k, (name, q, brings, says, ex, sees) in enumerate(EPIC_SIGNALS):
@@ -395,49 +438,54 @@ def sec4(v):
                      '<p><strong>How each leader says it.</strong> %s</p>' % says,
                      '<p><strong>%s</strong></p>' % ('Examples:' if k != 1 else 'Examples of early warnings:'), '<ul>' + ''.join('<li>%s</li>' % x for x in ex) + '</ul>',
                      '<p><strong>What the executive team sees.</strong> %s</p>' % sees])
-        if you: p += NL + reflection(*REF_SIG[k])
+        if you and REF_SIG[k]: p += NL + reflection(*REF_SIG[k])
         panels.append(p)
     b41 = para('The <strong>Enterprise Performance Intelligence Circle (EPIC)</strong> is the executive team&rsquo;s structured review of enterprise execution. The question that guides EPIC is: <em>&ldquo;Is the chain of execution across our functions holding together?&rdquo;</em>',
-               'Many organisations conduct performance reviews. Few organisations convert those reviews into collective strategic intelligence. EPIC ensures that insights emerging from PM review sheets are brought together across functions in a structured conversation that allows the Alignment Brigade to observe execution as a living system.',
+               'Many organisations conduct performance reviews. Few organisations convert those reviews into collective strategic intelligence. EPIC ensures that insights emerging from PM review sheets are brought together across functions in a structured conversation that allows the leadership team, acting as the collective intelligence for execution discipline, to observe execution as a living system.',
                'In EPIC, each member of the executive team brings three signals from their own PM review sheet: where their Key Results stand, what is starting to break, and what execution is teaching them. Each signal answers one question, and the three are shared in that order. Progress comes first because it gives the warnings their context and the learning a system to learn about.',
-               ('Select each signal. For each one, write your own signal at the foot of the tab, from your own Key Results and KPIs.' if you else 'Select each signal.'),
+               ('Select each signal. At the foot of the second and third tabs, write your own signal from your own Key Results and KPIs.' if you else 'Select each signal.'),
                steps([s_[0] for s_ in EPIC_SIGNALS], panels, num='Signal'),
                '<div class="u8-h">What EPIC produces</div>',
                '<ol class="u8-list">' + ''.join('<li>%s</li>' % x for x in EPIC_PRODUCES) + '</ol>',
                'Through this practice, performance measurement becomes the organisation&rsquo;s radar system for strategy execution.')
-    if you: out.append(acc(T41, M41, b41, open_=True))
-    else: out.append(acc(T41, M41, b41, activity(REF + 'their own three EPIC signals, from their own Key Results and KPIs: their progress signal, their early warning signal and their execution learning.'), open_=True))
+    if you: out.append(acc(T41, M41, b41 + NL + reflection(*REF_CONV), open_=True))
+    else: out.append(acc(T41, M41, b41, activity(REF + 'their own early warning signal and execution learning, from their own Key Results and KPIs, at the foot of the second and third tabs; and, at the foot of part 4.1, the conversation type most difficult for them and their team: reporting progress against evidence, naming an early warning, or sharing an execution learning.'), open_=True))
     out.append('')
-    roles = '<div class="rp-roles">' + NL + NL.join('  <div class="rp-role">' + NL + '    <div class="rp-role-title">&#128100; %s</div>' % a + NL + '    <p>%s</p>' % b.replace('the four criteria', 'the three criteria') + NL + '  </div>' for a, b in ROLES) + NL + '</div>'
+    roles = '<div class="rp-roles">' + NL + NL.join('  <div class="rp-role">' + NL + '    <div class="rp-role-title">&#128100; %s</div>' % a + NL + '    <p>%s</p>' % b + NL + '  </div>' for a, b in ROLES42) + NL + '</div>'
     diag = '<h4>Accountability Loop Diagnosis</h4>' + NL + '<p>The CXO must determine whether the root cause is:</p>' + NL + '<div class="loop-diag">' + NL + NL.join('  <div class="loop-cell"><div class="loop-cell-label">%s</div><div class="loop-cell-name">%s</div><p>%s</p></div>' % c for c in CAUSES) + NL + '</div>'
-    crit = '<h4>Evaluation Criteria</h4>' + NL + '<div class="principle-stack">' + NL + NL.join(pcard(a, 'var(--teall)' if you else 'var(--gold)', b, c, '') for a, b, c in CRITERIA3) + NL + '</div>'
+    crit = '<h4>The GROW Model in the Accountability Loop</h4>' + NL + para('The GROW model of Unit 7 is the basis for analysing the conversation. Each stage asks a question, and the individual does the thinking, so the answers reached are their own.') + NL + grow_html()
     sc = SCENARIO2 if not you else SCENARIO2.replace('You are a CXO responsible', 'The CXO, the Chief Operating Officer, is responsible').replace('You must now activate', 'The CXO must now activate')
-    case = '<div class="rp-scenario">' + NL + '  <div class="rp-scenario-label">&#9658; Scenario</div>' + NL + sc + NL + '</div>'
+    case = '<div class="rp-scenario">' + NL + '  <div class="rp-scenario-label">&#9658; %s</div>' % ('Scenario' if you else 'In class &middot; the role play scenario') + NL + (SCENARIO_P if you else SCENARIO2) + NL + '</div>'
+    case_p = '<div class="rp-scenario">' + NL + '  <div class="rp-scenario-label">&#9658; After class &middot; the Portfolio scenario</div>' + NL + SCENARIO_P + NL + '</div>'
     if you:
-        intro = para('In class, the Accountability Loop is practised as a role play on a set case. In this part, you work on the same case alone: you read a full conversation between the CXO and the owner of the Key Result, and you work out how the CXO applied the Review&ndash;Realign&ndash;Restore Cycle and the Accountability Loop.')
+        intro = para('In class, you role played a case using the GROW model. In this part, you work alone on a different case: you read a full conversation between the CXO and the owner of the Key Result, deduce which of the three root causes is evident, and use the GROW model to resolve it and to judge the conversation.')
         how = '<div class="u8-how"><div class="u8-how-h">Portfolio work &middot; How to complete the Accountability Loop case</div><ol>' + ''.join('<li>%s</li>' % s for s in HOW_42_P) + '</ol></div>'
         ent = NL.join(['<div class="u8-s5">', '  <div class="u8-s5-h"><span class="u8-s5-n">Your analysis of the conversation</span></div>'] +
                       ['  <label class="wp-label" for="%s">%s</label><textarea class="wp-ta reflection-textarea" id="%s" style="min-height:110px;" placeholder="%s"></textarea><div class="reflection-saved" id="%s-saved"></div>' % (k, l, k, esc_ph(ph), k) for k, l, ph in RP_FIELDS] + ['</div>'])
         out.append(acc(T42, M42, NL.join([intro, how, case, '<div class="u8-h">The conversation</div>', dialogue_html(), diag, crit, ent])))
     else:
-        intro = para('The Accountability Loop is practised in class as a role play on a set case. The leader activates the Review&ndash;Realign&ndash;Restore Cycle when a Key Result shows a Significant Gap: review the evidence, diagnose the root cause, then restore momentum.')
-        g = guide('FACILITATOR GUIDANCE — Running the role play online',
+        intro = para('Part 4.2 has two parts. <strong>In class</strong>, you give the scenario and participants role play the conversation using the GROW model. <strong>After class</strong>, in their own file, each participant reads a scripted conversation on a different case, deduces which of the three root causes is evident, and analyses the conversation with GROW.')
+        g = guide('FACILITATOR GUIDANCE — In class: running the role play online',
             '<p>This is class practice. Nothing is entered on the portal during the role play.</p>',
             '<ol>' + ''.join('<li>%s</li>' % s for s in [
-                'Assign three roles: the CXO, the team member and the observer. Brief the observer on the three criteria.',
-                'The CXO opens with the evidence and diagnoses the root cause with the team member before any corrective action is discussed.',
-                'If the CXO defaults to pressure and skips diagnosis, pause and redirect: <em>&ldquo;You have identified the gap. Now diagnose the cause. Is this an accountability issue, a skill gap, or a structural constraint? What evidence do you have for that?&rdquo;</em>',
-                'The CXO closes with the corrective actions, the follow-up and the alignment question.',
-                'In the debrief, the observer posts in the chat the root cause diagnosed (accountability, skill or structural), the evidence for it and how the conversation met each criterion.',
+                'Give the scenario and assign three roles: the CXO, the team member and the observer.',
+                'Give the team member the team member brief below, privately.',
+                'Brief the observer on the GROW model: Goal, Reality, Options, Will.',
+                'The CXO opens with the evidence and asks the alignment question, then works through Goal, Reality, Options and Will with the team member.',
+                'If the CXO defaults to pressure, pause and redirect: <em>&ldquo;You have identified the gap. Now ask about the reality behind it before you move to options.&rdquo;</em>',
+                'The CXO closes with the actions, the follow-up and the alignment question asked again.',
+                'In the debrief, the observer posts in the chat how the CXO used each stage of GROW and the root cause that surfaced.',
                 'Close each round by asking the CXO: <em>&lsquo;If you ran this conversation again, what would you change first?&rsquo;</em>']) + '</ol>')
-        prep = ('<div class="u8-h">The conversation participants analyse in their own file</div>' + NL + dialogue_html() + NL +
+        prep = ('<div class="u8-h">After class &middot; the case participants analyse in their own file</div>' + NL + para('This case is different from the role play case, and the root cause is never named in the conversation.') + NL + case_p + NL + dialogue_html() + NL +
                 '<div class="u8-h">What the conversation shows</div>' + NL + '<ul class="u8-list">' + ''.join('<li>%s</li>' % x for x in KEY_42_F) + '</ul>')
-        out.append(acc(T42, M42, NL.join([intro, g, case, roles, diag, crit, prep]),
-            activity('After the role play, participants complete personal Portfolio work in their own file. They read a full conversation on the same case and work out how the CXO applied the cycle and the loop:', [
-                'Review: the evidence the CXO used to establish execution reality.',
-                'Realign: the root cause diagnosed, the clues that point to it and how the other two were ruled out.',
-                'Restore: the corrective actions, owner and follow-up, how they match the root cause and how the alignment score moved.',
-                'Their own judgement of the conversation against the three criteria.'])))
+        brief = '<div class="u8-brief"><b>Team member brief &middot; give privately to the team member</b><span>%s</span></div>' % TM_BRIEF
+        shows = '<div class="u8-h">What the role play case is built on</div>' + NL + para(ROLE_PLAY_SHOWS)
+        out.append(acc(T42, M42, NL.join([intro, g, case, roles, brief, shows, diag, crit, prep]),
+            activity('After the role play, participants complete personal Portfolio work in their own file. They read a scripted conversation on a different case, deduce the root cause and analyse the conversation with the GROW model:', [
+                'Review: what the evidence shows and what has happened to the alignment score.',
+                'Realign: which of the three root causes is evident, the lines that point to it and the lines that rule out the other two.',
+                'Restore with GROW: how they would resolve the root cause at each stage of GROW and move the alignment close to 10.',
+                'Their own judgement of how the CXO applied the Accountability Loop against the GROW model, and what they would do differently.'])))
     out.append('')
     return NL.join(out)
 
@@ -492,17 +540,17 @@ ACT_S5_F = 'Participants work as a group in part 5.1 of their own file. This is 
 
 # ═══ Unit Summary ═══════════════════════════════════════════════════════════════════════════════════
 SUM_P = [
-    ('Awareness — What', 'What Was Established', 'You saw that performance measurement is the execution visibility infrastructure of the strategy: it moves the question from “What work was done?” (activity) to “What changed because of the work?” (progress). It serves four strategic purposes: creating visibility, establishing accountability, generating execution intelligence and enabling timely correction. The Review–Realign–Restore Cycle (R3) turns these purposes into a recurring leadership rhythm: Review establishes execution reality; Realign diagnoses and addresses execution gaps; Restore rebuilds execution momentum. In Realign, the Accountability Loop diagnoses one of three root causes (lack of accountability, lack of skill, or misfit of role or structural constraint), each with its own recovery.'),
+    ('Awareness — What', 'What Was Established', 'You saw that performance measurement is the execution visibility infrastructure of the strategy: it moves the question from “What work was done?” (activity) to “What changed because of the work?” (progress). It serves four strategic purposes: creating visibility, establishing accountability, generating execution intelligence and enabling timely correction. The Review–Realign–Restore Cycle (R3) turns these purposes into a recurring leadership rhythm: Review establishes execution reality; Realign diagnoses and addresses execution gaps; Restore rebuilds execution momentum. In Realign, the Accountability Loop diagnoses one of three root causes (lack of accountability, lack of skill, or misfit of role or structural constraint), each with its own recovery, achieved through the GROW model.'),
     ('Intelligence — Why', 'Why It Matters', 'You saw that execution velocity is set by the discipline of review conversations. When the review rhythm weakens, four predictable consequences follow: early warning signals are missed; accountability gradually diffuses (KPIs drift from operational to aspirational); organisational learning is lost (results recorded but never understood); and leadership credibility erodes (priorities look symbolic).'),
-    ('Extrapolating — Where', 'Where It Breaks Down', 'You saw that performance measurement breaks down in how leaders review and interpret measurement together, through four fractures: the Horizontal Coordination Gap, the Evidence Quality Gap, the Review Rhythm Breakdown and the Learning Suppression Gap. Each executive role tends to feed one or two of them through the measures and forums it controls, so the Alignment Brigade asks together: “Is the chain of execution across our functions holding together?”'),
-    ('Integration — Collective', 'What Was Built', 'You saw how the Enterprise Performance Intelligence Circle (EPIC) brings together three signals from each leader’s performance management (PM) review sheet: Collective Trajectory, Early Warnings and Execution Learning. You then worked through a full Accountability Loop conversation and judged how the cycle was applied.'),
+    ('Extrapolating — Where', 'Where It Breaks Down', 'You saw that performance measurement breaks down in how leaders review and interpret measurement together, through four fractures: the Horizontal Coordination Gap, the Evidence Quality Gap, the Review Rhythm Breakdown and the Learning Suppression Gap. Each executive role tends to feed one or two of them through the measures and forums it controls, so the leadership team, acting as the collective intelligence for execution discipline, asks together: “Is the chain of execution across our functions holding together?”'),
+    ('Integration — Collective', 'What Was Built', 'You saw how the Enterprise Performance Intelligence Circle (EPIC) brings together three signals from each leader’s performance management (PM) review sheet: Collective Trajectory, Early Warnings and Execution Learning. You then deduced the root cause behind a fall in alignment in a full Accountability Loop conversation, and used the GROW model to plan its resolution and to judge the conversation.'),
     ('Application — In Practice', 'What You Applied', 'Your group set two decision points against each of the four consequences of weak review discipline, for the strategy in your team’s Capstone Blueprint: the signal to watch for, the decision to take when it appears and who takes it.'),
 ]
 SUM_F = [
     ('Awareness — What', '#8ab0e8', 'Performance measurement is the execution visibility infrastructure of the strategy. It serves four strategic purposes: visibility, accountability, execution intelligence and timely correction. The Review–Realign–Restore Cycle (R3) turns them into a recurring leadership rhythm, and the Accountability Loop diagnoses the root cause of a gap.'),
     ('Intelligence — Why', 'var(--gold)', 'The rhythm of performance reviews determines execution velocity. When it weakens, early warning signals are missed, accountability diffuses, organisational learning is lost and leadership credibility erodes.'),
     ('Extrapolating — Where', '#5ecba1', 'Performance measurement weakens when reviews remain confined within functions, evidence quality is inconsistent, review rhythms become irregular, or conversations focus only on evaluation. Each executive role tends to feed one or two of these four fractures.'),
-    ('Integration — Collective', '#c39de0', 'EPIC brings together three signals from each leader’s PM review sheet: collective trajectory, early warnings and execution learning. The Accountability Loop role play takes one Key Result through the full cycle.'),
+    ('Integration — Collective', '#c39de0', 'EPIC brings together three signals from each leader’s PM review sheet: collective trajectory, early warnings and execution learning. In the Accountability Loop role play, the CXO deduces the root cause behind a fall in alignment and resolves it through the GROW model.'),
     ('Application — In Practice', '#f0a070', 'Each group set two decision points against each of the four consequences of weak review discipline, for its own strategy. The confirmed record feeds the team’s Capstone Blueprint.'),
 ]
 CLOSE_F = 'Close with the central line of the unit: measurement becomes an execution recovery system when evidence is reviewed, gaps are diagnosed and momentum is restored. Remind participants that the group&rsquo;s confirmed Section 5 record feeds the team&rsquo;s Capstone Blueprint.'
