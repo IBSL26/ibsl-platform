@@ -80,9 +80,9 @@ LEAD = {
 }
 SLO = {
     1: ('Recognise the systemic blockages that widen the gap between strategic intent and execution.', 'Identify the observable symptoms of friction in execution.'),
-    2: ('Explain why execution friction is a predictable consequence of strategy stretching the operating system.', 'Recognise the leadership disciplines that detect and resolve friction early.'),
+    2: ('Resolve the strategy clogs in the people and organisational performance to foster high performance.', 'Recognise the leadership disciplines that detect and resolve friction early.'),
     3: ('Evaluate where interdependent conditions are causing friction to accumulate across the enterprise.', 'Distinguish visible symptoms from their underlying organisational causes.'),
-    4: ('Recognise why restoring execution momentum requires collective leadership stewardship.', 'Establish a shared leadership rhythm for surfacing and resolving friction.'),
+    4: ('Mobilise leaders across functions to restore execution momentum together.', 'Establish a shared leadership rhythm for surfacing and resolving friction.'),
     5: ('Diagnose the root cause of a stalled priority in their current portfolio.', 'Determine a targeted response with a named owner, action and completion date.'),
 }
 GUIDE_S = {  # facilitator guidance box per section: (label, [(old, new) edits])
