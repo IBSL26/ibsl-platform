@@ -387,6 +387,7 @@ table.u7v-t td strong{color:#fff;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
 </head>
 <body>
 <!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
@@ -732,7 +733,8 @@ table.u7v-t td strong{color:#fff;}
 <div class="mod-body">
 <div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Establish owned expectations for the contributions identified in the Capstone.</li><li>Consolidate agreed commitments, conditions and follow-up actions into a shared delivery agreement.</li></ul></div>
 
-<div class="u7-how"><div class="u7-how-h">How Section 5 works</div><p>This is group work and Capstone work. Section 5 has two exercises:</p><ol><li><strong>5.1 · Building the Expectation Architecture.</strong> Your group selects two contributions from the Contribution Map you built in Unit 6 and takes each through the four steps, establishing a people performance expectation and the supporting expectations on organisational conditions.</li><li><strong>5.2 · Conducting the Alignment Dialogue with the Board Chair.</strong> Your group prepares the dialogue that moves your board chair to a 10 on one Key Result.</li></ol><p>Your group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page, in the session or after it.</p><p>You then read your group’s record at the foot of this section and select Confirm. Your confirmed record feeds your team’s Capstone Blueprint.</p></div>
+<div class="u7-how"><div class="u7-how-h">How Section 5 works</div><p>This is group work and Capstone work. Section 5 has two exercises:</p><ol><li><strong>5.1 · Building the Expectation Architecture.</strong> Your group selects two contributions from the Contribution Map you built in Unit 6 and takes each through the four steps, establishing a people performance expectation and the supporting expectations on organisational conditions.</li><li><strong>5.2 · Conducting the Alignment Dialogue with the Board Chair.</strong> Your group prepares the dialogue that moves your board chair to a 10 on one Key Result.</li></ol><p>Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.</p><p>You then read your group’s record at the foot of this section and select Agree. When every member has agreed, your record feeds your team’s Capstone Blueprint.</p></div>
+<div id="twBar"></div>
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Building the Expectation Architecture</div><div class="acc-meta">Four steps &middot; Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
@@ -1399,6 +1401,8 @@ function u7el(id){return document.getElementById(id);}
 function u7esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function u7msg(id,text,cls){var m=u7el(id);if(!m)return;m.textContent=text||'';m.className='u7-note'+(cls?' '+cls:'');m.style.display=text?'block':'none';}
 async function u7save(k,val){
+  if(k==='confirmed_items'){var _ts=window.S2RTeam&&S2RTeam.status(),_own=(Array.isArray(val)?val:[]).filter(function(n){return U7_NAMES.indexOf(n)<0;});if(!_own.length)return true;val=_own.concat(_ts&&_ts.all_agreed?U7_NAMES:[]);}
+  else if(window.S2RTeam&&/^(__ex_work$|ex_)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u7TeamOut();return _ok;}
   if(!window.S2R){console.warn('[unit3_m1_lens6_p] S2R helper not loaded');return false;}
   try{return await S2R.save(U7_LENS,k,val);}catch(e){console.error('[unit3_m1_lens6_p] save failed for '+k,e);return false;}
 }
@@ -1507,7 +1511,7 @@ function u7Open(){
 function u7RecDraw(){
   var host=u7el('u7Rec');if(!host)return;
   var conf=u7has(),msg=u7el('u7Msg'),keep=msg?[msg.textContent,msg.className,msg.style.display]:null;
-  host.innerHTML='<div class="u7-out"><div class="u7-out-h">Your group&rsquo;s record'+(conf?'<span class="u7-conf yes">Confirmed &middot; into your Capstone</span>':'<span class="u7-conf no">Not yet confirmed</span>')+'</div>'+
+  host.innerHTML='<div class="u7-out"><div class="u7-out-h">Your group&rsquo;s record'+(conf?'<span class="u7-conf yes">Agreed by every member &middot; into your Capstone</span>':'<span class="u7-conf no">Not yet agreed by every member</span>')+'</div>'+
     U7P.map(function(p,i){
       var fs=U7F.filter(function(f){return f[2]===p[0]&&u7needs(f);}),done=fs.filter(function(f){return !u7bad(f);}).length;
       if(p[0]==='dialogue')return '<details class="u7-rec"><summary>'+u7esc(p[4])+'<span>'+done+' of '+fs.length+' entries</span></summary>'+fs.map(function(f){var v=u7val(f[0]);
@@ -1520,21 +1524,21 @@ function u7RecDraw(){
             return '<div class="u7-rec-t"><strong>'+u7esc(f[1])+':</strong> '+(v?u7esc(v):'<i>to be agreed by your group</i>')+'</div>';}).join('');
       }).join('')+'</details>';
     }).join('')+
-    '<div class="u7-btnrow"><button type="button" class="u7-b ok" id="u7ConfBtn" onclick="u7Confirm()">'+(conf?'Confirmed &#10003;':'Confirm')+'</button><button type="button" class="u7-b" onclick="u7Print()">Print</button></div>'+
+    '<div class="u7-btnrow"><button type="button" class="u7-b ok" id="u7ConfBtn" onclick="u7Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u7-b" onclick="u7Print()">Print</button></div>'+
     '<div class="u7-note" id="u7Msg" style="display:none;"></div></div>';
   if(keep&&keep[0]){var m=u7el('u7Msg');m.textContent=keep[0];m.className=keep[1];m.style.display=keep[2];}
 }
+/* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
+function u7TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(u7Open().length)return;S2RTeam.save('ex_record',u7Record());U7P.forEach(function(p){S2RTeam.save(p[3],u7Text(p[0]));});}
+var _twOn=false;
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U7_LENS,mount:'twBar',lock:['mod4'],names:U7_NAMES,complete:function(){var o=u7Open();return o.length?o.join('; '):'';},onRemote:function(r){u7Init(r);}});}
 async function u7Confirm(){
-  var open=u7Open();
-  if(open.length){u7RecDraw();u7msg('u7Msg','Before you confirm, complete: '+open.join('; ')+'.');return;}
-  clearTimeout(_u7t.save);clearTimeout(_u7t.conf);
-  var ok=await u7save('__ex_work',U7.w);
-  ok=ok&&(await u7save('ex_record',u7Record()));
-  for(var i=0;i<U7P.length&&ok;i++)ok=await u7save(U7P[i][3],u7Text(U7P[i][0]));
-  if(!ok){u7msg('u7Msg','Not saved. Check your connection, then select Confirm again.');return;}
-  U7_NAMES.forEach(function(nm){if(U7.conf.indexOf(nm)<0)U7.conf.push(nm);});
-  if(!(await u7save('confirmed_items',U7.conf))){u7drop();u7RecDraw();u7msg('u7Msg','Not saved. Check your connection, then select Confirm again.');return;}
-  u7RecDraw();u7msg('u7Msg','✓ Confirmed. Your record is ready for your team’s Capstone Blueprint.','ok');
+  var _o=window.S2RTeam?(function(){var o=u7Open();return o.length?o.join('; '):'';})():'';
+  if(_o){u7RecDraw();u7msg('u7Msg','Before you agree, complete: '+_o+'.');return;}
+  if(!window.S2RTeam){return;}
+  if(S2RTeam.isScribe()){u7TeamOut();await S2RTeam.flush();}
+  await S2RTeam.agree();
+  u7RecDraw();
 }
 function u7Print(){
   var body=U7P.map(function(p,i){
@@ -1557,7 +1561,7 @@ function u7AdDraw(){
   if(v&&!seen)opts.push('<option value="'+u7esc(v)+'" selected>'+u7esc(v)+'</option>');
   sel.innerHTML=opts.join('');sel.disabled=!(U7.okrs.length||v);
   if(!U7.ready)return;
-  u7msg('u7AdMsg',U7.okrs.length||v?'':'No confirmed Enterprise OKRs were found on your Unit 3 page. Confirm your group’s Enterprise OKRs in Unit 3, part 5.2, then reload this page.');
+  u7msg('u7AdMsg',U7.okrs.length||v?'':'No confirmed Enterprise OKRs were found on your Unit 3 page. Agree your group’s Enterprise OKRs in Unit 3, part 5.2, then reload this page.');
 }
 async function u7AdSave(v){
   U7.ad=String(v||'');
@@ -1585,9 +1589,9 @@ async function u7Bring(manual){
   });
   U7.okrs=found;u7SelDraw();u7AdDraw();
   var miss=[];
-  if(!fns.length)miss.push('No confirmed Contribution Map was found on your Unit 6 page. Confirm your group’s Contribution Map in Unit 6, Section 5.');
-  if(!found.length)miss.push('No confirmed Enterprise OKRs were found on your Unit 3 page. Confirm your group’s Enterprise OKRs in Unit 3, part 5.2.');
-  if(!U7.sip.length)miss.push('No confirmed Success in Practice statements were found on your Unit 2 page. Confirm your group’s SiP statements in Unit 2.');
+  if(!fns.length)miss.push('No confirmed Contribution Map was found on your Unit 6 page. Agree your group’s Contribution Map in Unit 6, Section 5.');
+  if(!found.length)miss.push('No confirmed Enterprise OKRs were found on your Unit 3 page. Agree your group’s Enterprise OKRs in Unit 3, part 5.2.');
+  if(!U7.sip.length)miss.push('No confirmed Success in Practice statements were found on your Unit 2 page. Agree your group’s SiP statements in Unit 2.');
   if(miss.length){u7msg('u7BringMsg',miss.join(' ')+' Then select Reload the drop-down lists.');return;}
   u7msg('u7BringMsg',manual?'The drop-down lists are up to date.':'',manual?'ok':'');
 }
@@ -1598,6 +1602,7 @@ function u7Init(responses){
   U7.ad=typeof responses.ad_kr==='string'?responses.ad_kr:'';
   U7.ready=true;
   u7Fill();u7RecDraw();u7AdDraw();u7Bring(false);
+  twAttach();
 }
 document.addEventListener('DOMContentLoaded',function(){
   U7.w=u7norm(null);

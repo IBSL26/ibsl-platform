@@ -426,6 +426,7 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
 </head>
 <body>
 <!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
@@ -906,11 +907,12 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="mod-body">
 <div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Make evidence-based recovery decisions when results depart from expectations.</li><li>Establish executive decisions and routines that protect sustained review discipline.</li></ul></div>
 
-<div class="u8-how"><div class="u8-how-h">How Section 5 works</div><p>This is group work and Capstone work. For each of the four consequences of weak review discipline, your group:</p><ol><li>Simulates a potential gap in the performance of individuals, and a potential gap in the organisational conditions of your strategy.</li><li>Writes a decision point for recovery for each gap: the decision the executive team takes when the gap appears, and who takes it.</li></ol><p>Your group agrees each entry and one member acts as scribe. Every member types the agreed entries into their own page. Then select Confirm. Your confirmed record feeds your team&rsquo;s Capstone Blueprint.</p></div>
+<div class="u8-how"><div class="u8-how-h">How Section 5 works</div><p>This is group work and Capstone work. For each of the four consequences of weak review discipline, your group:</p><ol><li>Simulates a potential gap in the performance of individuals, and a potential gap in the organisational conditions of your strategy.</li><li>Writes a decision point for recovery for each gap: the decision the executive team takes when the gap appears, and who takes it.</li></ol><p>Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page. Then each member selects Agree. When every member has agreed, your record feeds your team&rsquo;s Capstone Blueprint.</p></div>
+<div id="twBar"></div>
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Decision Points Against the Four Consequences</div><div class="acc-meta">Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
-<div class="u8-group"><strong>Working as a group.</strong> Your group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page, in the session or after it.</div>
+<div class="u8-group"><strong>Working as a group.</strong> Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.</div>
 <div id="u8S5">
 <div class="step-tabs">
   <div class="step-tab active" onclick="u8Step(0)"><div class="step-num">Consequence 1</div><div class="step-name">Early Warning Signals Are Missed</div></div>
@@ -1576,6 +1578,8 @@ function u8el(id){return document.getElementById(id);}
 function u8esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function u8msg(id,text,cls){var m=u8el(id);if(!m)return;m.textContent=text||'';m.className='u8-note'+(cls?' '+cls:'');m.style.display=text?'block':'none';}
 async function u8save(k,val){
+  if(k==='confirmed_items'){var _ts=window.S2RTeam&&S2RTeam.status(),_own=(Array.isArray(val)?val:[]).filter(function(n){return U8_NAMES.indexOf(n)<0;});if(!_own.length)return true;val=_own.concat(_ts&&_ts.all_agreed?U8_NAMES:[]);}
+  else if(window.S2RTeam&&/^(__rd_work$|rd_)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u8TeamOut();return _ok;}
   if(!window.S2R){console.warn('[unit3_m2_lens7_p] S2R helper not loaded');return false;}
   try{return await S2R.save(U8_LENS,k,val);}catch(e){console.error('[unit3_m2_lens7_p] save failed for '+k,e);return false;}
 }
@@ -1615,7 +1619,7 @@ function u8Open(){
 function u8RecDraw(){
   var host=u8el('u8Rec');if(!host)return;
   var conf=u8has(),msg=u8el('u8Msg'),keep=msg?[msg.textContent,msg.className,msg.style.display]:null;
-  host.innerHTML='<div class="u8-out"><div class="u8-out-h">Your group&rsquo;s record'+(conf?'<span class="u8-conf yes">Confirmed &middot; into your Capstone</span>':'<span class="u8-conf no">Not yet confirmed</span>')+'</div>'+
+  host.innerHTML='<div class="u8-out"><div class="u8-out-h">Your group&rsquo;s record'+(conf?'<span class="u8-conf yes">Agreed by every member &middot; into your Capstone</span>':'<span class="u8-conf no">Not yet agreed by every member</span>')+'</div>'+
     U8P.map(function(p){
       var fs=U8F.filter(function(f){return f[2]===p[0];}),done=fs.filter(function(f){return !u8bad(f);}).length;
       var lines=u8Text(p[0]).split('\n').map(function(l){
@@ -1626,21 +1630,21 @@ function u8RecDraw(){
       var extra='';
       return '<details class="u8-rec"><summary>'+u8esc(p[4])+'<span>'+done+' of '+fs.length+' entries'+extra+'</span></summary>'+lines+'</details>';
     }).join('')+
-    '<div class="u8-btnrow"><button type="button" class="u8-b ok" id="u8ConfBtn" onclick="u8Confirm()">'+(conf?'Confirmed &#10003;':'Confirm')+'</button><button type="button" class="u8-b" onclick="u8Print()">Print</button></div>'+
+    '<div class="u8-btnrow"><button type="button" class="u8-b ok" id="u8ConfBtn" onclick="u8Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u8-b" onclick="u8Print()">Print</button></div>'+
     '<div class="u8-note" id="u8Msg" style="display:none;"></div></div>';
   if(keep&&keep[0]){var m=u8el('u8Msg');m.textContent=keep[0];m.className=keep[1];m.style.display=keep[2];}
 }
+/* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
+function u8TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(u8Open().length)return;S2RTeam.save('rd_record',u8Record());U8P.forEach(function(p){S2RTeam.save(p[3],u8Text(p[0]));});}
+var _twOn=false;
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U8_LENS,mount:'twBar',lock:['mod4'],names:U8_NAMES,complete:function(){var o=u8Open();return o.length?o.join('; '):'';},onRemote:function(r){u8Init(r);}});}
 async function u8Confirm(){
-  var open=u8Open();
-  if(open.length){u8RecDraw();u8msg('u8Msg','Before you confirm, complete: '+open.join('; ')+'.');return;}
-  clearTimeout(_u8t.save);clearTimeout(_u8t.conf);
-  var ok=await u8save('__rd_work',U8.w);
-  ok=ok&&(await u8save('rd_record',u8Record()));
-  for(var i=0;i<U8P.length&&ok;i++)ok=await u8save(U8P[i][3],u8Text(U8P[i][0]));
-  if(!ok){u8msg('u8Msg','Not saved. Check your connection, then select Confirm again.');return;}
-  U8_NAMES.forEach(function(nm){if(U8.conf.indexOf(nm)<0)U8.conf.push(nm);});
-  if(!(await u8save('confirmed_items',U8.conf))){u8drop();u8RecDraw();u8msg('u8Msg','Not saved. Check your connection, then select Confirm again.');return;}
-  u8RecDraw();u8msg('u8Msg','✓ Confirmed. Your record is ready for your team’s Capstone Blueprint.','ok');
+  var _o=window.S2RTeam?(function(){var o=u8Open();return o.length?o.join('; '):'';})():'';
+  if(_o){u8RecDraw();u8msg('u8Msg','Before you agree, complete: '+_o+'.');return;}
+  if(!window.S2RTeam){return;}
+  if(S2RTeam.isScribe()){u8TeamOut();await S2RTeam.flush();}
+  await S2RTeam.agree();
+  u8RecDraw();
 }
 function u8Print(){
   var body=U8P.map(function(p){
@@ -1660,6 +1664,7 @@ function u8Init(responses){
   U8.w=u8norm(responses.__rd_work);
   U8.ready=true;
   u8Fill();u8RecDraw();
+  twAttach();
 }
 document.addEventListener('DOMContentLoaded',function(){
   U8.w=u8norm(null);

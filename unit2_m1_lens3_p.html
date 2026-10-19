@@ -498,6 +498,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
 </head>
 <body>
 <!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
@@ -1053,7 +1054,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="mod-body">
 <div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Validate the critical assumptions, dependencies and uncertainties behind strategic objectives.</li><li>Assign and coordinate executive accountability for validating strategic conditions.</li></ul></div>
 
-<div class="u4-group"><strong>Working as a group.</strong> Your group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page, in the session or after it.</div>
+<div class="u4-group"><strong>Working as a group.</strong> Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.</div>
+<div id="twBar"></div>
 
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
@@ -1076,7 +1078,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div>
 <div class="acc-b cb">
   <p>Your group now does for its own Key Results what the worked example did in 5.1: the same four steps, in the same order. Your group&rsquo;s Key Results come in from Unit 3. No new objective or measure is added.</p>
-  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li>Check that your group&rsquo;s Key Results from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li>Select one Key Result.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Key Result serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Key Result. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Key Result delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Key Result will make customers choose you, using the three tests. Then name what must remain true.</li><li>Select the next Key Result and repeat the four steps.</li><li>Read your record, then select Confirm. Select Print for a copy.</li></ol></div>
+  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li>Check that your group&rsquo;s Key Results from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li>Select one Key Result.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Key Result serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Key Result. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Key Result delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Key Result will make customers choose you, using the three tests. Then name what must remain true.</li><li>Select the next Key Result and repeat the four steps.</li><li>Read your record, then select Agree. Select Print for a copy.</li></ol></div>
   <div class="u4-btnrow" style="margin:0 0 14px;"><button type="button" class="u4-b" onclick="mbBring(true)">Bring in from my Unit 3 page</button></div>
   <div class="u4-note" id="mbBringMsg" style="display:none;margin:-4px 0 14px;"></div>
   <div class="u4-rec shut" id="mbRecP"></div>
@@ -1741,6 +1743,8 @@ function u4esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp
 function u4plain(s){var d=document.createElement('div');d.innerHTML=s;return d.textContent;}
 function u4msg(id,text,cls){var m=u4el(id);if(!m)return;m.textContent=text||'';m.className='u4-note'+(cls?' '+cls:'');m.style.display=text?'block':'none';}
 async function u4save(k,val){
+  if(k==='confirmed_items'){var _ts=window.S2RTeam&&S2RTeam.status(),_own=(Array.isArray(val)?val:[]).filter(function(n){return MB_NAMES.indexOf(n)<0;});if(!_own.length)return true;val=_own.concat(_ts&&_ts.all_agreed?MB_NAMES:[]);}
+  else if(window.S2RTeam&&/^(__mbt_work$|mbt_(record|arena|bound|comp|value)$)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u4TeamOut();return _ok;}
   if(!window.S2R){console.warn('[unit2_m1_lens3_p] S2R helper not loaded');return false;}
   try{return await S2R.save(U4_LENS,k,val);}catch(e){console.error('[unit2_m1_lens3_p] save failed for '+k,e);return false;}
 }
@@ -1996,10 +2000,10 @@ function mbToolHtml(){
 function mbOutHtml(){
   if(!MB.items.length)return '';
   var conf=mbConfirmed();
-  var badge=conf?'<span class="u4-conf yes">Confirmed &middot; into your Capstone</span>':'<span class="u4-conf no">Not yet confirmed</span>';
+  var badge=conf?'<span class="u4-conf yes">Agreed by every member &middot; into your Capstone</span>':'<span class="u4-conf no">Not yet agreed by every member</span>';
   return '<div class="u4-out"><div class="u4-out-h">Into your Capstone'+badge+'</div>'+
-    '<p class="u4-lead" style="font-size:13px;margin-bottom:8px;">When every Key Result has been taken through the four steps, select Confirm. Your confirmed work feeds boxes 4A to 4D of your team&rsquo;s Capstone Blueprint. An edit after confirmation sets the record back to not yet confirmed.</p>'+
-    '<div class="u4-btnrow"><button type="button" class="u4-b ok" onclick="mbConfirm()">'+(conf?'Confirmed &#10003;':'Confirm')+'</button><button type="button" class="u4-b" onclick="mbPrint()">Print</button></div>'+
+    '<p class="u4-lead" style="font-size:13px;margin-bottom:8px;">When every Key Result has been taken through the four steps, select Agree. When every member has agreed, your work feeds boxes 4A to 4D of your team&rsquo;s Capstone Blueprint. An edit after agreement clears the agreements, and every member agrees again.</p>'+
+    '<div class="u4-btnrow"><button type="button" class="u4-b ok" onclick="mbConfirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u4-b" onclick="mbPrint()">Print</button></div>'+
     '<div class="u4-note" id="mbMsg" style="display:none;"></div></div>';
 }
 function renderMB(){
@@ -2046,21 +2050,17 @@ async function mbSaveNow(){
   if(MB._unconf){MB._unconf=false;await u4save('confirmed_items',U4.conf);}
   if(MB.items.length)await u4save('mbt_record',mbRecordText());
 }
+/* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
+function u4TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(!mbAll().length||mbOpen().length)return;for(var n=0;n<4;n++)S2RTeam.save(MB_KEYS[n],mbText(n));S2RTeam.save('mbt_record',mbRecordText());}
+var _twOn=false;
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U4_LENS,mount:'twBar',lock:['mod4'],names:MB_NAMES,complete:function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen();return o.length?o.map(function(x){return 'Key Result '+mbId(x.i,x.j);}).join('; '):'';},onRemote:function(r){u4Init(r);}});}
 async function mbConfirm(){
-  var open=mbOpen();
-  if(!mbAll().length){u4msg('mbMsg','Bring in your Unit 3 Key Results first.');return;}
-  if(open.length){
-    u4msg('mbMsg','Take every Key Result through the four steps before you confirm. Still open: '+open.map(function(x){
-      var st=[0,1,2,3].filter(function(n){return !mbStepDone(x.k,n);}).map(function(n){return n+1;});
-      return 'Key Result '+mbId(x.i,x.j)+' (Step '+st.join(', ')+')';}).join('; ')+'.');return;
-  }
-  await mbSaveNow();
-  var ok=true;
-  for(var n=0;n<4;n++){ok=(await u4save(MB_KEYS[n],mbText(n)))&&ok;}
-  if(!ok){u4msg('mbMsg','Not saved. Check your connection, then select Confirm again.');return;}
-  await u4setConf(MB_NAMES,true);
-  await u4save('mbt_record',mbRecordText());
-  renderMB();u4msg('mbMsg','✓ Confirmed. Your work is ready for your team’s Capstone Blueprint.','ok');
+  var _o=window.S2RTeam?(function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen();return o.length?o.map(function(x){return 'Key Result '+mbId(x.i,x.j);}).join('; '):'';})():'';
+  if(_o){renderMB();u4msg('mbMsg','Before you agree, complete: '+_o+'.');return;}
+  if(!window.S2RTeam){return;}
+  if(S2RTeam.isScribe()){u4TeamOut();await S2RTeam.flush();}
+  await S2RTeam.agree();
+  renderMB();
 }
 function mbPrint(){
   var row=function(a,b){return '<tr><th>'+a+'</th><td>'+(String(b).trim()?u4esc(b).replace(/\n/g,'<br>'):'—')+'</td></tr>';};
@@ -2093,7 +2093,7 @@ async function mbBring(manual){
     });
   }
   if(!found.length||conf.indexOf('Enterprise OKRs')<0){
-    if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed Enterprise OKRs were found on your Unit 3 page. Confirm your group’s OKRs in Unit 3, part 5.2, then select Bring in from my Unit 3 page.');
+    if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed Enterprise OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2, then select Bring in from my Unit 3 page.');
     return;
   }
   var old={};mbAll().forEach(function(x){old[x.k.t]=x.k;});
@@ -2150,6 +2150,7 @@ function u4Init(responses){
   mineRestore(responses.__mine_game);
   U4.ready=true;
   mbBring(false);
+  twAttach();
 }
 renderII();renderMB();
 
