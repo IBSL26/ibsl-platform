@@ -77,7 +77,7 @@ async def main():
         await pg.click('#pcConfBtn'); await pg.wait_for_timeout(400)
         m = await pg.inner_text('#pcMsg')
         ok('B · Confirm refused: names the role held twice, the fourth challenge, two scenarios, consequences, the three choices, the problem',
-           all(x in m for x in ['CEO appears more than once', 'at least four strategy design challenges (3 so far)', 'at least two scenarios for observable behaviours (1 so far)', 'consequences for strategy execution', 'three sustaining performance challenges to address (0 chosen)', 'central organisational problem']), m)
+           all(x in m for x in ['CEO appears more than once', 'at least four strategy design challenges (3 so far)', 'at least two scenarios for observable behaviours (1 so far)', 'consequences in strategy execution', 'three different sustaining performance challenges to address (0 chosen)', 'central organisational problem']), m)
         await pg.evaluate("pcStep(0)"); await pg.select_option('#pc_role_1', 'CFO')
         await pg.evaluate("pcStep(1)")
         for a in ('design', 'execution', 'sustain'):
@@ -86,12 +86,13 @@ async def main():
         for mf in ('behaviours', 'practices', 'conditions'):
             for j in range(2): await pg.fill('#pc_mf_%s_%d' % (mf, j), '%s scenario %d' % (mf, j + 1))
         await pg.evaluate("pcStep(2)"); await pg.wait_for_timeout(600)
-        n = await pg.evaluate("document.querySelectorAll('#pc_pick_design input').length")
-        ok('B · Step 3 lists the five strategy design challenges from Step 2 to choose from', n == 5, n)
+        n = await pg.evaluate("document.querySelectorAll('#pc_pick_design_0 option').length") - 1
+        ok('B · Step 3 drop-downs list the five strategy design challenges from Step 2', n == 5, n)
         for a in ('design', 'execution', 'sustain'):
-            for j in (0, 2, 4): await pg.check('#pc_pick_%s .pc-pick:nth-child(%d) input' % (a, j + 1)); await pg.wait_for_timeout(60)
-        await pg.click('#pc_pick_design .pc-pick:nth-child(2) input'); await pg.wait_for_timeout(200)
-        ok('B · a fourth choice is refused', await pg.evaluate("document.querySelectorAll('#pc_pick_design input:checked').length") == 3 and 'Choose three' in await pg.inner_text('#pc_pickmsg_design'))
+            for k, j in enumerate((0, 2, 4)): await pg.select_option('#pc_pick_%s_%d' % (a, k), '%s challenge %d' % (a, j + 1)); await pg.wait_for_timeout(80)
+        await pg.select_option('#pc_pick_design_2', 'design challenge 1'); await pg.wait_for_timeout(200)
+        ok('B · the same challenge chosen twice is flagged', 'chosen once' in await pg.inner_text('#pc_pickmsg_design') and (await pg.inner_text('#pc_pickn_design')).startswith('2 of 3'))
+        await pg.select_option('#pc_pick_design_2', 'design challenge 5'); await pg.wait_for_timeout(200)
         await pg.fill('#pc_problem', 'Our central problem')
         await pg.evaluate("pcStep(3)"); await pg.wait_for_timeout(1500)
         r = rows(await dbx())
@@ -123,8 +124,9 @@ async def main():
         ok('B · Confirm again restores them', len([x for x in r['confirmed_items'] if x.startswith('Problem Charter · ')]) == 8)
         # reload keeps everything
         await pg.reload(); await pg.wait_for_timeout(1500)
-        ok('B · after reload the entries come back', await pg.input_value('#pc_company') == 'Kafue Agro Holdings' and await pg.input_value('#pc_name_1') == 'Member Two' and await pg.evaluate("document.getElementById('pc_role_1').value") == 'CFO' and await pg.evaluate("document.querySelectorAll('#pc_pick_execution input:checked').length") == 3)
-        ok('B · the portfolio artefact and 6.1 are still on the page', await pg.evaluate("!!document.getElementById('port_1')&&!!document.getElementById('s1_1')"))
+        ok('B · after reload the entries come back', await pg.input_value('#pc_company') == 'Kafue Agro Holdings' and await pg.input_value('#pc_name_1') == 'Member Two' and await pg.evaluate("document.getElementById('pc_role_1').value") == 'CFO' and await pg.evaluate("document.getElementById('pc_pick_execution_2').value") == 'execution challenge 5')
+        ok('B · 6.1 is on the page; the Distortion Lab and the Portfolio Artefact are gone', await pg.evaluate("!!document.getElementById('s1_1')&&!document.getElementById('port_1')&&!document.body.innerText.includes('Distortion Lab')"))
+        ok('B · Section 6 parts: 6.1 then 6.2, then Unit Summary', await pg.evaluate("[...document.querySelectorAll('#mod5 .acc-t')].map(e=>e.textContent).slice(0,3).join('|')") == '6.1 — Self Reflection Bias Assessment|6.2 — The Problem Charter|Unit Summary')
 
         # C · Capstone brings the Charter in
         await pg.goto(O + '/capstone_P.html'); await pg.wait_for_timeout(1600)

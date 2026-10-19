@@ -41,7 +41,7 @@ function pcnorm(w){
   PC_AREAS.forEach(function(a){
     o.ch[a[0]]=pcarr(w.ch&&w.ch[a[0]],PC_CH);
     o.cq[a[0]]=pcs(w.cq&&w.cq[a[0]]);
-    o.pick[a[0]]=(w.pick&&Array.isArray(w.pick[a[0]]))?w.pick[a[0]].filter(function(x){return typeof x==='string';}):[];
+    o.pick[a[0]]=pcarr(w.pick&&w.pick[a[0]],PC_PICK);
   });
   o.mf={};PC_MF.forEach(function(m){o.mf[m[0]]=pcarr(w.mf&&w.mf[m[0]],PC_SC);});
   o.problem=pcs(w.problem);
@@ -50,7 +50,7 @@ function pcnorm(w){
 function pct(s){return String(s||'').trim();}
 function pcList(area){return PC.w.ch[area].map(pct).filter(Boolean);}
 function pcScen(m){return PC.w.mf[m].map(pct).filter(Boolean);}
-function pcPicked(area){var l=pcList(area);return PC.w.pick[area].filter(function(x){return l.indexOf(x)>=0;});}
+function pcPicked(area){var l=pcList(area),out=[];PC.w.pick[area].forEach(function(x){x=pct(x);if(x&&l.indexOf(x)>=0&&out.indexOf(x)<0)out.push(x);});return out;}
 function pcTeamRows(){return PC.w.team.filter(function(r){return pct(r.role)&&pct(r.name);});}
 /* Capstone texts */
 function pcText(key){
@@ -103,28 +103,28 @@ function pcIn(el){
   else if((m=/^ch_(\w+)_(\d+)$/.exec(id))){PC.w.ch[m[1]][+m[2]]=v;pclater('pick',pcPickDraw,400);}
   else if((m=/^mf_(\w+)_(\d+)$/.exec(id)))PC.w.mf[m[1]][+m[2]]=v;
   else if((m=/^cq_(\w+)$/.exec(id)))PC.w.cq[m[1]]=v;
-  else if((m=/^pick_(\w+)$/.exec(id))){
-    var l=PC.w.pick[m[1]],i=l.indexOf(el.value);
-    if(el.checked&&i<0){if(pcPicked(m[1]).length>=PC_PICK){el.checked=false;pcmsgPick(m[1]);return;}l.push(el.value);}
-    if(!el.checked&&i>=0)l.splice(i,1);
-    pcPickDraw();
-  }
+  else if((m=/^pick_(\w+)_(\d+)$/.exec(id))){PC.w.pick[m[1]][+m[2]]=v;pcPickDraw();}
   else PC.w[id]=v;
   pcChanged();
 }
-function pcmsgPick(area){var n=pcel('pc_pickmsg_'+area);if(n){n.textContent='Choose three challenges. Untick one to choose another.';n.style.display='block';}}
-/* Step 3: the three challenges per area, chosen from the lists in Step 2. */
+/* Step 3: three drop-down lists per area, each listing the challenges the group recorded for that area in Step 2. */
 function pcPickDraw(){
   PC_AREAS.forEach(function(a){
     var host=pcel('pc_pick_'+a[0]);if(!host)return;
-    var l=pcList(a[0]),picked=pcPicked(a[0]);
-    PC.w.pick[a[0]]=picked.slice();
-    host.innerHTML=l.length?l.map(function(c){
-      var on=picked.indexOf(c)>=0;
-      return '<label class="pc-pick'+(on?' on':'')+'"><input type="checkbox" data-pc="pick_'+a[0]+'" value="'+pcesc(c)+'"'+(on?' checked':'')+'><span>'+pcesc(c)+'</span></label>';
-    }).join(''):'<p class="pc-wait">Your group&rsquo;s '+pcesc(a[1].toLowerCase())+' challenges from Step 2 appear here.</p>';
-    var c=pcel('pc_pickn_'+a[0]);if(c)c.textContent=picked.length+' of '+PC_PICK+' chosen';
-    var n=pcel('pc_pickmsg_'+a[0]);if(n&&picked.length<PC_PICK)n.style.display='none';
+    var l=pcList(a[0]),sel=PC.w.pick[a[0]];
+    if(!l.length){host.innerHTML='<p class="pc-wait">The '+pcesc(a[1].toLowerCase())+' challenges your group listed in Step 2 appear here to choose from.</p>';}
+    else{
+      var html='';
+      for(var j=0;j<PC_PICK;j++){
+        var cur=pct(sel[j]),ok=l.indexOf(cur)>=0;
+        html+='<div class="pc-li"><span>'+(j+1)+'</span><select class="pc-sel" id="pc_pick_'+a[0]+'_'+j+'" data-pc="pick_'+a[0]+'_'+j+'"><option value="">&ndash; choose a challenge &ndash;</option>'+
+          l.map(function(c){return '<option value="'+pcesc(c)+'"'+(ok&&c===cur?' selected':'')+'>'+pcesc(c)+'</option>';}).join('')+'</select></div>';
+      }
+      host.innerHTML=html;
+    }
+    var p=pcPicked(a[0]),filled=sel.filter(function(x){return pct(x);}).length;
+    var c=pcel('pc_pickn_'+a[0]);if(c)c.textContent=p.length+' of '+PC_PICK+' chosen';
+    var n=pcel('pc_pickmsg_'+a[0]);if(n){var dup=filled>p.length&&l.length;n.textContent=dup?'Each challenge can be chosen once.':'';n.style.display=dup?'block':'none';}
   });
 }
 function pcStep(i){
@@ -146,8 +146,8 @@ function pcOpen(){
   if(dup.length)open.push('Step 1: each role is held by one member ('+dup.join(', ')+' appears more than once)');
   PC_AREAS.forEach(function(a){var n=pcList(a[0]).length;if(n<PC_CH_MIN)open.push('Step 2, question 1: at least four '+a[1].toLowerCase()+' challenges ('+n+' so far)');});
   PC_MF.forEach(function(m){var n=pcScen(m[0]).length;if(n<PC_SC_MIN)open.push('Step 2, question 2: at least two scenarios for '+m[1].toLowerCase()+' ('+n+' so far)');});
-  PC_AREAS.forEach(function(a){if(!pct(PC.w.cq[a[0]]))open.push('Step 2, question 3: the consequences for '+a[1].toLowerCase());});
-  PC_AREAS.forEach(function(a){var n=pcPicked(a[0]).length;if(n!==PC_PICK)open.push('Step 3: three '+a[1].toLowerCase()+' challenges to address ('+n+' chosen)');});
+  PC_AREAS.forEach(function(a){if(!pct(PC.w.cq[a[0]]))open.push('Step 2, question 3: the consequences in '+a[1].toLowerCase());});
+  PC_AREAS.forEach(function(a){var n=pcPicked(a[0]).length;if(n!==PC_PICK)open.push('Step 3: three different '+a[1].toLowerCase()+' challenges to address ('+n+' chosen)');});
   if(!pct(PC.w.problem))open.push('Step 3: the central organisational problem');
   return open;
 }
@@ -198,8 +198,8 @@ document.addEventListener('DOMContentLoaded',function(){
   PC.w=pcnorm(null);
   var root=pcel('pcTool');
   if(root){
-    root.addEventListener('input',function(ev){var t=ev.target;if(t&&t.getAttribute&&t.getAttribute('data-pc')&&t.tagName!=='SELECT'&&t.type!=='checkbox')pcIn(t);});
-    root.addEventListener('change',function(ev){var t=ev.target;if(t&&t.getAttribute&&t.getAttribute('data-pc')&&(t.tagName==='SELECT'||t.type==='checkbox'))pcIn(t);});
+    root.addEventListener('input',function(ev){var t=ev.target;if(t&&t.getAttribute&&t.getAttribute('data-pc')&&t.tagName!=='SELECT')pcIn(t);});
+    root.addEventListener('change',function(ev){var t=ev.target;if(t&&t.getAttribute&&t.getAttribute('data-pc')&&t.tagName==='SELECT')pcIn(t);});
   }
   pcFill();pcRecDraw();
 });
