@@ -80,3 +80,7 @@ Add to the next `git add` line: `"Claude outputs/Handover - Units 2 to 9 consist
 ## 7. Done on 19 October (afternoon session)
 
 Carol (10:44): "So address all including comitting pending work". Built, tested, not yet pushed. Method, scripts and tests: `Unit decks\_build\consistency_19oct\README.md`. What is still open: end of `Claude outputs\Units 2 to 9 - Consistency review (findings).md`. After her push: check the refs, read the live pages, then Storage upload of all eight decks and reader folders (Module-2 unit-02 to 04, Module-3 unit-05 to 09; she deletes the old ones first).
+
+## 8. Learning outcomes, 19 October (afternoon)
+
+Carol gave her own capability outcomes for Units 2-9 (CESI_Units_2_to_9_Capability_Learning_Outcomes.docx): "Please use these and update all files including the PPTs". Applied with `Unit decks\\_build\\consistency_19oct\\apply_outcomes.py` (list: `outcomes_locked_19oct.json`, 112 outcomes) on both pages and in the decks (slides and notes). Standing-rule edits only: Synthesize -> Synthesise, toward -> towards, "rather than passive acceptance" removed (Unit 7 S1). Backups: `Claude outputs\\Backups\\Outcomes 19 Oct`. Upload copies and reader folders remade. Still open: Unit 3 dense slides (split for 24pt), Unit 9 Section 2 rework.
