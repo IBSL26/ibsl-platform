@@ -3,7 +3,7 @@
 -- Run in Supabase (project "S2R Portal Production"), SQL Editor.
 -- Run ONE block at a time, in order. Each block is a single statement.
 -- What it does:
---   * the Blueprint gets a Unit 1 section ('u1') with 11 boxes, 1A to 1K (the Problem Charter, Unit 1 part 6.2);
+--   * the Blueprint gets a Unit 1 section ('u1') with 8 boxes, 1A to 1H (the Problem Charter, Unit 1 part 6.2);
 --   * the Unit 1 section opens when every team member has completed Unit 1 (u1_foundations);
 --   * the capstone page opens when Unit 1 opens (it opened with Unit 2);
 --   * the cohort brief no longer needs a case name: each team names its own simulated company in box 1A.
@@ -39,10 +39,10 @@ returns text language sql immutable set search_path = public as $$
   end;
 $$;
 
--- ── Block 4 · Box counts: u1 has 11 (1A to 1K); every other unit keeps its live value ──
+-- ── Block 4 · Box counts: u1 has 8 (1A to 1H); every other unit keeps its live value ──
 create or replace function public.capstone_section_box_count(p_key text)
 returns integer language sql immutable set search_path = public as $$
-  select case p_key when 'u1' then 11 when 'u2' then 6 when 'u3' then 6 when 'u4' then 6 when 'u5' then 3 when 'u7' then 5 when 'u8' then 4 when 'u9' then 5 when 'u10' then 6 when 'u11' then 5 when 'u12' then 5 when 'u6' then 2 else 5 end;
+  select case p_key when 'u1' then 8 when 'u2' then 6 when 'u3' then 6 when 'u4' then 6 when 'u5' then 3 when 'u7' then 5 when 'u8' then 4 when 'u9' then 5 when 'u10' then 6 when 'u11' then 5 when 'u12' then 5 when 'u6' then 2 else 5 end;
 $$;
 
 -- ── Block 5 · Read a team's full Blueprint: the Unit 1 section comes first ──
@@ -142,7 +142,7 @@ end;
 $$;
 
 
--- ── Block 9 · Read-only check after the change. Expected: u1 to u12 in the check, 11 for u1, u1_foundations ──
+-- ── Block 9 · Read-only check after the change. Expected: u1 to u12 in the check, 8 for u1, u1_foundations ──
 select (select pg_get_constraintdef(oid) from pg_constraint
          where conrelid = 'public.capstone_blueprint_section'::regclass and conname = 'capstone_blueprint_section_section_key_check') as section_keys,
        public.capstone_section_box_count('u1') as u1_boxes,

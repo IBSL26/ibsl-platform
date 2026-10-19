@@ -25,32 +25,26 @@ CHALLENGE_Q = 'How can an organisation strengthen its capability to design strat
 RULES = [
     ('Real experience, no confidential detail', 'Use your actual professional experiences as inspiration. Remove identifying and confidential details.'),
     ('Observable problems', 'Write about observable organisational problems. Distinguish what people have seen from what they assume causes it.'),
-    ('No solutions yet', 'Describe the problem and the broad capability needs. Your group develops its detailed responses in the units that follow.'),
+    ('No solutions yet', 'Describe the problem. Your group develops its detailed responses in the units that follow.'),
 ]
 AREAS = [
     ('design', 'Strategy design', 'Difficulties with strategic clarity, intent, choices and priorities.'),
     ('execution', 'Strategy execution', 'Difficulties with people alignment, accountability, performance management and delivery.'),
     ('sustain', 'Sustaining performance', 'Difficulties with organisational culture, systems, leadership practices and maintaining improvements.'),
 ]
+MF = [('behaviours', 'Observable behaviours', 'What people did, or failed to do, that others could see.'),
+      ('practices', 'Management practices', 'How managers planned, decided, reviewed and followed through.'),
+      ('conditions', 'Organisational conditions', 'The structures, systems, resources and culture people worked within.')]
 CHECKS = [
     'Every member contributed real-world observations during the group activity.',
     'The simulated company feels credible and reflects shared professional realities.',
-    'All four Charter questions are answered.',
-    'Strategy design, execution and performance sustainability challenges are described in everyday language.',
-    'The Charter describes the problem and broad capability needs, without prescribing the detailed S2R® solution.',
+    'The challenges, how they manifested and their consequences are described in everyday language across strategy design, strategy execution and sustaining performance.',
+    'The Charter describes the problem without prescribing the detailed S2R® solution.',
 ]
-# Step 1 to 4 entries: id, label, question, placeholder, kind
 S1 = [('company', 'Simulated company name', 'The name your group agrees for the organisation it will lead throughout CESI. It is used throughout your Capstone Blueprint.', 'The name of your simulated company...', 'in'),
       ('sector', 'Sector or industry', 'The sector or industry your simulated company operates in.', 'The sector or industry...', 'in'),
       ('size', 'Approximate size', 'The approximate number of employees, and other indicators of scale such as sites, countries or annual turnover.', 'Employees, sites, countries, turnover...', 'in'),
-      ('activity', 'Main activity or service', 'What your simulated company does or provides.', 'The main activity or service...', 'ta'),
-      ('results', 'Our strategy-to-results reality', 'What results are falling short? Give a few credible indications of underperformance.', 'The results falling short, with indications of underperformance...', 'ta')]
-S2 = [('challenges', '1 · Challenges experienced', 'What challenges have we experienced? Identify recurring strategy design, execution and performance sustainability problems from members’ professional environments.', 'The recurring challenges your group has experienced...'),
-      ('manifest', '2 · How these challenges manifest', 'How do these challenges manifest? Describe the observable behaviours, management practices, performance gaps and organisational conditions.', 'What can be seen in behaviours, practices, performance gaps and conditions...'),
-      ('consequences', '3 · Consequences for results and culture', 'What consequences do they create? Explain how these challenges undermine organisational results and culture.', 'How results and culture are undermined...'),
-      ('capabilities', '4 · Capabilities to strengthen', 'What capabilities need to be strengthened? Identify the broad organisational capabilities that require attention, without prescribing detailed solutions yet.', 'The broad organisational capabilities that require attention...')]
-S4 = [('problem', 'Our central organisational problem', 'One clear paragraph describing the simulated company’s disappointing results, the recurring difficulties your group has observed and the broad capabilities that appear to need strengthening.', 'The shared challenge your executive team will explore through CESI...'),
-      ('sources', 'Our sources of experience', 'Briefly explain which types of professional experience shaped your simulated company. Disclose no confidential details.', 'The types of professional experience behind your simulated company...')]
+      ('activity', 'Main activity or service', 'What your simulated company does or provides.', 'The main activity or service...', 'ta')]
 
 def field(fid, label, q, ph, kind='ta'):
     box = ('<input type="text" class="pc-in" id="pc_%s" data-pc="%s" maxlength="160" placeholder="%s">' % (fid, fid, ph)) if kind == 'in' else \
@@ -68,11 +62,41 @@ def team_html():
 def next_btn(i, label):
     return '<div class="pc-btnrow"><button type="button" class="pc-b" onclick="pcStep(%d)">%s &rarr;</button></div>' % (i, label)
 
+def q1():
+    h = '<div class="pc-qh">1 · Challenges experienced</div><div class="pc-q">What challenges have you experienced? List at least four recurring challenges in each area.</div><div class="pc-grid3">'
+    for a in AREAS:
+        rows = ''.join('<div class="pc-li"><span>%d</span><input type="text" class="pc-in" id="pc_ch_%s_%d" data-pc="ch_%s_%d" maxlength="240" placeholder="%s"></div>'
+                       % (j + 1, a[0], j, a[0], j, 'Challenge %d%s' % (j + 1, '' if j < 4 else ' (optional)')) for j in range(6))
+        h += '<div class="pc-f pc-area"><span class="pc-l">%s</span><div class="pc-q">%s</div>%s</div>' % (a[1], a[2], rows)
+    return h + '</div>'
+
+def q2():
+    h = '<div class="pc-qh">2 · How these challenges manifested</div><div class="pc-q">How did or have these challenges manifested? Describe at least two scenarios for each.</div>'
+    for m in MF:
+        rows = ''.join('<div class="pc-li"><span>%d</span><textarea class="pc-ta pc-ta-s" id="pc_mf_%s_%d" data-pc="mf_%s_%d" placeholder="%s"></textarea></div>'
+                       % (j + 1, m[0], j, m[0], j, 'Scenario %d%s' % (j + 1, '' if j < 2 else ' (optional)')) for j in range(3))
+        h += '<div class="pc-f"><span class="pc-l">%s</span><div class="pc-q">%s</div>%s</div>' % (m[1], m[2], rows)
+    return h
+
+def q3():
+    h = '<div class="pc-qh">3 · Consequences for results and culture</div><div class="pc-q">What consequences have they created? Explain how these challenges have undermined organisational results and culture in each area.</div>'
+    for a in AREAS:
+        h += '<div class="pc-f"><label class="pc-l" for="pc_cq_%s">Consequences in %s</label><textarea class="pc-ta" id="pc_cq_%s" data-pc="cq_%s" placeholder="How results and culture have been undermined..."></textarea></div>' % (a[0], a[1].lower(), a[0], a[0])
+    return h
+
+def step3():
+    h = ('<div class="pc-qh">1 · The challenges you will address</div><div class="pc-q">From each list in Step 2, choose the three challenges your simulated executive team will address in the Strategy2Results® programme.</div><div class="pc-grid3">')
+    for a in AREAS:
+        h += ('<div class="pc-f pc-area"><span class="pc-l">%s <em class="pc-pickn" id="pc_pickn_%s"></em></span><div id="pc_pick_%s"></div>'
+              '<div class="pc-note" id="pc_pickmsg_%s" style="display:none;"></div></div>') % (a[1], a[0], a[0], a[0])
+    h += '</div>'
+    h += ('<div class="pc-qh">2 · Our central organisational problem</div>'
+          '<div class="pc-f"><div class="pc-q">Synthesise your shared experience and determine the central problem your simulated executive team will address in the Strategy2Results® programme, in strategy design, strategy execution and sustaining performance.</div>'
+          '<textarea class="pc-ta" id="pc_problem" data-pc="problem" style="min-height:120px;" placeholder="The central problem your executive team will address..."></textarea></div>')
+    return h
+
 def participant_62():
     s1 = ''.join(field(*f) for f in S1[:1]) + team_html() + ''.join(field(*f) for f in S1[1:])
-    s2 = ''.join(field(f[0], f[1], f[2], f[3]) for f in S2)
-    s3 = ''.join(field(a[0], a[1], a[2], 'The challenges of your simulated company in ' + a[1].lower() + '...') for a in AREAS)
-    s4 = ''.join(field(f[0], f[1], f[2], f[3]) for f in S4)
     cards = ''.join('<div class="pc-card"><div class="pc-card-h">%s</div><p>%s</p></div>' % r for r in RULES)
     checks = ''.join('<li>%s</li>' % c for c in CHECKS)
     return (
@@ -83,19 +107,19 @@ def participant_62():
 '<div class="hbox"><p><strong>The challenge question:</strong> ' + CHALLENGE_Q + '</p></div>\n'
 '<div class="pc-how"><div class="pc-how-h">How 6.2 works</div><ol>'
 '<li>Your group creates its simulated company and records its simulated executive team (Step 1).</li>'
-'<li>Each member shares the recurring organisational challenges they have encountered or observed in their work. Your group answers the four Charter questions (Step 2), combines its experiences into one shared organisational reality (Step 3) and states its central organisational problem (Step 4).</li>'
+'<li>Each member shares the recurring organisational challenges they have encountered or observed in their work. Your group sets out its shared reality: the challenges in strategy design, strategy execution and sustaining performance, how they manifested and the consequences they created (Step 2).</li>'
+'<li>Your group chooses the three challenges in each area it will address and determines its central organisational problem (Step 3).</li>'
 '<li>Your group agrees each entry and one member acts as scribe. Every member then types the agreed entries into their own page, in the session or after it.</li>'
 '<li>In the Charter record you read your group&rsquo;s Charter and select Confirm. Your confirmed Charter becomes Section 1 of your team&rsquo;s Capstone Blueprint.</li>'
 '</ol></div>\n'
 '<div class="pc-how-h" style="margin-top:4px;">Three ground rules</div>\n'
 '<div class="pc-cards">' + cards + '</div>\n'
 '<div id="pcTool">\n'
-'<div class="pc-tabs"><div class="pc-tab on" onclick="pcStep(0)">Step 1 · Company</div><div class="pc-tab" onclick="pcStep(1)">Step 2 · Four questions</div><div class="pc-tab" onclick="pcStep(2)">Step 3 · Shared reality</div><div class="pc-tab" onclick="pcStep(3)">Step 4 · Central problem</div><div class="pc-tab" onclick="pcStep(4)">Charter record</div></div>\n'
-'<div class="pc-panel on"><div class="pc-step-h">Step 1 — Create your simulated company</div><p class="pc-step-p">Agree on an organisation name, its industry or sector, its approximate size, its main activity or service and a few realistic examples of disappointing results. Then record your simulated executive team.</p>' + s1 + next_btn(1, 'Step 2') + '</div>\n'
-'<div class="pc-panel"><div class="pc-step-h">Step 2 — Answer the four Charter questions</div><p class="pc-step-p">Each member shares relevant experiences. Together, identify the recurring patterns and answer the four questions for your simulated company.</p>' + s2 + next_btn(2, 'Step 3') + '</div>\n'
-'<div class="pc-panel"><div class="pc-step-h">Step 3 — Combine your experiences into a shared organisational reality</div><p class="pc-step-p">Bring your examples together across three everyday areas: challenges in designing strategy, challenges in executing strategy through people and performance, and challenges in sustaining performance through the organisational environment. You do not need to know the DIG Framework at this stage.</p>' + s3 + next_btn(3, 'Step 4') + '</div>\n'
-'<div class="pc-panel"><div class="pc-step-h">Step 4 — State the central organisational problem</div><p class="pc-step-p">State the shared challenge your executive team will explore through CESI, and the experience behind it.</p>' + s4 + next_btn(4, 'Charter record') + '</div>\n'
-'<div class="pc-panel"><div class="pc-step-h">The Charter record</div><p class="pc-step-p">Read your group&rsquo;s Charter against the checks below. When every entry is complete, select Confirm. Your confirmed Charter feeds boxes 1A to 1K of your team&rsquo;s Capstone Blueprint, and the name of your simulated company is used throughout your Blueprint.</p>'
+'<div class="pc-tabs"><div class="pc-tab on" onclick="pcStep(0)">Step 1 · Company</div><div class="pc-tab" onclick="pcStep(1)">Step 2 · Shared reality</div><div class="pc-tab" onclick="pcStep(2)">Step 3 · Central problem</div><div class="pc-tab" onclick="pcStep(3)">Charter record</div></div>\n'
+'<div class="pc-panel on"><div class="pc-step-h">Step 1 — Create your simulated company</div><p class="pc-step-p">Agree on an organisation name, its industry or sector, its approximate size and its main activity or service. Then record your simulated executive team.</p>' + s1 + next_btn(1, 'Step 2') + '</div>\n'
+'<div class="pc-panel"><div class="pc-step-h">Step 2 — Our shared reality</div><p class="pc-step-p">Each member shares relevant experiences. Together, identify the recurring patterns and set out the shared reality of your simulated company.</p>' + q1() + q2() + q3() + next_btn(2, 'Step 3') + '</div>\n'
+'<div class="pc-panel"><div class="pc-step-h">Step 3 — Our central problem</div><p class="pc-step-p">Synthesise your shared reality into the problem your executive team will address through CESI.</p>' + step3() + next_btn(3, 'Charter record') + '</div>\n'
+'<div class="pc-panel"><div class="pc-step-h">The Charter record</div><p class="pc-step-p">Read your group&rsquo;s Charter against the checks below. When every entry is complete, select Confirm. Your confirmed Charter feeds boxes 1A to 1H of your team&rsquo;s Capstone Blueprint, and the name of your simulated company is used throughout your Blueprint.</p>'
 '<ul class="pc-checks">' + checks + '</ul><div id="pcRec"></div></div>\n'
 '</div>\n'
 '</div></div>\n')
@@ -103,11 +127,10 @@ def participant_62():
 def facilitator_62():
     rules = ''.join('<div class="pc-card"><div class="pc-card-h">%s</div><p>%s</p></div>' % r for r in RULES)
     steps = [
-        ('Step 1 — Create your simulated company', 'Organisation name, sector or industry, approximate size, main activity or service, and a few realistic examples of disappointing results (the strategy-to-results reality). The simulated executive team: each member and the executive role assigned to them, up to ten roles, each role held by one member.'),
-        ('Step 2 — Answer the four Charter questions', '1. What challenges have we experienced? · 2. How do these challenges manifest? · 3. What consequences do they create for results and culture? · 4. What capabilities need to be strengthened?'),
-        ('Step 3 — Combine experiences into a shared organisational reality', 'Strategy design: strategic clarity, intent, choices and priorities. · Strategy execution: people alignment, accountability, performance management and delivery. · Sustaining performance: organisational culture, systems, leadership practices and maintaining improvements.'),
-        ('Step 4 — State the central organisational problem', 'One clear paragraph: the disappointing results, the recurring difficulties observed and the broad capabilities that appear to need strengthening. Then the sources of experience, with no confidential details.'),
-        ('The Charter record', 'Each member reads the group&rsquo;s Charter and selects Confirm. The confirmed Charter feeds boxes 1A to 1K of the team&rsquo;s Capstone Blueprint.'),
+        ('Step 1 — Create your simulated company', 'Organisation name, sector or industry, approximate size and main activity or service. The simulated executive team: each member and the executive role assigned to them, up to ten roles, each role held by one member.'),
+        ('Step 2 — Our shared reality', '1. Challenges experienced: at least four recurring challenges in each of strategy design, strategy execution and sustaining performance. · 2. How these challenges manifested: at least two scenarios each for observable behaviours, management practices and organisational conditions. · 3. Consequences for results and culture in each of the three areas.'),
+        ('Step 3 — Our central problem', '1. The three challenges in each area the executive team will address in the programme, chosen from the lists in Step 2. · 2. The central organisational problem: the group&rsquo;s synthesis of its shared experience across strategy design, strategy execution and sustaining performance.'),
+        ('The Charter record', 'Each member reads the group&rsquo;s Charter and selects Confirm. The confirmed Charter feeds boxes 1A to 1H of the team&rsquo;s Capstone Blueprint.'),
     ]
     rows = ''.join('<tr><td>%s</td><td>%s</td></tr>' % s for s in steps)
     return (
@@ -120,16 +143,15 @@ def facilitator_62():
 '<p><strong>Introducing the Charter:</strong> Post the challenge question in the chat and take participants through the three ground rules. Then send the groups to their break-out rooms.</p>'
 '<p><strong>Your role:</strong> Guide how the work is completed. The Charter is Capstone work and is assessed independently at the capstone.</p></div>\n'
 '<div class="fac-note"><div class="fac-note-label">&#9670; PARTICIPANT ACTIVITY — 6.2</div><ol style="margin:6px 0 0 18px;">'
-'<li>In Step 1, the group agrees its simulated company: its name, sector or industry, approximate size, main activity or service and the results falling short. It records its simulated executive team: each member and the executive role assigned to them, up to ten roles.</li>'
-'<li>In Step 2, each member shares their examples and the group answers the four Charter questions.</li>'
-'<li>In Step 3, the group combines its experiences across strategy design, strategy execution and sustaining performance.</li>'
-'<li>In Step 4, the group states its central organisational problem and its sources of experience.</li>'
+'<li>In Step 1, the group agrees its simulated company: its name, sector or industry, approximate size and main activity or service. It records its simulated executive team: each member and the executive role assigned to them, up to ten roles.</li>'
+'<li>In Step 2, each member shares their examples. The group lists at least four recurring challenges in each of strategy design, strategy execution and sustaining performance; describes at least two scenarios each for the observable behaviours, management practices and organisational conditions through which the challenges manifested; and sets out the consequences for results and culture in each area.</li>'
+'<li>In Step 3, the group chooses the three challenges in each area it will address in the programme and determines its central organisational problem.</li>'
 '<li>The group agrees each entry and one member acts as scribe. Every member types the agreed entries into their own page, in the session or after it.</li>'
 '<li>In the Charter record, each member reads the Charter and selects Confirm. The confirmed Charter feeds Section 1 of the team&rsquo;s Capstone Blueprint, where the team confirms it together.</li>'
 '</ol></div>\n'
 '<div class="hbox"><p><strong>The challenge question:</strong> ' + CHALLENGE_Q + '</p></div>\n'
 '<h4>Three ground rules</h4>\n<div class="pc-cards">' + rules + '</div>\n'
-'<h4>The four steps</h4>\n<div class="pc-tw"><table class="pc-tbl"><thead><tr><th>Step</th><th>What the group agrees</th></tr></thead><tbody>' + rows + '</tbody></table></div>\n'
+'<h4>The three steps</h4>\n<div class="pc-tw"><table class="pc-tbl"><thead><tr><th>Step</th><th>What the group agrees</th></tr></thead><tbody>' + rows + '</tbody></table></div>\n'
 '</div></div>\n')
 
 CSS_P = open(os.path.join(HERE, 'pc.css'), encoding='utf-8').read()
@@ -165,28 +187,22 @@ c = rep(c, "  // === Blueprint structure (approved wording). [Case] is replaced 
 "      ['1A','Simulated company','The name of your group’s simulated company. It is used throughout your Blueprint.'],\n"
 "      ['1B','Simulated executive team','Each member of the executive team of [Case] and the executive role they hold.'],\n"
 "      ['1C','Our organisation','The sector or industry, approximate size and main activity or service of [Case].'],\n"
-"      ['1D','Our strategy-to-results reality','The results [Case] is falling short on, with credible indications of underperformance.'],\n"
-"      ['1E','Challenges experienced','The recurring strategy design, execution and performance sustainability challenges [Case] experiences.'],\n"
-"      ['1F','How they manifest','The observable behaviours, management practices, performance gaps and organisational conditions at [Case].'],\n"
-"      ['1G','Consequences for results and culture','How these challenges undermine the results and culture of [Case].'],\n"
-"      ['1H','Capabilities to strengthen','The broad organisational capabilities [Case] must strengthen.'],\n"
-"      ['1I','Shared organisational reality','The challenges of [Case] across strategy design, strategy execution and sustaining performance.'],\n"
-"      ['1J','Our central organisational problem','The shared challenge the executive team of [Case] explores through CESI.'],\n"
-"      ['1K','Our sources of experience','The types of professional experience that shaped [Case].']\n"
+"      ['1D','Challenges experienced','The recurring challenges [Case] has experienced in strategy design, strategy execution and sustaining performance.'],\n"
+"      ['1E','How they manifested','The observable behaviours, management practices and organisational conditions through which the challenges of [Case] manifested.'],\n"
+"      ['1F','Consequences for results and culture','How the challenges have undermined the results and culture of [Case] in strategy design, strategy execution and sustaining performance.'],\n"
+"      ['1G','The challenges we will address','The three challenges in each area the executive team of [Case] will address in the programme.'],\n"
+"      ['1H','Our central organisational problem','The central problem the executive team of [Case] will address through CESI.']\n"
 "    ]},\n", 'C blueprint u1')
 c = rep(c, "  var PULL = {\n", "  var PULL = {\n"
 "    u1: { lens:'u1_foundations', rows:[\n"
 "      ['1A','pc_company','Problem Charter · Simulated Company'],\n"
 "      ['1B','pc_team','Problem Charter · Executive Team'],\n"
 "      ['1C','pc_org','Problem Charter · Our Organisation'],\n"
-"      ['1D','pc_reality','Problem Charter · Strategy-to-Results Reality'],\n"
-"      ['1E','pc_challenges','Problem Charter · Challenges Experienced'],\n"
-"      ['1F','pc_manifest','Problem Charter · How They Manifest'],\n"
-"      ['1G','pc_consequences','Problem Charter · Consequences'],\n"
-"      ['1H','pc_capabilities','Problem Charter · Capabilities to Strengthen'],\n"
-"      ['1I','pc_shared','Problem Charter · Shared Organisational Reality'],\n"
-"      ['1J','pc_problem','Problem Charter · Central Organisational Problem'],\n"
-"      ['1K','pc_sources','Problem Charter · Sources of Experience']\n"
+"      ['1D','pc_challenges','Problem Charter · Challenges Experienced'],\n"
+"      ['1E','pc_manifest','Problem Charter · How They Manifested'],\n"
+"      ['1F','pc_consequences','Problem Charter · Consequences'],\n"
+"      ['1G','pc_address','Problem Charter · Challenges We Will Address'],\n"
+"      ['1H','pc_problem','Problem Charter · Central Organisational Problem']\n"
 "    ]},\n", 'C pull u1')
 c = rep(c, "function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your case organisation')); }",
         "function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your simulated company')); }\n"
@@ -225,17 +241,14 @@ d = rep(d, "      port_3: 'Development Priority'\n    },\n    u2m1_lens2: {",
 "      pc_company: 'Problem Charter · Simulated Company — confirmed',\n"
 "      pc_team: 'Problem Charter · Simulated Executive Team — confirmed',\n"
 "      pc_org: 'Problem Charter · Our Organisation — confirmed',\n"
-"      pc_reality: 'Problem Charter · Strategy-to-Results Reality — confirmed',\n"
 "      pc_challenges: 'Problem Charter · Challenges Experienced — confirmed',\n"
-"      pc_manifest: 'Problem Charter · How They Manifest — confirmed',\n"
+"      pc_manifest: 'Problem Charter · How They Manifested — confirmed',\n"
 "      pc_consequences: 'Problem Charter · Consequences for Results and Culture — confirmed',\n"
-"      pc_capabilities: 'Problem Charter · Capabilities to Strengthen — confirmed',\n"
-"      pc_shared: 'Problem Charter · Shared Organisational Reality — confirmed',\n"
+"      pc_address: 'Problem Charter · The Challenges We Will Address — confirmed',\n"
 "      pc_problem: 'Problem Charter · Central Organisational Problem — confirmed',\n"
-"      pc_sources: 'Problem Charter · Sources of Experience — confirmed',\n"
 "      confirmed_items: 'Confirmed by the group'\n    },\n    u2m1_lens2: {", 'F labels u1')
 d = rep(d, "      { name: 'The Strategic Unclogging Clinic', test:",
-        "      { name: 'The Problem Charter',      test: function (k) { return /^pc_(record|company|team|org|reality|challenges|manifest|consequences|capabilities|shared|problem|sources)$/i.test(k); } },\n      { name: 'The Strategic Unclogging Clinic', test:", 'F family')
+        "      { name: 'The Problem Charter',      test: function (k) { return /^pc_(record|company|team|org|challenges|manifest|consequences|address|problem)$/i.test(k); } },\n      { name: 'The Strategic Unclogging Clinic', test:", 'F family')
 wr('dashboard_F.html', d)
 
 # ───────── build_collection.js ─────────
