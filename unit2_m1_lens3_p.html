@@ -495,6 +495,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .u4-krq{color:#e3c878;font-style:normal;font-weight:600;}
 .u4-say .u4-krq{font-style:italic;font-weight:500;}
 .u4-how p{font-size:13px!important;line-height:1.7!important;color:rgba(255,255,255,.8)!important;margin:8px 0 0!important;}
+.u4-ver{border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px 14px;margin:0 0 12px;background:rgba(255,255,255,.02);}.u4-ver-c{font-size:13px;line-height:1.6;color:rgba(255,255,255,.8);margin-bottom:8px;}.u4-ver-c .u4-tag{display:inline-block;margin-bottom:4px;}.u4-ver-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;}.u4-in{width:100%;box-sizing:border-box;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:3px;padding:8px 10px;font:inherit;font-size:13px;margin-top:4px;}select.u4-in{max-width:360px;margin-bottom:12px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
@@ -1078,12 +1079,24 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div>
 <div class="acc-b cb">
   <p>Your group now does for its own Key Results what the worked example did in 5.1: the same four steps, in the same order. Your group&rsquo;s Key Results come in from Unit 3. No new objective or measure is added.</p>
-  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li>Check that your group&rsquo;s Key Results from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li>Select one Key Result.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Key Result serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Key Result. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Key Result delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Key Result will make customers choose you, using the three tests. Then name what must remain true.</li><li>Select the next Key Result and repeat the four steps.</li><li>Read your record, then select Agree. Select Print for a copy.</li></ol></div>
+  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li>Check that your group&rsquo;s Key Results from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li>Select one Key Result.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Key Result serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Key Result. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Key Result delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Key Result will make customers choose you, using the three tests. Then name what must remain true.</li><li>Select the next Key Result and repeat the four steps.</li><li>When every Key Result has been taken through the four steps, go on to 5.3.</li></ol></div>
   <div class="u4-btnrow" style="margin:0 0 14px;"><button type="button" class="u4-b" onclick="mbBring(true)">Bring in from my Unit 3 page</button></div>
   <div class="u4-note" id="mbBringMsg" style="display:none;margin:-4px 0 14px;"></div>
   <div class="u4-rec shut" id="mbRecP"></div>
   <div id="mbOkrP"></div>
   <div id="mbToolP"></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">5.3 &mdash; Verification Ownership and Executive Blind Spots</span>
+  <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Capstone Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Each Must-Be-True condition your group named in 5.2 holds only while someone checks it. In this part your group assigns each check to an executive and names the checkpoint your executive team is most likely to overlook.</p>
+  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li>Read your group&rsquo;s Must-Be-True conditions from 5.2, listed below.</li><li><strong>Verification ownership.</strong> For each critical Must-Be-True condition, name the executive accountable for verifying it, the evidence that will confirm it still holds, and the date of the first check.</li><li><strong>Executive blind spot.</strong> Select the checkpoint your executive team is most likely to overlook, given the roles around your table, and state the enterprise risk if it does.</li><li>Read your record, then select Agree. Select Print for a copy.</li></ol></div>
+  <div id="mbVerP"></div>
   <div id="mbOutP"></div>
 </div>
 </div>
@@ -1744,7 +1757,7 @@ function u4plain(s){var d=document.createElement('div');d.innerHTML=s;return d.t
 function u4msg(id,text,cls){var m=u4el(id);if(!m)return;m.textContent=text||'';m.className='u4-note'+(cls?' '+cls:'');m.style.display=text?'block':'none';}
 async function u4save(k,val){
   if(k==='confirmed_items'){var _ts=window.S2RTeam&&S2RTeam.status(),_own=(Array.isArray(val)?val:[]).filter(function(n){return MB_NAMES.indexOf(n)<0;});if(!_own.length)return true;val=_own.concat(_ts&&_ts.all_agreed?MB_NAMES:[]);}
-  else if(window.S2RTeam&&/^(__mbt_work$|mbt_(record|arena|bound|comp|value)$)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u4TeamOut();return _ok;}
+  else if(window.S2RTeam&&/^(__mbt_work$|mbt_(record|arena|bound|comp|value|verify|blind)$)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u4TeamOut();return _ok;}
   if(!window.S2R){console.warn('[unit2_m1_lens3_p] S2R helper not loaded');return false;}
   try{return await S2R.save(U4_LENS,k,val);}catch(e){console.error('[unit2_m1_lens3_p] save failed for '+k,e);return false;}
 }
@@ -1891,9 +1904,9 @@ function u4Tab(gid,i){
   g.querySelectorAll('.u4-stage').forEach(function(t,x){t.classList.toggle('active',x===i);});
   g.querySelectorAll('.u4-wpanel').forEach(function(p,x){p.classList.toggle('active',x===i);});
 }
-var MB={step:0,items:[],cur:[0,0]};
-var MB_KEYS=['mbt_arena','mbt_bound','mbt_comp','mbt_value'];
-var MB_NAMES=['MBT · Arena','MBT · Boundaries','MBT · Competition','MBT · Value Proposition'];
+var MB={step:0,items:[],cur:[0,0],ver:{},blind:{cp:'',risk:''}};
+var MB_KEYS=['mbt_arena','mbt_bound','mbt_comp','mbt_value'];   // 4A to 4D; 4E mbt_verify and 4F mbt_blind come from 5.3
+var MB_NAMES=['MBT · Arena','MBT · Boundaries','MBT · Competition','MBT · Value Proposition','MBT · Verification Ownership','MBT · Executive Blind Spot'];
 var MB_F=['a','b','c','v'];                                   // the Must-Be-True condition of each step
 var MB_STEP_F=[['fn','ex','co','a'],['bd','b'],['cp','c'],['rel','dis','dlv','v']];
 var MB_ALL=['fn','ex','co','a','bd','b','cp','c','rel','dis','dlv','v'];
@@ -1917,12 +1930,43 @@ function mbLoad(s){
   var c=Array.isArray(s.cur)?s.cur:[0,0];
   MB.cur=(MB.items[c[0]]&&MB.items[c[0]].krs[c[1]])?[c[0],c[1]]:[0,0];
   MB.step=(s.step>=0&&s.step<4)?s.step:0;
+  MB.ver={};if(s.ver&&typeof s.ver==='object')Object.keys(s.ver).forEach(function(id){var v=s.ver[id]||{};MB.ver[id]={who:String(v.who||''),ev:String(v.ev||''),when:String(v.when||'')};});
+  var b=s.blind||{};MB.blind={cp:String(b.cp||''),risk:String(b.risk||'')};
 }
 function mbAll(){var out=[];MB.items.forEach(function(o,i){o.krs.forEach(function(k,j){out.push({i:i,j:j,o:o,k:k});});});return out;}
 function mbKr(){var o=MB.items[MB.cur[0]];return o?o.krs[MB.cur[1]]:null;}
 function mbStepDone(k,n){return !!k&&MB_STEP_F[n].every(function(f){return k[f].trim();});}
 function mbKrDone(k){return [0,1,2,3].every(function(n){return mbStepDone(k,n);});}
 function mbOpen(){return mbAll().filter(function(x){return !mbKrDone(x.k);});}
+/* ── 5.3 · Verification ownership and the executive blind spot ── */
+var MB_CPN={a:'Arena',b:'Boundaries',c:'Competition',v:'Value Proposition'};
+function mbConds(){var out=[];mbAll().forEach(function(x){['a','b','c','v'].forEach(function(f){var t=x.k[f].trim();if(t)out.push({id:mbId(x.i,x.j)+'-'+f,kr:mbId(x.i,x.j),cp:MB_CPN[f],t:t});});});return out;}
+function mbVerRow(id){return MB.ver[id]||{who:'',ev:'',when:''};}
+function mbVerFull(id){var v=mbVerRow(id);return !!(v.who.trim()&&v.ev.trim()&&v.when.trim());}
+function mbVerOwned(){return mbConds().filter(function(c){return mbVerFull(c.id);});}
+function mbS3Open(){var o=[];if(!mbVerOwned().length)o.push('verification ownership for at least one Must-Be-True condition (5.3)');if(!(MB.blind.cp&&MB.blind.risk.trim()))o.push('the executive blind spot (5.3)');return o;}
+function mbVerText(){return mbConds().filter(function(c){var v=mbVerRow(c.id);return v.who.trim()||v.ev.trim()||v.when.trim();}).map(function(c){var v=mbVerRow(c.id);
+  return 'Key Result '+c.kr+' · '+c.cp+' · Must-Be-True: '+c.t+'\n   Executive accountable: '+v.who.trim()+'\n   Evidence that it still holds: '+v.ev.trim()+'\n   First check: '+v.when.trim();}).join('\n\n');}
+function mbBlindText(){return 'Checkpoint most likely to be overlooked: '+MB.blind.cp+'\nEnterprise risk if it is: '+MB.blind.risk.trim();}
+function mbVerHtml(){
+  var cs=mbConds();
+  if(!cs.length)return '<div class="u4-locked">Your Must-Be-True conditions appear here once your group has named them in 5.2.</div>';
+  var h='<div class="u4-egs-h">Verification ownership &middot; your group&rsquo;s Must-Be-True conditions from 5.2</div>'+cs.map(function(c){
+    var v=mbVerRow(c.id);
+    return '<div class="u4-ver"><div class="u4-ver-c"><span class="u4-tag">Key Result '+c.kr+' &middot; '+c.cp+'</span><div>'+u4esc(c.t)+'</div></div>'+
+      '<div class="u4-ver-g"><label class="u4-lbl">Executive accountable<input class="u4-in" type="text" value="'+u4esc(v.who)+'" placeholder="Role, for example COO" oninput="mbVer(\''+c.id+'\',\'who\',this.value)"></label>'+
+      '<label class="u4-lbl">Evidence that it still holds<input class="u4-in" type="text" value="'+u4esc(v.ev)+'" placeholder="The evidence the executive will check" oninput="mbVer(\''+c.id+'\',\'ev\',this.value)"></label>'+
+      '<label class="u4-lbl">Date of the first check<input class="u4-in" type="text" value="'+u4esc(v.when)+'" placeholder="For example 31 March 2027" oninput="mbVer(\''+c.id+'\',\'when\',this.value)"></label></div></div>';
+  }).join('');
+  h+='<div class="u4-egs-h" style="margin-top:18px;">Executive blind spot</div>'+
+    '<label class="u4-lbl" for="mb_blind_cp">The checkpoint your executive team is most likely to overlook</label>'+
+    '<select class="u4-in" id="mb_blind_cp" onchange="mbBlindSet(\'cp\',this.value)"><option value="">&ndash; select a checkpoint &ndash;</option>'+['Arena','Boundaries','Competition','Value Proposition'].map(function(n){return '<option'+(MB.blind.cp===n?' selected':'')+'>'+n+'</option>';}).join('')+'</select>'+
+    '<label class="u4-lbl" for="mb_blind_risk">The enterprise risk if it does</label>'+
+    '<textarea class="u4-ta" id="mb_blind_risk" placeholder="What happens to the enterprise if this checkpoint is overlooked..." oninput="mbBlindSet(\'risk\',this.value)">'+u4esc(MB.blind.risk)+'</textarea>';
+  return h;
+}
+function mbVer(id,f,val){MB.ver[id]=mbVerRow(id);MB.ver[id][f]=val;mbUnconfirm();clearTimeout(_mbPaint);_mbPaint=setTimeout(mbRefresh,350);mbQueue();}
+function mbBlindSet(f,val){MB.blind[f]=val;mbUnconfirm();clearTimeout(_mbPaint);_mbPaint=setTimeout(mbRefresh,350);mbQueue();}
 function mbConfirmed(){return MB_NAMES.every(u4isConf);}
 function mbText(n){
   var lab={fn:'Functional',ex:'Experiential',co:'Consequential',bd:'Boundaries',cp:'Alternatives',rel:'Relevant',dis:'Distinctive',dlv:'Deliverable'};
@@ -1934,6 +1978,9 @@ function mbText(n){
 }
 /* The whole record as text, saved while the group works, so the facilitator report shows progress before Confirm. */
 function mbRecordText(){
+  return mbRecordText52()+'\n\n5.3 · VERIFICATION OWNERSHIP\n'+mbVerText()+'\n\n5.3 · EXECUTIVE BLIND SPOT\n'+mbBlindText();
+}
+function mbRecordText52(){
   var lab={fn:'Functional',ex:'Experiential',co:'Consequential',bd:'Boundaries',cp:'Alternatives',rel:'Relevant',dis:'Distinctive',dlv:'Deliverable'};
   var all=mbAll(),done=all.filter(function(x){return mbKrDone(x.k);}).length;
   return (mbConfirmed()?'Confirmed':'Not yet confirmed')+' · '+done+' of '+all.length+' Key Results taken through the four steps\n\n'+MB.items.map(function(o,i){
@@ -1954,7 +2001,8 @@ function mbRecordHtml(){
         return '<div class="u4-rec-c '+c.cls+'"><span class="u4-tag">'+c.name+'</span><div>'+(k[c.k].trim()?u4esc(k[c.k]):'<i>Must-Be-True to be named</i>')+'</div></div>';
       }).join('');
     }).join('');
-  }).join('')+'</div>';
+  }).join('')+'<div class="u4-rec-o">5.3 &middot; Verification ownership</div><div class="u4-rec-k">'+(mbVerOwned().length?u4esc(mbVerText()).replace(/\n/g,'<br>'):'<i>to be agreed by your group</i>')+'</div>'+
+    '<div class="u4-rec-o">5.3 &middot; Executive blind spot</div><div class="u4-rec-k">'+(MB.blind.cp&&MB.blind.risk.trim()?u4esc(mbBlindText()).replace(/\n/g,'<br>'):'<i>to be agreed by your group</i>')+'</div></div>';
 }
 function mbPickHtml(){
   if(!MB.items.length)return '<div class="u4-okrs"><div class="u4-egs-h">From Unit 3 &middot; your group&rsquo;s Key Results</div><div class="u4-locked">No Key Results are here yet. Select Bring in from my Unit 3 page.</div></div>';
@@ -2002,7 +2050,7 @@ function mbOutHtml(){
   var conf=mbConfirmed();
   var badge=conf?'<span class="u4-conf yes">Agreed by every member &middot; into your Capstone</span>':'<span class="u4-conf no">Not yet agreed by every member</span>';
   return '<div class="u4-out"><div class="u4-out-h">Into your Capstone'+badge+'</div>'+
-    '<p class="u4-lead" style="font-size:13px;margin-bottom:8px;">When every Key Result has been taken through the four steps, select Agree. When every member has agreed, your work feeds boxes 4A to 4D of your team&rsquo;s Capstone Blueprint. An edit after agreement clears the agreements, and every member agrees again.</p>'+
+    '<p class="u4-lead" style="font-size:13px;margin-bottom:8px;">When every Key Result has been taken through the four steps and 5.3 is complete, select Agree. When every member has agreed, your work feeds boxes 4A to 4F of your team&rsquo;s Capstone Blueprint. An edit after agreement clears the agreements, and every member agrees again.</p>'+
     '<div class="u4-btnrow"><button type="button" class="u4-b ok" onclick="mbConfirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u4-b" onclick="mbPrint()">Print</button></div>'+
     '<div class="u4-note" id="mbMsg" style="display:none;"></div></div>';
 }
@@ -2012,6 +2060,7 @@ function renderMB(){
   if(r){var shut=r.classList.contains('shut');r.innerHTML=mbRecordHtml();r.classList.toggle('shut',shut);}
   if(t)t.innerHTML=mbToolHtml();
   if(o)o.innerHTML=mbOutHtml();
+  var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();
 }
 function mbRefresh(){   // while typing: everything except the box being typed in
   var r=u4el('mbRecP');
@@ -2024,7 +2073,7 @@ function mbRefresh(){   // while typing: everything except the box being typed i
     b.classList.toggle('done',mbKrDone(x.k));b.firstChild.innerHTML=mbKrDone(x.k)?'&#10003;':mbId(x.i,x.j);
   });
 }
-function mbPaint(){var k=u4el('mbOkrP'),t=u4el('mbToolP');if(k)k.innerHTML=mbPickHtml();if(t)t.innerHTML=mbToolHtml();}
+function mbPaint(){var k=u4el('mbOkrP'),t=u4el('mbToolP'),v=u4el('mbVerP');if(k)k.innerHTML=mbPickHtml();if(t)t.innerHTML=mbToolHtml();if(v)v.innerHTML=mbVerHtml();}
 function mbStepGo(n){
   if(n<0||n>3)return;MB.step=n;mbPaint();mbQueue();
   var t=u4el('mbToolP');if(t&&t.getBoundingClientRect().top<0)t.scrollIntoView({behavior:'smooth',block:'start'});
@@ -2046,16 +2095,16 @@ function mbSet(f,val){
 function mbQueue(){clearTimeout(_mbTimer);_mbTimer=setTimeout(mbSaveNow,900);}
 async function mbSaveNow(){
   clearTimeout(_mbTimer);
-  await u4save('__mbt_work',{step:MB.step,items:MB.items,cur:MB.cur});
+  await u4save('__mbt_work',{step:MB.step,items:MB.items,cur:MB.cur,ver:MB.ver,blind:MB.blind});
   if(MB._unconf){MB._unconf=false;await u4save('confirmed_items',U4.conf);}
   if(MB.items.length)await u4save('mbt_record',mbRecordText());
 }
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
-function u4TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(!mbAll().length||mbOpen().length)return;for(var n=0;n<4;n++)S2RTeam.save(MB_KEYS[n],mbText(n));S2RTeam.save('mbt_record',mbRecordText());}
+function u4TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(!mbAll().length||mbOpen().length||mbS3Open().length)return;for(var n=0;n<4;n++)S2RTeam.save(MB_KEYS[n],mbText(n));S2RTeam.save('mbt_verify',mbVerText());S2RTeam.save('mbt_blind',mbBlindText());S2RTeam.save('mbt_record',mbRecordText());}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U4_LENS,mount:'twBar',lock:['mod4'],names:MB_NAMES,complete:function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen();return o.length?o.map(function(x){return 'Key Result '+mbId(x.i,x.j);}).join('; '):'';},onRemote:function(r){u4Init(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U4_LENS,mount:'twBar',lock:['mod4'],names:MB_NAMES,complete:function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen().map(function(x){return 'Key Result '+mbId(x.i,x.j);}).concat(mbS3Open());return o.length?o.join('; '):'';},onRemote:function(r){u4Init(r);}});}
 async function mbConfirm(){
-  var _o=window.S2RTeam?(function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen();return o.length?o.map(function(x){return 'Key Result '+mbId(x.i,x.j);}).join('; '):'';})():'';
+  var _o=window.S2RTeam?(function(){if(!mbAll().length)return 'bring in your Unit 3 Key Results';var o=mbOpen().map(function(x){return 'Key Result '+mbId(x.i,x.j);}).concat(mbS3Open());return o.length?o.join('; '):'';})():'';
   if(_o){renderMB();u4msg('mbMsg','Before you agree, complete: '+_o+'.');return;}
   if(!window.S2RTeam){return;}
   if(S2RTeam.isScribe()){u4TeamOut();await S2RTeam.flush();}
@@ -2072,9 +2121,9 @@ function mbPrint(){
         '<p class="kr">Step 3 · Competition</p><table>'+row('Alternatives',k.cp)+row('Must-Be-True',k.c)+'</table>'+
         '<p class="kr">Step 4 · Value Proposition</p><table>'+row('Relevant',k.rel)+row('Distinctive',k.dis)+row('Deliverable',k.dlv)+row('Must-Be-True',k.v)+'</table>';
     }).join('');
-  }).join('');
+  }).join('')+'<h2>5.3 · Verification ownership</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbVerText()||'—')+'</p><h2>5.3 · Executive blind spot</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbBlindText())+'</p>';
   var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Unit 4 · ABCV–MBT record</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:14px;margin:16px 0 4px;page-break-after:avoid}.kr{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;margin:10px 0 4px;color:#555}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;padding:6px 8px;border:1px solid #ccd;background:#f3f6f4}td{padding:6px 8px;border:1px solid #ccd;vertical-align:top}</style></head><body>'+
-    '<h1>ABCV–MBT Record: Stress-Testing Your Key Results</h1><p class="sub">Strategy2Results® · Module 2 · Unit 4 · Part 5.2 · Capstone work · '+(mbConfirmed()?'confirmed':'not yet confirmed')+'</p>'+body+'</body></html>';
+    '<h1>ABCV–MBT Record: Stress-Testing Your Key Results</h1><p class="sub">Strategy2Results® · Module 2 · Unit 4 · Parts 5.2 and 5.3 · Capstone work · '+(mbConfirmed()?'confirmed':'not yet confirmed')+'</p>'+body+'</body></html>';
   var w=window.open('','_blank');if(!w){window.print();return;}
   w.document.write(doc);w.document.close();w.focus();setTimeout(function(){w.print();},300);
 }

@@ -143,7 +143,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="eyebrow">Capstone</div>
     <h1 class="unit-title">Strategy2Results® Blueprint Showcase</h1>
     <div class="unit-sub">A live business-system presentation</div>
-    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.</p>
+    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.</p>
   </div>
 </div>
 
@@ -288,9 +288,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4A','mbt_arena','MBT · Arena'],
       ['4B','mbt_bound','MBT · Boundaries'],
       ['4C','mbt_comp','MBT · Competition'],
-      ['4D','mbt_value','MBT · Value Proposition']
+      ['4D','mbt_value','MBT · Value Proposition'],
+      ['4E','mbt_verify','MBT · Verification Ownership'],
+      ['4F','mbt_blind','MBT · Executive Blind Spot']
     ]},
     u5: { lens:'u3m1_lens4', rows:[
+      ['5A','kit_profile','Alignment Plan · Team Profile'],
       ['5B','kit_mind','Alignment Plan · Mind'],
       ['5C','kit_habit','Alignment Plan · Habit']
     ]},
@@ -431,7 +434,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function render(){
     document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
     var intro = document.getElementById('introText');
-    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.';
+    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.';
     var html = '';
     html += briefCard();
     html += teamCard();
@@ -516,7 +519,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var nConf = Object.keys(confirmed).length;
     var chipText = { locked:'Locked', draft:'Draft', awaiting:'Awaiting confirmation', agreed:'Agreed' }[st];
     var isMember = S.mode === 'participant';
-    var editable = isMember && st === 'draft' && !S.bp.locked;
+    var editable = false;   // participants read the Blueprint; it fills from the agreed unit work
     var content = sec.content || {};
 
     var h = '<div class="sec' + (S.openKeys[sec.key] ? ' open' : '') + '" id="sec_' + sec.key + '">' +
@@ -526,10 +529,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       '</div><div class="sec-b">';
 
     if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.' + (PULL[sec.key] ? ' Your confirmed outputs from Unit ' + def.unit + ' are then brought in.' : '') + '</p>';
-    if (editable && PULL[sec.key]) h += '<div class="pull no-print"><p class="sec-note">Your confirmed outputs from Unit ' + def.unit + ' are brought in from your Unit ' + def.unit + ' page. Read them as a team, then send for team confirmation.</p>' +
-      '<button class="btn" onclick="capPull(\'' + sec.key + '\')">Bring in from my Unit ' + def.unit + ' page</button></div>';
-    if (st === 'awaiting') h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
-    if (st === 'agreed') h += '<p class="sec-note">Agreed · ' + esc(fmtDateTime(sec.agreed_at)) + '</p>';
+    if (isMember && st !== 'locked' && st !== 'agreed') h += '<p class="sec-note">This section fills from Section 5 of your Unit ' + def.unit + ' page once every member of your group has agreed the work there.</p>';
+    if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
+    if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
     if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
 
     def.boxes.forEach(function(b){
@@ -544,9 +546,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       h += '</div>';
     });
 
-    if (st !== 'locked' && sec.updated_by_name) h += '<div class="meta">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
+    if (st !== 'locked' && sec.updated_by_name && !isMember) h += '<div class="meta">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
 
-    if (st === 'awaiting' || st === 'agreed'){
+    if (!isMember && (st === 'awaiting' || st === 'agreed')){
       h += '<div class="confirms">';
       members.forEach(function(m){
         var at = confirmed[m.profile_id];
@@ -557,7 +559,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
     // Actions
     var a = '';
-    if (isMember && !S.bp.locked){
+    if (false){
       if (st === 'draft'){
         a += '<button class="btn" onclick="capSave(\'' + sec.key + '\')">Save draft</button>' +
              '<button class="btn primary" onclick="capSend(\'' + sec.key + '\')">Send for team confirmation</button>';
@@ -704,25 +706,31 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     return n;
   }
 
-  // First opening of an empty Draft: bring the full confirmed set in and save it as the team's draft.
+  // Each open section fills from the unit work the whole group has agreed (database function capstone_sync_section).
+  function contentEqual(a, b){ a = a || {}; b = b || {}; var ka = Object.keys(a).filter(function(k){ return String(a[k]||'').trim(); }), kb = Object.keys(b); if (ka.length !== kb.length) return false; return kb.every(function(k){ return String(a[k]||'').trim() === String(b[k]||'').trim(); }); }
   function autoPull(){
-    if (S.mode !== 'participant' || !S.bp || S.bp.locked) return;
-    (S.bp.sections || []).forEach(function(sec){
-      var key = sec.key;
-      if (!PULL[key] || S.pulled[key] || statusOf(sec) !== 'draft' || S.dirty[key] || !sectionEmpty(sec)) return;
-      S.pulled[key] = true;
-      readUnitOutputs(key).then(function(o){
-        if (!o || o.missing.length || S.dirty[key] || !boxTa(key, PULL[key].rows[0][0])) return;
-        if (!fillBoxes(key, o.ready)) return;
-        doSave(key).then(function(r){
-          S.dirty[key] = false;
-          S.openKeys[key] = true;
-          reload().then(function(){
-            if (r && r.ok) showMsg(key, 'Brought in from your Unit ' + BY_KEY[key].unit + ' page and saved as a draft. Read the text as a team, then send for team confirmation.', 'ok');
+    if (S.mode !== 'participant' || !S.bp || S.bp.locked || S.syncing) return;
+    var todo = (S.bp.sections || []).filter(function(sec){ return PULL[sec.key] && statusOf(sec) !== 'locked' && !S.pulled[sec.key]; });
+    if (!todo.length) return;
+    S.syncing = true;
+    var changed = false;
+    var run = todo.reduce(function(p, sec){
+      return p.then(function(){
+        var key = sec.key; S.pulled[key] = true;
+        return readUnitOutputs(key).then(function(o){
+          if (!o || o.missing.length) return;
+          var want = {}; o.ready.forEach(function(x){ want[x.box] = x.text; });
+          if (statusOf(sec) === 'agreed' && contentEqual(sec.content, want)) return;
+          var map = {}; PULL[key].rows.forEach(function(r){ map[r[0]] = r[1]; });
+          return sb.rpc('capstone_sync_section', { p_team_id: S.bp.team.id, p_key: key, p_map: map }).then(function(res){
+            var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+            if (res.error) console.warn('[capstone] sync ' + key + ':', res.error);
+            if (d.ok && d.changed) changed = true;
           });
         });
       });
-    });
+    }, Promise.resolve());
+    run.then(function(){ S.syncing = false; if (changed) reload(); });
   }
 
   // The button: bring in again from this member's unit page.
