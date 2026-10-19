@@ -143,7 +143,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="eyebrow">Capstone</div>
     <h1 class="unit-title">Strategy2Results® Blueprint Showcase</h1>
     <div class="unit-sub">A live business-system presentation</div>
-    <p class="unit-desc" id="introText">Your team is the executive leadership team of your case organisation. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.</p>
+    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. Agree the content together, enter it, and confirm it as a team.</p>
   </div>
 </div>
 
@@ -165,8 +165,21 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   var params = new URLSearchParams(window.location.search);
   var adminTeamId = params.get('teamId');   // admin mode: capstone_P.html?teamId=<uuid>
 
-  // === Blueprint structure (approved wording). [Case] is replaced with the cohort's case name. ===
+  // === Blueprint structure (approved wording). [Case] is replaced with the team's simulated company (box 1A). ===
   var BLUEPRINT = [
+    { key:'u1', unit:1, title:'Problem Charter', boxes:[
+      ['1A','Simulated company','The name of your group’s simulated company. It is used throughout your Blueprint.'],
+      ['1B','Simulated executive team','Each member of the executive team of [Case] and the executive role they hold.'],
+      ['1C','Our organisation','The sector or industry, approximate size and main activity or service of [Case].'],
+      ['1D','Our strategy-to-results reality','The results [Case] is falling short on, with credible indications of underperformance.'],
+      ['1E','Challenges experienced','The recurring strategy design, execution and performance sustainability challenges [Case] experiences.'],
+      ['1F','How they manifest','The observable behaviours, management practices, performance gaps and organisational conditions at [Case].'],
+      ['1G','Consequences for results and culture','How these challenges undermine the results and culture of [Case].'],
+      ['1H','Capabilities to strengthen','The broad organisational capabilities [Case] must strengthen.'],
+      ['1I','Shared organisational reality','The challenges of [Case] across strategy design, strategy execution and sustaining performance.'],
+      ['1J','Our central organisational problem','The shared challenge the executive team of [Case] explores through CESI.'],
+      ['1K','Our sources of experience','The types of professional experience that shaped [Case].']
+    ]},
     { key:'u2', unit:2, title:'Strategy Visioning & Success in Practice (SiP)', boxes:[
       ['2A','Strategy Architecture','Set out the strategy architecture of [Case] under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.'],
       ['2B','Strategy Intent Statement','State the strategic ambition of [Case] in one crisp statement that carries WHAT, WHY, HOW and WHEN.'],
@@ -248,6 +261,19 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   // === Outputs brought in from the member's own unit page (added unit by unit as the units are rebuilt). ===
   // Each row: Blueprint box, response key on the unit page, name in that page's list of confirmed outputs.
   var PULL = {
+    u1: { lens:'u1_foundations', rows:[
+      ['1A','pc_company','Problem Charter · Simulated Company'],
+      ['1B','pc_team','Problem Charter · Executive Team'],
+      ['1C','pc_org','Problem Charter · Our Organisation'],
+      ['1D','pc_reality','Problem Charter · Strategy-to-Results Reality'],
+      ['1E','pc_challenges','Problem Charter · Challenges Experienced'],
+      ['1F','pc_manifest','Problem Charter · How They Manifest'],
+      ['1G','pc_consequences','Problem Charter · Consequences'],
+      ['1H','pc_capabilities','Problem Charter · Capabilities to Strengthen'],
+      ['1I','pc_shared','Problem Charter · Shared Organisational Reality'],
+      ['1J','pc_problem','Problem Charter · Central Organisational Problem'],
+      ['1K','pc_sources','Problem Charter · Sources of Experience']
+    ]},
     u2: { lens:'u2m1_lens1', rows:[
       ['2A','arch_output','Strategy Architecture'],
       ['2B','intent_statement','Strategy Intent Statement'],
@@ -307,7 +333,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function esc(s){ if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
   function fmtDateTime(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleString('en-GB',{ weekday:'short', day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
   function fmtDate(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleDateString('en-GB',{ day:'numeric', month:'long', year:'numeric' }); }
-  function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your case organisation')); }
+  function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your simulated company')); }
+  // The team's simulated company: box 1A of its Problem Charter.
+  function teamCompany(){ var l = (S.bp && S.bp.sections) || []; for (var i = 0; i < l.length; i++){ if (l[i].key === 'u1' && l[i].content && String(l[i].content['1A'] || '').trim()) return String(l[i].content['1A']).trim(); } return ''; }
   function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 80) return ''; if (n <= 84) return 'Proficient Integrator'; if (n <= 90) return 'Advanced Integrator'; return 'Master Integrator'; }
   function stateHtml(title, msg){ return '<div class="state"><h2>' + esc(title) + '</h2><p>' + esc(msg) + '</p></div>'; }
   function fatal(title, msg){ document.getElementById('root').innerHTML = stateHtml(title, msg); }
@@ -344,9 +372,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       if (res.error){ console.error('[capstone] get_my_capstone:', res.error); fatal('Could not load', 'Your capstone could not be loaded. Please refresh and try again.'); return; }
       S.data = res.data || {};
       S.bp = S.data.blueprint || null;
-      S.caseName = (S.data.brief && S.data.brief.case_name) || '';
+      S.caseName = teamCompany();
       if (S.data.access_open !== true){
-        fatal('Capstone not open yet', 'The capstone opens when Unit 2 opens.');
+        fatal('Capstone not open yet', 'The capstone opens when Unit 1 opens.');
         return;
       }
       render();
@@ -363,7 +391,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         if (res.error){ console.error('[capstone] get_capstone_blueprint:', res.error); fatal('Could not load', 'This team’s Blueprint could not be loaded.'); return; }
         S.bp = res.data || null;
         S.data = { brief: S.bp && S.bp.brief, cohort: S.bp && S.bp.cohort };
-        S.caseName = (S.bp && S.bp.brief && S.bp.brief.case_name) || '';
+        S.caseName = teamCompany();
         render();
       });
     });
@@ -428,7 +456,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (!b){
       h += '<p class="muted">IBSL will publish your cohort’s brief shortly.</p>';
     } else {
-      h += '<h2>' + esc(b.case_name) + '</h2>';
       if (b.brief_text) h += '<div class="brief-text">' + esc(b.brief_text) + '</div>';
       h += '<div class="facts">' +
         fact('Submission deadline', fmtDateTime(b.submission_due)) +
@@ -452,6 +479,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     return '<div class="card"><div class="card-label">Assessment criteria</div>' +
       '<p class="muted">An external panel assesses the Blueprint and each member’s showcase, and combines these into your capstone score.</p>' +
       '<div class="crit-group"><div class="crit-head">Team Blueprint · 60%</div>' +
+        '<p class="crit"><strong>Problem Charter</strong> (Unit 1): how fully the Blueprint answers the central problem and builds the capabilities the Charter names.</p>' +
         '<p class="crit"><strong>Direction</strong> (Units 2–4): the coherence of strategic intent, success definition, priorities and direction integrity.</p>' +
         '<p class="crit"><strong>Influence</strong> (Units 5–9): the strength of the alignment, performance and unclogging architecture.</p>' +
         '<p class="crit"><strong>Grounding</strong> (Units 10–12): how well operating conditions, organisational health and navigation sustain the strategy.</p>' +
@@ -466,7 +494,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (!S.bp) return '';
     var h = '<div class="card"><div class="card-label">The Blueprint</div>';
     var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
-    h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 11 sections agreed.</p>';
+    h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
     if (S.mode === 'admin'){
       h += '<div class="admin-bar">' +
         (S.bp.team && S.bp.team.reopened

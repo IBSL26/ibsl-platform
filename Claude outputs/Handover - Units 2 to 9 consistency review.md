@@ -84,3 +84,6 @@ Carol (10:44): "So address all including comitting pending work". Built, tested,
 ## 8. Learning outcomes, 19 October (afternoon)
 
 Carol gave her own capability outcomes for Units 2-9 (CESI_Units_2_to_9_Capability_Learning_Outcomes.docx): "Please use these and update all files including the PPTs". Applied with `Unit decks\\_build\\consistency_19oct\\apply_outcomes.py` (list: `outcomes_locked_19oct.json`, 112 outcomes) on both pages and in the decks (slides and notes). Standing-rule edits only: Synthesize -> Synthesise, toward -> towards, "rather than passive acceptance" removed (Unit 7 S1). Backups: `Claude outputs\\Backups\\Outcomes 19 Oct`. Upload copies and reader folders remade. Still open: Unit 3 dense slides (split for 24pt), Unit 9 Section 2 rework.
+
+- 19 Oct, after commit aacb742d: all Units 2-9 decks and reader folders re-uploaded to Storage (facilitator_decks). SQL check: 37/35/30/36/34/27/25/32 files, 8 pptx, 0 duplicates.
+- Still open: split the 8 dense Unit 3 slides (16-21, 27, 32) to reach 24pt; Unit 9 Section 2 rework waits for Carol.
