@@ -1,0 +1,1 @@
+const fs=require('fs');for(const f of process.argv.slice(2)){const t=fs.readFileSync(f,'utf8');const re=/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g;let m,i=0,bad=0;while((m=re.exec(t))){i++;try{new Function(m[1]);}catch(e){bad++;console.log(f,'script',i,e.message)}}console.log(f,'inline scripts',i,'errors',bad)}
