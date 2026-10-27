@@ -6030,7 +6030,9 @@
       { name: 'Performance Intelligence Synthesis', test: function (k) { return /^app_syn_(pattern|repeat|depend|chain|decision)$/i.test(k); } },
       { name: 'Application — Accountability Loop', test: function (k) { return /^app_(rootcause|corrective|loop_reflection)$/i.test(k); } },
       { name: 'Application — Clog Clinic', test: function (k) { return /^app_(prep|clog|lever|followup)$/i.test(k); } },
-      { name: 'ESRG Alignment Agenda',    test: function (k) { return /^esrg_/i.test(k); } },
+      { name: 'My Executive ESRG Bias',   test: function (k, lensId) { return /^bias_[esrg]$/i.test(k) && lensId === 'u4m1_lens9'; } },
+      { name: 'Functional ESRG Assessment', test: function (k) { return /^esrg_/i.test(k); } },
+      { name: 'Enterprise ESRG Alignment Clinic', test: function (k, lensId) { return /^es_(scanner|interp|resp|plan)$/i.test(k) && lensId === 'u4m1_lens9'; } },
       { name: 'Cultural Operating Code',  test: function (k, lensId) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens9'); } },
       { name: 'Health Thermometer',       test: function (k) { return /^app_thermo$/i.test(k); } },
       { name: 'ACE-IT Coaching Model',    test: function (k, lensId) { return /^app_scenario$/i.test(k) || /^app_prep_/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens10'); } },
@@ -6843,21 +6845,16 @@
       confirmed_items: 'Confirmed by the group'
     },
     u4m1_lens9: {
-      ref1: 'The Grounding Question',
-      ref2: 'Most Misaligned ESRG Domain',
-      ref3: 'Weakest Enabling Condition',
-      ref4: 'Most Recognisable Overlap Pattern',
-      ref5: 'Environment Friction',
-      ref6: 'Systems Friction',
-      ref7: 'Resources Friction',
-      ref8: 'Governance Friction',
-      esrg_issue: 'Issue Observed',
-      esrg_why: 'Why Naming This Now',
-      coc_valueset: 'Chosen Value Set',
-      coc1: 'COC · Value 1',
-      coc2: 'COC · Value 2',
-      coc3: 'COC · Value 3',
-      app_commit: 'COC Commitment'
+      bias_e: 'My Executive ESRG Bias · Environment',
+      bias_s: 'My Executive ESRG Bias · Systems',
+      bias_r: 'My Executive ESRG Bias · Resources',
+      bias_g: 'My Executive ESRG Bias · Governance',
+      esrg_scan_head: 'My Capstone Function (4.5)',
+      esrg_scan: 'My Functional ESRG Performance Scanner (4.5)',
+      es_scanner: 'ESRG Clinic · 5.1 Enterprise ESRG Scanner — agreed',
+      es_interp: 'ESRG Clinic · 5.2 Collective Findings — agreed',
+      es_resp: 'ESRG Clinic · 5.3 Collective Intelligence Response — agreed',
+      es_plan: 'ESRG Clinic · 5.4 ESRG Alignment Intervention Plan — agreed'
     },
     u4m1_lens10: {
       ref1: 'The Best Team Environment',
@@ -6941,7 +6938,7 @@
       u3m1_lens6: {1:"Your Honest Assessment",2:"Which Condition Is Most Often Missing?",3:"Map Your Chain",4:"Your Team Right Now",5:"Your Most Absent Mechanism",6:"Your Expectation Gap",7:"Which Step Do You Most Often Skip?",8:"Practise the Resolve Question"},
       u3m2_lens7: {1:"Activity vs Progress",2:"The Cycle and the Loop in Your Organisation",3:"Which Signal Are You Seeing?",4:"Which Gap Is Most Prevalent?",5:"The Conversation Type Most Difficult for Your Team",6:"Your Early Warning Signal",7:"Your Execution Learning",8:"Where You Have Seen the Velocity Gap",9:"The Fracture You Are Most Prone To"},
       u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda",7:"My Executive Contribution to Performance",8:"My Leadership Contribution to Strategic Unclogging"},
-      u4m1_lens9: {1:"The Grounding Question",2:"Most Misaligned ESRG Domain",3:"Weakest Enabling Condition",4:"Most Recognisable Overlap Pattern",5:"Environment Friction",6:"Systems Friction",7:"Resources Friction",8:"Governance Friction"},
+      u4m1_lens9: {},
       u4m1_lens10: {1:"The Best Team Environment",2:"Strongest & Most Vulnerable Trait",3:"Pyramid Layer Needing Attention",4:"Most Visible Cost of Poor Health",5:"Reflection on Your Temperature",6:"Executive Domain Needing Attention"},
       u4m2_lens11: {1:"The Navigation Premise",2:"Most Active Gravity Mechanism",3:"KISS · Keep",4:"KISS · Improve",5:"KISS · Stop",6:"KISS · Start",7:"Most Active Force Category",8:"Domain ABCV Question",9:"ABCV Diagnostic",10:"Collective Review Cadence"}
     };
