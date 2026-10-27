@@ -13477,6 +13477,8 @@ sam@gamma.org, Sam Lee, participant,`;
 
     <!-- [SESSIONS] Live sessions per cohort: Teams link, calendar invite, recording link.
          Database: migrations/cohort_sessions.sql · Email: Edge Function send-session-email.
+         Attendance and missed-session check-ins: migrations/session_reminders_attendance.sql
+         (reminders are sent by the Edge Function send-reminders, run hourly by the database).
          The card is drawn inside the cohort detail view (#cohortSessionsCard). -->
     <style>
       .ses-list { list-style: none; margin: 0; padding: 0; }
@@ -13515,6 +13517,19 @@ sam@gamma.org, Sam Lee, participant,`;
       .ses-confirm-body { margin: 0; color: rgba(255,255,255,0.82); font-size: 14px; line-height: 1.6; }
       .ses-confirm-body strong { color: var(--white); }
       @media (max-width: 640px) { .ses-form-grid { grid-template-columns: 1fr; } }
+      .ses-att-list { list-style: none; margin: 0; padding: 0; max-height: 46vh; overflow-y: auto; border-top: 1px solid var(--border-subtle); }
+      .ses-att-row { display: flex; align-items: center; gap: 12px; padding: 10px 2px; border-bottom: 1px solid var(--border-subtle); cursor: pointer; }
+      .ses-att-row input { accent-color: #c9a84c; width: 16px; height: 16px; flex-shrink: 0; }
+      .ses-att-name { font-size: 14px; color: var(--white); }
+      .ses-att-meta { font-size: 11px; color: rgba(255,255,255,0.50); }
+      .ses-att-tools { display: flex; justify-content: space-between; align-items: center; margin: 0 0 10px; font-size: 12px; color: rgba(255,255,255,0.65); }
+      .ses-link-btn { background: none; border: 0; padding: 0; color: var(--gold); font-family: var(--font-sans); font-size: 12px; cursor: pointer; border-bottom: 1px solid rgba(201,168,76,0.35); }
+      .ses-ci-item { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; }
+      .ses-ci-item:last-child { border-bottom: 0; }
+      .ses-ci-name { font-size: 14px; color: var(--white); }
+      .ses-ci-meta { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+      .ses-ci-note { font-size: 11px; color: rgba(255,255,255,0.50); margin-top: 8px; }
+      .ses-ci-body { font-family: Montserrat, sans-serif; font-size: 13px; line-height: 1.55; resize: vertical; min-height: 220px; }
     </style>
 
     <div class="modal-backdrop" id="sesFormModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesFormTitle">
@@ -13619,6 +13634,54 @@ sam@gamma.org, Sam Lee, participant,`;
       </div>
     </div>
 
+    <div class="modal-backdrop" id="sesAttModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesAttTitle">
+      <div class="modal-dialog" style="width:560px;max-height:88vh;">
+        <div class="modal-head">
+          <div class="modal-title" id="sesAttTitle">Attendance</div>
+          <button type="button" class="modal-close" data-ses-close aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;">
+          <p class="ses-confirm-body" id="sesAttWhat" style="margin-bottom:14px;"></p>
+          <div class="ses-att-tools"><span id="sesAttCount"></span><button type="button" class="ses-link-btn" id="sesAttAllBtn">Tick everyone</button></div>
+          <ul class="ses-att-list" id="sesAttList"></ul>
+          <div class="ses-hint">Tick each participant who attended. Anyone left unticked is marked absent, and a check-in message is drafted for them under Check-ins. Nothing is sent to a participant until you send it.</div>
+          <div class="ses-error" id="sesAttError" role="alert"></div>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;">
+          <button type="button" class="btn--ghost" data-ses-close>Cancel</button>
+          <button type="button" class="btn btn--primary" id="sesAttSaveBtn">Save attendance</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="sesCiModal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="sesCiTitle">
+      <div class="modal-dialog" style="width:600px;max-height:90vh;">
+        <div class="modal-head">
+          <div class="modal-title" id="sesCiTitle">Check-in</div>
+          <button type="button" class="modal-close" data-ses-close aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:22px 28px 8px;">
+          <p class="ses-confirm-body" id="sesCiWho" style="margin-bottom:16px;"></p>
+          <div class="ses-field">
+            <label class="form-label" for="sesCiSubject">Subject</label>
+            <input type="text" class="form-input" id="sesCiSubject" maxlength="200">
+          </div>
+          <div class="ses-field">
+            <label class="form-label" for="sesCiBody">Message</label>
+            <textarea class="form-input ses-ci-body" id="sesCiBody" maxlength="4000"></textarea>
+            <div class="ses-hint">Edit the message as you wish. It goes to this participant only, and their reply comes to projects@ibsleadership.com.</div>
+          </div>
+          <div class="ses-error" id="sesCiError" role="alert"></div>
+        </div>
+        <div class="form-actions" style="margin:0;padding:18px 28px 22px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" class="btn--ghost" id="sesCiDismissBtn">Set aside</button>
+          <span style="flex:1"></span>
+          <button type="button" class="btn--ghost" id="sesCiSaveBtn">Save changes</button>
+          <button type="button" class="btn btn--primary" id="sesCiSendBtn">Send</button>
+        </div>
+      </div>
+    </div>
+
     <script>
     (function () {
       'use strict';
@@ -13650,8 +13713,14 @@ sam@gamma.org, Sam Lee, participant,`;
         editing: null,     // row being edited, or null when adding
         recFor: null,      // row whose recording link is open
         confirmFn: null,
-        autoTitle: ''      // last title filled in from the unit picker
+        autoTitle: '',     // last title filled in from the unit picker
+        att: {},           // session id → { marked, attended }
+        checkins: [],      // check-ins for this cohort (open, sent, set aside)
+        attFor: null,      // row whose attendance is open
+        attRows: [],       // participants listed in the attendance modal
+        ciFor: null        // check-in open in the check-in modal
       };
+      var MODALS = ['sesFormModal', 'sesRecModal', 'sesConfirmModal', 'sesAttModal', 'sesCiModal'];
 
       function $(id) { return document.getElementById(id); }
       function esc(s) {
@@ -13704,6 +13773,11 @@ sam@gamma.org, Sam Lee, participant,`;
         } else {
           c.push('<span class="ses-chip ses-chip--ok">Sent ' + fmtShort(r.last_sent_at) + '</span>');
         }
+        if (r.status !== 'cancelled' && r.last_sent_at && hasStarted(r)) {
+          var at = state.att[r.id];
+          if (at) c.push('<span class="ses-chip ses-chip--ok">Attended ' + at.attended + ' of ' + at.marked + '</span>');
+          else if (isPast(r)) c.push('<span class="ses-chip ses-chip--warn">Attendance not taken</span>');
+        }
         if (r.recording_url) {
           c.push('<span class="ses-chip ses-chip--ok">' + (r.recording_sent_at ? 'Recording emailed' : 'Recording added') + '</span>');
         } else if (r.will_record && r.status !== 'cancelled') {
@@ -13733,6 +13807,7 @@ sam@gamma.org, Sam Lee, participant,`;
         } else {
           if (r.changed_since_sent && !isPast(r)) a.push(btn('send-update', 'Send update', 'solid'));
           if (hasStarted(r)) {
+            a.push(btn('attendance', state.att[r.id] ? 'Change attendance' : 'Take attendance', (!state.att[r.id] && isPast(r)) ? 'solid' : ''));
             a.push(btn('recording', r.recording_url ? 'Change recording link' : 'Add recording link', (!r.recording_url && isPast(r)) ? 'solid' : ''));
             if (r.recording_url && !r.recording_sent_at) a.push(btn('send-recording', 'Email recording to cohort', 'solid'));
           }
@@ -13758,6 +13833,28 @@ sam@gamma.org, Sam Lee, participant,`;
                  (r.notes ? '<div class="ses-notes">' + esc(r.notes) + '</div>' : '') +
                  actionsHtml(r) +
                '</li>';
+      }
+      function checkinsHtml() {
+        var open = state.checkins.filter(function (k) { return k.status === 'open'; });
+        var sent = state.checkins.filter(function (k) { return k.status === 'sent'; }).length;
+        var aside = state.checkins.filter(function (k) { return k.status === 'dismissed'; }).length;
+        if (!open.length && !sent && !aside) return '';
+        var h = '<div class="ses-subhead">Check-ins · missed sessions</div>';
+        if (open.length) {
+          h += '<div>' + open.map(function (k) {
+            return '<div class="ses-ci-item" data-checkin-id="' + esc(k.id) + '">' +
+                     '<div><div class="ses-ci-name">' + esc(k.full_name || k.email) + '</div>' +
+                     '<div class="ses-ci-meta">Missed ' + esc(k.session_title) + ' · ' + fmtShort(k.session_starts_at) + '</div></div>' +
+                     '<button type="button" class="ses-btn ses-btn--solid" data-session-action="checkin"' + (state.busy ? ' disabled' : '') + '>Read and send</button>' +
+                   '</div>';
+          }).join('') + '</div>';
+        } else {
+          h += '<div class="people-list__empty">No check-ins waiting.</div>';
+        }
+        if (sent || aside) {
+          h += '<div class="ses-ci-note">' + sent + ' sent' + (aside ? ' · ' + aside + ' set aside' : '') + '</div>';
+        }
+        return h;
       }
       function render() {
         var card = $('cohortSessionsCard');
@@ -13794,6 +13891,7 @@ sam@gamma.org, Sam Lee, participant,`;
           if (past.length) {
             body += '<div class="ses-subhead">Past</div><ul class="ses-list">' + past.map(itemHtml).join('') + '</ul>';
           }
+          body += checkinsHtml();
         }
         card.innerHTML = head + body;
       }
@@ -13803,7 +13901,12 @@ sam@gamma.org, Sam Lee, participant,`;
         var id = state.cohortId;
         if (!id) return;
         try {
-          var res = await sb.rpc('admin_list_cohort_sessions', { p_cohort_id: id });
+          var all = await Promise.all([
+            sb.rpc('admin_list_cohort_sessions', { p_cohort_id: id }),
+            sb.rpc('admin_cohort_attendance_summary', { p_cohort_id: id }),
+            sb.rpc('admin_list_cohort_checkins', { p_cohort_id: id })
+          ]);
+          var res = all[0];
           if (state.cohortId !== id) return; // moved to another cohort meanwhile
           if (res.error) {
             state.error = res.error.message || 'request failed';
@@ -13811,6 +13914,11 @@ sam@gamma.org, Sam Lee, participant,`;
             state.error = null;
             state.rows = res.data || [];
           }
+          // Attendance and check-ins: shown when available, never block the session list.
+          var att = {};
+          if (!all[1].error) (all[1].data || []).forEach(function (a) { att[a.session_id] = { marked: a.marked, attended: a.attended }; });
+          state.att = att;
+          state.checkins = all[2].error ? [] : (all[2].data || []);
         } catch (e) {
           if (state.cohortId !== id) return;
           state.error = e.message || 'network error';
@@ -13831,7 +13939,7 @@ sam@gamma.org, Sam Lee, participant,`;
         m.setAttribute('aria-hidden', 'false');
       }
       function closeModals() {
-        ['sesFormModal', 'sesRecModal', 'sesConfirmModal'].forEach(function (id) {
+        MODALS.forEach(function (id) {
           var m = $(id);
           if (!m) return;
           m.classList.remove('modal-backdrop--shown');
@@ -13840,7 +13948,7 @@ sam@gamma.org, Sam Lee, participant,`;
         state.confirmFn = null;
       }
       function anyOpen() {
-        return ['sesFormModal', 'sesRecModal', 'sesConfirmModal'].some(function (id) {
+        return MODALS.some(function (id) {
           var m = $(id); return m && m.classList.contains('modal-backdrop--shown');
         });
       }
@@ -13987,6 +14095,132 @@ sam@gamma.org, Sam Lee, participant,`;
         await load();
       }
 
+      // ── Attendance ───────────────────────────────────────────────
+      function attCount() {
+        var boxes = document.querySelectorAll('#sesAttList input[type=checkbox]');
+        var n = 0; boxes.forEach(function (b) { if (b.checked) n++; });
+        $('sesAttCount').textContent = n + ' of ' + boxes.length + ' ticked as attended';
+      }
+      async function openAttendance(row) {
+        state.attFor = row;
+        $('sesAttWhat').innerHTML = titleWhen(row);
+        $('sesAttError').textContent = '';
+        $('sesAttList').innerHTML = '<li class="people-list__empty">Loading participants…</li>';
+        $('sesAttCount').textContent = '';
+        $('sesAttSaveBtn').disabled = true; $('sesAttSaveBtn').textContent = 'Save attendance';
+        openModal('sesAttModal');
+        var res = await sb.rpc('admin_get_session_attendance', { p_session_id: row.id });
+        if (state.attFor !== row) return;
+        if (res.error) { $('sesAttList').innerHTML = ''; $('sesAttError').textContent = res.error.message || 'Could not load the participants.'; return; }
+        state.attRows = res.data || [];
+        if (!state.attRows.length) { $('sesAttList').innerHTML = '<li class="people-list__empty">This cohort has no participants.</li>'; return; }
+        $('sesAttList').innerHTML = state.attRows.map(function (p) {
+          var note = p.checkin_status === 'sent' ? 'Check-in sent' : (p.checkin_status === 'dismissed' ? 'Check-in set aside' : '');
+          return '<li><label class="ses-att-row"><input type="checkbox" value="' + esc(p.profile_id) + '"' + (p.attended ? ' checked' : '') + '>' +
+                 '<span><span class="ses-att-name">' + esc(p.full_name || p.email) + '</span>' +
+                 (note ? '<br><span class="ses-att-meta">' + note + '</span>' : '') + '</span></label></li>';
+        }).join('');
+        $('sesAttSaveBtn').disabled = false;
+        attCount();
+      }
+      async function saveAttendance() {
+        var row = state.attFor;
+        if (!row || !state.attRows.length) return;
+        var ticked = [];
+        document.querySelectorAll('#sesAttList input[type=checkbox]').forEach(function (b) { if (b.checked) ticked.push(b.value); });
+        var btnEl = $('sesAttSaveBtn');
+        btnEl.disabled = true; btnEl.textContent = 'Saving…';
+        var res = await sb.rpc('admin_save_session_attendance', { p_session_id: row.id, p_attended: ticked });
+        if (res.error) {
+          $('sesAttError').textContent = res.error.message || 'Could not save the attendance.';
+          btnEl.disabled = false; btnEl.textContent = 'Save attendance';
+          return;
+        }
+        var d = res.data || {};
+        closeModals();
+        await load();
+        toast('Attendance saved: ' + (d.marked - d.absent) + ' of ' + d.marked + ' attended.' +
+              (d.new_checkins ? ' ' + d.new_checkins + (d.new_checkins === 1 ? ' check-in is' : ' check-ins are') + ' ready under Check-ins.' : ''), 7000);
+      }
+
+      // ── Check-ins ────────────────────────────────────────────────
+      function checkinById(id) {
+        for (var i = 0; i < state.checkins.length; i++) if (state.checkins[i].id === id) return state.checkins[i];
+        return null;
+      }
+      function openCheckin(k) {
+        state.ciFor = k;
+        $('sesCiTitle').textContent = 'Check-in · ' + (k.full_name || k.email);
+        $('sesCiWho').innerHTML = '<strong>' + esc(k.full_name || '') + '</strong> ' + esc(k.email || '') +
+                                  '<br>Missed ' + esc(k.session_title) + ' · ' + fmtShort(k.session_starts_at);
+        $('sesCiSubject').value = k.subject;
+        $('sesCiBody').value = k.body;
+        $('sesCiError').textContent = '';
+        ['sesCiSendBtn', 'sesCiSaveBtn', 'sesCiDismissBtn'].forEach(function (id) { $(id).disabled = false; });
+        $('sesCiSendBtn').textContent = 'Send';
+        openModal('sesCiModal');
+      }
+      function ciEdited() {
+        var k = state.ciFor;
+        return k && ($('sesCiSubject').value.trim() !== k.subject || $('sesCiBody').value.trim() !== k.body);
+      }
+      function ciBusy(on, label) {
+        ['sesCiSendBtn', 'sesCiSaveBtn', 'sesCiDismissBtn'].forEach(function (id) { $(id).disabled = on; });
+        if (label) $('sesCiSendBtn').textContent = label;
+      }
+      async function ciSaveText() {
+        var k = state.ciFor;
+        var subj = $('sesCiSubject').value.trim(), body = $('sesCiBody').value.trim();
+        if (!subj || !body) { $('sesCiError').textContent = 'The subject and the message are both needed.'; return false; }
+        var res = await sb.rpc('admin_save_checkin', { p_checkin_id: k.id, p_subject: subj, p_body: body });
+        if (res.error) { $('sesCiError').textContent = res.error.message || 'Could not save the message.'; return false; }
+        k.subject = subj; k.body = body;
+        return true;
+      }
+      async function saveCheckin() {
+        if (!state.ciFor) return;
+        $('sesCiError').textContent = '';
+        ciBusy(true);
+        var ok = await ciSaveText();
+        ciBusy(false);
+        if (ok) { closeModals(); toast('Message saved. It has not been sent.'); await load(); }
+      }
+      async function sendCheckin() {
+        var k = state.ciFor;
+        if (!k) return;
+        $('sesCiError').textContent = '';
+        ciBusy(true, 'Sending…');
+        if (ciEdited() && !(await ciSaveText())) { ciBusy(false, 'Send'); return; }
+        var sess = await sb.auth.getSession();
+        var token = sess && sess.data && sess.data.session ? sess.data.session.access_token : '';
+        var res = await sb.functions.invoke('send-session-email', {
+          body: { kind: 'checkin', checkin_id: k.id },
+          headers: { Authorization: 'Bearer ' + token }
+        });
+        var d = res.data || {};
+        if (res.error && res.error.context && typeof res.error.context.json === 'function') {
+          try { d = (await res.error.context.json()) || {}; } catch (e2) { /* keep the generic message */ }
+        }
+        if (res.error || !d.ok) {
+          $('sesCiError').textContent = 'Not sent: ' + (d.error || (res.error && res.error.message) || 'unknown error');
+          ciBusy(false, 'Send');
+          return;
+        }
+        closeModals();
+        toast('Check-in sent to ' + (k.full_name || k.email) + '.', 5000);
+        await load();
+      }
+      async function dismissCheckin() {
+        var k = state.ciFor;
+        if (!k) return;
+        ciBusy(true);
+        var res = await sb.rpc('admin_dismiss_checkin', { p_checkin_id: k.id });
+        if (res.error) { $('sesCiError').textContent = res.error.message || 'Could not set it aside.'; ciBusy(false); return; }
+        closeModals();
+        toast('Check-in set aside. Nothing was sent.');
+        await load();
+      }
+
       // ── Email (Edge Function send-session-email) ─────────────────
       async function sendEmail(row, kind) {
         var sess = await sb.auth.getSession();
@@ -14017,6 +14251,7 @@ sam@gamma.org, Sam Lee, participant,`;
         var cname = c ? esc(c.name) : 'this cohort';
         if (action === 'add') { openForm(null); return; }
         if (!row) return;
+        if (action === 'attendance') { openAttendance(row); return; }
         if (action === 'edit') { openForm(row); return; }
         if (action === 'recording') { openRecording(row); return; }
 
@@ -14090,13 +14325,20 @@ sam@gamma.org, Sam Lee, participant,`;
         var actEl = t.closest('[data-session-action]');
         if (actEl) {
           if (actEl.disabled) return;
+          var ciEl = actEl.closest('[data-checkin-id]');
+          if (ciEl) { if (!state.busy) { var k = checkinById(ciEl.getAttribute('data-checkin-id')); if (k) openCheckin(k); } return; }
           var li = actEl.closest('[data-session-id]');
           onAction(actEl.getAttribute('data-session-action'), li ? rowById(li.getAttribute('data-session-id')) : null);
           return;
         }
         if (t.closest('[data-ses-close]')) { closeModals(); return; }
-        if (t.id === 'sesFormModal' || t.id === 'sesRecModal' || t.id === 'sesConfirmModal') { closeModals(); return; }
+        if (MODALS.indexOf(t.id) !== -1) { closeModals(); return; }
         if (t.closest('#sesFormSaveBtn')) { saveForm(); return; }
+        if (t.closest('#sesAttSaveBtn')) { saveAttendance(); return; }
+        if (t.closest('#sesAttAllBtn')) { document.querySelectorAll('#sesAttList input[type=checkbox]').forEach(function (b) { b.checked = true; }); attCount(); return; }
+        if (t.closest('#sesCiSendBtn')) { sendCheckin(); return; }
+        if (t.closest('#sesCiSaveBtn')) { saveCheckin(); return; }
+        if (t.closest('#sesCiDismissBtn')) { dismissCheckin(); return; }
         if (t.closest('#sesRecSaveBtn')) { saveRecording(); return; }
         if (t.closest('#sesConfirmBtn')) { runConfirm(); return; }
       });
@@ -14104,6 +14346,7 @@ sam@gamma.org, Sam Lee, participant,`;
         if (e.key === 'Escape' && anyOpen()) closeModals();
       });
       document.addEventListener('change', function (e) {
+        if (e.target && e.target.closest && e.target.closest('#sesAttList')) { attCount(); return; }
         if (!e.target || e.target.id !== 'sesUnit') return;
         // Fill the title from the unit, unless the admin has typed their own.
         var titleEl = $('sesTitle');
@@ -14122,6 +14365,8 @@ sam@gamma.org, Sam Lee, participant,`;
           if (state.cohortId !== bundle.cohort.id) {
             state.cohortId = bundle.cohort.id;
             state.rows = [];
+            state.att = {};
+            state.checkins = [];
             state.loaded = false;
             state.error = null;
             state.busy = false;

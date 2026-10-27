@@ -2,6 +2,8 @@
 //
 // Called from the admin dashboard (Cohort detail → Live sessions) with
 //   { session_id: "<uuid>", kind: "invite" | "update" | "cancel" | "recording" }
+// or, for a missed-session check-in drafted in the admin console,
+//   { checkin_id: "<uuid>", kind: "checkin" }   → one email to that participant, replies to the IBSL inbox
 // Only a signed-in admin may call it. One email goes to each active member of the
 // cohort (participants and facilitators). invite / update carry a calendar file.
 // On success the session is stamped as sent, which is what makes it show on the
@@ -18,6 +20,8 @@ const SUPABASE_ANON_KEY    = Deno.env.get('SUPABASE_ANON_KEY')!
 const SUPABASE_SERVICE_KEY = Deno.env.get('SB_SERVICE_ROLE_KEY')!
 const PORTAL_URL           = 'https://ibslportal.netlify.app'
 const FROM_ADDRESS         = 'IBSLeadership S2R Portal <noreply@mail.ibsleadership.com>'
+const CHECKIN_FROM         = 'IBSL Programme Team <noreply@mail.ibsleadership.com>'
+const REPLY_TO             = 'projects@ibsleadership.com'
 
 // Time zone used for the date and time written in the email text.
 // The calendar file converts to each person's own zone.
@@ -241,6 +245,50 @@ ${foot}
   return { subject, html, text }
 }
 
+// A check-in reads as a personal note: the admin's own words, line breaks kept.
+function buildCheckin(subject: string, body: string) {
+  const paras = body.split(/\n{2,}/).map((p) =>
+    `<p style="margin:0 0 16px;font-size:14px;color:rgba(255,255,255,0.80);line-height:1.7;">${esc(p).replace(/\n/g, '<br>')}</p>`).join('')
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+<body style="margin:0;padding:0;background:#0d1f15;font-family:'Helvetica Neue',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0d1f15;padding:40px 20px;">
+<tr><td align="center">
+<table width="560" cellpadding="0" cellspacing="0" style="background:#1c2a1e;border:1px solid rgba(42,122,122,0.35);border-radius:6px;overflow:hidden;max-width:560px;width:100%;">
+<tr><td style="background:#2a7a7a;padding:4px 0;"></td></tr>
+<tr><td style="padding:36px 44px 20px;">
+  <p style="margin:0 0 24px;font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:#2a7a7a;">S2R® Portal · IBSLeadership</p>
+  ${paras}
+  <p style="margin:8px 0 0;font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;"><a href="${PORTAL_URL}" style="color:#2a7a7a;">Open your S2R® Portal</a></p>
+</td></tr>
+<tr><td style="padding:20px 44px;background:rgba(0,0,0,0.2);">
+  <p style="margin:0;font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:1px;">© 2026 IBSLeadership · Strategy2Results® · S2R® Portal</p>
+</td></tr>
+</table></td></tr></table>
+</body></html>`
+  return { subject, html, text: body + `\n\nYour S2R® Portal: ${PORTAL_URL}` }
+}
+
+// deno-lint-ignore no-explicit-any
+async function sendCheckin(admin: any, callerId: string, checkinId: string) {
+  const { data: c, error } = await admin.from('session_checkins')
+    .select('id, session_id, cohort_id, profile_id, subject, body, status').eq('id', checkinId).maybeSingle()
+  if (error) return json({ ok: false, error: error.message }, 500)
+  if (!c) return json({ ok: false, error: 'Check-in not found.' }, 404)
+  if (c.status !== 'open') return json({ ok: false, error: 'This check-in was already sent or set aside.' }, 400)
+  const { data: p, error: pErr } = await admin.from('profiles')
+    .select('email, suspended, deactivated_at').eq('id', c.profile_id).maybeSingle()
+  if (pErr) return json({ ok: false, error: pErr.message }, 500)
+  if (!p || !p.email) return json({ ok: false, error: 'This participant has no email address.' }, 400)
+  if (p.suspended || p.deactivated_at) return json({ ok: false, error: 'This participant’s account is not active.' }, 400)
+  const mail = buildCheckin(c.subject, c.body)
+  const r = await sendOne({ from: CHECKIN_FROM, to: p.email, reply_to: REPLY_TO, subject: mail.subject, html: mail.html, text: mail.text })
+  if (!r.ok) return json({ ok: false, error: r.error || 'The email could not be sent.' }, 502)
+  const { error: uErr } = await admin.from('session_checkins')
+    .update({ status: 'sent', sent_at: new Date().toISOString(), sent_by: callerId }).eq('id', c.id)
+  if (uErr) console.error('Check-in stamp error:', uErr.message)
+  return json({ ok: true, sent: 1, failed: [], stamped: !uErr })
+}
+
 async function sendOne(payload: Record<string, unknown>) {
   for (let attempt = 0; attempt < 2; attempt++) {
     const res = await fetch('https://api.resend.com/emails', {
@@ -274,7 +322,12 @@ Deno.serve(async (req) => {
     if (profileErr || !profile) return json({ ok: false, error: 'Profile not found.' }, 403)
     if (profile.role !== 'admin') return json({ ok: false, error: 'Only an admin can send session emails.' }, 403)
 
-    const { session_id, kind } = await req.json() as { session_id?: string; kind?: Kind }
+    const { session_id, kind, checkin_id } = await req.json() as { session_id?: string; kind?: Kind | 'checkin'; checkin_id?: string }
+    if (kind === 'checkin') {
+      if (!checkin_id) return json({ ok: false, error: 'No check-in was given.' }, 400)
+      const svc = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, { auth: { autoRefreshToken: false, persistSession: false } })
+      return await sendCheckin(svc, user.id, checkin_id)
+    }
     if (!session_id) return json({ ok: false, error: 'No session was given.' }, 400)
     if (!kind || !['invite', 'update', 'cancel', 'recording'].includes(kind)) {
       return json({ ok: false, error: 'Unknown email type.' }, 400)
