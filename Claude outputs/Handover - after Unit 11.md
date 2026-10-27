@@ -17,7 +17,8 @@ Folder: `C:\Users\Carol\ibsl-platform` (device shell `$HOME/mnt/ibsl-platform`).
 - Git `main` = `origin/main` = `02ccecd9…` "Unit 11 rebuilt" (pushed by Carol 22:11). Before it: `64eae8b4…` (ESRG alignment of Units 6-9).
 - Unit 11 live: `unit4_m1_lens10_p.html` 24aa88a2…, `_f.html` 7427fb60…, `capstone_P.html` 9b3f9ddd…, `dashboard_F.html` 5461e494…, `build_collection.js` 7d4cc0f5…, `collection.html` bef1096f…. Live participant page read with WebFetch: Section 5 is "The Cross-CXO Organisational Health Clinic", the Section 4 reflection is there, the old ACE-IT section is gone.
 - Carol ran `Claude outputs\unit11_health_clinic.sql`. Checked by Claude 22:16 (read-only, SQL editor): box counts 8,6,6,6,3,3,5,5,5,4,4,5 (u11 = 4).
-- Not committed yet: this file. Add it to the next `git add`.
+- Not committed yet: this file (Carol may not have run the 22:16 push block; check `.git\refs` and include it in the next `git add` either way).
+- Live cohort: Unit 11 is complete and working live (pages, Capstone 11A-11D, box count, report labels, Learning Portfolio). Nothing for the live cohort is waiting.
 
 ## 3. Unit 11 in brief (title unchanged: "Culture Reinforcement & Organisational Health", lens id u4m1_lens10)
 - Header in the Unit 10 format (Grounding · Pillar 3 of DIG, Module and Key learning outcomes). Guide: Unit Intent, Learning Journey, Facilitation Emphasis.
@@ -26,7 +27,7 @@ Folder: `C:\Users\Carol\ibsl-platform` (device shell `$HOME/mnt/ibsl-platform`).
 
 ## 4. Next steps
 1. (Done 22:16) Box counts checked.
-2. Test account run of Unit 11 on the live portal (Test Participant, team Alpha, Alpha Client Services, one member) in Chrome with the test account signed in by Carol (never sign in for her): Section 4 reflection (ref7) with realistic content; Section 5: choose scribe, tick the role(s) from its Problem Charter (its executive team decides which), fill every card, Tasks 4-6, Review/Realign/Restore, one Task 7 response (lowest trait), Agree; check the Capstone page shows Unit 11 AGREED with 11A-11D filled. Tell Carol to sign back in with her own account afterwards.
+2. FIRST TASK for the new chat: test account run of Unit 11 on the live portal (Test Participant, team Alpha, Alpha Client Services, one member) in Chrome with the test account signed in by Carol (never sign in for her): Section 4 reflection (ref7) with realistic content; Section 5: choose scribe, tick the role(s) from its Problem Charter (its executive team decides which), fill every card, Tasks 4-6, Review/Realign/Restore, one Task 7 response (lowest trait), Agree; check the Capstone page shows Unit 11 AGREED with 11A-11D filled. Before starting, check the signed-in badge on the Unit 11 page: at 22:16 Chrome was signed in as Carol (Facilitator). If so, ask her in grade-5 steps to sign out and sign in as Test Participant, then do the whole run yourself. Tell Carol to sign back in with her own account afterwards. Then give her one push block for this file's update.
 3. Unit 12 · Sustaining Performance (`unit4_m2_lens11_p.html` / `_f.html`) when Carol sends her direction / Word files: same method; align its "ESRG Scanner" card (led by COO, CTO/CIO, CHRO, CFO) to Unit 10's ESRG (FIT · SIP · AIR · PAR). Capstone u12 currently 5 boxes.
 4. Decks for all units at the end (Units 6-11 need the new content and ESRG wording), then Storage uploads.
 
@@ -36,3 +37,14 @@ Folder: `C:\Users\Carol\ibsl-platform` (device shell `$HOME/mnt/ibsl-platform`).
 - Push: one PowerShell block starting `cd C:\Users\Carol\ibsl-platform`, every file named in `git add`, commit message ending with the new session's attribution lines, then `git push`.
 - Tests: Playwright in the cloud workspace on PREVIEW pages staged with `device_stage_files` (serve with `python3 -m http.server`).
 - If the link to her computer drops, the device tools come back by themselves while the Claude app stays open; finish any unwritten step as soon as they return.
+
+## 6. Carol's instruction (27 Oct 22:17)
+Do not leave pending issues for Carol: she is not technical and runs a live cohort. Every open item above is Claude's to carry through to live in the new chat; ask her only for the steps only she can do (signing in, running the SQL or push blocks Claude gives her).
+
+## 7. Test account run of Unit 11 (27 Oct 2026, 22:20-22:30, live portal, Chrome signed in as Test Participant by Carol)
+- Git before this: `main` = `origin/main` = `0f79fa6a…` "Handover after Unit 11" (Carol's 22:16 push).
+- Section 4: Individual Reflection ref7, five fields filled (CEO, Executive Office: High Morale, lost time from board-paper rework, about R84,000 a quarter, observed vs assumed, quarterly priority list action). Saved: "Saved to your portfolio".
+- Section 5: scribe = Test Participant; CEO ticked from the Problem Charter executive team ("CEO · Test Participant"). CEO card (Tasks 1-2), Tasks 4-6, Review/Realign/Restore and one Task 7 response (Minimal Confusion, lowest trait 16/20; Lost Time R12,000 -> R7,000, reduction R5,000) filled. Record complete; Agree -> all agreed; confirmed names = the four "Health Clinic · …" items.
+- Capstone page: Unit 11 · Culture Reinforcement & Organisational Health AGREED; 11A-11D filled (11B: CEO, 18 valid responses, 82.0 /100 Healthy & Thriving).
+- Note: the Agree button in part 5.8 sits inside a closed fold-out; the group bar Agree button records the agreement. Both call the same agree.
+- Next: Unit 12 when Carol sends her direction. Decks at the end.
