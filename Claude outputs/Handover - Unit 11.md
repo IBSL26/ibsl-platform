@@ -65,3 +65,9 @@ Folder: `C:\Users\Carol\ibsl-platform` (device shell `$HOME/mnt/ibsl-platform`).
 - Section 4 part 4.7 From Values to a Cultural Operating Code (both pages): how a value becomes a norm, what makes the Code real, the three tests (New Employee, Pressure, Mirror), and the IBSL Code worked example as six collapsible cards (AIM, SAY, ONE, OAR, SET, SEE) with a summary table.
 - Section 5 part 5.8 Build Your Cultural Operating Code (Task 8), part of the same group record: Step 1 values (3 to 6 with meaning), Step 2 norms (3 to 6: value, observable behaviour, acronym, three actions, norm statement), Step 3 strongest norm against the three tests. Output renamed 5.9. Saved as oh_coc; Capstone box 11E; Unit 11 box count 5 (SQL unit11_cultural_code.sql).
 - Build: Unit decks/_build/rebuild_u11/u11_coc.py and u11_coc.js; tested 24 Playwright checks on the PREVIEWs.
+
+## 12. Test account run of 5.8 (27 Oct 23:05, live, Test Participant signed in by Carol)
+- SQL unit11_cultural_code.sql run by Carol: 8, 6, 6, 6, 3, 3, 5, 5, 5, 4, 5, 5. Push cb1c8b0d live (4.7, 5.8, 5.9 on both pages).
+- Team Alpha 5.8 filled: values Client First, Ownership, Integrity, Learning; norms ACE, OWN, DUE; strongest norm OWN tested. Record saved with five names; Agree; all agreed.
+- Capstone page: Unit 11 AGREED; 11E Cultural Operating Code filled from the group record.
+- Next: Unit 12 when Carol sends her direction; decks at the end.
