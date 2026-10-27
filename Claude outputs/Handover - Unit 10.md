@@ -79,3 +79,8 @@ Add `"Claude outputs/Handover - Unit 10.md"` to the next `git add` line.
 - Live files written 27 Oct: `unit4_m1_lens9_p.html` 6f056e7a…, `unit4_m1_lens9_f.html` b81441948…, `capstone_P.html` b2ff9c93…, `dashboard_F.html` 4abf4dce…, `build_collection.js` 8ba37827…, `collection.html` 272bb3d8…. Head before the push: 55e70ae1 (two other commits landed today before this work went live).
 - check_standards: Unit 10 shows Rule 27 (no Unit Summary, by Carol's decision) and Rule 12 "Capstone S2R Blueprint" (same naming as the other units).
 - Still to do: deck (Carol: "we will work on the decks later"), Storage, live simulation of the test account (Capstone u10 Agreed), Units 6/8/9 ESRG alignment, Units 11 and 12.
+
+## 9. ESRG alignment of Units 6, 7, 8 and 9 (27 Oct 2026, 19:54 "build the live files")
+- Carol asked why Unit 7 was left out: Unit 7 part 1.2 (Clarity and Capability in organisational performance) and its Section 5 placeholders still carried the old domain meanings. Now aligned with Units 6, 8 and 9. Script `Unit decks\_build\esrg_align_27oct\align_esrg.py` (runs on the pre-change pages in `Claude outputs\Backups\ESRG alignment 27 Oct`); change list and PREVIEW pages in `Claude outputs\Review files\ESRG alignment Units 6 to 9`.
+- Live md5: Unit 6 p 5ede4836…, f 8606bf64…; Unit 7 p eb12f356…, f 1dc1ca44…; Unit 8 p a0dc043f…, f 62f89d69…; Unit 9 p d869b363…, f 9477295d…; collection.html a409be63….
+- ESRG elsewhere: Unit 11 (u4m1_lens10) and Unit 12 (u4m2_lens11) mention ESRG by name only (Unit 12 "ESRG Scanner" card: led by COO, CTO/CIO, CHRO, CFO) — align when Units 11 and 12 are rebuilt. Decks of Units 6–10 carry the old ESRG wording in slides and notes: align at the end with all decks.
