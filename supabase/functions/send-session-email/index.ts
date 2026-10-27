@@ -17,7 +17,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 const RESEND_API_KEY       = Deno.env.get('RESEND_API_KEY')!
 const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
 const SUPABASE_ANON_KEY    = Deno.env.get('SUPABASE_ANON_KEY')!
-const SUPABASE_SERVICE_KEY = Deno.env.get('SB_SERVICE_ROLE_KEY')!
+// Supabase supplies SUPABASE_SERVICE_ROLE_KEY to every function; SB_SERVICE_ROLE_KEY is the older fallback.
+const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || Deno.env.get('SB_SERVICE_ROLE_KEY')!
 const PORTAL_URL           = 'https://ibslportal.netlify.app'
 const FROM_ADDRESS         = 'IBSLeadership S2R Portal <noreply@mail.ibsleadership.com>'
 const CHECKIN_FROM         = 'IBSL Programme Team <noreply@mail.ibsleadership.com>'

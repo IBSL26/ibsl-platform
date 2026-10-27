@@ -17,7 +17,8 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const RESEND_API_KEY       = Deno.env.get('RESEND_API_KEY')!
 const SUPABASE_URL         = Deno.env.get('SUPABASE_URL')!
-const SUPABASE_SERVICE_KEY = Deno.env.get('SB_SERVICE_ROLE_KEY')!
+// Supabase supplies SUPABASE_SERVICE_ROLE_KEY to every function; SB_SERVICE_ROLE_KEY is the older fallback.
+const SUPABASE_SERVICE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || Deno.env.get('SB_SERVICE_ROLE_KEY')!
 const CRON_SECRET          = Deno.env.get('CRON_SECRET') || ''
 const PORTAL_URL           = 'https://ibslportal.netlify.app'
 const FROM_ADDRESS         = 'IBSLeadership S2R Portal <noreply@mail.ibsleadership.com>'
@@ -294,13 +295,25 @@ async function missedSessionAlert(db: Db) {
   return { alerted: n }
 }
 
+// Which kind of server key this function holds (role name only, never the key itself).
+function describeKey(k?: string) {
+  if (!k) return 'not set'
+  if (k.startsWith('sb_secret_')) return 'new secret key'
+  if (k.startsWith('sb_publishable_')) return 'new publishable key'
+  try { let b = k.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'); while (b.length % 4) b += '='; return 'jwt role ' + JSON.parse(atob(b)).role } catch { return 'unknown format' }
+}
+function keyInfo() {
+  return { supabase_service_role_key: describeKey(Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')),
+           sb_service_role_key: describeKey(Deno.env.get('SB_SERVICE_ROLE_KEY')) }
+}
+
 Deno.serve(async (req) => {
   if (!CRON_SECRET || req.headers.get('x-cron-secret') !== CRON_SECRET) {
     return json({ ok: false, error: 'Not allowed.' }, 403)
   }
   const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, { auth: { autoRefreshToken: false, persistSession: false } })
   const now = new Date()
-  const result: Record<string, unknown> = { ok: true, ran_at: now.toISOString() }
+  const result: Record<string, unknown> = { ok: true, ran_at: now.toISOString(), key: keyInfo() }
   // Each part runs on its own, so one failure does not stop the others.
   for (const [key, fn] of [
     ['sessions', () => sessionReminders(db, now)],
