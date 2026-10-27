@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVIEW · Unit 12 — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(201,168,76,.3);}
+.step-tab.active{background:rgba(201,168,76,.15);border-color:var(--gold);border-bottom-color:rgba(201,168,76,.15);box-shadow:0 -2px 0 var(--gold) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--gold);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+.step-panel strong{color:rgba(255,255,255,.92);}
+.grav-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;margin-bottom:8px;transition:all .2s;}
+.grav-card:hover,.grav-card.open{border-color:rgba(201,168,76,.3);}
+.grav-head{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+.grav-num{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:3px 10px;flex-shrink:0;margin-right:14px;}
+.grav-left{flex:1;}
+.grav-name{font-family:"Cormorant Garamond",serif;font-size:1.15rem;color:#fff;}
+.grav-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;font-style:italic;}
+.grav-force{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(201,168,76,.6);margin-top:4px;}
+.grav-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.grav-card.open .grav-arr{transform:rotate(180deg);color:var(--gold);}
+.grav-bar{height:3px;background:rgba(201,168,76,.14);}
+.grav-card.open .grav-bar{background:var(--gold);}
+.grav-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.grav-card.open .grav-body{display:block;}
+.grav-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.85;margin-bottom:10px;}
+.grav-body strong{color:var(--gold);}
+.kiss-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.kiss-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;transition:all .2s;cursor:pointer;}
+.kiss-card:hover{border-color:rgba(201,168,76,.3);}
+.kiss-card.open{border-color:var(--gold);background:#1a2318;}
+.kiss-letter{font-size:32px;font-weight:700;font-family:"Cormorant Garamond",serif;color:var(--gold);margin-bottom:6px;}
+.kiss-name{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:6px;}
+.kiss-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.7;font-style:italic;margin-bottom:0;}
+.kiss-card-head{display:flex;align-items:flex-start;justify-content:space-between;}
+.kiss-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;margin-top:4px;}
+.kiss-card.open .kiss-arr{transform:rotate(180deg);color:var(--gold);}
+.kiss-body{display:none;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);}
+.kiss-card.open .kiss-body{display:block;}
+.kiss-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;margin:0;}
+.force-tab-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:24px;margin-bottom:14px;}
+.force-tab-panel.active{display:block;}
+.force-tab-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.force-tab-panel strong{color:rgba(255,255,255,.92);}
+.force-signal{background:rgba(201,168,76,.07);border-left:3px solid var(--gold);padding:12px 16px;margin:12px 0;border-radius:0 3px 3px 0;}
+.force-signal-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.force-signal p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.8;margin:0;}
+.force-nav{background:var(--blues);border-left:3px solid var(--blue);padding:12px 16px;margin:12px 0;border-radius:0 3px 3px 0;}
+.force-nav-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(100,180,240,.8);margin-bottom:6px;}
+.force-nav p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin:0;}
+.causal-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px;}
+.causal-table th{background:#0f1a10;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 16px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.causal-table td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:top;line-height:1.7;}
+.causal-table td:first-child{color:rgba(255,255,255,.65);width:30%;}
+.causal-table td:second-child{width:35%;}
+.causal-table td:last-child{color:rgba(255,255,255,.4);font-size:11px;font-style:italic;width:35%;}
+.causal-table tr:hover td{background:rgba(255,255,255,.02);}
+.cxo-row{border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.cxo-head{display:flex;align-items:center;gap:14px;padding:14px 0;}
+.cxo-badge{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:4px 10px;flex-shrink:0;min-width:80px;text-align:center;}
+.cxo-zone{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.75);flex:1;}
+.cxo-force-badge{font-size:9px;font-weight:700;letter-spacing:1px;color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:2px;padding:2px 8px;flex-shrink:0;}
+.cxo-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.cxo-row.open .cxo-arr{transform:rotate(180deg);color:var(--gold);}
+.cxo-body{display:none;padding:0 0 18px 94px;}
+.cxo-row.open .cxo-body{display:block;}
+.cxo-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:4px;}
+.cxo-col-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cxo-col-content{font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;}
+.cxo-risk{font-size:12px;color:rgba(255,200,100,.7);line-height:1.7;font-style:italic;}
+.abcv-nav-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.abcv-nav-card{border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.08);transition:all .2s;cursor:pointer;}
+.abcv-nav-card:hover{border-color:rgba(201,168,76,.3);}
+.abcv-nav-card.open{border-color:rgba(201,168,76,.35);}
+.abcv-nav-head{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#151c15;}
+.abcv-nav-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;}
+.abcv-nav-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-top:3px;}
+.abcv-nav-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.abcv-nav-card.open .abcv-nav-arr{transform:rotate(180deg);color:var(--gold);}
+.abcv-nav-body{display:none;padding:18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.abcv-nav-card.open .abcv-nav-body{display:block;}
+.abcv-nav-row{margin-bottom:14px;}
+.abcv-nav-row-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:5px;}
+.abcv-nav-row-text{font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;}
+.abcv-mbt{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15);border-radius:3px;padding:12px 14px;margin-top:10px;}
+.abcv-mbt-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.abcv-mbt p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.7;font-style:italic;}
+.chain-box{background:#0f1a10;border:1px solid rgba(201,168,76,.2);border-radius:4px;padding:24px;margin:18px 0;}
+.chain-step{display:flex;align-items:flex-start;gap:16px;margin-bottom:20px;}
+.chain-step:last-child{margin-bottom:0;}
+.chain-num{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.chain-content{flex:1;}
+.chain-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.chain-text{font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;}
+.chain-arrow{text-align:center;font-size:18px;color:rgba(201,168,76,.4);margin:4px 0;}
+.kiss-response-grid{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.kiss-response-grid th{background:rgba(201,168,76,.1);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.kiss-response-grid td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);color:rgba(255,255,255,.65);vertical-align:top;line-height:1.65;}
+.kiss-response-grid td:first-child{font-weight:700;color:var(--gold);width:12%;}
+.kiss-response-grid td:nth-child(2){color:rgba(255,255,255,.5);font-size:12px;width:28%;font-style:italic;}
+.tool-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:20px;margin-bottom:10px;cursor:pointer;transition:all .2s;}
+.tool-card:hover,.tool-card.open{border-color:rgba(201,168,76,.3);}
+.tool-head{display:flex;align-items:center;justify-content:space-between;}
+.tool-name{font-family:"Cormorant Garamond",serif;font-size:1.15rem;color:#fff;}
+.tool-lead{font-size:10px;color:rgba(201,168,76,.6);letter-spacing:1px;margin-top:4px;}
+.tool-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;}
+.tool-card.open .tool-arr{transform:rotate(180deg);color:var(--gold);}
+.tool-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);}
+.tool-card.open .tool-body{display:block;}
+.tool-body p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:8px;}
+.tool-body ul{padding-left:20px;margin-bottom:8px;}
+.tool-body li{font-size:13px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:4px;}
+.scenario-card{background:#151c15;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;margin-bottom:10px;cursor:pointer;transition:all .2s;}
+.scenario-card:hover{border-color:rgba(201,168,76,.3);}
+.scenario-card.selected{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.sc-badge{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.sc-force{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:2px;margin-bottom:6px;margin-left:8px;}
+.sc-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-bottom:8px;}
+.sc-body{display:none;font-size:13px;color:rgba(255,255,255,.65);line-height:1.8;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+.scenario-card.selected .sc-body{display:block;}
+.sc-abcv{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.18);border-radius:3px;padding:14px 16px;margin:12px 0;}
+.sc-abcv-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sc-abcv-text{font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.closing-box{background:linear-gradient(135deg,#0d1f15,#1a3a2a);border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:32px 36px;margin:20px 0;}
+.closing-box p{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:2;color:rgba(255,255,255,.82);margin-bottom:14px;}
+.closing-box p:last-child{margin-bottom:0;}
+.closing-final{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);text-align:center;margin-top:16px;}
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#151c15;border:1px solid rgba(201,168,76,.1);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+@media(max-width:900px){.kiss-grid,.abcv-nav-grid,.cxo-cols{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid #c9a84c;border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.slo-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+/* Unit 12 · Sustaining Performance (27 Oct 2026) */
+.u12-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;}
+.u12-tbl{width:100%;border-collapse:collapse;font-size:13px;}
+.u12-tbl th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.u12-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.68);line-height:1.65;vertical-align:top;}
+.u12-tbl td strong{color:rgba(255,255,255,.9);}
+.u12-kv td:first-child{width:34%;color:rgba(255,255,255,.85);font-weight:600;}
+.u12-wide{min-width:640px;}
+.u12-h{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:20px 0 8px;}
+.u12-sub{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:16px 0 4px;}
+.u12-ul{padding-left:20px;margin:8px 0;}
+.u12-ul li{font-size:13.5px;line-height:1.75;color:rgba(255,255,255,.75);margin:5px 0;}
+.u12-q{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.8);margin:4px 0 8px;}
+.u12-src{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;}
+.u12-refl{border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:12px 16px;margin:14px 0;background:rgba(255,255,255,.02);}
+.u12-refl-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u12-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:14px 0;}
+.u12-card{border:1px solid rgba(255,255,255,.1);border-top:2px solid var(--gold);border-radius:3px;padding:14px;background:rgba(255,255,255,.02);}
+.u12-card-l{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold);line-height:1;}
+.u12-card-n{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);margin:6px 0 8px;}
+.u12-card p{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.68);margin:0;}
+.u12-det{border:1px solid rgba(255,255,255,.1);border-radius:3px;margin:10px 0;background:rgba(255,255,255,.02);}
+.u12-det>summary{cursor:pointer;list-style:none;padding:11px 14px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.82);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.u12-det>summary::-webkit-details-marker{display:none;}
+.u12-det>summary::after{content:"\25BE";font-size:13px;opacity:.6;transition:transform .2s;}
+.u12-det[open]>summary::after{transform:rotate(180deg);}
+.u12-det-b{padding:2px 14px 12px;}
+.u12-how{border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:12px 16px;margin:14px 0;background:rgba(255,255,255,.03);}
+.u12-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u12-how ol{padding-left:20px;}
+.u12-how li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:4px 0;}
+.u12-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 12px;}
+.u12-grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0 12px;}
+.u12-f{min-width:0;}
+.u12-f .fld-input{width:100%;box-sizing:border-box;}
+.u12-ta{min-height:58px;resize:vertical;line-height:1.6;}
+.u12-line{border:1px solid rgba(255,255,255,.1);border-left:2px solid var(--gold);border-radius:3px;padding:12px 16px;margin:14px 0;background:rgba(255,255,255,.02);}
+.u12-line-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u12-ro{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;margin:8px 0;}
+.u12-note{font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6;margin:8px 0;}
+.u12-note.ok{color:#5ecba1;}.u12-note.warn{color:#f0c060;}
+.u12-ok{color:#5ecba1;font-weight:700;}
+.u12-warn{color:#f0c060;font-weight:700;}
+.u12-btnrow{margin:10px 0;}
+.u12-rec{margin-top:12px;}
+.u12-add{margin:6px 0 10px;}
+.u12-krow{border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:10px 14px;margin:10px 0;}
+.u12-krow-h{display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.u12-del{background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6);font-size:10px;padding:4px 10px;border-radius:2px;cursor:pointer;letter-spacing:1px;}
+@media (max-width:600px){.u12-tbl th,.u12-tbl td{padding:8px;}}
+</style>
+</head>
+<body>
+<!-- ACCESS GATE (role-based; shown only on denial) -->
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#1a1206;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
+  </div>
+</div>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 4 · Grounding</strong>Unit 12 · Sustaining Performance — Facilitator</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 4 · Grounding · Unit 12</div>
+    <h1 class="unit-title">Sustaining Performance</h1>
+    <div class="unit-sub">Grounding · Pillar 3 of DIG</div>
+    <p class="unit-desc">Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.</p>
+    <p class="unit-desc">The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Organisational Health (culture), and then to this unit, which leverages both to sustain high performance.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Module learning outcomes</span>
+      <span class="klo">Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.</span>
+      <span class="klo">Shape organisational culture by establishing and embedding the conditions and practices that strengthen organisational health.</span>
+      <span class="klo">Integrate organisational capabilities and cultural practices into a coherent operating environment that supports sustained high performance.</span>
+      <span class="klo">Institutionalise organisational performance sustainability through mechanisms that preserve strategic alignment, strengthen adaptability and maintain performance continuity.</span>
+    </div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Distinguish short-term performance attainment from sustained institutional capability.</span>
+      <span class="klo">Maintain continuous sight of strategic, operational and behavioural performance across the enterprise’s contributions.</span>
+      <span class="klo">Recognise the sources of performance drift and the early erosion of strategic coherence.</span>
+      <span class="klo">Exercise forward-looking executive judgement that protects organisational value and long-term performance.</span>
+    </div>
+  </div>
+</div>
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Facilitator</small>Guide<br><small style="font-size:8px;opacity:.5;">Overview</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Session Overview</h2><p>Unit intent, learning journey, key facilitation questions and tone for the full unit.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Unit Intent</div>
+<p>Unit 12 answers the closing question of the programme: how does a leadership team hold results once it has achieved them? The answer runs on two concepts the participants already know. The Three Lines of Sight show where performance is drifting, read through the WARD check-up set for each enterprise Key Result in Unit 6. KISS is the set of decisions the leadership team makes at the close of every quarter to hold what works and correct what drifts.</p>
+<p>The unit produces one working instrument: the <strong>Quarterly Three Lines of Sight page</strong>. Each quarter it brings together results the participants already know how to produce: the Key Result against its WARD waypoint (Unit 6), the ESRG scan (Unit 10) and the Organisational Health Thermometer (Unit 11). WARD filters each line, and KISS closes the page.</p>
+<p>Each section carries both concepts one step further:</p>
+<div class="u12-scroll"><table class="u12-tbl"><thead><tr><th>Section</th><th>Three Lines of Sight</th><th>KISS</th></tr></thead><tbody>
+<tr><td>1 · Awareness — What</td><td>What the three lines are, the results each line reads, and how WARD filters them</td><td>What Keep, Improve, Stop and Start mean</td></tr>
+<tr><td>2 · Intelligence — Why</td><td>Why performance drifts on each line</td><td>Why each KISS decision counters that drift</td></tr>
+<tr><td>3 · Extrapolating — Where</td><td>Where drift shows first in each executive domain</td><td>Where each executive’s KISS decision sits</td></tr>
+<tr><td>4 · Integration — Collective</td><td>The leadership team completes the quarterly page from its worked results</td><td>The leadership team makes its KISS decisions at quarter close</td></tr>
+<tr><td>5 · Application — In Practice</td><td>The group completes the quarterly page for its Capstone organisation</td><td>The group makes its KISS decisions for the next quarter</td></tr>
+</tbody></table></div>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div>
+<ul class="u12-ul"><li>“Think of a result your organisation achieved and then lost. Which line of sight showed the drift first, and who was watching it?”</li><li>“When your leadership team reviews a Key Result, how much of the conversation is about the result, and how much is about the conditions and behaviours that produce it?”</li><li>“Which KISS decision does your leadership team find hardest to make, and what keeps it from being made?”</li></ul>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<ul class="u12-ul"><li><strong>Hold the unit to two concepts.</strong> Every section returns to the Three Lines of Sight and KISS. Where participants bring in other tools from earlier units, connect what they say back to the line of sight it belongs to.</li><li><strong>The results are already theirs.</strong> Each group set WARD in Unit 6, ran the ESRG scan in Unit 10 and the Health Thermometer in Unit 11. Present Unit 12 as the quarterly routine that brings these results onto one page and acts on them.</li><li><strong>Watch for results-only reading.</strong> Leaders who read only the strategic line see drift last. Bring the conversation back to the operational and behavioural lines each time it settles on the result alone.</li><li><strong>Keep KISS specific.</strong> A KISS decision names the practice, the owner and when it takes effect. Guide participants from general intentions to named practices.</li></ul>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Section 1 · Awareness — What</div><h2>What Sustains Performance</h2><p>Performance Gravity, the Three Lines of Sight that show it, and the four KISS decisions that hold performance against it.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Recognise the force that pulls achieved results back towards average.</li><li>Identify the leadership decisions that hold performance against that pull.</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Awareness</div>
+<p>Open with the question of the unit: once a result is achieved, what holds it? Teach 1.1 and 1.2 first, then return to the room with the opening question in the Key Facilitation Questions.</p>
+<p>In 1.2, connect each line to the result it reads: the Key Result for the strategic line, the ESRG scan for the operational line and the Health Thermometer for the behavioural line. Then show how WARD filters all three.</p>
+<p>In 1.3, define each KISS decision clearly. Section 2 explains why each one counters a form of drift, so keep 1.3 to what each decision is.</p>
+</div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.1 &mdash; Performance Gravity</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Achieving a result and holding it are two separate leadership tasks. The strategy, the contributions and the performance system built across this programme produce results. Once achieved, those results come under a steady pull back towards the organisation’s historical average. This pull is <strong>Performance Gravity</strong>.</p>
+<p>Performance Gravity works quietly. Results often remain acceptable for several cycles while the conditions and behaviours that produced them weaken underneath. By the time the decline shows in the result, the cost of correcting it is far higher than the cost of noticing it early.</p>
+<p>Sustaining performance is the leadership discipline of seeing that pull early and responding to it every cycle.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.2 &mdash; The Three Lines of Sight</div><div class="acc-meta">Strategic · Operational · Behavioural</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Performance Gravity shows first as drift on one of three lines of sight. Sustaining performance means keeping all three in view, every quarter, on the enterprise Key Result and the contributions in your S2R® Contribution Map™. Each line is read from a result your leadership team already produces.</p>
+<div class="u12-scroll"><table class="u12-tbl "><thead><tr><th>Line of sight</th><th>The question each quarter</th><th>The result it reads</th></tr></thead><tbody>
+<tr><td><strong>Strategic</strong></td><td>Is the Key Result still moving towards its Success in Practice?</td><td>The Key Result against its WARD waypoint (Unit 6)</td></tr>
+<tr><td><strong>Operational</strong></td><td>Are the organisational conditions still enabling the people’s tasks?</td><td>The ESRG scan: Operational Readiness, Operational Flow, Delivery Capacity and Decision Responsiveness (Unit 10)</td></tr>
+<tr><td><strong>Behavioural</strong></td><td>Are people still delivering the agreed behaviours?</td><td>The Organisational Health Thermometer: the functional health score and the five traits (Unit 11)</td></tr>
+</tbody></table></div>
+<h4 class="u12-h">Filtering each line through WARD</h4>
+<p>WARD, set for your enterprise Key Result in Unit 6, filters all three lines. Each line has a level it must hold (the waypoint), a point at which it raises a red flag (the alert), a recovery and a Decider.</p>
+<div class="u12-scroll"><table class="u12-tbl u12-wide"><thead><tr><th>WARD</th><th>Strategic</th><th>Operational</th><th>Behavioural</th></tr></thead><tbody>
+<tr><td><strong>W · Waypoint</strong></td><td>The Key Result level set for this quarter</td><td>Each capability at Aligned (4.0–5.0)</td><td>Functional health at Healthy &amp; Thriving (80–100)</td></tr>
+<tr><td><strong>A · Alert</strong></td><td>More than the agreed margin below the waypoint</td><td>A capability below 3.0 (Significant or Critical constraint)</td><td>Functional health below 60 (Caution Zone or Unhealthy)</td></tr>
+<tr><td><strong>R · Recovery</strong></td><td>Recovery for individuals and for the organisational conditions</td><td>The owner of the condition restores it</td><td>The accountable executive restores the weakest traits</td></tr>
+<tr><td><strong>D · Decider</strong></td><td>The executive who decides on the recovery and sees it through</td><td>The same Decider</td><td>The same Decider</td></tr>
+</tbody></table></div>
+<p>The operational and behavioural waypoints and alerts use the score bands already taught with the ESRG scan and the Health Thermometer. Drift usually raises an alert on the operational or behavioural line before the Key Result misses its waypoint. A leadership team that reads only the waypoint of the Key Result sees Performance Gravity last.</p>
+<div class="u12-refl"><div class="u12-refl-h">&#x270E; Participant reflection</div><p>Which of the three lines of sight does your leadership team read least, and what has that cost your organisation?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.3 &mdash; KISS: The Four Sustaining Decisions</div><div class="acc-meta">Keep · Improve · Stop · Start</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At the close of every quarter, the leadership team makes four decisions about the practices, routines, behaviours and conditions behind its results.</p>
+<div class="u12-cards"><div class="u12-card"><div class="u12-card-l">K</div><div class="u12-card-n">Keep</div><p>Identify, name and protect the practices, routines, behaviours and conditions that are producing reliable results. Effective practices depend on leadership attention; when that attention moves elsewhere, they weaken without notice. Keep makes the implicit explicit: what is producing this result, and what must stay in place for it to continue?</p></div><div class="u12-card"><div class="u12-card-l">I</div><div class="u12-card-n">Improve</div><p>Recognise what was working well and is beginning to work less well, and recalibrate it while the gap is still a signal. Practices that were excellent six months ago may be merely adequate today. Improve corrects them before the gap shows in the result.</p></div><div class="u12-card"><div class="u12-card-l">S</div><div class="u12-card-n">Stop</div><p>Eliminate practices, meetings, processes, reports and approval layers that consume energy without producing commensurate value. Stop is the hardest decision, because every practice has a sponsor and people whose interests it serves.</p></div><div class="u12-card"><div class="u12-card-l">S</div><div class="u12-card-n">Start</div><p>Introduce what the organisation is not yet capable of and will need for the next level of performance. Start invests in future capability while current results make that investment possible.</p></div></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">← Facilitator Guide</button><button class="btn" onclick="showMod(2)">Section 2 — Intelligence →</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Section 2 · Intelligence — Why</div><h2>Why Performance Drifts, and Why KISS Holds It</h2><p>The mechanism of drift on each line of sight, and the KISS decisions that counter each one.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Explain why achieved performance drifts back towards average across strategy, operations and behaviour.</li><li>Counter drift before it reaches the enterprise result.</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Intelligence</div>
+<p>Teach 2.1 one line at a time: the mechanism, how it shows, and how it reaches the result. Use an example from the room for each line once it has been taught.</p>
+<p>Then teach 2.2 by reading the table across: the line of sight, the drift on that line, and the KISS decisions that counter it. Make the link explicit: each KISS decision answers a specific form of drift.</p>
+<p>Close with the participant reflection. Guide participants to name a real practice from their own organisation.</p>
+</div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.1 &mdash; Why Performance Drifts</div><div class="acc-meta">Select each line to open it</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Performance Gravity works through a different mechanism on each line of sight.</p>
+<details class="u12-det" open><summary>Strategic line &middot; Momentum Illusion</summary><div class="u12-det-b">
+<p>The market, customers and competitors keep moving after the strategy is set. The organisation continues running the approach that produced its results, and the results stay acceptable for a while because momentum carries them forward. The Key Result keeps meeting its waypoints while the Success in Practice it serves moves further away.</p><p><strong>How it shows:</strong> waypoints met with growing effort; customers referring to alternatives that did not exist when the strategy was set; win rates and renewals moving slightly in the wrong direction.</p>
+</div></details>
+<details class="u12-det"><summary>Operational line &middot; Complexity Creep</summary><div class="u12-det-b">
+<p>Every change in regulation, cost or technology brings a structural response: a new approval, a new report, a new process. Each response made sense when it was created. Together they leave the organisation heavier and slower than its current environment requires, and the conditions named in the Contribution Map begin to constrain the people’s tasks.</p><p><strong>How it shows:</strong> approvals and processes no one can explain the current purpose of; manual workarounds; budget structures built for conditions that have since changed.</p>
+</div></details>
+<details class="u12-det"><summary>Behavioural line &middot; Execution Regression</summary><div class="u12-det-b">
+<p>Every organisation carries habits, norms and assumptions reinforced over years. Once attention moves away from a new practice, these habits pull behaviour back towards the historical pattern. Review cadences loosen, escalation slows and standards return to earlier levels, often without anyone deciding to relax them.</p><p><strong>How it shows:</strong> reviews shortened or postponed; issues carried across several cycles; accountability applied unevenly; agreed behaviours visible only when leaders are watching.</p>
+</div></details>
+<div class="hbox"><p>Execution Regression weakens the organisation’s ability to respond on the other two lines, because the routines that detect drift are the first to loosen.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.2 &mdash; Why KISS Holds Performance</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each KISS decision answers a specific form of drift.</p>
+<div class="u12-scroll"><table class="u12-tbl "><thead><tr><th>Line of sight</th><th>Drift on this line</th><th>KISS decisions that counter it</th></tr></thead><tbody>
+<tr><td><strong>Strategic</strong></td><td>Momentum Illusion</td><td><strong>Keep</strong> what still earns the result in the current market. <strong>Start</strong> what the moved market now requires.</td></tr>
+<tr><td><strong>Operational</strong></td><td>Complexity Creep</td><td><strong>Stop</strong> structures built for conditions that no longer exist. <strong>Improve</strong> conditions that are beginning to constrain delivery.</td></tr>
+<tr><td><strong>Behavioural</strong></td><td>Execution Regression</td><td><strong>Keep</strong> the agreed behaviours protected with leadership attention. <strong>Improve</strong> behaviours that have started to slip.</td></tr>
+</tbody></table></div>
+<p>A leadership team that reads the three lines each quarter and closes each quarter with its KISS decisions holds performance against all three mechanisms.</p>
+<div class="u12-refl"><div class="u12-refl-h">&#x270E; Participant reflection</div><p>Name one practice in your organisation that is drifting on one of the three lines. Which KISS decision would hold it, and who would need to make that decision?</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(3)">Section 3 — Extrapolating →</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Section 3 · Extrapolating — Where</div><h2>Where Drift Shows First, and Where Each KISS Decision Sits</h2><p>The executive domain where drift surfaces first, the line of sight each role reads first, and the KISS decision each role usually leads.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Locate where drift appears first in each executive domain.</li><li>Assign executive ownership for holding performance in each domain.</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Extrapolating</div>
+<p>Teach 3.1 by walking the room through three or four roles represented in the cohort, then invite each participant to find their own role. Point out that each role has a line it reads first and a KISS decision it usually leads.</p>
+<p>The participant reflection in 3.1 is individual work. Guide participants to name a signal that is present in their organisation today, beyond what could be present.</p>
+</div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.1 &mdash; Where Drift Shows First</div><div class="acc-meta">Select each role to open it</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Drift surfaces first in the executive domain closest to it. Each executive reads one line of sight first and usually leads the KISS decision that answers its drift.</p>
+<details class="u12-det" open><summary>CEO &middot; Strategic Coherence</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Strategic</td></tr><tr><td>Where drift shows first</td><td>Priorities interpreted differently across business units; initiatives multiply without a clear link to the strategy</td></tr><tr><td>KISS decision it usually leads</td><td>Keep the strategic priorities clear; Stop initiatives that compete with them</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CFO &middot; Capital Discipline</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Operational</td></tr><tr><td>Where drift shows first</td><td>Strategic initiatives underfunded while legacy activities stay fully resourced</td></tr><tr><td>KISS decision it usually leads</td><td>Stop legacy spending; Start funding for the strategic initiatives</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>COO &middot; Execution Cadence</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Operational and Behavioural</td></tr><tr><td>Where drift shows first</td><td>Reviews shortened or postponed; operational issues carried across several cycles</td></tr><tr><td>KISS decision it usually leads</td><td>Keep the review rhythm; Improve escalation discipline</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CHRO &middot; Organisational Health</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Behavioural</td></tr><tr><td>Where drift shows first</td><td>Less willingness to raise problems early; accountability applied unevenly</td></tr><tr><td>KISS decision it usually leads</td><td>Keep the agreed behaviours; Improve how they are recognised and reinforced</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CTO / CIO &middot; Technology Enablement</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Operational</td></tr><tr><td>Where drift shows first</td><td>Teams creating manual workarounds; data systems slowing decisions</td></tr><tr><td>KISS decision it usually leads</td><td>Improve the systems that constrain delivery; Start capability the strategy will need</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CMO &middot; Market Intelligence</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Strategic</td></tr><tr><td>Where drift shows first</td><td>Customer insight that reflects who the customer was; competitors responding faster</td></tr><tr><td>KISS decision it usually leads</td><td>Start renewed customer intelligence; Stop campaigns built on the old customer view</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CCO &middot; Revenue Conversion</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Strategic and Behavioural</td></tr><tr><td>Where drift shows first</td><td>Pipeline growth without matching revenue; performance explained through external factors alone</td></tr><tr><td>KISS decision it usually leads</td><td>Improve conversion practices; Keep commercial discipline</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CPO &middot; Supply Resilience</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Operational</td></tr><tr><td>Where drift shows first</td><td>Supplier reliability declining; short-term cost decisions over strategic partnerships</td></tr><tr><td>KISS decision it usually leads</td><td>Improve supplier arrangements; Stop cost-only sourcing decisions</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CRO &middot; Risk Intelligence</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>Strategic</td></tr><tr><td>Where drift shows first</td><td>Stakeholders raising risk questions the governance process does not yet address</td></tr><tr><td>KISS decision it usually leads</td><td>Start risk input into strategic decisions; Improve risk reporting</td></tr></tbody></table>
+</div></details>
+<details class="u12-det"><summary>CSO &middot; Strategy Translation</summary><div class="u12-det-b">
+<table class="u12-tbl u12-kv"><tbody><tr><td>Line it reads first</td><td>All three</td></tr><tr><td>Where drift shows first</td><td>OKRs drifting from strategic objectives; execution conversations busy and strategically vague</td></tr><tr><td>KISS decision it usually leads</td><td>Keep the line from strategy to OKRs; Improve how the three lines are read in reviews</td></tr></tbody></table>
+</div></details>
+<div class="u12-refl"><div class="u12-refl-h">&#x270E; Participant reflection (Learning Portfolio)</div><p>Fields for the participant: <strong>My role · The line of sight I read first · The drift signal present in my organisation today · The KISS decision I would lead</strong>.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(4)">Section 4 — Integration →</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Section 4 · Integration — Collective</div><h2>The Quarterly Three Lines of Sight</h2><p>One page each quarter: the three lines of sight read from the worked results, filtered through WARD and closed with KISS.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Establish a collective leadership rhythm that sustains performance across every contribution.</li><li>Coordinate the enterprise response to drift before it reaches the result.</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Integration</div>
+<p>Teach 4.1 by walking through the page from top to bottom: the three lines, the WARD filter on each, then KISS at the foot. Point out that every entry on the page is a result the leadership team already produces.</p>
+<p>Walk through 4.2 one line at a time. For each line, show the result first and let the room decide whether the alert is raised before showing the recovery. Then build the KISS decisions together from the three lines.</p>
+<p>Point out that every figure in 4.2 comes from the worked examples of earlier units: the Key Result and WARD from Units 6 and 8, the ESRG scan from Unit 10, the Health Thermometer from Unit 11 and the clogs from Unit 9.</p>
+</div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.1 &mdash; The Quarterly Three Lines of Sight Page</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each quarter the leadership team completes one page for each enterprise Key Result. The page brings the three lines together, filters each through WARD and closes with the KISS decisions for the next quarter.</p>
+<div class="u12-scroll"><table class="u12-tbl "><thead><tr><th>Part of the page</th><th>What the leadership team enters</th></tr></thead><tbody>
+<tr><td><strong>Header</strong></td><td>Enterprise Key Result · Quarter · Decider</td></tr>
+<tr><td><strong>Each line of sight</strong></td><td>The result this quarter · The waypoint · The alert · Alert raised (yes or no) · The recovery and its owner · When the Decider checks it</td></tr>
+<tr><td><strong>KISS for next quarter</strong></td><td>Keep · Improve · Stop · Start — each with the practice, the line of sight it comes from and its owner</td></tr>
+</tbody></table></div>
+<p>Over four quarters, the pages show whether each line is holding, recovering or drifting, and whether the KISS decisions made at each quarter close moved the next quarter’s results.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.2 &mdash; Worked Example: Quarter 2, Customer Service</div><div class="acc-meta">Every figure from earlier worked examples</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Every figure below comes from the worked examples in earlier units.</p>
+<div class="u12-scroll"><table class="u12-tbl u12-kv"><tbody>
+<tr><td><strong>Enterprise Key Result</strong></td><td>Increase customer enquiries resolved within 48 hours from 65% to 90% by year-end.</td></tr>
+<tr><td><strong>Quarter</strong></td><td>Quarter 2 (April to June)</td></tr>
+<tr><td><strong>Decider</strong></td><td>The Customer Service Executive</td></tr>
+</tbody></table></div>
+<div class="u12-scroll"><table class="u12-tbl u12-wide"><thead><tr><th>WARD</th><th>Strategic · Key Result</th><th>Operational · ESRG scan (Customer Service)</th><th>Behavioural · Health Thermometer (Operations)</th></tr></thead><tbody>
+<tr><td><strong>Result this quarter</strong></td><td>74% resolved within 48 hours</td><td>Operational Readiness 4.3 · Operational Flow 2.0 · Delivery Capacity 4.0 · Decision Responsiveness 3.7</td><td>52/100 (Quarter 1: 80/100). Minimal Politics 8 and High Morale 8 show the largest declines</td></tr>
+<tr><td><strong>W · Waypoint</strong></td><td>80% by the end of June</td><td>Each capability at 4.0 or above</td><td>80/100 or above</td></tr>
+<tr><td><strong>A · Alert</strong></td><td>More than three points below the waypoint</td><td>Any capability below 3.0</td><td>Below 60/100</td></tr>
+<tr><td><strong>Alert raised</strong></td><td>Yes · six points below</td><td>Yes · Operational Flow at 2.0</td><td>Yes · Caution Zone</td></tr>
+<tr><td><strong>R · Recovery</strong></td><td>Team leaders review open enquiries with each owner every morning</td><td>IT restores system availability from 96% to 99% within four weeks. Customer Service and Operations examine Standardisation, Integration and Process Efficiency behind Operational Flow</td><td>The COO strengthens collaboration, trust and commitment in Operations</td></tr>
+<tr><td><strong>D · Decider checks</strong></td><td>End of July</td><td>End of July</td><td>Next thermometer, Quarter 3</td></tr>
+</tbody></table></div>
+<p class="u12-src"><strong>Sources:</strong> Key Result, waypoint, alert, June result and recovery: Units 6 and 8. ESRG profile: Unit 10, 2.4. Health scores: Unit 11, 4.3. Clogs behind the KISS decisions: Unit 9, 1.5.</p>
+<h4 class="u12-h">KISS for Quarter 3</h4>
+<div class="u12-scroll"><table class="u12-tbl u12-wide"><thead><tr><th>Decision</th><th>Practice</th><th>Line of sight</th><th>Owner</th></tr></thead><tbody>
+<tr><td><strong>Keep</strong></td><td>The morning review of open enquiries with each owner</td><td>Behavioural</td><td>Customer Service team leaders</td></tr>
+<tr><td><strong>Keep</strong></td><td>The conditions behind Operational Readiness (4.3) and Delivery Capacity (4.0)</td><td>Operational</td><td>IT and Operations</td></tr>
+<tr><td><strong>Improve</strong></td><td>Cross-functional handoffs, since 40% of delayed cases require another department</td><td>Operational</td><td>Customer Service with Operations</td></tr>
+<tr><td><strong>Improve</strong></td><td>Collaboration and morale in Operations, the two weakest health traits</td><td>Behavioural</td><td>COO</td></tr>
+<tr><td><strong>Stop</strong></td><td>Senior-management approval of routine refunds</td><td>Operational</td><td>Operations</td></tr>
+<tr><td><strong>Stop</strong></td><td>Scorecards that count enquiries processed in place of enquiries resolved</td><td>Behavioural</td><td>Customer Service Executive</td></tr>
+<tr><td><strong>Start</strong></td><td>Case tracking after escalation, so staff can follow each case through to resolution</td><td>Strategic</td><td>IT with Customer Service</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(5)">Section 5 — Application →</button></div>
+</div></div>
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Section 5 · Application — In Practice</div><h2>Our Quarterly Three Lines of Sight</h2><p>Each group completes the quarterly page for the enterprise Key Result of its Capstone organisation and makes its KISS decisions for the next quarter.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Exercise forward-looking judgement that holds performance gains across people and organisation.</li><li>Design a leadership rhythm that sustains the enterprise result quarter after quarter.</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Application</div>
+<p>This is group work and Capstone work. Each group chooses its scribe for this exercise. Every member agrees the record before it goes to the Capstone S2R Blueprint.</p>
+<p>Direct the groups to the results the portal brings into the page: their WARD from Unit 6, their ESRG scan from Unit 10 and their consolidated health position from Unit 11.</p>
+<p>Guide the groups to complete the page in order: the result on each line, the WARD filter, the recovery, and then the KISS decisions drawn from the three lines.</p>
+</div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Application Overview</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each group completes the Quarterly Three Lines of Sight page for the enterprise Key Result in its Capstone S2R Blueprint, using the worked example in 4.2 as its reference.</p>
+<h4 class="u12-h">Brought into the page from earlier units</h4><ul class="u12-ul"><li>The enterprise Key Result and its WARD — Unit 6, Section 5</li><li>The ESRG scan — Unit 10 Capstone (10A)</li><li>The consolidated health position — Unit 11 Capstone (11B)</li></ul>
+<h4 class="u12-h">Exercise fields</h4><ol class="u12-ul"><li><strong>Header</strong> — the quarter. The Key Result and the Decider are brought in.</li><li><strong>Strategic line</strong> — the Key Result result this quarter, the waypoint and alert (brought in), alert raised, the recovery and when the Decider checks it.</li><li><strong>Operational line</strong> — the lowest ESRG capability and its score (brought in), alert raised, the recovery, its owner and when it is checked.</li><li><strong>Behavioural line</strong> — the health score and the two weakest traits (brought in), alert raised, the recovery, its owner and when it is checked.</li><li><strong>KISS for next quarter</strong> — Keep, Improve, Stop and Start, each with the practice, the line of sight it comes from and its owner.</li></ol>
+</div></div></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.2 &mdash; Your Results for the Quarter</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The portal brings each group’s confirmed results onto its page: the enterprise Key Result and its WARD (Unit 6), the ESRG scan (Unit 10) and the consolidated health position (Unit 11). The scribe chooses the quarter and can correct any value that has changed.</p>
+<div class="u12-scroll"><table class="u12-tbl u12-kv"><tbody>
+<tr><td><strong>Enterprise Key Result</strong></td><td></td></tr>
+<tr><td><strong>Quarter</strong></td><td></td></tr>
+<tr><td><strong>Decider</strong></td><td></td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.3 &mdash; The Three Lines of Sight</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each group completes each line from its results in part 5.2, filtered through WARD.</p>
+<div class="u12-scroll"><table class="u12-tbl u12-wide"><thead><tr><th>WARD</th><th>Strategic · Key Result</th><th>Operational · ESRG scan</th><th>Behavioural · Health Thermometer</th></tr></thead><tbody>
+<tr><td><strong>Result this quarter</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>W · Waypoint</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>A · Alert</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Alert raised</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>R · Recovery and owner</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>D · Decider checks</strong></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; KISS for Next Quarter</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each group records the decisions its leadership team makes at the close of the quarter, with at least one Keep, one Improve, one Stop and one Start.</p>
+<div class="u12-scroll"><table class="u12-tbl u12-wide"><thead><tr><th>Decision</th><th>Practice</th><th>Line of sight</th><th>Owner</th></tr></thead><tbody>
+<tr><td><strong>Keep</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Improve</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Stop</strong></td><td></td><td></td><td></td></tr>
+<tr><td><strong>Start</strong></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.5 &mdash; Capstone Output</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When every member has agreed, the group’s page goes into its team’s Capstone S2R Blueprint:</p>
+<div class="u12-scroll"><table class="u12-tbl "><thead><tr><th>Item</th><th>Title</th><th>Content</th></tr></thead><tbody>
+<tr><td><strong>12A</strong></td><td>Strategic line</td><td>The Key Result result, WARD filter and recovery for the quarter.</td></tr>
+<tr><td><strong>12B</strong></td><td>Operational line</td><td>The ESRG reading, WARD filter and recovery for the quarter.</td></tr>
+<tr><td><strong>12C</strong></td><td>Behavioural line</td><td>The health reading, WARD filter and recovery for the quarter.</td></tr>
+<tr><td><strong>12D</strong></td><td>KISS for next quarter</td><td>The Keep, Improve, Stop and Start decisions, with practice, line of sight and owner.</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc"><div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Unit Summary</div><div class="acc-meta">Unit 12 synthesis &middot; S2R&reg; Programme Close</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<ul class="u12-ul"><li>Results achieved come under Performance Gravity: a steady pull back towards the organisation’s historical average.</li><li>The pull shows first on one of three lines of sight: strategic, operational or behavioural.</li><li>Each line reads a result the leadership team already produces: the Key Result, the ESRG scan and the Health Thermometer. WARD filters all three.</li><li>Each line drifts through its own mechanism: Momentum Illusion, Complexity Creep and Execution Regression. KISS answers each one.</li><li>Each quarter, the Quarterly Three Lines of Sight page brings the three lines together and closes with the KISS decisions for the next quarter.</li></ul>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">← Section 4 — Integration</button></div>
+</div></div>
+</div>
+<script>
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleGrav(c){c.classList.toggle('open');}
+function toggleKISS(c){c.classList.toggle('open');}
+function toggleCXO(r){r.classList.toggle('open');}
+function toggleTool(c){c.classList.toggle('open');}
+function toggleABCV(c){c.classList.toggle('open');}
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+function goBack(){window.location.href='dashboard_F.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#c9a84c;color:#111811;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-align:center;padding:7px 12px;">PREVIEW COPY · Unit 12 facilitator page · not the live portal</div>
+</body>
+</html>

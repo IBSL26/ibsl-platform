@@ -6038,7 +6038,8 @@
       { name: 'Cross-CXO Organisational Health Clinic', test: function (k, lensId) { return /^oh_(func|cons|rrr|resp|coc)$/i.test(k) && lensId === 'u4m1_lens10'; } },
       { name: 'ACE-IT Coaching Model',    test: function (k, lensId) { return /^app_scenario$/i.test(k) || /^app_prep_/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens10'); } },
       { name: 'KISS Navigation Response', test: function (k) { return /^app_kiss_/i.test(k); } },
-      { name: 'Navigation Commitment',    test: function (k) { return /^app_nav_/i.test(k); } }
+      { name: 'Navigation Commitment',    test: function (k) { return /^app_nav_/i.test(k); } },
+      { name: 'Quarterly Three Lines of Sight', test: function (k, lensId) { return /^qs_(strategic|operational|behavioural|kiss)$/i.test(k) && lensId === 'u4m2_lens11'; } }
     ];
     function familyOf(key, lensId) {
       for (var fi = 0; fi < FAMILY_DEFS.length; fi++) { if (FAMILY_DEFS[fi].test(key, lensId)) return FAMILY_DEFS[fi].name; }
@@ -6866,24 +6867,13 @@
       oh_coc: 'Health Clinic · Cultural Operating Code — agreed'
     },
     u4m2_lens11: {
-      ref1: 'The Navigation Premise',
-      ref2: 'Most Active Gravity Mechanism',
-      ref3: 'KISS · Keep',
-      ref4: 'KISS · Improve',
-      ref5: 'KISS · Stop',
-      ref6: 'KISS · Start',
-      ref7: 'Most Active Force Category',
-      ref8: 'Domain ABCV Question',
-      ref9: 'ABCV Diagnostic',
-      ref10: 'Collective Review Cadence',
-      app_kiss_scenario: 'Chosen Navigation Scenario',
-      app_kiss_keep: 'KISS Response · Keep',
-      app_kiss_improve: 'KISS Response · Improve',
-      app_kiss_stop: 'KISS Response · Stop',
-      app_kiss_start: 'KISS Response · Start',
-      app_nav_force: 'Navigation Commitment · Force',
-      app_nav_abcv: 'Navigation Commitment · ABCV Finding',
-      app_nav_commit: 'Navigation Commitment · KISS Decision'
+      ref11: 'The Line of Sight We Read Least',
+      ref12: 'A Drifting Practice and the KISS Decision That Holds It',
+      ref13: 'Where Drift Shows First in My Role',
+      qs_strategic: 'Quarterly Lines of Sight · Strategic — agreed',
+      qs_operational: 'Quarterly Lines of Sight · Operational — agreed',
+      qs_behavioural: 'Quarterly Lines of Sight · Behavioural — agreed',
+      qs_kiss: 'Quarterly Lines of Sight · KISS for Next Quarter — agreed'
     }
   };
 
@@ -6933,7 +6923,7 @@
       u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda",7:"My Executive Contribution to Performance",8:"My Leadership Contribution to Strategic Unclogging"},
       u4m1_lens9: {},
       u4m1_lens10: {7:"My Functional Health Accountability"},
-      u4m2_lens11: {1:"The Navigation Premise",2:"Most Active Gravity Mechanism",3:"KISS · Keep",4:"KISS · Improve",5:"KISS · Stop",6:"KISS · Start",7:"Most Active Force Category",8:"Domain ABCV Question",9:"ABCV Diagnostic",10:"Collective Review Cadence"}
+      u4m2_lens11: {11:"The Line of Sight We Read Least",12:"A Drifting Practice and the KISS Decision That Holds It",13:"Where Drift Shows First in My Role"}
     };
     if ((m = s.match(/^ref(\d+)$/i))) {
       var _rl = lensId && REF_LABELS[lensId];
