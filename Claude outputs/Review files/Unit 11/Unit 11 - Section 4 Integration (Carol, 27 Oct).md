@@ -1,0 +1,8 @@
+# Unit 11 — Section 4 · Integration (Carol, 27 Oct 21:10)
+
+Source: Word "Unit_11_Section_4_Cross_CXO_Health_Architecture_Updated.docx". Built text is in Unit decks\_build\rebuild_u11\u11_s4a.py (word for word except the standing-rule sentences marked # SR) and u11_s4.py.
+
+Title: Cross-CXO Health Architecture — Grounding People Performance Through Collective Leadership Accountability
+Learning outcomes: (1) Establish a functional organisational health accountability discipline that enables executives to interpret team-generated health assessments and quantify associated people-performance losses. (2) Consolidate functional health assessments into an enterprise organisational health position that informs collective leadership accountability and priorities for strengthening people performance.
+Parts: 4.1 Grounding People Performance Through Leadership Accountability (Two Levels of Leadership Accountability) · 4.2 The Organisational Health Thermometer (individual employee assessment, 1-5 scale, five traits x four statements, Reading Your Temperature, assessment safeguard) · 4.3 From Individual Assessments to Functional Health Scores (formulas; Operations worked example Q1 80 / Q2 52) · 4.4 Quantifying the People-Performance Losses (R346,500; Functional Health Position) · 4.5 Consolidating Functional Health into an Enterprise Position (65.3 / 79.8; R566,500) · 4.6 Sustaining the Cross-CXO Health Architecture · Section Closing Insight · Transition to Section 5.
+Added at Carol's request (21:11, 21:14): Individual Reflection: My Functional Health Accountability (key ref7, five questions incl. quantifying the people-performance loss).

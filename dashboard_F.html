@@ -6035,6 +6035,7 @@
       { name: 'Enterprise ESRG Alignment Clinic', test: function (k, lensId) { return /^es_(scanner|interp|resp|plan)$/i.test(k) && lensId === 'u4m1_lens9'; } },
       { name: 'Cultural Operating Code',  test: function (k, lensId) { return /^coc\d+$/i.test(k) || /^coc_valueset$/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens9'); } },
       { name: 'Health Thermometer',       test: function (k) { return /^app_thermo$/i.test(k); } },
+      { name: 'Cross-CXO Organisational Health Clinic', test: function (k, lensId) { return /^oh_(func|cons|rrr|resp)$/i.test(k) && lensId === 'u4m1_lens10'; } },
       { name: 'ACE-IT Coaching Model',    test: function (k, lensId) { return /^app_scenario$/i.test(k) || /^app_prep_/i.test(k) || (/^app_commit$/i.test(k) && lensId === 'u4m1_lens10'); } },
       { name: 'KISS Navigation Response', test: function (k) { return /^app_kiss_/i.test(k); } },
       { name: 'Navigation Commitment',    test: function (k) { return /^app_nav_/i.test(k); } }
@@ -6857,20 +6858,11 @@
       es_plan: 'ESRG Clinic · 5.4 ESRG Alignment Intervention Plan — agreed'
     },
     u4m1_lens10: {
-      ref1: 'The Best Team Environment',
-      ref2: 'Strongest & Most Vulnerable Trait',
-      ref3: 'Pyramid Layer Needing Attention',
-      ref4: 'Most Visible Cost of Poor Health',
-      ref5: 'Reflection on Your Temperature',
-      ref6: 'Executive Domain Needing Attention',
-      app_thermo: 'Health Thermometer',
-      app_scenario: 'Chosen Coaching Scenario',
-      app_prep_accountability: 'ACE-IT Prep · Accountability',
-      app_prep_commitment: 'ACE-IT Prep · Commitment',
-      app_prep_engagement: 'ACE-IT Prep · Engagement',
-      app_prep_integrity: 'ACE-IT Prep · Integrity',
-      app_prep_transparency: 'ACE-IT Prep · Transparency',
-      app_commit: 'Coaching Commitment'
+      ref7: 'My Functional Health Accountability',
+      oh_func: 'Health Clinic · Functional Health Assessments — agreed',
+      oh_cons: 'Health Clinic · Consolidated Health Position — agreed',
+      oh_rrr: 'Health Clinic · Review–Realign–Restore — agreed',
+      oh_resp: 'Health Clinic · Organisational Health Response — agreed'
     },
     u4m2_lens11: {
       ref1: 'The Navigation Premise',
@@ -6939,7 +6931,7 @@
       u3m2_lens7: {1:"Activity vs Progress",2:"The Cycle and the Loop in Your Organisation",3:"Which Signal Are You Seeing?",4:"Which Gap Is Most Prevalent?",5:"The Conversation Type Most Difficult for Your Team",6:"Your Early Warning Signal",7:"Your Execution Learning",8:"Where You Have Seen the Velocity Gap",9:"The Fracture You Are Most Prone To"},
       u3m2_lens8: {1:"Strategic Clog in Your Organisation",2:"Which Clogs Are Active? (self-assessment)",3:"Where Is Your System Not Yet Ready?",4:"Your Lever",5:"Clog Outside Your Function",6:"Your Contribution to the Enterprise Unclogging Agenda",7:"My Executive Contribution to Performance",8:"My Leadership Contribution to Strategic Unclogging"},
       u4m1_lens9: {},
-      u4m1_lens10: {1:"The Best Team Environment",2:"Strongest & Most Vulnerable Trait",3:"Pyramid Layer Needing Attention",4:"Most Visible Cost of Poor Health",5:"Reflection on Your Temperature",6:"Executive Domain Needing Attention"},
+      u4m1_lens10: {7:"My Functional Health Accountability"},
       u4m2_lens11: {1:"The Navigation Premise",2:"Most Active Gravity Mechanism",3:"KISS · Keep",4:"KISS · Improve",5:"KISS · Stop",6:"KISS · Start",7:"Most Active Force Category",8:"Domain ABCV Question",9:"ABCV Diagnostic",10:"Collective Review Cadence"}
     };
     if ((m = s.match(/^ref(\d+)$/i))) {

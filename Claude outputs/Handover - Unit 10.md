@@ -84,3 +84,9 @@ Add `"Claude outputs/Handover - Unit 10.md"` to the next `git add` line.
 - Carol asked why Unit 7 was left out: Unit 7 part 1.2 (Clarity and Capability in organisational performance) and its Section 5 placeholders still carried the old domain meanings. Now aligned with Units 6, 8 and 9. Script `Unit decks\_build\esrg_align_27oct\align_esrg.py` (runs on the pre-change pages in `Claude outputs\Backups\ESRG alignment 27 Oct`); change list and PREVIEW pages in `Claude outputs\Review files\ESRG alignment Units 6 to 9`.
 - Live md5: Unit 6 p 5ede4836…, f 8606bf64…; Unit 7 p eb12f356…, f 1dc1ca44…; Unit 8 p a0dc043f…, f 62f89d69…; Unit 9 p d869b363…, f 9477295d…; collection.html a409be63….
 - ESRG elsewhere: Unit 11 (u4m1_lens10) and Unit 12 (u4m2_lens11) mention ESRG by name only (Unit 12 "ESRG Scanner" card: led by COO, CTO/CIO, CHRO, CFO) — align when Units 11 and 12 are rebuilt. Decks of Units 6–10 carry the old ESRG wording in slides and notes: align at the end with all decks.
+
+## 10. Test account run-through (27 Oct 2026, 20:03, live portal, Chrome signed in as Test Participant)
+- Unit 10 part 4.5: CEO · Test Participant, Executive Office, stated problem = the Charter's central problem, 12 annual scores saved (esrg_scan_head, esrg_scan). Live `team_esrg_scans` returned the member with 12 of 12.
+- Section 5: scribe = Test Participant; 12 findings, 3 responses (Systems · Integration, Environment · Technology, Governance · Authority) with interventions; Agree → all agreed; confirmed_items hold the four "ESRG Clinic · …" names.
+- Capstone page: Unit 10 · ESRG Alignment AGREED (20:03), boxes 10A–10D filled.
+- Add this file to the next git add.
