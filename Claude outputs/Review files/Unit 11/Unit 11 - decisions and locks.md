@@ -36,3 +36,6 @@
   - Database: Claude outputs/unit11_health_clinic.sql (box count u11 = 4, others kept); tested in pglite (counts 8,6,6,6,3,3,5,5,5,4,4,5, run twice).
   - Links built in rebuild_u11/out/links (not live): capstone_P.html (11A-11D + PULL.u11), dashboard_F.html (labels ref7 + oh_*, numbered map {7}, family "Cross-CXO Organisational Health Clinic"), build_collection.js (group work kept out of the Learning Portfolio).
   - Tests (Playwright on the PREVIEW, cloud) 23 of 23: bar drawn, non-scribe locked, scribe unlocked, roles from Charter (CEO, CFO, COO, CTO/CIO), Task 3 weighted 11.2/11.0/10.3/13.1/12.6 = 58.2 Caution Zone, Task 5 R1,023,000, lowest trait High Morale, reduction text, record complete, four Capstone texts saved, Section 4 reflection not in any Section 5 text, Agree with the four names, add/remove response, untick recalculates, reload restores, no "lens", no page errors, phone width, facilitator page no entry boxes.
+
+## Cultural Operating Code (27 Oct, Carol 22:37)
+- LOCK: part 4.7 teaches the Code with the IBSL example (AIM, SAY, ONE, OAR, SET, SEE); part 5.8 has each group build its organisation's Code inside the shared group record; Capstone box 11E; Unit 11 = 5 boxes.

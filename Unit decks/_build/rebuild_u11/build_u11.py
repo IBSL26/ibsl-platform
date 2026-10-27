@@ -19,7 +19,7 @@ def once(t, a, b):
 
 def common(t, fac):
     t = sub1(t, r'    <div class="unit-sub">Grounding</div>\n.*?<div class="klo-bar">.*?</div>', C.header())
-    i = t.index('</style>'); t = t[:i] + C.css(fac) + S2.css(fac) + S3.css(fac) + S4.css(fac) + S5.css(fac) + t[i:]
+    i = t.index('</style>'); t = t[:i] + C.css(fac) + S2.css(fac) + S3.css(fac) + S4.css(fac) + S5.css(fac) + __import__('u11_coc').css(fac) + t[i:]
     return t
 
 HERO_OLD = r'<h2>What is Organisational Health\?</h2><p>[^<]*</p>'

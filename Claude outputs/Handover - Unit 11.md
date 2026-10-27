@@ -56,3 +56,12 @@ Folder: `C:\Users\Carol\ibsl-platform` (device shell `$HOME/mnt/ibsl-platform`).
 - Unit Summary removed from both pages (as Unit 10). check_standards: Rule 12 and Rule 27 notes, same as Unit 10.
 - Live files written 22:04: `unit4_m1_lens10_p.html` 24aa88a2…, `unit4_m1_lens10_f.html` 7427fb60…, `capstone_P.html` 9b3f9ddd…, `dashboard_F.html` 5461e494…, `build_collection.js` 7d4cc0f5…, `collection.html` bef1096f…. Head before the push: 64eae8b4.
 - Still to do: Carol runs the SQL and the push; live check; test account simulation of Unit 11 Section 5 (Capstone u11 Agreed); Unit 12; decks at the end.
+
+## 10. Cultural Operating Code (Carol asked 22:33 whether Unit 10 kept it)
+- It no longer appears in Unit 10. The old Unit 10 had it in Section 2.2 (Worked Example 1: The IBSL Cultural Operating Code — six IBSL values with acronym norms AIM, SAY, ONE, OAR, SET, SEE) and Section 5 (Build the Cultural Operating Code: three value sets, draft norms coc1–coc3, commitment app_commit). Carol's new Section 2 and Section 5 replaced both on 27 Oct.
+- The full old text is in `Claude outputs\Backups\Unit 10 file backups\unit4_m1_lens9_p - before Module 4 rework (27 Oct).html` (and `_f`); participants' old answers (coc_valueset, coc1–coc3, app_commit) remain in the database. Unit 11 was rebuilt on 27 Oct evening (section 8): it explains the Cultural Operating Code in Section 1 but has no build exercise or worked example (no value sets, norms or acronyms). Carol asked about it at 22:34; it waits for her direction.
+
+## 11. Cultural Operating Code added (Carol, 27 Oct 22:37)
+- Section 4 part 4.7 From Values to a Cultural Operating Code (both pages): how a value becomes a norm, what makes the Code real, the three tests (New Employee, Pressure, Mirror), and the IBSL Code worked example as six collapsible cards (AIM, SAY, ONE, OAR, SET, SEE) with a summary table.
+- Section 5 part 5.8 Build Your Cultural Operating Code (Task 8), part of the same group record: Step 1 values (3 to 6 with meaning), Step 2 norms (3 to 6: value, observable behaviour, acronym, three actions, norm statement), Step 3 strongest norm against the three tests. Output renamed 5.9. Saved as oh_coc; Capstone box 11E; Unit 11 box count 5 (SQL unit11_cultural_code.sql).
+- Build: Unit decks/_build/rebuild_u11/u11_coc.py and u11_coc.js; tested 24 Playwright checks on the PREVIEWs.

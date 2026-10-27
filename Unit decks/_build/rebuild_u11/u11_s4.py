@@ -56,6 +56,8 @@ def section4(fac):
       '<p>The R566,500 figure is an illustrative sum of functional gross exposures; overlapping costs within or across functions must be reconciled before establishing a defensible enterprise loss estimate.</p>'))
     o.append(acc('4.6 &mdash; Sustaining the Cross-CXO Health Architecture',
       '<p>Organisational health requires consistent leadership attention because cultural conditions develop through repeated behaviours and experiences. Each quarter, the thermometer is circulated to individual employees in each function for independent assessment. The responses are consolidated confidentially and each CXO receives the functional health score and trait-level results. The executive interprets the findings, investigates cultural vulnerabilities and quantifies associated people-performance losses. EXCO then consolidates the functional positions to understand enterprise health and shared priorities for strengthening people performance.</p>'))
+    import u11_coc
+    o.append(u11_coc.part47(fac))
     if fac:
         o.append('<div class="fac-note-full"><div class="fac-note-full-label">&#9670; %s</div>\n<p>%s</p><ol class="u11-ol">%s</ol>\n</div>' % (REF_TITLE, REF_INTRO_F, ''.join('<li>%s</li>' % q for q in REF_Q)))
     else:

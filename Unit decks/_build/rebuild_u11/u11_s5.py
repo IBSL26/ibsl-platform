@@ -85,13 +85,15 @@ def section5(fac):
         b += ['<p>%s</p>' % T7A, '<p>%s</p>' % T7B, '<div class="hbox"><p id="u11Low"></p></div>', '<div id="u11Resp"></div>',
               '<button type="button" class="ref-save u11-add" onclick="u11AddResp()">+ Add a response</button>']
     o.append(acc('5.7 &mdash; Consolidated Organisational Health Response', '\n'.join(b), meta='Task 7'))
-    # 5.8
+    # 5.8 Cultural Operating Code (Carol 22:37), then the output as 5.9
+    import u11_coc
+    o.append(u11_coc.part58(fac))
     b = ['<p>%s</p>' % OUT58, '<p><strong>%s</strong></p>' % OUT58B]
     if not fac:
         b.append('<div class="u11-rec"><div id="u11RecMsg" class="u11-note2"></div>'
                  '<button type="button" class="ref-save" data-team-free onclick="u11Agree()">Agree</button> '
                  '<button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our clinic record</button></div>')
-    o.append(acc('5.8 &mdash; Capstone Assessment Output', '\n'.join(b)))
+    o.append(acc('5.9 &mdash; Capstone Assessment Output', '\n'.join(b)))
     return '\n'.join(o) + '\n'
 
 def css(fac):
@@ -108,7 +110,7 @@ def css(fac):
             '#mod4 .u11-tbln.u11-ref{min-width:760px;}\n') % (c, c, c)
 
 def js():
-    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'u11_s5.js'), encoding='utf-8').read()
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'u11_s5.js'), encoding='utf-8').read() + open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'u11_coc.js'), encoding='utf-8').read()
     data = ('var U11_ROLES=%s;\nvar U11_LOSS=%s;\nvar U11_CS=%s;\nvar U11_CN=%s;\nvar U11_NAMES=%s;\nvar U11_KEYS=%s;' % (
         json.dumps([[r[0], r[1].replace('&amp;', '&amp;')] + list(r[2:]) for r in ROLES], ensure_ascii=False), json.dumps(LOSSES, ensure_ascii=False),
         json.dumps(COSTS), json.dumps(COST_NAMES), json.dumps(NAMES, ensure_ascii=False), json.dumps(KEYS)))

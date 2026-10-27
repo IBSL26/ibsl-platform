@@ -8,8 +8,8 @@ var U11_LENS="u4m1_lens10";
 var U11_TR=["Minimal Politics","Minimal Confusion","High Morale","High Productivity","Low Turnover"];
 var U11_FF=[["vuln","Potential cultural vulnerabilities"],["evid","Evidence requiring investigation"],["link","Links between the largest hidden cost and the two weakest traits"],["valid","Evidence needed to validate the estimates"],["overlap","Potential overlap or double counting"],["dist","Estimated exposure and validated loss"]];
 var U11_RF=[["trait","Priority health trait"],["action","Review–Realign–Restore action"],["owners","Accountable CXO(s)"],["htarget","Health improvement target"],["cost","Associated hidden cost"],["target","Financial target (R)"]];
-var U11W=u11Blank(),_u11Last={},U11Fold={f:{},r:{}},U11Charter=[],U11Ready=false;
-function u11Blank(){return {roles:[],fn:{},t4:{contrib:"",xvuln:""},t5:{overlap:""},t6:{funcs:"",cult:"",people:""},rrr:{review:"",realign:"",restore:""},resp:[u11BlankResp()]};}
+var U11W=u11Blank(),_u11Last={},U11Fold={f:{},r:{},n:{}},U11Charter=[],U11Ready=false;
+function u11Blank(){return {roles:[],fn:{},t4:{contrib:"",xvuln:""},t5:{overlap:""},t6:{funcs:"",cult:"",people:""},rrr:{review:"",realign:"",restore:""},resp:[u11BlankResp()],coc:u11CocBlank()};}
 function u11BlankResp(){return {trait:"",action:"",owners:"",htarget:"",cost:"",target:""};}
 function u11esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 function u11el(id){return document.getElementById(id);}
@@ -19,6 +19,7 @@ function u11Norm(w){
   if(Array.isArray(w.roles))b.roles=U11_ROLES.map(function(r){return r[0];}).filter(function(c){return w.roles.indexOf(c)>=0;});
   if(w.fn&&typeof w.fn==="object")Object.keys(w.fn).forEach(function(c){var x={};U11_FF.forEach(function(f){x[f[0]]=u11Str(w.fn[c]&&w.fn[c][f[0]]);});b.fn[c]=x;});
   ["t4","t5","t6","rrr"].forEach(function(g){Object.keys(b[g]).forEach(function(k){b[g][k]=u11Str(w[g]&&w[g][k]);});});
+  b.coc=u11CocNorm(w.coc);
   if(Array.isArray(w.resp)&&w.resp.length)b.resp=w.resp.map(function(r){var x=u11BlankResp();Object.keys(x).forEach(function(k){x[k]=u11Str(r&&r[k]);});return x;});
   return b;
 }
@@ -98,7 +99,7 @@ function u11DrawResp(){
 function u11DrawFields(){
   document.querySelectorAll('#mod4 [data-u11^="t4-"],#mod4 [data-u11^="t5-"],#mod4 [data-u11^="t6-"],#mod4 [data-u11^="rrr-"]').forEach(function(t){var a=t.getAttribute("data-u11").split("-");if(document.activeElement!==t)t.value=U11W[a[0]][a[1]]||"";});
 }
-function u11Draw(){u11DrawRoles();u11DrawRef();u11DrawFns();u11DrawCalc();u11DrawFields();u11DrawResp();u11RecDraw();}
+function u11Draw(){u11DrawRoles();u11DrawRef();u11DrawFns();u11DrawCalc();u11DrawFields();u11DrawResp();u11DrawCoc();u11RecDraw();}
 function u11AddResp(){if(window.S2RTeam&&!S2RTeam.isScribe())return;U11W.resp.push(u11BlankResp());u11DrawResp();u11Out();u11RecDraw();}
 function u11DelResp(i){if(window.S2RTeam&&!S2RTeam.isScribe())return;if(U11W.resp.length<2)return;if(!confirm("Remove Response "+(i+1)+"?"))return;U11W.resp.splice(i,1);U11Fold.r={};u11DrawResp();u11Out();u11RecDraw();}
 function u11OnInput(ev){
@@ -106,6 +107,7 @@ function u11OnInput(ev){
   var a=path.split("-");
   if(a[0]==="role"){if(ev.type!=="change")return;var c=path.slice(5),i=U11W.roles.indexOf(c);if(t.checked&&i<0)U11W.roles.push(c);if(!t.checked&&i>=0)U11W.roles.splice(i,1);
     U11W.roles=U11_ROLES.map(function(r){return r[0];}).filter(function(x){return U11W.roles.indexOf(x)>=0;});u11DrawRoles();u11DrawRef();u11DrawFns();u11DrawCalc();u11DrawResp();}
+  else if(a[0]==="cv"||a[0]==="cn"||a[0]==="ct"){u11CocInput(a,t,ev);}
   else if(a[0]==="fn"){u11Fn(a[1])[a[2]]=t.value;}
   else if(a[0]==="resp"){var r=U11W.resp[+a[1]];if(!r)return;r[a[2]]=t.value;
     if(a[2]==="trait"){var sm=document.querySelector('#u11Resp details[data-fold="r-'+a[1]+'"]>summary');if(sm)sm.textContent="Response "+(+a[1]+1)+(r.trait?" · "+r.trait:"");}
@@ -122,6 +124,7 @@ function u11Open(){
   if(!U11W.t6.funcs.trim()||!U11W.t6.cult.trim()||!U11W.t6.people.trim())o.push("the EXCO findings in Task 6");
   if(!U11W.rrr.review.trim()||!U11W.rrr.realign.trim()||!U11W.rrr.restore.trim())o.push("the Review, Realign and Restore outputs in part 5.6");
   U11W.resp.forEach(function(r,i){if(U11_RF.some(function(f){return !String(r[f[0]]).trim();})||isNaN(parseFloat(String(r.target).replace(/[^\d.]/g,""))))o.push("every field of Response "+(i+1)+" in part 5.7");});
+  o=o.concat(u11CocOpen());
   return o;
 }
 function u11Texts(){
@@ -138,7 +141,7 @@ function u11Texts(){
       "Priority cultural vulnerabilities: "+U11W.t6.cult.trim(),"Priority people-performance concerns: "+U11W.t6.people.trim()]).join("\n");
   var R="Review · Prioritised organisational health diagnosis: "+U11W.rrr.review.trim()+"\nRealign · Agreed cultural reinforcement actions: "+U11W.rrr.realign.trim()+"\nRestore · Measurable health and performance commitments: "+U11W.rrr.restore.trim();
   var P=U11W.resp.map(function(r,i){return "Response "+(i+1)+": "+r.trait+"\nReview–Realign–Restore action: "+r.action.trim()+"\nAccountable CXO(s): "+r.owners.trim()+"\nHealth improvement target: "+r.htarget.trim()+"\nAssociated hidden cost: "+r.cost+"\nFinancial target: "+u11RedText(r);}).join("\n\n");
-  return {oh_func:F,oh_cons:C,oh_rrr:R,oh_resp:P};
+  return {oh_func:F,oh_cons:C,oh_rrr:R,oh_resp:P,oh_coc:u11CocText()};
 }
 /* The scribe's page saves the working record, and the four Capstone texts once the record is complete. */
 function u11Out(){
@@ -156,7 +159,7 @@ function u11RecDraw(){
 async function u11Agree(){var o=u11Open();if(o.length){u11RecDraw();return;}if(!window.S2RTeam)return;
   if(S2RTeam.isScribe()){u11Out();await S2RTeam.flush();}await S2RTeam.agree();u11RecDraw();}
 function u11Print(){
-  var t=u11Texts(),H=["Functional health assessments","Consolidated health position","Review–Realign–Restore","Organisational Health Response"];
+  var t=u11Texts(),H=["Functional health assessments","Consolidated health position","Review–Realign–Restore","Organisational Health Response","Cultural Operating Code"];
   var body=U11_KEYS.map(function(k,i){return "<h2>"+H[i]+"</h2>"+t[k].split("\n").map(function(l){if(!l)return "";var j=l.indexOf(": ");return "<p>"+(j>0?"<strong>"+u11esc(l.slice(0,j))+":</strong> "+u11esc(l.slice(j+2)):"<strong>"+u11esc(l)+"</strong>")+"</p>";}).join("");}).join("");
   var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Our Cross-CXO Organisational Health Clinic</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}h2{color:#043f2f;font-size:18px;margin-top:22px;border-bottom:1px solid #ccc}p{margin:4px 0}.sub{color:#555;font-size:13px}</style></head><body>'+
     '<h1>Our Cross-CXO Organisational Health Clinic</h1><p class="sub">Strategy2Results® · Module 4 · Unit 11 · Section 5 · Capstone work</p>'+body+'</body></html>';

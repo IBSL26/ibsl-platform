@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVIEW · Unit 11 — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(201,168,76,.3);}
+.step-tab.active{background:rgba(201,168,76,.15);border-color:var(--gold);border-bottom-color:rgba(201,168,76,.15);box-shadow:0 -2px 0 var(--gold) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--gold);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Trait cards */
+.trait-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.trait-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.trait-card:hover,.trait-card.open{border-color:rgba(201,168,76,.3);}
+.trait-head{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.trait-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.trait-name{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:var(--gold);}
+.trait-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.trait-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.trait-card.open .trait-arr{transform:rotate(180deg);color:var(--gold);}
+.trait-bar{height:3px;background:rgba(201,168,76,.14);}
+.trait-card.open .trait-bar{background:var(--gold);}
+.trait-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.trait-card.open .trait-body{display:block;}
+.trait-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:8px;}
+/* CXO rows */
+.cxo-row{border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.cxo-head{display:flex;align-items:center;gap:14px;padding:16px 0;}
+.cxo-badge{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:2px;padding:4px 10px;flex-shrink:0;min-width:80px;text-align:center;}
+.cxo-domain{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:rgba(255,255,255,.8);flex:1;}
+.cxo-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.cxo-row.open .cxo-arr{transform:rotate(180deg);color:var(--gold);}
+.cxo-body{display:none;padding:0 0 20px 94px;}
+.cxo-row.open .cxo-body{display:block;}
+.cxo-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.cxo-col-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cxo-col-content{font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;}
+.cxo-risk{font-size:13px;color:rgba(255,200,100,.7);line-height:1.75;font-style:italic;}
+/* Thermometer */
+.thermo-intro{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:16px;}
+.thermo-scale{display:flex;gap:8px;margin:12px 0 20px;flex-wrap:wrap;}
+.scale-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:60px;}
+.scale-num{font-size:16px;font-weight:700;color:var(--gold);}
+.scale-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4);}
+.trait-section{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+.trait-section-head{padding:12px 16px;background:linear-gradient(135deg,#1a2a1e,#0f1a10);border-bottom:1px solid rgba(201,168,76,.15);}
+.trait-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.trait-section-max{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
+.thermo-row{display:grid;grid-template-columns:28px 1fr 80px;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);}
+.thermo-row:last-of-type{border-bottom:none;}
+.thermo-qnum{font-size:11px;font-weight:700;color:rgba(201,168,76,.5);text-align:center;}
+.thermo-stmt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.thermo-input{width:70px;background:#0f1a10;border:1px solid rgba(201,168,76,.3);border-radius:3px;color:var(--gold);font-family:"Montserrat",sans-serif;font-size:14px;font-weight:700;padding:8px;text-align:center;outline:none;transition:border-color .2s;}
+.thermo-input:focus{border-color:var(--gold);}
+.thermo-total-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(201,168,76,.06);border-top:1px solid rgba(201,168,76,.15);}
+.thermo-total-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.thermo-total-val{font-size:18px;font-weight:700;color:var(--gold);min-width:40px;text-align:right;}
+.grand-total-box{background:#0f1a10;border:1px solid rgba(201,168,76,.3);border-radius:4px;padding:20px 24px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;}
+.grand-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.grand-score{font-size:36px;font-weight:700;color:var(--gold);}
+.grand-max{font-size:14px;color:rgba(255,255,255,.3);}
+.temp-display{padding:16px 20px;border-radius:4px;margin-top:12px;transition:all .3s;border:1px solid rgba(255,255,255,.1);}
+.temp-display-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.temp-display-value{font-size:18px;font-weight:700;}
+.temp-display-signal{font-size:12px;margin-top:4px;opacity:.8;}
+/* Scenario cards */
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.scenario-card{background:#151c15;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;cursor:pointer;transition:all .2s;}
+.scenario-card:hover{border-color:rgba(201,168,76,.3);}
+.scenario-card.selected{border-color:var(--gold);background:rgba(201,168,76,.07);}
+.sc-badge{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sc-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-bottom:6px;}
+.sc-trait{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:10px;}
+.sc-body{display:none;font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+.scenario-card.selected .sc-body{display:block;}
+.sc-task{font-size:12px;color:var(--gold);font-style:italic;margin-top:8px;}
+/* ACE-IT stances */
+.aceit-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:8px;cursor:pointer;overflow:hidden;}
+.aceit-card.open{border-color:rgba(201,168,76,.3);}
+.aceit-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.aceit-letter{font-size:24px;font-weight:700;color:var(--gold);font-family:"Cormorant Garamond",serif;flex-shrink:0;width:32px;}
+.aceit-left{flex:1;}
+.aceit-name{font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;}
+.aceit-stance{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-style:italic;}
+.aceit-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.aceit-card.open .aceit-arr{transform:rotate(180deg);color:var(--gold);}
+.aceit-body{display:none;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.aceit-card.open .aceit-body{display:block;}
+.aceit-principle{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04);}
+.aceit-principle:last-child{border-bottom:none;}
+.aceit-p-label{padding:12px 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);background:rgba(201,168,76,.04);border-right:1px solid rgba(255,255,255,.05);}
+.aceit-p-content{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Hbox */
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Sum cards */
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+/* Gate */
+@media(max-width:900px){.trait-grid,.scenario-grid{grid-template-columns:1fr;}.cxo-cols{grid-template-columns:1fr;}.thermo-row{grid-template-columns:28px 1fr 70px;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid #c9a84c;border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.slo-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+.u11-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.u11-tbl th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.u11-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.u11-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:30%;}
+.u11-h{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:20px 0 8px;}
+.u11-purp{border-left:2px solid var(--gold);padding-left:14px;margin:10px 0 14px;}
+.u11-impl{border-top:1px solid rgba(255,255,255,.08);padding-top:10px;}
+.u11-ci{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u11-det{border:1px solid rgba(255,255,255,.1);border-radius:3px;margin:10px 0;background:rgba(255,255,255,.02);}
+.u11-det>summary{cursor:pointer;list-style:none;padding:11px 14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.82);display:flex;justify-content:space-between;align-items:center;}
+.u11-det>summary::-webkit-details-marker{display:none;}
+.u11-det>summary::after{content:"\25BE";font-size:13px;opacity:.6;transition:transform .2s;}
+.u11-det[open]>summary::after{transform:rotate(180deg);}
+.u11-det-b{padding:2px 14px 12px;}
+.step-tabs{flex-wrap:wrap;}
+@media (max-width:600px){.u11-tbl th,.u11-tbl td{padding:8px;}.u11-tbl td:first-child{width:36%;}}
+.u11-scroll{overflow-x:auto;max-width:100%;}
+.u11-tbl3 td:first-child{width:20%;}
+.u11-note{font-size:12px;font-style:italic;color:rgba(255,255,255,.55);}
+.u11-ol{padding-left:22px;}
+.u11-ol li{margin-bottom:8px;line-height:1.75;}
+@media (max-width:600px){.u11-tbl3{font-size:12px;}.u11-tbl3 td:first-child{width:26%;}}
+.u11-band{list-style:none;padding:0;margin:4px 0 8px;}
+.u11-band li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:6px 0;}
+.u11-b{display:inline-block;min-width:92px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-right:10px;text-align:center;}
+.u11-b1{background:rgba(27,94,32,.3);color:#a5d6a7;}.u11-b2{background:rgba(230,81,0,.22);color:#ffcc80;}.u11-b3{background:rgba(183,28,28,.25);color:#ef9a9a;}
+.u11-bias{border-top:1px solid rgba(255,255,255,.07);padding:10px 0 2px;}.u11-bias:first-child{border-top:none;}
+.u11-bias-t{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u11-bias p{font-size:13px;line-height:1.75;margin-bottom:6px;}
+.u11-tbln td{font-size:12.5px;}
+.u11-tbln td:first-child{width:auto;}
+.u11-tot td{font-weight:700;color:rgba(255,255,255,.9)!important;border-top:1px solid rgba(255,255,255,.2);}
+.u11-stmt td:first-child{width:6%;text-align:center;}.u11-stmt td:last-child{width:14%;white-space:nowrap;color:rgba(255,255,255,.45);}
+.u11-scale{table-layout:fixed;}.u11-scale th,.u11-scale td{text-align:center;padding:8px 4px!important;}.u11-scale td:first-child{width:auto;}
+.u11-total{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:12px 0 4px;}
+.u11-f{border-left:3px solid var(--gold);background:rgba(255,255,255,.03);padding:10px 14px;margin:12px 0;}
+.u11-f p{font-size:13px;color:rgba(255,255,255,.85);margin:4px 0;font-weight:600;}
+@media (max-width:600px){.u11-tbln{min-width:520px;}.u11-scale td{font-size:10.5px;}}
+.u11-how{border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:12px 16px;margin:14px 0;background:rgba(255,255,255,.03);}
+.u11-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u11-how ol{padding-left:20px;}
+.u11-how li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:4px 0;}
+.u11-sub{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 6px;}
+.u11-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px 12px;margin-bottom:8px;}
+.u11-chk{font-size:12.5px;color:rgba(255,255,255,.7);display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border:1px solid rgba(255,255,255,.08);border-radius:3px;cursor:pointer;line-height:1.5;}
+.u11-chk.on{border-color:var(--gold);color:#fff;}
+.u11-chk input{margin-top:3px;}
+.u11-note2{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6;margin:6px 0;grid-column:1/-1;}
+.u11-ref .u11-sel td{background:rgba(26,122,106,.16);color:#fff;}
+.u11-kv td:first-child{width:42%;}
+.u11-ta{min-height:58px;resize:vertical;line-height:1.6;}
+.u11-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px;}
+.u11-ro{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;padding:8px 0;}
+.u11-ok{color:#5ecba1;font-weight:700;}
+.u11-rec{margin-top:10px;}
+.u11-add{margin:6px 0 10px;}
+#mod4 .u11-tbln.u11-ref{min-width:760px;}
+.u11-coc-def{font-style:italic;color:rgba(255,255,255,.6)!important;margin-bottom:6px!important;}
+.u11-coc-norm{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin:6px 0 10px;line-height:1.6;}
+.u11-coc-acr{display:inline-block;font-weight:700;letter-spacing:3px;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:1px 8px;margin-right:6px;}
+.u11-band{text-align:center;letter-spacing:3px;font-weight:700;color:var(--gold)!important;}
+.u11-cv{display:grid;grid-template-columns:minmax(140px,1fr) 2fr;gap:6px 10px;margin:6px 0;}
+@media (max-width:600px){.u11-cv{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<!-- ACCESS GATE (role-based; shown only on denial) -->
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#1a1206;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
+  </div>
+</div>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 4 · Grounding</strong>Unit 11 · Culture Reinforcement &amp; Organisational Health — Facilitator</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 4 · Grounding · Unit 11</div>
+    <h1 class="unit-title">Culture Reinforcement &amp; Organisational Health</h1>
+    <div class="unit-sub">Grounding · Pillar 3 of DIG</div>
+    <p class="unit-desc">Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.</p>
+    <p class="unit-desc">The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Organisational Health (culture), and then to the subsequent unit on leveraging both to sustain high performance.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Module learning outcomes</span>
+      <span class="klo">Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.</span>
+      <span class="klo">Shape organisational culture by establishing and embedding the conditions and practices that strengthen organisational health.</span>
+      <span class="klo">Integrate organisational capabilities and cultural practices into a coherent operating environment that supports sustained high performance.</span>
+      <span class="klo">Institutionalise organisational performance sustainability through mechanisms that preserve strategic alignment, strengthen adaptability and maintain performance continuity.</span>
+    </div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Diagnose organisational health by evaluating how organisational values and cultural norms influence collective behaviour and strategic performance.</span>
+      <span class="klo">Shape and reinforce organisational culture by establishing behavioural standards and embedding cultural operating norms that strengthen organisational health.</span>
+    </div>
+  </div>
+</div>
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Facilitator</small>Guide<br><small style="font-size:8px;opacity:.5;">Overview</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Unit 11 &mdash; Session Overview</h2><p>Unit intent, learning journey and facilitation emphasis for the full unit.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Unit Intent</div>
+<p>Develop executive capability to assess how organisational values become lived culture and how that culture shapes organisational health, then establish the practices required to reinforce healthy organisational behaviour.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Learning Journey</div>
+<table class="u11-tbl"><thead><tr><th>Section</th><th>Focus</th></tr></thead><tbody>
+<tr><td>1 · Awareness — What</td><td>Values, culture and organisational health; Five Observable Health Traits; Organisational Health Pyramid.</td></tr>
+<tr><td>2 · Intelligence — Why</td><td>Translate values into behavioural standards; establish a Cultural Operating Code; embed values in performance measurement and feedback.</td></tr>
+<tr><td>3 · Extrapolating — Where</td><td>Identify cultural vulnerabilities and assess organisational health using the Health Thermometer.</td></tr>
+<tr><td>4 · Integration — Collective</td><td>Align executive expectations and collective responsibility for consistent cultural reinforcement.</td></tr>
+<tr><td>5 · Application — In Practice</td><td>Apply the health assessment and develop targeted cultural reinforcement interventions, including ACE-IT coaching.</td></tr>
+</tbody></table>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitation Emphasis</div>
+<p>Keep the central progression explicit: values establish behavioural principles; culture reflects how these principles are lived; organisational health reflects the resulting collective condition. Use participant organisations as reference points. The executive team presentation takes place only at the final programme panel assessment.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Section 1 · Awareness — What</div><h2>Values, Culture &amp; Organisational Health</h2><p>How organisational values become lived culture, and how that culture shows in the condition of organisational health.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate how organisational values translate into cultural norms and practices that shape organisational health.</li><li>Diagnose organisational health strengths and vulnerabilities using the Five Observable Health Traits and Organisational Health Pyramid.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.1 &mdash; Organisational Values: What We Stand For</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational values are the fundamental principles that guide how an organisation conducts itself in pursuit of its purpose and strategic objectives.</p>
+<p>They establish the standards of behaviour expected of leaders and employees, influencing how people are treated, responsibilities are fulfilled and performance is achieved.</p>
+<p>Values serve two important organisational purposes:</p>
+<div class="u11-purp"><p><strong>1. Establish Behavioural Expectations.</strong> Values define the standards of conduct expected across the organisation. They guide how people interact, exercise authority, fulfil responsibilities and collaborate in delivering strategic priorities.</p>
+<p><strong>2. Provide a Basis for Accountability.</strong> Values establish the principles against which organisational conduct can be assessed. They enable leaders to evaluate how results are achieved, alongside the results themselves.</p></div>
+<h4 class="u11-h">Translating Values into Behavioural Standards</h4>
+<p>For values to influence organisational conduct, they must be expressed through observable behaviours.</p>
+<table class="u11-tbl"><thead><tr><th>Organisational Value</th><th>Expected Behavioural Standard</th></tr></thead><tbody>
+<tr><td>Integrity</td><td>Act honestly, communicate transparently and uphold ethical commitments.</td></tr>
+<tr><td>Accountability</td><td>Take ownership of responsibilities, honour commitments and report progress accurately.</td></tr>
+<tr><td>Respect</td><td>Treat others fairly, listen constructively and recognise different perspectives.</td></tr>
+<tr><td>Excellence</td><td>Maintain high standards, address performance gaps and pursue continuous improvement.</td></tr>
+<tr><td>Collaboration</td><td>Share information, coordinate efforts and contribute to collective outcomes.</td></tr>
+</tbody></table>
+<p>These behavioural standards clarify what organisational values mean in practice. However, the existence of values and behavioural standards does not guarantee their consistent application.</p>
+<p>Their influence depends on whether leaders and employees repeatedly demonstrate, reinforce and uphold them through everyday organisational practices. It is through this consistent application that organisational values become embedded in organisational culture.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.2 &mdash; Organisational Culture: How We Do Things</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational culture is the system of shared behavioural norms that determines how people conduct themselves and work together.</p>
+<p>Culture develops as organisational values are translated into behavioural expectations and repeatedly demonstrated through everyday interactions and ways of working.</p>
+<p>Over time, these behaviours become accepted as “the way we do things around here”. The organisation’s actual culture therefore reflects the behaviours that have become normal, regardless of its stated values.</p>
+<h4 class="u11-h">The Cultural Operating Code</h4>
+<p>The deliberate translation of organisational values into shared cultural norms forms the foundation of a Cultural Operating Code, which establishes how organisational values are consistently lived and reinforced.</p>
+<p>A Cultural Operating Code makes explicit the behavioural expectations that govern how people work together, exercise accountability, communicate and contribute to organisational priorities.</p>
+<p>When consistently practised and reinforced, these norms become embedded in the organisation’s culture. The culture established through these shared norms and everyday practices determines how organisational values are experienced and reflected in organisational health.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.3 &mdash; Organisational Health: The Resulting Condition</div><div class="acc-meta">Select each part to open it</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health reflects how effectively organisational values are lived out within the culture that has been established.</p>
+<p>It is evident in the quality of collective working relationships, clarity of expectations, employee commitment, accountability and the organisation’s ability to function effectively in pursuit of strategic objectives.</p>
+<p>Patrick Lencioni describes a healthy organisation as one that is whole, consistent and complete, with its management, operations, strategy and culture working together coherently.</p>
+<p>Within Strategy2Results®, organisational health provides an indication of how effectively organisational values have become embedded in the culture experienced by employees.</p>
+<details class="u11-det" open><summary>The Five Observable Health Traits</summary><div class="u11-det-b">
+<p>The Five Observable Health Traits provide visible indicators of the condition of organisational health.</p>
+<table class="u11-tbl"><thead><tr><th>Health Trait</th><th>Observable Organisational Condition</th></tr></thead><tbody>
+<tr><td>1. Minimal Politics</td><td>Employees collaborate openly, with limited personal agendas, territorial behaviour and internal competition.</td></tr>
+<tr><td>2. Minimal Confusion</td><td>People understand organisational direction, priorities, responsibilities and performance expectations.</td></tr>
+<tr><td>3. High Morale</td><td>Employees demonstrate commitment, motivation and confidence in their working environment.</td></tr>
+<tr><td>4. High Productivity</td><td>Collective effort is coordinated effectively and translates into meaningful performance outcomes.</td></tr>
+<tr><td>5. Low Turnover</td><td>The organisation retains capable employees through a working environment that supports commitment and contribution.</td></tr>
+</tbody></table>
+<p>These traits describe what organisational health looks like when it is strong. However, the traits are only the visible surface of organisational health. To understand how they are produced, we examine the underlying conditions through the Organisational Health Pyramid.</p>
+</div></details>
+<details class="u11-det"><summary>The Organisational Health Pyramid</summary><div class="u11-det-b">
+<p>The Organisational Health Pyramid explains how organisational health develops from the inside outward. It illustrates how trust influences employees’ experiences, how those experiences shape beliefs, how beliefs influence actions and how actions produce organisational results.</p>
+<div class="hbox"><p style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:1px;">Trust &rarr; Experiences &rarr; Beliefs &rarr; Actions &rarr; Results</p></div>
+<div class="step-group"><div class="step-tabs"><div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">1. Trust</div><div class="step-name">The Foundation</div></div><div class="step-tab" onclick="showStep(1,this)"><div class="step-num">2. Experiences</div><div class="step-name">Shaped by Trust</div></div><div class="step-tab" onclick="showStep(2,this)"><div class="step-num">3. Beliefs</div><div class="step-name">Formed by Experiences</div></div><div class="step-tab" onclick="showStep(3,this)"><div class="step-num">4. Actions</div><div class="step-name">Driven by Beliefs</div></div><div class="step-tab" onclick="showStep(4,this)"><div class="step-num">5. Results</div><div class="step-name">The Visible Traits</div></div></div><div class="step-panel active"><h5>1. Trust &mdash; The Foundation</h5><p>Trust forms the foundation of organisational health. It develops through consistent leadership behaviour, including keeping commitments, communicating transparently, acknowledging mistakes and treating people fairly.</p><p>When trust is established, employees develop confidence in their leaders and colleagues. They become more willing to communicate openly, raise concerns and contribute to collective objectives.</p><p class="u11-impl"><strong>Leadership implication:</strong> Organisational health begins with the trust established through consistent leadership conduct.</p></div><div class="step-panel"><h5>2. Experiences &mdash; Shaped by Trust</h5><p>Employees experience organisational culture through everyday interactions, meetings, performance conversations, leadership decisions and recognition practices.</p><p>These experiences communicate what the organisation genuinely values and the behaviours it considers acceptable. For example, the way leaders respond to mistakes influences whether employees experience the organisation as supportive of learning or inclined towards blame.</p><p class="u11-impl"><strong>Leadership implication:</strong> Everyday organisational experiences reinforce or weaken the values leadership seeks to establish.</p></div><div class="step-panel"><h5>3. Beliefs &mdash; Formed by Experiences</h5><p>Through repeated experiences, employees develop beliefs about how the organisation operates. They form assumptions about whether leaders listen, whether commitments matter, whether effort is recognised and whether honest communication is encouraged.</p><p>Over time, these beliefs influence how employees interpret organisational expectations and their own responsibilities.</p><p class="u11-impl"><strong>Leadership implication:</strong> Repeated organisational experiences establish the beliefs that influence collective behaviour.</p></div><div class="step-panel"><h5>4. Actions &mdash; Driven by Beliefs</h5><p>Employees’ beliefs influence how they behave and contribute to organisational performance. When employees believe their contributions are valued, they are more likely to share ideas, collaborate and take initiative.</p><p>When they believe accountability is consistently reinforced, they are more likely to take ownership of responsibilities and honour commitments.</p><p class="u11-impl"><strong>Leadership implication:</strong> The beliefs established through organisational culture influence the behaviours employees demonstrate.</p></div><div class="step-panel"><h5>5. Results &mdash; The Visible Traits</h5><p>The actions employees consistently demonstrate produce collective organisational outcomes. These outcomes become visible through the Five Observable Health Traits: Minimal Politics, Minimal Confusion, High Morale, High Productivity and Low Turnover.</p><p>At the apex of the pyramid, organisational results reflect the cumulative influence of trust, experiences, beliefs and actions. A commitment to continuous improvement helps sustain these results as the organisation evolves.</p><p class="u11-impl"><strong>Leadership implication:</strong> The visible condition of organisational health reflects the underlying cultural experiences and behaviours established throughout the organisation.</p></div></div>
+</div></details>
+<details class="u11-det"><summary>Connecting the Five Traits and the Pyramid</summary><div class="u11-det-b">
+<p><strong>The Five Observable Health Traits describe what we see.</strong> They indicate the visible condition of organisational health.</p>
+<p><strong>The Organisational Health Pyramid explains how that condition develops.</strong> It examines the underlying trust, experiences, beliefs and actions that influence organisational results.</p>
+<p>When trust deteriorates, employees’ experiences may create scepticism, their beliefs may become defensive and their actions may shift towards self-protection. Over time, these patterns can weaken the visible traits of organisational health.</p>
+<p>Strengthening organisational health therefore requires leadership attention to the underlying cultural conditions that shape everyday employee experiences.</p>
+</div></details>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Values establish the principles that guide organisational behaviour. Culture reflects how those principles become established ways of working. Organisational health reveals how effectively those values are lived through the culture that has developed.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">← Facilitator Guide</button><button class="btn" onclick="showMod(2)">Section 2 — Intelligence →</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Section 2 · Intelligence — Why</div><h2>Why Organisational Health Determines Execution Performance</h2><p>How organisational health multiplies execution capability, what poor health costs the enterprise, and how health sustains performance over time.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Determine how organisational health can be leveraged to strengthen strategy execution capability and sustain enterprise performance.</li><li>Calculate the hidden costs of poor organisational health and determine their implications for enterprise performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.1 &mdash; Organisational Health as a Performance Multiplier</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health influences how effectively an organisation converts its strategic intentions into results. An organisation may have clear priorities, capable employees and established performance systems, yet their effectiveness depends partly on the culture through which people work together.</p>
+<p>When organisational health is strong, people collaborate, fulfil commitments, address problems early and focus on collective priorities. When it deteriorates, mistrust, confusion, internal competition and disengagement can reduce the effectiveness of otherwise sound strategic systems.</p>
+<h4 class="u11-h">The Multiplier Effect</h4>
+<p>Organisational health acts as a multiplier of strategy execution capability. It influences the effectiveness of existing capabilities:</p>
+<table class="u11-tbl"><thead><tr><th>Strategic Capability</th><th>Influence of Organisational Health</th></tr></thead><tbody>
+<tr><td>Strategic Direction</td><td>Shared commitment strengthens alignment around organisational priorities.</td></tr>
+<tr><td>Execution Accountability</td><td>Trust and ownership support consistent delivery of commitments.</td></tr>
+<tr><td>Performance Management</td><td>Openness enables constructive performance conversations and corrective action.</td></tr>
+<tr><td>Enterprise Collaboration</td><td>Shared responsibility strengthens coordination across organisational functions.</td></tr>
+<tr><td>Organisational Adaptability</td><td>Confidence and collective commitment support responsiveness to changing conditions.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Key insight:</strong> The effectiveness of a strategy depends partly on the organisational health of the people and teams responsible for delivering it.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.2 &mdash; Organisational Health and Execution Velocity</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Execution velocity refers to an organisation’s ability to convert strategic priorities into coordinated action and sustained results. Organisational health influences this velocity through the quality of collaboration, communication, accountability and collective commitment.</p>
+<p>In a healthy organisation:</p>
+<ul><li>Performance concerns are raised and addressed early.</li><li>Decisions and commitments are followed through.</li><li>Information moves effectively across organisational functions.</li><li>Teams coordinate their contributions towards shared priorities.</li><li>Employees remain engaged in delivering organisational objectives.</li></ul>
+<p>These conditions reduce unnecessary friction and support consistent performance momentum.</p>
+<h4 class="u11-h">The Effect on Strategy Execution</h4>
+<p>Consider two organisations implementing similar strategic priorities. Both have established objectives, KPIs, execution plans and review mechanisms. In the first, leaders encourage open reporting, departments coordinate their contributions and employees take ownership of commitments. In the second, employees avoid difficult conversations, departments protect their own interests and performance reviews become defensive.</p>
+<p>Although both organisations have similar execution systems, their ability to convert those systems into results may differ significantly. The difference lies partly in the organisational health supporting execution.</p>
+<div class="hbox"><p><strong>Strategic implication:</strong> As organisational health deteriorates, execution friction increases and performance momentum becomes more difficult to sustain.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.3 &mdash; The Price of Poor Organisational Health</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Poor organisational health creates costs that are often overlooked because they do not appear as separate items in financial or performance reports. These costs accumulate through everyday organisational practices and eventually affect enterprise performance.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Hidden Cost</th><th>Organisational Manifestation</th><th>Performance Consequence</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>Repeated work, unclear communication, unnecessary meetings and unresolved disagreements.</td><td>Reduced productivity and slower execution.</td></tr>
+<tr><td>Employee Disengagement</td><td>Reduced initiative, limited discretionary effort and withdrawal from collective responsibilities.</td><td>Lower contribution and weakened performance momentum.</td></tr>
+<tr><td>Declining Trust</td><td>Defensive communication, withholding information and protection of departmental interests.</td><td>Reduced collaboration and slower problem resolution.</td></tr>
+<tr><td>Emotional Fatigue</td><td>Persistent frustration, uncertainty, interpersonal tension and self-protective behaviour.</td><td>Reduced morale, commitment and employee effectiveness.</td></tr>
+<tr><td>Talent Loss</td><td>Capable employees leave environments characterised by poor leadership practices and unhealthy working relationships.</td><td>Loss of institutional knowledge, capability and continuity.</td></tr>
+</tbody></table></div>
+<h4 class="u11-h">How These Costs Accumulate</h4>
+<p>The costs of poor organisational health often remain hidden within everyday operating expenses, lost productivity and reduced employee contribution. Quantifying these losses enables executives to establish their financial impact, identify the most significant sources of performance loss and prioritise corrective interventions. By calculating the costs associated with lost time, employee disengagement, declining trust, emotional fatigue and talent loss, organisations can build a measurable business case for strengthening organisational health and track the value recovered through improvement. The following examples demonstrate how seemingly small, recurring losses can accumulate into substantial annual costs.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Named Hidden Cost</th><th>Illustrative Assumption</th><th>How the Cost Accumulates</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>20 employees each lose 2 hours weekly to rework or unclear communication; 46 working weeks; R350 hourly cost.</td><td>20 × 2 × 46 = 1,840 hours; 1,840 × R350 = R644,000/year.</td></tr>
+<tr><td>Employee Disengagement</td><td>30 employees each contribute 1 fewer productive hour per week; 46 weeks; R300 hourly cost.</td><td>30 × 1 × 46 = 1,380 hours; indicative capacity value = R414,000/year.</td></tr>
+<tr><td>Declining Trust</td><td>Eight managers each spend 3 extra hours per month on defensive reviews and duplicated checks; R600 hourly cost.</td><td>8 × 3 × 12 = 288 hours; 288 × R600 = R172,800/year.</td></tr>
+<tr><td>Emotional Fatigue</td><td>A 50-person team records an additional 1 absence day per person annually; R2,000 average daily employment cost.</td><td>50 × 1 × R2,000 = R100,000/year in indicative absence-related employment cost.</td></tr>
+<tr><td>Talent Loss</td><td>Four avoidable departures; estimated replacement and onboarding cost of R85,000 per employee.</td><td>4 × R85,000 = R340,000/year, excluding any unmeasured disruption.</td></tr>
+</tbody></table></div>
+<p class="u11-note"><strong>Note:</strong> Calculations are illustrative and should be adapted using organisational data and reasonable assumptions. Overlapping costs should be adjusted to avoid double counting.</p>
+<div class="hbox"><p><strong>Key insight:</strong> Repeated losses in time, engagement, trust, wellbeing and retention can accumulate into a material annual cost of poor organisational health.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.4 &mdash; Organisational Health and Sustained Performance</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health influences the ability to sustain performance over time. Short-term results may be achieved through intensive intervention, individual effort or temporary pressure. Sustained performance requires a culture that consistently reinforces the behaviours necessary for collective execution.</p>
+<p>When values are embedded in everyday practices, employees develop shared expectations about accountability, collaboration, communication and performance. These expectations reduce dependence on constant leadership intervention and strengthen execution discipline.</p>
+<p>Organisational health supports:</p>
+<ul><li>Consistent execution of organisational priorities.</li><li>Constructive performance accountability.</li><li>Effective collaboration across functions.</li><li>Employee commitment and capability retention.</li><li>Organisational learning and continuous improvement.</li></ul>
+<div class="hbox"><p><strong>Strategic implication:</strong> A healthy organisation is better positioned to maintain performance discipline as leadership responsibilities, strategic priorities and operating conditions change.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.5 &mdash; Executive Reflection</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Consider an important strategic priority currently being implemented in participants’ organisations:</p>
+<ol class="u11-ol"><li>Where is organisational health strengthening execution performance?</li><li>Which hidden costs of poor organisational health are most evident?</li><li>What is the estimated annual cost of the most significant organisational health loss?</li><li>Which leadership response would reduce that loss, and how would its financial impact be tracked?</li></ol>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Organisational health influences how effectively strategic capabilities translate into results. When health deteriorates, execution friction increases, performance systems lose effectiveness and the cost of delivering strategy rises.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 3 &mdash; Extrapolating: Where</div><p>Section 3 examines where cultural practices and organisational health vulnerabilities are affecting performance, using the Organisational Health Thermometer to identify areas requiring leadership attention.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(3)">Section 3 — Extrapolating →</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Section 3 · Extrapolating — Where</div><h2>Where Are the Organisational Health Signals?</h2><p>Reading the Five Observable Health Traits for people-performance signals, and testing each reading against functional bias.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Diagnose people-performance vulnerabilities using the Five Observable Health Traits to assess how organisational culture influences employee behaviour and contribution.</li><li>Apply debiasing techniques to challenge functional assumptions and establish evidence-based assessments of organisational health.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.1 &mdash; Organisational Health Signals and the Health Thermometer</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Five Observable Health Traits reveal how organisational values are experienced through employee behaviour, relationships and contribution. The Organisational Health Thermometer uses these same traits to assess whether people-performance conditions are strong, vulnerable or poor. Assess each trait using observable employee behaviour and supporting evidence.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Health Trait</th><th>Strong Health — People-Performance Signals</th><th>Vulnerable Health — Emerging Signals</th></tr></thead><tbody>
+<tr><td>Minimal Politics</td><td>Employees cooperate, share information and prioritise collective outcomes.</td><td>Territorial behaviour, withholding information, personal agendas and internal competition.</td></tr>
+<tr><td>Minimal Confusion</td><td>Employees understand expectations, responsibilities and their contribution to organisational priorities.</td><td>Uncertainty about expectations, conflicting instructions and inconsistent accountability.</td></tr>
+<tr><td>High Morale</td><td>Employees demonstrate commitment, initiative, confidence and willingness to contribute.</td><td>Withdrawal, reduced initiative, dissatisfaction and disengagement.</td></tr>
+<tr><td>High Productivity</td><td>Employees fulfil commitments, maintain performance standards and contribute effectively.</td><td>Declining individual contribution, repeated missed commitments and reduced discretionary effort.</td></tr>
+<tr><td>Low Turnover</td><td>Capable employees remain committed to the organisation and its purpose.</td><td>Increasing voluntary departures, retention concerns and loss of experienced employees.</td></tr>
+</tbody></table></div>
+<div class="hbox"><div class="u11-ci">Thermometer interpretation</div><ul class="u11-band"><li><span class="u11-b u11-b1">Strong</span>Positive behaviours are consistently observed.</li><li><span class="u11-b u11-b2">Vulnerable</span>Negative signals are emerging or uneven.</li><li><span class="u11-b u11-b3">Poor</span>Negative signals are persistent or widespread.</li></ul><p>Ratings must be supported by evidence.</p></div>
+<p>For each trait, compare observed employee behaviour with the thermometer descriptions, identify supporting evidence and record whether the condition is strong, vulnerable or poor. A poor condition reflects persistent or widespread vulnerability signals. This assessment identifies where organisational health may be affecting people performance; Section 3.2 examines how functional bias may influence the interpretation.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.2 &mdash; CXO Functional Bias in Organisational Health Diagnosis</div><div class="acc-meta">Select each executive to open the examples</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Executives interpret organisational health through the people-performance signals they encounter in their respective functions. Their responsibilities influence what they observe, what they consider important and how they explain employee behaviour.</p>
+<p>Functional bias occurs when an executive’s professional perspective influences the interpretation of organisational health signals, potentially leading to an incomplete or inaccurate diagnosis.</p>
+<p>The Five Observable Health Traits provide a common basis for examining these differences.</p>
+<h4 class="u11-h">CXO Functional Bias and Debiasing Matrix</h4>
+<details class="u11-det" open><summary>CEO &middot; Minimal Politics · High Morale</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Politics</div><p><strong>Potential biased interpretation:</strong> <em>“My executive team works well together, so collaboration across the organisation must be healthy.”</em></p><p><strong>Debiasing technique &mdash; Test across levels:</strong> Compare executive perceptions with employee experiences of cooperation, conflict and information sharing.</p></div><div class="u11-bias"><div class="u11-bias-t">High Morale</div><p><strong>Potential biased interpretation:</strong> <em>“Employees are quiet in meetings because they have nothing to contribute.”</em></p><p><strong>Debiasing technique &mdash; Examine employee experiences:</strong> Establish whether employees believe their contributions are welcomed and taken seriously.</p></div>
+</div></details>
+<details class="u11-det"><summary>CFO &middot; High Productivity · Low Turnover</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">High Productivity</div><p><strong>Potential biased interpretation:</strong> <em>“Employment costs are increasing without equivalent output; employees must be underperforming.”</em></p><p><strong>Debiasing technique &mdash; Separate effort from conditions:</strong> Examine whether employees have clear expectations, appropriate support and a culture that reinforces contribution.</p></div><div class="u11-bias"><div class="u11-bias-t">Low Turnover</div><p><strong>Potential biased interpretation:</strong> <em>“Turnover is costly, so retaining employees means our people performance is healthy.”</em></p><p><strong>Debiasing technique &mdash; Examine retention quality:</strong> Assess whether the organisation is retaining capable, committed employees and understand the experiences influencing their decisions to stay.</p></div>
+</div></details>
+<details class="u11-det"><summary>CHRO &middot; Minimal Confusion · High Morale · Low Turnover</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Confusion</div><p><strong>Potential biased interpretation:</strong> <em>“Everyone has a job description, so role expectations must be clear.”</em></p><p><strong>Debiasing technique &mdash; Test lived expectations:</strong> Compare formal role descriptions with the expectations employees actually receive from their managers.</p></div><div class="u11-bias"><div class="u11-bias-t">High Morale</div><p><strong>Potential biased interpretation:</strong> <em>“Our engagement survey scores are positive, so employee morale is strong.”</em></p><p><strong>Debiasing technique &mdash; Triangulate evidence:</strong> Compare survey findings with participation, initiative, absenteeism and employee feedback.</p></div><div class="u11-bias"><div class="u11-bias-t">Low Turnover</div><p><strong>Potential biased interpretation:</strong> <em>“Our turnover is low, which demonstrates that employees are satisfied.”</em></p><p><strong>Debiasing technique &mdash; Challenge the assumption:</strong> Examine whether employees remain because of commitment, limited alternatives or other circumstances.</p></div>
+</div></details>
+<details class="u11-det"><summary>COO &middot; Minimal Politics · High Productivity</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Politics</div><p><strong>Potential biased interpretation:</strong> <em>“Departments are protecting their interests because employees are unwilling to cooperate.”</em></p><p><strong>Debiasing technique &mdash; Examine reinforced norms:</strong> Determine whether leaders reward functional achievement while neglecting collective contribution.</p></div><div class="u11-bias"><div class="u11-bias-t">High Productivity</div><p><strong>Potential biased interpretation:</strong> <em>“Employees keep missing commitments because they lack discipline.”</em></p><p><strong>Debiasing technique &mdash; Trace expectations and experiences:</strong> Examine whether accountability standards are clear, consistently reinforced and experienced as fair.</p></div>
+</div></details>
+<details class="u11-det"><summary>CSO &middot; Minimal Confusion</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Confusion</div><p><strong>Potential biased interpretation:</strong> <em>“We communicated the strategy clearly; employees should know what is expected.”</em></p><p><strong>Debiasing technique &mdash; Verify understanding:</strong> Ask employees to explain their priorities, responsibilities and expected contributions in their own words.</p></div>
+</div></details>
+<p class="u11-note">These examples illustrate potential functional biases. They do not imply that executives in these roles necessarily hold these assumptions.</p>
+<div class="hbox"><p><strong>Key insight:</strong> The Five Observable Health Traits reveal where people-performance vulnerabilities are emerging. Executives strengthen diagnosis by recognising how their functional perspectives may influence interpretation and applying appropriate debiasing techniques.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.3 &mdash; Self-Reflection: My Organisational Health Profile</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<ol class="u11-ol"><li>Which of the Five Observable Health Traits do I personally strengthen through my everyday conduct?</li><li>Which trait may be weakened by my own habits, responses or leadership practices?</li><li>What assumptions or functional biases do I bring when interpreting the behaviour and performance of others?</li><li>What specific change in my own behaviour would help me model the organisational values more consistently?</li></ol>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>The Five Observable Health Traits show where culture is influencing people performance. A credible assessment requires evidence, awareness of functional bias and personal accountability for the behaviours leaders reinforce.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 4 &mdash; Integration: Collective</div><p>Section 4 brings together functional perspectives to establish a shared view of organisational health and agree collective cultural reinforcement priorities.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(4)">Section 4 — Integration →</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Section 4 · Integration — Collective</div><h2>Cross-CXO Health Architecture</h2><p>Grounding People Performance Through Collective Leadership Accountability</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Establish a functional organisational health accountability discipline that enables executives to interpret team-generated health assessments and quantify associated people-performance losses.</li><li>Consolidate functional health assessments into an enterprise organisational health position that informs collective leadership accountability and priorities for strengthening people performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.1 &mdash; Grounding People Performance Through Leadership Accountability</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health is shaped by the cultural conditions leaders establish and reinforce within their teams. The extent to which employees experience trust, clarity, commitment and accountability influences how they behave, collaborate and contribute to performance.</p>
+<p>Every executive therefore has a responsibility to understand the health of their function and identify where prevailing cultural norms may be undermining people performance. Organisational health also extends beyond individual functions: employees interact across departments, and behaviours reinforced by one leadership team can strengthen or weaken performance elsewhere.</p>
+<p>Sustaining organisational health requires both functional accountability and collective executive responsibility. To fulfil this responsibility, each CXO should periodically examine the organisational health of their function against the Five Observable Health Traits, identify cultural vulnerabilities and quantify associated people-performance losses.</p>
+<p>To strengthen objectivity and minimise leadership bias, the Organisational Health Thermometer is circulated to individual employees within each function. Employees independently assess the cultural conditions they experience. Their responses are consolidated into a functional health score, which the responsible executive receives for interpretation, investigation of cultural vulnerabilities and quantification of associated people-performance losses.</p>
+<p>This integrated approach forms the Cross-CXO Health Architecture: a structured mechanism connecting functional leadership accountability with collective responsibility for organisational health and sustained people performance. A quarterly assessment and review rhythm allows leaders to examine changes and reinforce healthy cultural practices.</p>
+<h4 class="u11-h">Two Levels of Leadership Accountability</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Level</th><th>Leadership responsibility</th><th>Output</th></tr></thead><tbody>
+<tr><td>Functional</td><td>CXO interprets the team’s consolidated score, investigates vulnerabilities and quantifies evidenced losses.</td><td>Functional health and loss position.</td></tr>
+<tr><td>Enterprise</td><td>EXCO consolidates functional results, examines shared vulnerabilities and agrees enterprise priorities.</td><td>Enterprise health and loss position.</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.2 &mdash; The Organisational Health Thermometer</div><div class="acc-meta">Select each trait to open its statements</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Organisational Health Thermometer provides a common instrument for assessing the five traits of organisational health. To strengthen objectivity and minimise leadership bias, individual employees should be involved in assessing the organisational health of their function. The thermometer is circulated to employees, allowing each person to independently rate the 20 statements based on their experience of the prevailing cultural conditions. Individual assessments are subsequently consolidated to produce the overall functional health score and a score for each trait. The functional leader receives the consolidated results and remains accountable for interpreting the findings, investigating vulnerabilities and quantifying associated people-performance losses.</p>
+<h4 class="u11-h">Individual Employee Assessment &mdash; Organisational Health Thermometer</h4>
+<p>Each employee independently rates the 20 statements on a frequency scale from 1 (Never) to 5 (Always). Each trait contains four statements (maximum 20 points), producing an overall individual score out of 100. The individual ratings inform the confidential consolidated functional assessment and are completed by each employee independently.</p>
+<table class="u11-tbl u11-scale"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>Never</td><td>Rarely</td><td>Sometimes</td><td>Usually</td><td>Always</td></tr></tbody></table>
+<details class="u11-det" open><summary>Trait 1 &mdash; Minimal Politics (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>Issues and concerns are raised openly in meetings and addressed there.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Leaders share information freely, including information that could strengthen their own position.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Decisions are guided by what serves the enterprise as a whole.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>When conflicts arise between teams, they are resolved directly and honestly through open discussion.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 1 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 2 &mdash; Minimal Confusion (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People understand the strategic direction and how their role contributes to it.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Decision authority is clear — people know who should decide what, at what level.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Responsibilities at the interfaces between teams are understood without constant escalation.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Priorities are stable and consistently communicated, so people work towards one shared direction.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 2 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 3 &mdash; High Morale (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People invest discretionary effort — they go beyond the minimum because they believe in what we are doing.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Contribution is recognised and valued in ways that feel meaningful and sincere.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Even during demanding periods, the environment sustains commitment.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>People feel a genuine sense of belonging and purpose in this organisation.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 3 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 4 &mdash; High Productivity (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>Work flows smoothly between teams — handoffs are clean and coordination is efficient.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Meetings resolve issues and move work forward.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Our systems and processes support smooth collaboration between teams.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Effort converts reliably into results, with little output lost to rework or miscommunication.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 4 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 5 &mdash; Low Turnover (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People with capability and institutional knowledge choose to stay and grow within this organisation.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Leadership behaviour creates an environment where long-term commitment feels worthwhile.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Knowledge is retained when people move on.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Relationships deepen over time, strengthening our collective execution capability.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 5 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<div class="u11-total">Individual employee total score: ______ / 100</div>
+<h4 class="u11-h">Reading Your Temperature</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Score</th><th>Temperature</th><th>What It Signals</th></tr></thead><tbody>
+<tr><td>80–100</td><td>Healthy &amp; Thriving</td><td>Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.</td></tr>
+<tr><td>60–79</td><td>Stable but Uneven</td><td>Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.</td></tr>
+<tr><td>40–59</td><td>Caution Zone</td><td>Signs of mistrust, fatigue or unclear direction beginning to surface. Immediate leadership attention needed.</td></tr>
+<tr><td>20–39</td><td>Unhealthy</td><td>High politics, low trust and rising turnover risk. Leadership credibility is at stake.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Assessment safeguard:</strong> Employee responses should be collected confidentially. Executives receive consolidated function-level results only; individual responses remain unidentifiable. Small teams require appropriate aggregation to protect confidentiality.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.3 &mdash; From Individual Assessments to Functional Health Scores</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>After employees independently submit their thermometer responses, the assessments are consolidated by function. For each trait, add the valid individual trait totals and divide by the number of valid responses. Add the five functional trait averages to obtain the functional score out of 100. The leader receives this consolidated score and the trait-level results; the scores come from the employees’ assessments.</p>
+<div class="u11-f"><p>Functional Trait Score = Sum of Individual Trait Totals ÷ Number of Valid Responses</p><p>Functional Health Score (/100) = Sum of Five Functional Trait Scores (/20 each)</p></div>
+<h4 class="u11-h">Worked Example: Operations Function</h4>
+<p>An organisation has 250 employees, including 100 in Operations. The thermometer is circulated individually to Operations employees; 85 employees submit independent assessments (85% participation). Their responses are consolidated, and the COO receives the resulting functional and trait-level scores.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Trait</th><th>Q1 /20</th><th>Q2 /20</th><th>Change</th><th>Signal to investigate</th></tr></thead><tbody>
+<tr><td>Minimal Politics</td><td>16</td><td>8</td><td>−8</td><td>Collaboration and information sharing</td></tr>
+<tr><td>Minimal Confusion</td><td>16</td><td>12</td><td>−4</td><td>Expectations and responsibilities</td></tr>
+<tr><td>High Morale</td><td>16</td><td>8</td><td>−8</td><td>Commitment and initiative</td></tr>
+<tr><td>High Productivity</td><td>16</td><td>12</td><td>−4</td><td>Contribution and delivery</td></tr>
+<tr><td>Low Turnover</td><td>16</td><td>12</td><td>−4</td><td>Retention vulnerabilities</td></tr>
+<tr class="u11-tot"><td>Overall</td><td>80 /100</td><td>52 /100</td><td>−28</td><td>Caution Zone</td></tr>
+</tbody></table></div>
+<p>Operations moves from Healthy &amp; Thriving (80) to Caution Zone (52). Minimal Politics and High Morale show the largest declines. The COO should examine observable behaviour, relevant people-performance evidence and the Organisational Health Pyramid, using Section 3 debiasing techniques to challenge initial assumptions. The thermometer signals vulnerability; cause and monetary loss require separate evidence.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.4 &mdash; Quantifying the People-Performance Losses</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The COO investigates whether the identified health vulnerabilities are associated with measurable losses in the five categories introduced in Section 2. The following estimates are illustrative for a 12-week quarter and a 100-person Operations function.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Hidden cost</th><th>Evidence / assumption</th><th>Calculation</th><th>Q2 exposure</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>100 employees lose 30 minutes per week; hourly employment cost R200.</td><td>100 × 0.5 × R200 × 12</td><td>R120,000</td></tr>
+<tr><td>Employee Disengagement</td><td>20 employees show estimated 5% reduced contribution; quarterly employment cost R90,000 each.</td><td>20 × R90,000 × 5%</td><td>R90,000</td></tr>
+<tr><td>Declining Trust</td><td>10 managers spend 2 additional hours monthly on avoidable tensions; hourly cost R400.</td><td>10 × 2 × R400 × 3</td><td>R24,000</td></tr>
+<tr><td>Emotional Fatigue</td><td>15 employees each record one additional absence day linked to workplace strain; daily cost R1,500.</td><td>15 × R1,500</td><td>R22,500</td></tr>
+<tr><td>Talent Loss</td><td>Two avoidable departures; replacement and onboarding cost R45,000 each.</td><td>2 × R45,000</td><td>R90,000</td></tr>
+<tr class="u11-tot"><td>Total</td><td>Illustrative gross exposure before overlap adjustments</td><td></td><td>R346,500</td></tr>
+</tbody></table></div>
+<p>These estimates require evidence supporting the link to organisational health, appropriate cost assumptions and reconciliation of overlapping categories before being treated as verified losses. The leader should distinguish observed losses from assumptions and potential exposure.</p>
+<h4 class="u11-h">Functional Health Position</h4>
+<table class="u11-tbl"><thead><tr><th>Measure</th><th>Operations Q2</th></tr></thead><tbody>
+<tr><td>Accountable executive</td><td>COO</td></tr>
+<tr><td>Assessment source</td><td>85 of 100 Operations employees (85%)</td></tr>
+<tr><td>Functional health score</td><td>52 /100 (Q1: 80 /100; change: −28)</td></tr>
+<tr><td>Priority traits</td><td>Minimal Politics and High Morale</td></tr>
+<tr><td>Illustrative gross quarterly loss exposure</td><td>R346,500</td></tr>
+<tr><td>Leadership priority</td><td>Examine and strengthen collaboration, trust and commitment.</td></tr>
+</tbody></table>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.5 &mdash; Consolidating Functional Health into an Enterprise Position</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each executive receives the consolidated assessment for their function, examines vulnerabilities and quantifies associated losses. EXCO brings the functional positions together to establish an enterprise view of organisational health and its implications for people performance.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Function</th><th>CXO</th><th>Employees</th><th>Q1 /100</th><th>Q2 /100</th><th>Change</th><th>Q2 gross exposure</th></tr></thead><tbody>
+<tr><td>Corporate</td><td>CEO</td><td>20</td><td>84</td><td>82</td><td>−2</td><td>R25,000</td></tr>
+<tr><td>Finance</td><td>CFO</td><td>40</td><td>78</td><td>72</td><td>−6</td><td>R70,000</td></tr>
+<tr><td>Human Resources</td><td>CHRO</td><td>30</td><td>82</td><td>80</td><td>−2</td><td>R30,000</td></tr>
+<tr><td>Operations</td><td>COO</td><td>100</td><td>80</td><td>52</td><td>−28</td><td>R346,500</td></tr>
+<tr><td>Strategy</td><td>CSO</td><td>60</td><td>78</td><td>70</td><td>−8</td><td>R95,000</td></tr>
+<tr class="u11-tot"><td>Enterprise</td><td>EXCO</td><td>250</td><td>79.8*</td><td>65.3*</td><td>−14.5*</td><td>R566,500</td></tr>
+</tbody></table></div>
+<p class="u11-note">*Illustrative enterprise scores above are headcount-weighted, assuming equal response rates across functions. In actual reporting, calculate the enterprise average using the number of valid employee responses per function; report response rates and headcount separately.</p>
+<div class="u11-f"><p>Enterprise Health Score = Σ (Functional Score × Valid Responses) ÷ Total Valid Responses</p></div>
+<p>Illustrative Q2 headcount-weighted calculation: [(82 × 20) + (72 × 40) + (80 × 30) + (52 × 100) + (70 × 60)] ÷ 250 = 65.28 ≈ 65.3 /100. The corresponding Q1 result is 79.76 ≈ 79.8 /100.</p>
+<p>The enterprise is Stable but Uneven, and the Operations function is in the Caution Zone. EXCO should review both the enterprise score and each function’s trait profile so that significant local vulnerabilities remain visible behind the average.</p>
+<p>The R566,500 figure is an illustrative sum of functional gross exposures; overlapping costs within or across functions must be reconciled before establishing a defensible enterprise loss estimate.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.6 &mdash; Sustaining the Cross-CXO Health Architecture</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health requires consistent leadership attention because cultural conditions develop through repeated behaviours and experiences. Each quarter, the thermometer is circulated to individual employees in each function for independent assessment. The responses are consolidated confidentially and each CXO receives the functional health score and trait-level results. The executive interprets the findings, investigates cultural vulnerabilities and quantifies associated people-performance losses. EXCO then consolidates the functional positions to understand enterprise health and shared priorities for strengthening people performance.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.7 &mdash; From Values to a Cultural Operating Code</div><div class="acc-meta">Worked example: the IBSL Code</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health reflects the behaviours that have become normal in each function. Stated values shape those behaviours only when people can see what each value requires of them, practise it and be held to it. A Cultural Operating Code makes this explicit: for each organisational value, it names one norm built from three observable actions that every leader and employee can recognise, use and be assessed against.</p>
+<p>The Code connects the health architecture to daily leadership practice. When executives model, recognise and correct behaviour against the same norms, the conditions the Organisational Health Thermometer measures begin to change: shared accountability reduces politics, explicit expectations reduce confusion, and consistent consequences protect morale.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator guidance</div><p>Teach the three steps with one IBSL value before showing the full Code: start with the behaviour; the acronym only packages it.</p><p>Use the three tests on one IBSL norm so participants see how a norm holds under pressure. The groups build their own Code from their organisation’s values in part 5.8.</p></div>
+<div class="u11-sub">How a value becomes a norm</div><ol class="u11-ol"><li><strong>Define the behaviour.</strong> Describe what a leader who genuinely lives the value does differently from one who only states it. Write the answer as a specific, observable behaviour.</li><li><strong>Build the acronym.</strong> Take the first letters of three action words that capture the behaviour. Each word is an action a person performs. The acronym is short enough to use in a corridor conversation.</li><li><strong>Write the norm statement.</strong> One sentence explaining what the value means in daily practice, specific enough that a new employee reading it on the first day knows which behaviour will be recognised and which will be corrected.</li></ol>
+<div class="u11-sub">What makes the Code real</div><ul class="u11-ol"><li><strong>Demonstrable:</strong> every value is translated into observable, specific behaviours.</li><li><strong>Assessed:</strong> the norms appear in 360-degree feedback, so how results are achieved is assessed alongside what is achieved.</li><li><strong>Enforced:</strong> consequences apply consistently regardless of seniority.</li><li><strong>Maintained:</strong> norms are explicit, modelled by executives, reinforced in reviews and revisited periodically.</li></ul>
+<div class="u11-sub">Three tests for every norm</div><ul class="u11-ol"><li><strong>The New Employee Test:</strong> Would a new employee reading this norm on the first day know exactly which behaviour will be recognised and which will be corrected?</li><li><strong>The Pressure Test:</strong> Does the norm hold when a senior leader breaches it, when a high performer contradicts it, and when telling the truth is costly?</li><li><strong>The Mirror Test:</strong> Would every executive be comfortable being assessed against this norm in their own 360-degree feedback?</li></ul>
+<div class="u11-sub">Worked example · The IBSL Cultural Operating Code</div><p>IBSL’s values: <strong>Intentionality · Integrity · Collaboration · Accountability · Excellence · Human-Centricity</strong>. Each value carries one acronym-based norm.</p><details class="u11-det" open><summary>Intentionality &middot; AIM</summary><div class="u11-det-b">
+<p class="u11-coc-def">Leading with purpose, clarity and discipline</p><div class="u11-coc-norm"><span class="u11-coc-acr">AIM</span> Act with purpose · Interrogate assumptions · Maintain the discipline</div><p>Intentionality is the discipline of knowing exactly why you are doing what you are doing, and holding that line when conditions make it inconvenient.</p><p class="u11-note2"><strong>Prompt:</strong> Before your last three major commitments, could you state the strategic purpose, the assumption you were making and the standard you held yourself to?</p>
+</div></details><details class="u11-det"><summary>Integrity &middot; SAY</summary><div class="u11-det-b">
+<p class="u11-coc-def">Consistency between words, behaviour and outcomes</p><div class="u11-coc-norm"><span class="u11-coc-acr">SAY</span> Say what you mean · Act on what you say · Yield the truth regardless of consequence</div><p>Integrity is consistency between word, behaviour and outcome, including when telling the truth is uncomfortable. What we say and what we do are the same thing.</p><p class="u11-note2"><strong>Prompt:</strong> In your last performance review, did you name what was promised, what was delivered and what the gap cost before being asked?</p>
+</div></details><details class="u11-det"><summary>Collaboration &middot; ONE</summary><div class="u11-det-b">
+<p class="u11-coc-def">Leveraging diversity of thought and collective intelligence</p><div class="u11-coc-norm"><span class="u11-coc-acr">ONE</span> Own a shared outcome · Navigate difference with respect · Execute as a unified force</div><p>Collaboration is the decision to produce together what no single function could produce alone. The result belongs to the team.</p><p class="u11-note2"><strong>Prompt:</strong> In your last cross-functional review, did you present the shared outcome alongside your function’s contribution?</p>
+</div></details><details class="u11-det"><summary>Accountability &middot; OAR</summary><div class="u11-det-b">
+<p class="u11-coc-def">Owning results and reinforcing transparency</p><div class="u11-coc-norm"><span class="u11-coc-acr">OAR</span> Own it · Act on it · Report it</div><p>Accountability begins the moment a commitment is made. We report the truth and fix the gap.</p><p class="u11-note2"><strong>Prompt:</strong> When did you last surface a gap before being asked, with the cause, the impact and the recovery action already identified?</p>
+</div></details><details class="u11-det"><summary>Excellence &middot; SET</summary><div class="u11-det-b">
+<p class="u11-coc-def">Upholding rigour, learning and measurable impact</p><div class="u11-coc-norm"><span class="u11-coc-acr">SET</span> Set the standard · Earn the evidence · Transform through learning</div><p>Excellence is a daily discipline: being better than last quarter, and proving it with evidence.</p><p class="u11-note2"><strong>Prompt:</strong> At your last review, could you answer: what standard did we set, what evidence do we have, and what have we changed as a result?</p>
+</div></details><details class="u11-det"><summary>Human-Centricity &middot; SEE</summary><div class="u11-det-b">
+<p class="u11-coc-def">Placing people at the core of leadership and execution</p><div class="u11-coc-norm"><span class="u11-coc-acr">SEE</span> See the person behind the role · Enable growth deliberately · Ensure dignity in every interaction</div><p>Leadership serves people. We invest in growth and protect dignity, and we never reduce a person to their output.</p><p class="u11-note2"><strong>Prompt:</strong> In your last performance conversation, did you open with the person before moving to the result?</p>
+</div></details><div class="u11-scroll"><table class="u11-tbl u11-tbln"><thead><tr><th>Value</th><th>Acronym</th><th>Norm</th></tr></thead><tbody><tr><td>Intentionality</td><td><strong>AIM</strong></td><td>Act with purpose. Interrogate assumptions. Maintain the discipline.</td></tr><tr><td>Integrity</td><td><strong>SAY</strong></td><td>Say what you mean. Act on what you say. Yield the truth regardless of consequence.</td></tr><tr><td>Collaboration</td><td><strong>ONE</strong></td><td>Own a shared outcome. Navigate difference with respect. Execute as a unified force.</td></tr><tr><td>Accountability</td><td><strong>OAR</strong></td><td>Own it. Act on it. Report it.</td></tr><tr><td>Excellence</td><td><strong>SET</strong></td><td>Set the standard. Earn the evidence. Transform through learning.</td></tr><tr><td>Human-Centricity</td><td><strong>SEE</strong></td><td>See the person behind the role. Enable growth deliberately. Ensure dignity in every interaction.</td></tr></tbody></table></div><div class="hbox"><p class="u11-band">AIM · SAY · ONE · OAR · SET · SEE</p></div>
+</div></div></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Individual Reflection: My Functional Health Accountability</div>
+<p>Each participant completes this reflection on the function they lead. It is saved to the participant’s personal profile, where the facilitator reads it and gives feedback.</p><ol class="u11-ol"><li>Which of the Five Observable Health Traits would my employees most likely rate lowest on the thermometer, and what evidence do I see?</li><li>Which of the five hidden costs (lost time, employee disengagement, declining trust, emotional fatigue, talent loss) is that vulnerability most likely creating in my function, and what evidence links it to organisational health?</li><li>Using an assumption I can defend, what is the estimated quarterly loss exposure for that cost, and how did I calculate it?</li><li>Which part of that estimate is observed loss and which is assumption, and where could it overlap with another cost category?</li><li>What leadership action will I take as the accountable executive to reduce that loss, and how will I track the value recovered next quarter?</li></ol>
+</div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Organisational health is strengthened when leaders understand how their teams experience the culture they establish, take accountability for the resulting people-performance conditions and collectively address vulnerabilities affecting enterprise performance.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 5 &mdash; Application: In Practice</div><p>Participants apply the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(5)">Section 5 — Application →</button></div>
+</div></div>
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Section 5 · Application — In Practice</div><h2>The Cross-CXO Organisational Health Clinic</h2><p>From Functional Health Assessments to Enterprise People-Performance Restoration</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Consolidate functional organisational health assessments and quantify enterprise-level people-performance losses to establish an evidence-based organisational health position.</li><li>Determine coordinated remedial actions through Review–Realign–Restore to strengthen cultural conditions, improve organisational health and restore people performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Application Overview</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Section 4 established the Cross-CXO Health Architecture. Individual employees independently complete the Organisational Health Thermometer; their responses are consolidated into functional health scores. Each CXO interprets the consolidated results, investigates potential cultural vulnerabilities and estimates associated people-performance losses. This capstone application brings the functional positions together for collective executive decision-making.</p>
+<p>Participants use only the CXO roles already assigned within their capstone group. They (1) interpret the corresponding functional assessments, (2) consolidate the scores and losses for those represented functions, and (3) determine remedial actions through Review–Realign–Restore, and (4) build the organisation’s Cultural Operating Code from its values.</p>
+<div class="hbox"><p><strong>Capstone instruction:</strong> Each participant assesses the function associated with their existing capstone CXO role. The group consolidates <strong>only</strong> the functions represented by its members. The 10 functional examples below are a reference set from which participants select their relevant roles; there is no requirement to assess or include all 10 functions. The completed group analysis is used in the final capstone panel assessment.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.2 &mdash; Functional Organisational Health Assessment</div><div class="acc-meta">Tasks 1 and 2</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The following are example functional health scores consolidated from individual employee assessments using the Section 4 Organisational Health Thermometer. Use only the rows corresponding to the CXO roles represented in your capstone group. Each trait is scored out of 20; the functional total is out of 100. “Politics” and “Confusion” refer to Minimal Politics and Minimal Confusion.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>CXO</th><th>Function</th><th>Staff</th><th>No. of Responses</th><th>Politics</th><th>Confusion</th><th>Morale</th><th>Productivity</th><th>Turnover</th><th>Total</th></tr></thead><tbody>
+<tr class="u11-tot"><td>Ceo</td><td>Executive Leadership &amp; Corporate Management</td><td>20</td><td>18</td><td>17</td><td>16</td><td>17</td><td>16</td><td>16</td><td>82</td></tr>
+<tr class="u11-tot"><td>Cfo</td><td>Finance &amp; Financial Management</td><td>40</td><td>36</td><td>14</td><td>13</td><td>13</td><td>15</td><td>15</td><td>70</td></tr>
+<tr class="u11-tot"><td>Coo</td><td>Operations &amp; Service Delivery</td><td>120</td><td>108</td><td>9</td><td>10</td><td>8</td><td>12</td><td>11</td><td>50</td></tr>
+<tr class="u11-tot"><td>Chro</td><td>Human Resources &amp; People Management</td><td>30</td><td>27</td><td>16</td><td>16</td><td>15</td><td>16</td><td>17</td><td>80</td></tr>
+<tr class="u11-tot"><td>Cto/Cio</td><td>Information Technology &amp; Digital Transformation</td><td>50</td><td>45</td><td>12</td><td>10</td><td>11</td><td>13</td><td>13</td><td>59</td></tr>
+<tr class="u11-tot"><td>Cmo</td><td>Marketing &amp; Brand Management</td><td>35</td><td>32</td><td>15</td><td>12</td><td>14</td><td>14</td><td>15</td><td>70</td></tr>
+<tr class="u11-tot"><td>Cco</td><td>Commercial &amp; Business Development</td><td>60</td><td>54</td><td>11</td><td>12</td><td>10</td><td>13</td><td>12</td><td>58</td></tr>
+<tr class="u11-tot"><td>Cpo</td><td>Procurement &amp; Supply Chain Management</td><td>45</td><td>41</td><td>10</td><td>11</td><td>12</td><td>13</td><td>12</td><td>58</td></tr>
+<tr class="u11-tot"><td>Cro</td><td>Risk Management &amp; Compliance</td><td>25</td><td>23</td><td>16</td><td>15</td><td>15</td><td>16</td><td>16</td><td>78</td></tr>
+<tr class="u11-tot"><td>Cso</td><td>Strategy &amp; Enterprise Performance Management</td><td>35</td><td>32</td><td>13</td><td>12</td><td>14</td><td>13</td><td>14</td><td>66</td></tr>
+<tr class="u11-tot"><td>Selected Roles</td><td>Group consolidation</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Task 1 &mdash; Interpret the Functional Health Position</h4><p>Each participant uses their established capstone CXO role and the Section 4 Organisational Health Thermometer to interpret the corresponding functional score. Determine the health classification, the two weakest traits, possible people-performance implications and evidence requiring further investigation.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Score</th><th>Health classification</th></tr></thead><tbody>
+<tr><td>80–100</td><td>Healthy &amp; Thriving</td></tr>
+<tr><td>60–79</td><td>Stable but Uneven</td></tr>
+<tr><td>40–59</td><td>Caution Zone</td></tr>
+<tr><td>20–39</td><td>Unhealthy</td></tr>
+</tbody></table></div>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Functional assessment</th><th>CXO finding</th></tr></thead><tbody>
+<tr><td>CXO role / function</td><td></td></tr>
+<tr><td>Functional score and classification</td><td></td></tr>
+<tr><td>Two weakest traits</td><td></td></tr>
+<tr><td>Potential cultural vulnerabilities</td><td></td></tr>
+<tr><td>Evidence requiring investigation</td><td></td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.3 &mdash; Quantifying Functional People-Performance Losses</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The following figures are illustrative preliminary gross quarterly exposure estimates in South African rand, organised under the five hidden costs introduced in Section 2. Each estimate requires verification before it is treated as a financial loss.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>CXO</th><th>Lost Time</th><th>Disengagement</th><th>Declining Trust</th><th>Emotional Fatigue</th><th>Talent Loss</th><th>Gross Total</th></tr></thead><tbody>
+<tr class="u11-tot"><td>Ceo</td><td>R12,000</td><td>R8,000</td><td>R5,000</td><td>R3,000</td><td>R0</td><td>R28,000</td></tr>
+<tr class="u11-tot"><td>Cfo</td><td>R45,000</td><td>R30,000</td><td>R15,000</td><td>R10,000</td><td>R50,000</td><td>R150,000</td></tr>
+<tr class="u11-tot"><td>Coo</td><td>R180,000</td><td>R120,000</td><td>R60,000</td><td>R45,000</td><td>R150,000</td><td>R555,000</td></tr>
+<tr class="u11-tot"><td>Chro</td><td>R15,000</td><td>R12,000</td><td>R8,000</td><td>R5,000</td><td>R0</td><td>R40,000</td></tr>
+<tr class="u11-tot"><td>Cto/Cio</td><td>R80,000</td><td>R65,000</td><td>R30,000</td><td>R25,000</td><td>R90,000</td><td>R290,000</td></tr>
+<tr class="u11-tot"><td>Cmo</td><td>R35,000</td><td>R25,000</td><td>R15,000</td><td>R10,000</td><td>R40,000</td><td>R125,000</td></tr>
+<tr class="u11-tot"><td>Cco</td><td>R95,000</td><td>R80,000</td><td>R40,000</td><td>R30,000</td><td>R100,000</td><td>R345,000</td></tr>
+<tr class="u11-tot"><td>Cpo</td><td>R70,000</td><td>R45,000</td><td>R35,000</td><td>R20,000</td><td>R60,000</td><td>R230,000</td></tr>
+<tr class="u11-tot"><td>Cro</td><td>R20,000</td><td>R15,000</td><td>R10,000</td><td>R5,000</td><td>R0</td><td>R50,000</td></tr>
+<tr class="u11-tot"><td>Cso</td><td>R55,000</td><td>R35,000</td><td>R20,000</td><td>R15,000</td><td>R50,000</td><td>R175,000</td></tr>
+<tr class="u11-tot"><td>Selected Roles</td><td>Calculate</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Task 2 &mdash; Interpret Functional Losses</h4><p>For the assigned function, identify the largest hidden cost, examine possible links to the two weakest health traits, specify evidence needed to validate the estimates, and flag any potential overlap or double counting. Distinguish estimated exposure from validated loss.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; Consolidating the Capstone Group Health Position</div><div class="acc-meta">Tasks 3 and 4</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Consolidate only the functional assessments corresponding to the CXO roles represented in your capstone group. Weight each trait score by valid employee responses for those selected functions. The resulting consolidated position represents only the functions in the group.</p>
+<div class="u11-f"><p>Group Consolidated Trait Score = Σ (Selected Functional Trait Score × Valid Responses) ÷ Total Valid Responses in Selected Functions.</p><p>Group Consolidated Health Score = Sum of the Five Weighted Trait Scores.</p></div>
+<h4 class="u11-h">Task 3 &mdash; Calculate the Consolidated Health Score</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Organisational health trait</th><th>Enterprise score /20</th></tr></thead><tbody>
+<tr><td>Minimal Politics</td><td></td></tr>
+<tr><td>Minimal Confusion</td><td></td></tr>
+<tr><td>High Morale</td><td></td></tr>
+<tr><td>High Productivity</td><td></td></tr>
+<tr><td>Low Turnover</td><td></td></tr>
+<tr><td>Enterprise Health Score /100</td><td></td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Task 4 &mdash; Interpret the Consolidated Health Position</h4><p>Determine the consolidated score and thermometer classification for the functions represented in your group; identify the two weakest traits, functions contributing most to those weaknesses, and vulnerabilities requiring cross-functional leadership attention. Apply the result only to the functions assessed.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.5 &mdash; Quantifying Losses Across the Selected Functions</div><div class="acc-meta">Tasks 5 and 6</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<h4 class="u11-h">Task 5 &mdash; Calculate Gross Quarterly Exposure for the Selected Functions</h4><p>Sum the functional estimates ONLY for CXO roles represented in the capstone group, by hidden-cost category. Flag possible overlaps before presenting gross exposure as validated financial loss. Losses for unrepresented functions stay out of the total.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Hidden cost</th><th>Enterprise quarterly exposure</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td></td></tr>
+<tr><td>Employee Disengagement</td><td></td></tr>
+<tr><td>Declining Trust</td><td></td></tr>
+<tr><td>Emotional Fatigue</td><td></td></tr>
+<tr><td>Talent Loss</td><td></td></tr>
+<tr><td>Total Gross Quarterly Exposure</td><td></td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Task 6 &mdash; Establish the Consolidated Health Diagnosis</h4><p>Identify the two largest cost categories, the functions contributing most to gross exposure, plausible relationships between health traits and losses, and estimates requiring verification. A health score indicates where to look; financial causation requires evidence.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Enterprise assessment dimension</th><th>EXCO finding</th></tr></thead><tbody>
+<tr><td>Enterprise health score and classification</td><td></td></tr>
+<tr><td>Two weakest health traits</td><td></td></tr>
+<tr><td>Most vulnerable functions</td><td></td></tr>
+<tr><td>Gross quarterly financial exposure</td><td></td></tr>
+<tr><td>Two largest hidden-cost categories</td><td></td></tr>
+<tr><td>Priority cultural vulnerabilities</td><td></td></tr>
+<tr><td>Priority people-performance concerns</td><td></td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.6 &mdash; Determine Remedial Actions Through Review–Realign–Restore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<details class="u11-det" open><summary>REVIEW &mdash; Establish Priority Health Concerns</summary><div class="u11-det-b">
+<p>Examine the consolidated health position, functional vulnerabilities and financial exposure. Determine which traits require attention, which functions are affected, what employee experiences may explain the scores, and what supporting evidence is available.</p><p><strong>Output:</strong> Prioritised organisational health diagnosis.</p>
+</div></details>
+<details class="u11-det"><summary>REALIGN &mdash; Reinforce Cultural Conditions</summary><div class="u11-det-b">
+<p>Identify the organisational values, behavioural expectations and leadership practices requiring reinforcement. Determine the cross-functional expectations and CXO accountabilities needed to address the diagnosed conditions.</p><p><strong>Output:</strong> Agreed cultural reinforcement actions with named executive accountability.</p>
+</div></details>
+<details class="u11-det"><summary>RESTORE &mdash; Establish Measurable Improvement</summary><div class="u11-det-b">
+<p>Set next-quarter improvement expectations for priority health traits and associated financial exposures. Define the evidence and review measures that will show whether employee experiences and people-performance conditions are improving.</p><p><strong>Output:</strong> Measurable health and performance commitments.</p>
+</div></details>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.7 &mdash; Consolidated Organisational Health Response</div><div class="acc-meta">Task 7</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<h4 class="u11-h">Task 7 &mdash; Complete the Simplified Organisational Health Response</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Priority Health Trait</th><th>Review–Realign–Restore Action</th><th>Accountable CXO(s)</th><th>Health Improvement Target</th><th>Associated Hidden Cost</th><th>Financial Target: Current → Target (Reduction)</th></tr></thead><tbody>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<p>Identify the lowest-scoring health trait from the consolidated assessment of the CXO functions represented in your capstone group. Apply Review–Realign–Restore to agree on the remedial action, assign the accountable CXO(s), set a health improvement target, identify the associated hidden cost and establish a financial reduction target.</p>
+<p>Use one row for the lowest-scoring health trait. Add another row only if the group identifies a further priority requiring a distinct response. Financial targets are illustrative commitments and should be supported by evidence; avoid double counting.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.8 &mdash; Build Your Cultural Operating Code</div><div class="acc-meta">Task 8</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The group’s Organisational Health Response sets out what must change. The Cultural Operating Code defines the behaviours that carry the change: it translates the capstone organisation’s values into norms the executive team models, recognises and corrects. Groups build it the way part 4.7 showed with the IBSL Code.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator guidance</div><p>Each group builds the Code for its capstone organisation, using that organisation’s values. Where a group has not yet stated its organisation’s values, it agrees them first as the executive team.</p><p>Guide the groups to begin each norm with the behaviour and to apply the three tests from part 4.7 to their strongest norm before they agree the record.</p></div>
+<h4 class="u11-h">Step 1 · Your organisation’s values</h4><p>The group lists the values of its capstone organisation, three to six, each with what it means in one line.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Value</th><th>What it means</th></tr></thead><tbody>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Step 2 · Translate the values into norms</h4><p>The group translates at least three of its values. For each: the value, the observable behaviour, the acronym from three action words, the three actions and the norm statement.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Value</th><th>Observable behaviour</th><th>Acronym</th><th>The three actions</th><th>Norm statement</th></tr></thead><tbody>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<h4 class="u11-h">Step 3 · Test your strongest norm</h4><p>The group chooses its strongest norm and records how it passes each of the three tests from part 4.7, or what it changed so that it passes.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Test</th><th>How the strongest norm passes</th></tr></thead><tbody>
+<tr><td>The New Employee Test</td><td></td></tr>
+<tr><td>The Pressure Test</td><td></td></tr>
+<tr><td>The Mirror Test</td><td></td></tr>
+</tbody></table></div>
+<div class="hbox"><p>The group’s Cultural Operating Code forms part of the final capstone panel assessment (Capstone box 11E).</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.9 &mdash; Capstone Assessment Output</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The completed Organisational Health Response forms part of the final capstone panel assessment. It includes the consolidated health score and gross quarterly exposure for only the functions represented in the group, the lowest-scoring health trait and one integrated Review–Realign–Restore response with accountable CXO(s), a health improvement target and a financial reduction target. It also includes the group’s Cultural Operating Code.</p>
+<p><strong>This work is presented only during the final capstone panel assessment.</strong></p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">← Section 4 — Integration</button></div>
+</div></div>
+</div>
+<script>
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleTrait(c){c.classList.toggle('open');}
+function toggleCXO(r){r.classList.toggle('open');}
+function toggleACEIT(c){c.classList.toggle('open');}
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+function goBack(){window.location.href='dashboard_F.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+function updateThermo(prefix){
+  let grand=0;
+  const temps=[
+    {min:80,label:'🟢 Healthy & Thriving',signal:'Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.',bg:'rgba(27,94,32,.25)',color:'#a5d6a7'},
+    {min:60,label:'🟡 Stable but Uneven',signal:'Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.',bg:'rgba(123,96,0,.2)',color:'#fff59d'},
+    {min:40,label:'🟠 Caution Zone',signal:'Signs of mistrust, fatigue, or unclear direction beginning to surface. Immediate leadership attention needed.',bg:'rgba(230,81,0,.2)',color:'#ffcc80'},
+    {min:20,label:'🔴 Unhealthy',signal:'High politics, low trust, and rising turnover risk. Leadership credibility is at stake.',bg:'rgba(183,28,28,.2)',color:'#ef9a9a'},
+  ];
+  for(let t=1;t<=5;t++){
+    let sum=0;
+    for(let q=1;q<=4;q++){
+      const v=parseInt(document.getElementById(prefix+'t'+t+'q'+q).value)||0;
+      sum+=Math.min(5,Math.max(0,v));
+    }
+    document.getElementById(prefix+'trait'+t+'total').textContent=sum;
+    grand+=sum;
+  }
+  document.getElementById(prefix+'grandtotal').textContent=grand;
+  const disp=document.getElementById(prefix+'tempDisplay');
+  const val=document.getElementById(prefix+'tempValue');
+  const sig=document.getElementById(prefix+'tempSignal');
+  const match=temps.find(t=>grand>=t.min)||null;
+  if(grand>0&&match){
+    disp.style.background=match.bg;
+    disp.style.border='1px solid '+match.color;
+    val.textContent=match.label;
+    val.style.color=match.color;
+    sig.textContent=match.signal;
+    sig.style.color=match.color;
+  } else {
+    disp.style.background='rgba(255,255,255,.03)';
+    disp.style.border='1px solid rgba(255,255,255,.1)';
+    val.textContent='Enter scores above';
+    val.style.color='rgba(255,255,255,.3)';
+    sig.textContent='\u00a0';
+    sig.style.color='rgba(255,255,255,.3)';
+  }
+}
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#c9a84c;color:#111811;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-align:center;padding:7px 12px;">PREVIEW COPY · Unit 11 facilitator page · not the live portal</div>
+</body>
+</html>
