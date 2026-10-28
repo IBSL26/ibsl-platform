@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Capstone — Blueprint Showcase</title>
+<script src="supabase.umd.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--teal:#1a7a6a;--green:#27ae60;--red:#e06c6c;}
+body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;}
+.nav-left{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teal);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-right{display:flex;align-items:center;gap:18px;}
+.nav-back,.nav-print{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:inherit;}
+.nav-back:hover,.nav-print:hover{color:var(--teal);}
+.unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;}
+.main{max-width:1100px;margin:0 auto;padding:32px 40px 100px;}
+.card{background:#1c2a1e;border:1px solid rgba(26,122,106,.15);border-radius:4px;padding:28px 32px;margin-bottom:20px;}
+.card-label{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+.card h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;margin-bottom:10px;}
+.muted{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;}
+.brief-text{font-size:13px;color:rgba(255,255,255,.75);line-height:1.8;white-space:pre-wrap;margin-top:6px;}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px;}
+.fact{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:12px 14px;}
+.fact-k{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.8);margin-bottom:6px;}
+.fact-v{font-size:13px;color:rgba(255,255,255,.85);}
+.members{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.member{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:6px 12px;font-size:12px;color:rgba(255,255,255,.8);}
+.crit-group{margin-top:14px;}
+.crit-head{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.crit{font-size:13px;color:rgba(255,255,255,.75);line-height:1.7;margin:0 0 6px 0;}
+.crit strong{color:#fff;font-weight:600;}
+/* Blueprint sections */
+.sec{border:1px solid rgba(255,255,255,.08);border-radius:3px;margin-bottom:10px;background:rgba(255,255,255,.02);}
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;cursor:pointer;}
+.sec-h:hover .sec-t{color:var(--gold);}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:rgba(255,255,255,.9);}
+.sec-b{display:none;padding:4px 18px 20px;}
+.sec.open .sec-b{display:block;}
+.chip{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:5px 10px;border-radius:2px;white-space:nowrap;}
+.chip.locked{color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.15);}
+.chip.draft{color:var(--gold);border:1px solid rgba(201,168,76,.4);}
+.chip.awaiting{color:#8ab0e8;border:1px solid rgba(107,143,204,.45);}
+.chip.agreed{color:#5fd08a;border:1px solid rgba(95,208,138,.45);}
+.sec-note{font-size:12px;color:rgba(255,255,255,.55);margin:6px 0 14px;line-height:1.6;}
+.box{margin-bottom:16px;}
+.box-l{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;}
+.box-i{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:8px;}
+.pull{border-left:2px solid var(--gold);padding:2px 0 4px 14px;margin:6px 0 16px;}
+.pull .sec-note{margin:0 0 10px;}
+.box-ta{width:100%;min-height:96px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.12);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}
+.box-ta:focus{outline:none;border-color:rgba(201,168,76,.6);}
+.box-v{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;white-space:pre-wrap;background:rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:10px 12px;min-height:20px;}
+.box-v.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.ptext{display:none;}
+.meta{font-size:11px;color:rgba(255,255,255,.45);margin:4px 0 12px;}
+.confirms{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px;}
+.cf{font-size:11px;padding:4px 10px;border-radius:2px;border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.5);}
+.cf.yes{border-color:rgba(95,208,138,.45);color:#5fd08a;}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px;}
+.btn{font-family:inherit;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:10px 18px;border-radius:2px;cursor:pointer;border:1px solid rgba(201,168,76,.45);background:none;color:var(--gold);}
+.btn:hover:not(:disabled){background:rgba(201,168,76,.12);}
+.btn.primary{background:var(--gold);color:#1c1c1c;border-color:var(--gold);}
+.btn.primary:hover:not(:disabled){background:#d8b95e;}
+.btn:disabled{opacity:.5;cursor:default;}
+.msg{font-size:12px;line-height:1.6;margin-top:10px;padding:8px 12px;border-radius:3px;display:none;}
+.msg.show{display:block;}
+.msg.err{color:#f0b0a0;background:rgba(231,76,60,.12);border:1px solid rgba(231,76,60,.4);}
+.msg.ok{color:#5fd08a;background:rgba(95,208,138,.08);border:1px solid rgba(95,208,138,.35);}
+.banner{font-size:12px;line-height:1.6;padding:12px 16px;border-radius:3px;margin-bottom:16px;color:#f0d59a;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.4);}
+.admin-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:16px;}
+.res-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:13px;}
+.res-row:last-child{border-bottom:none;}
+.res-k{color:rgba(255,255,255,.6);}
+.res-v{color:#fff;font-weight:600;text-align:right;}
+.res-v.pending{color:rgba(255,255,255,.45);font-weight:400;}
+.res-v a{color:var(--gold);}
+.oc-team{border-left:2px solid var(--gold);padding:2px 0 4px 14px;}
+.oc-row{border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:10px 12px;margin:0 0 8px;}
+.oc-h{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:13px;color:#fff;margin-bottom:4px;}
+.oc-lv{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1c1c1c;background:var(--gold);border-radius:2px;padding:2px 8px;}
+.oc-c{font-size:11px;color:rgba(255,255,255,.5);}
+.oc-t{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.78);margin-top:3px;}
+.oc-r{padding-left:14px;}
+.state{max-width:640px;margin:80px auto;text-align:center;padding:0 24px;}
+.state h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.8rem;margin-bottom:12px;}
+.state p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;}
+@media (max-width:640px){
+  .unit-nav{padding:12px 16px;}
+  .unit-header{padding:36px 16px 28px;}
+  .main{padding:20px 16px 80px;}
+  .card{padding:20px 18px;}
+  .sec-h{padding:14px 12px;}
+  .sec-b{padding:4px 12px 16px;}
+}
+@media print{
+  body{background:#fff;color:#111;}
+  .unit-nav,.actions,.msg,.admin-bar,.banner,.box-ta,.no-print{display:none !important;}
+  .unit-header{background:none;border-bottom:2px solid #1a3a2a;padding:0 0 16px;}
+  .unit-title,.card h2,.sec-t{color:#111;}
+  .unit-desc,.muted,.brief-text,.crit,.box-i,.meta,.sec-note,.fact-v,.member,.res-k,.res-v{color:#222 !important;}
+  .main{padding:16px 0;max-width:none;}
+  .card,.sec,.fact,.member{background:none;border-color:#bbb;}
+  .sec-b{display:block !important;}
+  .sec{break-inside:auto;}
+  .box{break-inside:avoid;}
+  .box-l{color:#111;}
+  .oc-team,.oc-row{border-color:#bbb;}
+  .oc-h,.oc-t,.oc-c{color:#111 !important;}
+  .oc-lv{color:#111;background:none;border:1px solid #999;}
+  .oc-row{break-inside:avoid;}
+  .box-v,.ptext{display:block;color:#111 !important;background:none;border:1px solid #ccc;white-space:pre-wrap;padding:8px 10px;font-size:12px;line-height:1.6;}
+  .box-v.empty{color:#777 !important;}
+  .chip{color:#111 !important;border-color:#999 !important;}
+  .cf{color:#333 !important;border-color:#bbb !important;}
+}
+</style>
+</head>
+<body>
+
+<nav class="unit-nav">
+  <div class="nav-left">
+    <div class="nav-brand">Strategy2Results®<strong>IBSL · Capstone</strong></div>
+    <span class="nav-badge" id="viewBadge">Participant View</span>
+  </div>
+  <div class="nav-right">
+    <button class="nav-print" id="printBtn" onclick="window.print()" style="display:none;">Print Blueprint</button>
+    <button class="nav-back" id="backBtn" onclick="goBack()">&#8592; Back to Platform</button>
+  </div>
+</nav>
+
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Capstone</div>
+    <h1 class="unit-title">Strategy2Results® Blueprint Showcase</h1>
+    <div class="unit-sub">A live business-system presentation</div>
+    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.</p>
+  </div>
+</div>
+
+<div class="main" id="root">
+  <div class="state"><p>Loading your capstone…</p></div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // === Supabase connection (same project and session storage as the rest of the platform) ===
+  var SUPABASE_URL = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+    auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storage: window.localStorage }
+  });
+
+  var params = new URLSearchParams(window.location.search);
+  var adminTeamId = params.get('teamId');   // admin mode: capstone_P.html?teamId=<uuid>
+
+  // === Blueprint structure (approved wording). [Case] is replaced with the team's simulated company (box 1A). ===
+  var BLUEPRINT = [
+    { key:'u1', unit:1, title:'Problem Charter', boxes:[
+      ['1A','Simulated company','The name of your group’s simulated company. It is used throughout your Blueprint.'],
+      ['1B','Simulated executive team','Each member of the executive team of [Case] and the executive role they hold.'],
+      ['1C','Our organisation','The sector or industry, approximate size and main activity or service of [Case].'],
+      ['1D','Challenges experienced','The recurring challenges [Case] has experienced in strategy design, strategy execution and sustaining performance.'],
+      ['1E','How they manifested','The observable behaviours, management practices and organisational conditions through which the challenges of [Case] manifested.'],
+      ['1F','Consequences for results','How the challenges have undermined the results of [Case] in strategy design, strategy execution and sustaining performance.'],
+      ['1G','The challenges we will address','The three challenges in each area the executive team of [Case] will address in the programme.'],
+      ['1H','Our central organisational problem','The central problem the executive team of [Case] will address through CESI.']
+    ]},
+    { key:'u2', unit:2, title:'Strategy Visioning & Success in Practice (SiP)', boxes:[
+      ['2A','Strategy Architecture','Set out the strategy architecture of [Case] under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.'],
+      ['2B','Strategy Intent Statement','State the strategic ambition of [Case] in one crisp statement that carries WHAT, WHY, HOW and WHEN.'],
+      ['2C','SiP · Customer Experience & Value','State what customers and other value recipients see and experience when the Strategy Intent of [Case] succeeds.'],
+      ['2D','SiP · Operational Capability & Execution Rhythm','State what is visible in how [Case] operates and executes when its Strategy Intent succeeds.'],
+      ['2E','SiP · People & Culture Dynamics','State what is visible in how the people of [Case] understand, decide and behave when its Strategy Intent succeeds.'],
+      ['2F','SiP · Enterprise Value Creation','State how [Case] benefits across its success metrics when its Strategy Intent succeeds.']
+    ]},
+    { key:'u3', unit:3, title:'SiP KISS Mapping & OKR Definition', boxes:[
+      ['3A','Keep','The current practices at [Case] that already advance the SiP and must be protected.'],
+      ['3B','Improve','The practices that support the SiP but fall short of the standard it requires.'],
+      ['3C','Start','The practices [Case] must introduce to reach the SiP.'],
+      ['3D','Stop','The practices that constrain progress towards the SiP and must end.'],
+      ['3E','Enterprise priorities','State the enterprise priorities that emerge from the KISS reflection. Express each one independently of the function that proposed it.'],
+      ['3F','Enterprise OKRs','For each priority, write one Objective and its Key Results, each Key Result in the form: verb of change + metric + from X to Y + by deadline. Name the contributing roles for each Key Result.']
+    ]},
+    { key:'u4', unit:4, title:'Direction Integrity (ABCV-MBT)', boxes:[
+      ['4A','Arena','State the functional, experiential and consequential outcome [Case]’s customers pursue, and the Must-Be-True condition your strategy depends on.'],
+      ['4B','Boundaries','Name the regulatory, structural and behavioural constraints operating on [Case]’s strategy, and the Must-Be-True condition on each.'],
+      ['4C','Competition','Map every meaningful alternative available to [Case]’s customers, including those outside the industry, and the Must-Be-True condition on your landscape.'],
+      ['4D','Value Proposition','State the combination of choices that gives [Case] a defensible advantage, what [Case] will not do, and the Must-Be-True condition that protects it.'],
+      ['4E','Verification ownership','For each critical Must-Be-True condition, name the executive accountable for verifying it, the evidence required and the date.'],
+      ['4F','Executive blind spots','Identify the checkpoint [Case]’s executive team is most likely to overlook, and the enterprise risk if it does.']
+    ]},
+    { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
+      ['5A','Team behavioural profile','Name the two OCEAVL dimensions on which the executive team profile of [Case] carries the highest risk for the strategy, and the response the team adopts for each.'],
+      ['5B','The change · Shift, Stake and Step','State the Shift, the Stake and the Step for [Case]’s strategy: what is changing, what [Case] gains if it changes and loses if it stays as it is, and what must be done differently.'],
+      ['5C','Leadership behaviours · ACE-IT','State the behaviour the executive team of [Case] will show under each ACE-IT behaviour so that the change holds: Accountability, Commitment, Engagement, Integrity and Transparency.']
+    ]},
+    { key:'u6', unit:6, title:'Performance Management Setup', boxes:[
+      ['6A','S2R® Contribution Map™','For one enterprise Key Result of [Case], set out what each contributing business function must deliver, what its people must deliver with the performance measure, and the organisational conditions the organisation must provide with the measure or evidence of readiness.'],
+      ['6B','FACES application','For each business function in the Contribution Map of [Case], describe the practical management arrangement for each of the five FACES functions.'],
+      ['6C','WARD check-up','For the enterprise Key Result of [Case], set the waypoints, the alert that raises a red flag, the recovery for the individuals and for the organisational conditions, and the decider.']
+    ]},
+    { key:'u7', unit:7, title:'Establishing Performance Expectations', boxes:[
+      ['7A','Start With the Future','For two contributions from the S2R® Contribution Map™ of [Case]: name the owner of each contribution, the Success in Practice statement it serves, the part of that Future it serves and the leader framing that connects the contribution to that Future.'],
+      ['7B','Delivery expectation','For each of the two contributions of [Case]: state what the people must deliver, by when, to what standard, how success will be recognised and the behaviours expected; and what the organisational conditions must provide, with the leader responsible for each condition.'],
+      ['7C','Expectations chain','For each of the two contributions of [Case]: name the Upline, Downline and Crossline, what must be established with each, and the coordination they require.'],
+      ['7D','Ownership','For each of the two contributions of [Case]: record the owner’s alignment score and, where the score is below 9, what stands behind it, the actions agreed with an owner and a review date for each, and the revised score.'],
+      ['7E','Alignment dialogue with the board chair','For one Key Result of [Case]: set out the alignment dialogue that moves the board chair to a 10, under Goal, Reality, Options and Will.']
+    ]},
+    { key:'u8', unit:8, title:'Performance Measurement', boxes:[
+      ['8A','Early warning signals','For missed early warning signals: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
+      ['8B','Accountability','For gradual diffusion of accountability: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
+      ['8C','Organisational learning','For loss of organisational learning: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
+      ['8D','Leadership credibility','For eroding leadership credibility: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
+      ['8E','WARD test','For the WARD check-up of [Case]: the red flag at one waypoint, what explains the gap in the performance of individuals and in the organisational conditions, and the recovery run.']
+    ]},
+    { key:'u9', unit:9, title:'Strategic Unclogging', boxes:[
+      ['9A','Original challenge','The original work-based challenge selected for [Case], and the strategic Objective and Key Result or KPI it affects.'],
+      ['9B','Performance clog','The Seven Performance Clog that best explains the challenge, and the observations behind the diagnosis.'],
+      ['9C','Unclogging lever','The Strategic Unclogging Lever selected for the clog, and how it addresses it.'],
+      ['9D','Review and Realign','The performance reality across the three lines of sight and the diagnosis check; the collective response for people performance and organisational performance, with executive ownership.'],
+      ['9E','Restore','The intervention through the selected lever, the action and completion date, the evidence of recovery for people and organisational performance, and the review commitment.']
+    ]},
+    { key:'u10', unit:10, title:'ESRG Alignment', boxes:[
+      ['10A','Enterprise ESRG Scanner','The capability profile of [Case]’s executive functions for the assessment period, consolidated from each function’s ESRG scanner, with any missing submissions or evidence gaps.'],
+      ['10B','Collective findings','The convergence, divergence and dependency findings for each execution-enabling capability, with the evidence behind them.'],
+      ['10C','Collective Intelligence Response','The agreed responses: ESRG component, collective finding, strategic commitment affected, response and functions involved.'],
+      ['10D','ESRG Alignment Intervention Plan','For each agreed response: implementation actions, accountable executive, contributing functions, target date and evidence of improvement.']
+    ]},
+    { key:'u11', unit:11, title:'Culture Reinforcement & Organisational Health', boxes:[
+      ['11A','Health reading','Assess [Case] against the five traits: Minimal Politics, Minimal Confusion, High Morale, High Productivity and Low Turnover. State its temperature band.'],
+      ['11B','Health foundations','Identify the trust, experiences and beliefs producing that reading.'],
+      ['11C','Cost of poor health','Name the hidden costs [Case] carries, or risks carrying, from its current health.'],
+      ['11D','Health stewardship','Assign each health domain to the executive role that anchors it, and name any neglected domain.'],
+      ['11E','Guardrails and coaching','State the ACE-IT guardrail priorities for [Case], and the coaching conversations the executive team commits to.']
+    ]},
+    { key:'u12', unit:12, title:'Sustaining Performance', boxes:[
+      ['12A','Performance gravity','Name the force most active on [Case] and the performance gravity it produces.'],
+      ['12B','Force detection','Identify where force movements appear first across [Case]’s leadership domains, and the early warning signals.'],
+      ['12C','Navigation diagnostic','Use the ABCV checkpoints to state what those movements mean for [Case]’s strategic position.'],
+      ['12D','KISS navigation response','Record the executive team’s Keep, Improve, Start and Stop decisions for the next performance cycle.'],
+      ['12E','Navigation commitment','Set [Case]’s collective intelligence review rhythm and the navigation decision the team commits to, with a date.']
+    ]}
+  ];
+  var BY_KEY = {}; BLUEPRINT.forEach(function(s){ BY_KEY[s.key] = s; });
+
+  // === Outputs brought in from the member's own unit page (added unit by unit as the units are rebuilt). ===
+  // Each row: Blueprint box, response key on the unit page, name in that page's list of confirmed outputs.
+  var PULL = {
+    u1: { lens:'u1_foundations', rows:[
+      ['1A','pc_company','Problem Charter · Simulated Company'],
+      ['1B','pc_team','Problem Charter · Executive Team'],
+      ['1C','pc_org','Problem Charter · Our Organisation'],
+      ['1D','pc_challenges','Problem Charter · Challenges Experienced'],
+      ['1E','pc_manifest','Problem Charter · How They Manifested'],
+      ['1F','pc_consequences','Problem Charter · Consequences'],
+      ['1G','pc_address','Problem Charter · Challenges We Will Address'],
+      ['1H','pc_problem','Problem Charter · Central Organisational Problem']
+    ]},
+    u2: { lens:'u2m1_lens1', rows:[
+      ['2A','arch_output','Strategy Architecture'],
+      ['2B','intent_statement','Strategy Intent Statement'],
+      ['2C','sip_d1_st','SiP · Customer Experience & Value'],
+      ['2D','sip_d2_st','SiP · Operational Capability & Execution Rhythm'],
+      ['2E','sip_d3_st','SiP · People & Culture Dynamics'],
+      ['2F','sip_d4_st','SiP · Enterprise Value Creation']
+    ]},
+    u3: { lens:'u2m1_lens2', rows:[
+      ['3A','kiss_keep','KISS · Keep'],
+      ['3B','kiss_improve','KISS · Improve'],
+      ['3C','kiss_start','KISS · Start'],
+      ['3D','kiss_stop','KISS · Stop'],
+      ['3E','ent_priorities','Enterprise priorities'],
+      ['3F','ent_okrs','Enterprise OKRs']
+    ]},
+    u4: { lens:'u2m1_lens3', rows:[
+      ['4A','mbt_arena','MBT · Arena'],
+      ['4B','mbt_bound','MBT · Boundaries'],
+      ['4C','mbt_comp','MBT · Competition'],
+      ['4D','mbt_value','MBT · Value Proposition'],
+      ['4E','mbt_verify','MBT · Verification Ownership'],
+      ['4F','mbt_blind','MBT · Executive Blind Spot']
+    ]},
+    u5: { lens:'u3m1_lens4', rows:[
+      ['5A','kit_profile','Alignment Plan · Team Profile'],
+      ['5B','kit_mind','Alignment Plan · Mind'],
+      ['5C','kit_habit','Alignment Plan · Habit']
+    ]},
+    u6: { lens:'u3m1_lens5', rows:[
+      ['6A','cm_map','Enterprise PM System · Contribution Map'],
+      ['6B','cm_faces','Enterprise PM System · FACES Application'],
+      ['6C','cm_ward','Enterprise PM System · WARD']
+    ]},
+    u7: { lens:'u3m1_lens6', rows:[
+      ['7A','ex_future','Expectations · Start With the Future'],
+      ['7B','ex_delivery','Expectations · Delivery Expectation'],
+      ['7C','ex_chain','Expectations · Expectations Chain'],
+      ['7D','ex_ownership','Expectations · Ownership'],
+      ['7E','ex_dialogue','Expectations · Alignment Dialogue']
+    ]},
+    u8: { lens:'u3m2_lens7', rows:[
+      ['8A','rd_warning','Review Discipline · Early Warning Signals'],
+      ['8B','rd_accountability','Review Discipline · Accountability'],
+      ['8C','rd_learning','Review Discipline · Organisational Learning'],
+      ['8D','rd_credibility','Review Discipline · Leadership Credibility'],
+      ['8E','rd_ward','Review Discipline · WARD Test']
+    ]},
+    u9: { lens:'u3m2_lens8', rows:[
+      ['9A','uc_challenge','Unclogging · Original Challenge'],
+      ['9B','uc_clog','Unclogging · Performance Clog'],
+      ['9C','uc_lever','Unclogging · Unclogging Lever'],
+      ['9D','uc_review_realign','Unclogging · Review and Realign'],
+      ['9E','uc_restore','Unclogging · Restore']
+    ]},
+    u10: { lens:'u4m1_lens9', rows:[
+      ['10A','es_scanner','ESRG Clinic · Enterprise Scanner'],
+      ['10B','es_interp','ESRG Clinic · Collective Findings'],
+      ['10C','es_resp','ESRG Clinic · Collective Intelligence Response'],
+      ['10D','es_plan','ESRG Clinic · Intervention Plan']
+    ]}
+  };
+
+  // === State ===
+  var S = { mode:'participant', cohortId:null, uid:null, data:null, bp:null, caseName:'', openKeys:{}, dirty:{}, pulled:{} };
+
+  // === Helpers ===
+  function esc(s){ if (s === null || s === undefined) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+  function fmtDateTime(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleString('en-GB',{ weekday:'short', day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }); }
+  function fmtDate(iso){ if (!iso) return ''; var d = new Date(iso); if (isNaN(d.getTime())) return ''; return d.toLocaleDateString('en-GB',{ day:'numeric', month:'long', year:'numeric' }); }
+  function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your simulated company')); }
+  // The team's simulated company: box 1A of its Problem Charter.
+  function teamCompany(){ var l = (S.bp && S.bp.sections) || []; for (var i = 0; i < l.length; i++){ if (l[i].key === 'u1' && l[i].content && String(l[i].content['1A'] || '').trim()) return String(l[i].content['1A']).trim(); } return ''; }
+  function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 80) return ''; if (n <= 84) return 'Proficient Integrator'; if (n <= 90) return 'Advanced Integrator'; return 'Master Integrator'; }
+  function stateHtml(title, msg){ return '<div class="state"><h2>' + esc(title) + '</h2><p>' + esc(msg) + '</p></div>'; }
+  function fatal(title, msg){ document.getElementById('root').innerHTML = stateHtml(title, msg); }
+  function one(res){ if (!res || res.error || !res.data) return null; return Array.isArray(res.data) ? res.data[0] : res.data; }
+
+  window.goBack = function(){
+    location.href = (S.mode === 'admin') ? 'dashboard_A.html?view=capstone' : 'index.html';
+  };
+
+  // Keep unsaved text across re-renders; warn before leaving with unsaved text.
+  function hasDirty(){ for (var k in S.dirty){ if (S.dirty[k]) return true; } return false; }
+  window.addEventListener('beforeunload', function(e){ if (hasDirty()){ e.preventDefault(); e.returnValue = ''; } });
+
+  // === Boot ===
+  function boot(){
+    sb.auth.getSession().then(function(sres){
+      var session = sres && sres.data && sres.data.session;
+      if (!session){ fatal('Not signed in', 'Sign in to the S2R Portal, then reopen the capstone from your portal.'); return; }
+      S.uid = session.user.id;
+      if (adminTeamId){ S.mode = 'admin'; return loadAdmin(); }
+      return sb.from('cohort_memberships').select('cohort_id,role_in_cohort,joined_at')
+        .eq('profile_id', S.uid).order('joined_at', { ascending:false }).then(function(mres){
+          var rows = (mres && mres.data) || [];
+          var mine = rows.filter(function(r){ return r.role_in_cohort === 'participant'; });
+          if (!mine.length){ fatal('Participant page', 'This page is for participants. Sign in with a participant account to use it.'); return; }
+          S.cohortId = mine[0].cohort_id;
+          return loadParticipant();
+        });
+    }).catch(function(err){ console.error('[capstone] boot error:', err); fatal('Could not load', 'An unexpected error occurred. Please refresh and try again.'); });
+  }
+
+  function loadParticipant(){
+    return sb.rpc('get_my_capstone', { p_cohort_id: S.cohortId }).then(function(res){
+      if (res.error){ console.error('[capstone] get_my_capstone:', res.error); fatal('Could not load', 'Your capstone could not be loaded. Please refresh and try again.'); return; }
+      S.data = res.data || {};
+      S.bp = S.data.blueprint || null;
+      S.caseName = teamCompany();
+      if (S.data.access_open !== true){
+        fatal('Capstone not open yet', 'The capstone opens when Unit 1 opens.');
+        return;
+      }
+      render();
+    });
+  }
+
+  function loadAdmin(){
+    document.getElementById('viewBadge').textContent = 'Admin View';
+    document.getElementById('backBtn').innerHTML = '&#8592; Back to Admin Console';
+    return sb.from('profiles').select('role').eq('id', S.uid).maybeSingle().then(function(pr){
+      var role = (pr && pr.data && pr.data.role) || '';
+      if (role !== 'admin'){ fatal('Access restricted', 'This view is for administrators only.'); return; }
+      return sb.rpc('get_capstone_blueprint', { p_team_id: adminTeamId }).then(function(res){
+        if (res.error){ console.error('[capstone] get_capstone_blueprint:', res.error); fatal('Could not load', 'This team’s Blueprint could not be loaded.'); return; }
+        S.bp = res.data || null;
+        S.data = { brief: S.bp && S.bp.brief, cohort: S.bp && S.bp.cohort };
+        S.caseName = teamCompany();
+        render();
+      });
+    });
+  }
+
+  function reload(){
+    captureDirty();
+    return (S.mode === 'admin') ? loadAdmin() : loadParticipant();
+  }
+
+  // === Unit 5 · the team's OCEAVL profile (personal scores, read together once every member has submitted) ===
+  var OCEAVL = [{"n":"Openness","lv":{"Low":["Prefers safe and familiar ideas. Waits for certainty before acting. May miss external shifts.","Decisions stall waiting for certainty; teams default to legacy approaches; market shifts recognised too late.","Introduce a 70% certainty rule. Force strategic reframing via clean-slate questions. Commission one “What If” scenario memo each cycle.","Clarity Trial; Zero-Base Huddle; Trend Rotation"],"Balanced":["Mixes routine and creativity well. Tests ideas when supported by evidence. Open to learning.","Avoidance of discomfort over time; evidence-heavy culture slows experimentation; improvements stay incremental.","Mandate one deliberately uncomfortable experiment per cycle. Require one judgement-based pilot. Ask what a 10× outcome would require.","The Stretch Sync; The Intuition Log; The Moonshot Minute"],"High":["Enjoys new approaches. Quick to adapt. Multiple ideas compete simultaneously.","Too many ideas fragment focus; initiatives start without completing; priorities blur.","Enforce One In, One Out rule. Temporarily freeze new starts. Re-anchor every pivot to agreed strategic intent.","48-Hour Validation; Finish Line Friday; The Anchor Check"]}},{"n":"Conscientiousness","lv":{"Low":["Struggles to stay organised. May start tasks but not finish. Delivery is unpredictable.","Commitments missed; output quality varies; outcomes lack ownership.","Introduce a RAG status board. Mandate peer-review before closure. Assign a single named owner per key result.","Monday Commit; Quality Spot-Check; Ownership Stand-Up"],"Balanced":["Usually dependable but feels stress under sustained pressure. Tries to stay disciplined across many tasks.","Sustained workload erodes reliability; critical steps bypassed under pressure; long-term health traded for short-term delivery.","Actively rebalance demand to real capacity. Mandate checklists for high-risk tasks. Protect dedicated clean-up time.","Load Audit; Step-Check; Health Check"],"High":["Very organised and structured. Wants things done perfectly and on time.","Over-planning delays action; perfectionism blocks “good enough”; teams freeze when plans change.","Explicitly authorise Plan B approaches. Impose strict time limits on planning. Define Minimum Viable Result.","Pivot Sprint; Speed-to-Action; MVR Audit"]}},{"n":"Extraversion","lv":{"Low":["Quiet and reflective. Prefers small groups or time to think before speaking.","Critical insights remain unspoken; stress causes withdrawal; information is pulled not pushed.","Begin meetings with silent written input. Schedule intentional 1-on-1 reconnection. Enforce push-based reporting.","Digital Ink-Well; Pulse Check; Flash Update"],"Balanced":["Comfortable mixing with people. Can balance talking and listening well.","Meetings drift into social discussion; consensus delays decisions; purpose slips.","Restrict updates to blockers, decisions, actions only. Appoint a final decision-maker per forum. Restate strategic intent at every start.","Outcome-Only Syncs; 51/49 Rule; Intent Intro"],"High":["Loves people and energy in discussion. Enjoys leading from the front.","Dominant voices crowd out data; action runs ahead of evidence; competing agendas fragment effort.","Require senior leaders to speak last. Mandate data summary with all proposals. Resolve single most critical agenda overlap.","Rotating Facilitator; Evidence Gate; Synergy Sync"]}},{"n":"Agreeableness","lv":{"Low":["Can be very direct or firm in views. May struggle with patience for others’ ideas.","Conflict turns defensive and erodes trust; ego overrides outcomes; toxic seams between departments.","Shift to Problem/Data/Options language. Ask whether behaviours are helping or harming outcomes. Force cross-functional task swaps.","Issue-Evidence-Options; Result-First Review; Seam Huddle"],"Balanced":["Works well with most people. Manages conflict calmly. Balances kindness and firmness.","Feedback delayed; issues avoided to preserve harmony; apparent agreement masks unresolved risks.","Challenge work while explicitly demonstrating care. Name the uncomfortable issue at the start of the meeting. Ask the team to identify reasons the plan might fail.","Stop-Start-Continue; Hard-Talk Slot; Pre-Mortem"],"High":["Kind and warm. Ready to help others. Sometimes avoids saying no to preserve peace.","Agreement given without genuine commitment; team over-commits; resentment builds beneath surface harmony.","Assign a formal Devil’s Advocate role. Require explicit capacity check before accepting new work. Use anonymous mechanisms to surface tensions.","Rotating Challenger; No-Log; Radical Candor Loop"]}},{"n":"Emotional Stability","lv":{"Low":["Feels emotions strongly. May react fast under stress. Can take criticism personally.","Stress triggers impulsive decisions; errors hidden due to fear; anxiety grows from information gaps.","Mandatory 24-hour pause before high-stakes decisions. Leaders model safety by sharing their own failures. Regular factual briefings during volatile periods.","Morning-After Review; Error-Share; Daily Truth"],"Balanced":["Usually calm but can feel stress in long pressure periods. Manages emotions most of the time.","Important emotional signals missed; calm leadership misread as indifference; stability delays necessary urgency.","Increase visible leadership presence. Use explicit empathy language. Deliberately introduce strategic urgency where required.","Pulse Audit; Human Sync; Burn Rate Review"],"High":["Stays calm and steady even in chaos. Rarely loses control or reacts emotionally.","Calm misread as emotional distance; problems overlooked because everything appears fine; frontline disconnect.","Explicitly acknowledge effort, strain, and contribution. Demand objective data proving safety and control. Spend regular time embedded in operations.","Gratitude Minute; Red-Team Audit; Frontline Friday"]}},{"n":"Values Alignment","lv":{"Low":["May act differently from the group’s shared values. Can seem unsure about what the team stands for.","Personal preference overrides shared values; different parts of the organisation operate under conflicting value systems; trust erodes.","Publicly pause work that violates stated values. Rotate cultural ambassadors across silos. Conduct a formal review of promises versus delivery.","Value Filter; Culture Stand-Up; Integrity Scorecard"],"Balanced":["Understands values but may bend them when under pressure.","Values deprioritised under pressure; values exist conceptually but not operationally; ethical standards applied inconsistently.","Actively spotlight examples of values in action. Link each value to at least one active performance metric. Reference values during difficult decisions.","Narrative Share; Value KPI Check; Decision Audit"],"High":["Strongly lives by the organisation’s values. Acts as role model.","Strong conviction slows adaptation; external perspectives excluded; judgement focuses on style over results.","Periodically reassess whether values still support strategy. Deliberately introduce outsider viewpoints. Anchor feedback in outcomes and values only.","Value Evolution; Diversity Huddle; Merit Sync"]}},{"n":"Learning Orientation","lv":{"Low":["Feels nervous about feedback or change. Avoids new skills for fear of failing.","Capabilities decay as methods become outdated; feedback resisted because it threatens status; leaders do not invite feedback themselves.","Require one small new-tool experiment each month. Reframe mistakes as neutral learning data. Leaders explicitly ask for feedback first.","10-Minute Teach; Post-Mortem Pulse; Reverse Feedback"],"Balanced":["Likes learning when useful. Can lose interest in long or complex lessons.","Learning remains shallow and episodic; training does not translate into changed behaviour; teams fix symptoms and leave the causes.","Force reflection on root causes. Require a written application note after learning events. Apply Five Whys technique to failures.","Quarterly Growth Review; 7-Day Implementation; Root-Cause Sync"],"High":["Loves learning and shares knowledge freely. Enjoys experimenting with ideas and tools.","Excessive experimentation diffuses focus; teams outpace the organisation’s ability to absorb change; learning not institutionalised.","Cap learning and experimentation time deliberately. Slow learning cycles to match organisational readiness. Prevent new learning until existing lessons are embedded.","Playbook Build; Sync Cycle; Standard Build"]}}];
+  // What each routine is, in one line (the same lines as on the Unit 5 page).
+  var OC_ROUT = {"Clarity Trial":"The team agrees to act when it is about 70% sure, and reviews the result afterwards.","Zero-Base Huddle":"A short meeting that asks: if we were starting from nothing today, what would we do?","Trend Rotation":"Members take turns to bring one outside trend and a short “What if” note on what it could mean.","The Stretch Sync":"Each cycle the team picks one experiment that is uncomfortable on purpose, and reports back on it.","The Intuition Log":"The team runs one pilot on judgement, records the reasoning, and checks it later against what happened.","The Moonshot Minute":"A short slot in a meeting that asks what a result ten times bigger would require.","48-Hour Validation":"A new idea waits two days and must name the work it replaces before it is accepted.","Finish Line Friday":"Each Friday the team reviews what was finished. New work waits until open work is closed.","The Anchor Check":"Before any change of direction, the team states how it serves the agreed strategic intent.","Monday Commit":"Each Monday every member states their commitments for the week, and the team tracks them as red, amber or green.","Quality Spot-Check":"A colleague reviews each piece of work before it is closed.","Ownership Stand-Up":"A short meeting in which each key result is answered for by its one named owner.","Load Audit":"The team compares the work asked of it with its real capacity, and moves or drops work to fit.","Step-Check":"A checklist is used for every high-risk task, so that no step is skipped under pressure.","Health Check":"Set time is protected to clear backlogs and repair what was rushed.","Pivot Sprint":"When a plan changes, the team is authorised to run a short Plan B and act on it.","Speed-to-Action":"Planning has a fixed time limit. When it ends, the team acts.","MVR Audit":"Before work starts, the team defines the Minimum Viable Result: the least that counts as good enough.","Digital Ink-Well":"Meetings open with everyone writing their input in silence before anyone speaks.","Pulse Check":"Leaders hold regular one-to-one conversations to reconnect with each member.","Flash Update":"Each member sends a short update without being asked for it.","Outcome-Only Syncs":"Updates cover three things only: blockers, decisions and actions.","51/49 Rule":"Each forum has one named person who makes the final call when views are split.","Intent Intro":"Every meeting opens by restating the strategic intent it serves.","Rotating Facilitator":"A different member leads each meeting, and senior leaders speak last.","Evidence Gate":"A proposal is discussed only when it comes with a summary of the data behind it.","Synergy Sync":"The team names the one overlap between agendas that does the most damage, and resolves it.","Issue-Evidence-Options":"A disagreement is stated in three parts: the issue, the evidence and the options.","Result-First Review":"The team asks of its own behaviour: is this helping the result or harming it?","Seam Huddle":"Members of two departments swap a task, then meet to fix the hand-over between them.","Stop-Start-Continue":"Feedback is given in three parts: what to stop, what to start and what to continue.","Hard-Talk Slot":"The uncomfortable issue is the first item in the meeting.","Pre-Mortem":"Before a plan is approved, the team lists the reasons it might fail.","Rotating Challenger":"One member, a different one each time, is given the job of arguing against the proposal.","No-Log":"The team checks its capacity before it accepts new work, and keeps a record of what it declined.","Radical Candor Loop":"Members raise tensions through an anonymous channel, and the team answers them in the open.","Morning-After Review":"A high-stakes decision waits a day and is reviewed the next morning before it is confirmed.","Error-Share":"Leaders share a mistake of their own first, so that others feel safe to report theirs.","Daily Truth":"In volatile periods, a short daily briefing gives the facts as they stand.","Pulse Audit":"Leaders spend visible time with their teams and ask how people are coping.","Human Sync":"A regular check-in in which leaders name what people are feeling and acknowledge it.","Burn Rate Review":"The team reviews how fast time and resources are being used, and raises the pace where it is needed.","Gratitude Minute":"Meetings open with a named thank-you for effort, strain or contribution.","Red-Team Audit":"A separate group tests the claim that all is under control, and asks for the data.","Frontline Friday":"Leaders spend regular time working alongside frontline staff.","Value Filter":"Work is tested against the stated values, and work that breaks them is paused in the open.","Culture Stand-Up":"Culture ambassadors move between departments and report what they see in a short meeting.","Integrity Scorecard":"A formal review compares what was promised with what was delivered.","Narrative Share":"Members tell short stories of the values being lived in real work.","Value KPI Check":"Each value is tied to at least one live performance measure, and the measure is reviewed.","Decision Audit":"After a hard decision, the team records which values it used to decide.","Value Evolution":"From time to time the team reviews whether its values still serve the strategy.","Diversity Huddle":"An outsider is invited in to give a different view.","Merit Sync":"Feedback is given on outcomes and values only.","10-Minute Teach":"Each month a member tries one small new tool and shows the team what they learned, in a short slot.","Post-Mortem Pulse":"After a mistake, the team records what happened and what was learned, with no blame.","Reverse Feedback":"Leaders ask their team for feedback on themselves before they give any.","Quarterly Growth Review":"Each quarter the team looks back at what it learned and at the root causes of what went wrong.","7-Day Implementation":"Within a week of a learning event, each member writes how they have applied it.","Root-Cause Sync":"After a failure, the team asks “why?” five times to reach the cause.","Playbook Build":"Time for experiments is capped, and what was learned is written into a shared playbook.","Sync Cycle":"New learning is released at the pace the organisation can absorb.","Standard Build":"A lesson becomes the standard way of working before the next new idea is taken on."};
+  function loadTeamOc(){
+    if (!S.bp || !S.bp.team || S.ocBusy) return;
+    S.ocBusy = true;
+    sb.rpc('get_capstone_team_oceavl', { p_team_id: S.bp.team.id }).then(function(res){
+      S.ocBusy = false;
+      if (res.error){ console.warn('[capstone] get_capstone_team_oceavl:', res.error); S.oc = { error:true }; }
+      else S.oc = res.data || { error:true };
+      var host = document.getElementById('ocTeam'); if (host) host.innerHTML = ocTeamHtml();
+    });
+  }
+  function ocTeamHtml(){
+    var o = S.oc, h = '<div class="box-l">Team OCEAVL profile</div>';
+    if (!o) return h + '<div class="box-i">Loading your team’s profile…</div>';
+    if (o.error) return h + '<div class="box-i">Your team’s profile is not available yet.</div>';
+    if (!o.dims) return h + '<div class="box-i">Your team’s profile appears here once every member has submitted their OCEAVL scores in Unit 5, part 3.1. Submitted so far: ' +
+      esc(String(o.submitted || 0)) + ' of ' + esc(String(o.members || 0)) + ' members.</div>';
+    h += '<div class="box-i">The level held by most members is the team’s level. ' + esc(String(o.members)) + ' members submitted. No names and no single scores are shown.</div>';
+    OCEAVL.forEach(function(d, i){
+      var c = o.dims[i] || [0,0,0], H = c[0], Bn = c[1], L = c[2];
+      var lv = (H >= Bn && H >= L) ? 'High' : ((L >= Bn && L >= H) ? 'Low' : 'Balanced'), g = d.lv[lv];
+      h += '<div class="oc-row"><div class="oc-h"><strong>' + esc(d.n) + '</strong><span class="oc-lv">' + lv + '</span><span class="oc-c">High ' + H + ' · Balanced ' + Bn + ' · Low ' + L + '</span></div>' +
+        '<div class="oc-t">' + esc(g[0]) + '</div><div class="oc-t"><strong>Risk:</strong> ' + esc(g[1]) + '</div><div class="oc-t"><strong>Response:</strong> ' + esc(g[2]) + '</div><div class="oc-t"><strong>Routines:</strong></div>' +
+        String(g[3]).split(';').map(function(r){ r = r.trim(); return '<div class="oc-t oc-r"><strong>' + esc(r) + '.</strong> ' + esc(OC_ROUT[r] || '') + '</div>'; }).join('') + '</div>';
+    });
+    return h;
+  }
+
+  // === Render ===
+  function render(){
+    document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
+    var intro = document.getElementById('introText');
+    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.';
+    var html = '';
+    html += briefCard();
+    html += teamCard();
+    html += criteriaCard();
+    html += blueprintCard();
+    if (S.mode === 'participant') html += resultCard();
+    document.getElementById('root').innerHTML = html;
+    restoreDirty();
+    autoPull();
+    loadTeamOc();
+  }
+
+  function briefCard(){
+    var b = S.data && S.data.brief;
+    var h = '<div class="card"><div class="card-label">The brief</div>';
+    if (!b){
+      h += '<p class="muted">IBSL will publish your cohort’s brief shortly.</p>';
+    } else {
+      if (b.brief_text) h += '<div class="brief-text">' + esc(b.brief_text) + '</div>';
+      h += '<div class="facts">' +
+        fact('Submission deadline', fmtDateTime(b.submission_due)) +
+        fact('Showcase', fmtDateTime(b.showcase_at)) +
+        fact('Venue', b.showcase_venue) +
+      '</div>';
+    }
+    return h + '</div>';
+  }
+  function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
+
+  function teamCard(){
+    var h = '<div class="card"><div class="card-label">' + (S.mode === 'admin' ? 'Team' : 'Your team') + '</div>';
+    if (!S.bp){ return h + '<p class="muted">IBSL will confirm your team.</p></div>'; }
+    h += '<h2>' + esc(S.bp.team && S.bp.team.name) + '</h2><div class="members">';
+    (S.bp.members || []).forEach(function(m){ h += '<span class="member">' + esc(m.full_name) + '</span>'; });
+    return h + '</div></div>';
+  }
+
+  function criteriaCard(){
+    return '<div class="card"><div class="card-label">Assessment criteria</div>' +
+      '<p class="muted">An external panel assesses the Blueprint and each member’s showcase, and combines these into your capstone score.</p>' +
+      '<div class="crit-group"><div class="crit-head">Team Blueprint · 60%</div>' +
+        '<p class="crit"><strong>Problem Charter</strong> (Unit 1): how fully the Blueprint answers the central problem and builds the capabilities the Charter names.</p>' +
+        '<p class="crit"><strong>Direction</strong> (Units 2–4): the coherence of strategic intent, success definition, priorities and direction integrity.</p>' +
+        '<p class="crit"><strong>Influence</strong> (Units 5–9): the strength of the alignment, performance and unclogging architecture.</p>' +
+        '<p class="crit"><strong>Grounding</strong> (Units 10–12): how well operating conditions, organisational health and navigation sustain the strategy.</p>' +
+      '</div>' +
+      '<div class="crit-group"><div class="crit-head">Individual showcase · 40%</div>' +
+        '<p class="crit"><strong>Command</strong>: the member’s grasp of the Blueprint and their executive role within it.</p>' +
+        '<p class="crit"><strong>Delivery</strong>: how clearly and credibly the member presents and defends the team’s decisions to the panel.</p>' +
+      '</div></div>';
+  }
+
+  function blueprintCard(){
+    if (!S.bp) return '';
+    var h = '<div class="card"><div class="card-label">The Blueprint</div>';
+    var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
+    h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
+    if (S.mode === 'admin'){
+      h += '<div class="admin-bar">' +
+        (S.bp.team && S.bp.team.reopened
+          ? '<button class="btn" onclick="capAdminReopenAll(false)">Lock Blueprint</button><span class="muted">Reopened: the team can edit after the deadline.</span>'
+          : '<button class="btn" onclick="capAdminReopenAll(true)">Reopen Blueprint</button><span class="muted">Lets the team edit after the deadline.</span>') +
+        '</div><div class="msg" id="msg_admin"></div>';
+    }
+    if (S.bp.locked && S.mode === 'participant'){
+      h += '<div class="banner">The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.</div>';
+    }
+    (S.bp.sections || []).forEach(function(sec){ h += sectionHtml(sec); });
+    return h + '</div>';
+  }
+
+  function statusOf(sec){
+    if (!sec.open) return 'locked';
+    return sec.status || 'draft';
+  }
+
+  function sectionHtml(sec){
+    var def = BY_KEY[sec.key]; if (!def) return '';
+    var st = statusOf(sec);
+    var members = S.bp.members || [];
+    var confirmed = {}; (sec.confirmations || []).forEach(function(c){ confirmed[c.profile_id] = c.confirmed_at; });
+    var nConf = Object.keys(confirmed).length;
+    var chipText = { locked:'Locked', draft:'Draft', awaiting:'Awaiting confirmation', agreed:'Agreed' }[st];
+    var isMember = S.mode === 'participant';
+    var editable = false;   // participants read the Blueprint; it fills from the agreed unit work
+    var content = sec.content || {};
+
+    var h = '<div class="sec' + (S.openKeys[sec.key] ? ' open' : '') + '" id="sec_' + sec.key + '">' +
+      '<div class="sec-h" onclick="capToggle(\'' + sec.key + '\')">' +
+        '<span class="sec-t">Unit ' + def.unit + ' · ' + esc(def.title) + '</span>' +
+        '<span class="chip ' + st + '">' + chipText + (st === 'awaiting' ? ' · ' + nConf + ' of ' + members.length : '') + '</span>' +
+      '</div><div class="sec-b">';
+
+    if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.' + (PULL[sec.key] ? ' Your confirmed outputs from Unit ' + def.unit + ' are then brought in.' : '') + '</p>';
+    if (isMember && st !== 'locked' && st !== 'agreed') h += '<p class="sec-note">This section fills from Section 5 of your Unit ' + def.unit + ' page once every member of your group has agreed the work there.</p>';
+    if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
+    if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
+    if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
+
+    def.boxes.forEach(function(b){
+      var val = content[b[0]] || '';
+      h += '<div class="box"><div class="box-l">' + esc(b[0]) + ' · ' + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
+      if (editable){
+        h += '<textarea class="box-ta" data-sec="' + sec.key + '" data-box="' + esc(b[0]) + '" oninput="capInput(this)">' + esc(val) + '</textarea>' +
+             '<div class="ptext" id="pt_' + sec.key + '_' + esc(b[0]) + '">' + esc(val) + '</div>';
+      } else if (st !== 'locked'){
+        h += '<div class="box-v' + (val ? '' : ' empty') + '">' + (val ? esc(val) : 'Not yet entered') + '</div>';
+      }
+      h += '</div>';
+    });
+
+    if (st !== 'locked' && sec.updated_by_name && !isMember) h += '<div class="meta">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
+
+    if (!isMember && (st === 'awaiting' || st === 'agreed')){
+      h += '<div class="confirms">';
+      members.forEach(function(m){
+        var at = confirmed[m.profile_id];
+        h += '<span class="cf' + (at ? ' yes' : '') + '">' + (at ? '✓ ' : '') + esc(m.full_name) + (at ? ' · ' + esc(fmtDateTime(at)) : ' · pending') + '</span>';
+      });
+      h += '</div>';
+    }
+
+    // Actions
+    var a = '';
+    if (false){
+      if (st === 'draft'){
+        a += '<button class="btn" onclick="capSave(\'' + sec.key + '\')">Save draft</button>' +
+             '<button class="btn primary" onclick="capSend(\'' + sec.key + '\')">Send for team confirmation</button>';
+      } else if (st === 'awaiting'){
+        if (!confirmed[S.uid]) a += '<button class="btn primary" onclick="capConfirm(\'' + sec.key + '\')">I confirm this is our agreed text</button>';
+        a += '<button class="btn" onclick="capChange(\'' + sec.key + '\')">Request a change</button>';
+      }
+    }
+    if (S.mode === 'admin' && (st === 'awaiting' || st === 'agreed')){
+      a += '<button class="btn" onclick="capAdminReopenSection(\'' + sec.key + '\')">Reopen section</button>';
+    }
+    if (a) h += '<div class="actions">' + a + '</div>';
+    h += '<div class="msg" id="msg_' + sec.key + '"></div>';
+    return h + '</div></div>';
+  }
+
+  function resultCard(){
+    var sc = (S.data && S.data.score) || null;
+    var cert = S.data && S.data.certificate;
+    var h = '<div class="card"><div class="card-label">Your result</div>';
+    if (!sc){ return h + '<p class="muted">Your result is not available yet.</p></div>'; }
+    var capPending = sc.capstone_pending === true || sc.capstone_avg === null || sc.capstone_avg === undefined;
+    h += '<div class="res-row"><span class="res-k">Capstone score</span>' +
+      (capPending ? '<span class="res-v pending">Pending — scored by IBSL after the Blueprint Showcase</span>' : '<span class="res-v">' + esc(String(sc.capstone_avg)) + ' / 100</span>') + '</div>';
+    h += '<div class="res-row"><span class="res-k">Final score</span><span class="res-v">' + (sc.final_pct === null || sc.final_pct === undefined ? '—' : esc(String(sc.final_pct)) + '%') + '</span></div>';
+    var certText;
+    if (cert && cert.participant_number){
+      var lvl = levelFromScore(cert.final_score);
+      certText = 'Certified' + (lvl ? ' · ' + esc(lvl) : '') + ' · ' + esc(cert.participant_number);
+    } else if (sc.certified === true){
+      certText = 'Certified — IBSL will issue your certificate';
+    } else {
+      certText = 'Not yet certified';
+    }
+    h += '<div class="res-row"><span class="res-k">Certification</span><span class="res-v">' + certText + '</span></div>';
+    if (cert && cert.participant_number){
+      h += '<div class="res-row"><span class="res-k">Certificate</span><span class="res-v"><a href="certificate.html?participantId=' + encodeURIComponent(S.uid) + '&cohortId=' + encodeURIComponent(S.cohortId) + '" target="_blank" rel="noopener">View certificate</a></span></div>';
+    }
+    return h + '</div>';
+  }
+
+  // === Interaction ===
+  window.capToggle = function(key){
+    S.openKeys[key] = !S.openKeys[key];
+    var el = document.getElementById('sec_' + key);
+    if (el) el.classList.toggle('open', !!S.openKeys[key]);
+  };
+
+  window.capInput = function(ta){
+    var key = ta.getAttribute('data-sec');
+    var pt = document.getElementById('pt_' + key + '_' + ta.getAttribute('data-box'));
+    if (pt) pt.textContent = ta.value;
+    S.dirty[key] = true;
+  };
+
+  function sectionContent(key){
+    var out = {};
+    var tas = document.querySelectorAll('textarea.box-ta[data-sec="' + key + '"]');
+    for (var i = 0; i < tas.length; i++) out[tas[i].getAttribute('data-box')] = tas[i].value;
+    return out;
+  }
+  function sectionFromState(key){
+    var list = (S.bp && S.bp.sections) || [];
+    for (var i = 0; i < list.length; i++) if (list[i].key === key) return list[i];
+    return null;
+  }
+
+  // Unsaved text survives a reload of the data (only restored while the section is still an editable Draft).
+  var _dirtyCache = {};
+  function captureDirty(){
+    _dirtyCache = {};
+    Object.keys(S.dirty).forEach(function(key){ if (S.dirty[key]) _dirtyCache[key] = sectionContent(key); });
+  }
+  function restoreDirty(){
+    Object.keys(_dirtyCache).forEach(function(key){
+      var vals = _dirtyCache[key];
+      var tas = document.querySelectorAll('textarea.box-ta[data-sec="' + key + '"]');
+      if (!tas.length){ S.dirty[key] = false; return; }
+      for (var i = 0; i < tas.length; i++){
+        var b = tas[i].getAttribute('data-box');
+        if (vals[b] !== undefined){ tas[i].value = vals[b]; var pt = document.getElementById('pt_' + key + '_' + b); if (pt) pt.textContent = vals[b]; }
+      }
+    });
+    _dirtyCache = {};
+  }
+
+  function showMsg(key, text, kind, withReload){
+    var el = document.getElementById('msg_' + key);
+    if (!el) return;
+    el.className = 'msg show ' + (kind || 'err');
+    el.innerHTML = esc(text) + (withReload ? ' <button class="btn" style="margin-left:8px;padding:6px 12px;" onclick="capReload(\'' + key + '\')">Reload</button>' : '');
+  }
+  function errText(key, r){
+    var def = BY_KEY[key];
+    switch (r && r.error){
+      case 'stale': return 'A teammate saved this section at ' + fmtDateTime(r.updated_at) + '. Reload to see their changes before saving.';
+      case 'incomplete': return 'Complete every box before sending for confirmation.';
+      case 'locked': return 'The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.';
+      case 'section_closed': return 'This section opens when every team member has completed Unit ' + (def ? def.unit : '') + '.';
+      case 'not_draft': case 'not_awaiting': return 'This section has changed. Reload to see its current status.';
+      case 'not_authenticated': return 'Your session has expired. Please sign in again.';
+      default: return 'Could not complete this action. Please try again.';
+    }
+  }
+  function needsReload(r){ return r && (r.error === 'stale' || r.error === 'not_draft' || r.error === 'not_awaiting'); }
+
+  function setBusy(key, busy){
+    var el = document.getElementById('sec_' + key); if (!el) return;
+    var btns = el.querySelectorAll('.actions .btn');
+    for (var i = 0; i < btns.length; i++) btns[i].disabled = !!busy;
+  }
+
+  // === Bring confirmed outputs in from the member's own unit page ===
+  function sectionEmpty(sec){
+    var c = (sec && sec.content) || {};
+    for (var k in c){ if (String(c[k] || '').trim() !== '') return false; }
+    return true;
+  }
+  function readUnitOutputs(key){
+    var cfg = PULL[key];
+    var keys = cfg.rows.map(function(r){ return r[1]; }).concat(['confirmed_items']);
+    return sb.from('lens_responses').select('response_key,value')
+      .eq('profile_id', S.uid).eq('lens_id', cfg.lens).in('response_key', keys).then(function(res){
+        if (res.error){ console.error('[capstone] bring in:', res.error); return null; }
+        var v = {}; (res.data || []).forEach(function(r){ v[r.response_key] = r.value; });
+        var conf = v.confirmed_items;
+        if (typeof conf === 'string'){ try { conf = JSON.parse(conf); } catch (e){ conf = []; } }
+        if (!Array.isArray(conf)) conf = [];
+        var ready = [], missing = [];
+        cfg.rows.forEach(function(r){
+          var t = (typeof v[r[1]] === 'string') ? v[r[1]].trim() : '';
+          if (t && conf.indexOf(r[2]) !== -1) ready.push({ box:r[0], text:t, name:r[2] }); else missing.push(r[2]);
+        });
+        return { ready:ready, missing:missing };
+      });
+  }
+  function boxTa(key, box){ return document.querySelector('textarea.box-ta[data-sec="' + key + '"][data-box="' + box + '"]'); }
+  function fillBoxes(key, ready){
+    var n = 0;
+    ready.forEach(function(o){
+      var ta = boxTa(key, o.box);
+      if (ta && ta.value !== o.text){ ta.value = o.text; window.capInput(ta); n++; }
+    });
+    return n;
+  }
+
+  // Each open section fills from the unit work the whole group has agreed (database function capstone_sync_section).
+  function contentEqual(a, b){ a = a || {}; b = b || {}; var ka = Object.keys(a).filter(function(k){ return String(a[k]||'').trim(); }), kb = Object.keys(b); if (ka.length !== kb.length) return false; return kb.every(function(k){ return String(a[k]||'').trim() === String(b[k]||'').trim(); }); }
+  function autoPull(){
+    if (S.mode !== 'participant' || !S.bp || S.bp.locked || S.syncing) return;
+    var todo = (S.bp.sections || []).filter(function(sec){ return PULL[sec.key] && statusOf(sec) !== 'locked' && !S.pulled[sec.key]; });
+    if (!todo.length) return;
+    S.syncing = true;
+    var changed = false;
+    var run = todo.reduce(function(p, sec){
+      return p.then(function(){
+        var key = sec.key; S.pulled[key] = true;
+        return readUnitOutputs(key).then(function(o){
+          if (!o || o.missing.length) return;
+          var want = {}; o.ready.forEach(function(x){ want[x.box] = x.text; });
+          if (statusOf(sec) === 'agreed' && contentEqual(sec.content, want)) return;
+          var map = {}; PULL[key].rows.forEach(function(r){ map[r[0]] = r[1]; });
+          return sb.rpc('capstone_sync_section', { p_team_id: S.bp.team.id, p_key: key, p_map: map }).then(function(res){
+            var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+            if (res.error) console.warn('[capstone] sync ' + key + ':', res.error);
+            if (d.ok && d.changed) changed = true;
+          });
+        });
+      });
+    }, Promise.resolve());
+    run.then(function(){ S.syncing = false; if (changed) reload(); });
+  }
+
+  // The button: bring in again from this member's unit page.
+  window.capPull = function(key){
+    if (!PULL[key] || S.mode !== 'participant') return;
+    var unit = BY_KEY[key].unit;
+    setBusy(key, true);
+    readUnitOutputs(key).then(function(o){
+      setBusy(key, false);
+      if (!o){ showMsg(key, 'Could not read your Unit ' + unit + ' page. Please try again.', 'err'); return; }
+      var missingText = o.missing.length ? ' Not yet confirmed on your Unit ' + unit + ' page: ' + o.missing.join(', ') + '. Confirm there, then bring in again.' : '';
+      if (!o.ready.length){ showMsg(key, 'Nothing is confirmed on your Unit ' + unit + ' page yet. Confirm your outputs there, then bring them in again.', 'err'); return; }
+      var replaces = o.ready.some(function(x){ var ta = boxTa(key, x.box); return ta && ta.value.trim() !== '' && ta.value.trim() !== x.text; });
+      if (replaces && !window.confirm('Replace the text in these boxes with the confirmed outputs from your Unit ' + unit + ' page?')) return;
+      var n = fillBoxes(key, o.ready);
+      showMsg(key, (n ? 'Brought in from your Unit ' + unit + ' page: ' + o.ready.map(function(x){ return x.box; }).join(', ') + '. Save the draft or send for team confirmation.'
+                      : 'The boxes already match your Unit ' + unit + ' page.') + missingText, o.missing.length ? 'err' : 'ok');
+    });
+  };
+
+  // Discard this section's unsaved text and fetch the latest.
+  window.capReload = function(key){ S.dirty[key] = false; reload(); };
+
+  function doSave(key){
+    var sec = sectionFromState(key);
+    return sb.rpc('capstone_save_section', {
+      p_team_id: S.bp.team.id, p_key: key, p_content: sectionContent(key),
+      p_expected_updated_at: (sec && sec.updated_at) || null
+    }).then(function(res){
+      if (res.error){ console.error('[capstone] save:', res.error); return { ok:false, error:'rpc' }; }
+      return res.data || { ok:false };
+    });
+  }
+
+  window.capSave = function(key){
+    setBusy(key, true);
+    doSave(key).then(function(r){
+      if (!r.ok){ setBusy(key, false); showMsg(key, errText(key, r), 'err', needsReload(r)); return; }
+      S.dirty[key] = false;
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, 'Draft saved.', 'ok'); });
+    });
+  };
+
+  window.capSend = function(key){
+    setBusy(key, true);
+    var first = S.dirty[key] || !sectionFromState(key) || !sectionFromState(key).updated_at ? doSave(key) : Promise.resolve({ ok:true });
+    first.then(function(r){
+      if (!r.ok){ setBusy(key, false); showMsg(key, errText(key, r), 'err', needsReload(r)); return; }
+      S.dirty[key] = false;
+      return sb.rpc('capstone_send_for_confirmation', { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+        var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+        if (!d.ok){
+          S.openKeys[key] = true;
+          reload().then(function(){ showMsg(key, errText(key, d), 'err', needsReload(d)); });
+          return;
+        }
+        S.openKeys[key] = true;
+        reload().then(function(){ showMsg(key, d.status === 'agreed' ? 'Section agreed.' : 'Sent for team confirmation. Your confirmation is recorded.', 'ok'); });
+      });
+    });
+  };
+
+  function simpleAction(fn, key, okText){
+    setBusy(key, true);
+    sb.rpc(fn, { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+      var d = res.error ? { ok:false, error:'rpc' } : (res.data || { ok:false });
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, d.ok ? okText(d) : errText(key, d), d.ok ? 'ok' : 'err', !d.ok && needsReload(d)); });
+    });
+  }
+  window.capConfirm = function(key){ simpleAction('capstone_confirm_section', key, function(d){ return d.status === 'agreed' ? 'Section agreed by every member.' : 'Your confirmation is recorded.'; }); };
+  window.capChange  = function(key){ simpleAction('capstone_request_change', key, function(){ return 'Section returned to Draft. All confirmations have been cleared.'; }); };
+
+  // === Admin actions ===
+  window.capAdminReopenSection = function(key){
+    setBusy(key, true);
+    sb.rpc('admin_reopen_capstone_section', { p_team_id: S.bp.team.id, p_key: key }).then(function(res){
+      S.openKeys[key] = true;
+      reload().then(function(){ showMsg(key, res.error ? 'Could not reopen this section.' : 'Section reopened as Draft. Confirmations cleared.', res.error ? 'err' : 'ok'); });
+    });
+  };
+  window.capAdminReopenAll = function(on){
+    sb.rpc('admin_set_blueprint_reopened', { p_team_id: S.bp.team.id, p_reopened: !!on }).then(function(res){
+      reload().then(function(){ showMsg('admin', res.error ? 'Could not update the Blueprint.' : (on ? 'Blueprint reopened.' : 'Blueprint locked.'), res.error ? 'err' : 'ok'); });
+    });
+  };
+
+  // Print: open every section so the full Blueprint prints.
+  window.addEventListener('beforeprint', function(){
+    var els = document.querySelectorAll('.sec'); for (var i = 0; i < els.length; i++) els[i].classList.add('open');
+  });
+  window.addEventListener('afterprint', function(){
+    var els = document.querySelectorAll('.sec');
+    for (var i = 0; i < els.length; i++){ var k = els[i].id.replace('sec_',''); els[i].classList.toggle('open', !!S.openKeys[k]); }
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>

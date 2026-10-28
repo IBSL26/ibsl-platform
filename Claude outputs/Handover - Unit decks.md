@@ -92,3 +92,14 @@ Much of the content (role cards, bias families, cases, frameworks) sits in JavaS
 ## 7. Open items for Carol
 
 - Nothing outstanding on the decks or the portal.
+
+
+## 8. Deck clean-up, all 12 units (28 October 2026)
+
+Carol: "make sure that the texts do not overlap, that presenter notes are detailed for each unit"; then "I wont have time to approve copy then straight into supabase" (no review step).
+
+- Slides: every overlap, overflow, off-slide picture and text under 24pt fixed (checked by overlap.py in `$HOME/work` on the device, then every slide rendered and looked at). Unit 1 slide 24 split into 4.2.2b and 4.2.2c (36 slides). Unit 3 KISS worked table split into two slides and the Five Steps slides rebuilt at 24pt (35 slides). Unit 6 slides 8 and 9 wording updated to the FIT/SIP/AIR/PAR components of the live page.
+- Units 10, 11, 12: new decks built from the live rebuilt pages (35, 45, 29 slides). Build kits in `Unit decks\_build\deck_cleanup_28oct\u10`, `u11`, `u12`. Old decks did not match the units (Unit 10 still taught the Cultural Operating Code; Unit 12 still taught Performance Gravity).
+- Notes: every slide of every deck in the approved Unit 2 class-conversation format, aligned with the current F and P pages; Carol's own wording and her journal insights kept inside the steps. About 160,000 words in total.
+- Decks are in `Unit decks\`; `Claude outputs\Deck upload\Module-1..4` rebuilt with reader_assets.py (pictures + manifest + unit-NN.pptx; the two game HTML files kept in Module-2). Old Deck upload moved to `_to_delete\Deck upload (before clean-up 28 Oct)`. Backups of the decks and upload folders before the clean-up: `Claude outputs\Backups\Decks before clean-up (28 Oct)`.
+- Left open for Carol: Unit 4 slide 16, CTO blind spot (her picture says Value Proposition, the facilitator page says Arena). Unit 2 deck uses boxes 2A to 2F as the live pages do; if the SiP summary box 2G (other chat, preview) goes live, update notes on slides 1, 31, 34. Units 10 and 12 reflection slides are text slides (no portal screenshots). Units 10 and 11 have no Unit Summary on the pages; their last slide is the closing and transition.

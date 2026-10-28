@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREVIEW · Unit 9 — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:120px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;font-style:italic;}
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.25rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:14px;}
+.cb ul,.cb ol{padding-left:24px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:6px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 10px;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+/* Friction cards */
+.friction-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.friction-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:18px 16px;}
+.friction-icon{font-size:1.6rem;margin-bottom:10px;}
+.friction-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.friction-desc{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Clog cards */
+.clog-stack{display:flex;flex-direction:column;gap:8px;margin:18px 0;}
+.clog-card{border-radius:4px;border:1px solid rgba(255,255,255,.08);overflow:hidden;cursor:pointer;transition:border-color .2s;}
+.clog-card:hover{border-color:rgba(201,168,76,.25);}
+.clog-card.open{border-color:rgba(201,168,76,.3);}
+.clog-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#151c15;}
+.clog-meta{flex:1;}
+.clog-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;color:rgba(201,168,76,.55);}
+.clog-name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.abcv-badge{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:2px;flex-shrink:0;margin-left:14px;}
+.abcv-arena{background:rgba(107,143,204,.2);color:#8ab0e8;}
+.abcv-boundaries{background:rgba(201,168,76,.15);color:var(--gold);}
+.abcv-value{background:rgba(155,89,182,.15);color:#c39de0;}
+.abcv-competition{background:rgba(46,168,122,.15);color:#5ecba1;}
+.abcv-mixed{background:rgba(107,143,204,.12);color:#a8c8e8;}
+.clog-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;padding:0 6px;}
+.clog-card.open .clog-arr{transform:rotate(180deg);color:var(--gold);}
+.clog-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.clog-card.open .clog-body{display:block;}
+.clog-row{margin-bottom:10px;}
+.clog-rl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:4px;}
+.clog-rt{font-size:13px;color:rgba(255,255,255,.72);line-height:1.75;}
+.clog-impact{font-size:12px;margin-top:10px;padding:9px 13px;border-radius:2px;border-left:2px solid rgba(201,168,76,.4);background:rgba(201,168,76,.06);line-height:1.65;color:rgba(255,220,120,.8);font-style:italic;}
+.clog-signal{font-size:12px;margin-top:8px;padding:9px 13px;border-radius:2px;border-left:2px solid rgba(231,76,60,.3);background:rgba(231,76,60,.05);line-height:1.65;color:rgba(255,180,160,.75);}
+/* Lever grid */
+.lever-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:18px 0;}
+.lever-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.lever-card:hover{border-color:rgba(201,168,76,.25);}
+.lever-card.open{border-color:rgba(201,168,76,.3);}
+.lever-head{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;}
+.lever-meta{flex:1;}
+.lever-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:3px;}
+.lever-name{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.lever-role{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.28);margin-top:3px;}
+.lever-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 6px;flex-shrink:0;}
+.lever-card.open .lever-arr{transform:rotate(180deg);color:var(--gold);}
+.lever-bar{height:3px;background:rgba(201,168,76,.14);}
+.lever-card.open .lever-bar{background:var(--gold);}
+.lever-body{display:none;padding:14px 16px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.lever-card.open .lever-body{display:block;}
+.lever-body p{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:8px;}
+.lever-why{font-size:12px;padding:8px 12px;background:var(--blues);border-left:2px solid rgba(52,152,219,.3);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.8);font-style:italic;}
+/* COMPASS zone cards */
+.compass-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.cp-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cp-card:hover{border-color:rgba(201,168,76,.3);}
+.cp-card.open{border-color:rgba(201,168,76,.4);}
+.cp-head{padding:14px 16px 10px;display:flex;align-items:flex-start;justify-content:space-between;}
+.cp-code{font-size:18px;font-weight:700;color:var(--gold);margin-bottom:4px;font-family:"Cormorant Garamond",serif;}
+.cp-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.cp-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 6px;flex-shrink:0;}
+.cp-card.open .cp-arr{transform:rotate(180deg);color:var(--gold);}
+.cp-bar{height:3px;background:rgba(201,168,76,.14);}
+.cp-card.open .cp-bar{background:var(--gold);}
+.cp-body{display:none;padding:14px 16px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.cp-card.open .cp-body{display:block;}
+.cp-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px;}
+.cp-signal{font-size:11px;padding:8px 12px;background:rgba(231,76,60,.05);border-left:2px solid rgba(231,76,60,.3);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(255,180,160,.8);margin-top:8px;}
+.cp-fac{font-size:12px;padding:8px 12px;background:var(--blues);border-left:2px solid rgba(52,152,219,.25);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;margin-top:6px;}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Interp table */
+.interp-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.interp-table th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.interp-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.interp-table td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:28%;font-size:12px;}
+.interp-table td:nth-child(2){color:rgba(255,255,255,.75);font-weight:600;width:22%;}
+/* Tool callout */
+.tool-box{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 4px 4px 0;padding:20px 24px;margin:18px 0;}
+.tool-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.tool-box p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;}
+/* Role cards */
+.role-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0;}
+.role-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:14px 16px;}
+.role-card-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.role-card p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Reflection */
+.ref-block{margin:14px 0;background:#151c15;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#0f1a10;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(201,168,76,.3);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--gold);color:var(--gold);}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Gate */
+/* Observer criteria */
+.obs-stack{display:flex;flex-direction:column;gap:8px;margin:14px 0;}
+.obs-item{background:#151c15;border-left:3px solid rgba(201,168,76,.4);border-radius:0 3px 3px 0;padding:12px 16px;}
+.obs-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px;}
+.obs-item p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;}
+@media(max-width:900px){.friction-grid,.role-row{grid-template-columns:1fr;}.lever-grid,.compass-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay,.fac-note-full{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid #c9a84c;border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.slo-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+:root{--u9:#c9a84c;--u9-bg:rgba(201,168,76,.07);--u9-bd:rgba(201,168,76,.3);}
+.u9-how{background:var(--u9-bg);border:1px solid var(--u9-bd);border-left:3px solid var(--u9);border-radius:0 3px 3px 0;padding:14px 18px 10px;margin:0 0 16px;}
+.u9-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--u9);margin:0 0 6px;}
+.u9-how ol{margin:6px 0 8px;padding-left:20px;}
+.u9-how li{font-size:13px!important;color:rgba(255,255,255,.8)!important;line-height:1.75!important;margin-bottom:4px!important;}
+.u9-how p{font-size:13px!important;line-height:1.7!important;color:rgba(255,255,255,.8)!important;margin:8px 0 0!important;}
+.u9-group{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:3px;padding:12px 16px;margin:0 0 16px;font-size:13px;line-height:1.75;color:rgba(255,255,255,.75);}
+.u9-group strong{color:#fff;}
+.u9-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--u9);margin:22px 0 10px;}
+.u9-s5{border:1px solid rgba(255,255,255,.08);border-top:3px solid var(--u9);border-radius:4px;background:rgba(255,255,255,.02);padding:14px 16px 16px;margin:0 0 14px;}
+.u9-s5-h{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;margin:0 0 10px;}
+.u9-s5-n{font-size:15px;font-weight:700;color:#fff;}
+.u9-s5-q{font-size:13px;font-style:italic;color:rgba(255,255,255,.6);}
+.u9-s5-g{background:rgba(255,255,255,.03);border-radius:3px;padding:10px 12px;margin:0 0 6px;}
+.u9-s5-g p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.75)!important;margin:0 0 8px!important;}
+.u9-s5-g p:last-child{margin-bottom:0!important;}
+.u9-s5-g b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px;}
+.u9-sel{width:100%;max-width:100%;background:#0a1614;border:1px solid rgba(255,255,255,.15);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.9);font-size:13px;font-family:"Montserrat",sans-serif;outline:none;margin-top:5px;}
+.u9-sel option{background:#0a1614;color:#fff;}
+.u9-btnrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;}
+.u9-b{padding:9px 16px;border-radius:2px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.8);font-family:"Montserrat",sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+.u9-b:hover:not(:disabled){border-color:#c9a84c;color:#c9a84c;}
+.u9-b.ok{background:#1a7a6a;border-color:#1a7a6a;color:#fff;}
+.u9-b.ok:hover:not(:disabled){background:#22916e;border-color:#22916e;color:#fff;}
+.u9-note{font-size:12px;color:#c9a84c;margin-top:10px;line-height:1.6;}
+.u9-note.ok{color:#5ecba1;}
+.u9-out{border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:14px 16px;margin:18px 0 22px;}
+.u9-out-h{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.55);margin:0 0 8px;}
+.u9-conf{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-radius:2px;padding:3px 8px;margin-left:8px;}
+.u9-conf.yes{background:rgba(39,174,96,.15);color:#5ecba1;}
+.u9-conf.no{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);}
+.u9-rec{border-top:1px solid rgba(255,255,255,.07);padding:8px 0;}
+.u9-rec summary{cursor:pointer;font-size:12.5px;font-weight:700;color:#fff;line-height:1.6;}
+.u9-rec summary span{font-weight:400;color:rgba(255,255,255,.55);margin-left:8px;}
+.u9-rec-s{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin:10px 0 3px;}
+.u9-rec-t{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.78);white-space:pre-wrap;}
+.u9-rec-t i{color:rgba(255,255,255,.3);}
+.u9-activity ol{padding-left:20px;margin:4px 0 6px;}
+.u9-activity li{font-size:13px;color:rgba(255,255,255,.78);line-height:1.8;margin-bottom:4px;}
+.u9-list{margin:0 0 12px;padding-left:20px;}
+.u9-list li{font-size:13px!important;line-height:1.75!important;color:rgba(255,255,255,.75)!important;margin:0 0 3px!important;}
+.u9-sel:disabled{opacity:.5;}
+.u9-brief{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:10px 14px;margin:8px 0;}
+.u9-brief b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:3px;}
+.u9-brief span{font-size:13px;line-height:1.75;color:rgba(255,255,255,.8);}
+.fac-note-full ol{padding-left:20px;margin:4px 0 8px;}
+.fac-note-full ol li{margin-bottom:6px;}
+.u9-howx{color:rgba(100,180,240,.9)!important;}
+@media print{.u9-btnrow,.u9-note{display:none!important;}}
+.wp-ta{width:100%;background:#0a1614;border:1px solid rgba(26,122,106,.15);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.82);font-size:13px;font-family:"Montserrat",sans-serif;resize:vertical;min-height:64px;outline:none;transition:border-color .2s;margin-top:5px;}
+.wp-ta:focus{border-color:rgba(26,122,106,.45);}
+.wp-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:10px;display:block;margin-bottom:4px;}
+.u9-kr{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:10px 14px;margin:0 0 8px;}
+.u9-kr-n{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--u9);margin-bottom:3px;}
+.u9-kr-t{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);}
+.u9-kr-o{font-size:12px;line-height:1.6;color:rgba(255,255,255,.55);margin-top:2px;}
+.u9-wait{font-size:12.5px!important;font-style:italic;color:rgba(255,255,255,.5)!important;margin:0 0 10px!important;}
+.u9-pf{margin-top:18px;}
+.cp-fac{font-size:12px;padding:8px 12px;background:rgba(52,152,219,.06);border-left:2px solid rgba(52,152,219,.25);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.78);font-style:italic;margin-top:6px;}
+.lever-why{font-size:12px;padding:8px 12px;background:rgba(52,152,219,.06);border-left:2px solid rgba(52,152,219,.3);border-radius:0 3px 3px 0;line-height:1.65;color:rgba(100,180,240,.8);font-style:italic;}
+.hbox.blue{background:rgba(52,152,219,.05);border-color:rgba(52,152,219,.2);}
+.p-reflect{font-size:12px;color:rgba(34,160,138,.7);border-left:2px solid rgba(26,122,106,.4);padding:8px 14px;margin-top:8px;line-height:1.65;background:rgba(26,122,106,.05);border-radius:0 3px 3px 0;}
+/* Unit 9 · two performance views (16 Oct 2026) */
+.u8v-hc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px;margin:12px 0 14px;cursor:default;}
+.u8v-c{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-top:3px solid #8ab0e8;border-radius:3px;padding:12px 16px;}
+.u8v-c.u8v-or{border-top-color:#5ecba1;}
+.u8v-n{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin:0 0 6px;}
+.u8v-or .u8v-n{color:#5ecba1;}
+.u8v-c p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.75)!important;margin:0 0 6px!important;}
+.u9-sub{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:#c9a84c;margin:22px 0 8px;line-height:1.3;}
+.u9-sub2{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;margin:16px 0 6px;}
+.u9-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px;margin:4px 0 6px;}
+.u9-lst{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:10px 14px;}
+.u9-ul{padding-left:18px!important;margin:4px 0 8px!important;}
+.u9-ul li{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.75);margin:0 0 4px;}
+.u9-ol{padding-left:20px!important;margin:6px 0 10px!important;}
+.u9-ol li{font-size:13px;line-height:1.75;color:rgba(255,255,255,.75);margin:0 0 6px;}
+.u9-ol li strong,.u9-ul li strong{color:#fff;}
+.u9-ex{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:10px 14px;margin-top:10px;}
+.u9-ex-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c9a84c;margin:0 0 4px;}
+.u9-ex p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.78)!important;margin:0!important;}
+.u9-tw{overflow-x:auto;margin:10px 0 14px;}
+.u9-tbl{width:100%;border-collapse:collapse;margin:0;font-size:12.5px;min-width:420px;}
+.u9-tbl th{background:#162e28;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;padding:9px 12px;text-align:left;border-bottom:1px solid rgba(26,122,106,.25);}
+.u9-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.72);line-height:1.6;vertical-align:top;}
+.u9-tbl td:first-child{color:rgba(255,255,255,.9);font-weight:600;}
+.u9-los{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px;margin:10px 0 14px;}
+.u9-los-c{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-top:3px solid #c9a84c;border-radius:3px;padding:12px 14px;}
+.u9-los-n{font-family:'Cormorant Garamond',serif;font-size:1.6rem;line-height:1;color:#c9a84c;}
+.u9-los-t{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;margin:4px 0 6px;}
+.u9-los-c p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.72)!important;margin:0!important;}
+.u9-okr{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.3);border-radius:3px;padding:12px 16px;margin:8px 0 12px;}
+.u9-okr p{font-size:13px!important;line-height:1.7!important;margin:0 0 4px!important;}
+.u9-small{font-size:11.5px!important;color:rgba(255,255,255,.5)!important;font-style:italic;}
+.u9-step{border-left:3px solid rgba(201,168,76,.5);padding:4px 0 4px 14px;margin:10px 0;}
+.u9-step-h{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;margin:0 0 4px;}
+.u9-step p{font-size:13px!important;line-height:1.7!important;margin:0 0 4px!important;}
+.u9-int{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:12px;margin:12px 0;}
+.u9-int-c{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-top:3px solid rgba(255,255,255,.3);border-radius:3px;padding:12px 14px;}
+.u9-int-c.u9-or{border-top-color:#5ecba1;}.u9-int-c.u9-hu{border-top-color:#8ab0e8;}.u9-int-c.u9-go{border-top-color:#c9a84c;}
+.u9-int-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 6px;}
+.u9-or .u9-int-h{color:#5ecba1;}.u9-hu .u9-int-h{color:#8ab0e8;}.u9-go .u9-int-h{color:#c9a84c;}
+.u9-int-c p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.75)!important;margin:0!important;}
+.u9-roles{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px;}
+.u9-role-b{flex:1 1 150px;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:9px 12px;cursor:pointer;font-family:"Montserrat",sans-serif;color:rgba(255,255,255,.7);transition:all .15s;}
+.u9-role-b b{display:block;font-size:12px;letter-spacing:1px;color:#fff;}
+.u9-role-b span{display:block;font-size:11px;line-height:1.4;margin-top:2px;}
+.u9-role-b:hover{border-color:rgba(201,168,76,.5);}
+.u9-role-b.on{border-color:#c9a84c;background:rgba(201,168,76,.1);}
+.u9-role-b.on b{color:#c9a84c;}
+.u9-role{display:none;border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:14px 18px;background:rgba(255,255,255,.02);}
+.u9-role.on{display:block;}
+.u9-role-h{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:#c9a84c;margin:0 0 10px;}
+.u9-dec{background:rgba(255,255,255,.03);border-radius:3px;padding:10px 14px;margin:0 0 10px;}
+.u9-dec p{font-size:13px!important;line-height:1.7!important;margin:0!important;color:rgba(255,255,255,.85)!important;}
+.u9-done{background:rgba(26,122,106,.08);border-left:3px solid #1a7a6a;border-radius:0 3px 3px 0;padding:10px 14px;margin:12px 0 4px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);}
+.u9-done strong{color:#5ecba1;}
+.u9-q{font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.65);margin:0 0 4px;}
+.u9-tagline{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--u9);margin:14px 0 6px;}
+.u9-s5 .wp-label{margin-top:0;color:rgba(255,255,255,.8);}
+.u9-fq{margin:8px 0 12px;}
+@media (max-width:600px){.u9-role-b{flex:1 1 45%;}.u9-sub{font-size:1.1rem;}}
+.u9-tbl .abcv-badge{margin-left:0;display:inline-block;}
+.u9-det{border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:12px 0;background:rgba(255,255,255,.015);}
+.u9-det>summary{list-style:none;cursor:pointer;margin:0;padding:12px 44px 12px 16px;position:relative;}
+.u9-det>summary::-webkit-details-marker{display:none;}
+.u9-det>summary::after{content:'\25BC';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:10px;color:rgba(201,168,76,.8);transition:transform .2s;}
+.u9-det[open]>summary::after{transform:translateY(-50%) rotate(180deg);}
+.u9-det[open]>summary{border-bottom:1px solid rgba(255,255,255,.06);}
+.u9-det-b{padding:6px 16px 14px;}
+.u9-rrr td.u9-stage{color:#c9a84c!important;font-weight:700;white-space:normal;width:24%;}
+.u9-rrr td:first-child{font-weight:inherit;}
+.u9-out-box{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.25);border-left:3px solid #c9a84c;border-radius:0 3px 3px 0;padding:14px 18px 10px;margin:0 0 16px;}
+.u9-out-box .u9-how-h{color:#c9a84c;}
+@media print{.u9-det-b{display:block!important;}}
+.u9-rrr td{color:rgba(255,255,255,.78)!important;font-weight:400!important;}.u9-rrr td.u9-stage{color:#c9a84c!important;font-weight:700!important;}
+.u9-open{margin:6px 0 22px;}.u9-open p{font-size:14px;line-height:1.85;color:rgba(255,255,255,.78);margin:0 0 12px;}.lever-body .u9-lv-how{margin-top:10px;}.lever-body .u8v-hc{margin:10px 0 4px;}.step-panel .u8v-hc{margin:4px 0 16px;}
+</style>
+</head>
+<body>
+
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Dashboard</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 3 · Influence</strong>Unit 9 · Strategic Unclogging — Facilitator</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 3 · Influence · Unit 9</div>
+    <h1 class="unit-title">Strategic Unclogging</h1>
+    <div class="unit-sub">Engineering the Flow of Execution</div>
+    <p class="unit-desc">When strategy stalls, the failure usually sits in the system that carries the plan. This unit equips leaders to diagnose the blockages preventing strategic intent from flowing into real-world execution &mdash; and to intervene with precision using the 7 Strategic Unclogging Levers.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Diagnose systemic constraints in people and organisational performance that impede strategy delivery.</span>
+      <span class="klo">Differentiate visible performance symptoms from underlying causes to target intervention.</span>
+      <span class="klo">Evaluate and resolve interdependent enterprise conditions contributing to stalled performance.</span>
+      <span class="klo">Mobilise coordinated organisational responses that restore strategic coherence and momentum.</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Facilitator</small>Guide<br><small style="font-size:8px;opacity:.5;">Overview</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+
+<!-- ═══ TAB 0 — GUIDE ═══ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Unit 9 &mdash; Session Overview</h2><p>Orientation, facilitation questions, tone guidance, and watch points for the full unit.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Unit Intent</div>
+<p>Unit 9 sits at a pivotal moment in the S2R&reg; climb. By this point, the strategy is clear, performance expectations are set, and commitments have been secured. Now the gears begin grinding. This unit names that friction precisely &mdash; and gives the leadership team the engineering vocabulary and diagnostic discipline to address it.</p>
+<p><strong>A clog is a signal.</strong> It indicates where the organisation has not yet adapted to the new strategic direction, in the performance of individuals and teams and in the organisational conditions that support the execution of their tasks. Leaders who understand this stop asking &ldquo;Why are we failing?&rdquo; and start asking &ldquo;Where are our people and our organisational conditions not yet ready to carry the strategy?&rdquo;</p>
+<p>A clog shows in people performance and in organisational performance. In people performance, individuals and teams stall on their KPIs: decisions wait, effort pulls in different directions, and tasks are completed while the Key Result does not move. In organisational performance, the organisational conditions do not support the execution of the individuals&rsquo; tasks. The diagnosis of every clog examines both sides before a lever is selected.</p>
+<p>The Strategic Unclogging Clinic in Application is the centrepiece: each group returns to an original work-based challenge, identifies the clog, selects the lever and applies Review&ndash;Realign&ndash;Restore within its Capstone organisation. The quality of the diagnostic conversation is the measure of this unit.</p>
+</div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Think of a strategy that stalled in your organisation. Was the plan wrong, or was something in the system blocking its flow?&rdquo;</em></li>
+<li><em>&ldquo;When you last named a performance gap, did you name the symptom or the root cause? What&rsquo;s the difference in your context?&rdquo;</em></li>
+<li><em>&ldquo;Which of the seven clogs is most predictable in your organisation given your current strategic direction? What does that tell you about where to look first?&rdquo;</em></li>
+<li><em>&ldquo;If Cultural Resistance is your diagnosis, is that a culture problem, or a Leadership Avoidance problem that has produced cultural symptoms?&rdquo;</em></li>
+<li><em>&ldquo;You&rsquo;ve selected a lever. What would have to be true for that lever to actually clear the clog?&rdquo;</em></li>
+<li><em>&ldquo;Where a KPI has stalled, what is happening in the individuals&rsquo; performance, and do the organisational conditions support the execution of their tasks?&rdquo;</em></li>
+<li><em>&ldquo;Which leader is responsible for the organisational condition behind this clog, and when was it last reviewed?&rdquo;</em></li>
+</ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Teach past recognition.</strong> When leaders first encounter the clog map, they often feel relieved: they recognise their organisations immediately. Take them from recognition to diagnosis and intervention: <em>&ldquo;Recognising it is the start. Now name it precisely and select the lever.&rdquo;</em></p>
+<p><strong>Teach the test for Cultural Resistance.</strong> It is the most comfortable diagnosis because it externalises the problem. Teach the question that tests it: <em>&ldquo;Is this a culture issue, or is it the downstream consequence of Leadership Avoidance?&rdquo;</em></p>
+<p><strong>Teach what a lever is.</strong> &ldquo;We need to improve communication&rdquo; is too vague to act on. A lever is a structural adjustment: a redesigned decision right, a reset KPI, a rebuilt process, a named accountability.</p>
+<p><strong>Teach both sides of every clog.</strong> Leaders tend to read a stalled KPI as a people problem, because individuals&rsquo; performance is reviewed every month and the organisational conditions seldom are. For each clog, take them to the second question: do the organisational conditions support the execution of the individuals&rsquo; tasks?</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
+</div></div>
+
+<!-- ═══ TAB 1 — AWARENESS ═══ -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Section 1 · Awareness — What</div><h2>What is a Strategic Clog?</h2><p>Naming the internal blockages that prevent strategic intent from flowing into execution &mdash; and introducing the 7-clog diagnostic map aligned to ABCV Directional Integrity.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Diagnose systemic blockages between strategic intent and execution.</li><li>Interpret early friction signals to locate constraints in people and organisational conditions.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Awareness</div>
+<ul class="u9-ul"><li>Open with the scenario: the strategy is clear, objectives are defined, performance expectations are in motion, and then the gears begin grinding. Teach the shift from &ldquo;failure of strategy&rdquo; to &ldquo;failure of flow&rdquo;.</li><li>1.1 · Teach what a Strategic Clog is and the four ABCV elements it distorts. Then teach where clogs form, in people performance and in organisational performance.</li><li>1.2 · Teach why clogs form where the strategy stretches today&rsquo;s organisation, then the two dimensions of performance. Participants write the reflection on where their organisation is not yet ready in their own file.</li><li>1.3 · Teach the seven clogs one card at a time.</li><li>1.4 · Teach the Three Performance Lines of Sight.</li><li>1.5 · Work through the worked example and the Closing Diagnostic Principle. Participants complete the self-assessment in their own file.</li></ul>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.1 &mdash; What is a Strategic Clog?</div><div class="acc-meta">Core concept</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>At this point, the strategy is clear. Objectives are defined. Performance expectations are in motion. Each Key Result has been translated into KPIs that individuals and teams deliver. Leaders have agreed the organisational conditions that support the execution of those individuals&rsquo; tasks. A rhythm of review tracks the progress of both.</p>
+<p>Then the gears begin grinding.</p>
+<p>Progress slows on a Key Result that everyone supports. Reviews record effort, explanations and revised dates, and the result does not move. The plan still stands. What holds it back is a Strategic Clog.</p>
+<p>At its simplest, a <strong>Strategic Clog</strong> is an internal blockage that prevents strategic intent from flowing into real-world execution. It is the widening gap between what we said we would do and what is actually happening. These are fundamental misalignments where the organisation&rsquo;s current state &mdash; its habits, its structures, its very DNA &mdash; works actively against its future goals.</p>
+<div class="hbox"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>Strategy sets the destination. Flow determines whether you have the power to arrive.</em></p></div>
+<p>To navigate this phase of the execution climb, leadership must evolve. Designing the strategy starts the work. The role of the leadership team is to become <strong>Engineers of Execution Flow</strong> &mdash; developing the diagnostic eyes to detect clogs early, before they compound into stalled momentum or declining performance.</p>
+<p>Every clog interferes with one or more elements of ABCV Directional Integrity:</p>
+<ul>
+<li><strong>Arena</strong> &mdash; clarity of the problem space and customer end-game</li>
+<li><strong>Boundaries</strong> &mdash; structural, operational, and regulatory constraints</li>
+<li><strong>Competition</strong> &mdash; how the organisation defines alternatives and threats</li>
+<li><strong>Value Proposition</strong> &mdash; how the organisation creates distinct value</li>
+</ul>
+<p>When execution is clogged, strategy loses directional integrity &mdash; gradually and silently.</p>
+<div class="hbox blue" style="margin-top:14px;"><p><strong>System Logic:</strong> A clog acts like a pressure distortion point in the system. It redirects effort away from intended outcomes, weakens coherence across functions, and creates misinterpretation of strategic intent.</p></div>
+<div class="u9-sub">Where clogs form</div>
+<p>Strategic intent reaches the Key Result through the tasks that individuals and teams execute. Those tasks depend on the organisational conditions around them. These conditions are the Environment, Systems, Resources and Governance (ESRG): the environment people work in, the systems they rely on, the resources they are given and the governance that guides decisions. A clog can form in either, and it usually acts on both.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>A clog shows in the performance of individuals and teams. Decisions wait, effort pulls in different directions, and tasks are completed while the KPI holds still. The review sees this first, because the individuals&rsquo; numbers are reviewed.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>A clog shows when the organisational conditions no longer support the execution of the individuals&rsquo; tasks, as the strategy places new weight on them. Organisational performance seldom carries a number of its own, so it stays unseen until leaders ask for it.</p></div></div>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a reflection in their own file: a strategy initiative that stalled in their organisation, the blockage behind it, whether it could have been named earlier, and the organisational condition the individuals&rsquo; tasks depended on.</p>
+</div>
+</div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.2 &mdash; Understanding Where Performance Becomes Constrained</div><div class="acc-meta">Why clogs form · Two dimensions of performance</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>When leaders define a strategy, they set a new direction for the organisation. The organisation executes that direction through what it has today: its structure, decision rights, culture, measures, capabilities and technology, and the ways of working its people have built within them. Where any of these has not yet adapted to the strategy, friction appears.</p>
+<div class="hbox"><p>Clogs form where the strategy stretches today&rsquo;s organisation beyond what it was designed to carry. A strategy that requires rapid coordination across functions exposes Structural Misfit. A strategy that depends on data-driven decisions reveals Capability Gaps. A strategy that requires decisions closer to the customer exposes Decision Bottlenecks. Each strategy places its weight on known parts of the organisation, so leaders can anticipate where its clogs will form.</p></div>
+<p>Experienced leadership teams read a clog as a signal of where the organisation must adapt next. Setting the direction is one part of their role; ensuring the organisation can carry it is the other. To read the signal, leaders examine where performance becomes constrained.</p>
+
+<p>Strategy depends on the organisation&rsquo;s ability to convert its strategic intent into coordinated contributions and measurable results. This requires two connected dimensions of performance:</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>The enterprise&rsquo;s ability to create, deliver and sustain value. It reflects how effectively structures, processes, resources, capabilities, governance and operating systems work together to produce strategic outcomes.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>How effectively individuals and teams understand expectations, make decisions, exercise judgement, apply capabilities, collaborate and deliver their contributions to organisational results.</p></div></div>
+<p>Both dimensions operate within the same enterprise system. When organisational conditions are weak, even capable and committed people may struggle to perform. They experience delays, conflicting priorities, unclear responsibilities, resource shortages and barriers beyond their authority to resolve.</p>
+<p>When people performance is weak, the organisation may have adequate resources and well-designed processes but still experience poor judgement, inconsistent behaviours, weak collaboration, limited ownership and unreliable delivery.</p>
+<p>These conditions often reinforce one another. For example, unclear decision rights create hesitation among managers. Repeated hesitation then encourages senior leaders to centralise decisions further, increasing the original bottleneck.</p>
+<p>The 7-Clog Diagnostic Map identifies seven recurring conditions that constrain the organisation&rsquo;s capacity to deliver its strategy. The diagnostic examines both the condition of the organisational system and the performance patterns emerging within it.</p>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a reflection in their own file: the element of their operating system most likely to create friction under their current strategic direction, and why.</p>
+</div>
+</div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.3 &mdash; The Seven Performance Clogs</div><div class="acc-meta">ABCV-aligned · Select each clog to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+
+<p>Participants select each clog to examine its organisational conditions, effects on people, observable patterns, early warnings and strategic consequences.</p>
+<div class="clog-stack">
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 01</div><div class="clog-name">Structural Misfit</div></div><span class="abcv-badge abcv-boundaries">Boundaries</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>The organisational design no longer supports the work required by the strategy. Roles, reporting relationships, governance arrangements, accountability boundaries and functional interfaces may still reflect earlier business priorities. Work requiring integrated contributions is divided across departments without sufficient coordination or shared ownership.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Employees may understand their individual responsibilities but struggle to see how their contributions connect to the enterprise outcome. Managers can become protective of functional territory, while teams experience competing instructions and repeated handoffs. Performance suffers when people are held accountable for outcomes they cannot deliver without decisions or inputs controlled elsewhere.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Duplication of work across functions</li><li>Repeated bottlenecks at functional handoffs</li><li>Fragmented ownership of strategic outcomes</li><li>Front-office and back-office coordination failures</li><li>Conflicting priorities between departments</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Increasing time spent coordinating routine work</li><li>Greater dependence on informal relationships and workarounds</li><li>Repeated escalation of cross-functional disagreements</li><li>Performance gaps concentrated at handoff points</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> Resources and effort are absorbed by internal friction. Individuals may achieve their functional targets while enterprise outcomes remain weak. The organisation loses the ability to coordinate delivery across its full value chain.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Are results being constrained by how responsibilities, authority and work are organised?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A customer service team is measured on response time, but it depends on operations and finance to resolve enquiries. No function owns the complete customer-resolution outcome. Staff work hard, yet customer complaints continue.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 02</div><div class="clog-name">Capability Gaps</div></div><span class="abcv-badge abcv-arena">Arena</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>The organisation lacks, or has uneven access to, the capabilities required to succeed in its chosen strategic arena. Gaps may involve technical expertise, management capacity, specialised equipment, operating processes, digital competence, partnerships, funding or the ability to scale. Existing capabilities may support current operations but remain insufficient for the new strategic ambition.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Individuals may lack the skills, experience, knowledge, tools or support needed to meet new performance expectations. Others may possess strong capabilities but be deployed in roles that underuse them. Repeated reliance on a few specialists creates overload and makes delivery vulnerable. Without adequate development and support, employees can lose confidence, improvise unsuitable methods or avoid unfamiliar tasks.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Strategic initiatives stall despite clear objectives</li><li>Repeated rework and inconsistent quality</li><li>Critical work depends on a small number of specialists</li><li>Similar teams produce widely different performance results</li><li>Outsourcing becomes necessary for strategically essential work</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Training needs persist across several review cycles</li><li>Key employees carry unsustainable workloads</li><li>New initiatives repeatedly miss readiness milestones</li><li>Capability gaps emerge when operations expand</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> The enterprise cannot consistently deliver the value promised by its strategic positioning. People face expectations that exceed available capability, and the organisation struggles to compete, scale or sustain improved results.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Does the organisation possess and deploy the capabilities necessary to operate successfully in its chosen arena?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A healthcare provider introduces a digital patient-care model, but staff lack the necessary digital skills and the organisation has insufficient technical support. Service quality varies, adoption slows and employees become frustrated.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 03</div><div class="clog-name">Decision Bottlenecks</div></div><span class="abcv-badge abcv-boundaries">Boundaries</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>Decision rights, delegation limits, approval processes or governance layers prevent decisions from being made at the appropriate level and speed. Authority is concentrated away from the people closest to the relevant information or delivery responsibility. Escalation processes do not consistently distinguish strategic decisions from routine operational decisions.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Managers become hesitant to exercise judgement because they are uncertain about their authority or fear being blamed for decisions. Teams learn to seek approval for matters they could reasonably resolve. Senior leaders become overloaded, while middle managers lose initiative and confidence. Accountability becomes difficult to enforce where responsibility is assigned without corresponding authority.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Routine matters repeatedly require senior approval</li><li>Decisions return to meetings without resolution</li><li>Project teams wait for sign-off before proceeding</li><li>Managers avoid taking ownership of reasonable decisions</li><li>Senior executives become involved in minor operational matters</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Increasing decision turnaround times</li><li>Growing queues of unresolved approvals</li><li>Recurring agenda items without closure</li><li>Teams repeatedly report that they are waiting for a decision</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> Execution velocity slows because work cannot progress at the speed required. Employees lose ownership, management capacity is consumed by avoidable escalation, and the organisation becomes less responsive to customers and environmental changes.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Are decisions being made by the right people, with sufficient authority, information and speed?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A branch manager identifies a service problem but cannot approve a small process adjustment without head-office authorisation. The delay affects customers, although the branch has the knowledge and resources to respond.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 04</div><div class="clog-name">Misaligned Metrics &amp; Incentives</div></div><span class="abcv-badge abcv-value">Value Proposition</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>The performance management system measures, rewards or reinforces activities that do not adequately reflect the strategic value the organisation intends to deliver. Functional scorecards may remain unchanged after strategic priorities shift. Individual and departmental targets can encourage local optimisation while enterprise-wide outcomes deteriorate.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Employees naturally pay attention to the outcomes for which they are evaluated, recognised or rewarded. When metrics are poorly aligned, people may prioritise target achievement over customer value, collaboration, quality or sustainable results. Even committed employees face tension when doing what is strategically necessary threatens their formal performance rating.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Strong departmental KPI scores coexist with disappointing enterprise results</li><li>Teams protect their own targets at the expense of shared outcomes</li><li>Employees focus on measurable volume at the expense of quality or value</li><li>Performance discussions concentrate on score achievement without examining contribution</li><li>Incentives discourage collaboration or long-term improvement</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Reported performance improves while customer outcomes deteriorate</li><li>Departments present contradictory accounts of success</li><li>Targets are achieved through reclassification or selective reporting</li><li>Employees question why strategically valuable work receives little recognition</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> The enterprise generates measurable activity without achieving the intended value proposition. Performance systems unintentionally reinforce behaviours that undermine the strategy, reducing both organisational effectiveness and the integrity of individual accountability.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Are people being measured and rewarded for contributions that genuinely produce the intended strategic value?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A customer contact centre rewards agents for the number of calls completed. Agents shorten conversations to meet targets, but repeat calls increase and customer satisfaction falls.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 05</div><div class="clog-name">Cultural Resistance</div></div><span class="abcv-badge abcv-value">Value Proposition</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>Established norms, shared assumptions, informal rules and everyday practices do not support the behavioural changes required by the strategy. The formal strategy may demand collaboration, experimentation, customer responsiveness or accountability, while the prevailing culture reinforces hierarchy, risk avoidance, silence or functional protection.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Individuals interpret the strategy through previous experiences and the behaviours they observe being rewarded or tolerated. Employees may understand the new direction but hesitate to adopt it because they do not trust its sustainability, feel unsafe challenging established practices or see leaders behaving inconsistently. Resistance can also signal unresolved concerns about feasibility, fairness or capability.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Teams return to familiar practices under pressure</li><li>Employees comply formally without changing everyday behaviours</li><li>Constructive challenge and initiative remain limited</li><li>Cross-functional collaboration is resisted</li><li>Informal workplace narratives undermine formal strategic messages</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Employees remain silent during important performance discussions</li><li>Low participation in improvement initiatives</li><li>Repeated expressions of scepticism about change</li><li>Leaders publicly endorse behaviours they do not consistently demonstrate</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> The organisation struggles to translate strategic intent into sustained behaviour. New systems and processes are adopted superficially, while underlying habits continue to shape delivery. Improvements are difficult to sustain because the operating culture repeatedly pulls performance back toward established practices.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Which established beliefs, norms and behaviours are reinforcing or obstructing the contributions required by the strategy?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A company introduces a customer-first strategy, but employees are still criticised for taking initiative outside rigid procedures. Teams continue to escalate customer problems they could resolve themselves.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 06</div><div class="clog-name">Technology / Infrastructure Lag</div></div><span class="abcv-badge abcv-competition">Competition</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>Technology, information architecture, operational infrastructure or physical assets are not sufficiently reliable, integrated or scalable to support strategic demands. Legacy platforms create fragmented information flows, weak visibility, manual intervention and constraints on service capacity. The infrastructure may also restrict the speed at which the organisation adapts to external developments.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Employees spend excessive time correcting data, reconciling records, duplicating entries and finding workarounds. Managers make decisions with incomplete or outdated information. Employees may be evaluated against efficiency standards that existing systems cannot support. Repeated technology frustrations also reduce motivation and confidence in improvement initiatives.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Heavy reliance on spreadsheets and manual reporting</li><li>Duplicate data entry across systems</li><li>Delayed or inconsistent management information</li><li>Operational errors increase with workload</li><li>Employees maintain unofficial systems to complete essential tasks</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>Reporting cycles become progressively longer</li><li>Discrepancies appear between information sources</li><li>Routine tasks demand increasing manual effort</li><li>System downtime or integration failures affect critical delivery</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> The organisation loses operational speed, information quality and the ability to scale reliably. People devote capacity to compensating for infrastructure limitations, reducing time available for value-creating work. Competitive responsiveness weakens as the enterprise struggles to match required standards of efficiency, reliability or service.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Can the organisation’s technology and infrastructure support the speed, reliability, visibility and scale required by its strategy?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A logistics company promises real-time delivery visibility, but its transport and customer systems do not communicate. Staff compile updates manually, customers receive inconsistent information and service confidence declines.</p></div>
+  </div>
+</div>
+<div class="clog-card" onclick="toggleClog(this)">
+  <div class="clog-head"><div class="clog-meta"><div class="clog-num">Clog 07</div><div class="clog-name">Leadership Avoidance</div></div><span class="abcv-badge abcv-mixed">Arena + Boundaries</span><div class="clog-arr">&#9660;</div></div>
+  <div class="clog-body" onclick="event.stopPropagation()">
+    <div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance · System reality</div><p>Leadership mechanisms fail to resolve material trade-offs, repeated underperformance, resource conflicts, accountability gaps or strategic tensions. Difficult matters are discussed without binding decisions or clear follow-through. Governance and review forums become reporting rituals that leave the conditions obstructing performance unresolved.</p></div><div class="u8v-c u8v-hu"><div class="u8v-n">People performance · Contribution reality</div><p>Managers and employees receive mixed signals about priorities, standards and consequences. Some learn that difficult issues can be postponed without consequence. Others become discouraged when their concerns repeatedly go unresolved. Confidence in leadership declines, and individuals may protect themselves by avoiding ownership, escalating responsibility or lowering their performance expectations.</p></div></div>
+    <div class="u9-cols"><div class="u9-lst"><div class="clog-rl">Observable performance patterns</div><ul class="u9-ul"><li>Strategic problems recur across successive reviews</li><li>Decisions are recorded but not consistently implemented</li><li>Underperformance continues without meaningful intervention</li><li>Leaders repeatedly change priorities without resolving trade-offs</li><li>Accountability is assigned without the support required to deliver</li></ul></div><div class="u9-lst"><div class="clog-rl">Early warning signals</div><ul class="u9-ul"><li>The same issues appear in multiple performance cycles</li><li>Employees stop raising problems because they expect no action</li><li>Escalations remain unresolved despite leadership attention</li><li>Teams become uncertain about which priorities matter most</li></ul></div></div>
+    <div class="clog-impact"><strong>Strategic impact:</strong> Strategic focus weakens as unresolved issues accumulate. The organisation loses direction and delivery discipline, while people become less willing to take ownership. Over time, leadership avoidance can reinforce all six other performance clogs because their underlying causes remain unaddressed.</div>
+    <div class="p-reflect"><strong>Diagnostic question:</strong> Are leaders making and following through on the decisions necessary to remove performance constraints?</div>
+    <div class="u9-ex"><div class="u9-ex-h">Worked example</div><p>A management team repeatedly identifies poor coordination between sales and operations but avoids changing responsibilities because two senior executives disagree. The problem continues, and both teams are blamed for missed delivery targets.</p></div>
+  </div>
+</div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.4 &mdash; The Three Performance Lines of Sight from the Seven Clogs</div><div class="acc-meta">From the result to its cause</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+
+<p>The central discipline is to distinguish three levels of performance evidence. Each line of sight reveals a different part of the performance problem and helps leaders move from symptoms to causes.</p>
+<div class="u9-los"><div class="u9-los-c"><div class="u9-los-n">1</div><div class="u9-los-t">Performance outcome</div><p>What result is falling short? Establish the intended strategic outcome, the actual result and the size or nature of the gap.</p></div><div class="u9-los-c"><div class="u9-los-n">2</div><div class="u9-los-t">Performance behaviour</div><p>What are people or teams doing, or unable to do, that contributes to the gap? Observe specific decisions, actions, omissions, collaboration patterns and delivery practices.</p></div><div class="u9-los-c"><div class="u9-los-n">3</div><div class="u9-los-t">Performance condition</div><p>What organisational arrangements, capabilities, incentives or leadership practices are causing or reinforcing that behaviour? Test the seven clogs to explain why the pattern persists.</p></div></div>
+<p>This distinction helps leaders avoid treating every disappointing result as an individual performance failure. It also keeps people accountable for actions within their control while recognising the organisation&rsquo;s responsibility for enabling conditions.</p>
+<p>A single performance outcome can reflect several interacting clogs. The following example traces the three lines of sight before identifying the organisational conditions that require attention.</p>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.5 &mdash; Worked Diagnostic Example: Improving Customer Service</div><div class="acc-meta">Tracing the three lines of sight</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+
+<div class="u9-okr"><p><strong>Enterprise Objective.</strong> Deliver a reliable and responsive customer service experience.</p><p><strong>Enterprise Key Result.</strong> Increase customer enquiries resolved within 48 hours from 65% to 90% by year-end.</p><p class="u9-small">Performance figures are illustrative.</p></div>
+<div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Only 65% of customer enquiries are resolved within 48 hours against a target of 90%. The enterprise is falling short of its intended customer responsiveness and service reliability.</p></div>
+<div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Service agents process enquiries and escalate cases requiring other departments. Cases are frequently transferred without end-to-end ownership, managers wait for approval on routine refunds, and staff spend their time requesting updates while customer problems wait. Employees may be achieving their activity targets while the collective resolution outcome remains weak.</p></div>
+<div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p>The diagnostic identifies the organisational conditions that help explain the behaviour:</p><div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Evidence</th><th>Clog</th><th>How it constrains performance</th></tr></thead><tbody><tr><td>40% of delayed cases require another department.</td><td>Structural Misfit</td><td>Fragmented ownership and weak cross-functional handoffs delay resolution.</td></tr><tr><td>Routine refunds require senior-management approval.</td><td>Decision Bottlenecks</td><td>People closest to the enquiry lack sufficient authority to resolve it.</td></tr><tr><td>Employee scorecards emphasise enquiries processed.</td><td>Misaligned Metrics &amp; Incentives</td><td>Volume is reinforced more strongly than complete and timely resolution.</td></tr><tr><td>Employees cannot track cases after escalation.</td><td>Technology / Infrastructure Lag</td><td>Fragmented information prevents timely follow-through.</td></tr></tbody></table></div></div>
+<div class="u9-int"><div class="u9-int-c u9-or"><div class="u9-int-h">Organisational performance interpretation</div><p>The coordination processes, decision rights, measures and information systems are not sufficiently aligned to the customer-resolution outcome. These conditions create recurring delays across the service chain.</p></div><div class="u9-int-c u9-hu"><div class="u9-int-h">People performance interpretation</div><p>Customer service employees may complete assigned tasks but still lack the authority, information and cross-functional support needed to resolve cases. Any individual capability or behavioural gaps must be assessed against these conditions and the standards within each person&rsquo;s control.</p></div><div class="u9-int-c u9-go"><div class="u9-int-h">Strategic interpretation</div><p>The customer value proposition promises responsive service, but operating arrangements do not consistently enable its delivery. The principal ABCV distortion concerns the Value Proposition, with contributing constraints in Boundaries and Competition.</p></div><div class="u9-int-c"><div class="u9-int-h">Required management response</div><p>Clarify end-to-end resolution ownership, adjust routine decision authority, align measures to resolution outcomes and improve case visibility across departments. Provide coaching or accountability interventions where evidence confirms individual capability or behavioural gaps.</p></div></div>
+
+<div class="hbox" style="margin-top:16px;"><div class="u9-ex-h">Closing Diagnostic Principle</div><p>Performance is produced through people operating within an organisational system. A sound diagnosis examines the result, the behaviours shaping contributions and the organisational conditions that enable or constrain them.</p>
+<p>The 7-Clog Diagnostic Map helps leaders identify where these relationships have become misaligned, which ABCV elements are affected and what must change to restore performance.</p></div>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a reflection in their own file: a rating of each of the seven clogs in their current strategy portfolio, from 1 (absent) to 5 (active), and the clog most active in their organisation, with the organisational condition it sits in.</p>
+</div>
+</div></div>
+
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">← Facilitator Guide</button><button class="btn" onclick="showMod(2)">Section 2 — Intelligence →</button></div>
+</div></div>
+
+<!-- ═══ TAB 2 — INTELLIGENCE ═══ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Section 2 · Intelligence — Why</div><h2>Why Disciplined Intervention Clears Strategic Clogs</h2><p>Building the three disciplines that detect, classify and resolve strategic clogs, and applying the 7 Strategic Unclogging Levers across people and organisational performance.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Select and apply responses to strategic clogs across people and organisational performance.</li><li>Intervene early in emerging execution friction before it compounds.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Intelligence</div>
+<p>The ignition point of this section is the mindset shift: from <em>&ldquo;Why is the strategy failing?&rdquo;</em> to <em>&ldquo;Where are our people and our organisational conditions not yet ready to carry the strategy?&rdquo;</em> This diagnostic posture moves leadership from blame to engineering.</p>
+<p>Open with the section narrative: a named clog still holds until leaders act on it. Then teach the three disciplines one at a time, each in people performance and in organisational performance: leaders detect the signals early, name the clog with the evidence of the three lines of sight, and intervene on the condition behind it.</p>
+<p>For the 7 levers: teach what each lever changes in people performance and in organisational performance. Rarely does a single lever clear a clog alone. The diagnostic question is always: which lever combination addresses the root cause?</p>
+</div>
+
+<div class="u9-open">
+<p>Section 1 traced how a strategic clog forms and how it shows: in the result that falls short, in what individuals and teams are doing or unable to do, and in the organisational conditions behind their behaviour. A named clog still holds until leaders act on it.</p>
+<p>Leaders resolve clogs through three disciplines. They identify the clog early, while it is still a signal. They classify it accurately, so the response addresses its cause. They intervene with the lever that removes that cause. Each discipline is a habit the executive team builds through practice in every review.</p>
+<p>Early action matters because a clog compounds. The delay it causes in one function becomes the constraint on the next, and a matter that one adjustment would have resolved early grows into a recovery effort across several functions.</p>
+<p>Every response works on two sides at once. In people performance, it restores the authority, capability, focus and confidence individuals need to deliver their tasks. In organisational performance, it changes the structures, processes, systems, resources and governance so that they support the execution of those tasks. A response confined to one side leaves the clog in place on the other.</p>
+<p>Part 2.1 sets out the three disciplines. Part 2.2 sets out the 7 Strategic Unclogging Levers, the interventions leaders apply once the clog is named.</p>
+</div>
+
+
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.1 &mdash; Three Disciplines of Execution Engineering</div><div class="acc-meta">Step through each</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="step-group">
+<div class="step-tabs">
+  <div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">Discipline 1</div><div class="step-name">Early Identification</div></div>
+  <div class="step-tab" onclick="showStep(1,this)"><div class="step-num">Discipline 2</div><div class="step-name">Accurate Classification</div></div>
+  <div class="step-tab" onclick="showStep(2,this)"><div class="step-num">Discipline 3</div><div class="step-name">Targeted Intervention</div></div>
+</div>
+<div class="step-panel active">
+<h5>Detect Signals Before They Compound</h5>
+<p>Leaders must detect the signals that indicate friction is forming. Bottlenecks, repeated coordination failures, declining execution speed, or growing ambiguity in decision rights are all early indicators that a clog is emerging.</p>
+<p>The strategic value of early identification is significant. A clog detected when it is a friction signal requires a targeted structural adjustment. The same clog discovered six months later, after it has compounded into a systemic execution failure, requires a crisis response. The cost &mdash; in time, capital, and leadership credibility &mdash; is vastly different.</p>
+<p>This discipline requires leaders to build signal literacy: the ability to read organisational patterns as early indicators of structural misalignment.</p>
+<p>Early signals appear in the rhythm of work before they appear in the results. Leaders find them in three places: in the review, where the same items carry forward and explanations replace progress; in the flow of work, where hand-offs slow, approvals queue and workarounds multiply; and in conversation, where people stop raising problems or raise the same one repeatedly.</p>
+<p>The early warning signals listed for each of the seven clogs give leaders a reference to read against. Signal literacy grows through practice: leaders ask for the signals in every review, compare them across functions and record them before the result moves.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Leaders read the signals in how individuals and teams work: decisions held for approval that the individual could take, rework rising on the same tasks, longer hours for the same output, and silence in meetings where challenge is needed. These signals appear before the KPI falls. Leaders who ask a team what is slowing its work hear them within weeks; a review that reads only the KPI sees them a quarter later.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>Leaders read the signals in the organisational conditions that support the execution of the individuals&rsquo; tasks.</p><p><strong>Governance · review forums.</strong> The same unresolved item appears on three consecutive agendas, and each team waiting on it reports its delay separately.</p><p><strong>Systems · data integrity.</strong> Two reports give different figures for the same measure, and teams spend their time reconciling them.</p><p><strong>Resources · workforce capacity.</strong> One specialist&rsquo;s queue grows each week while the projects that depend on that person report small slips.</p><p>None of these carries a number in the review, so leaders ask for them by name.</p></div></div>
+</div>
+<div class="step-panel">
+<h5>Name the Clog Precisely Before Intervening</h5>
+<p>Each clog belongs to a specific category of organisational friction. Structural misfit, capability gaps, decision bottlenecks, misaligned incentives, cultural resistance, technological constraints, or leadership avoidance each require fundamentally different forms of intervention.</p>
+<p>The most common diagnostic failure is applying the wrong lever to a correctly identified symptom. A leader who observes &ldquo;slow execution&rdquo; and responds by adding resources is applying a capability lever to what may be a decision bottleneck. The additional resources do not accelerate execution because the constraint is approval latency.</p>
+<p>Accurate classification requires resisting the impulse to solve before diagnosing. The first question is &ldquo;What type of friction is this, and what does it tell us about the system?&rdquo;</p>
+<p>Classification uses the evidence of the Three Performance Lines of Sight. The outcome confirms that a clog exists. The behaviour shows how it acts on individuals and teams. The condition names the clog. Leaders test the evidence against each of the seven clogs in turn and keep the one that explains why the pattern persists.</p>
+<p>Several clogs often act together. Leaders name the primary clog, the one whose removal releases the others, and record the contributing clogs beside it.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Leaders separate what is within the individual&rsquo;s control from what the conditions impose. An individual who delays decisions may lack confidence. The same delay appears when the individual lacks the authority to decide. Classification establishes which applies, with evidence from the individual&rsquo;s work, before a capability or accountability response is chosen.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>Leaders locate the condition behind the behaviour.</p><p><strong>Governance · decision authority.</strong> Approvals for routine work sit two levels above the people doing it. The slow delivery is a Decision Bottleneck.</p><p><strong>Systems · process clarity.</strong> The hand-offs between three functions have no single owner. The same slow delivery is Structural Misfit.</p><p>One symptom leads to two different clogs, and to two different levers. Classification decides which one the team pulls.</p></div></div>
+</div>
+<div class="step-panel">
+<h5>Pull the Right Lever with Precision</h5>
+<p>Once the clog is identified and classified, it must be addressed through the appropriate strategic lever. Clogs rarely clear themselves through trying harder or working more hours. They require a deliberate adjustment to the organisation&rsquo;s structural, behavioural, and operational settings.</p>
+<p>Targeted intervention means matching the lever to the root cause. It also means accepting that rarely does a single clog require just one fix. A Capability Gap may require both Upgrade (systems) and Reinforce (skills). A Leadership Avoidance clog may require both Clarify (decision rights) and Rebuild Trust (credibility restoration).</p>
+<p>A targeted intervention names what will change, who will change it and the evidence that will show the clog clearing. Leaders set that evidence before they act: the signal they expect to fall, the behaviour they expect to change and the result they expect to move.</p>
+<p>Leaders also sequence the response. Where two levers are needed, the lever that changes the condition usually comes first, and the lever that builds the people&rsquo;s capability or confidence follows, so that individuals apply new skills in conditions that support them.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>The intervention equips individuals to deliver their tasks under the changed conditions: clear authority, the skills the strategy now requires, coaching through the first cycles and consistent consequences. Leaders confirm the change in the individuals&rsquo; work: decisions taken at the right level, less rework and problems raised early.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>The intervention changes the organisational condition behind the clog.</p><p><strong>Governance · decision authority.</strong> Delegation limits for routine decisions are reset and published.</p><p><strong>Systems · data integrity.</strong> One source of customer data replaces three, and every report draws on it.</p><p><strong>Resources · capability alignment.</strong> Specialist capacity is added where the strategy concentrates demand.</p><p>Leaders confirm the change in the condition itself, then in the Key Result.</p></div></div>
+<p>The goal is to develop a leadership rhythm that moves quickly and precisely: <strong>Identify the Clog &rarr; Select the Lever &rarr; Targeted Intervention.</strong></p>
+</div>
+</div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.2 &mdash; The 7 Strategic Unclogging Levers</div><div class="acc-meta">Select each lever to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Think of these seven levers as the leadership toolkit for execution architecture. They restore the conditions that allow the strategy to move through the organisation at the speed and quality intended. Each lever targets a specific dimension of the system.</p>
+<div class="lever-grid">
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 01</div><div class="lever-name">Standardise</div><div class="lever-role">Ensure Consistency</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Harmonises processes and service levels across teams so everyone plays by the same rules.</p><div class="lever-why">Variability is a silent killer of speed. By establishing a shared &ldquo;way we work,&rdquo; you reduce duplication and ensure every unit pulls in the same direction. Apply when: Variability across teams is creating drag. Best applied to: Structural Misfit, Misaligned Metrics &amp; Incentives, Technology / Infrastructure Lag.</div><p class="u9-lv-how"><strong>How it works.</strong> Standardise sets one agreed way of working where the strategy needs consistent results across teams, sites or channels. Leaders define the standard, the measure that shows it is met and the leader responsible for keeping it current. The standard covers the work that must be consistent and leaves local judgement where the strategy needs it.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals work to one set of expectations, so effort is no longer lost translating between teams. Leaders train every team on the standard and hold each individual to the same measure of quality and timeliness.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Systems · process clarity.</strong> Three regions run three versions of customer onboarding. One process replaces them, with one set of service levels.</p><p><strong>Governance · clear accountability.</strong> A named leader maintains the standard and reviews compliance each quarter.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 02</div><div class="lever-name">Streamline</div><div class="lever-role">Increase Speed</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Simplifies workflows and removes the red tape layers that add no value to execution.</p><div class="lever-why">Leaner processes mean faster approvals and a team that can pivot as quickly as the market demands. Apply when: Approval processes are creating latency. Best applied to: Decision Bottlenecks, Structural Misfit.</div><p class="u9-lv-how"><strong>How it works.</strong> Streamline removes the steps, approvals and hand-offs that add time without adding control or value. Leaders map the path a piece of work takes, mark each point where it waits, and remove or combine the steps that change nothing in the outcome. Controls that protect the organisation stay, placed at the point of greatest risk.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals spend their time on the task itself. Managers decide within clear limits, teams stop chasing approvals, and work moves at the pace the strategy requires.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Governance · decision authority.</strong> Routine purchases below an agreed limit no longer need senior approval.</p><p><strong>Systems · approvals.</strong> One electronic approval route replaces email chains, and every request shows where it sits.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 03</div><div class="lever-name">Clarify</div><div class="lever-role">Eliminate Confusion</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Defines exactly who owns what, where the handoffs are, and who has the final say.</p><div class="lever-why">Ambiguity breeds hesitation. When people know their roles and decision rights, accountability returns and work stops getting stuck in limbo. Apply when: Ownership ambiguity is causing hesitation. Best applied to: Decision Bottlenecks, Structural Misfit, Leadership Avoidance.</div><p class="u9-lv-how"><strong>How it works.</strong> Clarify settles who owns each outcome, who decides, who must be consulted and where work passes from one team to the next. Leaders write the decision rights and hand-offs down, agree them across the functions involved and communicate them to everyone who works across the boundary.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals know which decisions are theirs and act on them. Escalation falls, ownership returns to the level closest to the work, and accountability can be applied fairly because responsibility now carries matching authority.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Governance · clear accountability.</strong> One executive owns the end-to-end customer-resolution outcome across service, operations and finance.</p><p><strong>Governance · review forums.</strong> Each open trade-off has a named decision-maker and a date by which the decision is made.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 04</div><div class="lever-name">Upgrade</div><div class="lever-role">Remove Bottlenecks</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Fixes underperforming technology and infrastructure that holds execution back.</p><div class="lever-why">You cannot run a modern strategy on yesterday&rsquo;s tools. Upgrading removes the physical and digital friction that makes scaling feel impossible. Apply when: Systems are creating friction that blocks flow. Best applied to: Technology / Infrastructure Lag, Capability Gaps.</div><p class="u9-lv-how"><strong>How it works.</strong> Upgrade replaces or improves the technology, infrastructure or capability that cannot carry the strategy&rsquo;s demands. Leaders define the performance the strategy requires in speed, reliability, visibility and scale, measure the gap and invest where the gap constrains the Key Result most.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals stop spending their time on workarounds: re-keying data, reconciling records and building reports by hand. That time returns to the work the strategy needs, and confidence in improvement initiatives recovers.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Systems · data integrity.</strong> The customer and transport systems are connected, so delivery status updates without manual entry.</p><p><strong>Environment · infrastructure.</strong> Field teams receive reliable connectivity, so orders reach operations the same day.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 05</div><div class="lever-name">Reinforce</div><div class="lever-role">Strengthen Behaviour</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Equips the team with the skills, coaching, and confidence they need to actually deliver.</p><div class="lever-why">Strategy requires new behaviours. Reinforcement ensures your people are capable of making the change. Apply when: Skills or confidence are the limiting factor. Best applied to: Capability Gaps, Cultural Resistance.</div><p class="u9-lv-how"><strong>How it works.</strong> Reinforce builds the skills, habits and confidence the strategy requires of individuals and teams. Leaders identify the behaviours the strategy depends on, provide training and coaching, model the behaviours themselves and recognise them when they appear.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals gain the capability to meet the new expectations and the confidence to apply it. Coaching through the first cycles turns new skills into habits, and recognition shows people that the new behaviours count.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Resources · capability alignment.</strong> A development programme in digital credit assessment is funded for the whole lending team.</p><p><strong>Environment · values and consequences.</strong> Leaders&rsquo; own decisions and recognition reflect the behaviours the strategy asks for.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 06</div><div class="lever-name">Realign</div><div class="lever-role">Focus on Results</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Adjusts metrics and rewards so they actually match current strategic priorities.</p><div class="lever-why">People do what they are measured on. When you fix the incentives, the team&rsquo;s energy naturally shifts from protecting their patch to creating enterprise value. Apply when: Effort is flowing only to what is measured. Best applied to: Misaligned Metrics &amp; Incentives.</div><p class="u9-lv-how"><strong>How it works.</strong> Realign changes measures, targets and rewards so that they reinforce the contributions the strategy needs. Leaders trace each scorecard measure to the Key Result it serves, remove or reweight the measures that reward local results at the expense of the enterprise outcome, and add measures for shared results.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals no longer have to choose between their rating and the strategy. Collaboration, quality and contribution to shared outcomes are recognised, so committed people can do what the strategy requires without personal cost.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Governance · consistent consequences.</strong> Sales bonuses are paid on margin and customer retention alongside volume.</p><p><strong>Systems · performance data.</strong> Shared enterprise measures appear on every functional scorecard that contributes to them.</p></div></div></div>
+  </div>
+
+  <div class="lever-card" onclick="toggleLever(this)" style="grid-column:1/-1;">
+    <div class="lever-head"><div class="lever-meta"><div class="lever-num">Lever 07</div><div class="lever-name">Rebuild Trust</div><div class="lever-role">Restore Credibility</div></div><div class="lever-arr">&#9660;</div></div>
+    <div class="lever-bar"></div>
+    <div class="lever-body"><p>Heals relationships and introduces the transparency needed for people to commit again.</p><div class="lever-why">Trust is the social grease of execution. Without it, the system seizes up. Rebuilding it restores the psychological safety required for high-stakes work. Apply when: Psychological safety or leadership credibility is the constraint. Best applied to: Cultural Resistance, Leadership Avoidance.</div><p class="u9-lv-how"><strong>How it works.</strong> Rebuild Trust restores the credibility of leadership and the safety people need to speak, challenge and commit. Leaders acknowledge what has gone wrong, act on the concerns people raise, follow through on their decisions and make the reasons for those decisions visible.</p><div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>Individuals raise problems early again, offer ideas and commit to decisions they helped shape. Strong performers regain confidence in the direction.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p><strong>Environment · psychological safety.</strong> Leaders open each review by asking what is blocking delivery, and act on what they hear.</p><p><strong>Governance · consistent consequences.</strong> Commitments missed at senior level are addressed to the same standard applied elsewhere.</p></div></div></div>
+  </div>
+
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Lever Selection Principle</div>
+<p>Identifying a clog starts the work. Lever selection completes it. Rarely does a clog require just one fix. If the clog is a <strong>Capability Gap</strong>, the leaders may need to Upgrade the systems while simultaneously Reinforcing the team&rsquo;s skills. If the clog is <strong>Leadership Avoidance</strong>, there will likely be a need to Clarify decision rights and Rebuild Trust to move forward. Always ask: <em>&ldquo;Which lever combination addresses the root cause?&rdquo;</em></p>
+</div>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a reflection in their own file: the primary lever and the second lever they would pull for the clog they identified in Awareness, and why this combination.</p>
+</div>
+</div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(3)">Section 3 — Extrapolating →</button></div>
+</div></div>
+
+<!-- ═══ TAB 3 — EXTRAPOLATING ═══ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Section 3 · Extrapolating — Where</div><h2>Where Do Executive Decisions and Practices Contribute to Performance Clogs?</h2><p>Examining how decisions and management practices within executive functions influence people performance, organisational conditions and strategic results.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate how executive decisions and practices create or reinforce performance clogs.</li><li>Anticipate and manage cross-functional performance consequences of executive decisions.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Extrapolating</div>
+<p>Connect this section to the seven clogs and Three Performance Lines of Sight introduced in Section 1 (part 1.4). Explain that every executive function shapes the conditions in which other teams work. Decisions in finance, operations, people management, technology and commercial functions can affect performance beyond their own portfolios.</p>
+<p>Use the CXO cards to illustrate a decision or practice, the organisational result affected, how people respond and the clog that can follow. Begin with participants&rsquo; own roles, then invite them to explore two closely connected functions. Participants use the final reflection to examine a decision or practice from their own organisation.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.1 &mdash; The CXO Performance Clog Contributors</div><div class="acc-meta">Select each executive role to explore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Executive roles carry responsibility for different parts of the organisation&rsquo;s operating system. Through their decisions, executives determine how resources are allocated, work is organised, people are managed, performance is measured and risks are controlled. These decisions shape the conditions in which individuals and teams contribute to strategic results.</p>
+<p>A performance clog can form when a decision or management practice in one executive function creates difficulties for people working elsewhere. Participants select an executive role to examine a realistic decision and its consequences through the Three Performance Lines of Sight.</p>
+<div class="u9-roles"><button type="button" class="u9-role-b on" onclick="u9Role(this,0)"><b>CEO</b><span>Enterprise Direction</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,1)"><b>CFO</b><span>Financial Stewardship</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,2)"><b>COO</b><span>Operational Discipline</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,3)"><b>CHRO</b><span>People and Culture</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,4)"><b>CTO/CIO</b><span>Technology and Information</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,5)"><b>CMO</b><span>Market and Customer Insight</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,6)"><b>CCO</b><span>Commercial Performance</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,7)"><b>CPO</b><span>Procurement and Supply</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,8)"><b>CRO</b><span>Risk and Governance</span></button><button type="button" class="u9-role-b" onclick="u9Role(this,9)"><b>CSO</b><span>Strategic Integration</span></button></div>
+<div class="u9-role-panels"><div class="u9-role on"><div class="u9-role-h">CEO &middot; Enterprise Direction</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CEO repeatedly postpones a decision about which of two competing strategic initiatives should receive priority.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Both initiatives fall behind their planned delivery milestones.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Executive teams continue pursuing competing priorities. Managers divide resources between both initiatives and delay commitments while awaiting direction.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Leadership Avoidance.</strong> The unresolved trade-off sustains conflicting priorities and prevents resources and attention from being concentrated on an agreed direction.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which unresolved strategic trade-off may be causing competing priorities across the organisation?</div></div><div class="u9-role"><div class="u9-role-h">CFO &middot; Financial Stewardship</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CFO introduces additional senior-level approvals for routine operational expenditure.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Operational delivery milestones are repeatedly missed despite adequate budget provision.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Managers wait for purchasing approval, employees delay scheduled work, and teams frequently escalate routine expenditure requests.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Decision Bottlenecks.</strong> Financial authority is positioned too far from routine operational decisions, slowing the flow of work.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Where might our financial controls be delaying decisions needed for operational delivery?</div></div><div class="u9-role"><div class="u9-role-h">COO &middot; Operational Discipline</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The COO maintains separate departmental responsibilities for activities that require coordinated end-to-end delivery.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Customer service resolution times remain below the required standard.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Teams complete their assigned tasks but transfer unresolved cases between departments. Employees spend time following up on work controlled by other teams.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Structural Misfit.</strong> The operating arrangement fragments ownership of the customer outcome and creates delays at functional boundaries.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which operating arrangements make it difficult for teams to deliver shared outcomes?</div></div><div class="u9-role"><div class="u9-role-h">CHRO &middot; People and Culture</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CHRO maintains individual performance measures focused on task completion when the strategy requires greater cross-functional collaboration.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Functional targets are achieved while shared enterprise outcomes remain weak.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Employees prioritise their own scorecards and give less attention to activities that support other teams or shared results.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Misaligned Metrics &amp; Incentives.</strong> The performance management system reinforces individual outputs without sufficient recognition of contributions to enterprise outcomes.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which performance measures may be reinforcing behaviours that undermine collaboration?</div></div><div class="u9-role"><div class="u9-role-h">CTO/CIO &middot; Technology and Information</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CTO/CIO approves separate technology platforms without sufficiently addressing the integration required between functions.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Service turnaround times and management information reliability deteriorate.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Employees duplicate information across systems, reconcile conflicting records and rely on manual updates.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Technology / Infrastructure Lag.</strong> Fragmented information systems make routine work slower and reduce the visibility needed for coordinated delivery.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Where are technology limitations forcing employees to rely on workarounds?</div></div><div class="u9-role"><div class="u9-role-h">CMO &middot; Market and Customer Insight</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CMO increases promotional activity without confirming whether the organisation can fulfil the resulting demand.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Customer complaints increase despite improved campaign performance.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Customer-facing employees make commitments that fulfilment teams struggle to meet. Teams spend more time managing complaints and expectations.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Structural Misfit.</strong> Market-facing activity and delivery capacity are insufficiently coordinated, creating strain across the customer value chain.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Where might our market-facing decisions be creating delivery expectations that other functions cannot meet?</div></div><div class="u9-role"><div class="u9-role-h">CCO &middot; Commercial Performance</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CCO introduces aggressive sales-volume incentives without adequately incorporating delivery quality and customer retention.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Sales volumes increase while margins and customer retention deteriorate.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Commercial teams prioritise closing transactions and offer commitments that place pressure on fulfilment teams.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Misaligned Metrics &amp; Incentives.</strong> The incentive system rewards immediate commercial output without sufficient attention to sustainable customer and enterprise value.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which commercial targets might encourage short-term gains that weaken overall results?</div></div><div class="u9-role"><div class="u9-role-h">CPO &middot; Procurement and Supply</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CPO prioritises lowest purchase price without sufficiently considering reliability and operational quality requirements.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Production interruptions and quality failures increase despite reported procurement savings.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Operational teams spend time resolving supply problems, replacing unsuitable inputs and adjusting production schedules.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Misaligned Metrics &amp; Incentives.</strong> Procurement performance is evaluated through savings while the cost of unreliable supply is experienced elsewhere.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Where might procurement measures be encouraging savings that increase costs or delays in other functions?</div></div><div class="u9-role"><div class="u9-role-h">CRO &middot; Risk and Governance</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CRO requires the same extensive approval process for routine low-risk changes as for significant strategic decisions.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Operational improvements and responses to emerging issues are repeatedly delayed.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Managers defer small improvements, submit repeated approval requests and avoid making decisions within their operational responsibilities.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Decision Bottlenecks.</strong> Governance requirements are disproportionate to the decisions involved, slowing action and weakening ownership.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which approval requirements may be slowing routine decisions without materially improving risk control?</div></div><div class="u9-role"><div class="u9-role-h">CSO &middot; Strategic Integration</div><div class="u9-dec"><div class="clog-rl">Executive decision or practice</div><p>The CSO continues reporting strategic initiative progress without adequately examining unresolved dependencies between functions.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 1 &mdash; Performance Outcome</div><p>Strategic milestones repeatedly slip despite satisfactory functional progress reports.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 2 &mdash; Performance Behaviour</div><p>Functional leaders report their own activities while cross-functional obstacles remain unresolved.</p></div><div class="u9-step"><div class="u9-step-h">Line of Sight 3 &mdash; Performance Condition</div><p><strong>Structural Misfit.</strong> The strategy review process does not sufficiently surface fragmented contribution ownership and delivery dependencies.</p></div><div class="p-reflect"><strong>Question for participants:</strong> Which interdependencies remain unresolved despite regular strategic progress reporting?</div></div></div>
+<div class="u9-h">Personal reflection &middot; Portfolio Work: My Executive Contribution to Performance</div>
+<p>Participants think about one decision, policy or management practice within their own executive function that may be affecting the performance of another team or function, and examine its consequences through the Three Performance Lines of Sight.</p>
+<div class="u9-fq"><p class="u9-q">The questions participants answer in their own file:</p><div class="u9-tw"><table class="u9-tbl u9-rrr"><thead><tr><th>What participants record</th><th>The question they answer</th></tr></thead><tbody><tr><td>My executive function</td><td><em>&ldquo;Identify your executive function.&rdquo;</em></td></tr><tr><td>Decision or management practice</td><td><em>&ldquo;What one decision, policy or practice within your function may be affecting another function?&rdquo;</em></td></tr><tr><td>1 · Performance Outcome</td><td><em>&ldquo;Which organisational result is affected?&rdquo;</em></td></tr><tr><td>2 · Performance Behaviour</td><td><em>&ldquo;What are people doing, delaying or unable to do because of this decision?&rdquo;</em></td></tr><tr><td>3 · Performance Condition</td><td><em>&ldquo;Which of the seven clogs does the decision or practice create or reinforce?&rdquo;</em></td></tr></tbody></table></div></div>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a reflection in their own file, as Portfolio work: one decision, policy or management practice within their own executive function that may be affecting another team or function, traced through the Three Performance Lines of Sight to the clog it creates or reinforces.</p>
+</div>
+</div></div>
+
+<div class="hbox" style="margin-top:6px;"><div class="u9-ex-h">Closing Insight</div><p>Executive decisions shape the conditions in which people and teams perform. The Three Performance Lines of Sight help leaders recognise how decisions within their own functions may influence results elsewhere in the organisation.</p>
+<p>Section 4 &mdash; Integration will focus on how executive leaders work collectively to remove performance clogs and restore strategic coherence and performance momentum.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(4)">Section 4 — Integration →</button></div>
+</div></div>
+
+<!-- ═══ TAB 4 — INTEGRATION ZONE ═══ -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Section 4 · Integration — Collective</div><h2>Cross Leadership Clog Ownership</h2><p>Building the collective discipline of normalising the unclog, where detecting and clearing performance friction becomes a shared leadership habit.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Mobilise cross-functional leadership to restore shared performance momentum.</li><li>Establish a collective leadership rhythm for surfacing and resolving performance friction.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; Integration</div>
+<p>The central shift is from &ldquo;my clog&rdquo; to &ldquo;our clog&rdquo;. A performance blockage may surface in one function while the organisational condition sustaining it sits in another. The leadership team, acting as the collective intelligence for execution discipline, must own the diagnostic conversation and response together.</p>
+<p>Emphasise the &ldquo;see something, say something&rdquo; principle: surfacing friction in another executive domain can feel politically risky, yet early identification is an act of shared leadership stewardship. Use the Unclogging Cycle, Review&ndash;Realign&ndash;Restore, as the established S2R&reg; discipline for acting on what leaders surface. REALIGN must explicitly consider the implications for both people performance and organisational performance.</p>
+<p>Work through the manufacturing example and then guide participants to apply the same process to their Capstone organisation. Keep the Seven Unclogging Levers as the intervention mechanism within RESTORE.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.1 &mdash; Normalising the Unclog: From Crisis to Habit</div><div class="acc-meta">The collective discipline</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Performance friction is a normal feature of organisational life. Strategic priorities shift, resources become constrained, dependencies increase and existing operating arrangements may no longer support the required results. Without a shared leadership discipline, these problems are discussed informally, addressed within silos or left unresolved across successive performance reviews.</p>
+<p>Normalising the unclog means making the early detection and removal of performance constraints part of how the executive team operates. Leaders raise concerns through evidence, examine the contributing conditions together and agree on an accountable response. Surfacing friction is treated as a contribution to organisational learning and performance, including when the condition involves another executive portfolio.</p>
+<p>The leadership team follows a consistent path: REVIEW the performance evidence and confirm the clog; REALIGN executive ownership and the changes required across people and organisational performance; RESTORE by activating the relevant Seven Unclogging Lever and verifying recovery.</p>
+<p>Review–Realign–Restore is the cycle every performance review follows. Here the executive team applies it together, as the Unclogging Cycle, to a clog that crosses executive portfolios.</p>
+<div class="hbox"><p><strong>Collective leadership principle.</strong> Every executive is responsible for making emerging friction visible. The leaders who control the contributing conditions must act together to remove it, with clear individual ownership for each agreed commitment.</p></div>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.2 &mdash; The Unclogging Cycle: Review&ndash;Realign&ndash;Restore</div><div class="acc-meta">The S2R&reg; discipline · Three stages, one record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Unclogging Cycle is the S2R&reg; discipline the executive team follows to remove a clog. REVIEW establishes the performance reality and confirms the clog. REALIGN settles which leaders act and what must change. RESTORE activates the Unclogging Lever and verifies recovery. Each stage completes one part of the Unclogging Record, so the record the team holds at the end is the evidence of the whole cycle.</p>
+<details class="u9-det"><summary class="u9-sub">REVIEW &mdash; Establish the Performance Reality</summary><div class="u9-det-b">
+
+<p>REVIEW establishes a shared, evidence-based understanding of the result falling short and the organisational condition contributing to it. Leaders use the Three Performance Lines of Sight to distinguish the outcome from the behaviours observed and the conditions causing or reinforcing them.</p>
+<ol class="u9-ol"><li><strong>Performance Outcome</strong> &mdash; Confirm the Key Result or KPI that is underperforming and establish the actual gap.</li><li><strong>Performance Behaviour</strong> &mdash; Identify what individuals or teams are doing, delaying or unable to do that contributes to the gap.</li><li><strong>Performance Condition</strong> &mdash; Test the evidence against the Seven Clogs and identify the condition sustaining the behaviour.</li></ol>
+<p>The review conversation must allow leaders to surface performance friction across functional boundaries. Concerns should be examined through observable evidence, including where the condition may sit within another executive portfolio.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>REVIEW examines what individuals and teams are doing, delaying or unable to do, and separates what is within their control from what the conditions impose. Leaders draw the evidence from the work itself: decisions waiting, hand-offs repeated, rework recorded.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>REVIEW tests whether the organisational conditions support the execution of the individuals&rsquo; tasks, and locates the condition sustaining the behaviour. Leaders examine the evidence across executive portfolios, because the condition often sits outside the function where the clog shows.</p></div></div>
+<div class="u9-done"><strong>REVIEW is complete when</strong> the executive team agrees on the performance gap, the supporting evidence and the clog requiring intervention.</div>
+<div class="u9-done"><strong>Into the Unclogging Record:</strong> the performance gap, the evidence from the three lines of sight and the confirmed clog.</div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">REALIGN &mdash; Establish Collective Executive Ownership</summary><div class="u9-det-b">
+
+<p>Once a performance clog has been confirmed, the executive team must determine which organisational condition needs to change and which leaders have the authority and responsibility to act. A clog may be experienced in one function but sustained by a decision or operating arrangement in another.</p>
+<div class="u9-sub">Three Leadership Decisions</div>
+<ol class="u9-ol"><li><strong>What must change?</strong> Identify the specific organisational arrangement, practice or decision sustaining the clog.</li><li><strong>Who must act together?</strong> Appoint one coordinating executive owner and name the contributing executives needed to resolve the condition.</li><li><strong>What must be agreed?</strong> Establish the decisions, responsibilities, resources and timelines required for the intervention.</li></ol>
+<p>Before finalising the response, leaders consider the implications for both dimensions of performance:</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>What must change in expectations, authority, capabilities, behaviours or support so individuals and teams can deliver their contributions?</p><p>The answer becomes the commitments made to the people delivering the result: the authority they receive, the support they are given and what is expected of them.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>What must change in structures, processes, systems, resources, decision rights or governance so the enterprise can produce the intended result?</p><p>The answer becomes the organisational change the executives agree, with the leader responsible for each part.</p></div></div>
+<p>The agreed intervention should address the confirmed organisational condition while enabling the people responsible for delivery to perform effectively.</p>
+<p>Every executive has a responsibility to recognise and surface performance friction. Collective ownership is supported by clear individual accountability: one leader coordinates the resolution, while other executives remain accountable for their agreed contributions.</p>
+<div class="u9-done"><strong>REALIGN is complete when</strong> the relevant leaders have agreed what must change, who will act and what each executive must deliver.</div>
+<div class="u9-done"><strong>Into the Unclogging Record:</strong> the coordinating executive, the contributing executives and the agreed changes for people and organisational performance.</div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">RESTORE &mdash; Activate the Seven Unclogging Levers</summary><div class="u9-det-b">
+
+<p>RESTORE converts the agreed leadership response into organisational action. The Seven Unclogging Levers provide the established S2R&reg; interventions for addressing the conditions represented by the Seven Performance Clogs. The executive team selects the relevant lever, implements the agreed changes and reviews evidence of recovery.</p>
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Established lever</th><th>Purpose</th><th>Best applied to</th></tr></thead><tbody><tr><td>01 &mdash; Standardise</td><td>Ensure Consistency</td><td>Structural Misfit; Misaligned Metrics &amp; Incentives; Technology / Infrastructure Lag</td></tr><tr><td>02 &mdash; Streamline</td><td>Increase Speed</td><td>Decision Bottlenecks; Structural Misfit</td></tr><tr><td>03 &mdash; Clarify</td><td>Eliminate Confusion</td><td>Decision Bottlenecks; Structural Misfit; Leadership Avoidance</td></tr><tr><td>04 &mdash; Upgrade</td><td>Remove Bottlenecks</td><td>Technology / Infrastructure Lag; Capability Gaps</td></tr><tr><td>05 &mdash; Reinforce</td><td>Strengthen Behaviour</td><td>Capability Gaps; Cultural Resistance</td></tr><tr><td>06 &mdash; Realign</td><td>Focus on Results</td><td>Misaligned Metrics &amp; Incentives</td></tr><tr><td>07 &mdash; Rebuild Trust</td><td>Restore Credibility</td><td>Cultural Resistance; Leadership Avoidance</td></tr></tbody></table></div>
+<p>These are the established Seven Strategic Unclogging Levers introduced in Section 2. The executive team chooses a lever according to the confirmed condition and the specific obstruction to be removed. The S2R&reg; REALIGN stage is the collective decision and ownership step; Lever 06 &mdash; Realign is the distinct intervention used to adjust metrics and rewards.</p>
+<ol class="u9-ol"><li><strong>Select the relevant Unclogging Lever.</strong> Choose the intervention that addresses the confirmed clog.</li><li><strong>Activate the intervention.</strong> Implement the decisions and changes agreed during REALIGN.</li><li><strong>Verify performance recovery.</strong> Confirm that the obstruction is reducing and that the affected performance measures are moving in the intended direction.</li></ol>
+<p>Removing a clog requires evidence that the organisational condition has changed. Sustained improvement is verified through the normal performance review rhythm.</p>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance</div><p>RESTORE equips individuals to deliver under the changed conditions and verifies the change in their work: decisions taken at the right level, delays falling, rework reducing and problems raised early.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance</div><p>RESTORE applies the lever to the organisational condition and verifies that the condition has changed: the approval route, the data source, the decision right or the measure now supports the execution of the individuals&rsquo; tasks, and the Key Result begins to move.</p></div></div>
+<div class="u9-done"><strong>Into the Unclogging Record:</strong> the selected lever, the actions with their owners and completion dates, the evidence of recovery and the date of the next review.</div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">The Unclogging Record</summary><div class="u9-det-b">
+<p>The Unclogging Record holds the outcome of each stage in one place. The executive team completes it as it moves through the cycle, then uses it at each later review to check that the agreed actions are complete and the evidence is moving.</p>
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Stage</th><th>What the record holds</th></tr></thead><tbody><tr><td>REVIEW</td><td>The performance gap, the evidence from the three lines of sight and the confirmed clog.</td></tr><tr><td>REALIGN</td><td>The coordinating executive, the contributing executives and the agreed changes for people and organisational performance.</td></tr><tr><td>RESTORE</td><td>The selected lever, the actions with their owners and completion dates, the evidence of recovery and the date of the next review.</td></tr></tbody></table></div>
+<p>The worked example in 4.3 ends with a completed Unclogging Record.</p>
+</div></details>
+</div></div></div>
+
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.3 &mdash; Worked Example: The Unclogging Cycle</div><div class="acc-meta">A manufacturing case</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u9-okr"><p><strong>Enterprise Objective.</strong> Improve production reliability and on-time customer delivery.</p><p><strong>Enterprise Key Result.</strong> Increase customer orders delivered on time from 72% to 95% by year-end.</p><p class="u9-small">Performance figures are illustrative. The executive team notices that production interruptions are contributing to late deliveries.</p></div>
+<details class="u9-det"><summary class="u9-sub">Step 1 &mdash; REVIEW: Confirm the Performance Clog</summary><div class="u9-det-b">
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Line of sight</th><th>Diagnostic finding</th></tr></thead><tbody><tr><td>Performance Outcome</td><td>Only 72% of customer orders are delivered on time, against the 95% target.</td></tr><tr><td>Performance Behaviour</td><td>Maintenance managers wait for approval before ordering routine replacement parts. Equipment repairs and production schedules are delayed.</td></tr><tr><td>Performance Condition</td><td>Financial approval requirements place routine maintenance decisions at senior management level, slowing necessary purchases.</td></tr></tbody></table></div>
+<p><strong>Identified clog.</strong> Decision Bottlenecks.</p>
+<p>The team confirms that avoidable approval delays contribute to maintenance downtime and late customer deliveries.</p>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">Step 2 &mdash; REALIGN: Agree on Collective Ownership</summary><div class="u9-det-b">
+<p>The CFO and COO agree that routine maintenance decisions must be faster while appropriate financial controls remain in place.</p>
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Leadership decision</th><th>Agreed response</th></tr></thead><tbody><tr><td>What must change?</td><td>Approval authority for routine maintenance expenditure.</td></tr><tr><td>Who coordinates?</td><td>CFO &mdash; revise financial approval arrangements.</td></tr><tr><td>Who contributes?</td><td>COO &mdash; define operational requirements and ensure adoption.</td></tr><tr><td>What must be agreed?</td><td>Delegated thresholds, control requirements, responsibilities and an implementation date.</td></tr></tbody></table></div>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance implication</div><p>Maintenance managers gain clear authority to purchase approved routine replacement parts and can act promptly within defined controls.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance implication</div><p>The approval system preserves financial oversight while enabling reliable equipment maintenance and uninterrupted production flow.</p></div></div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">Step 3 &mdash; RESTORE: Activate the Unclogging Lever</summary><div class="u9-det-b">
+<p><strong>Selected lever.</strong> Lever 02 &mdash; Streamline | Increase Speed.</p>
+<p>Streamline simplifies workflows and removes approval layers that add no value to execution. It is appropriate because the confirmed clog is Decision Bottlenecks, and routine maintenance purchases are delayed by unnecessary approval steps.</p>
+<p><strong>Activation.</strong> The CFO and COO implement the following changes:</p>
+<ol class="u9-ol"><li>Identify approval steps that cause avoidable delays to routine maintenance purchases.</li><li>Remove redundant approvals and simplify the routine purchase workflow.</li><li>Retain appropriate controls and senior approval for exceptional or higher-risk expenditure.</li><li>Communicate and implement the streamlined process with maintenance and operational teams.</li></ol>
+<div class="u8v-hc" onclick="event.stopPropagation()"><div class="u8v-c u8v-hu"><div class="u8v-n">People performance after Streamline</div><p>Maintenance managers can obtain routine replacement parts promptly and fulfil their responsibilities within clear approval limits, without repeated unnecessary escalation.</p></div><div class="u8v-c u8v-or"><div class="u8v-n">Organisational performance after Streamline</div><p>Reduced approval time lowers maintenance downtime, supports production continuity and helps restore on-time customer delivery while preserving financial control.</p></div></div>
+<p><strong>Verification.</strong> At the agreed executive review, examine:</p>
+<ul class="u9-ul"><li>Routine maintenance approval turnaround time.</li><li>Equipment downtime caused by delayed replacement parts.</li><li>On-time customer delivery performance.</li><li>Compliance with the revised financial controls.</li></ul>
+<p>The intervention is working when maintenance managers can exercise the revised authority confidently, routine decisions are made faster, approval-related downtime falls and customer delivery performance begins to recover without weakening financial control.</p>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">Completed Unclogging Record</summary><div class="u9-det-b">
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>S2R&reg; discipline</th><th>Leadership record</th></tr></thead><tbody><tr><td>REVIEW</td><td>Decision Bottlenecks are contributing to maintenance and production delays.</td></tr><tr><td>REALIGN</td><td>CFO coordinates; COO contributes. Both agree on revised approval authority and controls.</td></tr><tr><td>RESTORE</td><td>Activate Lever 02 &mdash; Streamline and verify improvement through approval time, downtime, delivery and financial-control evidence.</td></tr></tbody></table></div>
+</div></details>
+</div></div></div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Participant Activity &mdash; Collective Strategic Unclogging</div><div class="acc-meta">Personal reflection · Portfolio Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Participants reflect on how their leadership decisions and practices may enable or constrain people and organisational performance. Each thinks about a performance clog they have observed in their organisation, particularly one that may have been created, reinforced or left unresolved through decisions within their area of responsibility. They answer the questions below in the first person.</p>
+<div class="u9-fq"><p class="u9-q">The questions participants answer in their own file:</p><div class="u9-tw"><table class="u9-tbl u9-rrr"><thead><tr><th>Stage</th><th>What participants record</th><th>The question they answer</th></tr></thead><tbody><tr><td rowspan="3" class="u9-stage">1 · REVIEW &mdash; Recognise the Clog</td><td>The clog</td><td><em>&ldquo;What performance clog have I observed or allowed to persist?&rdquo;</em></td></tr><tr><td>Effect on people&rsquo;s performance</td><td><em>&ldquo;How is this clog affecting people&rsquo;s performance?&rdquo;</em></td></tr><tr><td>Effect on organisational performance</td><td><em>&ldquo;How is this clog affecting organisational performance?&rdquo;</em></td></tr><tr><td rowspan="2" class="u9-stage">2 · REALIGN &mdash; Examine My Leadership Responsibility</td><td>My contribution to the clog</td><td><em>&ldquo;What decision, practice or behaviour within my control may be contributing to this clog?&rdquo;</em></td></tr><tr><td>What I must change, and the leaders I need to engage</td><td><em>&ldquo;What must I change, and which other leaders do I need to engage?&rdquo;</em></td></tr><tr><td rowspan="2" class="u9-stage">3 · RESTORE &mdash; Commit to Action</td><td>The Unclogging Lever</td><td><em>&ldquo;Which of the Seven Strategic Unclogging Levers is most appropriate?&rdquo;</em></td></tr><tr><td>My action and the evidence of improvement</td><td><em>&ldquo;What specific action will I take, and what evidence will demonstrate improvement?&rdquo;</em></td></tr></tbody></table></div></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note &mdash; Integration</div>
+<p>Close by reinforcing both the shared leadership habit and the established S2R&reg; discipline. Leaders must make emerging friction visible and respond collectively. REVIEW establishes the performance reality. REALIGN establishes collective leadership responsibility and the changes required for people and organisational performance. RESTORE activates the relevant intervention and verifies recovery.</p>
+<p>The goal is to make the removal of performance clogs a consistent part of executive review, decision-making and follow-through. Section 5 applies this integrated discipline to the participants&rsquo; strategic results.</p>
+</div>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants write a personal reflection in their own file, as Portfolio work: a performance clog they have observed or allowed to persist and its effect on people and organisational performance, their own leadership contribution to it and the leaders they need to engage, and the Unclogging Lever, action and evidence of improvement they commit to.</p>
+</div>
+</div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(5)">Section 5 — Application →</button></div>
+</div></div>
+
+<!-- ═══ TAB 5 — APPLICATION ═══ -->
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Section 5 · Application — In Practice</div><h2>The Strategic Unclogging Clinic</h2><p>Returning to an original work-based challenge, identifying the performance clog, selecting the corresponding Strategic Unclogging Lever and applying Review&ndash;Realign&ndash;Restore within the Capstone organisation.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Diagnose a Capstone challenge using the Seven Performance Clogs and select a suitable Unclogging Lever.</li><li>Develop an integrated Review–Realign–Restore response addressing people and organisational performance.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE &mdash; The Strategic Unclogging Clinic</div>
+<p>In its Problem Charter, each group recorded recurring work-based organisational challenges drawn from its members&rsquo; professional experiences and chose the challenges its executive team would address. These challenges informed the simulated Capstone organisation. Participants now return to that list, select one challenge and apply the S2R&reg; diagnostic and intervention tools they have learned.</p>
+<p>Teach the sequence clearly: original challenge &rarr; identify the clog &rarr; select the lever &rarr; Review&ndash;Realign&ndash;Restore. The initial classification is a working diagnosis; REVIEW checks it against performance evidence before the team commits to action. If REVIEW reveals a different underlying condition, the team must correct the clog and lever selection.</p>
+<p>Teach the group to support its diagnosis: the group explains why its selected clog fits the observed behaviours and organisational conditions. During REALIGN, the group sets out the implications for both people and organisational performance. During RESTORE, the group specifies the application of the selected lever, named executive ownership, completion timing and evidence of recovery.</p>
+</div>
+
+<div class="u9-how"><div class="u9-how-h">How Section 5 works</div><ol class=""><li>Each group selects one challenge from its Problem Charter and links it to one of its Objectives and Key Results (5.1).</li><li>The group identifies the performance clog (5.2) and selects the Strategic Unclogging Lever (5.3).</li><li>The group simulates the Unclogging Cycle, Review&ndash;Realign&ndash;Restore (5.4), then tests its response against the Diagnostic Quality Check (5.5).</li><li>The group chooses its scribe for this work. The scribe types what the group agrees, and the entries appear on every member&rsquo;s page.</li><li>In part 5.6 each member reads the group&rsquo;s record and selects Agree. When every member has agreed, the record feeds the team&rsquo;s Capstone Blueprint.</li></ol></div>
+<div class="u9-out-box"><div class="u9-how-h">Capstone Portfolio Output</div><p>The group submits one Strategic Unclogging Clinic Record containing:</p><ol class="u9-ol"><li>The original work-based challenge selected from its Problem Charter.</li><li>The identified Seven Performance Clog and reason for the diagnosis.</li><li>The selected Seven Strategic Unclogging Lever and its intended purpose.</li><li>The completed REVIEW, REALIGN and RESTORE responses, with executive ownership and evidence of recovery.</li></ol><p>The completed record is incorporated into the existing Capstone portfolio.</p></div>
+<div id="u9S5">
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Return to Your Original Work-Based Challenge</div><div class="acc-meta">Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each group selects one challenge from its Problem Charter that remains relevant to its Capstone organisation and has a clear connection to disappointing organisational results.</p>
+
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>Selected original challenge</b><span>The group selects the challenge from its Problem Charter.</span></div>
+<div class="u9-brief"><b>Strategic connection</b><span>The group selects the strategic Objective and Key Result the challenge affects.</span></div>
+<p>Use existing Capstone performance information where available. If the group has not established a current result, agree on a realistic illustrative figure consistent with its organisational scenario.</p>
+</div>
+<div class="fac-note-full u9-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div>
+<p>Participants work as a group in Section 5 of their own file. This is Capstone work. The group chooses its scribe for this work. The scribe types what the group agrees, and the entries appear on every member&rsquo;s page. Each member then selects Agree in part 5.6.</p>
+</div>
+</div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.2 &mdash; Identify the Performance Clog</div><div class="acc-meta">Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The group examines the selected challenge and identifies which of the Seven Performance Clogs best explains the difficulty. The challenge describes what has been experienced; the clog identifies the organisational condition believed to be constraining performance.</p>
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Seven Performance Clogs</th><th>Diagnostic focus</th></tr></thead><tbody><tr><td>01 &mdash; Structural Misfit</td><td>Roles, reporting, ownership and coordination arrangements</td></tr><tr><td>02 &mdash; Capability Gaps</td><td>Skills, resources, tools or capacity required for delivery</td></tr><tr><td>03 &mdash; Decision Bottlenecks</td><td>Decision authority, approvals and escalation</td></tr><tr><td>04 &mdash; Misaligned Metrics &amp; Incentives</td><td>Measures and rewards reinforcing the wrong contributions</td></tr><tr><td>05 &mdash; Cultural Resistance</td><td>Established beliefs, norms and habits obstructing change</td></tr><tr><td>06 &mdash; Technology / Infrastructure Lag</td><td>Systems, information and infrastructure limiting delivery</td></tr><tr><td>07 &mdash; Leadership Avoidance</td><td>Unresolved leadership decisions, trade-offs and accountability</td></tr></tbody></table></div>
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>Selected clog</b><span>Which single category best explains the current challenge?</span></div>
+<div class="u9-brief"><b>Reason for selection</b><span>What specific observations make this the most likely clog?</span></div>
+<p>Treat this as the initial diagnosis. The group will test it during REVIEW.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.3 &mdash; Select the Strategic Unclogging Lever</div><div class="acc-meta">Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The group now selects the established Strategic Unclogging Lever most appropriate for removing the identified obstruction. One clog may have more than one suitable lever; the group selects the primary lever that best addresses the specific condition in its case.</p>
+<div class="u9-tw"><table class="u9-tbl"><thead><tr><th>Seven Strategic Unclogging Levers</th><th>Purpose</th><th>Common application</th></tr></thead><tbody><tr><td>01 &mdash; Standardise</td><td>Ensure Consistency</td><td>Structural Misfit; Misaligned Metrics &amp; Incentives; Technology / Infrastructure Lag</td></tr><tr><td>02 &mdash; Streamline</td><td>Increase Speed</td><td>Decision Bottlenecks; Structural Misfit</td></tr><tr><td>03 &mdash; Clarify</td><td>Eliminate Confusion</td><td>Decision Bottlenecks; Structural Misfit; Leadership Avoidance</td></tr><tr><td>04 &mdash; Upgrade</td><td>Remove Bottlenecks</td><td>Technology / Infrastructure Lag; Capability Gaps</td></tr><tr><td>05 &mdash; Reinforce</td><td>Strengthen Behaviour</td><td>Capability Gaps; Cultural Resistance</td></tr><tr><td>06 &mdash; Realign</td><td>Focus on Results</td><td>Misaligned Metrics &amp; Incentives</td></tr><tr><td>07 &mdash; Rebuild Trust</td><td>Restore Credibility</td><td>Cultural Resistance; Leadership Avoidance</td></tr></tbody></table></div>
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>Selected lever</b><span>Which of the seven levers will the group use?</span></div>
+<div class="u9-brief"><b>Reason for selection</b><span>How does this lever address the identified clog?</span></div>
+<p>The selected lever is tested and activated through Review&ndash;Realign&ndash;Restore. Selection at this stage does not mean intervention begins before the diagnosis has been confirmed.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; Simulate the Unclogging Cycle</div><div class="acc-meta">Capstone Work</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The group simulates how its executive team takes the selected challenge through the Unclogging Cycle, working through REVIEW, REALIGN and RESTORE in turn. Together they complete the group&rsquo;s Strategic Unclogging Clinic Record in 5.6.</p>
+<details class="u9-det"><summary class="u9-sub">REVIEW &mdash; Confirm the Performance Reality</summary><div class="u9-det-b">
+<p>The group uses the Three Performance Lines of Sight to test the initial diagnosis and establish the evidence for intervention.</p>
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>REVIEW · Line of sight 1 · Performance Outcome</b><span>State the affected Key Result or KPI, its current result and target.</span></div>
+<div class="u9-brief"><b>REVIEW · Line of sight 2 · Performance Behaviour</b><span>Describe what individuals and teams are doing, delaying or unable to do.</span></div>
+<div class="u9-brief"><b>REVIEW · Line of sight 3 · Performance Condition</b><span>Identify the organisational condition causing or reinforcing those behaviours.</span></div>
+<div class="u9-brief"><b>REVIEW · Diagnosis check</b><span>Does this evidence confirm the clog selected in 5.2? If not, revise both the clog and the lever before proceeding.</span></div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">REALIGN &mdash; Agree on the Collective Response</summary><div class="u9-det-b">
+<p>As the simulated executive team, the group determines what must change and identifies who has the authority and responsibility to act. It explicitly considers both dimensions of performance.</p>
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>REALIGN · People performance</b><span>What must change in expectations, decision authority, capability, behaviours or support so people can fulfil their contributions?</span></div>
+<div class="u9-brief"><b>REALIGN · Organisational performance</b><span>What must change in structures, systems, processes, resources or governance so the enterprise can achieve the intended result?</span></div>
+<div class="u9-sub2">Leadership agreement</div>
+<div class="u9-brief"><b>REALIGN · Coordinating executive owner</b><span>Coordinating executive owner</span></div>
+<div class="u9-brief"><b>REALIGN · Contributing executive functions</b><span>Contributing executive functions</span></div>
+<div class="u9-brief"><b>REALIGN · Agreed organisational change</b><span>Agreed organisational change</span></div>
+<div class="u9-brief"><b>REALIGN · Each executive&rsquo;s contribution</b><span>Each executive&rsquo;s contribution</span></div>
+</div></details>
+<details class="u9-det"><summary class="u9-sub">RESTORE &mdash; Activate the Selected Lever</summary><div class="u9-det-b">
+<p>The group specifies how the confirmed Strategic Unclogging Lever will be applied. The action must directly remove or reduce the identified condition and be clear enough for the responsible executive to implement.</p>
+<div class="u9-tagline">What each group completes</div>
+<div class="u9-brief"><b>RESTORE · Intervention</b><span>What precisely will change through the selected lever?</span></div>
+<div class="u9-brief"><b>RESTORE · Action and completion</b><span>What will the coordinating and contributing executives implement, and by when?</span></div>
+<div class="u9-brief"><b>RESTORE · People performance evidence</b><span>What improvement in capability, decisions, behaviours or contribution will show that employees and teams are better enabled?</span></div>
+<div class="u9-brief"><b>RESTORE · Organisational performance evidence</b><span>What improvement in the relevant operating condition and strategic Key Result or KPI will demonstrate recovery?</span></div>
+<div class="u9-brief"><b>RESTORE · Review commitment</b><span>When will the executive team check progress and decide whether further action is necessary?</span></div>
+</div></details>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.5 &mdash; Diagnostic Quality Check</div><div class="acc-meta">Before the response is finalised</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Before the group finalises its response, it tests the response against four criteria:</p>
+<ol class="u9-ol"><li>The original challenge is linked to a specific strategic result and supported by realistic performance evidence.</li><li>The selected clog names the underlying organisational condition behind the symptom.</li><li>The lever addresses the confirmed clog, and REALIGN considers both people and organisational performance.</li><li>The RESTORE intervention is specific, owned, time-bound and supported by evidence that will show whether performance is recovering.</li></ol>
+<p>If any criterion is not met, the group returns to the relevant step and refines the response.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.6 &mdash; The Strategic Unclogging Clinic Record</div><div class="acc-meta">Read the record and Agree</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each member reads the group&rsquo;s record on their own page and selects Agree. When every member has agreed, the record feeds boxes 9A to 9E of the team&rsquo;s Capstone Blueprint.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note &mdash; Application</div>
+<p>Invite each group to explain briefly: the original challenge, the confirmed clog, the selected lever and the collective leadership response. Ask: &ldquo;How has your understanding of this challenge changed since you first identified it in your Problem Charter?&rdquo;</p>
+<p>Close by reinforcing the integrated discipline: recognise the challenge, identify the clog, select the suitable lever, and apply Review&ndash;Realign&ndash;Restore to confirm the diagnosis, coordinate leadership decisions and verify recovery across people and organisational performance.</p>
+</div>
+</div></div></div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Unit Summary</div><div class="acc-meta">Unit 9 synthesis</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;">
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Awareness — What</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">A Strategic Clog is an internal blockage that prevents strategic intent from flowing into execution. Clogs form where the strategy stretches today&rsquo;s organisation. Performance has two connected dimensions, organisational performance and people performance. The 7-Clog Diagnostic Map, aligned to ABCV Directional Integrity, examines both, and the Three Performance Lines of Sight trace a result from its outcome to the behaviours and the conditions behind it.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">Intelligence — Why</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Leaders resolve clogs through three disciplines: early identification, accurate classification and targeted intervention. The 7 Strategic Unclogging Levers act on people performance and organisational performance together.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">Extrapolating — Where</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Every executive function shapes the conditions in which other teams work. Traced through the Three Performance Lines of Sight, a decision or practice in one function can create or reinforce a clog in another.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#c39de0;margin-bottom:8px;">Integration — Collective</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Clogs rarely stay in one lane. The leadership team removes them together through the Unclogging Cycle: REVIEW confirms the clog, REALIGN agrees collective ownership and the changes for people and organisational performance, and RESTORE activates the Unclogging Lever and verifies recovery. Each stage completes part of the Unclogging Record.</p></div>
+<div style="flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:8px;">Application — In Practice</div><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;">Each group selected a challenge from its Problem Charter, identified the clog, selected the lever and simulated the Unclogging Cycle within its Capstone organisation. The agreed record feeds the team&rsquo;s Capstone Blueprint.</p></div>
+</div>
+<div class="hbox" style="margin-top:8px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.8;"><em>&ldquo;When unclogging becomes a habit, everything changes. Friction is a signal telling you how the organisation needs to evolve next. You start engineering flow.&rdquo;</em></p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Closing Note</div>
+<p>Close by asking each leader to name one clog that has been present in their organisation for more than six months &mdash; visible, discussed, but not yet cleared. Ask them: <em>&ldquo;What has it actually cost the organisation in strategic momentum? And what is the real reason it hasn&rsquo;t been cleared yet?&rdquo;</em> The answers to the second question are almost always the true clogs beneath the clogs. <strong>That conversation is the beginning of genuine execution engineering.</strong> Remind participants that the group&rsquo;s confirmed Section 5 record feeds the team&rsquo;s Capstone Blueprint.</p>
+</div>
+</div></div></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">← Section 4 — Integration</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleClog(c){c.classList.toggle('open');}
+function toggleLever(c){c.classList.toggle('open');}
+function toggleCP(c){c.classList.toggle('open');}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='dashboard_F.html';}
+function u9Step(i){var r=document.getElementById('u9S5');if(!r)return;var tabs=r.querySelectorAll('.step-tab'),panels=r.querySelectorAll('.step-panel');tabs.forEach(function(x,j){x.classList.toggle('active',j===i);});panels.forEach(function(x,j){x.classList.toggle('active',j===i);});}
+function u9Role(b,i){var w=b.closest('.cb');w.querySelectorAll('.u9-role-b').forEach(function(x,j){x.classList.toggle('on',j===i);});w.querySelectorAll('.u9-role').forEach(function(x,j){x.classList.toggle('on',j===i);});}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#c9a84c;color:#111811;font-family:Arial,sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-align:center;padding:7px 12px;">PREVIEW COPY · Unit 9 facilitator page · not the live portal</div>
+</body>
+</html>

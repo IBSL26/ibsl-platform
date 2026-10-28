@@ -1,0 +1,1 @@
+Build (cloud workspace): npm i pptxgenjs react react-dom react-icons sharp; copy logo.png; NODE_PATH=./node_modules node slides.js out.pptx logo.png (slides.js uses the local lib2.js copy: section outcomes sized to their length, stat bigSize option).
