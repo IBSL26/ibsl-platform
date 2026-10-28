@@ -1006,6 +1006,11 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div></div></div>
 </div>
 
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <!-- UNIT SUMMARY (standard #summaryP) -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Unit 9 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -1673,7 +1678,7 @@ function u9RecDraw(){
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
 function u9TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(u9Open().length)return;S2RTeam.save('uc_record',u9Record());U9P.forEach(function(p){S2RTeam.save(p[3],u9Text(p[0]));});}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U9_LENS,mount:'twBar',lock:['mod4'],names:U9_NAMES,complete:function(){var o=u9Open();return o.length?o.join('; '):'';},onRemote:function(r){u9Init(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: the clog you diagnosed and how you restore performance."},lens:U9_LENS,mount:'twBar',lock:['mod4'],names:U9_NAMES,complete:function(){var o=u9Open();return o.length?o.join('; '):'';},onRemote:function(r){u9Init(r);}});}
 async function u9Confirm(){
   var _o=window.S2RTeam?(function(){var o=u9Open();return o.length?o.join('; '):'';})():'';
   if(_o){u9RecDraw();u9msg('u9Msg','Before you agree, complete: '+_o+'.');return;}

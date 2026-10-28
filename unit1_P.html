@@ -1113,6 +1113,11 @@ Email to Self</button>
 <div class="pc-panel"><div class="pc-step-h">The Charter record</div><p class="pc-step-p">Read your group&rsquo;s Charter against the checks below. When every entry is complete, select Agree. When every member has agreed, your Charter feeds boxes 1A to 1H of your team&rsquo;s Capstone S2R® Blueprint, and the name of your simulated company is used throughout your Blueprint.</p><ul class="pc-checks"><li>Every member contributed real-world observations during the group activity.</li><li>The simulated company feels credible and reflects shared professional realities.</li><li>The challenges, how they manifested and their consequences for results are described in everyday language across strategy design, strategy execution and sustaining performance.</li><li>The Charter describes the problem without prescribing the detailed S2R® solution.</li></ul><div id="pcRec"></div></div>
 </div>
 </div></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 1 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b cb" id="summaryListP"></div></div>
@@ -2149,7 +2154,7 @@ function pcRecDraw(){
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
 function pcTeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(pcOpen().length)return;S2RTeam.save('pc_record',pcRecord());PCP.forEach(function(p){S2RTeam.save(p[1],pcText(p[1]));});}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:'u1_foundations',mount:'twBar',lock:['pcTool'],names:PC_NAMES,complete:function(){var o=pcOpen();return o.length?o.join('; '):'';},onRemote:function(r){pcInit(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: the central problem your executive team will solve and the challenges it will address."},lens:'u1_foundations',mount:'twBar',lock:['pcTool'],names:PC_NAMES,complete:function(){var o=pcOpen();return o.length?o.join('; '):'';},onRemote:function(r){pcInit(r);}});}
 async function pcConfirm(){
   var _o=window.S2RTeam?(function(){var o=pcOpen();return o.length?o.join('; '):'';})():'';
   if(_o){pcRecDraw();pcmsg('Before you agree, complete: '+_o+'.');return;}

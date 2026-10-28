@@ -94,6 +94,34 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .state{max-width:640px;margin:80px auto;text-align:center;padding:0 24px;}
 .state h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:1.8rem;margin-bottom:12px;}
 .state p{font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* Formatted Blueprint content: headings, tables and lists (28 Oct 2026) */
+.box-v.fmt{white-space:normal;}
+.bt{width:100%;border-collapse:collapse;margin:4px 0 10px;font-size:12.5px;line-height:1.55;}
+.bt th,.bt td{text-align:left;vertical-align:top;padding:7px 10px;border:1px solid rgba(255,255,255,.08);}
+.bt-kv th{width:30%;font-weight:600;color:rgba(201,168,76,.9);background:rgba(201,168,76,.05);}
+.bt-kv tr.sub th{padding-left:22px;font-weight:500;color:rgba(255,255,255,.6);}
+.bt-grid thead th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.08);}
+.bt-grid tbody th{font-weight:600;color:rgba(255,255,255,.9);}
+.bt-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:12px 0 6px;}
+.bt-h:first-child{margin-top:2px;}
+.bt-ol{margin:0 0 8px 20px;}
+.bt-ol li{margin:0 0 3px;}
+.bt-p{margin:0 0 8px;}
+.sum-head{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--gold);margin:26px 0 6px;}
+.box-group{margin:18px 0 12px;padding-top:6px;border-top:1px solid rgba(201,168,76,.25);}
+.box-gl{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.box-sub{margin-left:14px;}
+.box-hl > .box-v{border-left:3px solid var(--gold);background:rgba(201,168,76,.07);}
+.box-stand{margin-top:20px;}
+.box-stand > .box-l{color:var(--gold);}
+.bt-item tr.lead th,.bt-item tr.lead td{background:rgba(26,122,106,.22);color:#fff;font-weight:700;}
+.stand-all{margin-top:28px;}
+.stand-mod{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin:18px 0 8px;}
+.stand-u{border-left:3px solid var(--gold);background:rgba(201,168,76,.05);padding:10px 14px;margin:0 0 10px;}
+.stand-t{font-size:12px;font-weight:700;color:#fff;margin-bottom:4px;}
+.stand-v{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);white-space:pre-wrap;}
+.stand-v.empty{color:rgba(255,255,255,.4);font-style:italic;}
+.print-only{display:none;}
 @media (max-width:640px){
   .unit-nav{padding:12px 16px;}
   .unit-header{padding:36px 16px 28px;}
@@ -102,26 +130,90 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   .sec-h{padding:14px 12px;}
   .sec-b{padding:4px 12px 16px;}
 }
+@page{size:A4;margin:16mm 14mm 18mm;}
 @media print{
-  body{background:#fff;color:#111;}
-  .unit-nav,.actions,.msg,.admin-bar,.banner,.box-ta,.no-print{display:none !important;}
-  .unit-header{background:none;border-bottom:2px solid #1a3a2a;padding:0 0 16px;}
-  .unit-title,.card h2,.sec-t{color:#111;}
-  .unit-desc,.muted,.brief-text,.crit,.box-i,.meta,.sec-note,.fact-v,.member,.res-k,.res-v{color:#222 !important;}
-  .main{padding:16px 0;max-width:none;}
-  .card,.sec,.fact,.member{background:none;border-color:#bbb;}
-  .sec-b{display:block !important;}
-  .sec{break-inside:auto;}
-  .box{break-inside:avoid;}
-  .box-l{color:#111;}
-  .oc-team,.oc-row{border-color:#bbb;}
-  .oc-h,.oc-t,.oc-c{color:#111 !important;}
-  .oc-lv{color:#111;background:none;border:1px solid #999;}
+  html,body{background:#fff !important;color:#1f2a24;}
+  body{font-family:'Montserrat',Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .unit-nav,.unit-header,.actions,.msg,.admin-bar,.banner,.box-ta,.no-print,.chip,.screen-only,.crit-group,.pull{display:none !important;}
+  .print-only{display:block !important;}
+  .main{padding:0;max-width:none;}
+  /* Cover */
+  .cover{height:255mm;display:flex !important;flex-direction:column;justify-content:space-between;border-top:6px solid #C6A24C;padding:22mm 6mm 10mm;break-after:page;}
+  .cover-top{display:flex;align-items:center;gap:14px;}
+  .cover-top img{width:54px;height:54px;}
+  .cover-brand{font-size:9pt;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#1A5C2C;line-height:1.5;}
+  .cover-kicker{font-size:10pt;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#a8862f;margin-bottom:10px;}
+  .cover-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:40pt;line-height:1.05;color:#12301c;margin-bottom:14px;}
+  .cover-co{font-size:20pt;font-weight:700;color:#1A5C2C;margin-bottom:6px;}
+  .cover-sub{font-size:11pt;color:#4b5a50;}
+  .cover-team{border-top:1px solid #d7dfd7;padding-top:12px;font-size:10pt;color:#4b5a50;line-height:1.7;}
+  .cover-team b{color:#12301c;}
+  /* Opening cards */
+  .card{background:none !important;border:none !important;border-radius:0;padding:0 !important;margin:0 0 18px;}
+  .card-label{color:#a8862f !important;font-size:9pt;letter-spacing:.18em;margin-bottom:6px;border-bottom:2px solid #C6A24C;padding-bottom:4px;}
+  .card h2{color:#12301c !important;font-size:16pt;}
+  .muted,.brief-text,.fact-v,.member,.res-k,.res-v,.meta,.sec-note,.box-i,.unit-desc{color:#3d4a42 !important;}
+  .fact,.member{background:none !important;border:1px solid #cfd8cf !important;}
+  .fact-k{color:#a8862f !important;}
+  .crit-tbl{width:100%;border-collapse:collapse;font-size:9.5pt;margin-top:8px;}
+  .crit-tbl th,.crit-tbl td{border:1px solid #cfd8cf;padding:6px 8px;text-align:left;vertical-align:top;}
+  .crit-tbl thead th{background:#1A5C2C;color:#fff;font-size:8.5pt;letter-spacing:.06em;text-transform:uppercase;}
+  .crit-tbl td.w{white-space:nowrap;font-weight:700;color:#12301c;}
+  .crit-tbl tr.grp td{background:#f4f1e6;font-weight:700;color:#12301c;}
+  .bp-card > .muted{display:none;}
+  .bp-card > .card-label{display:none;}
+  /* Module dividers */
+  .mod-div{break-before:page;break-after:page;height:240mm;display:flex !important;flex-direction:column;justify-content:center;padding:0 10mm;border-left:8px solid #1A5C2C;}
+  .mod-div .md-k{font-size:11pt;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#a8862f;margin-bottom:8px;}
+  .mod-div .md-t{font-family:'Cormorant Garamond',Georgia,serif;font-size:42pt;line-height:1.05;color:#12301c;}
+  .mod-div .md-s{font-size:11pt;color:#4b5a50;margin:8px 0 22px;}
+  .mod-div ul{list-style:none;border-top:2px solid #C6A24C;padding-top:12px;}
+  .mod-div li{font-size:11pt;color:#1f2a24;padding:5px 0;border-bottom:1px solid #e3e8e3;}
+  /* Units */
+  .sec{border:none !important;background:none !important;margin:0;}
+  .mod-div + .sec{break-before:auto;}
+  .sec + .sec{break-before:page;}
+  .sec-b{display:block !important;padding:0 !important;}
+  .sec-h{display:block;background:#1A5C2C !important;padding:12px 16px !important;margin-bottom:10px;border-bottom:4px solid #C6A24C;}
+  .sec-t{color:#fff !important;font-family:'Cormorant Garamond',Georgia,serif;font-size:18pt !important;}
+  .sec-note{font-size:8.5pt;margin:0 0 12px;}
+  .box{margin:0 0 16px;break-inside:auto;}
+  .box-l{font-size:11.5pt;font-weight:700;color:#12301c !important;border-left:4px solid #C6A24C;padding-left:8px;margin-bottom:3px;break-after:avoid;}
+  .box-i{font-size:9.5pt;font-style:italic;margin:0 0 6px 12px;break-after:avoid;}
+  .box-v{display:block;color:#1f2a24 !important;background:none !important;border:none !important;padding:0 0 0 12px !important;font-size:10pt;line-height:1.55;}
+  .box-v.empty{color:#888 !important;}
+  .bt{font-size:9.3pt;margin:4px 0 10px;}
+  .bt th,.bt td{border:1px solid #cfd8cf !important;padding:5px 8px;color:#1f2a24 !important;}
+  .bt tr{break-inside:avoid;}
+  .bt-kv th{background:#f1f5f0 !important;color:#12301c !important;width:30%;}
+  .bt-kv tr.sub th{background:#fafbf9 !important;color:#3d4a42 !important;}
+  .bt-grid thead th{background:#1A5C2C !important;color:#fff !important;font-size:8pt;}
+  .bt-grid tbody th{background:#f1f5f0 !important;color:#12301c !important;}
+  .bt-h{color:#a8862f !important;font-size:8.5pt;margin:10px 0 4px;break-after:avoid;}
+  .bt-ol{margin-left:18px;}
+  .box-group{border-top:2px solid #C6A24C !important;margin:18px 0 10px;break-after:avoid;}
+  .box-gl{font-size:13pt;color:#12301c !important;break-after:avoid;}
+  .box-sub{margin-left:10px;}
+  .box-hl > .box-v{background:#f7f3e6 !important;border-left:4px solid #C6A24C !important;padding:10px 12px !important;margin-left:12px;font-size:10.5pt;}
+  .box-stand,.box-hl{break-inside:avoid;}
+  .box-stand > .box-l{color:#a8862f !important;border-left-color:#1A5C2C;}
+  .bt-item tr.lead th,.bt-item tr.lead td{background:#1A5C2C !important;color:#fff !important;font-weight:700;}
+  .bt-item{break-inside:auto;}
+  .stand-all{break-before:page;}
+  .sum-head{font-size:26pt;color:#12301c !important;border-bottom:3px solid #C6A24C;padding-bottom:6px;margin:0 0 10px;}
+  .stand-mod{color:#1A5C2C !important;font-size:9pt;margin:14px 0 6px;break-after:avoid;}
+  .stand-u{background:#f7f3e6 !important;border-left:4px solid #C6A24C;padding:8px 12px;margin:0 0 8px;break-inside:avoid;}
+  .stand-t{color:#12301c !important;font-size:10pt;}
+  .stand-v{color:#1f2a24 !important;font-size:10pt;line-height:1.55;}
+  .stand-v.empty{color:#888 !important;}
+  .oc-team,.oc-row{border-color:#cfd8cf !important;}
+  .oc-h,.oc-t,.oc-c{color:#1f2a24 !important;}
+  .oc-lv{color:#12301c !important;background:none !important;border:1px solid #999;}
   .oc-row{break-inside:avoid;}
-  .box-v,.ptext{display:block;color:#111 !important;background:none;border:1px solid #ccc;white-space:pre-wrap;padding:8px 10px;font-size:12px;line-height:1.6;}
-  .box-v.empty{color:#777 !important;}
-  .chip{color:#111 !important;border-color:#999 !important;}
-  .cf{color:#333 !important;border-color:#bbb !important;}
+  .confirms{margin:4px 0 0 12px;break-before:avoid;}
+  .meta{break-before:avoid;}
+  .cf{color:#4b5a50 !important;border-color:#cfd8cf !important;font-size:8pt;}
+  .res-card{break-before:page;}
 }
 </style>
 </head>
@@ -168,88 +260,103 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   // === Blueprint structure (approved wording). [Case] is replaced with the team's simulated company (box 1A). ===
   var BLUEPRINT = [
     { key:'u1', unit:1, title:'Behavioural Strategy Fundamentals', boxes:[
-      ['1A','Simulated company','The name of your group’s simulated company. It is used throughout your Blueprint.'],
-      ['1B','Simulated executive team','Each member of the executive team of [Case] and the executive role they hold.'],
-      ['1C','Our organisation','The sector or industry, approximate size and main activity or service of [Case].'],
-      ['1D','Challenges experienced','The recurring challenges [Case] has experienced in strategy design, strategy execution and sustaining performance.'],
-      ['1E','How they manifested','The observable behaviours, management practices and organisational conditions through which the challenges of [Case] manifested.'],
-      ['1F','Consequences for results','How the challenges have undermined the results of [Case] in strategy design, strategy execution and sustaining performance.'],
-      ['1G','The challenges we will address','The three challenges in each area the executive team of [Case] will address in the programme.'],
-      ['1H','Our central organisational problem','The central problem the executive team of [Case] will address through CESI.']
+      ['1A','Simulated company','The simulated company our team leads throughout this Blueprint.'],
+      ['1B','Simulated executive team','Our executive team at [Case] and the executive role each of us holds.'],
+      ['1C','Our organisation','Our sector, size and main activity or service.'],
+      ['1D','Challenges experienced','The recurring challenges we have experienced in strategy design, strategy execution and sustaining performance.'],
+      ['1E','How they manifested','How these challenges show up in our behaviours, management practices and organisational conditions.'],
+      ['1F','Consequences for results','How these challenges have undermined our results in strategy design, strategy execution and sustaining performance.'],
+      ['1G','The challenges we will address','The three challenges in each area we will address as an executive team.'],
+      ['1H','Our central organisational problem','The central problem we will solve as an executive team through CESI.'],
+      ['1S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u2', unit:2, title:'Strategy Visioning & Success in Practice (SiP)', boxes:[
-      ['2A','Strategy Architecture','Set out the strategy architecture of [Case] under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.'],
-      ['2B','Strategy Intent Statement','State the strategic ambition of [Case] in one crisp statement that carries WHAT, WHY, HOW and WHEN.'],
-      ['2C','SiP · Customer Experience & Value','State what customers and other value recipients see and experience when the Strategy Intent of [Case] succeeds.'],
-      ['2D','SiP · Operational Capability & Execution Rhythm','State what is visible in how [Case] operates and executes when its Strategy Intent succeeds.'],
-      ['2E','SiP · People & Culture Dynamics','State what is visible in how the people of [Case] understand, decide and behave when its Strategy Intent succeeds.'],
-      ['2F','SiP · Enterprise Value Creation','State how [Case] benefits across its success metrics when its Strategy Intent succeeds.']
+      ['2A','Strategy Architecture','Our strategy architecture under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.','2A'],
+      ['2B','Strategy Intent Statement','Our strategic ambition in one statement that carries what we will do, why, how and by when.','2A.1','hl'],
+      ['','Success in Practice','What will be visible when our Strategy Intent succeeds, in each of the four SiP domains, and the one statement that draws them together.','2B'],
+      ['2C','Customer Experience & Value','What our customers and other value recipients will see and experience when our Strategy Intent succeeds.','2B.1'],
+      ['2D','Operational Capability & Execution Rhythm','What will be visible in how we operate and execute when our Strategy Intent succeeds.','2B.2'],
+      ['2E','People & Culture Dynamics','What will be visible in how our people understand, decide and behave when our Strategy Intent succeeds.','2B.3'],
+      ['2F','Enterprise Value Creation','How [Case] will benefit across its success metrics when our Strategy Intent succeeds.','2B.4'],
+      ['2G','Success in Practice statement','Our Success in Practice in one statement: the success we will see across customers, operations, people and enterprise value.','2B.5','hl'],
+      ['2S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u3', unit:3, title:'SiP KISS Mapping & OKR Definition', boxes:[
-      ['3A','Keep','The current practices at [Case] that already advance the SiP and must be protected.'],
-      ['3B','Improve','The practices that support the SiP but fall short of the standard it requires.'],
-      ['3C','Start','The practices [Case] must introduce to reach the SiP.'],
-      ['3D','Stop','The practices that constrain progress towards the SiP and must end.'],
-      ['3E','Enterprise priorities','State the enterprise priorities that emerge from the KISS reflection. Express each one independently of the function that proposed it.'],
-      ['3F','Enterprise OKRs','For each priority, write one Objective and its Key Results, each Key Result in the form: verb of change + metric + from X to Y + by deadline. Name the contributing roles for each Key Result.']
+      ['3A','Keep','The current practices we will keep because they already advance our SiP.'],
+      ['3B','Improve','The practices we will improve because they support our SiP but fall short of the standard it requires.'],
+      ['3C','Start','The practices we will start to reach our SiP.'],
+      ['3D','Stop','The practices we will stop because they constrain progress towards our SiP.'],
+      ['3E','Enterprise priorities','Our enterprise priorities, drawn from the KISS reflection and owned by the enterprise as a whole.'],
+      ['3F','Enterprise OKRs','For each priority, our Objective and its Key Results, with the roles that contribute to each Key Result.'],
+      ['3S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u4', unit:4, title:'Direction Integrity (ABCV-MBT)', boxes:[
-      ['4A','Arena','State the functional, experiential and consequential outcome [Case]’s customers pursue, and the Must-Be-True condition your strategy depends on.'],
-      ['4B','Boundaries','Name the regulatory, structural and behavioural constraints operating on [Case]’s strategy, and the Must-Be-True condition on each.'],
-      ['4C','Competition','Map every meaningful alternative available to [Case]’s customers, including those outside the industry, and the Must-Be-True condition on your landscape.'],
-      ['4D','Value Proposition','State the combination of choices that gives [Case] a defensible advantage, what [Case] will not do, and the Must-Be-True condition that protects it.'],
-      ['4E','Verification ownership','For each critical Must-Be-True condition, name the executive accountable for verifying it, the evidence required and the date.'],
-      ['4F','Executive blind spots','Identify the checkpoint [Case]’s executive team is most likely to overlook, and the enterprise risk if it does.']
+      ['4A','Arena','The functional, experiential and consequential outcome our customers pursue, and the Must-Be-True condition our strategy depends on.'],
+      ['4B','Boundaries','The regulatory, structural and behavioural constraints on our strategy, and the Must-Be-True condition on each.'],
+      ['4C','Competition','Every meaningful alternative available to our customers, including those outside our industry, and the Must-Be-True condition on our competitive landscape.'],
+      ['4D','Value Proposition','The combination of choices that gives us a defensible advantage, what we will not do, and the Must-Be-True condition that protects it.'],
+      ['4E','Accountability Assignment','For each critical Must-Be-True condition, the executive among us accountable for verifying it, the evidence required and the date.'],
+      ['4F','Executive blind spots','The checkpoint we as an executive team are most likely to overlook, and the enterprise risk if we do.'],
+      ['4S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
-      ['5A','Team behavioural profile','Name the two OCEAVL dimensions on which the executive team profile of [Case] carries the highest risk for the strategy, and the response the team adopts for each.'],
-      ['5B','The change · Shift, Stake and Step','State the Shift, the Stake and the Step for [Case]’s strategy: what is changing, what [Case] gains if it changes and loses if it stays as it is, and what must be done differently.'],
-      ['5C','Leadership behaviours · ACE-IT','State the behaviour the executive team of [Case] will show under each ACE-IT behaviour so that the change holds: Accountability, Commitment, Engagement, Integrity and Transparency.']
+      ['5A','Team behavioural profile','The two OCEAVL dimensions on which our team profile carries the highest risk for the strategy, and our response to each.'],
+      ['5B','The change · Shift, Stake and Step','Our Shift, Stake and Step: what is changing, what we gain if we change and lose if we stay as we are, and what we will do differently.'],
+      ['5C','Leadership behaviours · ACE-IT','The behaviour we commit to under each ACE-IT behaviour so that the change holds: Accountability, Commitment, Engagement, Integrity and Transparency.'],
+      ['5S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u6', unit:6, title:'Performance Management Setup', boxes:[
-      ['6A','S2R® Contribution Map™','For one enterprise Key Result of [Case], set out what each contributing business function must deliver, what its people must deliver with the performance measure, and the organisational conditions the organisation must provide with the measure or evidence of readiness.'],
-      ['6B','FACES application','For each business function in the Contribution Map of [Case], describe the practical management arrangement for each of the five FACES functions.'],
-      ['6C','WARD check-up','For the enterprise Key Result of [Case], set the waypoints, the alert that raises a red flag, the recovery for the individuals and for the organisational conditions, and the decider.']
+      ['6A','S2R® Contribution Map™','For one enterprise Key Result: what each contributing business function will deliver, what its people will deliver and how we will measure it, and the organisational conditions we will provide, with the measure or evidence of readiness.'],
+      ['6B','FACES application','For each business function in our Contribution Map, this is our approach to the five FACES functions.'],
+      ['6D','CEO Performance Scorecard','The Strategy, Operational and Behavioural measures on which our CEO is assessed, with the weight of each.','6C'],
+      ['6C','WARD check-up','For our enterprise Key Result: our waypoints, the alert that raises a red flag, our recovery for people and for organisational conditions, and who decides.','6D'],
+      ['6S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u7', unit:7, title:'Establishing Performance Expectations', boxes:[
-      ['7A','Start With the Future','For two contributions from the S2R® Contribution Map™ of [Case]: name the owner of each contribution, the Success in Practice statement it serves, the part of that Future it serves and the leader framing that connects the contribution to that Future.'],
-      ['7B','Delivery expectation','For each of the two contributions of [Case]: state what the people must deliver, by when, to what standard, how success will be recognised and the behaviours expected; and what the organisational conditions must provide, with the leader responsible for each condition.'],
-      ['7C','Expectations chain','For each of the two contributions of [Case]: name the Upline, Downline and Crossline, what must be established with each, and the coordination they require.'],
-      ['7D','Ownership','For each of the two contributions of [Case]: record the owner’s alignment score and, where the score is below 9, what stands behind it, the actions agreed with an owner and a review date for each, and the revised score.'],
-      ['7E','Alignment dialogue with the board chair','For one Key Result of [Case]: set out the alignment dialogue that moves the board chair to a 10, under Goal, Reality, Options and Will.']
+      ['7A','Start With the Future','For two contributions from our S2R® Contribution Map™: the owner, the Success in Practice statement it serves, the part of that future it serves, and how we as leaders frame the contribution.'],
+      ['7B','Delivery expectation','For each contribution: what our people will deliver, by when, to what standard, how we will recognise success and the behaviours we expect; and what the organisational conditions will provide, with the leader responsible for each.'],
+      ['7C','Expectations chain','For each contribution: our Upline, Downline and Crossline, what we will establish with each, and the coordination they require.'],
+      ['7D','Ownership','For each contribution: the owner’s alignment score and, where it is below 9, what stands behind it, the actions we agreed with an owner and a review date for each, and the revised score.'],
+      ['7E','Alignment dialogue with the board chair','For one Key Result: how we will conduct the alignment dialogue that moves our board chair to a 10, under Goal, Reality, Options and Will.'],
+      ['7S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u8', unit:8, title:'Performance Measurement', boxes:[
-      ['8A','Early warning signals','For missed early warning signals: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
-      ['8B','Accountability','For gradual diffusion of accountability: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
-      ['8C','Organisational learning','For loss of organisational learning: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
-      ['8D','Leadership credibility','For eroding leadership credibility: the potential gap and the decision point for recovery, for the performance of individuals and for the organisational conditions.'],
-      ['8E','WARD test','For the WARD check-up of [Case]: the red flag at one waypoint, what explains the gap in the performance of individuals and in the organisational conditions, and the recovery run.']
+      ['8A','Early warning signals','Where early warning signals could be missed: the potential gap and our decision point for recovery, for the performance of our people and for our organisational conditions.'],
+      ['8B','Accountability','Where accountability could gradually diffuse: the potential gap and our decision point for recovery, for the performance of our people and for our organisational conditions.'],
+      ['8C','Organisational learning','Where organisational learning could be lost: the potential gap and our decision point for recovery, for the performance of our people and for our organisational conditions.'],
+      ['8D','Leadership credibility','Where leadership credibility could erode: the potential gap and our decision point for recovery, for the performance of our people and for our organisational conditions.'],
+      ['8E','WARD test','Our WARD test: the red flag at one waypoint, what explains the gap in people performance and in organisational conditions, and how we will run the recovery.'],
+      ['8S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u9', unit:9, title:'Strategic Unclogging', boxes:[
-      ['9A','Original challenge','The original work-based challenge selected for [Case], and the strategic Objective and Key Result or KPI it affects.'],
-      ['9B','Performance clog','The Seven Performance Clog that best explains the challenge, and the observations behind the diagnosis.'],
-      ['9C','Unclogging lever','The Strategic Unclogging Lever selected for the clog, and how it addresses it.'],
-      ['9D','Review and Realign','The performance reality across the three lines of sight and the diagnosis check; the collective response for people performance and organisational performance, with executive ownership.'],
-      ['9E','Restore','The intervention through the selected lever, the action and completion date, the evidence of recovery for people and organisational performance, and the review commitment.']
+      ['9A','Original challenge','The work-based challenge we selected, and the strategic Objective and Key Result or KPI it affects.'],
+      ['9B','Performance clog','The performance clog that best explains our challenge, and the observations behind our diagnosis.'],
+      ['9C','Unclogging lever','The Strategic Unclogging Lever we selected for the clog, and how it addresses it.'],
+      ['9D','Review and Realign','Our review of performance across the three lines of sight and the diagnosis check, and our collective response for people and organisational performance, with executive ownership.'],
+      ['9E','Restore','How we will restore performance: the intervention through our selected lever, the action and completion date, the evidence of recovery for people and organisational performance, and our review commitment.'],
+      ['9S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u10', unit:10, title:'ESRG Alignment', boxes:[
-      ['10A','Enterprise ESRG Scanner','The capability profile of [Case]’s executive functions for the assessment period, consolidated from each function’s ESRG scanner, with any missing submissions or evidence gaps.'],
-      ['10B','Collective findings','The convergence, divergence and dependency findings for each execution-enabling capability, with the evidence behind them.'],
-      ['10C','Collective Intelligence Response','The agreed responses: ESRG component, collective finding, strategic commitment affected, response and functions involved.'],
-      ['10D','ESRG Alignment Intervention Plan','For each agreed response: implementation actions, accountable executive, contributing functions, target date and evidence of improvement.']
+      ['10A','Enterprise ESRG Scanner','The capability profile of our executive functions for the assessment period, consolidated from each function’s ESRG scanner, with any missing submissions or evidence gaps.'],
+      ['10B','Collective findings','Our convergence, divergence and dependency findings for each execution-enabling capability, with the evidence behind them.'],
+      ['10C','Collective Intelligence Response','Our agreed responses: the ESRG component, the collective finding, the strategic commitment affected, our response and the functions involved.'],
+      ['10D','ESRG Alignment Intervention Plan','For each agreed response, our implementation actions, accountable executive, contributing functions, target date and evidence of improvement.'],
+      ['10S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u11', unit:11, title:'Culture Reinforcement & Organisational Health', boxes:[
-      ['11A','Functional health assessments','For each CXO function represented in [Case]’s executive team: the functional health score and classification, the two weakest traits, cultural vulnerabilities, evidence to investigate, and the largest hidden cost with the evidence needed to validate it.'],
-      ['11B','Consolidated health position','The response-weighted health score and classification for the represented functions, the weakest traits, gross quarterly exposure by hidden cost, and the EXCO diagnosis.'],
-      ['11C','Review–Realign–Restore','The prioritised organisational health diagnosis, the cultural reinforcement actions with named executive accountability, and the measurable health and performance commitments.'],
-      ['11D','Organisational Health Response','For the lowest-scoring health trait: the Review–Realign–Restore action, accountable CXO(s), health improvement target, associated hidden cost and financial reduction target.'],
-      ['11E','Cultural Operating Code','[Case]’s values, each translated norm with its acronym, three actions, observable behaviour and norm statement, and the strongest norm tested against the New Employee, Pressure and Mirror tests.']
+      ['11A','Functional health assessments','For each CXO function in our executive team: our functional health score and classification, our two weakest traits, cultural vulnerabilities, evidence to investigate, and our largest hidden cost with the evidence needed to validate it.'],
+      ['11B','Consolidated health position','Our response-weighted health score and classification, our weakest traits, our gross quarterly exposure by hidden cost, and our EXCO diagnosis.'],
+      ['11C','Review–Realign–Restore','Our prioritised organisational health diagnosis, the cultural reinforcement actions we will take with named executive accountability, and our measurable health and performance commitments.'],
+      ['11D','Organisational Health Response','For our lowest-scoring health trait: our Review–Realign–Restore action, the accountable CXO(s), our health improvement target, the associated hidden cost and our financial reduction target.'],
+      ['11E','Cultural Operating Code','Our values, each translated into a norm with its acronym, three actions, observable behaviour and norm statement, and our strongest norm tested against the New Employee, Pressure and Mirror tests.'],
+      ['11S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]},
     { key:'u12', unit:12, title:'Sustaining Performance', boxes:[
-      ['12A','Strategic line','The Key Result result, WARD filter and recovery for the quarter.'],
-      ['12B','Operational line','The ESRG reading, WARD filter and recovery for the quarter.'],
-      ['12C','Behavioural line','The health reading, WARD filter and recovery for the quarter.'],
-      ['12D','KISS for next quarter','The Keep, Improve, Stop and Start decisions, with practice, line of sight and owner.']
+      ['12A','Strategic line','Our Key Result result, WARD filter and recovery for the quarter.'],
+      ['12B','Operational line','Our ESRG reading, WARD filter and recovery for the quarter.'],
+      ['12C','Behavioural line','Our health reading, WARD filter and recovery for the quarter.'],
+      ['12D','KISS for next quarter','Our Keep, Improve, Stop and Start decisions for next quarter, with the practice, line of sight and owner of each.'],
+      ['12S','Our Position','Our team’s position from this unit in a short summary statement, in the unit’s own terms. It guides the reader through the work above.','','stand']
     ]}
   ];
   var BY_KEY = {}; BLUEPRINT.forEach(function(s){ BY_KEY[s.key] = s; });
@@ -265,7 +372,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['1E','pc_manifest','Problem Charter · How They Manifested'],
       ['1F','pc_consequences','Problem Charter · Consequences'],
       ['1G','pc_address','Problem Charter · Challenges We Will Address'],
-      ['1H','pc_problem','Problem Charter · Central Organisational Problem']
+      ['1H','pc_problem','Problem Charter · Central Organisational Problem'],
+      ['1S','team_summary','Our Position']
     ]},
     u2: { lens:'u2m1_lens1', rows:[
       ['2A','arch_output','Strategy Architecture'],
@@ -273,7 +381,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['2C','sip_d1_st','SiP · Customer Experience & Value'],
       ['2D','sip_d2_st','SiP · Operational Capability & Execution Rhythm'],
       ['2E','sip_d3_st','SiP · People & Culture Dynamics'],
-      ['2F','sip_d4_st','SiP · Enterprise Value Creation']
+      ['2F','sip_d4_st','SiP · Enterprise Value Creation'],
+      ['2G','sip_summary','SiP · Success in Practice Statement'],
+      ['2S','team_summary','Our Position']
     ]},
     u3: { lens:'u2m1_lens2', rows:[
       ['3A','kiss_keep','KISS · Keep'],
@@ -281,7 +391,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['3C','kiss_start','KISS · Start'],
       ['3D','kiss_stop','KISS · Stop'],
       ['3E','ent_priorities','Enterprise priorities'],
-      ['3F','ent_okrs','Enterprise OKRs']
+      ['3F','ent_okrs','Enterprise OKRs'],
+      ['3S','team_summary','Our Position']
     ]},
     u4: { lens:'u2m1_lens3', rows:[
       ['4A','mbt_arena','MBT · Arena'],
@@ -289,57 +400,67 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4C','mbt_comp','MBT · Competition'],
       ['4D','mbt_value','MBT · Value Proposition'],
       ['4E','mbt_verify','MBT · Verification Ownership'],
-      ['4F','mbt_blind','MBT · Executive Blind Spot']
+      ['4F','mbt_blind','MBT · Executive Blind Spot'],
+      ['4S','team_summary','Our Position']
     ]},
     u5: { lens:'u3m1_lens4', rows:[
       ['5A','kit_profile','Alignment Plan · Team Profile'],
       ['5B','kit_mind','Alignment Plan · Mind'],
-      ['5C','kit_habit','Alignment Plan · Habit']
+      ['5C','kit_habit','Alignment Plan · Habit'],
+      ['5S','team_summary','Our Position']
     ]},
     u6: { lens:'u3m1_lens5', rows:[
       ['6A','cm_map','Enterprise PM System · Contribution Map'],
       ['6B','cm_faces','Enterprise PM System · FACES Application'],
-      ['6C','cm_ward','Enterprise PM System · WARD']
+      ['6D','cm_scorecard','Enterprise PM System · CEO Performance Scorecard'],
+      ['6C','cm_ward','Enterprise PM System · WARD'],
+      ['6S','team_summary','Our Position']
     ]},
     u7: { lens:'u3m1_lens6', rows:[
       ['7A','ex_future','Expectations · Start With the Future'],
       ['7B','ex_delivery','Expectations · Delivery Expectation'],
       ['7C','ex_chain','Expectations · Expectations Chain'],
       ['7D','ex_ownership','Expectations · Ownership'],
-      ['7E','ex_dialogue','Expectations · Alignment Dialogue']
+      ['7E','ex_dialogue','Expectations · Alignment Dialogue'],
+      ['7S','team_summary','Our Position']
     ]},
     u8: { lens:'u3m2_lens7', rows:[
       ['8A','rd_warning','Review Discipline · Early Warning Signals'],
       ['8B','rd_accountability','Review Discipline · Accountability'],
       ['8C','rd_learning','Review Discipline · Organisational Learning'],
       ['8D','rd_credibility','Review Discipline · Leadership Credibility'],
-      ['8E','rd_ward','Review Discipline · WARD Test']
+      ['8E','rd_ward','Review Discipline · WARD Test'],
+      ['8S','team_summary','Our Position']
     ]},
     u9: { lens:'u3m2_lens8', rows:[
       ['9A','uc_challenge','Unclogging · Original Challenge'],
       ['9B','uc_clog','Unclogging · Performance Clog'],
       ['9C','uc_lever','Unclogging · Unclogging Lever'],
       ['9D','uc_review_realign','Unclogging · Review and Realign'],
-      ['9E','uc_restore','Unclogging · Restore']
+      ['9E','uc_restore','Unclogging · Restore'],
+      ['9S','team_summary','Our Position']
     ]},
     u10: { lens:'u4m1_lens9', rows:[
       ['10A','es_scanner','ESRG Clinic · Enterprise Scanner'],
       ['10B','es_interp','ESRG Clinic · Collective Findings'],
       ['10C','es_resp','ESRG Clinic · Collective Intelligence Response'],
-      ['10D','es_plan','ESRG Clinic · Intervention Plan']
+      ['10D','es_plan','ESRG Clinic · Intervention Plan'],
+      ['10S','team_summary','Our Position']
     ]},
     u11: { lens:'u4m1_lens10', rows:[
       ['11A','oh_func','Health Clinic · Functional Health Assessments'],
       ['11B','oh_cons','Health Clinic · Consolidated Health Position'],
       ['11C','oh_rrr','Health Clinic · Review–Realign–Restore'],
       ['11D','oh_resp','Health Clinic · Organisational Health Response'],
-      ['11E','oh_coc','Health Clinic · Cultural Operating Code']
+      ['11E','oh_coc','Health Clinic · Cultural Operating Code'],
+      ['11S','team_summary','Our Position']
     ]},
     u12: { lens:'u4m2_lens11', rows:[
       ['12A','qs_strategic','Quarterly Lines of Sight · Strategic'],
       ['12B','qs_operational','Quarterly Lines of Sight · Operational'],
       ['12C','qs_behavioural','Quarterly Lines of Sight · Behavioural'],
-      ['12D','qs_kiss','Quarterly Lines of Sight · KISS for Next Quarter']
+      ['12D','qs_kiss','Quarterly Lines of Sight · KISS for Next Quarter'],
+      ['12S','team_summary','Our Position']
     ]}
   };
 
@@ -356,6 +477,143 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 80) return ''; if (n <= 84) return 'Proficient Integrator'; if (n <= 90) return 'Advanced Integrator'; return 'Master Integrator'; }
   function stateHtml(title, msg){ return '<div class="state"><h2>' + esc(title) + '</h2><p>' + esc(msg) + '</p></div>'; }
   function fatal(title, msg){ document.getElementById('root').innerHTML = stateHtml(title, msg); }
+  // === Box formatter: turns the agreed text of a box into headings, tables and lists (28 Oct 2026). ===
+  // Each Key Result, contribution, response, intervention and norm starts its own table; an Objective is a heading.
+  function fmtBox(raw, prose){
+    var e = function(s){ return esc(s); };
+    var KV = /^([^:]{1,70}?):\s+(\S.*)$/;
+    var ITEM = /^((key result|contribution|response|intervention|norm)\s+\d+[a-z]?\b|strongest norm$)/i;
+    var OBJ = /^objective\s+\d+\b/i;
+    function kv(line){ if (prose) return null; var t = line.trim(); var m = t.match(KV); if (!m) return null; if (/[.?!]$/.test(m[1]) || /^\d+[.)]\s/.test(t)) return null; if (m[1].split(/\s+/).length > 8 && /^[a-z]/.test(m[2])) return null; return { k:m[1].trim(), v:m[2].trim() }; }
+    function num(line){ var m = line.trim().match(/^(\d+)[.)]\s+(.*)$/); return m ? m[2] : null; }
+    function ind(line){ return /^\s{2,}\S/.test(line); }
+    function segs(v){ var parts = v.split(' · '); if (parts.length < 2) return null; var m0 = parts[0].match(/^([^:]{1,40}):\s+(.+)$/); var out = [m0 ? { k:m0[1], v:m0[2] } : { k:'', v:parts[0] }]; for (var i = 1; i < parts.length; i++){ var m = parts[i].match(/^([^:]{1,40}):\s+(.+)$/); if (!m) return null; out.push({ k:m[1], v:m[2] }); } return out; }
+    var lines = String(raw).replace(/\r/g,'').split('\n');
+    // Blocks of a title line and Label: value lines with the same labels become one grid table (e.g. 4E).
+    var blocks = [], cur = [];
+    lines.forEach(function(l){ if (!l.trim()){ if (cur.length){ blocks.push(cur); cur = []; } } else cur.push(l); });
+    if (cur.length) blocks.push(cur);
+    function asRecord(b){
+      if (b.length < 2) return null;
+      var rows = b.slice(1).map(kv); if (rows.some(function(r){ return !r; })) return null;
+      if (kv(b[0]) && !b.slice(1).every(ind)) return null;
+      return { title: b[0].trim(), rows: rows };
+    }
+    function sameKeys(a, b){ return a.rows.length === b.rows.length && a.rows.every(function(r, i){ return r.k === b.rows[i].k; }); }
+    var html = '', tbl = null;
+    function close(){
+      if (!tbl) return;
+      var rows = tbl.rows, h = '';
+      if (tbl.item && rows.length === 1) tbl.item = false;
+      if (tbl.item){
+        h = '<table class="bt bt-kv bt-item"><tbody>' + rows.map(function(r, q){ return '<tr' + (q === 0 ? ' class="lead"' : (r.sub ? ' class="sub"' : '')) + '><th>' + e(r.k) + '</th><td>' + e(r.v) + '</td></tr>'; }).join('') + '</tbody></table>';
+      } else {
+        var sg = rows.map(function(r){ return r.sub ? null : segs(r.v); });
+        var same = function(x, y){ return x && y && x.length === y.length && x.every(function(p, q){ return p.k === y[q].k; }); };
+        var q0 = 0, plain = [];
+        var flushPlain = function(){ if (plain.length){ h += '<table class="bt bt-kv"><tbody>' + plain.map(function(r){ return '<tr' + (r.sub ? ' class="sub"' : '') + '><th>' + e(r.k) + '</th><td>' + e(r.v) + '</td></tr>'; }).join('') + '</tbody></table>'; plain = []; } };
+        while (q0 < rows.length){
+          var q1 = q0 + 1; while (q1 < rows.length && same(sg[q0], sg[q1])) q1++;
+          if (q1 - q0 > 1){
+            flushPlain();
+            h += '<table class="bt bt-grid"><thead><tr><th></th>' + sg[q0].map(function(p){ return '<th>' + e(p.k) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+              rows.slice(q0, q1).map(function(r, q){ return '<tr><th>' + e(r.k) + '</th>' + sg[q0 + q].map(function(p){ return '<td>' + e(p.v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+          } else plain.push(rows[q0]);
+          q0 = q1;
+        }
+        flushPlain();
+      }
+      html += h; tbl = null;
+    }
+    var bi = 0;
+    while (bi < blocks.length){
+      var rec = asRecord(blocks[bi]);
+      if (rec){
+        var group = [rec], j = bi + 1;
+        while (j < blocks.length){ var r2 = asRecord(blocks[j]); if (r2 && sameKeys(rec, r2)) { group.push(r2); j++; } else break; }
+        var avg = 0, n = 0; group.forEach(function(g){ g.rows.forEach(function(r){ avg += r.v.length; n++; }); }); avg = n ? avg / n : 0;
+        if (group.length > 1 && rec.rows.length <= 4 && avg <= 140){
+          close();
+          // Rows titled "Key Result 1a · …" are split into one table per Key Result.
+          var parts = [], KRT = /^(Key Result \S+) · (.+)$/;
+          group.forEach(function(g){ var m = g.title.match(KRT), id = m ? m[1] : '', t = m ? m[2] : g.title;
+            if (!parts.length || parts[parts.length - 1].id !== id) parts.push({ id:id, rows:[] });
+            parts[parts.length - 1].rows.push({ t:t, g:g }); });
+          parts.forEach(function(pt){
+            html += (pt.id ? '<div class="bt-h">' + e(pt.id) + '</div>' : '') +
+              '<table class="bt bt-grid"><thead><tr><th></th>' + rec.rows.map(function(r){ return '<th>' + e(r.k) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+              pt.rows.map(function(x){ return '<tr><th>' + e(x.t) + '</th>' + x.g.rows.map(function(r){ return '<td>' + e(r.v) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table>';
+          });
+          bi = j; continue;
+        }
+      }
+      var b = blocks[bi], k = 0, lastTop = false;
+      close();
+      while (k < b.length){
+        var L = b[k], t = L.trim(), r = kv(L);
+        if (num(L) !== null){ close(); var items = []; while (k < b.length && num(b[k]) !== null){ items.push(num(b[k])); k++; } html += '<ol class="bt-ol">' + items.map(function(x){ return '<li>' + e(x) + '</li>'; }).join('') + '</ol>'; continue; }
+        if (r && OBJ.test(r.k)){ close(); html += '<div class="bt-h">' + e(r.k + ': ' + r.v) + '</div>'; k++; continue; }
+        if (r && ITEM.test(r.k)){ close(); tbl = { item:true, rows:[{ k:r.k, v:r.v }] }; lastTop = true; k++; continue; }
+        if (r){
+          var sub = ind(L) && lastTop && tbl && !tbl.item;
+          if (!tbl) tbl = { item:false, rows:[] };
+          tbl.rows.push({ k:r.k, v:r.v, sub:sub });
+          if (!ind(L)) lastTop = true;
+          k++; continue;
+        }
+        close();
+        if ((t.length <= 80 && !/[.]$/.test(t) && k < b.length - 1) || /:$/.test(t)){ html += '<div class="bt-h">' + e(t.replace(/:$/, '')) + '</div>'; k++; continue; }
+        html += '<p class="bt-p">' + e(t) + '</p>'; k++;
+      }
+      bi++;
+    }
+    close();
+    return html.split('</tbody></table><table class="bt bt-kv"><tbody>').join('');
+  }
+  // === Print report: cover page, criteria table and module dividers (28 Oct 2026) ===
+  var MODULES = { u1:['Module 1','Foundation','Behavioural Strategy',[1]], u2:['Module 2','Direction','Pillar 1 of DIG',[2,3,4]],
+                  u5:['Module 3','Influence','Pillar 2 of DIG',[5,6,7,8,9]], u10:['Module 4','Grounding','Pillar 3 of DIG',[10,11,12]] };
+  function coverHtml(){
+    if (!S.bp) return '';
+    var names = (S.bp.members || []).map(function(m){ return esc(m.full_name); }).join(' · ');
+    return '<div class="cover print-only">' +
+      '<div class="cover-top"><img src="logo.png" alt=""><div class="cover-brand">Institute of Behavioural Strategy &amp; Leadership<br>Strategy2Results® · CESI</div></div>' +
+      '<div><div class="cover-kicker">Capstone S2R® Blueprint Showcase</div><div class="cover-title">Capstone S2R® Blueprint</div>' +
+        '<div class="cover-co">' + esc(S.caseName || '') + '</div><div class="cover-sub">The strategy our executive team agreed, unit by unit, through the programme.</div></div>' +
+      '<div class="cover-team"><b>Team ' + esc(S.bp.team && S.bp.team.name) + '</b><br>' + names + '<br>' + esc(fmtDate(new Date().toISOString())) + '</div>' +
+    '</div>';
+  }
+  function modDivHtml(key){
+    var m = MODULES[key]; if (!m) return '';
+    return '<div class="mod-div print-only"><div class="md-k">' + m[0] + '</div><div class="md-t">' + m[1] + '</div><div class="md-s">' + m[2] + '</div><ul>' +
+      m[3].map(function(u){ var d = BLUEPRINT[u - 1]; return '<li>Unit ' + u + ' · ' + esc(d.title) + '</li>'; }).join('') + '</ul></div>';
+  }
+  // "Our Strategy in Summary": the team's Our Position from every unit, in unit order (28 Oct 2026).
+  function standAllHtml(){
+    var by = {}; (S.bp.sections || []).forEach(function(sec){ by[sec.key] = sec; });
+    var h = '<div class="stand-all"><div class="sum-head">Our Strategy in Summary</div>' +
+      '<p class="muted">Our team’s position from each unit, as we agreed it in that unit.</p>';
+    BLUEPRINT.forEach(function(d){
+      var m = MODULES[d.key]; if (m) h += '<div class="stand-mod">' + m[0] + ' · ' + m[1] + '</div>';
+      var sec = by[d.key], v = sec && sec.content ? String(sec.content[d.unit + 'S'] || '').trim() : '';
+      h += '<div class="stand-u"><div class="stand-t">Unit ' + d.unit + ' · ' + esc(d.title) + '</div>' +
+        '<div class="stand-v' + (v ? '' : ' empty') + '">' + (v ? esc(v) : 'Not yet agreed.') + '</div></div>';
+    });
+    return h + '</div>';
+  }
+  function critTableHtml(){
+    var r = function(n, u, t){ return '<tr><td class="w">' + n + '</td><td>' + u + '</td><td>' + t + '</td></tr>'; };
+    return '<table class="crit-tbl print-only"><thead><tr><th>Criterion</th><th>Units</th><th>What the panel assesses</th></tr></thead><tbody>' +
+      '<tr class="grp"><td colspan="3">Team Blueprint · 60%</td></tr>' +
+      r('Problem Charter','Unit 1','How fully the Blueprint answers the central problem and builds the capabilities the Charter names.') +
+      r('Direction','Units 2–4','The coherence of strategic intent, success definition, priorities and direction integrity.') +
+      r('Influence','Units 5–9','The strength of the alignment, performance and unclogging architecture.') +
+      r('Grounding','Units 10–12','How well operating conditions, organisational health and navigation sustain the strategy.') +
+      '<tr class="grp"><td colspan="3">Individual showcase · 40%</td></tr>' +
+      r('Command','All units','The member’s grasp of the Blueprint and their executive role within it.') +
+      r('Delivery','Showcase','How clearly and credibly the member presents and defends the team’s decisions to the panel.') +
+      '</tbody></table>';
+  }
   function one(res){ if (!res || res.error || !res.data) return null; return Array.isArray(res.data) ? res.data[0] : res.data; }
 
   window.goBack = function(){
@@ -456,6 +714,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var intro = document.getElementById('introText');
     if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.';
     var html = '';
+    html += coverHtml();
     html += briefCard();
     html += teamCard();
     html += criteriaCard();
@@ -504,12 +763,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       '<div class="crit-group"><div class="crit-head">Individual showcase · 40%</div>' +
         '<p class="crit"><strong>Command</strong>: the member’s grasp of the Blueprint and their executive role within it.</p>' +
         '<p class="crit"><strong>Delivery</strong>: how clearly and credibly the member presents and defends the team’s decisions to the panel.</p>' +
-      '</div></div>';
+      '</div>' + critTableHtml() + '</div>';
   }
 
   function blueprintCard(){
     if (!S.bp) return '';
-    var h = '<div class="card"><div class="card-label">The Blueprint</div>';
+    var h = '<div class="card bp-card"><div class="card-label">The Blueprint</div>';
     var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
     h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
     if (S.mode === 'admin'){
@@ -522,7 +781,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (S.bp.locked && S.mode === 'participant'){
       h += '<div class="banner">The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.</div>';
     }
-    (S.bp.sections || []).forEach(function(sec){ h += sectionHtml(sec); });
+    (S.bp.sections || []).forEach(function(sec){ h += modDivHtml(sec.key) + sectionHtml(sec); });
+    h += standAllHtml();
     return h + '</div>';
   }
 
@@ -555,13 +815,18 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
 
     def.boxes.forEach(function(b){
+      // A group heading (no box of its own), e.g. 2B · Success in Practice.
+      if (!b[0]){ h += '<div class="box-group"><div class="box-gl">' + esc(b[3]) + ' · ' + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div></div>'; return; }
       var val = content[b[0]] || '';
-      h += '<div class="box"><div class="box-l">' + esc(b[0]) + ' · ' + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
+      var lbl = (b[3] === undefined) ? b[0] : b[3];
+      var cls = b[4] === 'hl' ? ' box-hl' : (b[4] === 'stand' ? ' box-hl box-stand' : '');
+      if (b[3] && /\./.test(b[3])) cls += ' box-sub';
+      h += '<div class="box' + cls + '"><div class="box-l">' + (lbl ? esc(lbl) + ' · ' : '') + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
       if (editable){
         h += '<textarea class="box-ta" data-sec="' + sec.key + '" data-box="' + esc(b[0]) + '" oninput="capInput(this)">' + esc(val) + '</textarea>' +
              '<div class="ptext" id="pt_' + sec.key + '_' + esc(b[0]) + '">' + esc(val) + '</div>';
       } else if (st !== 'locked'){
-        h += '<div class="box-v' + (val ? '' : ' empty') + '">' + (val ? esc(val) : 'Not yet entered') + '</div>';
+        h += '<div class="box-v' + (val ? ' fmt' : ' empty') + '">' + (val ? fmtBox(val, b[4] === 'stand' || b[4] === 'hl') : 'Not yet entered') + '</div>';
       }
       h += '</div>';
     });
@@ -599,7 +864,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function resultCard(){
     var sc = (S.data && S.data.score) || null;
     var cert = S.data && S.data.certificate;
-    var h = '<div class="card"><div class="card-label">Your result</div>';
+    var h = '<div class="card res-card"><div class="card-label">Your result</div>';
     if (!sc){ return h + '<p class="muted">Your result is not available yet.</p></div>'; }
     var capPending = sc.capstone_pending === true || sc.capstone_avg === null || sc.capstone_avg === undefined;
     h += '<div class="res-row"><span class="res-k">Capstone score</span>' +

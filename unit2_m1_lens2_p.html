@@ -804,6 +804,11 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Enterprise Priorities and Enterprise OKRs feed your team's Capstone S2R® Blueprint, together with your KISS map.</p></div>
 </div></div>
 
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 3 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b cb"><div id="summaryP"></div></div></div>
 
@@ -1390,7 +1395,7 @@ async function kexChange(kid){
 function U3_TW_NAMES(){return KISS_NAMES.concat([N_PRI,N_OKR]);}
 function u3TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(kissFilled()===16){for(var x=0;x<KISS_EL.length;x++)S2RTeam.save(KISS_OUT[x],kissCompose(KISS_EL[x][0]));}if(!okrProblems().length){S2RTeam.save('ent_priorities',okrPriText());S2RTeam.save('ent_okrs',okrOkrText());}}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:LENS,mount:'twBar',lock:['mod4'],names:U3_TW_NAMES(),complete:function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');},onRemote:function(r){Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined)U3.v[k]=r[k];});U3.conf=Array.isArray(r.confirmed_items)?r.confirmed_items.slice():[];okrLoad(r.__okr_work);u3RenderAll();}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: your enterprise priorities and the OKRs that carry them."},lens:LENS,mount:'twBar',lock:['mod4'],names:U3_TW_NAMES(),complete:function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');},onRemote:function(r){Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined)U3.v[k]=r[k];});U3.conf=Array.isArray(r.confirmed_items)?r.confirmed_items.slice():[];okrLoad(r.__okr_work);u3RenderAll();}});}
 async function kissConfirm(){
   if(kissFilled()<16){u3msg('kissMsg','Complete all sixteen boxes first. Where your group finds nothing for a box, record "None identified".');return;}
   u3msg('kissMsg','All sixteen boxes are complete. Your group agrees the whole record in 5.2.','ok');

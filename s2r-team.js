@@ -16,7 +16,8 @@
  *     lock: ['u2bTool'],                  // elements whose entry boxes only the scribe may use
  *     names: [...],                       // the confirmed names the Capstone checks
  *     complete: function(){ return '' },  // '' when complete, otherwise what is still missing
- *     onRemote: async function(responses){ ... }  // redraw the tool from the group record
+ *     onRemote: async function(responses){ ... }, // redraw the tool from the group record
+ *     stand: { mount:'twStand', hint:'...' }      // optional: the group's Our Position statement (28 Oct 2026)
  *   });
  *   S2RTeam.save(key, value);             // the scribe's entries (batched)
  *
@@ -39,8 +40,30 @@
     '.tw-note{font-size:12px;line-height:1.7;color:rgba(255,255,255,.7);margin-top:8px;}'+
     '.tw-note.ok{color:#5ecba1;}.tw-note.warn{color:#f0c060;}'+
     '.tw-ro textarea[disabled],.tw-ro input[disabled],.tw-ro select[disabled]{opacity:.85;cursor:default;}'+
-    '.tw-ro .tw-scribe-only{display:none!important;}';
-  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:''};
+    '.tw-ro .tw-scribe-only{display:none!important;}'+
+    '.tw-stand{border:1px solid rgba(201,168,76,.35);border-left:3px solid var(--gold,#c9a84c);background:rgba(201,168,76,.05);border-radius:3px;padding:16px 18px;margin:18px 0;}'+
+    '.tw-stand-h{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold,#c9a84c);margin-bottom:8px;}'+
+    '.tw-stand p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:0 0 10px;}'+
+    '.tw-stand textarea{width:100%;min-height:110px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}'+
+    '.tw-stand textarea[disabled]{opacity:.85;}';
+  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:''};
+  var STAND_KEY='team_summary',STAND_NAME='Our Position';
+  /* Our Position: the group's short summary statement of its position from the unit, in the unit's own terms. */
+  function standDraw(){
+    var c=T.cfg&&T.cfg.stand;if(!c)return;var host=el(c.mount);if(!host)return;
+    if(!host.querySelector('#twStandTa')){
+      host.innerHTML='<div class="tw-stand"><div class="tw-stand-h">Capstone work · Our Position</div>'+
+        '<p>As a group, write a short summary statement of your team\'s position from this unit. Use the unit\'s own terms and the work your group has agreed above. It guides the assessors through your work.'+(c.hint?' '+esc(c.hint):'')+'</p>'+
+        '<textarea id="twStandTa" placeholder="Our position from this unit…"></textarea></div>';
+      var ta=host.querySelector('#twStandTa');
+      ta.addEventListener('input',function(){T.stand=ta.value;API.save(STAND_KEY,ta.value);draw();});
+    }
+    var t=host.querySelector('#twStandTa');
+    if(document.activeElement!==t&&t.value!==T.stand)t.value=T.stand;
+    t.disabled=!isScribe();
+  }
+  function standSet(r){if(r&&typeof r[STAND_KEY]==='string')T.stand=r[STAND_KEY];}
+
 
   function el(id){return document.getElementById(id);}
   function esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -123,9 +146,10 @@
     var changed=T.st&&before!==null&&T.st.version!==before;
     if((pull||(changed&&!wasScribe))&&T.cfg.onRemote&&!Object.keys(T.q).length){
       var r={};try{r=await window.S2R.loadAll(T.cfg.lens);}catch(e){r={};}
+      standSet(r);
       try{await T.cfg.onRemote(r);}catch(e){console.error('[S2RTeam] onRemote',e);}
     }
-    draw();applyLock();
+    draw();applyLock();standDraw();
   }
 
   async function flush(){
@@ -152,12 +176,18 @@
 
   var API={
     attach:async function(cfg){
+      if(cfg.stand){
+        var base=cfg.complete;cfg=Object.assign({},cfg);
+        cfg.names=(cfg.names||[]).concat([STAND_NAME]);
+        cfg.complete=function(){var m=base?String(base()||''):'';var o=m?[m]:[];if(!String(T.stand||'').trim())o.push('Our Position');return o.join('; ');};
+      }
       T.cfg=cfg;
       if(!document.getElementById('tw-css')){var s=document.createElement('style');s.id='tw-css';s.textContent=CSS;document.head.appendChild(s);}
       draw();
       try{T.ctx=window.S2R?await window.S2R.context():null;}catch(e){T.ctx=null;}
       if(!T.ctx){var h=el(cfg.mount);if(h)h.innerHTML='';return;}
       watchLock();
+      if(cfg.stand){try{standSet(await window.S2R.loadAll(cfg.lens));}catch(e){}}
       await refresh(false);
       clearInterval(T.poll);T.poll=setInterval(function(){if(!T.busy&&!Object.keys(T.q).length)refresh(false);},8000);
       window.addEventListener('beforeunload',function(){if(Object.keys(T.q).length)flush();});
@@ -188,7 +218,7 @@
     isScribe:isScribe,
     status:function(){return T.st;},
     refresh:refresh,
-    redraw:function(){draw();applyLock();}
+    redraw:function(){draw();applyLock();standDraw();}
   };
   window.S2RTeam=API;
 })();

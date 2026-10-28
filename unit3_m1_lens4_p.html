@@ -1464,6 +1464,11 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
 </div>
 
 
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <div class="acc" style="margin-top:24px;">
 <div class="acc-h" onclick="tA(this)">
   <span class="acc-t">Unit Summary</span>
@@ -2173,7 +2178,7 @@ function s5RecDraw(){
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
 function u5TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(s5Open().length)return;S2RTeam.save('kit_team',s5Text('mind')+'\n\n'+s5Text('profile')+'\n\n'+s5Text('habit'));S2RTeam.save('kit_profile',s5Text('profile'));S2RTeam.save('kit_mind',s5Text('mind'));S2RTeam.save('kit_habit',s5Text('habit'));}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U5_LENS,mount:'twBar',lock:['mod4'],names:S5_NAMES,complete:function(){var o=s5Open();return o.length?o.join(', '):'';},onRemote:function(r){u5Init(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: the change you are leading and the behaviours you commit to."},lens:U5_LENS,mount:'twBar',lock:['mod4'],names:S5_NAMES,complete:function(){var o=s5Open();return o.length?o.join(', '):'';},onRemote:function(r){u5Init(r);}});}
 async function s5Confirm(){
   var _o=window.S2RTeam?(function(){var o=s5Open();return o.length?o.join(', '):'';})():'';
   if(_o){s5RecDraw();u5msg('kitMsg','Before you agree, complete: '+_o+'.');return;}

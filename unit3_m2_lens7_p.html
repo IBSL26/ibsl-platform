@@ -996,6 +996,11 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div></div></div>
 <div id="u8Rec"></div>
 
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <!-- UNIT SUMMARY (standard #summaryP) -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Unit 8 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -1675,7 +1680,7 @@ function u8RecDraw(){
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
 function u8TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(u8Open().length)return;S2RTeam.save('rd_record',u8Record());U8P.forEach(function(p){S2RTeam.save(p[3],u8Text(p[0]));});}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U8_LENS,mount:'twBar',lock:['mod4'],names:U8_NAMES,complete:function(){var o=u8Open();return o.length?o.join('; '):'';},onRemote:function(r){u8Init(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: your review discipline and your decision points for recovery."},lens:U8_LENS,mount:'twBar',lock:['mod4'],names:U8_NAMES,complete:function(){var o=u8Open();return o.length?o.join('; '):'';},onRemote:function(r){u8Init(r);}});}
 async function u8Confirm(){
   var _o=window.S2RTeam?(function(){var o=u8Open();return o.length?o.join('; '):'';})():'';
   if(_o){u8RecDraw();u8msg('u8Msg','Before you agree, complete: '+_o+'.');return;}
@@ -1722,7 +1727,7 @@ async function u8WardBring(manual){
   var w=u6&&typeof u6.cm_ward==='string'?u6.cm_ward.trim():'',conf=(u6&&Array.isArray(u6.confirmed_items))?u6.confirmed_items:[];
   if(!w||conf.indexOf('Enterprise PM System · WARD')<0){
     host.innerHTML='<i>Your group&rsquo;s WARD appears here.</i>';
-    u8msg('u8WardMsg','No agreed WARD was found on your Unit 6 page. Agree your group’s WARD in Unit 6, part 5.3, then select Bring in from my Unit 6 page.');
+    u8msg('u8WardMsg','No agreed WARD was found on your Unit 6 page. Agree your group’s WARD in Unit 6, part 5.4, then select Bring in from my Unit 6 page.');
     return;
   }
   host.innerHTML=w.split('\n').map(function(l){var i=l.indexOf(': ');return i>0?'<b>'+u8esc(l.slice(0,i))+'</b>'+u8esc(l.slice(i+2)):u8esc(l);}).join('');

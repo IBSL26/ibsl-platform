@@ -824,6 +824,11 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 
 <div class="hbox" data-cr="1"><div class="u11-ci">Section Closing Insight</div><p>Organisational health improves when the executive team reads it from evidence, prices what poor health costs, acts on the lowest-scoring conditions with named accountability, and models the norms of its Cultural Operating Code.</p></div>
 <div class="hbox" data-cr="1"><div class="u11-ci">Transition to Unit 12 &mdash; Sustaining Performance</div><p>Unit 12 brings ESRG alignment and organisational health together to sustain performance quarter by quarter.</p></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
 <div class="acc" id="feedback-acc" style="display:none;">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -1617,7 +1622,7 @@ async function u11S5Start(responses){
   var root=u11el("mod4");if(root){root.addEventListener("input",u11OnInput);root.addEventListener("change",u11OnInput);
     root.addEventListener("toggle",function(e){var d=e.target,k=d&&d.getAttribute&&d.getAttribute("data-fold");if(!k)return;var g=k.slice(0,1),id=k.slice(2);U11Fold[g][g==="r"?+id:id]=d.open;},true);}
   u11Init(responses);U11Ready=true;
-  if(window.S2RTeam){try{await S2RTeam.attach({lens:U11_LENS,mount:"u11TwBar",lock:["mod4"],names:U11_NAMES,
+  if(window.S2RTeam){try{await S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: your Cultural Operating Code."},lens:U11_LENS,mount:"u11TwBar",lock:["mod4"],names:U11_NAMES,
     complete:function(){var o=u11Open();return o.length?o.join("; "):"";},
     onRemote:function(r){u11Init(r);return u11LoadCharter();}});}catch(e){}}
   await u11LoadCharter();u11RecDraw();

@@ -639,6 +639,11 @@ body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </tbody></table></div>
 <div class="u12-rec"><div id="u12RecMsg" class="u12-note"></div><button type="button" class="ref-save" data-team-free onclick="u12Agree()">Agree</button> <button type="button" class="ref-save" data-team-free onclick="u12Print()">Print our quarterly page</button></div>
 </div></div></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <!-- MICRO-CLIMB SUMMARY (standard #summaryP — 4 arcs, matches L9/L10) -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Unit 12 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -1391,7 +1396,7 @@ async function u12S5Start(responses){
   if(_u12On)return;_u12On=true;
   var root=u12el("mod4");if(root){root.addEventListener("input",u12OnInput);root.addEventListener("change",u12OnInput);}
   u12Init(responses);U12Ready=true;
-  if(window.S2RTeam){try{await S2RTeam.attach({lens:U12_LENS,mount:"u12TwBar",lock:["mod4"],names:U12_NAMES,
+  if(window.S2RTeam){try{await S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: how you sustain performance across the three lines of sight, with KISS."},lens:U12_LENS,mount:"u12TwBar",lock:["mod4"],names:U12_NAMES,
     complete:function(){var o=u12Open();return o.length?o.join("; "):"";},
     onRemote:function(r){u12Init(r);}});}catch(e){}}
   var S=U12W.src;if(!S.kr&&!S.alert&&!u12Low()&&!S.h_score&&window.S2RTeam&&S2RTeam.isScribe())await u12Bring(false);

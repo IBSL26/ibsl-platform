@@ -851,6 +851,11 @@ table.u7v-t td strong{color:#fff;}
 <div id="u7Rec"></div>
 
 
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div id="twStand"></div>
+</div></div></div>
 <!-- MICRO-CLIMB SUMMARY (standard #summaryP) -->
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Unit 7 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -1550,7 +1555,7 @@ function u7RecDraw(){
 /* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
 function u7TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(u7Open().length)return;S2RTeam.save('ex_record',u7Record());U7P.forEach(function(p){S2RTeam.save(p[3],u7Text(p[0]));});}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:U7_LENS,mount:'twBar',lock:['mod4'],names:U7_NAMES,complete:function(){var o=u7Open();return o.length?o.join('; '):'';},onRemote:function(r){u7Init(r);}});}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: the expectations you establish for your contributions and how you hold alignment."},lens:U7_LENS,mount:'twBar',lock:['mod4'],names:U7_NAMES,complete:function(){var o=u7Open();return o.length?o.join('; '):'';},onRemote:function(r){u7Init(r);}});}
 async function u7Confirm(){
   var _o=window.S2RTeam?(function(){var o=u7Open();return o.length?o.join('; '):'';})():'';
   if(_o){u7RecDraw();u7msg('u7Msg','Before you agree, complete: '+_o+'.');return;}
