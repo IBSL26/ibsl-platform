@@ -115,7 +115,8 @@ for (const f of UNITS) {
   // Rule 27: Unit Summary sub-line
   const us = (metaOf(html)['Unit Summary'] || {}).meta;
   const usWant = `Unit ${U} synthesis` + (isFac(f) ? (U === 12 ? ' · S2R® Programme Close' : '') : ' · Review before submitting');
-  if (us !== usWant) add(27, f, `Unit Summary sub-line "${us}" should be "${usWant}"`);
+  const noSummary = [10, 11].includes(U); // Units 10 and 11 close without a Unit Summary (Carol, 27 Oct)
+  if (!noSummary && us !== usWant) add(27, f, `Unit Summary sub-line "${us}" should be "${usWant}"`);
 
   // Rule 6, 7, 8
   const closers = /Unit Close|Micro-Climb Summary/g;

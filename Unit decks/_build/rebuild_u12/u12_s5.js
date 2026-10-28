@@ -136,7 +136,7 @@ function u12Out(){
 }
 function u12RecDraw(){
   var m=u12el("u12RecMsg");if(!m)return;var o=u12Open(),st=window.S2RTeam&&S2RTeam.status();
-  if(st&&st.all_agreed)m.innerHTML='<span class="u12-ok">✓ Every member has agreed. Your group’s quarterly page goes into your team’s Capstone S2R Blueprint.</span>';
+  if(st&&st.all_agreed)m.innerHTML='<span class="u12-ok">✓ Every member has agreed. Your group’s quarterly page goes into your team’s Capstone S2R® Blueprint.</span>';
   else if(o.length)m.textContent="Still to complete before your group can agree: "+o.join("; ")+".";
   else m.textContent="Your record is complete. Each member reads it and selects Agree.";
 }

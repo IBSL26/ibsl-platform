@@ -1,3 +1,5 @@
+> **Superseded on 28 Oct 2026.** Its section 2 describes the state at 22:12 on 27 Oct. Unit 11 gained 4.7, 5.8 and 11E and Unit 12 went live after that (sections 8 and later here, and the Unit 11 handover sections 10-12). The current state is in `Handover - after consistency review.md`.
+
 # Handover — after Unit 11 (Module 4 · Grounding)
 
 Written 27 October 2026, 22:12, for a new chat. Carol (Dr Carol Hachandi Lupiya, IBSL founder) is not technical: every step she does herself is explained in grade 5 terms, one click at a time. She calls Claude "partner". Claude is the "tech party": it makes the technical and database decisions and carries out technical steps itself. Her instruction is final: never answer an instruction with options or a question on the same point. When she asks for a change, apply it everywhere without being told. Apply every point of an amendment message in one pass. Nothing is left pending or unattended: when a step cannot finish (for example the computer link drops), finish it as soon as it can and say so.

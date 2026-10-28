@@ -5,7 +5,7 @@ Standing rule (no contrast constructions) applied to the sentences marked # SR; 
 TITLE = 'The Cross-CXO Organisational Health Clinic'
 HERO = 'From Functional Health Assessments to Enterprise People-Performance Restoration'
 LO = ['Consolidate functional organisational health assessments and quantify enterprise-level people-performance losses to establish an evidence-based organisational health position.',
-      'Determine coordinated remedial actions through Review–Realign–Restore to strengthen cultural conditions, improve organisational health and restore people performance.']
+      'Commit the executive team to coordinated remedial actions and shared behavioural norms that restore people performance and strengthen organisational health.']
 OV1 = 'Section 4 established the Cross-CXO Health Architecture. Individual employees independently complete the Organisational Health Thermometer; their responses are consolidated into functional health scores. Each CXO interprets the consolidated results, investigates potential cultural vulnerabilities and estimates associated people-performance losses. This capstone application brings the functional positions together for collective executive decision-making.'
 OV2_F = 'Participants use only the CXO roles already assigned within their capstone group. They (1) interpret the corresponding functional assessments, (2) consolidate the scores and losses for those represented functions, and (3) determine remedial actions through Review–Realign–Restore, and (4) build the organisation’s Cultural Operating Code from its values.'
 OV2_P = 'Your group uses only the CXO roles already assigned within your capstone group. You (1) interpret the corresponding functional assessments, (2) consolidate the scores and losses for those represented functions, and (3) determine remedial actions through Review–Realign–Restore, and (4) build the organisation’s Cultural Operating Code from its values.'  # V
@@ -52,6 +52,6 @@ HOW = ['Your group chooses its scribe for this work in the group record bar. The
        'Parts 5.2 and 5.3: write each function’s interpretation (Tasks 1 and 2). Parts 5.4 and 5.5 calculate the consolidated scores and exposure from the rows you ticked; write your group’s interpretation (Tasks 4 to 6).',
        'Part 5.6: record your Review, Realign and Restore outputs. Part 5.7: complete the Organisational Health Response (Task 7).',
        'Part 5.8: build your Cultural Operating Code from your organisation’s values (Task 8).',
-       'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R Blueprint.']
+       'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R® Blueprint.']
 NAMES = ['Health Clinic · Functional Health Assessments','Health Clinic · Consolidated Health Position','Health Clinic · Review–Realign–Restore','Health Clinic · Organisational Health Response','Health Clinic · Cultural Operating Code']
 KEYS = ['oh_func','oh_cons','oh_rrr','oh_resp','oh_coc']

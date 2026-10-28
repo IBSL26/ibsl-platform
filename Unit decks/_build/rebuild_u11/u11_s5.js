@@ -152,7 +152,7 @@ function u11Out(){
 }
 function u11RecDraw(){
   var m=u11el("u11RecMsg");if(!m)return;var o=u11Open(),st=window.S2RTeam&&S2RTeam.status();
-  if(st&&st.all_agreed)m.innerHTML='<span class="u11-ok">✓ Every member has agreed. Your group’s clinic record goes into your team’s Capstone S2R Blueprint.</span>';
+  if(st&&st.all_agreed)m.innerHTML='<span class="u11-ok">✓ Every member has agreed. Your group’s clinic record goes into your team’s Capstone S2R® Blueprint.</span>';
   else if(o.length)m.textContent="Still to complete before your group can agree: "+o.join("; ")+".";
   else m.textContent="Your record is complete. Each member reads it and selects Agree.";
 }

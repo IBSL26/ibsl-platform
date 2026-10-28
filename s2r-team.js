@@ -4,7 +4,7 @@
  * Group work in each unit is one record per team. The group chooses its scribe for the
  * work; only the scribe types; the entries appear on every member's page; each member
  * selects Agree. When every member has agreed, the work's names go into every member's
- * confirmed list and the Capstone S2R Blueprint brings it in.
+ * confirmed list and the Capstone S2R® Blueprint brings it in.
  *
  * Needs s2r-save.js (window.S2R) loaded first. Database: team_work_* functions
  * (Claude outputs/team_work_shared_record.sql).
@@ -98,7 +98,7 @@
     var missing=st.version>0?String(T.cfg.complete?T.cfg.complete()||'':''):'';
     var canAgree=st.version>0&&!missing&&!meAgreed();
     var note='';
-    if(st.all_agreed)note='<div class="tw-note ok">✓ Every member has agreed. Your group\'s work goes into your team\'s Capstone S2R Blueprint.</div>';
+    if(st.all_agreed)note='<div class="tw-note ok">✓ Every member has agreed. Your group\'s work goes into your team\'s Capstone S2R® Blueprint.</div>';
     else if(!st.scribe_id)note='<div class="tw-note">Choose your scribe for this work. The scribe types what your group agrees; the entries appear on every member\'s page.</div>';
     else if(isScribe())note='<div class="tw-note">You are the scribe. Type what your group agrees. Your entries save and appear on every member\'s page.</div>';
     else note='<div class="tw-note">'+esc(nameOf(st.scribe_id))+' is the scribe. The group\'s entries appear below as they are saved.</div>';

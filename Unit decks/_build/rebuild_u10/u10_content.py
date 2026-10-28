@@ -4,7 +4,7 @@ ARR = '<div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 
 
 GROUNDING = [
  'Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.',
- 'The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Organisational Health (culture), and then to the subsequent unit on leveraging both to sustain high performance.',
+ 'The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Culture Reinforcement &amp; Organisational Health (culture), and then to Unit 12 — Sustaining Performance, which leverages both to sustain high performance.',
 ]
 MODULE_LO = [
  'Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.',

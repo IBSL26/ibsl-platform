@@ -4,7 +4,7 @@ from u11_content import acc, det
 from u11_s2 import tbl3, box
 TITLE = 'Where Are the Organisational Health Signals?'
 HERO = 'Reading the Five Observable Health Traits for people-performance signals, and testing each reading against functional bias.'
-LO = ['Diagnose people-performance vulnerabilities using the Five Observable Health Traits to assess how organisational culture influences employee behaviour and contribution.',
+LO = ['Diagnose people-performance vulnerabilities to establish how organisational culture shapes employee behaviour and contribution.',
       'Apply debiasing techniques to challenge functional assumptions and establish evidence-based assessments of organisational health.']
 THERMO = [('Minimal Politics','Employees cooperate, share information and prioritise collective outcomes.','Territorial behaviour, withholding information, personal agendas and internal competition.'),
  ('Minimal Confusion','Employees understand expectations, responsibilities and their contribution to organisational priorities.','Uncertainty about expectations, conflicting instructions and inconsistent accountability.'),
@@ -27,7 +27,7 @@ REFLECT = ['Which of the Five Observable Health Traits do I personally strengthe
  'What assumptions or functional biases do I bring when interpreting the behaviour and performance of others?',
  'What specific change in my own behaviour would help me model the organisational values more consistently?']
 CLOSING = 'The Five Observable Health Traits show where culture is influencing people performance. A credible assessment requires evidence, awareness of functional bias and personal accountability for the behaviours leaders reinforce.'
-TRANSITION = 'Section 4 brings together functional perspectives to establish a shared view of organisational health and agree collective cultural reinforcement priorities.'
+TRANSITION = 'Section 4 sets out the Cross-CXO Health Architecture: how functional health is measured, quantified, consolidated into an enterprise position and sustained through a Cultural Operating Code.'
 
 def section3(fac):
     o = ['<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul>%s</ul></div>' % ''.join('<li>%s</li>' % x for x in LO)]

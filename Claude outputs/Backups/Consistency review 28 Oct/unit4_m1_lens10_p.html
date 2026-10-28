@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Module 4 · Unit 11 — Participant</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--teal:#1a7a6a;--teall:#22a08a;--teals:rgba(26,122,106,.06);--gold:#c9a84c;}
+body{background:#0d1816;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0a1614;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teall);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--teall);}
+.unit-header{background:linear-gradient(135deg,#0a1c18,#152e28);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teall);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:18px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(34,160,138,.1);border:1px solid rgba(34,160,138,.25);color:var(--teall);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;opacity:.55;margin-top:2px;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:110px;padding:12px 8px;text-align:center;background:#152420;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1a2e28;color:var(--teall);border-color:rgba(26,122,106,.3);border-bottom-color:#1a2e28;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1a2e28;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#091612,#122420);padding:32px 40px 24px;border-bottom:1px solid rgba(26,122,106,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+.part-obj{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.25);border-left:4px solid var(--teal);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.part-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teall);margin-bottom:10px;}
+.part-obj ul{list-style:none;padding:0;}
+.part-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.part-obj li:last-child{border-bottom:none;}
+.part-obj li::before{content:"\2192";position:absolute;left:0;color:var(--teall);}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--teall);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--teall);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#121e1c;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(26,122,106,.3);}
+.step-tab.active{background:rgba(26,122,106,.18);border-color:var(--teal);border-bottom-color:rgba(26,122,106,.18);box-shadow:0 -2px 0 var(--teal) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(34,160,138,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--teall);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#091612;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:10px;}
+.step-panel ul{padding-left:20px;margin-bottom:10px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:12px 0 8px;}
+.trait-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.trait-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.trait-card:hover,.trait-card.open{border-color:rgba(26,122,106,.4);}
+.trait-head{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.trait-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(34,160,138,.5);margin-bottom:4px;}
+.trait-name{font-family:"Cormorant Garamond",serif;font-size:1.2rem;color:var(--teall);}
+.trait-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.trait-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.trait-card.open .trait-arr{transform:rotate(180deg);color:var(--teall);}
+.trait-bar{height:3px;background:rgba(26,122,106,.18);}
+.trait-card.open .trait-bar{background:var(--teal);}
+.trait-body{display:none;padding:16px 18px;background:#091612;border-top:1px solid rgba(255,255,255,.05);}
+.trait-card.open .trait-body{display:block;}
+.trait-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:8px;}
+.cxo-row{border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer;}
+.cxo-head{display:flex;align-items:center;gap:14px;padding:16px 0;}
+.cxo-badge{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--teall);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:4px 10px;flex-shrink:0;min-width:80px;text-align:center;}
+.cxo-domain{font-family:"Cormorant Garamond",serif;font-size:1.05rem;color:rgba(255,255,255,.8);flex:1;}
+.cxo-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.cxo-row.open .cxo-arr{transform:rotate(180deg);color:var(--teall);}
+.cxo-body{display:none;padding:0 0 20px 94px;}
+.cxo-row.open .cxo-body{display:block;}
+.cxo-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;}
+.cxo-col-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;}
+.cxo-col-content{font-size:13px;color:rgba(255,255,255,.68);line-height:1.75;}
+.cxo-risk{font-size:13px;color:rgba(255,200,100,.7);line-height:1.75;font-style:italic;}
+.thermo-intro{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:16px;}
+.thermo-scale{display:flex;gap:8px;margin:12px 0 20px;flex-wrap:wrap;}
+.scale-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:60px;}
+.scale-num{font-size:16px;font-weight:700;color:var(--teall);}
+.scale-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.4);}
+.trait-section{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:10px;overflow:hidden;}
+.trait-section-head{padding:12px 16px;background:linear-gradient(135deg,#1a2e28,#0f1a10);border-bottom:1px solid rgba(26,122,106,.15);}
+.trait-section-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);}
+.trait-section-max{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;}
+.thermo-row{display:grid;grid-template-columns:28px 1fr 80px;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);}
+.thermo-row:last-of-type{border-bottom:none;}
+.thermo-qnum{font-size:11px;font-weight:700;color:rgba(34,160,138,.5);text-align:center;}
+.thermo-stmt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.6;}
+.thermo-input{width:70px;background:#091612;border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teall);font-family:"Montserrat",sans-serif;font-size:14px;font-weight:700;padding:8px;text-align:center;outline:none;transition:border-color .2s;}
+.thermo-input:focus{border-color:var(--teall);}
+.thermo-total-row{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(26,122,106,.06);border-top:1px solid rgba(26,122,106,.15);}
+.thermo-total-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);}
+.thermo-total-val{font-size:18px;font-weight:700;color:var(--teall);min-width:40px;text-align:right;}
+.grand-total-box{background:#091612;border:1px solid rgba(26,122,106,.3);border-radius:4px;padding:20px 24px;margin:16px 0;display:flex;align-items:center;justify-content:space-between;}
+.grand-label{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.grand-score{font-size:36px;font-weight:700;color:var(--teall);}
+.grand-max{font-size:14px;color:rgba(255,255,255,.3);}
+.temp-display{padding:16px 20px;border-radius:4px;margin-top:12px;transition:all .3s;border:1px solid rgba(255,255,255,.1);}
+.temp-display-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px;}
+.temp-display-value{font-size:18px;font-weight:700;}
+.temp-display-signal{font-size:12px;margin-top:4px;opacity:.8;}
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.scenario-card{background:#121e1c;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;cursor:pointer;transition:all .2s;}
+.scenario-card:hover{border-color:rgba(26,122,106,.3);}
+.scenario-card.selected{border-color:var(--teal);background:rgba(26,122,106,.08);}
+.sc-badge{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.sc-title{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;margin-bottom:6px;}
+.sc-trait{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:10px;}
+.sc-body{display:none;font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08);}
+.scenario-card.selected .sc-body{display:block;}
+.sc-task{font-size:12px;color:var(--teall);font-style:italic;margin-top:8px;}
+.aceit-card{background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:4px;margin-bottom:8px;cursor:pointer;overflow:hidden;}
+.aceit-card.open{border-color:rgba(26,122,106,.4);}
+.aceit-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.aceit-letter{font-size:24px;font-weight:700;color:var(--teall);font-family:"Cormorant Garamond",serif;flex-shrink:0;width:32px;}
+.aceit-left{flex:1;}
+.aceit-name{font-size:12px;font-weight:700;color:#fff;letter-spacing:1px;}
+.aceit-stance{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;font-style:italic;}
+.aceit-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.aceit-card.open .aceit-arr{transform:rotate(180deg);color:var(--teall);}
+.aceit-body{display:none;background:#091612;border-top:1px solid rgba(255,255,255,.05);}
+.aceit-card.open .aceit-body{display:block;}
+.aceit-principle{display:grid;grid-template-columns:1fr 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,.04);}
+.aceit-principle:last-child{border-bottom:none;}
+.aceit-p-label{padding:12px 16px;font-size:12px;font-weight:700;color:rgba(255,255,255,.7);background:rgba(26,122,106,.04);border-right:1px solid rgba(255,255,255,.05);}
+.aceit-p-content{padding:12px 16px;font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+.ref-block{margin:14px 0;background:#121e1c;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(26,122,106,.4);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--teal);color:var(--teall);}
+.hbox{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(26,122,106,.35);color:var(--teall);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(26,122,106,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+.prep-box{background:#091612;border:1px solid rgba(26,122,106,.2);border-left:3px solid var(--teal);border-radius:0 3px 3px 0;padding:14px 16px;margin:10px 0;}
+.prep-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:8px;}
+.prep-ta{width:100%;background:#0d1816;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:60px;outline:none;}
+.prep-ta:focus{border-color:rgba(26,122,106,.4);}
+@media(max-width:900px){.trait-grid,.scenario-grid,.cxo-cols,.aceit-principle{grid-template-columns:1fr;}.thermo-row{grid-template-columns:28px 1fr 70px;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+
+/* ── S2R portal styles (ported from the Unit 10 participant page) ── */
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:210px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 2px 2px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 2px 2px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 2px 2px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+.fld-label{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:10px 0 3px;}
+.fld-input{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.85);font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s;}
+.fld-isel{width:100%;background:#091612;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:#fff;font-family:"Montserrat",sans-serif;font-size:13px;padding:8px 10px;outline:none;cursor:pointer;transition:border-color .2s;}
+.fld-input:focus,.fld-isel:focus{border-color:rgba(26,122,106,.5);}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:18px 22px;margin:22px 0 16px;}
+.slo-box-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.7);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#1a7a6a;font-size:12px;}
+.u11-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.u11-tbl th{background:#162e28;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(26,122,106,.2);}
+.u11-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.u11-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:30%;}
+.u11-h{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:20px 0 8px;}
+.u11-purp{border-left:2px solid var(--teall);padding-left:14px;margin:10px 0 14px;}
+.u11-impl{border-top:1px solid rgba(255,255,255,.08);padding-top:10px;}
+.u11-ci{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;}
+.u11-det{border:1px solid rgba(255,255,255,.1);border-radius:3px;margin:10px 0;background:rgba(255,255,255,.02);}
+.u11-det>summary{cursor:pointer;list-style:none;padding:11px 14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.82);display:flex;justify-content:space-between;align-items:center;}
+.u11-det>summary::-webkit-details-marker{display:none;}
+.u11-det>summary::after{content:"\25BE";font-size:13px;opacity:.6;transition:transform .2s;}
+.u11-det[open]>summary::after{transform:rotate(180deg);}
+.u11-det-b{padding:2px 14px 12px;}
+.step-tabs{flex-wrap:wrap;}
+@media (max-width:600px){.u11-tbl th,.u11-tbl td{padding:8px;}.u11-tbl td:first-child{width:36%;}}
+.u11-scroll{overflow-x:auto;max-width:100%;}
+.u11-tbl3 td:first-child{width:20%;}
+.u11-note{font-size:12px;font-style:italic;color:rgba(255,255,255,.55);}
+.u11-ol{padding-left:22px;}
+.u11-ol li{margin-bottom:8px;line-height:1.75;}
+@media (max-width:600px){.u11-tbl3{font-size:12px;}.u11-tbl3 td:first-child{width:26%;}}
+.u11-band{list-style:none;padding:0;margin:4px 0 8px;}
+.u11-band li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:6px 0;}
+.u11-b{display:inline-block;min-width:92px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:3px;margin-right:10px;text-align:center;}
+.u11-b1{background:rgba(27,94,32,.3);color:#a5d6a7;}.u11-b2{background:rgba(230,81,0,.22);color:#ffcc80;}.u11-b3{background:rgba(183,28,28,.25);color:#ef9a9a;}
+.u11-bias{border-top:1px solid rgba(255,255,255,.07);padding:10px 0 2px;}.u11-bias:first-child{border-top:none;}
+.u11-bias-t{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:4px;}
+.u11-bias p{font-size:13px;line-height:1.75;margin-bottom:6px;}
+.u11-tbln td{font-size:12.5px;}
+.u11-tbln td:first-child{width:auto;}
+.u11-tot td{font-weight:700;color:rgba(255,255,255,.9)!important;border-top:1px solid rgba(255,255,255,.2);}
+.u11-stmt td:first-child{width:6%;text-align:center;}.u11-stmt td:last-child{width:14%;white-space:nowrap;color:rgba(255,255,255,.45);}
+.u11-scale{table-layout:fixed;}.u11-scale th,.u11-scale td{text-align:center;padding:8px 4px!important;}.u11-scale td:first-child{width:auto;}
+.u11-total{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:12px 0 4px;}
+.u11-f{border-left:3px solid var(--teall);background:rgba(255,255,255,.03);padding:10px 14px;margin:12px 0;}
+.u11-f p{font-size:13px;color:rgba(255,255,255,.85);margin:4px 0;font-weight:600;}
+@media (max-width:600px){.u11-tbln{min-width:520px;}.u11-scale td{font-size:10.5px;}}
+.u11-how{border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:12px 16px;margin:14px 0;background:rgba(255,255,255,.03);}
+.u11-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin-bottom:6px;}
+.u11-how ol{padding-left:20px;}
+.u11-how li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:4px 0;}
+.u11-sub{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);margin:14px 0 6px;}
+.u11-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px 12px;margin-bottom:8px;}
+.u11-chk{font-size:12.5px;color:rgba(255,255,255,.7);display:flex;gap:8px;align-items:flex-start;padding:6px 8px;border:1px solid rgba(255,255,255,.08);border-radius:3px;cursor:pointer;line-height:1.5;}
+.u11-chk.on{border-color:var(--teall);color:#fff;}
+.u11-chk input{margin-top:3px;}
+.u11-note2{font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.6;margin:6px 0;grid-column:1/-1;}
+.u11-ref .u11-sel td{background:rgba(26,122,106,.16);color:#fff;}
+.u11-kv td:first-child{width:42%;}
+.u11-ta{min-height:58px;resize:vertical;line-height:1.6;}
+.u11-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px;}
+.u11-ro{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;padding:8px 0;}
+.u11-ok{color:#5ecba1;font-weight:700;}
+.u11-rec{margin-top:10px;}
+.u11-add{margin:6px 0 10px;}
+#mod4 .u11-tbln.u11-ref{min-width:760px;}
+.u11-coc-def{font-style:italic;color:rgba(255,255,255,.6)!important;margin-bottom:6px!important;}
+.u11-coc-norm{font-size:14px;font-weight:600;color:rgba(255,255,255,.9);margin:6px 0 10px;line-height:1.6;}
+.u11-coc-acr{display:inline-block;font-weight:700;letter-spacing:3px;color:var(--teall);border:1px solid var(--teall);border-radius:2px;padding:1px 8px;margin-right:6px;}
+.u11-band{text-align:center;letter-spacing:3px;font-weight:700;color:var(--teall)!important;}
+.u11-cv{display:grid;grid-template-columns:minmax(140px,1fr) 2fr;gap:6px 10px;margin:6px 0;}
+@media (max-width:600px){.u11-cv{grid-template-columns:1fr;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
+</head>
+<body>
+<!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
+<style>@media print{#p-lock-overlay{display:none!important;}}</style>
+<div id="p-lock-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:440px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 12px;font-size:1.6rem;">Unit Locked</h2>
+    <p id="p-lock-msg" style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin:0 0 22px;">Checking access&hellip;</p>
+    <a href="index.html" style="display:inline-block;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;">&#8592; Back to Platform</a>
+  </div>
+</div>
+<script>
+/* Phase 2B participant lock gate — fail-closed; mirrors #f1-gate-overlay (facilitator). */
+(function(){
+  var LENS_ID="u4m1_lens10";
+  var LOCK_MSG="This unit is locked. Your facilitator will unlock it after reviewing your submission for Unit 10 — ESRG Alignment.";
+  function showLock(msg){var ov=document.getElementById("p-lock-overlay");if(!ov)return;var m=document.getElementById("p-lock-msg");if(m)m.textContent=msg;ov.style.display="flex";}
+  var ACCESSIBLE={unlocked:1,in_progress:1,submitted:1,reviewed:1,completed:1};
+  (async function(){
+    try{
+      if(!window.S2R||typeof S2R.context!=="function"){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var ctx=await S2R.context();
+      if(!ctx){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var res=await S2R._client.from("lens_progress").select("status").eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id",LENS_ID).maybeSingle();
+      if(res.error){console.error("[p-lock] lens_progress read error:",res.error);showLock("Couldn’t verify access — please try refreshing.");return;}
+      if(res.data&&ACCESSIBLE[res.data.status])return;
+      showLock(LOCK_MSG);
+    }catch(err){console.error("[p-lock] gate exception:",err);showLock("Couldn’t verify access — please try refreshing.");}
+  })();
+})();
+</script>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Back to Platform</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 4 · Grounding</strong>Unit 11 · Culture Reinforcement &amp; Organisational Health — Participant</div>
+  </div>
+  <span class="nav-badge">Participant View</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in&hellip;</span>
+</nav>
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 4 · Grounding · Unit 11</div>
+    <h1 class="unit-title">Culture Reinforcement &amp; Organisational Health</h1>
+    <div class="unit-sub">Grounding · Pillar 3 of DIG</div>
+    <p class="unit-desc">Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.</p>
+    <p class="unit-desc">The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Organisational Health (culture), and then to the subsequent unit on leveraging both to sustain high performance.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Module learning outcomes</span>
+      <span class="klo">Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.</span>
+      <span class="klo">Shape organisational culture by establishing and embedding the conditions and practices that strengthen organisational health.</span>
+      <span class="klo">Integrate organisational capabilities and cultural practices into a coherent operating environment that supports sustained high performance.</span>
+      <span class="klo">Institutionalise organisational performance sustainability through mechanisms that preserve strategic alignment, strengthen adaptability and maintain performance continuity.</span>
+    </div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Diagnose organisational health by evaluating how organisational values and cultural norms influence collective behaviour and strategic performance.</span>
+      <span class="klo">Shape and reinforce organisational culture by establishing behavioural standards and embedding cultural operating norms that strengthen organisational health.</span>
+    </div>
+  </div>
+</div>
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Section 1 · Awareness — What</div><h2>Values, Culture &amp; Organisational Health</h2><p>How organisational values become lived culture, and how that culture shows in the condition of organisational health.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate how organisational values translate into cultural norms and practices that shape organisational health.</li><li>Diagnose organisational health strengths and vulnerabilities using the Five Observable Health Traits and Organisational Health Pyramid.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.1 &mdash; Organisational Values: What We Stand For</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational values are the fundamental principles that guide how an organisation conducts itself in pursuit of its purpose and strategic objectives.</p>
+<p>They establish the standards of behaviour expected of leaders and employees, influencing how people are treated, responsibilities are fulfilled and performance is achieved.</p>
+<p>Values serve two important organisational purposes:</p>
+<div class="u11-purp"><p><strong>1. Establish Behavioural Expectations.</strong> Values define the standards of conduct expected across the organisation. They guide how people interact, exercise authority, fulfil responsibilities and collaborate in delivering strategic priorities.</p>
+<p><strong>2. Provide a Basis for Accountability.</strong> Values establish the principles against which organisational conduct can be assessed. They enable leaders to evaluate how results are achieved, alongside the results themselves.</p></div>
+<h4 class="u11-h">Translating Values into Behavioural Standards</h4>
+<p>For values to influence organisational conduct, they must be expressed through observable behaviours.</p>
+<table class="u11-tbl"><thead><tr><th>Organisational Value</th><th>Expected Behavioural Standard</th></tr></thead><tbody>
+<tr><td>Integrity</td><td>Act honestly, communicate transparently and uphold ethical commitments.</td></tr>
+<tr><td>Accountability</td><td>Take ownership of responsibilities, honour commitments and report progress accurately.</td></tr>
+<tr><td>Respect</td><td>Treat others fairly, listen constructively and recognise different perspectives.</td></tr>
+<tr><td>Excellence</td><td>Maintain high standards, address performance gaps and pursue continuous improvement.</td></tr>
+<tr><td>Collaboration</td><td>Share information, coordinate efforts and contribute to collective outcomes.</td></tr>
+</tbody></table>
+<p>These behavioural standards clarify what organisational values mean in practice. However, the existence of values and behavioural standards does not guarantee their consistent application.</p>
+<p>Their influence depends on whether leaders and employees repeatedly demonstrate, reinforce and uphold them through everyday organisational practices. It is through this consistent application that organisational values become embedded in organisational culture.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.2 &mdash; Organisational Culture: How We Do Things</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational culture is the system of shared behavioural norms that determines how people conduct themselves and work together.</p>
+<p>Culture develops as organisational values are translated into behavioural expectations and repeatedly demonstrated through everyday interactions and ways of working.</p>
+<p>Over time, these behaviours become accepted as “the way we do things around here”. The organisation’s actual culture therefore reflects the behaviours that have become normal, regardless of its stated values.</p>
+<h4 class="u11-h">The Cultural Operating Code</h4>
+<p>The deliberate translation of organisational values into shared cultural norms forms the foundation of a Cultural Operating Code, which establishes how organisational values are consistently lived and reinforced.</p>
+<p>A Cultural Operating Code makes explicit the behavioural expectations that govern how people work together, exercise accountability, communicate and contribute to organisational priorities.</p>
+<p>When consistently practised and reinforced, these norms become embedded in the organisation’s culture. The culture established through these shared norms and everyday practices determines how organisational values are experienced and reflected in organisational health.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.3 &mdash; Organisational Health: The Resulting Condition</div><div class="acc-meta">Select each part to open it</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health reflects how effectively organisational values are lived out within the culture that has been established.</p>
+<p>It is evident in the quality of collective working relationships, clarity of expectations, employee commitment, accountability and the organisation’s ability to function effectively in pursuit of strategic objectives.</p>
+<p>Patrick Lencioni describes a healthy organisation as one that is whole, consistent and complete, with its management, operations, strategy and culture working together coherently.</p>
+<p>Within Strategy2Results®, organisational health provides an indication of how effectively organisational values have become embedded in the culture experienced by employees.</p>
+<details class="u11-det" open><summary>The Five Observable Health Traits</summary><div class="u11-det-b">
+<p>The Five Observable Health Traits provide visible indicators of the condition of organisational health.</p>
+<table class="u11-tbl"><thead><tr><th>Health Trait</th><th>Observable Organisational Condition</th></tr></thead><tbody>
+<tr><td>1. Minimal Politics</td><td>Employees collaborate openly, with limited personal agendas, territorial behaviour and internal competition.</td></tr>
+<tr><td>2. Minimal Confusion</td><td>People understand organisational direction, priorities, responsibilities and performance expectations.</td></tr>
+<tr><td>3. High Morale</td><td>Employees demonstrate commitment, motivation and confidence in their working environment.</td></tr>
+<tr><td>4. High Productivity</td><td>Collective effort is coordinated effectively and translates into meaningful performance outcomes.</td></tr>
+<tr><td>5. Low Turnover</td><td>The organisation retains capable employees through a working environment that supports commitment and contribution.</td></tr>
+</tbody></table>
+<p>These traits describe what organisational health looks like when it is strong. However, the traits are only the visible surface of organisational health. To understand how they are produced, we examine the underlying conditions through the Organisational Health Pyramid.</p>
+</div></details>
+<details class="u11-det"><summary>The Organisational Health Pyramid</summary><div class="u11-det-b">
+<p>The Organisational Health Pyramid explains how organisational health develops from the inside outward. It illustrates how trust influences employees’ experiences, how those experiences shape beliefs, how beliefs influence actions and how actions produce organisational results.</p>
+<div class="hbox"><p style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:1px;">Trust &rarr; Experiences &rarr; Beliefs &rarr; Actions &rarr; Results</p></div>
+<div class="step-group"><div class="step-tabs"><div class="step-tab active" onclick="showStep(0,this)"><div class="step-num">1. Trust</div><div class="step-name">The Foundation</div></div><div class="step-tab" onclick="showStep(1,this)"><div class="step-num">2. Experiences</div><div class="step-name">Shaped by Trust</div></div><div class="step-tab" onclick="showStep(2,this)"><div class="step-num">3. Beliefs</div><div class="step-name">Formed by Experiences</div></div><div class="step-tab" onclick="showStep(3,this)"><div class="step-num">4. Actions</div><div class="step-name">Driven by Beliefs</div></div><div class="step-tab" onclick="showStep(4,this)"><div class="step-num">5. Results</div><div class="step-name">The Visible Traits</div></div></div><div class="step-panel active"><h5>1. Trust &mdash; The Foundation</h5><p>Trust forms the foundation of organisational health. It develops through consistent leadership behaviour, including keeping commitments, communicating transparently, acknowledging mistakes and treating people fairly.</p><p>When trust is established, employees develop confidence in their leaders and colleagues. They become more willing to communicate openly, raise concerns and contribute to collective objectives.</p><p class="u11-impl"><strong>Leadership implication:</strong> Organisational health begins with the trust established through consistent leadership conduct.</p></div><div class="step-panel"><h5>2. Experiences &mdash; Shaped by Trust</h5><p>Employees experience organisational culture through everyday interactions, meetings, performance conversations, leadership decisions and recognition practices.</p><p>These experiences communicate what the organisation genuinely values and the behaviours it considers acceptable. For example, the way leaders respond to mistakes influences whether employees experience the organisation as supportive of learning or inclined towards blame.</p><p class="u11-impl"><strong>Leadership implication:</strong> Everyday organisational experiences reinforce or weaken the values leadership seeks to establish.</p></div><div class="step-panel"><h5>3. Beliefs &mdash; Formed by Experiences</h5><p>Through repeated experiences, employees develop beliefs about how the organisation operates. They form assumptions about whether leaders listen, whether commitments matter, whether effort is recognised and whether honest communication is encouraged.</p><p>Over time, these beliefs influence how employees interpret organisational expectations and their own responsibilities.</p><p class="u11-impl"><strong>Leadership implication:</strong> Repeated organisational experiences establish the beliefs that influence collective behaviour.</p></div><div class="step-panel"><h5>4. Actions &mdash; Driven by Beliefs</h5><p>Employees’ beliefs influence how they behave and contribute to organisational performance. When employees believe their contributions are valued, they are more likely to share ideas, collaborate and take initiative.</p><p>When they believe accountability is consistently reinforced, they are more likely to take ownership of responsibilities and honour commitments.</p><p class="u11-impl"><strong>Leadership implication:</strong> The beliefs established through organisational culture influence the behaviours employees demonstrate.</p></div><div class="step-panel"><h5>5. Results &mdash; The Visible Traits</h5><p>The actions employees consistently demonstrate produce collective organisational outcomes. These outcomes become visible through the Five Observable Health Traits: Minimal Politics, Minimal Confusion, High Morale, High Productivity and Low Turnover.</p><p>At the apex of the pyramid, organisational results reflect the cumulative influence of trust, experiences, beliefs and actions. A commitment to continuous improvement helps sustain these results as the organisation evolves.</p><p class="u11-impl"><strong>Leadership implication:</strong> The visible condition of organisational health reflects the underlying cultural experiences and behaviours established throughout the organisation.</p></div></div>
+</div></details>
+<details class="u11-det"><summary>Connecting the Five Traits and the Pyramid</summary><div class="u11-det-b">
+<p><strong>The Five Observable Health Traits describe what we see.</strong> They indicate the visible condition of organisational health.</p>
+<p><strong>The Organisational Health Pyramid explains how that condition develops.</strong> It examines the underlying trust, experiences, beliefs and actions that influence organisational results.</p>
+<p>When trust deteriorates, employees’ experiences may create scepticism, their beliefs may become defensive and their actions may shift towards self-protection. Over time, these patterns can weaken the visible traits of organisational health.</p>
+<p>Strengthening organisational health therefore requires leadership attention to the underlying cultural conditions that shape everyday employee experiences.</p>
+</div></details>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Values establish the principles that guide organisational behaviour. Culture reflects how those principles become established ways of working. Organisational health reveals how effectively those values are lived through the culture that has developed.</p></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 2 — Intelligence →</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Section 2 · Intelligence — Why</div><h2>Why Organisational Health Determines Execution Performance</h2><p>How organisational health multiplies execution capability, what poor health costs the enterprise, and how health sustains performance over time.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Determine how organisational health can be leveraged to strengthen strategy execution capability and sustain enterprise performance.</li><li>Calculate the hidden costs of poor organisational health and determine their implications for enterprise performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.1 &mdash; Organisational Health as a Performance Multiplier</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health influences how effectively an organisation converts its strategic intentions into results. An organisation may have clear priorities, capable employees and established performance systems, yet their effectiveness depends partly on the culture through which people work together.</p>
+<p>When organisational health is strong, people collaborate, fulfil commitments, address problems early and focus on collective priorities. When it deteriorates, mistrust, confusion, internal competition and disengagement can reduce the effectiveness of otherwise sound strategic systems.</p>
+<h4 class="u11-h">The Multiplier Effect</h4>
+<p>Organisational health acts as a multiplier of strategy execution capability. It influences the effectiveness of existing capabilities:</p>
+<table class="u11-tbl"><thead><tr><th>Strategic Capability</th><th>Influence of Organisational Health</th></tr></thead><tbody>
+<tr><td>Strategic Direction</td><td>Shared commitment strengthens alignment around organisational priorities.</td></tr>
+<tr><td>Execution Accountability</td><td>Trust and ownership support consistent delivery of commitments.</td></tr>
+<tr><td>Performance Management</td><td>Openness enables constructive performance conversations and corrective action.</td></tr>
+<tr><td>Enterprise Collaboration</td><td>Shared responsibility strengthens coordination across organisational functions.</td></tr>
+<tr><td>Organisational Adaptability</td><td>Confidence and collective commitment support responsiveness to changing conditions.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Key insight:</strong> The effectiveness of a strategy depends partly on the organisational health of the people and teams responsible for delivering it.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.2 &mdash; Organisational Health and Execution Velocity</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Execution velocity refers to an organisation’s ability to convert strategic priorities into coordinated action and sustained results. Organisational health influences this velocity through the quality of collaboration, communication, accountability and collective commitment.</p>
+<p>In a healthy organisation:</p>
+<ul><li>Performance concerns are raised and addressed early.</li><li>Decisions and commitments are followed through.</li><li>Information moves effectively across organisational functions.</li><li>Teams coordinate their contributions towards shared priorities.</li><li>Employees remain engaged in delivering organisational objectives.</li></ul>
+<p>These conditions reduce unnecessary friction and support consistent performance momentum.</p>
+<h4 class="u11-h">The Effect on Strategy Execution</h4>
+<p>Consider two organisations implementing similar strategic priorities. Both have established objectives, KPIs, execution plans and review mechanisms. In the first, leaders encourage open reporting, departments coordinate their contributions and employees take ownership of commitments. In the second, employees avoid difficult conversations, departments protect their own interests and performance reviews become defensive.</p>
+<p>Although both organisations have similar execution systems, their ability to convert those systems into results may differ significantly. The difference lies partly in the organisational health supporting execution.</p>
+<div class="hbox"><p><strong>Strategic implication:</strong> As organisational health deteriorates, execution friction increases and performance momentum becomes more difficult to sustain.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.3 &mdash; The Price of Poor Organisational Health</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Poor organisational health creates costs that are often overlooked because they do not appear as separate items in financial or performance reports. These costs accumulate through everyday organisational practices and eventually affect enterprise performance.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Hidden Cost</th><th>Organisational Manifestation</th><th>Performance Consequence</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>Repeated work, unclear communication, unnecessary meetings and unresolved disagreements.</td><td>Reduced productivity and slower execution.</td></tr>
+<tr><td>Employee Disengagement</td><td>Reduced initiative, limited discretionary effort and withdrawal from collective responsibilities.</td><td>Lower contribution and weakened performance momentum.</td></tr>
+<tr><td>Declining Trust</td><td>Defensive communication, withholding information and protection of departmental interests.</td><td>Reduced collaboration and slower problem resolution.</td></tr>
+<tr><td>Emotional Fatigue</td><td>Persistent frustration, uncertainty, interpersonal tension and self-protective behaviour.</td><td>Reduced morale, commitment and employee effectiveness.</td></tr>
+<tr><td>Talent Loss</td><td>Capable employees leave environments characterised by poor leadership practices and unhealthy working relationships.</td><td>Loss of institutional knowledge, capability and continuity.</td></tr>
+</tbody></table></div>
+<h4 class="u11-h">How These Costs Accumulate</h4>
+<p>The costs of poor organisational health often remain hidden within everyday operating expenses, lost productivity and reduced employee contribution. Quantifying these losses enables executives to establish their financial impact, identify the most significant sources of performance loss and prioritise corrective interventions. By calculating the costs associated with lost time, employee disengagement, declining trust, emotional fatigue and talent loss, organisations can build a measurable business case for strengthening organisational health and track the value recovered through improvement. The following examples demonstrate how seemingly small, recurring losses can accumulate into substantial annual costs.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Named Hidden Cost</th><th>Illustrative Assumption</th><th>How the Cost Accumulates</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>20 employees each lose 2 hours weekly to rework or unclear communication; 46 working weeks; R350 hourly cost.</td><td>20 × 2 × 46 = 1,840 hours; 1,840 × R350 = R644,000/year.</td></tr>
+<tr><td>Employee Disengagement</td><td>30 employees each contribute 1 fewer productive hour per week; 46 weeks; R300 hourly cost.</td><td>30 × 1 × 46 = 1,380 hours; indicative capacity value = R414,000/year.</td></tr>
+<tr><td>Declining Trust</td><td>Eight managers each spend 3 extra hours per month on defensive reviews and duplicated checks; R600 hourly cost.</td><td>8 × 3 × 12 = 288 hours; 288 × R600 = R172,800/year.</td></tr>
+<tr><td>Emotional Fatigue</td><td>A 50-person team records an additional 1 absence day per person annually; R2,000 average daily employment cost.</td><td>50 × 1 × R2,000 = R100,000/year in indicative absence-related employment cost.</td></tr>
+<tr><td>Talent Loss</td><td>Four avoidable departures; estimated replacement and onboarding cost of R85,000 per employee.</td><td>4 × R85,000 = R340,000/year, excluding any unmeasured disruption.</td></tr>
+</tbody></table></div>
+<p class="u11-note"><strong>Note:</strong> Calculations are illustrative and should be adapted using organisational data and reasonable assumptions. Overlapping costs should be adjusted to avoid double counting.</p>
+<div class="hbox"><p><strong>Key insight:</strong> Repeated losses in time, engagement, trust, wellbeing and retention can accumulate into a material annual cost of poor organisational health.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.4 &mdash; Organisational Health and Sustained Performance</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health influences the ability to sustain performance over time. Short-term results may be achieved through intensive intervention, individual effort or temporary pressure. Sustained performance requires a culture that consistently reinforces the behaviours necessary for collective execution.</p>
+<p>When values are embedded in everyday practices, employees develop shared expectations about accountability, collaboration, communication and performance. These expectations reduce dependence on constant leadership intervention and strengthen execution discipline.</p>
+<p>Organisational health supports:</p>
+<ul><li>Consistent execution of organisational priorities.</li><li>Constructive performance accountability.</li><li>Effective collaboration across functions.</li><li>Employee commitment and capability retention.</li><li>Organisational learning and continuous improvement.</li></ul>
+<div class="hbox"><p><strong>Strategic implication:</strong> A healthy organisation is better positioned to maintain performance discipline as leadership responsibilities, strategic priorities and operating conditions change.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.5 &mdash; Executive Reflection</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Consider an important strategic priority currently being implemented in your organisation:</p>
+<ol class="u11-ol"><li><strong>Reflect:</strong> Where is organisational health strengthening execution performance?</li><li><strong>Reflect:</strong> Which hidden costs of poor organisational health are most evident?</li><li><strong>Reflect:</strong> What is the estimated annual cost of the most significant organisational health loss?</li><li><strong>Reflect:</strong> Which leadership response would reduce that loss, and how would its financial impact be tracked?</li></ol>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Organisational health influences how effectively strategic capabilities translate into results. When health deteriorates, execution friction increases, performance systems lose effectiveness and the cost of delivering strategy rises.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 3 &mdash; Extrapolating: Where</div><p>Section 3 examines where cultural practices and organisational health vulnerabilities are affecting performance, using the Organisational Health Thermometer to identify areas requiring leadership attention.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(2)">Section 3 — Extrapolating →</button></div>
+</div></div>
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Section 3 · Extrapolating — Where</div><h2>Where Are the Organisational Health Signals?</h2><p>Reading the Five Observable Health Traits for people-performance signals, and testing each reading against functional bias.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Diagnose people-performance vulnerabilities using the Five Observable Health Traits to assess how organisational culture influences employee behaviour and contribution.</li><li>Apply debiasing techniques to challenge functional assumptions and establish evidence-based assessments of organisational health.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.1 &mdash; Organisational Health Signals and the Health Thermometer</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Five Observable Health Traits reveal how organisational values are experienced through employee behaviour, relationships and contribution. The Organisational Health Thermometer uses these same traits to assess whether people-performance conditions are strong, vulnerable or poor. Assess each trait using observable employee behaviour and supporting evidence.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbl3"><thead><tr><th>Health Trait</th><th>Strong Health — People-Performance Signals</th><th>Vulnerable Health — Emerging Signals</th></tr></thead><tbody>
+<tr><td>Minimal Politics</td><td>Employees cooperate, share information and prioritise collective outcomes.</td><td>Territorial behaviour, withholding information, personal agendas and internal competition.</td></tr>
+<tr><td>Minimal Confusion</td><td>Employees understand expectations, responsibilities and their contribution to organisational priorities.</td><td>Uncertainty about expectations, conflicting instructions and inconsistent accountability.</td></tr>
+<tr><td>High Morale</td><td>Employees demonstrate commitment, initiative, confidence and willingness to contribute.</td><td>Withdrawal, reduced initiative, dissatisfaction and disengagement.</td></tr>
+<tr><td>High Productivity</td><td>Employees fulfil commitments, maintain performance standards and contribute effectively.</td><td>Declining individual contribution, repeated missed commitments and reduced discretionary effort.</td></tr>
+<tr><td>Low Turnover</td><td>Capable employees remain committed to the organisation and its purpose.</td><td>Increasing voluntary departures, retention concerns and loss of experienced employees.</td></tr>
+</tbody></table></div>
+<div class="hbox"><div class="u11-ci">Thermometer interpretation</div><ul class="u11-band"><li><span class="u11-b u11-b1">Strong</span>Positive behaviours are consistently observed.</li><li><span class="u11-b u11-b2">Vulnerable</span>Negative signals are emerging or uneven.</li><li><span class="u11-b u11-b3">Poor</span>Negative signals are persistent or widespread.</li></ul><p>Ratings must be supported by evidence.</p></div>
+<p>For each trait, compare observed employee behaviour with the thermometer descriptions, identify supporting evidence and record whether the condition is strong, vulnerable or poor. A poor condition reflects persistent or widespread vulnerability signals. This assessment identifies where organisational health may be affecting people performance; Section 3.2 examines how functional bias may influence the interpretation.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.2 &mdash; CXO Functional Bias in Organisational Health Diagnosis</div><div class="acc-meta">Select each executive to open the examples</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Executives interpret organisational health through the people-performance signals they encounter in their respective functions. Their responsibilities influence what they observe, what they consider important and how they explain employee behaviour.</p>
+<p>Functional bias occurs when an executive’s professional perspective influences the interpretation of organisational health signals, potentially leading to an incomplete or inaccurate diagnosis.</p>
+<p>The Five Observable Health Traits provide a common basis for examining these differences.</p>
+<h4 class="u11-h">CXO Functional Bias and Debiasing Matrix</h4>
+<details class="u11-det" open><summary>CEO &middot; Minimal Politics · High Morale</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Politics</div><p><strong>Potential biased interpretation:</strong> <em>“My executive team works well together, so collaboration across the organisation must be healthy.”</em></p><p><strong>Debiasing technique &mdash; Test across levels:</strong> Compare executive perceptions with employee experiences of cooperation, conflict and information sharing.</p></div><div class="u11-bias"><div class="u11-bias-t">High Morale</div><p><strong>Potential biased interpretation:</strong> <em>“Employees are quiet in meetings because they have nothing to contribute.”</em></p><p><strong>Debiasing technique &mdash; Examine employee experiences:</strong> Establish whether employees believe their contributions are welcomed and taken seriously.</p></div>
+</div></details>
+<details class="u11-det"><summary>CFO &middot; High Productivity · Low Turnover</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">High Productivity</div><p><strong>Potential biased interpretation:</strong> <em>“Employment costs are increasing without equivalent output; employees must be underperforming.”</em></p><p><strong>Debiasing technique &mdash; Separate effort from conditions:</strong> Examine whether employees have clear expectations, appropriate support and a culture that reinforces contribution.</p></div><div class="u11-bias"><div class="u11-bias-t">Low Turnover</div><p><strong>Potential biased interpretation:</strong> <em>“Turnover is costly, so retaining employees means our people performance is healthy.”</em></p><p><strong>Debiasing technique &mdash; Examine retention quality:</strong> Assess whether the organisation is retaining capable, committed employees and understand the experiences influencing their decisions to stay.</p></div>
+</div></details>
+<details class="u11-det"><summary>CHRO &middot; Minimal Confusion · High Morale · Low Turnover</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Confusion</div><p><strong>Potential biased interpretation:</strong> <em>“Everyone has a job description, so role expectations must be clear.”</em></p><p><strong>Debiasing technique &mdash; Test lived expectations:</strong> Compare formal role descriptions with the expectations employees actually receive from their managers.</p></div><div class="u11-bias"><div class="u11-bias-t">High Morale</div><p><strong>Potential biased interpretation:</strong> <em>“Our engagement survey scores are positive, so employee morale is strong.”</em></p><p><strong>Debiasing technique &mdash; Triangulate evidence:</strong> Compare survey findings with participation, initiative, absenteeism and employee feedback.</p></div><div class="u11-bias"><div class="u11-bias-t">Low Turnover</div><p><strong>Potential biased interpretation:</strong> <em>“Our turnover is low, which demonstrates that employees are satisfied.”</em></p><p><strong>Debiasing technique &mdash; Challenge the assumption:</strong> Examine whether employees remain because of commitment, limited alternatives or other circumstances.</p></div>
+</div></details>
+<details class="u11-det"><summary>COO &middot; Minimal Politics · High Productivity</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Politics</div><p><strong>Potential biased interpretation:</strong> <em>“Departments are protecting their interests because employees are unwilling to cooperate.”</em></p><p><strong>Debiasing technique &mdash; Examine reinforced norms:</strong> Determine whether leaders reward functional achievement while neglecting collective contribution.</p></div><div class="u11-bias"><div class="u11-bias-t">High Productivity</div><p><strong>Potential biased interpretation:</strong> <em>“Employees keep missing commitments because they lack discipline.”</em></p><p><strong>Debiasing technique &mdash; Trace expectations and experiences:</strong> Examine whether accountability standards are clear, consistently reinforced and experienced as fair.</p></div>
+</div></details>
+<details class="u11-det"><summary>CSO &middot; Minimal Confusion</summary><div class="u11-det-b">
+<div class="u11-bias"><div class="u11-bias-t">Minimal Confusion</div><p><strong>Potential biased interpretation:</strong> <em>“We communicated the strategy clearly; employees should know what is expected.”</em></p><p><strong>Debiasing technique &mdash; Verify understanding:</strong> Ask employees to explain their priorities, responsibilities and expected contributions in their own words.</p></div>
+</div></details>
+<p class="u11-note">These examples illustrate potential functional biases. They do not imply that executives in these roles necessarily hold these assumptions.</p>
+<div class="hbox"><p><strong>Key insight:</strong> The Five Observable Health Traits reveal where people-performance vulnerabilities are emerging. Executives strengthen diagnosis by recognising how their functional perspectives may influence interpretation and applying appropriate debiasing techniques.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.3 &mdash; Self-Reflection: My Organisational Health Profile</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<ol class="u11-ol"><li><strong>Reflect:</strong> Which of the Five Observable Health Traits do I personally strengthen through my everyday conduct?</li><li><strong>Reflect:</strong> Which trait may be weakened by my own habits, responses or leadership practices?</li><li><strong>Reflect:</strong> What assumptions or functional biases do I bring when interpreting the behaviour and performance of others?</li><li><strong>Reflect:</strong> What specific change in my own behaviour would help me model the organisational values more consistently?</li></ol>
+</div></div></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>The Five Observable Health Traits show where culture is influencing people performance. A credible assessment requires evidence, awareness of functional bias and personal accountability for the behaviours leaders reinforce.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 4 &mdash; Integration: Collective</div><p>Section 4 brings together functional perspectives to establish a shared view of organisational health and agree collective cultural reinforcement priorities.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(3)">Section 4 — Integration →</button></div>
+</div></div>
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Section 4 · Integration — Collective</div><h2>Cross-CXO Health Architecture</h2><p>Grounding People Performance Through Collective Leadership Accountability</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Establish a functional organisational health accountability discipline that enables executives to interpret team-generated health assessments and quantify associated people-performance losses.</li><li>Consolidate functional health assessments into an enterprise organisational health position that informs collective leadership accountability and priorities for strengthening people performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.1 &mdash; Grounding People Performance Through Leadership Accountability</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health is shaped by the cultural conditions leaders establish and reinforce within their teams. The extent to which employees experience trust, clarity, commitment and accountability influences how they behave, collaborate and contribute to performance.</p>
+<p>Every executive therefore has a responsibility to understand the health of their function and identify where prevailing cultural norms may be undermining people performance. Organisational health also extends beyond individual functions: employees interact across departments, and behaviours reinforced by one leadership team can strengthen or weaken performance elsewhere.</p>
+<p>Sustaining organisational health requires both functional accountability and collective executive responsibility. To fulfil this responsibility, each CXO should periodically examine the organisational health of their function against the Five Observable Health Traits, identify cultural vulnerabilities and quantify associated people-performance losses.</p>
+<p>To strengthen objectivity and minimise leadership bias, the Organisational Health Thermometer is circulated to individual employees within each function. Employees independently assess the cultural conditions they experience. Their responses are consolidated into a functional health score, which the responsible executive receives for interpretation, investigation of cultural vulnerabilities and quantification of associated people-performance losses.</p>
+<p>This integrated approach forms the Cross-CXO Health Architecture: a structured mechanism connecting functional leadership accountability with collective responsibility for organisational health and sustained people performance. A quarterly assessment and review rhythm allows leaders to examine changes and reinforce healthy cultural practices.</p>
+<h4 class="u11-h">Two Levels of Leadership Accountability</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Level</th><th>Leadership responsibility</th><th>Output</th></tr></thead><tbody>
+<tr><td>Functional</td><td>CXO interprets the team’s consolidated score, investigates vulnerabilities and quantifies evidenced losses.</td><td>Functional health and loss position.</td></tr>
+<tr><td>Enterprise</td><td>EXCO consolidates functional results, examines shared vulnerabilities and agrees enterprise priorities.</td><td>Enterprise health and loss position.</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.2 &mdash; The Organisational Health Thermometer</div><div class="acc-meta">Select each trait to open its statements</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Organisational Health Thermometer provides a common instrument for assessing the five traits of organisational health. To strengthen objectivity and minimise leadership bias, individual employees should be involved in assessing the organisational health of their function. The thermometer is circulated to employees, allowing each person to independently rate the 20 statements based on their experience of the prevailing cultural conditions. Individual assessments are subsequently consolidated to produce the overall functional health score and a score for each trait. The functional leader receives the consolidated results and remains accountable for interpreting the findings, investigating vulnerabilities and quantifying associated people-performance losses.</p>
+<h4 class="u11-h">Individual Employee Assessment &mdash; Organisational Health Thermometer</h4>
+<p>Each employee independently rates the 20 statements on a frequency scale from 1 (Never) to 5 (Always). Each trait contains four statements (maximum 20 points), producing an overall individual score out of 100. The individual ratings inform the confidential consolidated functional assessment and are completed by each employee independently.</p>
+<table class="u11-tbl u11-scale"><thead><tr><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>Never</td><td>Rarely</td><td>Sometimes</td><td>Usually</td><td>Always</td></tr></tbody></table>
+<details class="u11-det" open><summary>Trait 1 &mdash; Minimal Politics (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>Issues and concerns are raised openly in meetings and addressed there.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Leaders share information freely, including information that could strengthen their own position.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Decisions are guided by what serves the enterprise as a whole.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>When conflicts arise between teams, they are resolved directly and honestly through open discussion.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 1 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 2 &mdash; Minimal Confusion (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People understand the strategic direction and how their role contributes to it.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Decision authority is clear — people know who should decide what, at what level.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Responsibilities at the interfaces between teams are understood without constant escalation.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Priorities are stable and consistently communicated, so people work towards one shared direction.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 2 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 3 &mdash; High Morale (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People invest discretionary effort — they go beyond the minimum because they believe in what we are doing.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Contribution is recognised and valued in ways that feel meaningful and sincere.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Even during demanding periods, the environment sustains commitment.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>People feel a genuine sense of belonging and purpose in this organisation.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 3 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 4 &mdash; High Productivity (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>Work flows smoothly between teams — handoffs are clean and coordination is efficient.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Meetings resolve issues and move work forward.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Our systems and processes support smooth collaboration between teams.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Effort converts reliably into results, with little output lost to rework or miscommunication.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 4 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<details class="u11-det"><summary>Trait 5 &mdash; Low Turnover (Maximum 20)</summary><div class="u11-det-b">
+<table class="u11-tbl u11-stmt"><thead><tr><th>#</th><th>Statement</th><th>Score</th></tr></thead><tbody><tr><td>1</td><td>People with capability and institutional knowledge choose to stay and grow within this organisation.</td><td>1&ndash;5</td></tr><tr><td>2</td><td>Leadership behaviour creates an environment where long-term commitment feels worthwhile.</td><td>1&ndash;5</td></tr><tr><td>3</td><td>Knowledge is retained when people move on.</td><td>1&ndash;5</td></tr><tr><td>4</td><td>Relationships deepen over time, strengthening our collective execution capability.</td><td>1&ndash;5</td></tr><tr class="u11-tot"><td></td><td>Trait 5 Total</td><td>__ / 20</td></tr></tbody></table>
+</div></details>
+<div class="u11-total">Individual employee total score: ______ / 100</div>
+<h4 class="u11-h">Reading Your Temperature</h4>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Score</th><th>Temperature</th><th>What It Signals</th></tr></thead><tbody>
+<tr><td>80–100</td><td>Healthy &amp; Thriving</td><td>Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.</td></tr>
+<tr><td>60–79</td><td>Stable but Uneven</td><td>Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.</td></tr>
+<tr><td>40–59</td><td>Caution Zone</td><td>Signs of mistrust, fatigue or unclear direction beginning to surface. Immediate leadership attention needed.</td></tr>
+<tr><td>20–39</td><td>Unhealthy</td><td>High politics, low trust and rising turnover risk. Leadership credibility is at stake.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Assessment safeguard:</strong> Employee responses should be collected confidentially. Executives receive consolidated function-level results only; individual responses remain unidentifiable. Small teams require appropriate aggregation to protect confidentiality.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.3 &mdash; From Individual Assessments to Functional Health Scores</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>After employees independently submit their thermometer responses, the assessments are consolidated by function. For each trait, add the valid individual trait totals and divide by the number of valid responses. Add the five functional trait averages to obtain the functional score out of 100. The leader receives this consolidated score and the trait-level results; the scores come from the employees’ assessments.</p>
+<div class="u11-f"><p>Functional Trait Score = Sum of Individual Trait Totals ÷ Number of Valid Responses</p><p>Functional Health Score (/100) = Sum of Five Functional Trait Scores (/20 each)</p></div>
+<h4 class="u11-h">Worked Example: Operations Function</h4>
+<p>An organisation has 250 employees, including 100 in Operations. The thermometer is circulated individually to Operations employees; 85 employees submit independent assessments (85% participation). Their responses are consolidated, and the COO receives the resulting functional and trait-level scores.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Trait</th><th>Q1 /20</th><th>Q2 /20</th><th>Change</th><th>Signal to investigate</th></tr></thead><tbody>
+<tr><td>Minimal Politics</td><td>16</td><td>8</td><td>−8</td><td>Collaboration and information sharing</td></tr>
+<tr><td>Minimal Confusion</td><td>16</td><td>12</td><td>−4</td><td>Expectations and responsibilities</td></tr>
+<tr><td>High Morale</td><td>16</td><td>8</td><td>−8</td><td>Commitment and initiative</td></tr>
+<tr><td>High Productivity</td><td>16</td><td>12</td><td>−4</td><td>Contribution and delivery</td></tr>
+<tr><td>Low Turnover</td><td>16</td><td>12</td><td>−4</td><td>Retention vulnerabilities</td></tr>
+<tr class="u11-tot"><td>Overall</td><td>80 /100</td><td>52 /100</td><td>−28</td><td>Caution Zone</td></tr>
+</tbody></table></div>
+<p>Operations moves from Healthy &amp; Thriving (80) to Caution Zone (52). Minimal Politics and High Morale show the largest declines. The COO should examine observable behaviour, relevant people-performance evidence and the Organisational Health Pyramid, using Section 3 debiasing techniques to challenge initial assumptions. The thermometer signals vulnerability; cause and monetary loss require separate evidence.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.4 &mdash; Quantifying the People-Performance Losses</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The COO investigates whether the identified health vulnerabilities are associated with measurable losses in the five categories introduced in Section 2. The following estimates are illustrative for a 12-week quarter and a 100-person Operations function.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Hidden cost</th><th>Evidence / assumption</th><th>Calculation</th><th>Q2 exposure</th></tr></thead><tbody>
+<tr><td>Lost Time</td><td>100 employees lose 30 minutes per week; hourly employment cost R200.</td><td>100 × 0.5 × R200 × 12</td><td>R120,000</td></tr>
+<tr><td>Employee Disengagement</td><td>20 employees show estimated 5% reduced contribution; quarterly employment cost R90,000 each.</td><td>20 × R90,000 × 5%</td><td>R90,000</td></tr>
+<tr><td>Declining Trust</td><td>10 managers spend 2 additional hours monthly on avoidable tensions; hourly cost R400.</td><td>10 × 2 × R400 × 3</td><td>R24,000</td></tr>
+<tr><td>Emotional Fatigue</td><td>15 employees each record one additional absence day linked to workplace strain; daily cost R1,500.</td><td>15 × R1,500</td><td>R22,500</td></tr>
+<tr><td>Talent Loss</td><td>Two avoidable departures; replacement and onboarding cost R45,000 each.</td><td>2 × R45,000</td><td>R90,000</td></tr>
+<tr class="u11-tot"><td>Total</td><td>Illustrative gross exposure before overlap adjustments</td><td></td><td>R346,500</td></tr>
+</tbody></table></div>
+<p>These estimates require evidence supporting the link to organisational health, appropriate cost assumptions and reconciliation of overlapping categories before being treated as verified losses. The leader should distinguish observed losses from assumptions and potential exposure.</p>
+<h4 class="u11-h">Functional Health Position</h4>
+<table class="u11-tbl"><thead><tr><th>Measure</th><th>Operations Q2</th></tr></thead><tbody>
+<tr><td>Accountable executive</td><td>COO</td></tr>
+<tr><td>Assessment source</td><td>85 of 100 Operations employees (85%)</td></tr>
+<tr><td>Functional health score</td><td>52 /100 (Q1: 80 /100; change: −28)</td></tr>
+<tr><td>Priority traits</td><td>Minimal Politics and High Morale</td></tr>
+<tr><td>Illustrative gross quarterly loss exposure</td><td>R346,500</td></tr>
+<tr><td>Leadership priority</td><td>Examine and strengthen collaboration, trust and commitment.</td></tr>
+</tbody></table>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.5 &mdash; Consolidating Functional Health into an Enterprise Position</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Each executive receives the consolidated assessment for their function, examines vulnerabilities and quantifies associated losses. EXCO brings the functional positions together to establish an enterprise view of organisational health and its implications for people performance.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Function</th><th>CXO</th><th>Employees</th><th>Q1 /100</th><th>Q2 /100</th><th>Change</th><th>Q2 gross exposure</th></tr></thead><tbody>
+<tr><td>Corporate</td><td>CEO</td><td>20</td><td>84</td><td>82</td><td>−2</td><td>R25,000</td></tr>
+<tr><td>Finance</td><td>CFO</td><td>40</td><td>78</td><td>72</td><td>−6</td><td>R70,000</td></tr>
+<tr><td>Human Resources</td><td>CHRO</td><td>30</td><td>82</td><td>80</td><td>−2</td><td>R30,000</td></tr>
+<tr><td>Operations</td><td>COO</td><td>100</td><td>80</td><td>52</td><td>−28</td><td>R346,500</td></tr>
+<tr><td>Strategy</td><td>CSO</td><td>60</td><td>78</td><td>70</td><td>−8</td><td>R95,000</td></tr>
+<tr class="u11-tot"><td>Enterprise</td><td>EXCO</td><td>250</td><td>79.8*</td><td>65.3*</td><td>−14.5*</td><td>R566,500</td></tr>
+</tbody></table></div>
+<p class="u11-note">*Illustrative enterprise scores above are headcount-weighted, assuming equal response rates across functions. In actual reporting, calculate the enterprise average using the number of valid employee responses per function; report response rates and headcount separately.</p>
+<div class="u11-f"><p>Enterprise Health Score = Σ (Functional Score × Valid Responses) ÷ Total Valid Responses</p></div>
+<p>Illustrative Q2 headcount-weighted calculation: [(82 × 20) + (72 × 40) + (80 × 30) + (52 × 100) + (70 × 60)] ÷ 250 = 65.28 ≈ 65.3 /100. The corresponding Q1 result is 79.76 ≈ 79.8 /100.</p>
+<p>The enterprise is Stable but Uneven, and the Operations function is in the Caution Zone. EXCO should review both the enterprise score and each function’s trait profile so that significant local vulnerabilities remain visible behind the average.</p>
+<p>The R566,500 figure is an illustrative sum of functional gross exposures; overlapping costs within or across functions must be reconciled before establishing a defensible enterprise loss estimate.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.6 &mdash; Sustaining the Cross-CXO Health Architecture</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health requires consistent leadership attention because cultural conditions develop through repeated behaviours and experiences. Each quarter, the thermometer is circulated to individual employees in each function for independent assessment. The responses are consolidated confidentially and each CXO receives the functional health score and trait-level results. The executive interprets the findings, investigates cultural vulnerabilities and quantifies associated people-performance losses. EXCO then consolidates the functional positions to understand enterprise health and shared priorities for strengthening people performance.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.7 &mdash; From Values to a Cultural Operating Code</div><div class="acc-meta">Worked example: the IBSL Code</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Organisational health reflects the behaviours that have become normal in each function. Stated values shape those behaviours only when people can see what each value requires of them, practise it and be held to it. A Cultural Operating Code makes this explicit: for each organisational value, it names one norm built from three observable actions that every leader and employee can recognise, use and be assessed against.</p>
+<p>The Code connects the health architecture to daily leadership practice. When executives model, recognise and correct behaviour against the same norms, the conditions the Organisational Health Thermometer measures begin to change: shared accountability reduces politics, explicit expectations reduce confusion, and consistent consequences protect morale.</p>
+<div class="u11-sub">How a value becomes a norm</div><ol class="u11-ol"><li><strong>Define the behaviour.</strong> Describe what a leader who genuinely lives the value does differently from one who only states it. Write the answer as a specific, observable behaviour.</li><li><strong>Build the acronym.</strong> Take the first letters of three action words that capture the behaviour. Each word is an action a person performs. The acronym is short enough to use in a corridor conversation.</li><li><strong>Write the norm statement.</strong> One sentence explaining what the value means in daily practice, specific enough that a new employee reading it on the first day knows which behaviour will be recognised and which will be corrected.</li></ol>
+<div class="u11-sub">What makes the Code real</div><ul class="u11-ol"><li><strong>Demonstrable:</strong> every value is translated into observable, specific behaviours.</li><li><strong>Assessed:</strong> the norms appear in 360-degree feedback, so how results are achieved is assessed alongside what is achieved.</li><li><strong>Enforced:</strong> consequences apply consistently regardless of seniority.</li><li><strong>Maintained:</strong> norms are explicit, modelled by executives, reinforced in reviews and revisited periodically.</li></ul>
+<div class="u11-sub">Three tests for every norm</div><ul class="u11-ol"><li><strong>The New Employee Test:</strong> Would a new employee reading this norm on the first day know exactly which behaviour will be recognised and which will be corrected?</li><li><strong>The Pressure Test:</strong> Does the norm hold when a senior leader breaches it, when a high performer contradicts it, and when telling the truth is costly?</li><li><strong>The Mirror Test:</strong> Would every executive be comfortable being assessed against this norm in their own 360-degree feedback?</li></ul>
+<div class="u11-sub">Worked example · The IBSL Cultural Operating Code</div><p>IBSL’s values: <strong>Intentionality · Integrity · Collaboration · Accountability · Excellence · Human-Centricity</strong>. Each value carries one acronym-based norm.</p><details class="u11-det" open><summary>Intentionality &middot; AIM</summary><div class="u11-det-b">
+<p class="u11-coc-def">Leading with purpose, clarity and discipline</p><div class="u11-coc-norm"><span class="u11-coc-acr">AIM</span> Act with purpose · Interrogate assumptions · Maintain the discipline</div><p>Intentionality is the discipline of knowing exactly why you are doing what you are doing, and holding that line when conditions make it inconvenient.</p><div class="p-reflect">Reflect: Before your last three major commitments, could you state the strategic purpose, the assumption you were making and the standard you held yourself to?</div>
+</div></details><details class="u11-det"><summary>Integrity &middot; SAY</summary><div class="u11-det-b">
+<p class="u11-coc-def">Consistency between words, behaviour and outcomes</p><div class="u11-coc-norm"><span class="u11-coc-acr">SAY</span> Say what you mean · Act on what you say · Yield the truth regardless of consequence</div><p>Integrity is consistency between word, behaviour and outcome, including when telling the truth is uncomfortable. What we say and what we do are the same thing.</p><div class="p-reflect">Reflect: In your last performance review, did you name what was promised, what was delivered and what the gap cost before being asked?</div>
+</div></details><details class="u11-det"><summary>Collaboration &middot; ONE</summary><div class="u11-det-b">
+<p class="u11-coc-def">Leveraging diversity of thought and collective intelligence</p><div class="u11-coc-norm"><span class="u11-coc-acr">ONE</span> Own a shared outcome · Navigate difference with respect · Execute as a unified force</div><p>Collaboration is the decision to produce together what no single function could produce alone. The result belongs to the team.</p><div class="p-reflect">Reflect: In your last cross-functional review, did you present the shared outcome alongside your function’s contribution?</div>
+</div></details><details class="u11-det"><summary>Accountability &middot; OAR</summary><div class="u11-det-b">
+<p class="u11-coc-def">Owning results and reinforcing transparency</p><div class="u11-coc-norm"><span class="u11-coc-acr">OAR</span> Own it · Act on it · Report it</div><p>Accountability begins the moment a commitment is made. We report the truth and fix the gap.</p><div class="p-reflect">Reflect: When did you last surface a gap before being asked, with the cause, the impact and the recovery action already identified?</div>
+</div></details><details class="u11-det"><summary>Excellence &middot; SET</summary><div class="u11-det-b">
+<p class="u11-coc-def">Upholding rigour, learning and measurable impact</p><div class="u11-coc-norm"><span class="u11-coc-acr">SET</span> Set the standard · Earn the evidence · Transform through learning</div><p>Excellence is a daily discipline: being better than last quarter, and proving it with evidence.</p><div class="p-reflect">Reflect: At your last review, could you answer: what standard did we set, what evidence do we have, and what have we changed as a result?</div>
+</div></details><details class="u11-det"><summary>Human-Centricity &middot; SEE</summary><div class="u11-det-b">
+<p class="u11-coc-def">Placing people at the core of leadership and execution</p><div class="u11-coc-norm"><span class="u11-coc-acr">SEE</span> See the person behind the role · Enable growth deliberately · Ensure dignity in every interaction</div><p>Leadership serves people. We invest in growth and protect dignity, and we never reduce a person to their output.</p><div class="p-reflect">Reflect: In your last performance conversation, did you open with the person before moving to the result?</div>
+</div></details><div class="u11-scroll"><table class="u11-tbl u11-tbln"><thead><tr><th>Value</th><th>Acronym</th><th>Norm</th></tr></thead><tbody><tr><td>Intentionality</td><td><strong>AIM</strong></td><td>Act with purpose. Interrogate assumptions. Maintain the discipline.</td></tr><tr><td>Integrity</td><td><strong>SAY</strong></td><td>Say what you mean. Act on what you say. Yield the truth regardless of consequence.</td></tr><tr><td>Collaboration</td><td><strong>ONE</strong></td><td>Own a shared outcome. Navigate difference with respect. Execute as a unified force.</td></tr><tr><td>Accountability</td><td><strong>OAR</strong></td><td>Own it. Act on it. Report it.</td></tr><tr><td>Excellence</td><td><strong>SET</strong></td><td>Set the standard. Earn the evidence. Transform through learning.</td></tr><tr><td>Human-Centricity</td><td><strong>SEE</strong></td><td>See the person behind the role. Enable growth deliberately. Ensure dignity in every interaction.</td></tr></tbody></table></div><div class="hbox"><p class="u11-band">AIM · SAY · ONE · OAR · SET · SEE</p></div>
+</div></div></div>
+<div class="ref-block"><div class="ref-label">&#x270E; Individual Reflection: My Functional Health Accountability</div><p class="u11-note" style="font-style:normal;">Reflect on the function you lead. Your reflection is saved to your personal profile, where your facilitator reads it and gives you feedback.</p><label class="fld-label">Which of the Five Observable Health Traits would my employees most likely rate lowest on the thermometer, and what evidence do I see?</label><textarea class="ref-ta" style="min-height:56px;" data-fkey="ref7" data-fidx="0" oninput="syncFieldDebounced('ref7')"></textarea><label class="fld-label">Which of the five hidden costs (lost time, employee disengagement, declining trust, emotional fatigue, talent loss) is that vulnerability most likely creating in my function, and what evidence links it to organisational health?</label><textarea class="ref-ta" style="min-height:56px;" data-fkey="ref7" data-fidx="1" oninput="syncFieldDebounced('ref7')"></textarea><label class="fld-label">Using an assumption I can defend, what is the estimated quarterly loss exposure for that cost, and how did I calculate it?</label><textarea class="ref-ta" style="min-height:56px;" data-fkey="ref7" data-fidx="2" oninput="syncFieldDebounced('ref7')"></textarea><label class="fld-label">Which part of that estimate is observed loss and which is assumption, and where could it overlap with another cost category?</label><textarea class="ref-ta" style="min-height:56px;" data-fkey="ref7" data-fidx="3" oninput="syncFieldDebounced('ref7')"></textarea><label class="fld-label">What leadership action will I take as the accountable executive to reduce that loss, and how will I track the value recovered next quarter?</label><textarea class="ref-ta" style="min-height:56px;" data-fkey="ref7" data-fidx="4" oninput="syncFieldDebounced('ref7')"></textarea><textarea id="ref7" style="display:none;"></textarea><div class="ref-saved reflection-saved" id="ref7-saved"></div><button class="ref-save" onclick="fldSaveBtn(this,'ref7')">Save</button></div>
+<div class="hbox"><div class="u11-ci">Section Closing Insight</div><p>Organisational health is strengthened when leaders understand how their teams experience the culture they establish, take accountability for the resulting people-performance conditions and collectively address vulnerabilities affecting enterprise performance.</p></div>
+<div class="hbox"><div class="u11-ci">Transition to Section 5 &mdash; Application: In Practice</div><p>Your group applies the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(4)">Section 5 — Application →</button></div>
+</div></div>
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Section 5 · Application — In Practice</div><h2>The Cross-CXO Organisational Health Clinic</h2><p>From Functional Health Assessments to Enterprise People-Performance Restoration</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Consolidate functional organisational health assessments and quantify enterprise-level people-performance losses to establish an evidence-based organisational health position.</li><li>Determine coordinated remedial actions through Review–Realign–Restore to strengthen cultural conditions, improve organisational health and restore people performance.</li></ul></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Application Overview</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Section 4 established the Cross-CXO Health Architecture. Individual employees independently complete the Organisational Health Thermometer; their responses are consolidated into functional health scores. Each CXO interprets the consolidated results, investigates potential cultural vulnerabilities and estimates associated people-performance losses. This capstone application brings the functional positions together for collective executive decision-making.</p>
+<p>Your group uses only the CXO roles already assigned within your capstone group. You (1) interpret the corresponding functional assessments, (2) consolidate the scores and losses for those represented functions, and (3) determine remedial actions through Review–Realign–Restore, and (4) build the organisation’s Cultural Operating Code from its values.</p>
+<div class="hbox"><p><strong>Capstone instruction:</strong> Each member assesses the function associated with their existing capstone CXO role. Your group consolidates <strong>only</strong> the functions represented by its members. The 10 functional examples below are a reference set from which your group selects its relevant roles; there is no requirement to assess or include all 10 functions. The completed group analysis is used in the final capstone panel assessment.</p></div>
+<div class="u11-how"><div class="u11-how-h">Capstone work &middot; How Section 5 works</div><ol><li>Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member’s page.</li><li>In part 5.2, tick the CXO roles represented in your capstone group. Roles named in your Problem Charter’s executive team are ticked for you; the scribe can change them.</li><li>Parts 5.2 and 5.3: write each function’s interpretation (Tasks 1 and 2). Parts 5.4 and 5.5 calculate the consolidated scores and exposure from the rows you ticked; write your group’s interpretation (Tasks 4 to 6).</li><li>Part 5.6: record your Review, Realign and Restore outputs. Part 5.7: complete the Organisational Health Response (Task 7).</li><li>Part 5.8: build your Cultural Operating Code from your organisation’s values (Task 8).</li><li>When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R Blueprint.</li></ol></div>
+</div></div></div>
+<div id="u11TwBar"></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.2 &mdash; Functional Organisational Health Assessment</div><div class="acc-meta">Tasks 1 and 2</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The following are example functional health scores consolidated from individual employee assessments using the Section 4 Organisational Health Thermometer. Use only the rows corresponding to the CXO roles represented in your capstone group. Each trait is scored out of 20; the functional total is out of 100. “Politics” and “Confusion” refer to Minimal Politics and Minimal Confusion.</p>
+<div class="u11-sub">Your group’s CXO roles</div><div id="u11Roles" class="u11-roles"></div>
+<div id="u11Ref52"></div>
+<h4 class="u11-h">Task 1 &mdash; Interpret the Functional Health Position</h4><p>Each participant uses their established capstone CXO role and the Section 4 Organisational Health Thermometer to interpret the corresponding functional score. Determine the health classification, the two weakest traits, possible people-performance implications and evidence requiring further investigation.</p>
+<div class="u11-scroll"><table class="u11-tbl u11-tbln "><thead><tr><th>Score</th><th>Health classification</th></tr></thead><tbody>
+<tr><td>80–100</td><td>Healthy &amp; Thriving</td></tr>
+<tr><td>60–79</td><td>Stable but Uneven</td></tr>
+<tr><td>40–59</td><td>Caution Zone</td></tr>
+<tr><td>20–39</td><td>Unhealthy</td></tr>
+</tbody></table></div>
+<p>Each function your group ticked has its own card below, for Task 1 here and Task 2 in part 5.3.</p><div id="u11Fns"></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.3 &mdash; Quantifying Functional People-Performance Losses</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The following figures are illustrative preliminary gross quarterly exposure estimates in South African rand, organised under the five hidden costs introduced in Section 2. Each estimate requires verification before it is treated as a financial loss.</p>
+<div id="u11Ref53"></div>
+<h4 class="u11-h">Task 2 &mdash; Interpret Functional Losses</h4><p>For the assigned function, identify the largest hidden cost, examine possible links to the two weakest health traits, specify evidence needed to validate the estimates, and flag any potential overlap or double counting. Distinguish estimated exposure from validated loss.</p>
+<p class="u11-note">Complete Task 2 in each function’s card in part 5.2.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; Consolidating the Capstone Group Health Position</div><div class="acc-meta">Tasks 3 and 4</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Consolidate only the functional assessments corresponding to the CXO roles represented in your capstone group. Weight each trait score by valid employee responses for those selected functions. The resulting consolidated position represents only the functions in the group.</p>
+<div class="u11-f"><p>Group Consolidated Trait Score = Σ (Selected Functional Trait Score × Valid Responses) ÷ Total Valid Responses in Selected Functions.</p><p>Group Consolidated Health Score = Sum of the Five Weighted Trait Scores.</p></div>
+<h4 class="u11-h">Task 3 &mdash; Calculate the Consolidated Health Score</h4>
+<div id="u11T3"></div>
+<h4 class="u11-h">Task 4 &mdash; Interpret the Consolidated Health Position</h4><p>Determine the consolidated score and thermometer classification for the functions represented in your group; identify the two weakest traits, functions contributing most to those weaknesses, and vulnerabilities requiring cross-functional leadership attention. Apply the result only to the functions assessed.</p>
+<table class="u11-tbl u11-kv"><tbody><tr><td>Consolidated score and classification</td><td id="u11T4s">—</td></tr><tr><td>Two weakest traits</td><td id="u11T4w">—</td></tr></tbody></table><label class="fld-label">Functions contributing most to those weaknesses</label><textarea class="fld-input u11-ta" data-u11="t4-contrib"></textarea><label class="fld-label">Vulnerabilities requiring cross-functional leadership attention</label><textarea class="fld-input u11-ta" data-u11="t4-xvuln"></textarea>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.5 &mdash; Quantifying Losses Across the Selected Functions</div><div class="acc-meta">Tasks 5 and 6</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<h4 class="u11-h">Task 5 &mdash; Calculate Gross Quarterly Exposure for the Selected Functions</h4><p>Sum the functional estimates ONLY for CXO roles represented in the capstone group, by hidden-cost category. Flag possible overlaps before presenting gross exposure as validated financial loss. Losses for unrepresented functions stay out of the total.</p>
+<div id="u11T5"></div>
+<label class="fld-label">Possible overlaps flagged before presenting gross exposure</label><textarea class="fld-input u11-ta" data-u11="t5-overlap"></textarea>
+<h4 class="u11-h">Task 6 &mdash; Establish the Consolidated Health Diagnosis</h4><p>Identify the two largest cost categories, the functions contributing most to gross exposure, plausible relationships between health traits and losses, and estimates requiring verification. A health score indicates where to look; financial causation requires evidence.</p>
+<table class="u11-tbl u11-kv"><thead><tr><th>Enterprise assessment dimension</th><th>EXCO finding</th></tr></thead><tbody><tr><td>Enterprise health score and classification</td><td id="u11T6s">—</td></tr><tr><td>Two weakest health traits</td><td id="u11T6w">—</td></tr><tr><td>Gross quarterly financial exposure</td><td id="u11T6g">—</td></tr><tr><td>Two largest hidden-cost categories</td><td id="u11T6c">—</td></tr></tbody></table><label class="fld-label">Most vulnerable functions</label><textarea class="fld-input u11-ta" data-u11="t6-funcs"></textarea><label class="fld-label">Priority cultural vulnerabilities</label><textarea class="fld-input u11-ta" data-u11="t6-cult"></textarea><label class="fld-label">Priority people-performance concerns</label><textarea class="fld-input u11-ta" data-u11="t6-people"></textarea>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.6 &mdash; Determine Remedial Actions Through Review–Realign–Restore</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<details class="u11-det" open><summary>REVIEW &mdash; Establish Priority Health Concerns</summary><div class="u11-det-b">
+<p>Examine the consolidated health position, functional vulnerabilities and financial exposure. Determine which traits require attention, which functions are affected, what employee experiences may explain the scores, and what supporting evidence is available.</p><p><strong>Output:</strong> Prioritised organisational health diagnosis.</p><label class="fld-label">Prioritised organisational health diagnosis</label><textarea class="fld-input u11-ta" data-u11="rrr-review"></textarea>
+</div></details>
+<details class="u11-det"><summary>REALIGN &mdash; Reinforce Cultural Conditions</summary><div class="u11-det-b">
+<p>Identify the organisational values, behavioural expectations and leadership practices requiring reinforcement. Determine the cross-functional expectations and CXO accountabilities needed to address the diagnosed conditions.</p><p><strong>Output:</strong> Agreed cultural reinforcement actions with named executive accountability.</p><label class="fld-label">Agreed cultural reinforcement actions with named executive accountability</label><textarea class="fld-input u11-ta" data-u11="rrr-realign"></textarea>
+</div></details>
+<details class="u11-det"><summary>RESTORE &mdash; Establish Measurable Improvement</summary><div class="u11-det-b">
+<p>Set next-quarter improvement expectations for priority health traits and associated financial exposures. Define the evidence and review measures that will show whether employee experiences and people-performance conditions are improving.</p><p><strong>Output:</strong> Measurable health and performance commitments.</p><label class="fld-label">Measurable health and performance commitments</label><textarea class="fld-input u11-ta" data-u11="rrr-restore"></textarea>
+</div></details>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.7 &mdash; Consolidated Organisational Health Response</div><div class="acc-meta">Task 7</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<h4 class="u11-h">Task 7 &mdash; Complete the Simplified Organisational Health Response</h4>
+<p>Identify the lowest-scoring health trait from the consolidated assessment of the CXO functions represented in your capstone group. Apply Review–Realign–Restore to agree on the remedial action, assign the accountable CXO(s), set a health improvement target, identify the associated hidden cost and establish a financial reduction target.</p>
+<p>Use one row for the lowest-scoring health trait. Add another row only if the group identifies a further priority requiring a distinct response. Financial targets are illustrative commitments and should be supported by evidence; avoid double counting.</p>
+<div class="hbox"><p id="u11Low"></p></div>
+<div id="u11Resp"></div>
+<button type="button" class="ref-save u11-add" onclick="u11AddResp()">+ Add a response</button>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.8 &mdash; Build Your Cultural Operating Code</div><div class="acc-meta">Task 8</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Your Organisational Health Response sets out what must change. Your Cultural Operating Code defines the behaviours that carry the change: it translates your organisation’s values into norms your executive team models, recognises and corrects. Build it the way part 4.7 showed with the IBSL Code.</p>
+<h4 class="u11-h">Step 1 · Your organisation’s values</h4><p>List the values of your capstone organisation, three to six, each with what it means in one line. Where your organisation’s values are not yet stated, agree them now as its executive team.</p><div id="u11CocVals"></div>
+<h4 class="u11-h">Step 2 · Translate the values into norms</h4><p>Translate at least three of your values. For each: choose the value, describe the observable behaviour, build the acronym from three action words, write the three actions, and write the norm statement.</p><div id="u11CocNorms"></div><button type="button" class="ref-save u11-add" onclick="u11CocAdd()">+ Add a norm</button>
+<h4 class="u11-h">Step 3 · Test your strongest norm</h4><p>Choose your strongest norm and record how it passes each of the three tests from part 4.7, or what your group changed so that it passes.</p><div id="u11CocTest"></div>
+<div class="hbox"><p>Your Cultural Operating Code forms part of the final capstone panel assessment (Capstone box 11E).</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.9 &mdash; Capstone Assessment Output</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The completed Organisational Health Response forms part of the final capstone panel assessment. It includes the consolidated health score and gross quarterly exposure for only the functions represented in the group, the lowest-scoring health trait and one integrated Review–Realign–Restore response with accountable CXO(s), a health improvement target and a financial reduction target. It also includes the group’s Cultural Operating Code.</p>
+<p><strong>This work is presented only during the final capstone panel assessment.</strong></p>
+<div class="u11-rec"><div id="u11RecMsg" class="u11-note2"></div><button type="button" class="ref-save" data-team-free onclick="u11Agree()">Agree</button> <button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our clinic record</button></div>
+</div></div></div>
+
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation&hellip;</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator&hellip;" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
+<div class="acc-b"><div class="cb">
+<p class="p-upload-desc">Attach supporting files to your submission &mdash; board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">← Section 4 — Integration</button><button class="btn" onclick="goBack()">&larr; Back to Platform</button></div>
+</div></div>
+</div>
+<script>
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleTrait(c){c.classList.toggle('open');}
+function toggleCXO(r){r.classList.toggle('open');}
+function toggleACEIT(c){c.classList.toggle('open');}
+function selectScenario(card){
+  document.querySelectorAll('.scenario-card').forEach(function(c){c.classList.remove('selected');});
+  card.classList.add('selected');
+  var b=card.querySelector('.sc-badge'),t=card.querySelector('.sc-title');
+  var hidden=document.getElementById('app_scenario');
+  if(hidden){hidden.value=(b?b.textContent.trim():'')+' — '+(t?t.textContent.trim():'');saveRef('app_scenario');}
+}
+/* Scenario selection → persists into app_scenario via the existing saveRef */
+function hydrateScenario(){
+  var hidden=document.getElementById('app_scenario');if(!hidden||!hidden.value)return;
+  document.querySelectorAll('.scenario-card').forEach(function(c){
+    var b=c.querySelector('.sc-badge'),t=c.querySelector('.sc-title');
+    var v=(b?b.textContent.trim():'')+' — '+(t?t.textContent.trim():'');
+    c.classList.toggle('selected',v===hidden.value);
+  });
+}
+
+/* ════════════ HEALTH THERMOMETER serialisation (hidden-canonical app_thermo) ════════════ */
+var _thermoHydrating=false,_thermoTimer;
+var THERMO_TRAITS=['Minimal Politics','Minimal Confusion','High Morale','High Productivity','Low Turnover'];
+function serializeThermo(){
+  var hidden=document.getElementById('app_thermo');if(!hidden)return;
+  var lines=[],grand=0,anyEntered=false;
+  for(var t=0;t<5;t++){
+    var scores=[],sum=0;
+    for(var q=0;q<4;q++){
+      var el=document.getElementById('pt'+(t+1)+'q'+(q+1));
+      var v=(el&&/^[1-5]$/.test(el.value))?el.value:'';
+      if(v){anyEntered=true;sum+=parseInt(v,10);}
+      scores.push(v||'-');
+    }
+    grand+=sum;
+    lines.push(THERMO_TRAITS[t]+': '+scores.join(', ')+'  ('+sum+'/20)');
+  }
+  if(!anyEntered){hidden.value='';return;}
+  var band=grand>=80?'Healthy & Thriving (80–100)':grand>=60?'Stable but Uneven (60–79)':grand>=40?'Caution Zone (40–59)':grand>=20?'Unhealthy (20–39)':'Incomplete';
+  lines.push('Overall: '+grand+'/100');
+  lines.push('Temperature: '+band);
+  hidden.value=lines.join("\n");
+}
+function saveThermoDebounced(){clearTimeout(_thermoTimer);_thermoTimer=setTimeout(function(){if(window.S2R)saveRef('app_thermo');},1000);}
+function hydrateThermo(){
+  var hidden=document.getElementById('app_thermo');if(!hidden||!hidden.value)return;
+  var lines=hidden.value.split("\n");
+  _thermoHydrating=true;
+  for(var t=0;t<5;t++){
+    var prefix=THERMO_TRAITS[t]+':';var ln=null;
+    for(var j=0;j<lines.length;j++){if(lines[j].indexOf(prefix)===0){ln=lines[j];break;}}
+    if(!ln)continue;
+    var seg=ln.slice(prefix.length).split('(')[0];
+    var parts=seg.split(',').map(function(s){return s.trim();});
+    for(var q=0;q<4;q++){
+      var el=document.getElementById('pt'+(t+1)+'q'+(q+1));
+      if(el&&/^[1-5]$/.test(parts[q]||''))el.value=parts[q];
+    }
+  }
+  updateThermo('p');
+  _thermoHydrating=false;
+}
+
+
+/* ════════════ Reflection autosave: debounce → real S2R.save ════════════ */
+var _draftTimers={};
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+"-saved");if(!ok)return;
+  ok.textContent=text;ok.className="reflection-saved "+cls;ok.style.display="block";
+}
+function draftRef(id){
+  _setRefStatus(id,"✏ Drafting…","rs-drafting");
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+function showSaveError(id){
+  var existing=document.getElementById(id+"-error");
+  if(existing){existing.style.display="block";return;}
+  var savedEl=document.getElementById(id+"-saved");if(!savedEl)return;
+  var err=document.createElement("div");
+  err.id=id+"-error";err.className="reflection-error";
+  err.innerHTML="Didn't save — <button type=\"button\" class=\"reflection-error-btn\" onclick=\"retryRef('"+id+"')\">TAP TO RETRY</button>";
+  err.style.display="block";
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+function retryRef(id){var err=document.getElementById(id+"-error");if(err)err.style.display="none";saveRef(id);}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn("[unit4_m1_lens10_p] S2R helper not loaded");return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,"⏳ Saving…","rs-saving");
+  var existingErr=document.getElementById(id+"-error");if(existingErr)existingErr.style.display="none";
+  var result=await S2R.save("u4m1_lens10",id,ta.value);
+  if(result){
+    _setRefStatus(id,"✓ Saved to your portfolio","rs-ok");
+    setTimeout(function(){var ok=document.getElementById(id+"-saved");if(ok){ok.style.display="none";ok.className="ref-saved reflection-saved";}},3000);
+  }else{
+    console.error("[unit4_m1_lens10_p] saveRef failed for "+id+" (save returned false)");
+    var ok=document.getElementById(id+"-saved");if(ok)ok.style.display="none";
+    showSaveError(id);
+  }
+}
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll("textarea.reflection-textarea, input.reflection-textarea, select.reflection-textarea").forEach(function(el){
+    if(!el.id)return;
+    el.addEventListener("input",function(){draftRef(el.id);});
+    if(el.tagName==="SELECT")el.addEventListener("change",function(){saveRef(el.id);});
+  });
+});
+
+/* ── Manual "Save" button: real group-save of every reflection-textarea in the block ── */
+function saveTA(btn){
+  var box=btn.closest(".ref-block")||btn.closest(".step-panel")||btn.parentElement;
+  var fields=box?box.querySelectorAll("textarea.reflection-textarea[id], input.reflection-textarea[id], select.reflection-textarea[id]"):[];
+  fields.forEach(function(ta){saveRef(ta.id);});
+  var orig=btn.textContent;
+  btn.textContent="Saved ✓";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* ── Structured field widgets → SAME existing key via saveRef (UI-only, no new keys) ── */
+var FIELD_SPECS={
+  ref7:[{l:"Lowest-rated trait and evidence",k:"text"},{l:"Hidden cost and evidence",k:"text"},{l:"Estimated quarterly loss and calculation",k:"text"},{l:"Observed loss, assumptions and overlap",k:"text"},{l:"My leadership action and how I will track it",k:"text"}],
+  app_commit:[{l:"With (role)",k:"text"},{l:"About (topic)",k:"text"},{l:"Before (date)",k:"text"},{l:"ACE-IT behaviour",k:"text"}]
+};
+function _fldLine(p,v){return p.l+": "+(v||"");}
+function syncField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var lines=spec.map(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');
+    return _fldLine(p,el?el.value:"");
+  });
+  hidden.value=lines.join("\n");
+  saveRef(key);
+}
+var _fldTimers={};
+function syncFieldDebounced(key){clearTimeout(_fldTimers[key]);_fldTimers[key]=setTimeout(function(){syncField(key);},800);}
+function hydrateField(key){
+  var spec=FIELD_SPECS[key];var hidden=document.getElementById(key);if(!spec||!hidden)return;
+  var raw=hidden.value||"";if(!raw)return;
+  var lines=raw.split("\n");
+  var prefixes=spec.map(function(p){return p.l+":";});
+  // Multi-line-safe: a line beginning with a known label starts that field; any
+  // continuation line (not starting with another known label) appends to it.
+  var vals={},cur=-1;
+  for(var li=0;li<lines.length;li++){
+    var matched=-1;
+    for(var pi=0;pi<prefixes.length;pi++){if(lines[li].indexOf(prefixes[pi])===0){matched=pi;break;}}
+    if(matched>=0){cur=matched;vals[cur]=lines[li].slice(prefixes[cur].length).replace(/^\s+/,"");}
+    else if(cur>=0){vals[cur]+="\n"+lines[li];}
+  }
+  spec.forEach(function(p,i){
+    var el=document.querySelector('[data-fkey="'+key+'"][data-fidx="'+i+'"]');if(!el)return;
+    if(vals[i]!==undefined)el.value=vals[i];
+  });
+}
+function fldSaveBtn(btn,key){
+  syncField(key);
+  var orig=btn.textContent;
+  btn.textContent="Saved ✓";btn.style.background="rgba(26,122,106,.25)";btn.style.borderColor="var(--teal)";btn.style.color="#5ecba1";
+  setTimeout(function(){btn.textContent=orig;btn.style.background="";btn.style.borderColor="";btn.style.color="";},2000);
+}
+
+/* ── Submit to facilitator ── */
+async function sendToFacilitator(){
+  if(!window.S2R){alert("The save system is not yet ready. Please reload the page and try again.");return;}
+  if(!confirm("Submit your Module 4 · Unit 11 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed."))return;
+  var result=await S2R.submit("u4m1_lens10");
+  if(result.ok){alert("✓ Submitted to your facilitator.\n\n"+result.message);loadSubmissionFeedback();}
+  else{alert("Could not submit to your facilitator.\n\n"+result.message);}
+}
+
+/* ── Signed-in badge ── */
+function renderSignedInBadge(){
+  var el=document.getElementById("signedInBadge");if(!el)return;
+  if(!window.S2R||typeof S2R.context!=="function"){el.textContent="Sign-in: unknown";return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent="Not signed in";el.classList.add("mismatch");el.title="No active session. Sign in as the participant to view their submission and feedback.";return;}
+    var role=(ctx.role||"unknown");var pid=(ctx.profileId||"").slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent="Signed in: "+roleLabel+(pid?(" · "+pid):"");
+    if(role!=="participant"){el.classList.add("mismatch");el.title="You are on the participant page while signed in as "+role+". This page reads the signed-in account, so a participant’s feedback will not appear. Sign in as the participant to test it.";}
+    else{el.classList.remove("mismatch");el.title="";}
+    try{
+      if(ctx.profileId&&S2R._client){
+        Promise.resolve(S2R._client.from("profiles").select("full_name").eq("id",ctx.profileId).maybeSingle()).then(function(r){
+          try{var name=r&&r.data&&r.data.full_name;if(name)el.textContent="Signed in: "+roleLabel+" · "+name;}catch(_){}
+        }).catch(function(){});
+      }
+    }catch(_){}
+  }).catch(function(){el.textContent="Sign-in: unknown";});
+}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",renderSignedInBadge);else renderSignedInBadge();
+window.addEventListener("load",renderSignedInBadge);
+
+/* ── COMPONENT 1: facilitator feedback display ── */
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState("Not signed in","","Sign in as the participant to view facilitator feedback for this unit.");return;}
+    var _c=S2R._client;
+    var result=await _c.from("submissions")
+      .select("id,review_status,facilitator_feedback,submitted_at,reviewed_at")
+      .eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id","u4m1_lens10")
+      .order("submitted_at",{ascending:false}).limit(20);
+    if(result.error){console.error("[unit4_m1_lens10_p] Submission fetch error:",result.error);showFeedbackState("Facilitator Feedback","","Couldn’t load feedback right now — please reload the page.");return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState("No submission yet","","No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this unit.");return;}
+    var newest=rows[0];
+    var row=null;
+    for(var i=0;i<rows.length;i++){var st=rows[i].review_status;if(st==="pending_revision"||st==="reviewed"){row=rows[i];break;}}
+    if(!row){showFeedbackState("Awaiting Review","","Submitted — your facilitator will review it and respond. Their feedback will appear here.",newest.submitted_at);return;}
+    renderSubmissionFeedback(row);
+    if(newest.id!==row.id&&(newest.review_status==="submitted"||newest.review_status==="pending")){
+      var sl=document.getElementById("sf-status-label");
+      if(sl)sl.textContent=(row.review_status==="pending_revision"?"Returned for Revision":"Reviewed")+" · revision resubmitted";
+    }
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById("msg-acc");if(msgAcc)msgAcc.style.display="block";
+    pLoadMessages();
+    var uploadAcc=document.getElementById("upload-acc");if(uploadAcc)uploadAcc.style.display="block";
+    pWireUpload();
+  }catch(err){console.error("[unit4_m1_lens10_p] Submission fetch exception:",err);showFeedbackState("Facilitator Feedback","","Couldn’t load feedback right now — please reload the page.");}
+}
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var tsEl=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(statusClass?(" "+statusClass):"");}
+  if(tsEl){if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}else tsEl.textContent="";}
+  if(tx)tx.textContent=text;
+  acc.style.display="block";
+}
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById("feedback-acc");if(!acc)return;
+  var isReturned=row.review_status==="pending_revision";var isReviewed=row.review_status==="reviewed";
+  var label=isReturned?"Returned for Revision":isReviewed?"Reviewed":"";if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?"Your facilitator has reviewed your submission.":"");
+  var meta=document.getElementById("sf-status-meta");var sl=document.getElementById("sf-status-label");
+  var ts=document.getElementById("sf-timestamp");var tx=document.getElementById("sf-text");
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className="sf-status"+(isReturned?" returned":"");}
+  if(ts&&row.submitted_at){var d=new Date(row.submitted_at);ts.textContent=d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"})+" at "+d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit"});}
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display="block";acc.classList.add("open");
+  // Phase 3 — feedback-seen write-back: stamp reviewed_at into the per-lens
+  // localStorage map so the index.html badge clears on next portal load. Raw
+  // string, no transform — must match the format the index.html query reads.
+  try{
+    var seen=JSON.parse(localStorage.getItem("ibsl_feedback_seen")||"{}")||{};
+    if(row&&row.reviewed_at){
+      seen["u4m1_lens10"]=row.reviewed_at;
+      localStorage.setItem("ibsl_feedback_seen",JSON.stringify(seen));
+    }
+  }catch(e){console.warn("[feedback-seen] write error:",e);}
+}
+
+/* ── COMPONENT 5 + 6: messages + documents (generic, verbatim) ── */
+var _msgSubmissionId=null;
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation…';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit4_m1_lens10_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='—';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}’”'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending…';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit4_m1_lens10_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit4_m1_lens10_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error — please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit4_m1_lens10_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit4_m1_lens10_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit4_m1_lens10_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit4_m1_lens10_p C6] list docs exception:',err);
+  }
+}
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' — file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' — exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'…','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' — session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit4_m1_lens10_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' — upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit4_m1_lens10_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' — could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' — '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='✓ '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit4_m1_lens10_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' — unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+/* ── Restore saved responses + reveal feedback on load ── */
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn("[unit4_m1_lens10_p] S2R helper not loaded");return;}
+  try{
+    var responses=await S2R.loadAll("u4m1_lens10");
+    var KEYS=["ref7"];
+    KEYS.forEach(function(id){var ta=document.getElementById(id);if(ta&&responses[id]!=null)ta.value=responses[id];});
+    ["ref7"].forEach(hydrateField);
+    loadSubmissionFeedback();
+    u11S5Start(responses);
+  }catch(err){console.error("[unit4_m1_lens10_p] Load exception:",err);}
+});
+
+
+/* ── Unit 11 · Section 5 · The Cross-CXO Organisational Health Clinic (27 Oct 2026) ──
+   Group Capstone work on the shared group record (s2r-team.js): the scribe types, every member selects Agree.
+   Uses only the reference functional scores and losses below and the group's CXO roles (Carol: the Section 4 personal reflection does not feed Section 5).
+   Saved for the group: __oh_work (the working record) and, once complete, oh_func, oh_cons, oh_rrr, oh_resp (Capstone 11A-11D). */
+var U11_LENS="u4m1_lens10";
+var U11_ROLES=[["CEO", "Executive Leadership &amp; Corporate Management", 20, 18, 17, 16, 17, 16, 16, 82], ["CFO", "Finance &amp; Financial Management", 40, 36, 14, 13, 13, 15, 15, 70], ["COO", "Operations &amp; Service Delivery", 120, 108, 9, 10, 8, 12, 11, 50], ["CHRO", "Human Resources &amp; People Management", 30, 27, 16, 16, 15, 16, 17, 80], ["CTO/CIO", "Information Technology &amp; Digital Transformation", 50, 45, 12, 10, 11, 13, 13, 59], ["CMO", "Marketing &amp; Brand Management", 35, 32, 15, 12, 14, 14, 15, 70], ["CCO", "Commercial &amp; Business Development", 60, 54, 11, 12, 10, 13, 12, 58], ["CPO", "Procurement &amp; Supply Chain Management", 45, 41, 10, 11, 12, 13, 12, 58], ["CRO", "Risk Management &amp; Compliance", 25, 23, 16, 15, 15, 16, 16, 78], ["CSO", "Strategy &amp; Enterprise Performance Management", 35, 32, 13, 12, 14, 13, 14, 66]];
+var U11_LOSS={"CEO": [12000, 8000, 5000, 3000, 0], "CFO": [45000, 30000, 15000, 10000, 50000], "COO": [180000, 120000, 60000, 45000, 150000], "CHRO": [15000, 12000, 8000, 5000, 0], "CTO/CIO": [80000, 65000, 30000, 25000, 90000], "CMO": [35000, 25000, 15000, 10000, 40000], "CCO": [95000, 80000, 40000, 30000, 100000], "CPO": [70000, 45000, 35000, 20000, 60000], "CRO": [20000, 15000, 10000, 5000, 0], "CSO": [55000, 35000, 20000, 15000, 50000]};
+var U11_CS=["Lost Time", "Disengagement", "Declining Trust", "Emotional Fatigue", "Talent Loss"];
+var U11_CN=["Lost Time", "Employee Disengagement", "Declining Trust", "Emotional Fatigue", "Talent Loss"];
+var U11_NAMES=["Health Clinic · Functional Health Assessments", "Health Clinic · Consolidated Health Position", "Health Clinic · Review–Realign–Restore", "Health Clinic · Organisational Health Response", "Health Clinic · Cultural Operating Code"];
+var U11_KEYS=["oh_func", "oh_cons", "oh_rrr", "oh_resp", "oh_coc"];
+var U11_TR=["Minimal Politics","Minimal Confusion","High Morale","High Productivity","Low Turnover"];
+var U11_FF=[["vuln","Potential cultural vulnerabilities"],["evid","Evidence requiring investigation"],["link","Links between the largest hidden cost and the two weakest traits"],["valid","Evidence needed to validate the estimates"],["overlap","Potential overlap or double counting"],["dist","Estimated exposure and validated loss"]];
+var U11_RF=[["trait","Priority health trait"],["action","Review–Realign–Restore action"],["owners","Accountable CXO(s)"],["htarget","Health improvement target"],["cost","Associated hidden cost"],["target","Financial target (R)"]];
+var U11W=u11Blank(),_u11Last={},U11Fold={f:{},r:{},n:{}},U11Charter=[],U11Ready=false;
+function u11Blank(){return {roles:[],fn:{},t4:{contrib:"",xvuln:""},t5:{overlap:""},t6:{funcs:"",cult:"",people:""},rrr:{review:"",realign:"",restore:""},resp:[u11BlankResp()],coc:u11CocBlank()};}
+function u11BlankResp(){return {trait:"",action:"",owners:"",htarget:"",cost:"",target:""};}
+function u11esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function u11el(id){return document.getElementById(id);}
+function u11Str(v){return typeof v==="string"?v:"";}
+function u11Norm(w){
+  var b=u11Blank();if(!w||typeof w!=="object")return b;
+  if(Array.isArray(w.roles))b.roles=U11_ROLES.map(function(r){return r[0];}).filter(function(c){return w.roles.indexOf(c)>=0;});
+  if(w.fn&&typeof w.fn==="object")Object.keys(w.fn).forEach(function(c){var x={};U11_FF.forEach(function(f){x[f[0]]=u11Str(w.fn[c]&&w.fn[c][f[0]]);});b.fn[c]=x;});
+  ["t4","t5","t6","rrr"].forEach(function(g){Object.keys(b[g]).forEach(function(k){b[g][k]=u11Str(w[g]&&w[g][k]);});});
+  b.coc=u11CocNorm(w.coc);
+  if(Array.isArray(w.resp)&&w.resp.length)b.resp=w.resp.map(function(r){var x=u11BlankResp();Object.keys(x).forEach(function(k){x[k]=u11Str(r&&r[k]);});return x;});
+  return b;
+}
+function u11Row(c){for(var i=0;i<U11_ROLES.length;i++)if(U11_ROLES[i][0]===c)return U11_ROLES[i];return null;}
+function u11Fn(c){if(!U11W.fn[c]){var x={};U11_FF.forEach(function(f){x[f[0]]="";});U11W.fn[c]=x;}return U11W.fn[c];}
+function u11Band(x){return x>=80?"Healthy & Thriving":x>=60?"Stable but Uneven":x>=40?"Caution Zone":"Unhealthy";}
+function u11R(n){return "R"+Math.round(n).toLocaleString("en-ZA").replace(/\s| /g,",");}
+function u11D(x){return (Math.round(x*10)/10).toFixed(1);}
+function u11Weak(vals){var ix=[0,1,2,3,4].sort(function(a,b){return vals[a]-vals[b]||a-b;});return [ix[0],ix[1]];}
+function u11FnWeak(r){var w=u11Weak(r.slice(4,9));return U11_TR[w[0]]+" ("+r[4+w[0]]+"/20) and "+U11_TR[w[1]]+" ("+r[4+w[1]]+"/20)";}
+function u11FnCost(c){var l=U11_LOSS[c]||[0,0,0,0,0],m=0;for(var i=1;i<5;i++)if(l[i]>l[m])m=i;return U11_CN[m]+" ("+u11R(l[m])+")";}
+function u11FnTot(c){return (U11_LOSS[c]||[]).reduce(function(a,b){return a+b;},0);}
+/* The group consolidation, weighted by valid responses (Task 3) and summed by hidden cost (Task 5) */
+function u11Cons(){
+  var sel=U11W.roles.map(u11Row).filter(Boolean);if(!sel.length)return null;
+  var n=sel.reduce(function(a,r){return a+r[3];},0),tr=[0,1,2,3,4].map(function(t){return sel.reduce(function(a,r){return a+r[4+t]*r[3];},0)/n;});
+  var tot=tr.reduce(function(a,b){return a+b;},0),cost=[0,1,2,3,4].map(function(k){return sel.reduce(function(a,r){return a+U11_LOSS[r[0]][k];},0);});
+  var gross=cost.reduce(function(a,b){return a+b;},0),cix=[0,1,2,3,4].sort(function(a,b){return cost[b]-cost[a]||a-b;});
+  return {sel:sel,n:n,staff:sel.reduce(function(a,r){return a+r[2];},0),tr:tr,tot:tot,weak:u11Weak(tr),cost:cost,gross:gross,big:[cix[0],cix[1]]};
+}
+function u11ConsText(c){return u11D(c.tot)+" /100 · "+u11Band(c.tot);}
+function u11Fld(path,label,val){return '<label class="fld-label">'+label+'</label><textarea class="fld-input u11-ta" data-u11="'+path+'">'+u11esc(val)+'</textarea>';}
+function u11DrawRoles(){
+  var h=u11el("u11Roles");if(!h)return;
+  h.innerHTML=U11_ROLES.map(function(r){var on=U11W.roles.indexOf(r[0])>=0;return '<label class="u11-chk'+(on?' on':'')+'"><input type="checkbox" data-u11="role-'+r[0]+'"'+(on?' checked':'')+'> <strong>'+r[0]+'</strong> · '+r[1]+'</label>';}).join("")+
+    '<div class="u11-note2">'+(U11Charter.length?'Your Problem Charter’s executive team: '+u11esc(U11Charter.join("; ")):'Your group’s Problem Charter executive team appears here once the Charter is agreed in Unit 1.')+'</div>';
+}
+function u11DrawRef(){
+  var a=u11el("u11Ref52"),b=u11el("u11Ref53"),c=u11Cons();if(!a)return;
+  a.innerHTML='<div class="u11-scroll"><table class="u11-tbl u11-tbln u11-ref"><thead><tr><th>CXO</th><th>Function</th><th>Staff</th><th>No. of Responses</th><th>Politics</th><th>Confusion</th><th>Morale</th><th>Productivity</th><th>Turnover</th><th>Total</th></tr></thead><tbody>'+
+    U11_ROLES.map(function(r){return '<tr class="'+(U11W.roles.indexOf(r[0])>=0?'u11-sel':'')+'">'+r.map(function(x){return '<td>'+x+'</td>';}).join("")+'</tr>';}).join("")+
+    '<tr class="u11-tot"><td>Selected roles</td><td>Group consolidation</td>'+(c?'<td>'+c.staff+'</td><td>'+c.n+'</td>'+c.tr.map(function(x){return '<td>'+u11D(x)+'</td>';}).join("")+'<td>'+u11D(c.tot)+'</td>':'<td colspan="8">Tick your group’s CXO roles above</td>')+'</tr></tbody></table></div>';
+  if(b)b.innerHTML='<div class="u11-scroll"><table class="u11-tbl u11-tbln u11-ref"><thead><tr><th>CXO</th>'+U11_CS.map(function(x){return '<th>'+x+'</th>';}).join("")+'<th>Gross Total</th></tr></thead><tbody>'+
+    U11_ROLES.map(function(r){var l=U11_LOSS[r[0]];return '<tr class="'+(U11W.roles.indexOf(r[0])>=0?'u11-sel':'')+'"><td>'+r[0]+'</td>'+l.map(function(x){return '<td>'+u11R(x)+'</td>';}).join("")+'<td>'+u11R(u11FnTot(r[0]))+'</td></tr>';}).join("")+
+    '<tr class="u11-tot"><td>Selected roles</td>'+(c?c.cost.map(function(x){return '<td>'+u11R(x)+'</td>';}).join("")+'<td>'+u11R(c.gross)+'</td>':'<td colspan="6">Tick your group’s CXO roles in part 5.2</td>')+'</tr></tbody></table></div>';
+}
+function u11DrawFns(){
+  var h=u11el("u11Fns");if(!h)return;
+  if(!U11W.roles.length){h.innerHTML='<div class="u11-note2">Tick your group’s CXO roles above to open one interpretation card per function.</div>';return;}
+  h.innerHTML=U11W.roles.map(function(c,i){var r=u11Row(c),f=u11Fn(c);
+    return '<details class="u11-det"'+(U11Fold.f[c]===undefined?(i===0?' open':''):(U11Fold.f[c]?' open':''))+' data-fold="f-'+c+'"><summary>'+c+' · '+r[1]+'</summary><div class="u11-det-b">'+
+      '<div class="u11-sub">Task 1 · Functional health position</div>'+
+      '<table class="u11-tbl u11-kv"><tbody><tr><td>CXO role / function</td><td>'+c+' · '+r[1]+'</td></tr><tr><td>Functional score and classification</td><td>'+r[9]+' /100 · '+u11Band(r[9])+' ('+r[3]+' of '+r[2]+' staff responded)</td></tr><tr><td>Two weakest traits</td><td>'+u11FnWeak(r)+'</td></tr></tbody></table>'+
+      u11Fld("fn-"+c+"-vuln",U11_FF[0][1],f.vuln)+u11Fld("fn-"+c+"-evid",U11_FF[1][1],f.evid)+
+      '<div class="u11-sub">Task 2 · Functional losses</div>'+
+      '<table class="u11-tbl u11-kv"><tbody><tr><td>Largest hidden cost</td><td>'+u11FnCost(c)+'</td></tr><tr><td>Gross quarterly exposure</td><td>'+u11R(u11FnTot(c))+'</td></tr></tbody></table>'+
+      u11Fld("fn-"+c+"-link",U11_FF[2][1],f.link)+u11Fld("fn-"+c+"-valid",U11_FF[3][1],f.valid)+u11Fld("fn-"+c+"-overlap",U11_FF[4][1],f.overlap)+u11Fld("fn-"+c+"-dist",U11_FF[5][1],f.dist)+
+      '</div></details>';}).join("");
+}
+function u11DrawCalc(){
+  var c=u11Cons(),t3=u11el("u11T3"),t5=u11el("u11T5"),none='<div class="u11-note2">Tick your group’s CXO roles in part 5.2.</div>';
+  if(t3)t3.innerHTML=c?'<table class="u11-tbl u11-kv"><thead><tr><th>Organisational health trait</th><th>Enterprise score /20</th></tr></thead><tbody>'+U11_TR.map(function(t,i){return '<tr><td>'+t+'</td><td>'+u11D(c.tr[i])+'</td></tr>';}).join("")+'<tr class="u11-tot"><td>Enterprise Health Score /100</td><td>'+u11ConsText(c)+'</td></tr></tbody></table><div class="u11-note2">Weighted by '+c.n+' valid responses across '+c.sel.length+' function'+(c.sel.length>1?'s':'')+': '+c.sel.map(function(r){return r[0];}).join(", ")+'.</div>':none;
+  if(t5)t5.innerHTML=c?'<table class="u11-tbl u11-kv"><thead><tr><th>Hidden cost</th><th>Enterprise quarterly exposure</th></tr></thead><tbody>'+U11_CN.map(function(t,i){return '<tr><td>'+t+'</td><td>'+u11R(c.cost[i])+'</td></tr>';}).join("")+'<tr class="u11-tot"><td>Total Gross Quarterly Exposure</td><td>'+u11R(c.gross)+'</td></tr></tbody></table>':none;
+  var set=function(id,v){var e=u11el(id);if(e)e.textContent=v;};
+  set("u11T4s",c?u11ConsText(c):"—");set("u11T4w",c?U11_TR[c.weak[0]]+" ("+u11D(c.tr[c.weak[0]])+"/20) and "+U11_TR[c.weak[1]]+" ("+u11D(c.tr[c.weak[1]])+"/20)":"—");
+  set("u11T6s",c?u11ConsText(c):"—");set("u11T6w",c?U11_TR[c.weak[0]]+" and "+U11_TR[c.weak[1]]:"—");
+  set("u11T6g",c?u11R(c.gross)+" (gross, before overlap adjustments)":"—");set("u11T6c",c?U11_CN[c.big[0]]+" ("+u11R(c.cost[c.big[0]])+") and "+U11_CN[c.big[1]]+" ("+u11R(c.cost[c.big[1]])+")":"—");
+  set("u11Low",c?"Lowest-scoring health trait in your consolidated assessment: "+U11_TR[c.weak[0]]+" ("+u11D(c.tr[c.weak[0]])+"/20).":"");
+}
+function u11Cur(r){var c=u11Cons(),k=U11_CN.indexOf(r.cost);return (c&&k>=0)?c.cost[k]:null;}
+function u11RedText(r){var cur=u11Cur(r),t=parseFloat(String(r.target).replace(/[^\d.]/g,""));if(cur===null)return "Select the associated hidden cost";
+  return "Current "+u11R(cur)+(isNaN(t)?" → target not yet set":" → target "+u11R(t)+" (reduction "+u11R(cur-t)+")");}
+function u11DrawResp(){
+  var h=u11el("u11Resp");if(!h)return;
+  h.innerHTML=U11W.resp.map(function(r,i){
+    var sel=function(k,opts,ph){return '<select class="fld-isel" data-u11="resp-'+i+'-'+k+'"><option value="">'+ph+'</option>'+opts.map(function(o){return '<option'+(o===r[k]?' selected':'')+'>'+o+'</option>';}).join("")+'</select>';};
+    return '<details class="u11-det"'+(U11Fold.r[i]!==false?' open':'')+' data-fold="r-'+i+'"><summary>Response '+(i+1)+(r.trait?' · '+u11esc(r.trait):'')+'</summary><div class="u11-det-b">'+
+      '<label class="fld-label">Priority health trait</label>'+sel("trait",U11_TR,"Select the priority health trait")+
+      u11Fld("resp-"+i+"-action","Review–Realign–Restore action",r.action)+
+      '<div class="u11-grid"><div><label class="fld-label">Accountable CXO(s)</label><input class="fld-input" type="text" data-u11="resp-'+i+'-owners" value="'+u11esc(r.owners)+'"></div>'+
+      '<div><label class="fld-label">Health improvement target</label><input class="fld-input" type="text" data-u11="resp-'+i+'-htarget" value="'+u11esc(r.htarget)+'" placeholder="e.g. trait score /20 next quarter"></div></div>'+
+      '<div class="u11-grid"><div><label class="fld-label">Associated hidden cost</label>'+sel("cost",U11_CN,"Select the hidden cost")+'</div>'+
+      '<div><label class="fld-label">Financial target for next quarter (R)</label><input class="fld-input" type="text" inputmode="numeric" data-u11="resp-'+i+'-target" value="'+u11esc(r.target)+'"></div></div>'+
+      '<div class="u11-ro" id="u11Red'+i+'">'+u11RedText(r)+'</div>'+
+      (U11W.resp.length>1?'<button type="button" class="ref-save" onclick="u11DelResp('+i+')">Remove this response</button>':'')+'</div></details>';}).join("");
+}
+function u11DrawFields(){
+  document.querySelectorAll('#mod4 [data-u11^="t4-"],#mod4 [data-u11^="t5-"],#mod4 [data-u11^="t6-"],#mod4 [data-u11^="rrr-"]').forEach(function(t){var a=t.getAttribute("data-u11").split("-");if(document.activeElement!==t)t.value=U11W[a[0]][a[1]]||"";});
+}
+function u11Draw(){u11DrawRoles();u11DrawRef();u11DrawFns();u11DrawCalc();u11DrawFields();u11DrawResp();u11DrawCoc();u11RecDraw();}
+function u11AddResp(){if(window.S2RTeam&&!S2RTeam.isScribe())return;U11W.resp.push(u11BlankResp());u11DrawResp();u11Out();u11RecDraw();}
+function u11DelResp(i){if(window.S2RTeam&&!S2RTeam.isScribe())return;if(U11W.resp.length<2)return;if(!confirm("Remove Response "+(i+1)+"?"))return;U11W.resp.splice(i,1);U11Fold.r={};u11DrawResp();u11Out();u11RecDraw();}
+function u11OnInput(ev){
+  var t=ev.target,path=t&&t.getAttribute&&t.getAttribute("data-u11");if(!path)return;
+  var a=path.split("-");
+  if(a[0]==="role"){if(ev.type!=="change")return;var c=path.slice(5),i=U11W.roles.indexOf(c);if(t.checked&&i<0)U11W.roles.push(c);if(!t.checked&&i>=0)U11W.roles.splice(i,1);
+    U11W.roles=U11_ROLES.map(function(r){return r[0];}).filter(function(x){return U11W.roles.indexOf(x)>=0;});u11DrawRoles();u11DrawRef();u11DrawFns();u11DrawCalc();u11DrawResp();}
+  else if(a[0]==="cv"||a[0]==="cn"||a[0]==="ct"){u11CocInput(a,t,ev);}
+  else if(a[0]==="fn"){u11Fn(a[1])[a[2]]=t.value;}
+  else if(a[0]==="resp"){var r=U11W.resp[+a[1]];if(!r)return;r[a[2]]=t.value;
+    if(a[2]==="trait"){var sm=document.querySelector('#u11Resp details[data-fold="r-'+a[1]+'"]>summary');if(sm)sm.textContent="Response "+(+a[1]+1)+(r.trait?" · "+r.trait:"");}
+    var rd=u11el("u11Red"+a[1]);if(rd)rd.textContent=u11RedText(r);}
+  else if(U11W[a[0]]&&a[1] in U11W[a[0]])U11W[a[0]][a[1]]=t.value;
+  u11Out();u11RecDraw();
+}
+/* What is still open before the group can agree */
+function u11Open(){
+  var o=[];if(!U11W.roles.length){o.push("your group’s CXO roles in part 5.2");return o;}
+  U11W.roles.forEach(function(c){var f=u11Fn(c);if(U11_FF.some(function(x){return !f[x[0]].trim();}))o.push("every field of the "+c+" card (Tasks 1 and 2)");});
+  if(!U11W.t4.contrib.trim()||!U11W.t4.xvuln.trim())o.push("Task 4 in part 5.4");
+  if(!U11W.t5.overlap.trim())o.push("the possible overlaps in Task 5");
+  if(!U11W.t6.funcs.trim()||!U11W.t6.cult.trim()||!U11W.t6.people.trim())o.push("the EXCO findings in Task 6");
+  if(!U11W.rrr.review.trim()||!U11W.rrr.realign.trim()||!U11W.rrr.restore.trim())o.push("the Review, Realign and Restore outputs in part 5.6");
+  U11W.resp.forEach(function(r,i){if(U11_RF.some(function(f){return !String(r[f[0]]).trim();})||isNaN(parseFloat(String(r.target).replace(/[^\d.]/g,""))))o.push("every field of Response "+(i+1)+" in part 5.7");});
+  o=o.concat(u11CocOpen());
+  return o;
+}
+function u11Texts(){
+  var c=u11Cons()||{sel:[],tr:[0,0,0,0,0],tot:0,weak:[0,1],cost:[0,0,0,0,0],gross:0,big:[0,1],n:0};
+  var F=U11W.roles.map(function(k){var r=u11Row(k),f=u11Fn(k);
+    return k+" · "+r[1].replace(/&amp;/g,"&")+"\nFunctional score and classification: "+r[9]+" /100 · "+u11Band(r[9])+"\nTwo weakest traits: "+u11FnWeak(r)+"\nLargest hidden cost: "+u11FnCost(k)+"\nGross quarterly exposure: "+u11R(u11FnTot(k))+"\n"+U11_FF.map(function(x){return x[1]+": "+f[x[0]].trim();}).join("\n");}).join("\n\n");
+  var C=["Functions consolidated: "+c.sel.map(function(r){return r[0];}).join(", ")+" ("+c.n+" valid responses)"]
+    .concat(U11_TR.map(function(t,i){return t+": "+u11D(c.tr[i])+" /20";}))
+    .concat(["Consolidated health score: "+u11ConsText(c),"Two weakest traits: "+U11_TR[c.weak[0]]+" and "+U11_TR[c.weak[1]],
+      "Functions contributing most to those weaknesses: "+U11W.t4.contrib.trim(),"Vulnerabilities requiring cross-functional leadership attention: "+U11W.t4.xvuln.trim()])
+    .concat(U11_CN.map(function(t,i){return t+" exposure: "+u11R(c.cost[i]);}))
+    .concat(["Total gross quarterly exposure: "+u11R(c.gross),"Possible overlaps: "+U11W.t5.overlap.trim(),
+      "Two largest hidden-cost categories: "+U11_CN[c.big[0]]+" and "+U11_CN[c.big[1]],"Most vulnerable functions: "+U11W.t6.funcs.trim(),
+      "Priority cultural vulnerabilities: "+U11W.t6.cult.trim(),"Priority people-performance concerns: "+U11W.t6.people.trim()]).join("\n");
+  var R="Review · Prioritised organisational health diagnosis: "+U11W.rrr.review.trim()+"\nRealign · Agreed cultural reinforcement actions: "+U11W.rrr.realign.trim()+"\nRestore · Measurable health and performance commitments: "+U11W.rrr.restore.trim();
+  var P=U11W.resp.map(function(r,i){return "Response "+(i+1)+": "+r.trait+"\nReview–Realign–Restore action: "+r.action.trim()+"\nAccountable CXO(s): "+r.owners.trim()+"\nHealth improvement target: "+r.htarget.trim()+"\nAssociated hidden cost: "+r.cost+"\nFinancial target: "+u11RedText(r);}).join("\n\n");
+  return {oh_func:F,oh_cons:C,oh_rrr:R,oh_resp:P,oh_coc:u11CocText()};
+}
+/* The scribe's page saves the working record, and the four Capstone texts once the record is complete. */
+function u11Out(){
+  if(!window.S2RTeam||!S2RTeam.isScribe()||!U11Ready)return;
+  var w=JSON.stringify(U11W);if(_u11Last.__oh_work!==w){_u11Last.__oh_work=w;S2RTeam.save("__oh_work",JSON.parse(w));}
+  if(u11Open().length)return;
+  var t=u11Texts();U11_KEYS.forEach(function(k){if(_u11Last[k]!==t[k]){_u11Last[k]=t[k];S2RTeam.save(k,t[k]);}});
+}
+function u11RecDraw(){
+  var m=u11el("u11RecMsg");if(!m)return;var o=u11Open(),st=window.S2RTeam&&S2RTeam.status();
+  if(st&&st.all_agreed)m.innerHTML='<span class="u11-ok">✓ Every member has agreed. Your group’s clinic record goes into your team’s Capstone S2R Blueprint.</span>';
+  else if(o.length)m.textContent="Still to complete before your group can agree: "+o.join("; ")+".";
+  else m.textContent="Your record is complete. Each member reads it and selects Agree.";
+}
+async function u11Agree(){var o=u11Open();if(o.length){u11RecDraw();return;}if(!window.S2RTeam)return;
+  if(S2RTeam.isScribe()){u11Out();await S2RTeam.flush();}await S2RTeam.agree();u11RecDraw();}
+function u11Print(){
+  var t=u11Texts(),H=["Functional health assessments","Consolidated health position","Review–Realign–Restore","Organisational Health Response","Cultural Operating Code"];
+  var body=U11_KEYS.map(function(k,i){return "<h2>"+H[i]+"</h2>"+t[k].split("\n").map(function(l){if(!l)return "";var j=l.indexOf(": ");return "<p>"+(j>0?"<strong>"+u11esc(l.slice(0,j))+":</strong> "+u11esc(l.slice(j+2)):"<strong>"+u11esc(l)+"</strong>")+"</p>";}).join("");}).join("");
+  var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Our Cross-CXO Organisational Health Clinic</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}h2{color:#043f2f;font-size:18px;margin-top:22px;border-bottom:1px solid #ccc}p{margin:4px 0}.sub{color:#555;font-size:13px}</style></head><body>'+
+    '<h1>Our Cross-CXO Organisational Health Clinic</h1><p class="sub">Strategy2Results® · Module 4 · Unit 11 · Section 5 · Capstone work</p>'+body+'</body></html>';
+  var w=window.open("","_blank");if(!w){window.print();return;}w.document.write(doc);w.document.close();w.focus();setTimeout(function(){w.print();},300);
+}
+/* The group's agreed Problem Charter executive team (Unit 1): roles named there are ticked for a new record. */
+var U11_MATCH=[["CEO",/\bCEO\b|chief executive/i],["CFO",/\bCFO\b|chief financ/i],["COO",/\bCOO\b|chief operat/i],["CHRO",/\bCHRO\b|chief (human|people)/i],["CTO/CIO",/\bCTO\b|\bCIO\b|chief (technology|information|digital)/i],
+  ["CMO",/\bCMO\b|chief marketing/i],["CCO",/\bCCO\b|chief commercial/i],["CPO",/\bCPO\b|chief procurement/i],["CRO",/\bCRO\b|chief risk/i],["CSO",/\bCSO\b|chief strateg/i]];
+var _u11CharterDone=false;
+async function u11LoadCharter(){
+  if(!_u11CharterDone){_u11CharterDone=true;
+    var r={};try{r=window.S2R?(await S2R.loadAll("u1_foundations")||{}):{};}catch(e){r={};}
+    var conf=Array.isArray(r.confirmed_items)?r.confirmed_items:[];
+    var team=(conf.indexOf("Problem Charter · Executive Team")>=0&&typeof r.pc_team==="string")?r.pc_team:"";
+    U11Charter=team.split(/\r?\n/).map(function(x){return x.replace(/^[\s\-•\d.]+/,"").trim();}).filter(Boolean);}
+  if(!U11W.roles.length&&U11Charter.length&&window.S2RTeam&&S2RTeam.isScribe()){
+    U11W.roles=U11_MATCH.filter(function(m){return U11Charter.some(function(x){return m[1].test(x);});}).map(function(m){return m[0];});
+    if(U11W.roles.length){u11Draw();u11Out();if(S2RTeam.redraw)S2RTeam.redraw();return;}
+  }
+  u11DrawRoles();if(window.S2RTeam&&S2RTeam.redraw)S2RTeam.redraw();
+}
+function u11Init(r){
+  r=r||{};var w=r.__oh_work;if(typeof w==="string"){try{w=JSON.parse(w);}catch(e){w=null;}}
+  U11W=u11Norm(w);_u11Last={__oh_work:JSON.stringify(U11W)};U11_KEYS.forEach(function(k){if(typeof r[k]==="string")_u11Last[k]=r[k];});
+  u11Draw();
+}
+var _u11On=false;
+async function u11S5Start(responses){
+  if(_u11On)return;_u11On=true;
+  var root=u11el("mod4");if(root){root.addEventListener("input",u11OnInput);root.addEventListener("change",u11OnInput);
+    root.addEventListener("toggle",function(e){var d=e.target,k=d&&d.getAttribute&&d.getAttribute("data-fold");if(!k)return;var g=k.slice(0,1),id=k.slice(2);U11Fold[g][g==="r"?+id:id]=d.open;},true);}
+  u11Init(responses);U11Ready=true;
+  if(window.S2RTeam){try{await S2RTeam.attach({lens:U11_LENS,mount:"u11TwBar",lock:["mod4"],names:U11_NAMES,
+    complete:function(){var o=u11Open();return o.length?o.join("; "):"";},
+    onRemote:function(r){u11Init(r);return u11LoadCharter();}});}catch(e){}}
+  await u11LoadCharter();u11RecDraw();
+}
+
+/* ── Unit 11 · part 5.8 Build Your Cultural Operating Code (27 Oct 2026, Carol 22:37) ──
+   Part of the same group record: U11W.coc = {vals:[{v,m}], norms:[{value,beh,acr,acts,stmt}], test:{norm,newemp,pressure,mirror}}; Capstone 11E = oh_coc. */
+var U11_NF=[["beh","Observable behaviour"],["acr","Acronym"],["acts","The three actions"],["stmt","Norm statement"]];
+var U11_TF=[["newemp","The New Employee Test"],["pressure","The Pressure Test"],["mirror","The Mirror Test"]];
+function u11CocBlank(){var v=[];for(var i=0;i<6;i++)v.push({v:"",m:""});return {vals:v,norms:[u11NormBlank(),u11NormBlank(),u11NormBlank()],test:{norm:"",newemp:"",pressure:"",mirror:""}};}
+function u11NormBlank(){return {value:"",beh:"",acr:"",acts:"",stmt:""};}
+function u11CocNorm(c){
+  var b=u11CocBlank();if(!c||typeof c!=="object")return b;
+  if(Array.isArray(c.vals))for(var i=0;i<6;i++){var x=c.vals[i]||{};b.vals[i]={v:u11Str(x.v),m:u11Str(x.m)};}
+  if(Array.isArray(c.norms)&&c.norms.length)b.norms=c.norms.slice(0,6).map(function(n){var x=u11NormBlank();Object.keys(x).forEach(function(k){x[k]=u11Str(n&&n[k]);});return x;});
+  if(c.test)Object.keys(b.test).forEach(function(k){b.test[k]=u11Str(c.test[k]);});
+  return b;
+}
+function u11CocVals(){return U11W.coc.vals.map(function(x){return x.v.trim();}).filter(Boolean);}
+function u11CocNormLabel(n){return (n.acr.trim()||"Norm")+(n.value?" · "+n.value:"");}
+function u11CocValOpts(cur){var vs=u11CocVals(),h='<option value="">Select a value</option>';if(cur&&vs.indexOf(cur)<0)vs.push(cur);
+  vs.forEach(function(v){h+='<option'+(v===cur?' selected':'')+'>'+u11esc(v)+'</option>';});return h;}
+function u11CocTestOpts(cur){var h='<option value="">Select your strongest norm</option>',seen=false;
+  U11W.coc.norms.forEach(function(n){var l=u11CocNormLabel(n);if(!n.acr.trim()&&!n.value)return;if(l===cur)seen=true;h+='<option'+(l===cur?' selected':'')+'>'+u11esc(l)+'</option>';});
+  if(cur&&!seen)h+='<option selected>'+u11esc(cur)+'</option>';return h;}
+function u11DrawCoc(){
+  var hv=u11el("u11CocVals"),hn=u11el("u11CocNorms"),ht=u11el("u11CocTest");if(!hv)return;
+  hv.innerHTML=U11W.coc.vals.map(function(x,i){return '<div class="u11-cv"><div><label class="fld-label">Value '+(i+1)+(i<3?'':' (optional)')+'</label><input class="fld-input" type="text" data-u11="cv-'+i+'-v" value="'+u11esc(x.v)+'"></div>'+
+    '<div><label class="fld-label">What it means</label><input class="fld-input" type="text" data-u11="cv-'+i+'-m" value="'+u11esc(x.m)+'"></div></div>';}).join("");
+  hn.innerHTML=U11W.coc.norms.map(function(n,i){return '<details class="u11-det" data-fold="n-'+i+'"'+(U11Fold.n&&U11Fold.n[i]===false?'':' open')+'><summary>Norm '+(i+1)+(n.acr.trim()?' · '+u11esc(n.acr.trim()):'')+'</summary><div class="u11-det-b">'+
+    '<label class="fld-label">Value</label><select class="fld-isel" data-u11="cn-'+i+'-value">'+u11CocValOpts(n.value)+'</select>'+
+    U11_NF.map(function(f){return '<label class="fld-label">'+f[1]+'</label>'+(f[0]==="acr"?'<input class="fld-input" type="text" data-u11="cn-'+i+'-acr" value="'+u11esc(n.acr)+'">':'<textarea class="fld-input u11-ta" data-u11="cn-'+i+'-'+f[0]+'">'+u11esc(n[f[0]])+'</textarea>');}).join("")+
+    (U11W.coc.norms.length>3?'<button type="button" class="ref-save" onclick="u11CocDel('+i+')">Remove this norm</button>':'')+'</div></details>';}).join("");
+  ht.innerHTML='<label class="fld-label">Strongest norm</label><select class="fld-isel" data-u11="ct-norm">'+u11CocTestOpts(U11W.coc.test.norm)+'</select>'+
+    U11_TF.map(function(f){return '<label class="fld-label">'+f[1]+'</label><textarea class="fld-input u11-ta" data-u11="ct-'+f[0]+'">'+u11esc(U11W.coc.test[f[0]])+'</textarea>';}).join("");
+}
+function u11CocAdd(){if(window.S2RTeam&&!S2RTeam.isScribe())return;if(U11W.coc.norms.length>=6)return;U11W.coc.norms.push(u11NormBlank());u11DrawCoc();u11Out();u11RecDraw();}
+function u11CocDel(i){if(window.S2RTeam&&!S2RTeam.isScribe())return;if(U11W.coc.norms.length<=3)return;if(!confirm("Remove Norm "+(i+1)+"?"))return;U11W.coc.norms.splice(i,1);U11Fold.n={};u11DrawCoc();u11Out();u11RecDraw();}
+function u11CocInput(a,t,ev){
+  if(a[0]==="cv"){var x=U11W.coc.vals[+a[1]];if(!x)return;x[a[2]]=t.value;
+    if(a[2]==="v"&&ev.type==="change")document.querySelectorAll('#u11CocNorms select[data-u11$="-value"]').forEach(function(s){var i=+s.getAttribute("data-u11").split("-")[1];s.innerHTML=u11CocValOpts(U11W.coc.norms[i].value);});}
+  else if(a[0]==="cn"){var n=U11W.coc.norms[+a[1]];if(!n)return;n[a[2]]=t.value;
+    if(a[2]==="acr"){var sm=document.querySelector('#u11CocNorms details[data-fold="n-'+a[1]+'"]>summary');if(sm)sm.textContent="Norm "+(+a[1]+1)+(n.acr.trim()?" · "+n.acr.trim():"");}
+    if((a[2]==="acr"||a[2]==="value")&&ev.type==="change"){var ts=document.querySelector('#u11CocTest select');if(ts)ts.innerHTML=u11CocTestOpts(U11W.coc.test.norm);}}
+  else if(a[0]==="ct"){U11W.coc.test[a[1]]=t.value;}
+}
+function u11CocOpen(){
+  var o=[],c=U11W.coc,vs=c.vals.filter(function(x){return x.v.trim();});
+  if(vs.length<3)o.push("at least three values in part 5.8 Step 1");
+  if(vs.some(function(x){return !x.m.trim();}))o.push("what each value means in part 5.8 Step 1");
+  c.norms.forEach(function(n,i){if(!n.value||U11_NF.some(function(f){return !n[f[0]].trim();}))o.push("every field of Norm "+(i+1)+" in part 5.8");});
+  if(!c.test.norm||U11_TF.some(function(f){return !c.test[f[0]].trim();}))o.push("the three tests of your strongest norm in part 5.8");
+  return o;
+}
+function u11CocText(){
+  var c=U11W.coc;
+  return ["Our values:"].concat(c.vals.filter(function(x){return x.v.trim();}).map(function(x){return x.v.trim()+": "+x.m.trim();}))
+    .concat(c.norms.map(function(n,i){return "\nNorm "+(i+1)+": "+n.value+" · "+n.acr.trim()+"\nThe three actions: "+n.acts.trim()+"\nObservable behaviour: "+n.beh.trim()+"\nNorm statement: "+n.stmt.trim();}))
+    .concat(["\nStrongest norm: "+c.test.norm].concat(U11_TF.map(function(f){return f[1]+": "+c.test[f[0]].trim();}))).join("\n");
+}
+
+/* ── Init ── */
+function goBack(){window.location.href='index.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+function updateThermo(prefix){
+  let grand=0;
+  const temps=[
+    {min:80,label:'0001F7E2 HEALTHY & Thriving',signal:'Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.',bg:'rgba(27,94,32,.25)',color:'#a5d6a7'},
+    {min:60,label:'0001F7E1 STABLE but Uneven',signal:'Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.',bg:'rgba(123,96,0,.2)',color:'#fff59d'},
+    {min:40,label:'0001F7E0 CAUTION Zone',signal:'Signs of mistrust, fatigue, or unclear direction beginning to surface. Immediate leadership attention needed.',bg:'rgba(230,81,0,.2)',color:'#ffcc80'},
+    {min:20,label:'0001F534 UNHEALTHY',signal:'High politics, low trust, and rising turnover risk. Leadership credibility is at stake.',bg:'rgba(183,28,28,.2)',color:'#ef9a9a'},
+  ];
+  for(let t=1;t<=5;t++){
+    let sum=0;
+    for(let q=1;q<=4;q++){
+      const el=document.getElementById(prefix+'t'+t+'q'+q);
+      if(el){const v=parseInt(el.value)||0;sum+=Math.min(5,Math.max(0,v));}
+    }
+    const tot=document.getElementById(prefix+'trait'+t+'total');
+    if(tot)tot.textContent=sum;
+    grand+=sum;
+  }
+  const gs=document.getElementById(prefix+'grandtotal');
+  if(gs)gs.textContent=grand;
+  const disp=document.getElementById(prefix+'tempDisplay');
+  const val=document.getElementById(prefix+'tempValue');
+  const sig=document.getElementById(prefix+'tempSignal');
+  if(!disp)return;
+  // Clear labeled readout: score + band name with emoji rendered as a glyph (not a codepoint string)
+  var bands=[
+    {min:80,emoji:'🟢',name:'Healthy & Thriving',signal:'Minimal politics, clear leadership, strong morale. Maintain momentum through continuous reinforcement.',bg:'rgba(27,94,32,.25)',color:'#a5d6a7'},
+    {min:60,emoji:'🟡',name:'Stable but Uneven',signal:'Generally healthy but pockets of confusion or disengagement exist. Targeted intervention required.',bg:'rgba(123,96,0,.2)',color:'#fff59d'},
+    {min:40,emoji:'🟠',name:'Caution Zone',signal:'Signs of mistrust, fatigue, or unclear direction beginning to surface. Immediate leadership attention needed.',bg:'rgba(230,81,0,.2)',color:'#ffcc80'},
+    {min:20,emoji:'🔴',name:'Unhealthy',signal:'High politics, low trust, and rising turnover risk. Leadership credibility is at stake.',bg:'rgba(183,28,28,.2)',color:'#ef9a9a'}
+  ];
+  var band=null;for(var bi=0;bi<bands.length;bi++){if(grand>=bands[bi].min){band=bands[bi];break;}}
+  if(grand>0&&band){
+    disp.style.background=band.bg;disp.style.border='1px solid '+band.color;
+    val.textContent='Your score: '+grand+'/100  ·  '+band.emoji+' '+band.name;val.style.color=band.color;
+    sig.textContent=band.signal;sig.style.color=band.color;
+  } else {
+    disp.style.background='rgba(255,255,255,.03)';disp.style.border='1px solid rgba(255,255,255,.1)';
+    val.textContent='Enter scores above';val.style.color='rgba(255,255,255,.3)';
+    sig.textContent=' ';sig.style.color='rgba(255,255,255,.3)';
+  }
+}
+/* Thermometer inputs → serialise app_thermo + save via existing saveRef (no new keys) */
+document.addEventListener("DOMContentLoaded",function(){
+  document.querySelectorAll(".thermo-input").forEach(function(el){
+    el.addEventListener("input",function(){serializeThermo();if(!_thermoHydrating)saveThermoDebounced();});
+  });
+});
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+</body>
+</html>

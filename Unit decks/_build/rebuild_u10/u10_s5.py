@@ -19,7 +19,7 @@ HOW = ['Your group chooses its scribe for this work in the group record bar. The
        'Part 5.1 brings in every member’s annual baseline from part 4.5. Your group checks that each function’s assessment is complete and records any missing submissions or evidence gaps.',
        'In part 5.2, interpret the Enterprise Scanner by execution-enabling capability and write each finding with its evidence.',
        'In part 5.3, record your agreed Collective Intelligence Responses. In part 5.4, complete the ESRG Alignment Intervention Plan for each of them.',
-       'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R Blueprint.']
+       'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R® Blueprint.']
 Q1_F = 'It is now Q1. The executive team meets for its first quarterly ESRG review, working from the annual baseline each member completed in Section 4.5.'
 Q1_P = 'It is now Q1. Your executive team meets for its first quarterly ESRG review, working from the annual baseline each member completed in part 4.5.'
 S1_F = 'Confirm that each executive function has submitted one completed assessment covering all 12 components, using the same 1–5 scale and assessment period. Record missing submissions or evidence gaps before interpretation. The capstone executive team works with the functions represented in its simulation; the five columns below are illustrative.'
@@ -132,7 +132,7 @@ def section5(fac):
     if not fac:
         out += ('<div class="u10-rec"><div id="u10RecMsg" class="u10-note"></div>'
                 '<button type="button" class="ref-save" data-team-free onclick="u10Agree()">Agree</button> '
-                '<button type="button" class="ref-save" data-team-free onclick="u10Print()">Print our clinic record</button></div>')
+                '<button type="button" class="ref-save" data-team-free onclick="u10Print()">Print our group record</button></div>')
     o.append('<div class="hbox">%s</div>' % out)
     o.append('<div class="hbox"><p><strong>Closing insight:</strong> %s</p></div>' % CLOSING)
     return '\n'.join(o) + '\n'

@@ -92,7 +92,7 @@ def section5(fac):
     if not fac:
         b.append('<div class="u11-rec"><div id="u11RecMsg" class="u11-note2"></div>'
                  '<button type="button" class="ref-save" data-team-free onclick="u11Agree()">Agree</button> '
-                 '<button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our clinic record</button></div>')
+                 '<button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our group record</button></div>')
     o.append(acc('5.9 &mdash; Capstone Assessment Output', '\n'.join(b)))
     return '\n'.join(o) + '\n'
 

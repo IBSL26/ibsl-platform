@@ -7,7 +7,7 @@ ARR = '<div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 
 
 GROUNDING = [
  'Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.',
- 'The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Organisational Health (culture), and then to this unit, which leverages both to sustain high performance.',
+ 'The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Culture Reinforcement &amp; Organisational Health (culture), and then to this unit, which leverages both to sustain high performance.',
 ]
 MODULE_LO = [
  'Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.',
@@ -189,12 +189,12 @@ S5_HERO_F = 'Each group completes the quarterly page for the enterprise Key Resu
 S5_LO = ['Exercise forward-looking judgement that holds performance gains across people and organisation.',
          'Design a leadership rhythm that sustains the enterprise result quarter after quarter.']
 S5_GUIDE = [
- 'This is group work and Capstone work. Each group chooses its scribe for this exercise. Every member agrees the record before it goes to the Capstone S2R Blueprint.',
+ 'This is group work and Capstone work. Each group chooses its scribe for this exercise. Every member agrees the record before it goes to the Capstone S2R® Blueprint.',
  'Direct the groups to the results the portal brings into the page: their WARD from Unit 6, their ESRG scan from Unit 10 and their consolidated health position from Unit 11.',
  'Guide the groups to complete the page in order: the result on each line, the WARD filter, the recovery, and then the KISS decisions drawn from the three lines.',
 ]
-P51_P = 'Your group completes the Quarterly Three Lines of Sight page for the enterprise Key Result in your Capstone S2R Blueprint. Use the worked example in 4.2 as your reference.'
-P51_F = 'Each group completes the Quarterly Three Lines of Sight page for the enterprise Key Result in its Capstone S2R Blueprint, using the worked example in 4.2 as its reference.'
+P51_P = 'Your group completes the Quarterly Three Lines of Sight page for the enterprise Key Result in your Capstone S2R® Blueprint. Use the worked example in 4.2 as your reference.'
+P51_F = 'Each group completes the Quarterly Three Lines of Sight page for the enterprise Key Result in its Capstone S2R® Blueprint, using the worked example in 4.2 as its reference.'
 BROUGHT = ['The enterprise Key Result and its WARD — Unit 6, Section 5',
            'The ESRG scan — Unit 10 Capstone (10A)',
            'The consolidated health position — Unit 11 Capstone (11B)']
@@ -210,7 +210,7 @@ HOW = [
  'Part 5.2: the scribe selects “Bring in” to bring your WARD (Unit 6), your ESRG scan (Unit 10) and your consolidated health position (Unit 11) onto the page, then chooses the quarter.',
  'Part 5.3: complete the strategic, operational and behavioural lines, each filtered through WARD.',
  'Part 5.4: record your KISS decisions for the next quarter, with at least one Keep, one Improve, one Stop and one Start.',
- 'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R Blueprint.',
+ 'When your record is complete, each member selects Agree. Your group’s work then goes into your team’s Capstone S2R® Blueprint.',
 ]
 CAP = [
  ('12A', 'Strategic line', 'The Key Result result, WARD filter and recovery for the quarter.'),

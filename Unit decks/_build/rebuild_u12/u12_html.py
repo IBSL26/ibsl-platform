@@ -149,7 +149,7 @@ def section5(fac):
         o.append(acc('5.4 &mdash; KISS for Next Quarter',
                      '<p>Each group records the decisions its leadership team makes at the close of the quarter, with at least one Keep, one Improve, one Stop and one Start.</p>\n'
                      + tbl(['Decision', 'Practice', 'Line of sight', 'Owner'], [('Keep', '', '', ''), ('Improve', '', '', ''), ('Stop', '', '', ''), ('Start', '', '', '')], 'u12-wide')))
-        o.append(acc('5.5 &mdash; Capstone Output', '<p>When every member has agreed, the group’s page goes into its team’s Capstone S2R Blueprint:</p>\n' + tbl(['Item', 'Title', 'Content'], CAP)))
+        o.append(acc('5.5 &mdash; Capstone Output', '<p>When every member has agreed, the group’s page goes into its team’s Capstone S2R® Blueprint:</p>\n' + tbl(['Item', 'Title', 'Content'], CAP)))
         return '\n'.join(o) + '\n'
     o.append('<div id="u12TwBar"></div>')
     # 5.2 brought in
@@ -191,7 +191,7 @@ def section5(fac):
                  '<div id="u12Kiss"></div><button type="button" class="ref-save u12-add" onclick="u12AddKiss()">+ Add a decision</button>'))
     # 5.5 output
     o.append(acc('5.5 &mdash; Capstone Output',
-                 '<p>When every member has agreed, your group’s page goes into your team’s Capstone S2R Blueprint:</p>\n' + tbl(['Item', 'Title', 'Content'], CAP) + '\n'
+                 '<p>When every member has agreed, your group’s page goes into your team’s Capstone S2R® Blueprint:</p>\n' + tbl(['Item', 'Title', 'Content'], CAP) + '\n'
                  '<div class="u12-rec"><div id="u12RecMsg" class="u12-note"></div>'
                  '<button type="button" class="ref-save" data-team-free onclick="u12Agree()">Agree</button> '
                  '<button type="button" class="ref-save" data-team-free onclick="u12Print()">Print our quarterly page</button></div>'))

@@ -4,7 +4,7 @@ Standing rule (no contrast constructions) applied to the sentences marked # SR."
 TITLE = 'Cross-CXO Health Architecture'
 HERO = 'Grounding People Performance Through Collective Leadership Accountability'
 LO = ['Establish a functional organisational health accountability discipline that enables executives to interpret team-generated health assessments and quantify associated people-performance losses.',
-      'Consolidate functional health assessments into an enterprise organisational health position that informs collective leadership accountability and priorities for strengthening people performance.']
+      'Embed cultural operating norms that leaders model, recognise and correct, so that organisational health strengthens across functions.']
 LEVELS = [('Functional','CXO interprets the team’s consolidated score, investigates vulnerabilities and quantifies evidenced losses.','Functional health and loss position.'),
           ('Enterprise','EXCO consolidates functional results, examines shared vulnerabilities and agrees enterprise priorities.','Enterprise health and loss position.')]
 TRAITS = [
@@ -52,11 +52,11 @@ ENT = [('Corporate','CEO','20','84','82','−2','R25,000'),('Finance','CFO','40'
  ('Human Resources','CHRO','30','82','80','−2','R30,000'),('Operations','COO','100','80','52','−28','R346,500'),
  ('Strategy','CSO','60','78','70','−8','R95,000'),('ENTERPRISE','EXCO','250','79.8*','65.3*','−14.5*','R566,500')]
 CLOSING = 'Organisational health is strengthened when leaders understand how their teams experience the culture they establish, take accountability for the resulting people-performance conditions and collectively address vulnerabilities affecting enterprise performance.'
-TRANSITION = 'Participants apply the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position.'
-TRANSITION_P = 'Your group applies the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position.'
+TRANSITION = 'Participants apply the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position, and build their organisation’s Cultural Operating Code.'
+TRANSITION_P = 'Your group applies the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position, and builds your organisation’s Cultural Operating Code.'
 
 # Individual reflection (Carol 21:11: "Add a reflection for individual at the end that goes into the personal profile for facilitator feedback"). Key ref7.
-REF_TITLE = 'Individual Reflection: My Functional Health Accountability'
+REF_TITLE = 'Reflection — My Functional Health Accountability'
 REF_INTRO_P = 'Reflect on the function you lead. Your reflection is saved to your personal profile, where your facilitator reads it and gives you feedback.'
 REF_INTRO_F = 'Each participant completes this reflection on the function they lead. It is saved to the participant’s personal profile, where the facilitator reads it and gives feedback.'
 REF_Q = ['Which of the Five Observable Health Traits would my employees most likely rate lowest on the thermometer, and what evidence do I see?',

@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Module 2 · Unit 3 — Facilitator</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;}
+body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;padding:0;text-decoration:none;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.6);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:110px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;max-width:720px;}
+.mod-body{padding:0 40px;}
+.fac-note{background:rgba(201,168,76,.06);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px;margin:18px 0;}
+.fac-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.fac-note p{font-size:12px;color:rgba(255,255,255,.75);line-height:1.75;font-style:italic;}
+/* FAC OBJ — learning objectives (gold) */
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:'→';position:absolute;left:0;color:var(--gold);font-size:12px;}
+/* FAC NOTE FULL — comprehensive facilitator guidance (blue) */
+.fac-note-full{background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.22);border-left:4px solid rgba(52,152,219,.7);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul,.fac-note-full ol{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:12px;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.9);}
+.fac-note-full em{color:rgba(100,180,240,.8);font-style:normal;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.85);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.sub-acc{border:1px solid rgba(255,255,255,.06);border-radius:3px;margin:10px 0;overflow:hidden;}
+.sub-acc-h{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;transition:background .2s;}
+.sub-acc-h:hover{background:rgba(255,255,255,.02);}
+.sub-acc-h span{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);}
+.sub-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sub-acc.open .sub-arr{transform:rotate(180deg);color:var(--gold);}
+.sub-acc-b{display:none;padding:14px 16px 16px;}
+.sub-acc.open .sub-acc-b{display:block;}
+.cb p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.65);margin-bottom:12px;}
+.cb ul,.cb ol{padding-left:22px;margin-bottom:14px;}
+.cb li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.85);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:20px 0 10px;}
+.cb h5{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin:16px 0 8px;}
+.quote{border-left:3px solid var(--gold);padding:16px 22px;margin:20px 0;background:rgba(201,168,76,.05);border-radius:0 3px 3px 0;}
+.quote p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.8;}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+.hbox.green{background:rgba(39,174,96,.06);border-color:rgba(39,174,96,.2);}
+/* KISS INTERACTIVE */
+.kiss-domain{border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:12px 0;overflow:hidden;}
+.kiss-domain-h{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;cursor:pointer;transition:background .2s;}
+.kiss-domain-h:hover{background:rgba(255,255,255,.02);}
+.kiss-domain-accent{width:3px;min-height:36px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.kiss-domain-accent.cx{background:#8ab0e8;}
+.kiss-domain-accent.op{background:var(--gold);}
+.kiss-domain-accent.pc{background:#5ecba1;}
+.kiss-domain-accent.ev{background:#c39de0;}
+.kiss-domain-info{flex:1;}
+.kiss-domain-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:3px;}
+.kiss-domain-anchor{font-size:10px;color:rgba(255,255,255,.35);font-style:italic;line-height:1.5;}
+.kiss-domain-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;flex-shrink:0;margin-top:4px;}
+.kiss-domain.open .kiss-domain-arr{transform:rotate(180deg);color:var(--gold);}
+.kiss-domain-body{display:none;padding:0 18px 18px;}
+.kiss-domain.open .kiss-domain-body{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.kiss-element{background:#151c15;border-radius:3px;overflow:hidden;}
+.kiss-el-head{padding:8px 12px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.kiss-el-head.keep{background:rgba(39,174,96,.12);color:#5ecba1;}
+.kiss-el-head.improve{background:rgba(243,156,18,.12);color:#f0c060;}
+.kiss-el-head.start{background:rgba(52,152,219,.12);color:#7ec8f0;}
+.kiss-el-head.stop{background:rgba(231,76,60,.12);color:#f08080;}
+.kiss-el-prompt{font-size:10px;color:rgba(255,255,255,.35);padding:6px 12px 4px;line-height:1.5;font-style:italic;}
+.kiss-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(255,255,255,.05);padding:10px 12px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.kiss-ta::placeholder{color:rgba(255,255,255,.2);}
+.kiss-save-row{padding:6px 12px;display:flex;justify-content:flex-end;}
+.kiss-save{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.2);color:rgba(201,168,76,.6);padding:4px 10px;border-radius:2px;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .2s;}
+.kiss-save:hover{border-color:var(--gold);color:var(--gold);}
+/* HOT ZONE CARDS */
+.hz-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.hz-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.hz-card:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);}
+.hz-card.active{border-color:var(--gold);background:#1a2a1e;}
+.hz-top{padding:14px 12px 10px;}
+.hz-role{font-size:15px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+.hz-title{font-size:9px;color:rgba(255,255,255,.4);line-height:1.4;}
+.hz-bar{height:3px;background:rgba(201,168,76,.2);}
+.hz-card.active .hz-bar{background:var(--gold);}
+.hz-detail{display:none;background:#0a1a0d;border:1px solid rgba(201,168,76,.15);border-radius:4px;margin-top:10px;padding:20px 24px;}
+.hz-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.hz-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.hz-col p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;}
+.hz-hot{font-size:12px;margin-top:10px;padding:10px 14px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.4);line-height:1.65;color:rgba(255,200,100,.8);}
+.hz-align{font-size:12px;margin-top:8px;padding:10px 14px;background:rgba(39,174,96,.06);border-radius:2px;border-left:2px solid rgba(39,174,96,.4);line-height:1.65;color:rgba(100,210,160,.8);font-style:italic;}
+/* STEP TABS */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--gold);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:4px;}
+.step-name{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+/* OKR BUILDER */
+.okr-obj{border:1px solid rgba(201,168,76,.2);border-radius:4px;margin:14px 0;overflow:hidden;}
+.okr-obj-head{padding:14px 18px;background:rgba(201,168,76,.06);border-bottom:1px solid rgba(201,168,76,.1);display:flex;align-items:center;gap:12px;cursor:pointer;}
+.okr-obj-num{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);flex-shrink:0;background:rgba(201,168,76,.1);padding:4px 8px;border-radius:2px;}
+.okr-obj-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;flex:1;}
+.okr-obj-toggle{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.okr-obj.open .okr-obj-toggle{transform:rotate(180deg);color:var(--gold);}
+.okr-obj-body{display:none;padding:18px;}
+.okr-obj.open .okr-obj-body{display:block;}
+.okr-formula-hint{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:3px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.45);line-height:1.7;}
+.okr-formula-hint strong{color:var(--gold);font-style:normal;}
+.okr-kr{background:#151c15;border-radius:3px;padding:14px;margin:8px 0;}
+.okr-kr label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:6px;}
+.okr-select{width:100%;background:#0d1a10;border:1px solid rgba(255,255,255,.1);border-radius:2px;padding:7px 10px;color:rgba(255,255,255,.6);font-family:'Montserrat',sans-serif;font-size:11px;margin-bottom:8px;outline:none;transition:border-color .2s;}
+.okr-select:focus{border-color:rgba(201,168,76,.3);}
+.okr-select option{background:#0d1a10;}
+.okr-ta{width:100%;background:transparent;border:1px solid rgba(255,255,255,.08);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:65px;outline:none;transition:border-color .2s;}
+.okr-ta:focus{border-color:rgba(201,168,76,.3);}
+.okr-ta::placeholder{color:rgba(255,255,255,.18);}
+.okr-check{font-size:10px;color:rgba(255,255,255,.3);margin-top:5px;line-height:1.5;}
+/* PM MATRIX */
+.pm-wrap{margin:16px 0;}
+.pm-axis-x{display:flex;margin-left:80px;margin-bottom:4px;}
+.pm-axis-x-cell{flex:1;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);padding:4px;}
+.pm-main{display:flex;gap:4px;}
+.pm-axis-y{display:flex;flex-direction:column;width:80px;gap:4px;}
+.pm-axis-y-cell{flex:1;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);min-height:100px;}
+.pm-grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.pm-cell{border-radius:3px;padding:12px;min-height:100px;position:relative;transition:all .2s;cursor:pointer;}
+.pm-cell:hover{filter:brightness(1.15);}
+.pm-cell-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.pm-cell-desc{font-size:9px;color:rgba(255,255,255,.35);line-height:1.4;margin-bottom:6px;}
+.pm-cell-items{display:flex;flex-wrap:wrap;gap:3px;}
+.pm-item{font-size:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:2px;padding:2px 6px;color:rgba(255,255,255,.65);}
+/* ASSESSMENT */
+.okr-score-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.okr-score-label{flex:1;font-size:12px;color:rgba(255,255,255,.65);}
+.okr-score-btns{display:flex;gap:4px;}
+.sc-btn{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;}
+.sc-btn:hover{border-color:var(--gold);color:var(--gold);}
+.sc-btn.sel{background:var(--gold);border-color:var(--gold);color:#0d1a10;}
+.score-total-box{text-align:center;padding:18px;background:#151c15;border-radius:4px;margin-top:14px;}
+.score-num{font-size:3rem;font-weight:700;color:var(--gold);line-height:1;}
+.score-max{font-size:.9rem;color:rgba(255,255,255,.3);}
+.score-level{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;margin-top:6px;}
+/* EXPORT */
+.export-bar{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.export-btn{flex:1;min-width:100px;padding:10px 14px;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);color:var(--gold);display:flex;align-items:center;justify-content:center;gap:7px;}
+.export-btn:hover{background:rgba(201,168,76,.18);}
+.export-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;flex-shrink:0;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;width:100%;max-width:820px;padding:36px 40px;}
+.modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;}
+.modal-sub{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-top:4px;}
+.modal-close{background:none;border:1px solid rgba(255,255,255,.12);border-radius:2px;color:rgba(255,255,255,.4);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;padding:7px 14px;margin-left:16px;white-space:nowrap;transition:all .2s;}
+.modal-close:hover{border-color:var(--gold);color:var(--gold);}
+.report-section{margin-bottom:20px;border:1px solid rgba(201,168,76,.1);border-radius:3px;overflow:hidden;}
+.report-sec-head{padding:10px 14px;background:rgba(201,168,76,.06);font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);}
+.report-row{display:grid;grid-template-columns:120px 1fr;gap:0;border-top:1px solid rgba(255,255,255,.04);}
+.report-row-label{padding:10px 14px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);background:#151c15;border-right:1px solid rgba(255,255,255,.04);}
+.report-row-val{padding:10px 14px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.65;}
+/* SUMMARY */
+.sum-block{margin:10px 0;border:1px solid rgba(201,168,76,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(201,168,76,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);width:120px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--gold);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+/* NAV */
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.08);color:var(--gold);transition:all .2s;font-family:'Montserrat',sans-serif;}
+.btn:hover{background:rgba(201,168,76,.18);}
+/* GATE */
+/* DELABEL */
+.delabel-okr{border:1px solid rgba(255,255,255,.07);border-radius:3px;margin:10px 0;overflow:hidden;}
+.delabel-obj-head{padding:12px 16px;background:#1a2a1e;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;}
+.delabel-kr{padding:10px 16px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:10px;}
+.delabel-kr-num{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--gold);flex-shrink:0;margin-top:2px;}
+.delabel-kr-text{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.export-bar,.fac-note{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}.modal-overlay{position:static;display:block;background:none;padding:0;}.modal-box{border:none;padding:0;max-width:100%;}}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid #c9a84c;border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.slo-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+/* Facilitator file = preparation only: matrix is for reference, not data entry */
+#pmMatrix{pointer-events:none;}
+/* ── Unit 3 rebuild (October 2026): five steps, worked example, matching exercise, Capstone group work, Strategy Airport ── */
+.kiss-accent{width:3px;min-height:36px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.kiss-accent.cx{background:#8ab0e8;}.kiss-accent.op{background:var(--gold);}.kiss-accent.pc{background:#5ecba1;}.kiss-accent.ev{background:#c39de0;}
+.keep-h{background:rgba(39,174,96,.12);color:#5ecba1;}.improve-h{background:rgba(243,156,18,.12);color:#f0c060;}.start-h{background:rgba(52,152,219,.12);color:#7ec8f0;}.stop-h{background:rgba(231,76,60,.12);color:#f08080;}
+.kiss-domain-info{flex:1;}
+.u3-kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:14px;}
+.u3-kcell{background:#151c15;border-radius:3px;overflow:hidden;}
+.u3-kcell .kiss-q{font-size:13px;color:rgba(255,255,255,.6);padding:8px 12px 10px;line-height:1.5;font-style:italic;}
+.u3-pm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
+.u3-pm-card{background:#151c15;border-radius:3px;padding:12px;}
+.u3-pm-h{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.u3-pm-card p{font-size:11px!important;color:rgba(255,255,255,.5)!important;line-height:1.55!important;margin:0!important;}
+.u3-gq{color:var(--gold);margin:0 0 8px;font-size:13px;}
+.u3-outp{background:rgba(201,168,76,.05);border-radius:3px;padding:12px 16px;margin-top:10px;}
+.u3-outp p{font-size:12px!important;color:rgba(255,255,255,.6)!important;margin:0!important;line-height:1.7!important;}
+.u3-small{font-size:11px!important;color:rgba(255,255,255,.45)!important;line-height:1.6!important;margin:6px 0 8px!important;}
+/* worked example */
+.u3-wx-sip{border-left:3px solid var(--gold);background:rgba(201,168,76,.05);border-radius:0 3px 3px 0;padding:16px 22px;margin:16px 0;}
+.u3-wx-sip-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.u3-wx-sip p{font-family:'Cormorant Garamond',serif;font-size:1.1rem!important;color:rgba(255,255,255,.85)!important;line-height:1.7!important;margin:0!important;}
+.u3-wx-dom{border:1px solid rgba(255,255,255,.07);border-radius:3px;margin:8px 0;overflow:hidden;}
+.u3-wx-dom-h{padding:10px 14px;background:#1a2a1e;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);}
+.u3-wx-row{display:grid;grid-template-columns:repeat(4,1fr);}
+.u3-wx-cell{padding:10px 12px;border-top:1px solid rgba(255,255,255,.04);border-left:1px solid rgba(255,255,255,.04);}
+.u3-wx-cell:first-child{border-left:none;}
+.u3-wx-k{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.u3-wx-cell p{font-size:11px!important;color:rgba(255,255,255,.6)!important;line-height:1.6!important;margin:0!important;}
+.u3-wx-line{display:grid;grid-template-columns:230px 1fr;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;overflow:hidden;}
+.u3-wx-l{padding:10px 14px;background:#151c15;border-right:1px solid rgba(255,255,255,.06);font-size:11px;color:rgba(201,168,76,.8);line-height:1.6;}
+.u3-wx-r{padding:10px 14px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.65;}
+.u3-wx-res{display:grid;grid-template-columns:1fr 90px 1fr;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;overflow:hidden;}
+.u3-wx-res .u3-wx-n{padding:10px 8px;font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-align:center;border-right:1px solid rgba(255,255,255,.06);line-height:1.65;}
+.u3-wx-res.in{border-color:rgba(201,168,76,.45);}
+.u3-wx-res.in .u3-wx-r{color:var(--gold);font-weight:700;}
+.u3-wx-res.out .u3-wx-r{color:rgba(240,128,128,.9);}
+.u3-wx-theme{display:flex;align-items:center;gap:14px;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;padding:11px 14px;background:#151c15;font-size:13px;color:rgba(255,255,255,.85);}
+.u3-wx-theme span{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);}
+.u3-roles{min-height:52px;}
+.u3-how ol{margin:8px 0 10px;padding-left:20px;}
+.u3-how li{font-size:13px!important;color:rgba(255,255,255,.8)!important;line-height:1.75!important;margin-bottom:4px;}
+.u3-wx-okr{background:#151c15;border-radius:3px;padding:14px 16px;margin:8px 0;}
+.u3-wx-okr-h{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;margin-bottom:6px;}
+.u3-wx-okr ul{margin:0 0 8px;padding-left:20px;}
+.u3-wx-okr li{font-size:12px!important;color:rgba(255,255,255,.7)!important;line-height:1.65!important;}
+.u3-wx-roles{font-size:11px;color:rgba(255,255,255,.5);}
+/* prioritisation matrix */
+.u3-mx{display:grid;grid-template-columns:110px repeat(3,1fr);gap:6px;margin:16px 0;}
+.u3-mx-corner,.u3-mx-ax{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;}
+.u3-mx-cell{background:#151c15;border:1px solid;border-radius:3px;padding:10px;min-height:74px;}
+.u3-mx-name{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.u3-mx-tag{display:block;font-size:11px;color:#fff;background:rgba(255,255,255,.08);border-radius:2px;padding:4px 7px;margin-top:4px;line-height:1.4;}
+/* shared form parts */
+.u3-progress{margin:16px 0 10px;}
+.u3-progress-top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px;}
+.u3-progress-top b{color:var(--gold);}
+.u3-bar{height:5px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;}
+.u3-bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .3s;}
+.u3-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 14px;}
+.u3-chip{display:flex;align-items:center;gap:7px;padding:6px 11px 6px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s;}
+.u3-chip:hover{border-color:rgba(26,122,106,.5);color:#fff;}
+.u3-chip.active{border-color:var(--gold);color:#fff;background:rgba(201,168,76,.08);}
+.u3-chip-n{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.u3-chip.done .u3-chip-n{background:#1a7a6a;color:#fff;}
+.u3-btnrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;}
+.u3-b{padding:8px 14px;border-radius:2px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.75);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+.u3-b:hover{border-color:var(--gold);color:var(--gold);}
+.u3-b.ok{background:#1a7a6a;border-color:#1a7a6a;color:#fff;}
+.u3-pill{display:inline-block;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;background:#1a7a6a;color:#fff;margin:0 8px;vertical-align:middle;}
+.u3-note{font-size:12px;color:var(--gold);margin-top:10px;line-height:1.6;}
+.u3-note.ok{color:#5ecba1;}
+.u3-saved{display:none;font-size:10px;color:var(--teal);padding:3px 12px 6px;}
+.u3-inlbl{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin:14px 0 6px;}
+.u3-in{width:100%;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;font-family:'Montserrat',sans-serif;outline:none;}
+.u3-in::placeholder,.u3-ta::placeholder{color:rgba(255,255,255,.25);}
+select.u3-in option{background:#0a1a0d;color:#fff;}
+.u3-ta{width:100%;min-height:74px;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;outline:none;}
+.u3-sipbox{margin-bottom:4px;}
+.u3-mirror{background:#0a1a0d;border:1px dashed rgba(26,122,106,.4);border-radius:3px;padding:10px 14px;margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.65;white-space:pre-wrap;}
+.u3-mirror.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.u3-mirror-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:12px;}
+.u3-out{margin:12px 0;padding:14px 16px;background:#151c15;border:1px solid rgba(26,122,106,.2);border-radius:3px;}
+.u3-out-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.u3-final{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.u3-final:last-child{border-bottom:none;}
+.u3-final-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.u3-final-h.keep{color:#5ecba1;}.u3-final-h.improve{color:#f0c060;}.u3-final-h.start{color:#7ec8f0;}.u3-final-h.stop{color:#f08080;}
+.u3-final-t{font-size:12px;color:rgba(255,255,255,.78);line-height:1.7;white-space:pre-wrap;}
+.u3-final-t.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.u3-locked{border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.03);border-radius:3px;padding:14px 16px;font-size:12px;color:rgba(255,255,255,.5);margin:12px 0;}
+.u3-elnav{display:flex;justify-content:space-between;margin:18px 0 0;}
+.u3-elnav .btn[disabled]{opacity:.35;cursor:default;}
+.u3-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.u3-test{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:14px 16px;margin:10px 0;}
+.u3-test-h{display:flex;align-items:center;gap:10px;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;margin-bottom:8px;}
+.u3-tick{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,.05);cursor:pointer;}
+.u3-tick input{margin-top:3px;accent-color:#1a7a6a;width:16px;height:16px;flex-shrink:0;}
+.u3-tick span{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;}
+.u3-tick em{display:block;font-style:normal;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+.u3-chain{border-left:2px solid rgba(201,168,76,.5);margin:2px 0 12px;}
+.u3-chain-row{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:5px 0 5px 12px;}
+.u3-chain-l{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding-top:4px;}
+.u3-chain-v{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;white-space:pre-wrap;}
+.u3-chain-v ol{margin:0;padding-left:18px;white-space:normal;}
+.u3-chain-v li{font-size:13px!important;color:rgba(255,255,255,.85)!important;line-height:1.6!important;margin-bottom:4px;white-space:pre-wrap;}
+.u3-chain-v em{color:rgba(255,255,255,.35);}
+.u3-chain-roles{display:block;font-size:11px;color:rgba(255,255,255,.5);}
+.u3-from{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;}
+.u3-pill-r{float:right;margin:0;}
+.u3-rec-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.u3-rec-item:last-child{border-bottom:none;}
+.u3-rec-item .u3-chain{margin-bottom:0;}
+.u3-test .okr-kr{margin-top:12px;}
+.u3-test .okr-kr label.u3-inlbl{color:var(--teal);}
+.u3-pri{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:12px 14px;margin:8px 0;}
+.u3-pri.on{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.u3-pos{border-left:3px solid;padding:8px 12px;margin-top:12px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.6;background:rgba(255,255,255,.03);}
+/* matching exercise */
+.u3-role{background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:20px 22px;margin-top:6px;}
+.u3-role-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;}
+.u3-role-n{font-size:22px;font-weight:700;color:var(--teal);}
+.u3-role-t{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.u3-role-given{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px;}
+.u3-role-given>div{background:#151c15;border-radius:3px;padding:12px 14px;}
+.u3-role h5{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin:0 0 6px;}
+.u3-role h5 span{font-weight:400;letter-spacing:1px;color:rgba(255,255,255,.35);margin-left:6px;}
+.u3-role-given p{font-size:12px!important;color:rgba(255,255,255,.78)!important;line-height:1.6!important;margin:0!important;}
+.u3-role-q{margin-top:18px;}
+.u3-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.u3-opt{display:block;width:100%;text-align:left;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;line-height:1.55;cursor:pointer;transition:all .15s;}
+button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,76,.06);}
+.u3-opt.used{cursor:default;opacity:.45;}
+.u3-opt.used em{display:block;font-style:normal;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#5ecba1;margin-top:4px;}
+.u3-matched{font-size:13px;line-height:1.65;padding:12px 14px;border-radius:3px;}
+.u3-matched.hot{background:rgba(231,76,60,.06);border-left:2px solid rgba(231,76,60,.4);color:rgba(255,200,100,.9);}
+.u3-matched.al{background:rgba(26,122,106,.08);border-left:2px solid rgba(26,122,106,.5);color:rgba(100,210,180,.95);font-style:italic;}
+.u3-matched .u3-pill{margin-left:0;font-style:normal;}
+.u3-flash{margin-top:8px;padding:9px 12px;border-radius:3px;font-size:12px;line-height:1.5;}
+.u3-flash.ok{background:rgba(39,174,96,.12);color:#5ecba1;border:1px solid rgba(39,174,96,.3);}
+.u3-flash.bad{background:rgba(231,76,60,.1);color:#f0a090;border:1px solid rgba(231,76,60,.3);}
+/* Strategy Airport */
+.sa{margin:16px 0;}
+.sa-head{background:linear-gradient(135deg,#043f2f,#0a2a1e);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:20px 22px;display:flex;justify-content:space-between;gap:18px;align-items:center;}
+.sa-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#fff;line-height:1.05;}
+.sa-tag{margin-top:6px;color:rgba(232,245,239,.8);font-size:13px;}
+.sa-badge{border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:999px;white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;}
+.sa-sip{margin-top:14px;background:#151c15;border:1px solid rgba(255,255,255,.08);border-left:5px solid var(--gold);border-radius:6px;padding:16px 20px;}
+.sa-sip-h{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);margin-bottom:6px;}
+.sa-sip p{font-size:13px!important;line-height:1.65!important;color:rgba(255,255,255,.82)!important;margin:0!important;}
+.sa-board{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sa-gate{background:#151c15;border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:14px 16px;}
+.sa-gate.locked{opacity:.5;}
+.sa-gate.active{border:2px solid var(--gold);}
+.sa-gate.done{border:2px solid #1a7a6a;}
+.sa-gate small{color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;font-size:9px;}
+.sa-gate-n{margin-top:6px;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;}
+.sa-gate p{font-size:11px!important;color:rgba(255,255,255,.5)!important;margin:2px 0 0!important;line-height:1.4!important;}
+.sa-status{margin-top:10px;display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:10px;font-weight:700;letter-spacing:1px;}
+.sa-gate.done .sa-status{background:rgba(26,122,106,.3);color:#7fe0c4;}
+.sa-gate.active .sa-status{background:rgba(201,168,76,.2);color:#f0c060;}
+.sa-screen{margin-top:14px;background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-radius:6px;padding:20px;}
+.sa-st{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:14px;margin-bottom:16px;}
+.sa-st-h{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;}
+.sa-st p{margin:6px 0 0!important;color:rgba(255,255,255,.6)!important;font-size:13px!important;line-height:1.55!important;max-width:760px;}
+.sa-btn{border:0;border-radius:4px;background:#1a7a6a;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.sa-btn:hover{filter:brightness(1.12);}
+.sa-btn.gold{background:var(--gold);color:#111811;}
+.sa-btn.ghost{background:transparent;color:#7fe0c4;border:1px solid rgba(26,122,106,.6);}
+.sa-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.sa-card{border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:14px;background:#151c15;}
+.sa-card-h{color:#7fe0c4;margin-bottom:6px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
+.sa-hint{color:rgba(255,255,255,.5)!important;font-size:12px!important;line-height:1.45!important;margin:0 0 8px!important;}
+.sa-ta,.sa-in{width:100%;background:#0a1a0d;border:1px solid rgba(26,122,106,.3);border-radius:4px;padding:9px 10px;color:rgba(255,255,255,.88);font-family:'Montserrat',sans-serif;font-size:12px;line-height:1.5;outline:none;}
+.sa-ta{min-height:96px;resize:vertical;}
+.sa-ta::placeholder,.sa-in::placeholder{color:rgba(255,255,255,.25);}
+.sa-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:12px 0 6px;}
+.sa-options{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+.sa-chip{border:1px solid rgba(201,168,76,.45);background:rgba(201,168,76,.08);color:#f0d9a0;border-radius:999px;padding:6px 10px;font-size:11px;line-height:1.3;cursor:pointer;}
+.sa-chip:hover{background:rgba(201,168,76,.2);color:#fff;}
+.sa-msg{margin-top:14px;padding:11px 14px;border-radius:6px;background:rgba(201,168,76,.1);color:#f0d9a0;border:1px solid rgba(201,168,76,.3);font-size:13px;line-height:1.5;}
+.sa-msg.success{background:rgba(39,174,96,.12);color:#7fe0a8;border-color:rgba(39,174,96,.35);}
+.sa-msg.danger{background:rgba(231,76,60,.12);color:#f5a59a;border-color:rgba(231,76,60,.35);}
+.sa-actions{margin-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.sa-packs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.sa-pack{border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--gold);border-radius:6px;background:#151c15;padding:10px;text-align:left;color:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.sa-pack:hover{background:rgba(201,168,76,.08);}
+.sa-pack strong{display:block;color:var(--gold);margin-bottom:4px;font-size:10px;letter-spacing:1.5px;}
+.sa-pack span{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4;}
+.sa-okr-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sa-okr-list{display:flex;flex-direction:column;gap:10px;}
+.sa-okr-item{border:1px solid rgba(255,255,255,.08);border-left:5px solid var(--gold);border-radius:6px;padding:12px;background:#0a1a0d;font-size:13px;color:#fff;}
+.sa-okr-item ul,.sa-summary ul{margin:8px 0 0;padding-left:18px;}
+.sa-okr-item li,.sa-summary li{font-size:12px!important;color:rgba(255,255,255,.72)!important;line-height:1.55!important;margin-bottom:4px;}
+.sa-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sa-big{font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1;color:var(--gold);margin-bottom:8px;}
+@media(max-width:900px){
+  .u3-kgrid,.u3-pm,.u3-opts,.u3-role-given,.u3-meta,.sa-board,.sa-grid4,.sa-packs,.sa-okr-wrap,.sa-summary{grid-template-columns:1fr;}
+  .u3-wx-row{grid-template-columns:1fr 1fr;}
+  .u3-wx-line{grid-template-columns:1fr;}
+  .u3-wx-l{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .u3-chain-row{grid-template-columns:1fr;gap:2px;}
+  .u3-wx-res{grid-template-columns:1fr;}
+  .u3-wx-res .u3-wx-n{text-align:left;padding:8px 14px;border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .u3-mx{grid-template-columns:64px repeat(3,1fr);gap:4px;}
+  .u3-mx-cell{padding:6px;}
+  .sa-head,.sa-st{display:block;}
+  .sa-badge{display:inline-block;margin-top:12px;}
+  .sa-st .sa-btn{margin-top:12px;}
+}
+.u3-kr4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;}
+.u3-kr4>div{background:#0f1f12;border-radius:3px;padding:12px;}
+.u3-kr4-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u3-kr4 p{font-size:11px!important;color:rgba(255,255,255,.55)!important;line-height:1.6!important;margin:0!important;}
+.u3-lead{font-size:14px;line-height:1.9;color:rgba(255,255,255,.7);margin:18px 0 6px;}
+.u3-lead strong{color:rgba(255,255,255,.9);}
+@media(max-width:900px){.u3-kr4{grid-template-columns:1fr 1fr;}}
+@media(max-width:900px){.sa-badge{white-space:normal;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u2m1_lens2';
+
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+
+  function showDenied(msg) {
+    document.getElementById('f1-gate-overlay').style.display = 'flex';
+    document.getElementById('f1-gate-msg').textContent = msg || 'Access denied.';
+  }
+
+  async function checkAccess() {
+    const { data: { session }, error: sessErr } = await supabaseClient.auth.getSession();
+    if (sessErr || !session) { window.location.href = 'index.html'; return; }
+
+    const { data: profile, error: profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if (profErr || !profile) { showDenied('Could not verify your role.'); return; }
+
+    const role = profile.role;
+
+    if (role === 'admin') return;
+    if (role !== 'facilitator') { window.location.href = 'index.html'; return; }
+
+    const { data: canFac, error: gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if (gateErr) { console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if (canFac === false) {
+      showDenied('You are not assigned to facilitate this unit. Please contact your administrator.');
+      return;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
+</head>
+<body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
+
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card">
+    <h2>Access Restricted</h2>
+    <p id="f1-gate-msg">Checking access…</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">← Return to Dashboard</a>
+  </div>
+</div>
+
+
+<!-- ═══ NAV ═══ -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <a class="nav-back" href="dashboard_F.html">← Back to Dashboard</a>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 2 · Direction</strong>Unit 3 · SiP KISS Mapping &amp; OKR Definition — Facilitator</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+</nav>
+
+<!-- ═══ HEADER ═══ -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 2 · Direction · Unit 3</div>
+    <h1 class="unit-title">SiP KISS Mapping &amp; OKR Definition</h1>
+    <div class="unit-sub">Facilitator Guide · Collective Intelligence of Execution</div>
+    <div class="unit-desc">This unit guides the leadership team from Success in Practice into a focused, measurable execution architecture — through KISS reflection, OKR construction, and collective prioritisation.</div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Evaluate existing practices to determine which advance or obstruct strategic progress.</span>
+      <span class="klo">Prioritise enterprise changes that bridge the current position and intended future.</span>
+      <span class="klo">Formulate measurable strategic outcomes that provide reliable evidence of progress.</span>
+      <span class="klo">Establish a clear line of sight from strategic ambition through contributions to measurable results.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TABS ═══ -->
+<div class="mod-tabs">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Facilitator</small>Guide<br><small style="font-size:8px;opacity:.5;">Overview</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════ TAB 1: AWARENESS ══ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Unit 3 &mdash; Session Overview</h2><p>Use this tab to prepare before each section. It contains the unit intent, key facilitation questions, and tone and watch points for the full unit.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Unit Intent</div>
+<p>Unit 3 converts Success in Practice into a measurable execution architecture. The KISS reflection examines current practice honestly before any target is set; OKRs then express the enterprise priorities that reflection reveals.</p>
+<p>The five-step path is the core of the unit. It moves executives from functional objectives to enterprise priorities judged on strategic merit.</p>
+<p><strong>How the unit runs:</strong> Teach the whole unit from the deck first, including one learning round of the Strategy Airport game played with the room. Participants then go to the portal, in the session or after it. The matching exercise in Section 3 and the game in Section 4 are portfolio work: each participant completes them alone, and they become part of the participant's Learning Portfolio. Section 5 is group work for the Capstone.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li><em>&ldquo;Which current practice in your organisation most advances the SiP, and which most constrains it?&rdquo;</em></li>
+<li><em>&ldquo;Look at your draft Key Result. Does it measure a result or an activity?&rdquo;</em></li>
+<li><em>&ldquo;Which OKR hot zone describes how you instinctively set objectives? What would an enterprise-level Key Result look like instead?&rdquo;</em></li>
+<li><em>&ldquo;If the functional labels were removed from the proposed OKRs, which would the team still choose?&rdquo;</em></li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Tone &amp; Watch Points</div>
+<p><strong>Watch for:</strong> a rush to OKRs before the KISS reflection is complete. The reflection is the bridge; hold the sequence.</p>
+<p><strong>Watch for:</strong> Key Results written as activities such as &ldquo;launch&rdquo; or &ldquo;implement&rdquo;. Apply the formula: verb of change + metric + from X to Y + by deadline.</p>
+<p><strong>Watch for:</strong> advocacy for functional OKRs during synthesis. Use the four-question alignment test so each proposal is judged on its merit.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
+</div></div>
+<div class="mod-panel" id="mod1">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1 · Awareness — What</div>
+  <h2>What is KISS Framing &amp; OKR Definition?</h2>
+  <p>Interrogative Anchor · Before defining Objectives and Key Results, the leadership team must examine current operating reality in relation to its Success in Practice.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate organisational practices and determine what should be sustained or changed.</li><li>Translate strategic intent into outcomes that can be meaningfully measured.</li></ul></div>
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1 · Awareness</div><p><strong>Section intent:</strong> This section establishes the full conceptual architecture of Unit 3 — the KISS framework, the OKR anatomy, and the five-step path from KISS output to enterprise OKRs. Participants need to understand all three before they can do the work. Do not rush this section — the quality of the Integration and Application sections depends entirely on how well these foundations are laid.</p><p><strong>Transition from Unit 2:</strong> Open by connecting to what was built in Unit 2. Ask — <em>"In Unit 2, we built our Strategy Intent Statement and our Success in Practice. Today we answer the harder question: what must actually change in this organisation to make that future real?"</em> This framing positions KISS as a practical act of honesty.</p></div>
+
+<div class="fac-note"><div class="fac-label">Facilitator Opening</div><p>Frame this unit as the bridge between the SiP the team has built and the execution reality they must now create. The KISS reflection is a direct examination of the organisation against the specific future they have described.</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1 — Translating Success in Practice into Action</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.1</div><p><strong>Directing participants:</strong> Read the central quote aloud — <em>"If the Success in Practice we described is the future organisation, what must change in the organisation today to make that future possible?"</em> Ask participants to sit with it for a moment. Then ask: <em>"What is the one thing that most needs to change in your area to close that gap?"</em> Take 3–4 responses. Do not evaluate — just note them. They will resurface when the groups build their KISS map in Section 5.</p><p><strong>Framing the purpose:</strong> Emphasise that KISS is a targeted filter applied against the specific future the team has described. Generality is the enemy of this exercise — push for the operating reality.</p></div>
+  <p>The Strategy Intent Statement and the four Success in Practice (SiP) statements provide a vivid and shared description of the future organisation: how customers experience the enterprise, how operations function, how people collaborate, and what value the organisation consistently creates.</p>
+  <div class="quote"><p>The question now becomes: If the Success in Practice we described is the future organisation, what must change in the organisation today to make that future possible?</p></div>
+  <p>The next step is to move from this future description to a practical execution agenda. However, before defining Objectives and Key Results, the organisation must first examine its current operating reality in relation to the SiP.</p>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2 — KISS: Keep · Improve · Start · Stop</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Reflective Filters</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.2</div><p><strong>Teaching the four filters:</strong> Take KEEP, IMPROVE, START, and STOP one at a time. For each, ask participants to give a live example from their own function — anchored to the SiP. This prevents the exercise from becoming abstract.</p><p><strong>The specificity standard:</strong> Use the Facilitator Move below as the standard: "improve cross-functional handover time from 72 to 24 hours" is specific enough to act on. Reinforce this standard before the group work in Section 5.</p><p><strong>STOP — the hardest filter:</strong> Give this extra time. Ask — <em>"What is one thing your function is currently doing that actively contradicts the future we described? What would it take to stop it?"</em> Silence after this question is productive. Let it run.</p></div>
+  <p>The Strategy2Results® process introduces a reflective step designed to answer this question. The SiP statements are passed through a simple but powerful filter called KISS — Keep, Improve, Start, Stop.</p>
+  <p>Each element asks leaders to examine the organisation in relation to the future state described in the SiP:</p>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>◆ KEEP — Protect what is already working</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b"><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;">Identifies the practices, capabilities, and behaviours that are <strong>already moving the organisation toward the SiP</strong> and should therefore be protected and reinforced. These are strategic assets that must not be disrupted in the pursuit of change.</p></div>
+  </div>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>◆ IMPROVE — Strengthen what is partially working</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b"><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;">Highlights areas where the organisation is <strong>already moving in the right direction</strong> but where performance, coordination, or capability must strengthen to support the SiP more fully. These are often the highest-leverage interventions.</p></div>
+  </div>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>◆ START — Introduce what does not yet exist</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b"><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;">Identifies <strong>new practices, capabilities, or initiatives</strong> that do not yet exist but will be necessary for the organisation to operate in the way described in the SiP. These represent genuine strategic gaps.</p></div>
+  </div>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>◆ STOP — Eliminate what contradicts the SiP</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b"><p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;">Surfaces activities, routines, or commitments that <strong>consume energy and resources but do not contribute</strong> to the future organisation described in the SiP. Stopping is often harder than starting — and more strategically valuable.</p></div>
+  </div>
+  <div class="hbox"><p><strong>Critical principle:</strong> Every KISS reflection must be anchored to the Success in Practice statements. Leaders evaluate the organisation against the future organisation they have collectively described.</p></div>
+  <div class="fac-note"><div class="fac-label">Facilitator Move</div><p>When leaders generate KISS items, insist on specificity. "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS reflection. Push for the operating reality.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.3 — The KISS Reflection Table: Four SiP Domains</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Click to expand each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.3</div><p><strong>Teaching the domains:</strong> Walk through each domain (Customer Experience &amp; Value, Operational Capability &amp; Execution Rhythm, People &amp; Culture Dynamics, Enterprise Value Creation) and read the SiP anchor question aloud. For each, ask: <em>"What does your organisation currently look like in this domain — and how far is that from the SiP you described?"</em></p><p><strong>Purpose of this section:</strong> This is the preparation for the KISS map the groups build in Section 5. Participants need to understand all four domains and their anchor questions before they begin writing. Rushing here creates superficial responses in the group work.</p><p><strong>Key facilitation point:</strong> Point out that KISS items must be domain-specific. A STOP item in the Customer Experience domain looks different from a STOP item in People &amp; Culture. Keeping them separate prevents the vague cross-functional generalisations that make KISS useless.</p></div>
+  <p>The KISS reflection is structured across the four SiP domains. Each domain has an SiP anchor question to ground the reflection.</p>
+  <div id="kissGuideList"></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.4 — OKR Anatomy: Objectives &amp; Key Results</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Structure &amp; Formula</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.4</div><p><strong>Teaching the OKR anatomy:</strong> Present Objectives and Key Results side by side. Ask participants: <em>"Think of a goal your team set in the last 12 months. Was it an Objective, a Key Result, or a task disguised as one of these?"</em></p><p><strong>The Key Result Construction Guide:</strong> Walk through all four elements with participants. Then give a live example — ask a participant to state a goal they are working toward, and workshop it through the formula in real time. One concrete example does more than ten theoretical ones.</p><p><strong>The critical distinction to land:</strong> Land the Critical Distinction: outcomes versus activities. Ask: <em>"Can you check it off a task list? If yes — it's a task."</em> This single test is the most useful tool in the session. Reinforce it every time a task-disguised-as-KR appears in the session.</p></div>
+  <p>Objective Key Results (OKRs) translate the identified changes into measurable progress.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;">
+    <div style="background:#151c15;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Objectives</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin:0;">Define strategic ambition. Must be: <strong>Qualitative · Ambitious · Action-Oriented · Inspirational · Memorable.</strong> If you cannot wear it on a T-shirt, it is not worth pursuing.</p>
+    </div>
+    <div style="background:#151c15;border:1px solid rgba(46,168,122,.2);border-radius:3px;padding:18px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5ecba1;margin-bottom:10px;">Key Results</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin:0;">Define measurable progress. Formula: <strong>Verb of Change + Metric + From X to Y + By Deadline.</strong> Example: Increase digital transaction completion rate from 40% to 75% of total transactions by Q4 2026.</p>
+    </div>
+  </div>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>Key Result Construction Guide — 4 Elements</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;">
+        <div style="background:#0f1f12;border-radius:3px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Verb of Change</div><p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin:0;">Indicates the direction of improvement. E.g.: Increase, Reduce, Achieve, Improve, Maintain.</p></div>
+        <div style="background:#0f1f12;border-radius:3px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Metric</div><p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin:0;">A clear and measurable indicator. E.g.: Customer satisfaction score, cycle time, adoption rate.</p></div>
+        <div style="background:#0f1f12;border-radius:3px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">From X to Y</div><p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin:0;">Defines the baseline and target. E.g.: From 40% to 75%. Always establish a starting point.</p></div>
+        <div style="background:#0f1f12;border-radius:3px;padding:12px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Deadline</div><p style="font-size:11px;color:rgba(255,255,255,.55);line-height:1.6;margin:0;">Specifies when the result must be achieved. E.g.: By Q4 2026, By end of FY.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="hbox red"><p><strong>Critical Distinction:</strong> OKRs define outcomes. If a statement can be checked off a task list — "launch new platform" or "run customer survey" — it is a task. Those are activities that support the Key Result. Key Results describe the impact those activities must produce.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.5 — Five Steps: From KISS Output to Enterprise OKRs</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">5 Steps · Click each to explore</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 1.5</div><p><strong>Teaching the five steps:</strong> Take the steps in order. Each step builds on the one before it and prepares the next. For each step, read the guiding question aloud and ask participants to apply it mentally to their own area.</p><p><strong>Step 1 — Find Themes:</strong> Ask — <em>"When you review the KISS reflections across all four domains, what is the pattern? What themes keep appearing?"</em> Themes are the connective tissue between scattered KISS observations and purposeful OKRs.</p><p><strong>Step 2 — Inspiring Objectives:</strong> Reference the "T-shirt test" — if the Objective cannot survive a hallway conversation, it is too complex. Ask participants to try stating an Objective in one sentence before writing it.</p><p><strong>Step 3 — Define Key Results:</strong> Apply the four-part formula rigorously. The example in the content (shift response time from 12 to 4 hours by Q3) is a useful benchmark. Hold each KR to the same standard.</p><p><strong>Step 4 — Alignment Test:</strong> Read the four questions aloud. They show whether an OKR is enterprise-level or functionally disguised.</p><p><strong>Step 5 — Priority Matrix:</strong> Walk through the matrix structure and its nine positions. The debate about what constitutes high impact versus high effort is often more valuable than the final placements.</p><p><strong>Closing Awareness:</strong> Before moving to Intelligence, summarise — <em>"We now have the full toolkit: KISS as the honest diagnostic, OKR anatomy as the building structure, and the five-step path to connect them. The next two sections explain why this sequence matters and where it typically fails."</em></p></div>
+  <div class="step-tabs" id="fiveTabs">
+    <div class="step-tab active" onclick="u3Tab('five',0)"><div class="step-num">Step 1</div><div class="step-name">Find Themes</div></div>
+    <div class="step-tab" onclick="u3Tab('five',1)"><div class="step-num">Step 2</div><div class="step-name">Inspiring Objectives</div></div>
+    <div class="step-tab" onclick="u3Tab('five',2)"><div class="step-num">Step 3</div><div class="step-name">Define Key Results</div></div>
+    <div class="step-tab" onclick="u3Tab('five',3)"><div class="step-num">Step 4</div><div class="step-name">Alignment Test</div></div>
+    <div class="step-tab" onclick="u3Tab('five',4)"><div class="step-num">Step 5</div><div class="step-name">Priority Matrix</div></div>
+  </div>
+  <div id="five_0" class="step-panel active">
+    <h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5>
+    <p>Each leader reviews their KISS reflection. What are the 2–3 big shifts that will contribute to moving the whole organisation forward? The real question is: <em>"If the organisation is going to reach the future it has described, what is the one thing my area can change that would make the biggest difference for everyone?"</em></p>
+    <p>Review the patterns that surfaced across the four SiP domains. Identify the strategic themes that repeatedly appeared in the KEEP, IMPROVE, START, and STOP reflections. These themes represent the most important shifts required to move the organisation toward the SiP.</p>
+    <div class="u3-outp"><p><strong>Output produced:</strong> A small set of strategic themes that reflect the organisation's priority execution shifts.</p></div>
+  </div>
+  <div id="five_1" class="step-panel">
+    <h5 class="u3-gq">Guiding Question: If we get this theme right, what will we be known for?</h5>
+    <p>Each leader gives their themes a voice. Translate each theme into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. An Objective should look like a transformation. The real question: <em>"If the organisation actually pulls this off, what will customers and competitors say it is known for?"</em></p>
+    <ul>
+      <li>Make it <strong>ambitious</strong> — stretch the team.</li>
+      <li>Keep it <strong>qualitative</strong> — describe the destination.</li>
+      <li>Keep it <strong>memorable</strong> — if you cannot say it in a hallway conversation, it is too complex.</li>
+    </ul>
+    <div class="u3-outp"><p><strong>Output produced:</strong> A clear Objective that expresses the strategic ambition.</p></div>
+    <div class="fac-note" style="margin-top:14px;"><div class="fac-label">Facilitator Move</div><p>After each Objective is proposed, ask the room: "Is this statement something we could announce publicly with pride?" If the answer is no — it lacks ambition or clarity. Objectives that describe activities ("Implement new CRM") are tasks disguised as goals.</p></div>
+  </div>
+  <div id="five_2" class="step-panel">
+    <h5 class="u3-gq">Guiding Question: What measurable outcomes will prove the Objective is being achieved?</h5>
+    <p>For every Objective, identify 2–3 measurable results that demonstrate progress toward it. Each Key Result must describe a meaningful shift in performance and must follow the Key Result formula: <strong>Verb + Metric + From X to Y + Deadline.</strong></p>
+    <p><strong>Example:</strong> Shift response time from 12 hours (frustrating) to 4 hours (exceptional) by Q3.</p>
+    <div class="quote"><p>Quick check: If the team can simply "check it off" a list, it is a task. Key Results describe outcomes — the actual change in the world that proves the Objective is being achieved.</p></div>
+    <div class="u3-outp"><p><strong>Output produced:</strong> Measurable Key Results that define progress toward the Objective.</p></div>
+  </div>
+  <div id="five_3" class="step-panel">
+    <p>Before sharing, every leader tests their OKR against four questions:</p>
+    <ul>
+      <li>Does this truly get the organisation closer to the shared SiP vision?</li>
+      <li>Would fellow leaders see this as a win for the whole organisation — or just for one function?</li>
+      <li>Does it visibly improve culture, operations, or value creation?</li>
+      <li>Is there clear accountability for delivering this outcome?</li>
+    </ul>
+  </div>
+  <div id="five_4" class="step-panel">
+    <p>The Prioritisation Matrix evaluates each initiative against two dimensions: <strong>Impact</strong> — the degree of strategic value delivered if achieved — and <strong>Effort</strong> — the time, resources, coordination, and organisational change required. This structured approach helps distinguish initiatives that accelerate strategic movement from those that consume resources without meaningful progress.</p>
+    <div id="pmGuideList"></div>
+    <p>The leadership team must pay particular attention to initiatives in <strong>Strategic Catalysts</strong>, <strong>Accelerated Enablers</strong>, and <strong>Core Strategic Drivers</strong> — these represent the highest leverage execution signals.</p>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav"><button class="btn" onclick="showMod(0)">← Facilitator Guide</button><button class="btn" onclick="showMod(2)">Section 2 — Intelligence →</button></div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 2: INTELLIGENCE ══ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 2 · Intelligence — Why</div>
+  <h2>Why the KISS-to-OKR Sequence Matters</h2>
+  <p>Ignition Point · Most OKR failures are reflection failures. The KISS-OKR transition provides the missing bridge between strategic intent and measurable execution.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Assess the strategic changes required before committing to performance targets.</li><li>Derive measurable results that are traceable to Success in Practice.</li></ul></div>
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2 · Intelligence</div><p><strong>Section intent:</strong> This section answers the question participants are quietly asking: why can't we just write the OKRs directly? The answer — because OKRs without KISS become disconnected targets, fragmented efforts, and activity traps — must land personally. This section should prompt candid recognition.</p><p><strong>Framing before entering content:</strong> Ask — <em>"Has your organisation ever set goals that felt disconnected from the reality of what was actually happening on the ground? Where Key Results became a to-do list that nobody believed in?"</em> Use the responses to anchor why the sequence matters before content begins.</p></div>
+
+<div class="fac-note"><div class="fac-label">Facilitator Frame</div><p>Open this section by asking the leadership team: "Has your organisation ever set goals that felt disconnected from reality — or where Key Results became to-do lists?" Use their answers to anchor why this sequence matters before moving into content.</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">2.1 — The Danger of Moving Too Fast</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Human Problems</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.1</div><p><strong>Directing participants:</strong> After presenting the three problems (Disconnected Targets, Fragmented Efforts, The Activity Trap), ask: <em>"Which of these three describes your organisation's most recent goal-setting cycle most accurately?"</em> Take a show of hands or quick responses. The near-universal recognition of at least one pattern is itself the lesson.</p><p><strong>The closing line:</strong> Read it aloud — <em>"The organisation starts measuring the finish line before it has mapped the terrain."</em> Ask: <em>"What does 'mapping the terrain' mean practically — and what does KISS give us that we don't currently have?"</em></p></div>
+  <p>The usual cause of OKR frustration: organisations try to measure progress before they have had an honest conversation about where they are actually standing.</p>
+  <p>When leadership moves straight from a big vision to hard targets, they unintentionally skip the reality check. This creates predictable human problems:</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;">
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">Disconnected Targets</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">People are asked to hit numbers without anyone acknowledging the hurdles that make those numbers nearly impossible.</p>
+    </div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">Fragmented Efforts</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">Different functions row in different directions because they have not agreed on what success looks like in the trenches.</p>
+    </div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">The Activity Trap</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">People default to measuring busyness because they are not sure how to prove they are achieving real outcomes.</p>
+    </div>
+  </div>
+  <div class="hbox red"><p>Essentially, the organisation starts measuring the finish line before it has mapped the terrain.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Worked Example</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 2.2</div><p><strong>Teaching the three-stage sequence:</strong> Present Success in Practice, KISS and OKRs one at a time. For each, ask participants to briefly state what stage they are at in their current strategic cycle. This creates a live diagnostic of where the group's execution journey currently sits.</p><p><strong>The worked example:</strong> Take the example in order: the SiP statement, the KISS table, then the five steps. Each step uses what the step before it produced. At Step 2 say — <em>"Notice how the KISS item maps directly to the Objective. There is no gap. The Objective is the direct consequence of what the KISS reflection surfaced."</em> After Step 5 ask — <em>"At this level of specificity, could you trace every OKR back to a specific KISS observation? That is the standard we are working toward."</em></p><p><strong>Steps 4 and 5 in the worked example:</strong> All four OKRs earn four of four on the alignment test and go forward to the Prioritisation Matrix. Ask — <em>"Why is execution speed placed at low effort, while collaboration culture is placed at high effort?"</em></p><p><strong>The Facilitator Insight:</strong> Use the question in the Facilitator Insight below — <em>"At which point in this sequence does our organisation typically enter?"</em> — as a group discussion prompt. The honest answer often unlocks the most candid conversation of the unit.</p><p><strong>Closing Intelligence:</strong> Transition to Extrapolating by saying — <em>"Now we know why the sequence matters. The next section maps where it most commonly breaks down — and which leadership role is most responsible for each break point."</em></p></div>
+  <p>Once these patterns are visible, strategy stops being a deck of slides and starts being a shared journey. The Strategy2Results® sequence makes the path forward clear and respectful of the people walking it:</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;">
+    <div style="background:#0f1f12;border:1px solid rgba(107,143,204,.2);border-radius:3px;padding:16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Success in Practice</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The dream of where the organisation wants to be. The vivid future state across the four SiP domains.</p>
+    </div>
+    <div style="background:#0f1f12;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">KISS</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The honest look at the changes required to get there. The bridge between the future and the present reality.</p>
+    </div>
+    <div style="background:#0f1f12;border:1px solid rgba(46,168,122,.2);border-radius:3px;padding:16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">OKRs</div>
+      <p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The manageable, measurable steps taken to prove the organisation is moving. The execution compass.</p>
+    </div>
+  </div>
+  <div class="hbox green"><p>When this sequence is respected, OKRs become a way for the organisation to learn, breathe, and align. Strategy transforms from a statement of intent into a living system that actually helps people succeed.</p></div>
+  <h4>Worked Example: One SiP Statement Through the Sequence</h4>
+  <p>The example follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the five steps of 1.5. Each step takes its input from the step before it. Participants see the same example in 2.2 of their own file, to refer to when they do the group work in Section 5.</p>
+  <div id="caseF"></div>
+  <div id="workedF"></div>
+  <div class="fac-note"><div class="fac-label">Facilitator Insight</div><p>Ask the leadership team to pause and reflect: "At which point in this sequence does our organisation typically enter? Do we skip the KISS reality check and jump straight to targets?" The honest answer often unlocks the conversation about why previous goal-setting cycles felt frustrating.</p></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(1)">← Section 1 — Awareness</button>
+  <button class="btn" onclick="showMod(3)">Section 3 — Extrapolating →</button>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 3: EXTRAPOLATING ══ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 3 · Extrapolating — Where</div>
+  <h2>Where do OKR Hot Zones Appear?</h2>
+  <p>The Collective Intelligence for Execution Discipline · Where do OKR hot zones appear across leadership functions? Where does functional bias create enterprise fragility?</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Challenge functional preferences that distort enterprise priority-setting.</li><li>Align functional contributions with enterprise-wide strategic priorities.</li></ul></div>
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3 · Extrapolating</div><p><strong>Section intent:</strong> This section does for OKR definition what Unit 2's Extrapolating section did for the SiP — it maps where the process predictably breaks down, and who is responsible for each break. The Hot Zone cards are the diagnostic instrument. The goal is to make the systemic pattern visible before it plays out in the group's own work.</p><p><strong>Framing before entering content:</strong> Ask — <em>"Before we start writing OKRs together, it helps to know the natural biases each of us brings to the table. This section maps those patterns so the team can compensate for them collectively."</em></p></div>
+
+<div class="fac-note"><div class="fac-label">Facilitator Frame</div><p>This section surfaces the natural biases each leader brings to OKR definition. Use the hot zone cards to name these tendencies explicitly and reveal the systemic pattern. Ask: "Which of these descriptions resonates most with how you instinctively write Key Results?"</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">3.1 — Natural OKR Emphasis Across Leadership Functions</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Roles · Portfolio Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 3.1</div><p><strong>Teaching the natural emphasis:</strong> Read the four functional tendencies aloud (commercial, operational, people, financial). Ask each participant to privately identify which category their natural OKR emphasis falls into. Then ask 3–4 to share.</p><p><strong>Key point to reinforce:</strong> Each perspective is valid — the problem arises when these perspectives remain unexamined and unchallenged. The purpose of this part is to make the invisible visible before OKR writing begins, so that the group can consciously compensate.</p><p><strong>The four execution risks:</strong> Read each risk aloud and ask for a show of hands — <em>"Have you personally experienced this in a previous goal-setting cycle?"</em> The near-universal recognition creates the psychological readiness to work differently in the Application section.</p><p><strong>The hot zone cards:</strong> Teach the pattern with two or three roles: the dominant future realities, the natural OKR emphasis, the typical hot zone and the alignment question. Leave the other roles for the matching exercise, which participants complete in their own file after the teaching.</p><p><strong>Group debrief:</strong> Ask — <em>"If all ten of these hot zones operated simultaneously in our OKR work — what would our final OKR landscape look like? Which domains would be over-represented, and which would be left out?"</em></p><p><strong>The alignment question:</strong> Tell participants — <em>"Hold your alignment question in your mind throughout the group work in Section 5. It is your personal quality check on every OKR you propose."</em></p><p><strong>The shift to name explicitly:</strong> Ask — <em>"What is the difference between a functional interpretation of success and a collective definition of success? What does that difference look like in a room full of leaders with different mandates?"</em> This is the conversation the Application section is designed to produce.</p><p><strong>Closing Extrapolating:</strong> Before moving to Integration, tell participants — <em>"We now know what biases we each bring into the room. The Application section is where we use that awareness to build something none of us could build alone."</em></p></div>
+  <p>Every leadership role tends to emphasise some of the four SiP domains more strongly than others — because each role carries responsibility for specific organisational outcomes, leaders instinctively prioritise the realities that sit closest to their domain.</p>
+  <p>This creates a natural imbalance in how OKRs are proposed and evaluated:</p>
+  <ul>
+    <li><strong>Commercial leaders</strong> emphasise Customer Experience &amp; Value and Enterprise Value Creation</li>
+    <li><strong>Operational leaders</strong> emphasise Operational Capability &amp; Execution Rhythm and Enterprise Value Creation</li>
+    <li><strong>People leaders</strong> emphasise People &amp; Culture Dynamics and Operational Capability &amp; Execution Rhythm</li>
+    <li><strong>Financial leaders</strong> emphasise Enterprise Value Creation and Operational Capability &amp; Execution Rhythm</li>
+  </ul>
+  <p>Each perspective reflects an important dimension of strategy execution. When these perspectives remain unexamined, OKRs gradually drift into functional scorecards and the organisation accumulates <strong>functional OKRs</strong> where <strong>enterprise OKRs</strong> are needed. This produces four execution risks:</p>
+  <ul>
+    <li>Competing definitions of success across functions</li>
+    <li>Fragmented measurement systems that cannot be integrated</li>
+    <li>Functional optimisation that stalls enterprise progress</li>
+    <li>Slow decision-making due to misaligned incentives</li>
+  </ul>
+  <p>Each leadership role therefore has a <strong>typical hot zone</strong>: the point where its natural emphasis distorts the OKRs it proposes. Each role also has an <strong>alignment question</strong> that challenges it toward enterprise thinking.</p>
+  <p>When the leadership team names its natural biases explicitly, the conversation shifts from <em>functional interpretation of success</em> to <em>collective definition of success</em>.</p>
+  <div class="quote"><p>Recognising these patterns allows the leadership team to integrate perspectives into a balanced execution system that reflects the full enterprise.</p></div>
+  <h4>Exercise: Match the Hot Zone and the Alignment Question to Each Role</h4>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>Participants complete the matching exercise in 3.1 of their own file, as portfolio work, after the teaching. Each participant works alone, and the matches become part of the participant's Learning Portfolio. They reach you when the participant selects Submit to Facilitator at the end of the unit. For each of the ten leadership roles the Dominant Future Realities and the Natural OKR Emphasis are suggested. The participant selects the Typical Hot Zone and the Alignment Question that belong to the role; the page shows a green light for a match and a red alert for a choice that belongs to another role. They then write their Section 3 reflection.</p><p>Each participant's matches, with the number of attempts, and the reflection reach you with their submission. The ten complete cards below are your answer key.</p></div>
+  <p>Select each role to see its dominant future realities, natural OKR emphasis, typical hot zone, and alignment question.</p>
+  <div class="hz-grid" id="hzGrid"></div>
+  <div class="hz-detail" id="hzDetail"></div>
+  <div class="fac-note" style="margin-top:14px;"><div class="fac-label">Facilitator Move</div><p>After each leader describes their OKR perspective, ask the room: "Which hot zone does this perspective risk creating?" Name the imbalance explicitly. This builds collective intelligence by surfacing what each function cannot see about itself.</p></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(2)">← Section 2 — Intelligence</button>
+  <button class="btn" onclick="showMod(4)">Section 4 — Integration →</button>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 4: INTEGRATION ══ -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 4 · Integration — Collective</div>
+  <h2>Strategy Airport: From Strategic Imagination to Operational Clearance</h2>
+  <p>The Strategy Airport game · Played with the room in the lesson · Then portfolio work that each participant completes alone and submits.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Translate strategic intent into execution-ready objectives and key results.</li><li>Construct a measurable strategic trajectory from the intended future position.</li></ul></div>
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4 · Integration</div><p><strong>Section intent:</strong> This is the application section. Participants have seen the full path from Success in Practice to KISS to OKRs. Strategy Airport lets them apply it to a case they have not met: first with you in the lesson, then on their own.</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">4.1 — Strategy Airport</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">2 Gates · Portfolio Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 4.1</div><p><strong>How the game is used:</strong> In the lesson you play one learning round with the room, from this page. After the teaching, each participant plays the same game alone in 4.1 of their own file and submits it with the unit.</p><p><strong>Sharing the game in the lesson:</strong> Open this page in your browser before the lesson. At the game slide, stop sharing the deck and share this browser window. Return to the deck when the learning round is complete.</p><p><strong>Gate 1 · Baggage Check:</strong> Read the SiP statement aloud. Take KEEP, IMPROVE, START and STOP in turn. Let participants choose an option first, then select it: the answer is revealed only after selection. On a red alert ask — <em>"Why does this option fail the SiP?"</em> Collect at least two items for each filter before you proceed.</p><p><strong>Gate 2 · Flight Plan:</strong> Ask the group to pick one theme. Read the draft Objective and the two Key Results aloud and test them with the room — <em>"Is the Objective enterprise-level? Does each Key Result show a metric, a movement from X to Y and a deadline?"</em> Edit the draft with the group's corrections, then add the flight plan.</p><p><strong>Learning point to land:</strong> KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>After the teaching, each participant plays one learning round alone in 4.1 of their own file: at least two items for each KISS filter at Gate 1, then at least one OKR flight plan at Gate 2 (one Objective, two Key Results and the contributing roles).</p><p>The KISS choices and flight plans become part of the participant's Learning Portfolio and reach you when the participant selects Submit to Facilitator at the end of the unit.</p></div>
+  <p>Strategy Airport takes a new case, a medical health company, from its Success in Practice statement to KISS insights and then to one OKR flight plan. The game below is for the lesson round. Nothing you enter here is saved.</p>
+  <div id="saHostF"></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(3)">← Section 3 — Extrapolating</button>
+  <button class="btn" onclick="showMod(5)">Section 5 — Application →</button>
+</div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════ TAB 5: APPLICATION ══ -->
+<div class="mod-panel" id="mod5">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 5 · Application — In Practice</div>
+  <h2>Building Collective Intelligence: From SiP to KISS to Enterprise OKRs</h2>
+  <p>The groups translate their Success in Practice into a KISS map and then into enterprise OKRs. This is Capstone work: the confirmed outputs feed each team's Capstone S2R Blueprint.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Negotiate a coherent set of enterprise objectives and results across the leadership team.</li><li>Integrate diverse executive perspectives into a shared strategic trajectory.</li></ul></div>
+
+<div class="fac-note-full" style="margin-top:22px;"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5 · Application</div><p><strong>Section intent:</strong> This is the production section of the unit, and it is Capstone work. Everything in Awareness, Intelligence, and Extrapolating has been preparation for this. Each group translates its Success in Practice into a KISS map (5.1) and then into enterprise OKRs through the five steps (5.2).</p><p><strong>How this section runs:</strong> Explain both steps from the deck. The groups do the work itself on the portal after the teaching, in the session or after it. The guidance in 5.1 and 5.2 is for the moment the groups do the work.</p><p><strong>How the groups work:</strong> The group chooses its scribe for this work. The scribe types what the group agrees, and the entries appear on every member&rsquo;s page.</p><p><strong>Into the Capstone:</strong> The Unit 3 section of a team's Capstone S2R Blueprint opens once every member of the team has completed this unit. It brings the confirmed outputs in from the member's page: Keep, Improve, Start, Stop, Enterprise Priorities and Enterprise OKRs. The team then reads them together and confirms them.</p></div>
+
+<div class="fac-note"><div class="fac-label">Facilitator Frame</div><p>The goal of this section is to find the few, vital Enterprise OKRs that will shift the needle for the entire organisation. Remind the room: Departments contribute the insight — the enterprise owns the results.</p></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">5.1 — Translating SiP to KISS</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.1</div><p><strong>Before the groups begin:</strong> Remind participants — <em>"Every item you enter must be anchored to the SiP. For example: 'we should improve cross-functional handover time from 72 to 24 hours because the SiP describes seamless execution rhythm.'"</em></p><p><strong>Individual before collective:</strong> Each member writes their own inputs for a domain first, then the group shares and agrees its entries. This prevents the first speaker from dominating the KISS landscape.</p><p><strong>Selection:</strong> Aim for 3–4 items per KISS element per domain. More than 5 items per element means the group has not prioritised — push for selection.</p><p><strong>After all four domains are captured:</strong> Ask the group — <em>"Look across all four domains. What are the 2–3 patterns that keep appearing? What does the organisation most consistently need to START, STOP, or IMPROVE relative to the SiP?"</em> These patterns become the strategic themes of 5.2.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p>In 5.1 of the participant file the group's four SiP statements from Unit 2 appear at the top, brought in from each member's Unit 2 page. For each SiP domain the group answers the four KISS guiding questions of 1.3 (Keep, Improve, Start, Stop): sixteen entries in all. The group then confirms its KISS map.</p><p>The group chooses its scribe for this work. The scribe types what the group agrees, and the entries appear on every member&rsquo;s page. The confirmed Keep, Improve, Start and Stop feed the team's Capstone S2R Blueprint.</p></div>
+  <p>The groups pass each of their four SiP statements through the four KISS filters and record what the organisation must <strong>keep, improve, start and stop</strong> to reach it. The form follows the four SiP domains and the guiding questions of 1.3:</p>
+  <div id="kissPrepList"></div>
+  <div class="fac-note" style="margin-top:14px;"><div class="fac-label">Facilitator Move</div><p>When leaders generate KISS items, insist on specificity. "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS reflection. Push for the operating reality.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">5.2 — Translating KISS to OKRs: The Five Steps</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">5 Steps · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Section 5.2</div><p><strong>Step 1 — Find Themes:</strong> Each leader identifies their 2–3 themes in writing before sharing. Written submissions prevent the anchoring bias where the first speaker dominates the room. Collect all themes before any discussion begins.</p><p><strong>Step 2 — Inspiring Objectives:</strong> After themes are collected, ask participants to draft their Objective privately. The "T-shirt test" applies — if they cannot say it in a hallway conversation, send them back to simplify.</p><p><strong>Step 3 — Define Key Results:</strong> Apply the four-part formula rigorously. The example in 1.5 (shift response time from 12 to 4 hours by Q3) is a useful benchmark. Hold each KR to the same standard.</p><p><strong>Step 4 — Alignment Test:</strong> Run the four-question test publicly. Ask each leader to read their OKR and answer the four questions aloud. The room will quickly surface whether the OKR is enterprise-level or functionally disguised.</p><p><strong>Step 5 — Priority Matrix:</strong> Walk through the matrix structure before the group places any items. Establish shared definitions first — <em>"What does 'high impact' mean for this organisation specifically? What does 'high effort' mean in our context — time, money, change management, or all three?"</em> The debate about what constitutes high impact versus high effort is often more valuable than the final placements.</p></div>
+  <div class="fac-note-full"><div class="fac-note-full-label">&#128203; PARTICIPANT ACTIVITY</div><p><strong>Instructions for 5.2.</strong> In 5.2 of the participant file the group works through the five steps in order. Each step shows what the steps before it produced, so the group always sees what it is working on:</p><ol><li><strong>Step 1 — Find Themes:</strong> the group reads its confirmed KISS map and records up to four themes.</li><li><strong>Step 2 — Inspiring Objectives:</strong> each theme from Step 1 is shown. The group writes one Objective under each theme.</li><li><strong>Step 3 — Define Key Results:</strong> each theme is shown with its Objective. The group writes up to two Key Results under each Objective and names the contributing roles for each Key Result.</li><li><strong>Step 4 — Alignment Test:</strong> each OKR is shown in full: the theme, the Objective and its Key Results. The group ticks each of the four questions it answers with a clear yes. An OKR with all four ticks is aligned and goes forward.</li><li><strong>Step 5 — Priority Matrix:</strong> each aligned OKR is shown in full. The group sets its Impact and its Effort, and the priority takes its position on the matrix.</li></ol><p><strong>The five-step record:</strong> above the steps the group's record builds from Step 1, theme by theme: the theme, its Objective, its Key Results with the contributing roles, the alignment test and the matrix position. It is saved on the page. When the five steps are complete the group reads the record, confirms its Enterprise Priorities and its Enterprise OKRs, and prints the record.</p><p>The group chooses its scribe for this work. The scribe types what the group agrees, and the entries appear on every member's page. When every member has agreed, both outputs feed the team's Capstone S2R Blueprint.</p></div>
+  <p>With the KISS map confirmed, each group converts it into enterprise OKRs through the five steps of 1.5:</p>
+  <ol>
+    <li><strong>Find Themes:</strong> up to four themes drawn from the confirmed KISS map.</li>
+    <li><strong>Inspiring Objectives:</strong> one Objective for each theme.</li>
+    <li><strong>Define Key Results:</strong> up to two Key Results for each Objective, each in the form Verb + Metric + From X to Y + Deadline, with the contributing roles.</li>
+    <li><strong>Alignment Test:</strong> the four questions, answered yes for each OKR.</li>
+    <li><strong>Priority Matrix:</strong> each aligned priority placed by Impact and Effort in one of the nine positions.</li>
+  </ol>
+  <div class="fac-note" style="margin-top:14px;"><div class="fac-label">Facilitator Move</div><p>The group discusses each placement until it agrees what counts as high impact and high effort for its strategy. These discussions are where collective intelligence is built, so the group takes the time it needs before it agrees each placement.</p></div>
+</div>
+</div>
+
+<!-- UNIT SUMMARY -->
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">Unit Summary</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 3 synthesis</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Unit Summary</div><p><strong>Closing the unit:</strong> Read each of the five summary blocks aloud, or ask participants to read them in turn. The summary is intentionally concise — it crystallises the arc of the unit without adding new content.</p><p><strong>Return to the opening question:</strong> Go back to the question you asked at the start of Awareness — <em>"If the Success in Practice we described is the future organisation, what must change in the organisation today to make that future possible?"</em> Ask 2–3 participants: <em>"Looking at the OKRs we have just built — have we answered that question? Where are the remaining gaps?"</em></p><p><strong>Tangible outputs check:</strong> Confirm with the group that the following have been produced or are in progress:</p><ul><li>The matching exercise from each participant, as portfolio work (3.1)</li><li>A confirmed KISS map from each group (5.1)</li><li>Confirmed Enterprise Priorities and Enterprise OKRs from each group — maximum 4 Objectives, maximum 2 Key Results each (5.2)</li><li>A completed Strategy Airport learning round from each participant (4.1)</li></ul><p><strong>Closing commitment:</strong> Ask each participant to complete this sentence privately — <em>"The one thing I am committing to before our next session to make these OKRs real is…"</em> Invite 2–3 to share. These are the accountability anchors between now and Unit 4.</p><p><strong>Transition to Unit 4:</strong> Close with — <em>"We have built our Strategy Intent Statement, described our future state through SiP, and now defined how we will measure our progress through OKRs. Unit 4 tests the integrity of that direction through ABCV — the conditions that must hold true for the journey toward the organisation we have described."</em></p></div>
+  <div id="summaryList"></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(4)">← Section 4 — Integration</button>
+</div>
+</div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── UNIT 3 · SHARED DATA (same in the participant and facilitator files) ─────────────────────────
+var KISS_DOMAINS=[
+  {id:'cx',cls:'cx',label:'Customer Experience & Value',anchor:'If our SiP statement is true, what should customers consistently experience?',
+   keep:'Which aspects of the current customer experience already move us toward the SiP and should be protected?',
+   improve:'Where do we see good customer outcomes but recurring friction that weakens reliability or responsiveness?',
+   start:'What new practices or capabilities must begin for customers to experience the organisation as described in the SiP?',
+   stop:'Which processes or behaviours create customer friction and contradict the SiP experience we described?'},
+  {id:'op',cls:'op',label:'Operational Capability & Execution Rhythm',anchor:'If the SiP becomes reality, how will the organisation operate differently?',
+   keep:'Which operational routines already support the execution rhythm described in the SiP?',
+   improve:'Where do we see operational capability but delays, coordination gaps, or decision bottlenecks?',
+   start:'What new execution rhythms, coordination practices, or decision frameworks must be introduced?',
+   stop:'Which processes, reporting routines, or meetings consume effort without strengthening execution?'},
+  {id:'pc',cls:'pc',label:'People & Culture Dynamics',anchor:'If the SiP is realised, how will leaders and teams work together?',
+   keep:'Which leadership behaviours and collaboration patterns already reinforce the culture described in the SiP?',
+   improve:'Where do we see positive teamwork but inconsistent accountability or unclear ownership?',
+   start:'What new leadership habits or collaboration norms must be introduced?',
+   stop:'Which behaviours, informal norms, or leadership practices undermine alignment or trust?'},
+  {id:'ev',cls:'ev',label:'Enterprise Value Creation',anchor:'If the SiP succeeds, what financial reality should we see?',
+   keep:'Which business activities or revenue streams already support the value creation described in the SiP?',
+   improve:'Where do we see positive results but margin pressure or inefficient resource use?',
+   start:'What new investments, capabilities, or revenue engines must be introduced?',
+   stop:'Which initiatives or commitments consume resources without contributing to the value creation described in the SiP?'}
+];
+var KISS_EL=[['keep','KEEP'],['improve','IMPROVE'],['start','START'],['stop','STOP']];
+
+var HOT_ZONES=[
+  {role:'CEO',title:'Chief Executive Officer',top2:'Enterprise Value Creation · Customer Experience & Value',emphasis:'Strategic ambition and market positioning',hot:'Objectives become visionary but insufficiently grounded in operational capability',align:'Do our OKRs translate ambition into outcomes the organisation can reliably deliver?'},
+  {role:'CFO',title:'Chief Financial Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Financial performance and efficiency',hot:'Key Results become overly financial, ignoring customer or capability drivers',align:'Are we measuring the drivers of value creation as well as the financial outcomes?'},
+  {role:'COO',title:'Chief Operating Officer',top2:'Operational Capability & Execution Rhythm · Enterprise Value Creation',emphasis:'Operational reliability and execution efficiency',hot:'Objectives drift toward operational optimisation and away from strategic transformation',align:'Are our OKRs reinforcing strategic movement, beyond operational performance?'},
+  {role:'CHRO',title:'Chief People & Culture Officer',top2:'People & Culture Dynamics · Operational Capability & Execution Rhythm',emphasis:'Capability development and organisational health',hot:'Objectives emphasise culture initiatives without clear connection to enterprise results',align:'Do our people objectives clearly support strategic outcomes?'},
+  {role:'CTO/CIO',title:'Chief Technology / Information Officer',top2:'Operational Capability & Execution Rhythm · Customer Experience & Value',emphasis:'Technology capability and digital infrastructure',hot:'Key Results become technology delivery milestones with no line of sight to business outcomes',align:'Are we measuring the impact technology creates for customers and the enterprise?'},
+  {role:'CMO',title:'Chief Marketing Officer',top2:'Customer Experience & Value · Enterprise Value Creation',emphasis:'Market positioning and brand strength',hot:'Objectives emphasise perception beyond what the organisation can consistently deliver',align:'Do our OKRs balance customer promise with operational capability?'},
+  {role:'CCO',title:'Chief Commercial Officer',top2:'Enterprise Value Creation · Customer Experience & Value',emphasis:'Revenue growth and commercial expansion',hot:'Key Results prioritise sales outcomes without strengthening the customer experience system',align:'Are we building repeatable value creation, beyond short-term revenue?'},
+  {role:'CPO',title:'Chief Procurement Officer',top2:'Operational Capability & Execution Rhythm · Enterprise Value Creation',emphasis:'Supply chain efficiency and cost discipline',hot:'Objectives prioritise cost optimisation at the expense of strategic capability development',align:'Are we balancing efficiency with long-term strategic capability?'},
+  {role:'CRO',title:'Chief Risk Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Risk control and regulatory protection',hot:'Key Results become defensive safeguards that slow strategic movement',align:'Are we enabling responsible risk-taking while protecting the organisation?'},
+  {role:'CSO',title:'Chief Strategy Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Strategic planning coherence',hot:'Objectives become conceptually strong but disconnected from operational ownership',align:'Are our OKRs grounded in clear accountability and execution ownership?'}
+];
+
+// The nine positions of the Prioritisation Matrix: impact, effort, name, colour, meaning.
+var PM_CATS=[
+  {i:'High',e:'Low',l:'Strategic Catalysts',c:'rgba(39,174,96,.7)',d:'Quick breakthroughs that accelerate strategic momentum.'},
+  {i:'High',e:'Medium',l:'Accelerated Enablers',c:'rgba(52,152,219,.7)',d:'Important initiatives requiring coordination but delivering strong value.'},
+  {i:'High',e:'High',l:'Core Strategic Drivers',c:'rgba(155,89,182,.7)',d:'Major transformation initiatives essential to achieving the SiP.'},
+  {i:'Medium',e:'Low',l:'Quick Efficiency Plays',c:'rgba(243,156,18,.7)',d:'Improvements that enhance performance with minimal effort.'},
+  {i:'Medium',e:'Medium',l:'Targeted Growth Projects',c:'rgba(201,168,76,.7)',d:'Initiatives contributing to strategic progress but not immediate priorities.'},
+  {i:'Medium',e:'High',l:'Heavy Investment Candidates',c:'rgba(230,126,34,.7)',d:'Initiatives requiring significant resources and careful timing.'},
+  {i:'Low',e:'Low',l:'Supportive Enablers',c:'rgba(149,165,166,.6)',d:'Helpful but non-critical initiatives.'},
+  {i:'Low',e:'Medium',l:'Marginal Utility Tasks',c:'rgba(149,165,166,.5)',d:'Limited strategic return relative to effort.'},
+  {i:'Low',e:'High',l:'Resource Pitfalls',c:'rgba(231,76,60,.7)',d:'Consume significant energy without meaningful strategic value.'}
+];
+function pmFind(impact,effort){for(var k=0;k<PM_CATS.length;k++){if(PM_CATS[k].i===impact&&PM_CATS[k].e===effort)return PM_CATS[k];}return null;}
+function u3esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// Step tabs: tabs sit in #<prefix>Tabs, panels carry ids <prefix>_0, <prefix>_1 …
+function u3Tab(prefix,i){
+  document.querySelectorAll('#'+prefix+'Tabs .step-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('[id^="'+prefix+'_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});
+}
+function renderPMCards(hostId){
+  var el=document.getElementById(hostId);if(!el)return;
+  el.innerHTML='<div class="u3-pm">'+PM_CATS.map(function(c){
+    return '<div class="u3-pm-card" style="border-left:2px solid '+c.c+';"><div class="u3-pm-h" style="color:'+c.c+';">'+c.l+'</div><p>'+c.i+' Impact – '+c.e+' Effort: '+c.d+'</p></div>';
+  }).join('')+'</div>';
+}
+function kissGuideHtml(prefix,toggleFn){
+  return KISS_DOMAINS.map(function(d){
+    return '<div class="kiss-domain" id="'+prefix+d.id+'">'+
+      '<div class="kiss-domain-h" onclick="'+toggleFn+'(\''+prefix+d.id+'\')">'+
+        '<div class="kiss-accent kiss-domain-accent '+d.cls+'"></div>'+
+        '<div class="kiss-domain-info"><div class="kiss-domain-title">'+u3esc(d.label)+'</div>'+
+        '<div class="kiss-domain-anchor">SiP Anchor: '+u3esc(d.anchor)+'</div></div>'+
+        '<span class="kiss-domain-arr">▾</span></div>'+
+      '<div class="kiss-domain-body" style="display:none;padding:0 18px 18px;">'+
+        '<div class="u3-kgrid">'+KISS_EL.map(function(k){
+          return '<div class="u3-kcell"><div class="kiss-el-head '+k[0]+'-h '+k[0]+'">◆ '+k[1]+'</div><div class="kiss-q kiss-el-prompt">'+u3esc(d[k[0]])+'</div></div>';
+        }).join('')+'</div></div></div>';
+  }).join('');
+}
+function u3ToggleDomain(id){
+  var el=document.getElementById(id);if(!el)return;
+  var body=el.querySelector('.kiss-domain-body'),arr=el.querySelector('.kiss-domain-arr');if(!body)return;
+  var open=body.style.display!=='none'&&body.style.display!=='';
+  body.style.display=open?'none':'block';
+  if(arr)arr.style.transform=open?'':'rotate(180deg)';
+}
+
+// ── 2.2 · WORKED EXAMPLE: one simple SiP statement, its KISS table and the five steps (client services company) ──
+// Shown on both pages, read-only. Each step uses what the step before it produced: four themes, four Objectives,
+// four OKRs; all four pass the alignment test and are placed on the matrix.
+var WORKED={
+  sip:'We will be the service partner our clients rely on first, by ensuring every client experiences fast, consistent and effortless service. To achieve this, we will move quickly from insight to action across functions, build shared ownership of enterprise priorities and run scalable, efficient operations that strengthen enterprise performance.',
+  kiss:[
+    {domain:'Customer Experience & Value',cls:'cx',keep:'Strong client relationships with key accounts',improve:'Response time to customer requests varies across teams',start:'Introduce proactive customer engagement model',stop:'Slow internal handovers that delay customer responses'},
+    {domain:'Operational Capability & Execution Rhythm',cls:'op',keep:'Clear strategic priorities already exist',improve:'Decision-making slows when multiple functions are involved',start:'Introduce cross-functional execution routines and faster decision forums',stop:'Excessive reporting cycles that delay action'},
+    {domain:'People & Culture Dynamics',cls:'pc',keep:'Strong trust within teams',improve:'Collaboration across functions remains inconsistent',start:'Introduce shared ownership of enterprise priorities',stop:'Functional silos and escalation behaviours'},
+    {domain:'Enterprise Value Creation',cls:'ev',keep:'Solid revenue base and loyal client segments',improve:'Profit margins fluctuate due to operational inefficiencies',start:'Develop scalable service delivery models',stop:'Low-value projects that absorb leadership attention'}
+  ],
+  items:[
+    {theme:'Customer responsiveness',obj:'Deliver consistently fast and effortless service experiences for customers',
+     krs:['Reduce average response time to customer requests from 12 hours to 4 hours by 30 June 2027','Increase customer requests resolved at first contact from 60% to 85% by 30 September 2027'],
+     roles:'Commercial, Operations, Customer Service, Technology',impact:'High',effort:'Medium'},
+    {theme:'Execution speed',obj:'Build a high-speed execution engine that moves quickly from insight to action',
+     krs:['Reduce cross-functional decision time from 5 days to 1 day by 30 June 2027','Reduce recurring management reports from 24 to 10 by 31 March 2027'],
+     roles:'Operations, Finance, Strategy',impact:'High',effort:'Low'},
+    {theme:'Collaboration culture',obj:'Create a culture of shared ownership across functions for strategic priorities',
+     krs:['Increase enterprise priorities with a named cross-functional owner from 40% to 100% by 31 March 2027','Reduce issues escalated to the executive team from 30 to 10 per quarter by 30 September 2027'],
+     roles:'People & Culture, all functional heads',impact:'High',effort:'High'},
+    {theme:'Value creation',obj:'Strengthen enterprise performance through scalable and efficient operations',
+     krs:['Improve operating margin from 14% to 18% by 31 December 2027','Reduce leadership time spent on low-value projects from 25% to 10% by 30 June 2027'],
+     roles:'Finance, Operations, Commercial',impact:'Medium',effort:'High'}
+  ],
+  test:[
+    ['Does this truly get the organisation closer to the shared SiP vision?','Yes. Fast, consistent and effortless service is the first line of the SiP statement.'],
+    ['Would fellow leaders see this as a win for the whole organisation — or just for one function?','The whole organisation. It needs Commercial, Operations, Customer Service and Technology, and no single function can deliver it alone.'],
+    ['Does it visibly improve culture, operations, or value creation?','Yes. Handovers improve in operations, and client retention strengthens value creation.'],
+    ['Is there clear accountability for delivering this outcome?','Yes. One executive owns the Objective and the contributing roles are named for each Key Result.']
+  ],
+  signal:'execution speed moves first, customer responsiveness follows, shared ownership is the long transformation, and the investment in scalable operations is timed with care.'
+};
+var FIVE_STEPS=['Find Themes','Inspiring Objectives','Define Key Results','Alignment Test','Priority Matrix'];
+function renderCase(hostId){
+  var host=document.getElementById(hostId);if(!host)return;
+  var W=WORKED,col={keep:'#5ecba1',improve:'#f0c060',start:'#7ec8f0',stop:'#f08080'};
+  var kiss=W.kiss.map(function(d){
+    return '<div class="u3-wx-dom"><div class="u3-wx-dom-h"><span class="kiss-accent '+d.cls+'" style="display:inline-block;min-height:12px;height:12px;margin-right:8px;vertical-align:middle;"></span>'+u3esc(d.domain)+'</div><div class="u3-wx-row">'+
+      KISS_EL.map(function(k){return '<div class="u3-wx-cell"><div class="u3-wx-k" style="color:'+col[k[0]]+';">'+k[1]+'</div><p>'+u3esc(d[k[0]])+'</p></div>';}).join('')+'</div></div>';
+  }).join('');
+  host.innerHTML='<div class="u3-wx-sip"><div class="u3-wx-sip-h">Example · Success in Practice statement of a client services company</div><p>'+u3esc(W.sip)+'</p></div>'+
+    '<h4>From SiP to KISS</h4><p>The leadership team passes the SiP statement through the four KISS filters, one SiP domain at a time:</p>'+kiss;
+}
+function renderWorked(hostId){
+  var host=document.getElementById(hostId);if(!host)return;
+  var W=WORKED,N=W.items.length;
+  var word=['','one','two','three','four','five'];
+  var tabs=FIVE_STEPS.map(function(n,i){
+    return '<div class="step-tab'+(i===0?' active':'')+'" onclick="u3Tab(\'wx\','+i+')"><div class="step-num">Step '+(i+1)+'</div><div class="step-name">'+n+'</div></div>';
+  }).join('');
+  var row3=function(a,b,c,cls){return '<div class="u3-wx-res'+(cls?' '+cls:'')+'"><div class="u3-wx-l">'+a+'</div><div class="u3-wx-n">'+b+'</div><div class="u3-wx-r">'+c+'</div></div>';};
+  var s1='<p>Reading across the four KISS domains, '+word[N]+' recurring strategic themes emerge:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-theme"><span>'+(i<9?'0':'')+(i+1)+'</span>'+u3esc(o.theme)+'</div>';}).join('');
+  var s2='<p>Translate each strategic theme into one clear, qualitative Objective:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(o.theme)+'</div><div class="u3-wx-r"><strong>Objective '+(i+1)+':</strong> '+u3esc(o.obj)+'</div></div>';}).join('');
+  var s3='<p>Define measurable Key Results using Verb + Metric + From X to Y + Deadline, and name the contributing roles:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-okr"><div class="u3-wx-okr-h">Objective '+(i+1)+' · '+u3esc(o.obj)+'</div><ul>'+o.krs.map(function(k){return '<li>'+u3esc(k)+'</li>';}).join('')+'</ul><div class="u3-wx-roles"><strong>Contributing roles:</strong> '+u3esc(o.roles)+'</div></div>';}).join('');
+  var s4='<p>Test each OKR before it goes forward. Objective 1 is shown below:</p>'+
+    W.test.map(function(t){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(t[0])+'</div><div class="u3-wx-r">'+u3esc(t[1])+'</div></div>';}).join('')+
+    '<h5 class="u3-gq" style="margin-top:18px;">Result of the alignment test</h5>'+
+    W.items.map(function(o,i){return row3('Objective '+(i+1)+' · '+u3esc(o.theme),'4 of 4','Aligned. Goes forward to Step 5','in');}).join('');
+  var grid='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
+    ['High','Medium','Low'].map(function(im){
+      return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
+        var c=pmFind(im,ef),here=[];W.items.forEach(function(o,i){if(o.impact===im&&o.effort===ef)here.push('<span class="u3-mx-tag">Objective '+(i+1)+' · '+u3esc(o.theme)+'</span>');});
+        return '<div class="u3-mx-cell" style="border-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
+      }).join('');
+    }).join('')+'</div>';
+  var s5='<p>Place the aligned Objectives on the Prioritisation Matrix according to strategic impact and effort:</p>'+grid+
+    '<div class="hbox teal"><p><strong>The execution signal:</strong> '+u3esc(W.signal)+'</p></div>';
+  var panels=[s1,s2,s3,s4,s5].map(function(h,i){return '<div id="wx_'+i+'" class="step-panel'+(i===0?' active':'')+'">'+h+'</div>';}).join('');
+  host.innerHTML='<h4>From KISS to OKRs: The Five Steps</h4><div class="step-tabs" id="wxTabs">'+tabs+'</div>'+panels;
+}
+
+// ── 4.1 · STRATEGY AIRPORT (Carol's game, Medical Health Company case) ─────────────────────────
+var SA_SIP='We will deliver reliable, accessible and patient-centred healthcare by ensuring patients experience timely support, clear communication and coordinated care across every touchpoint. To achieve this, we will strengthen operational coordination, use data to guide decisions, build shared accountability across teams and improve service reliability, efficiency, patient trust and health outcomes.';
+var SA_OPTIONS={
+  keep:[["Existing patient trust",1,"Green light: this is a real strength to protect."],["Committed clinical teams",1,"Green light: this supports patient-centred delivery."],["Strong referral relationships",1,"Green light: this can improve access and continuity."],["Known community presence",1,"Green light: this can support trust and accessibility."],["Functional appointment channels",1,"Green light: this is useful infrastructure for access."],["Keep all approval layers because they create control",0,"Red alert: this protects bureaucracy, not timely patient care."],["Keep department-specific patient files separate",0,"Red alert: this weakens coordinated care."],["Keep complaints informal so teams are not blamed",0,"Red alert: this hides evidence the strategy needs."]],
+  improve:[["Slow patient handovers",1,"Green light: this directly affects coordinated care."],["Inconsistent patient updates",1,"Green light: this affects clear communication."],["Delayed lab or test feedback",1,"Green light: this affects timely support."],["Fragmented patient records",1,"Green light: this affects reliability and coordination."],["Long waiting times",1,"Green light: this affects accessibility."],["Improve the poster design for the strategy launch",0,"Red alert: this is communication activity, not operational reality."],["Improve executive parking arrangements",0,"Red alert: this does not support the SiP."],["Improve the wording of internal slogans",0,"Red alert: slogans are not evidence of patient-centred care."]],
+  start:[["Patient journey dashboard",1,"Green light: this supports data-guided decisions."],["Weekly care coordination huddles",1,"Green light: this supports execution rhythm."],["Single patient update protocol",1,"Green light: this supports clear communication."],["Data-based service reviews",1,"Green light: this supports learning and reliability."],["Clear handover standard",1,"Green light: this supports coordinated care."],["Start a new committee for every service issue",0,"Red alert: more committees may slow execution."],["Start collecting more data without deciding how it will be used",0,"Red alert: data without decisions creates noise."],["Start sending all decisions to the CEO",0,"Red alert: this weakens shared accountability."]],
+  stop:[["Asking patients for the same information repeatedly",1,"Green light: this directly reduces patient friction."],["Departments handing off without ownership",1,"Green light: this supports accountability."],["Reporting activity in place of patient outcomes",1,"Green light: this protects outcome discipline."],["Treating complaints as isolated incidents",1,"Green light: this supports system learning."],["Launching initiatives without capacity",1,"Green light: this protects execution discipline."],["Stop patient feedback because it creates pressure",0,"Red alert: this removes patient evidence."],["Stop cross-functional meetings to save time",0,"Red alert: this weakens coordination."],["Stop measuring waiting time if performance is poor",0,"Red alert: this hides reliability problems."]]
+};
+var SA_ORDER={keep:[5,0,6,1,3,7,2,4],improve:[0,5,2,6,1,7,3,4],start:[5,0,6,1,3,7,2,4],stop:[0,5,1,6,2,7,3,4]};
+var SA_CARDS=[
+  ['keep','KEEP','What must be protected because it already supports the SiP?','Existing patient trust\nCommitted clinical teams'],
+  ['improve','IMPROVE','What must work better because it weakens delivery?','Slow patient handovers\nDelayed communication'],
+  ['start','START','What must begin because it is missing?','Patient journey dashboard\nWeekly care coordination huddles'],
+  ['stop','STOP','What must stop because it contradicts the SiP?','Duplicated patient information requests\nDepartments handing off without ownership']
+];
+// Wording that differs between the facilitator's lesson round ('f') and the participant's own round ('p').
+var SA_TXT={
+  f:{g1:'Use the SiP statement above. Ask the group to choose an option. The facilitator clicks it, and the system will then show a green light or red alert.',
+     rule:'Game rule: let participants choose first. The answer is revealed only after selection.',
+     g2:'The KISS choices have now become your OKR themes. Ask the group to pick one theme, then convert it into one Objective and two Key Results.',
+     pick:'Choose one KISS theme above. The system will translate it into a draft OKR for the group to test and edit.',
+     done:'The team has translated the medical health SiP into KISS insights, then converted one selected theme into an Objective and two Key Results.'},
+  p:{g1:'Use the SiP statement above. Choose an option for each filter. The system will then show a green light or red alert.',
+     rule:'Game rule: choose first. The answer is revealed only after you select.',
+     g2:'Your KISS choices have now become your OKR themes. Pick one theme, then convert it into one Objective and two Key Results.',
+     pick:'Choose one KISS theme above. The system will translate it into a draft OKR for you to test and edit.',
+     done:'You have translated the medical health SiP into KISS insights, then converted one selected theme into an Objective and two Key Results.'}
+};
+var SA={mode:'f',host:null,onChange:null,state:{step:1,kiss:{keep:'',improve:'',start:'',stop:''},okrs:[]}};
+function saLines(v){return String(v||'').split('\n').map(function(x){return x.trim();}).filter(Boolean);}
+function saEl(id){return document.getElementById(id);}
+function saChanged(){if(SA.onChange)SA.onChange(SA.state);}
+function saInit(hostId,mode,onChange){
+  SA.host=document.getElementById(hostId);if(!SA.host)return;
+  SA.mode=mode;SA.onChange=onChange||null;
+  SA.host.innerHTML='<div class="sa">'+
+    '<div class="sa-head"><div><div class="sa-title">Strategy Airport</div><div class="sa-tag">Move from strategic imagination to operational clearance.</div></div><div class="sa-badge">Medical Health Company Case</div></div>'+
+    '<div class="sa-sip"><div class="sa-sip-h">Success in Practice Statement</div><p>'+u3esc(SA_SIP)+'</p></div>'+
+    '<div class="sa-board"><div id="saGate1" class="sa-gate"><small>Gate 1</small><div class="sa-gate-n">Baggage Check</div><p>KISS Mapping</p><span class="sa-status">Open</span></div>'+
+    '<div id="saGate2" class="sa-gate"><small>Gate 2</small><div class="sa-gate-n">Flight Plan</div><p>OKR Construction</p><span class="sa-status">Locked</span></div></div>'+
+    '<div class="sa-screen" id="saScreen"></div></div>';
+  saRender();
+}
+function saLoad(state){
+  if(state&&typeof state==='object'){
+    var k=state.kiss||{};
+    SA.state={step:state.step===2||state.step===3?state.step:1,kiss:{keep:String(k.keep||''),improve:String(k.improve||''),start:String(k.start||''),stop:String(k.stop||'')},okrs:Array.isArray(state.okrs)?state.okrs.slice(0,4):[]};
+  }
+  if(SA.host)saRender();
+}
+function saRender(){if(SA.state.step===3)saRenderDone();else if(SA.state.step===2)saRenderOkr();else saRenderKiss();}
+function saGates(){
+  [1,2].forEach(function(n){
+    var g=saEl('saGate'+n);if(!g)return;
+    g.className='sa-gate'+(n<SA.state.step?' done':n===SA.state.step?' active':' locked');
+    g.querySelector('.sa-status').textContent=n<SA.state.step?'Complete':n===SA.state.step?'Open':'Locked';
+  });
+}
+function saKissCard(c){
+  var key=c[0];
+  return '<div class="sa-card"><div class="sa-card-h">'+c[1]+'</div><p class="sa-hint">'+c[2]+'</p>'+
+    '<textarea class="sa-ta" id="sa_'+key+'" placeholder="'+u3esc(c[3])+'" oninput="saKissInput(\''+key+'\',this.value)">'+u3esc(SA.state.kiss[key])+'</textarea>'+
+    '<div class="sa-options">'+SA_ORDER[key].map(function(i){return '<span class="sa-chip" onclick="saAdd(\''+key+'\','+i+')">'+u3esc(SA_OPTIONS[key][i][0])+'</span>';}).join('')+'</div></div>';
+}
+function saRenderKiss(){
+  saGates();var T=SA_TXT[SA.mode];
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Gate 1: Baggage Check</div><p>'+T.g1+'</p></div>'+
+    (SA.mode==='f'?'<button type="button" class="sa-btn gold" onclick="saFill()">Use Example</button>':'')+'</div>'+
+    '<div class="sa-grid4">'+SA_CARDS.map(saKissCard).join('')+'</div>'+
+    '<div id="saKissMsg" class="sa-msg">'+T.rule+'</div>'+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Reset Game</button><button type="button" class="sa-btn" onclick="saToGate2()">Proceed to Flight Plan</button></div>';
+}
+function saKissInput(key,val){SA.state.kiss[key]=val;saChanged();}
+function saAdd(key,index){
+  var opt=SA_OPTIONS[key][index],msg=saEl('saKissMsg');
+  if(!opt[1]){msg.className='sa-msg danger';msg.textContent=opt[2];return;}
+  var el=saEl('sa_'+key),existing=saLines(el.value);
+  if(existing.indexOf(opt[0])<0){existing.push(opt[0]);el.value=existing.join('\n');SA.state.kiss[key]=el.value;saChanged();}
+  msg.className='sa-msg success';msg.textContent=opt[2];
+}
+function saFill(){
+  SA.state.kiss={keep:'Strong patient relationships\nCommitted nurses and clinical teams',improve:'Slow handovers between departments\nPatient communication is inconsistent',start:'Patient journey dashboard\nWeekly cross-functional care coordination huddles',stop:'Asking patients for the same information repeatedly\nTreating service failures as one department\'s problem'};
+  saRenderKiss();saChanged();
+}
+function saToGate2(){
+  ['keep','improve','start','stop'].forEach(function(k){var el=saEl('sa_'+k);if(el)SA.state.kiss[k]=el.value;});
+  var missing=['keep','improve','start','stop'].filter(function(k){return saLines(SA.state.kiss[k]).length<2;}).map(function(k){return k.toUpperCase();});
+  var msg=saEl('saKissMsg');
+  if(missing.length){msg.className='sa-msg danger';msg.textContent='Not cleared: add at least two items for '+missing.join(', ')+'.';return;}
+  SA.state.step=2;saRenderOkr();saChanged();
+}
+function saThemes(){var out=[];['keep','improve','start','stop'].forEach(function(k){saLines(SA.state.kiss[k]).forEach(function(v){out.push({type:k.toUpperCase(),text:v});});});return out;}
+function saOkrFromTheme(theme){
+  var t=theme.text.toLowerCase();
+  if(t.indexOf('handover')>=0||t.indexOf('coordin')>=0)return {objective:'Strengthen coordinated care across patient touchpoints',kr1:'Reduce patient handover delays from 48 hours to 12 hours by 31 March 2027',kr2:'Increase complete patient handover records from 60% to 95% by 31 March 2027',roles:'Clinical Teams, Operations, Care Coordinators, IT'};
+  if(t.indexOf('update')>=0||t.indexOf('communication')>=0||t.indexOf('complaint')>=0)return {objective:'Improve clarity and consistency of patient communication',kr1:'Increase patients receiving clear status updates from 50% to 90% by 31 March 2027',kr2:'Reduce communication-related complaints from 80 to 30 per quarter by 31 March 2027',roles:'Customer Support, Clinical Teams, Operations, Communications'};
+  if(t.indexOf('waiting')>=0||t.indexOf('appointment')>=0||t.indexOf('access')>=0||t.indexOf('referral')>=0)return {objective:'Improve timely access to patient-centred care',kr1:'Reduce average appointment waiting time from 14 days to 7 days by 31 March 2027',kr2:'Increase same-day response to patient enquiries from 55% to 90% by 31 March 2027',roles:'Operations, Clinical Teams, Customer Support, IT'};
+  if(t.indexOf('data')>=0||t.indexOf('dashboard')>=0||t.indexOf('review')>=0||t.indexOf('records')>=0)return {objective:'Use service data to improve patient outcomes and reliability',kr1:'Increase weekly review of patient service data from 0 to 4 reviews per month by 31 March 2027',kr2:'Reduce unresolved service exceptions older than 7 days from 40 to 10 by 31 March 2027',roles:'Executive Team, Operations, IT, Quality Assurance'};
+  if(t.indexOf('ownership')>=0||t.indexOf('accountability')>=0||t.indexOf('capacity')>=0||t.indexOf('initiative')>=0)return {objective:'Build shared accountability for patient-centred execution',kr1:'Increase cross-functional issue closure within 5 working days from 45% to 85% by 31 March 2027',kr2:'Reduce escalations caused by unclear ownership from 50 to 15 per quarter by 31 March 2027',roles:'Executive Team, Department Leads, Operations, HR'};
+  return {objective:'Improve reliability of patient-centred service delivery',kr1:'Increase on-time completion of priority patient actions from 65% to 90% by 31 March 2027',kr2:'Reduce repeat patient information requests from 35% to 10% by 31 March 2027',roles:'Operations, Clinical Teams, IT, Customer Support'};
+}
+function saRenderOkr(){
+  saGates();var T=SA_TXT[SA.mode],themes=saThemes();
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Gate 2: Flight Plan</div><p>'+T.g2+'</p></div>'+
+    (SA.mode==='f'?'<button type="button" class="sa-btn gold" onclick="saAuto()">Build Example OKR</button>':'')+'</div>'+
+    '<div class="sa-packs">'+themes.map(function(t,i){return '<button type="button" class="sa-pack" onclick="saUseTheme('+i+')"><strong>'+t.type+'</strong><span>'+u3esc(t.text)+'</span></button>';}).join('')+'</div>'+
+    '<div class="sa-okr-wrap"><div class="sa-card"><div class="sa-card-h">Convert Selected Theme</div>'+
+      '<label class="sa-lbl" for="saObjective">Objective</label><input class="sa-in" id="saObjective" placeholder="Select a KISS theme above">'+
+      '<label class="sa-lbl" for="saKr1">Key Result 1</label><input class="sa-in" id="saKr1" placeholder="Generated from selected theme">'+
+      '<label class="sa-lbl" for="saKr2">Key Result 2</label><input class="sa-in" id="saKr2" placeholder="Generated from selected theme">'+
+      '<label class="sa-lbl" for="saRoles">Contributing Roles</label><input class="sa-in" id="saRoles" placeholder="Generated from selected theme">'+
+      '<div id="saOkrMsg" class="sa-msg">'+T.pick+'</div>'+
+      '<div style="margin-top:14px"><button type="button" class="sa-btn" onclick="saAddOkr()">Add Flight Plan</button></div></div>'+
+    '<div class="sa-card"><div class="sa-card-h">Accepted Flight Plan</div><div id="saOkrList" class="sa-okr-list"></div></div></div>'+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saBack()">Back to Baggage Check</button><button type="button" class="sa-btn" onclick="saFinish()">Finish Learning Round</button></div>';
+  saRenderOkrList();
+}
+function saBack(){SA.state.step=1;saRenderKiss();saChanged();}
+function saUseTheme(i){
+  var p=saOkrFromTheme(saThemes()[i]);
+  saEl('saObjective').value=p.objective;saEl('saKr1').value=p.kr1;saEl('saKr2').value=p.kr2;saEl('saRoles').value=p.roles;
+  var msg=saEl('saOkrMsg');msg.className='sa-msg success';
+  msg.textContent='Green light: selected KISS theme converted into a draft OKR. Now test whether the Objective is enterprise-level and the Key Results show measurable change.';
+}
+function saAuto(){
+  saEl('saObjective').value='Improve reliability of patient-centred service delivery';
+  saEl('saKr1').value='Reduce patient handover delays from 48 hours to 12 hours by 31 March 2027';
+  saEl('saKr2').value='Increase patients receiving clear service updates from 50% to 90% by 31 March 2027';
+  saEl('saRoles').value='Clinical Teams, Operations, IT, Customer Support, Executive Team';
+}
+function saKrPasses(t){return /\d/.test(t)&&/from|to|increase|reduce|improve|decrease|raise|lower/i.test(t)&&/by|march|april|may|june|july|august|september|october|november|december|2027|2026/i.test(t);}
+function saAddOkr(){
+  var objective=saEl('saObjective').value.trim(),kr1=saEl('saKr1').value.trim(),kr2=saEl('saKr2').value.trim(),roles=saEl('saRoles').value.trim(),msg=saEl('saOkrMsg');
+  if(!objective||!kr1||!kr2||!roles){msg.className='sa-msg danger';msg.textContent='Not cleared: the flight plan has missing fields.';return;}
+  if(!saKrPasses(kr1)||!saKrPasses(kr2)){msg.className='sa-msg danger';msg.textContent='This flight has weak instrument readings. Each KR needs a metric, movement and deadline.';return;}
+  if(SA.state.okrs.length>=4){msg.className='sa-msg danger';msg.textContent='Too many destinations. Maximum four objectives.';return;}
+  SA.state.okrs.push({objective:objective,kr1:kr1,kr2:kr2,roles:roles});
+  ['saObjective','saKr1','saKr2','saRoles'].forEach(function(id){saEl(id).value='';});
+  msg.className='sa-msg success';msg.textContent='Flight plan accepted.';saRenderOkrList();saChanged();
+}
+function saRenderOkrList(){
+  var list=saEl('saOkrList');if(!list)return;
+  if(!SA.state.okrs.length){list.innerHTML='<p class="sa-hint">No flight plans accepted yet.</p>';return;}
+  list.innerHTML=SA.state.okrs.map(function(o,i){return '<div class="sa-okr-item"><strong>'+(i+1)+'. '+u3esc(o.objective)+'</strong><ul><li>'+u3esc(o.kr1)+'</li><li>'+u3esc(o.kr2)+'</li><li><strong>Crew:</strong> '+u3esc(o.roles)+'</li></ul></div>';}).join('');
+}
+function saFinish(){
+  if(SA.state.okrs.length<1){var m=saEl('saOkrMsg');m.className='sa-msg danger';m.textContent='Not cleared: create one OKR flight plan.';return;}
+  SA.state.step=3;saRenderDone();saChanged();
+}
+function saRenderDone(){
+  ['saGate1','saGate2'].forEach(function(id){var g=saEl(id);if(!g)return;g.className='sa-gate done';g.querySelector('.sa-status').textContent='Complete';});
+  var K=SA.state.kiss,T=SA_TXT[SA.mode];
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Learning Round Complete</div><p>'+T.done+'</p></div><button type="button" class="sa-btn gold" onclick="saPrint()">Print Summary</button></div>'+
+    '<div class="sa-summary"><div class="sa-card"><div class="sa-big">1</div><div class="sa-card-h">KISS Themes Captured</div><ul><li>Keep: '+saLines(K.keep).length+'</li><li>Improve: '+saLines(K.improve).length+'</li><li>Start: '+saLines(K.start).length+'</li><li>Stop: '+saLines(K.stop).length+'</li></ul></div>'+
+    '<div class="sa-card"><div class="sa-big">2</div><div class="sa-card-h">OKR Built From One Theme</div><ul>'+SA.state.okrs.map(function(o){return '<li><strong>'+u3esc(o.objective)+'</strong><br>'+u3esc(o.kr1)+'<br>'+u3esc(o.kr2)+'</li>';}).join('')+'</ul></div></div>'+
+    '<div class="sa-msg success" style="margin-top:18px">Learning point: KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.</div>'+
+    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">This learning round is part of your Learning Portfolio. It reaches your facilitator when you select Submit to Facilitator at the end of the unit.</div>':'')+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Start Again</button></div>';
+}
+function saReset(){
+  if(SA.mode==='p'&&(SA.state.okrs.length||saThemes().length)&&!window.confirm('Start the game again? Your saved KISS choices and flight plans will be cleared.'))return;
+  SA.state={step:1,kiss:{keep:'',improve:'',start:'',stop:''},okrs:[]};saRenderKiss();saChanged();
+}
+function saKissText(){return SA_CARDS.map(function(c){var l=saLines(SA.state.kiss[c[0]]);return c[1]+': '+(l.length?l.join('; '):'—');}).join('\n');}
+function saPlanText(){return SA.state.okrs.map(function(o,i){return (i+1)+'. Objective: '+o.objective+'\n   Key Result 1: '+o.kr1+'\n   Key Result 2: '+o.kr2+'\n   Contributing roles: '+o.roles;}).join('\n\n');}
+function saPrint(){
+  var w=window.open('','_blank');if(!w){window.print();return;}
+  var body='<h1>Strategy Airport · Learning Round</h1><h2>Success in Practice Statement</h2><p>'+u3esc(SA_SIP)+'</p><h2>Gate 1 · Baggage Check (KISS Mapping)</h2><pre>'+u3esc(saKissText())+'</pre><h2>Gate 2 · Flight Plan (OKR Construction)</h2><pre>'+u3esc(saPlanText())+'</pre>';
+  w.document.write('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Strategy Airport · Learning Round</title><style>body{font-family:Georgia,serif;color:#172033;max-width:760px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:26px}h2{color:#071b4d;font-size:17px;margin-top:22px;border-bottom:1px solid #e5e7eb;padding-bottom:4px}pre{white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px}</style></head><body>'+body+'</body></html>');
+  w.document.close();w.focus();setTimeout(function(){w.print();},300);
+}
+
+// ── UNIT 3 · FACILITATOR PAGE (preparation only: nothing is entered or saved) ───────────────────
+var SUMMARY=[
+  {arc:'Awareness — What',title:'The KISS Framework as Reflective Filter',body:'Leaders recognise that KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. Before defining Objectives and Key Results, the leadership team must examine the organisation\'s current operating reality in relation to its Success in Practice. This step prevents the common strategic mistake of layering new ambitions on top of an unchanged operational system. Five steps then carry the KISS output into enterprise OKRs.'},
+  {arc:'Intelligence — Why',title:'Most OKR Failures are Reflection Failures',body:'When organisations move directly from vision to targets, legacy routines remain in place, resources remain misaligned, and teams attempt to pursue transformational goals while still carrying the weight of outdated priorities. The KISS-to-OKR sequence resolves this tension: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress. The worked example shows the full sequence in practice.'},
+  {arc:'Extrapolating — Where',title:'Functional Bias Creates OKR Hot Zones',body:'Each leader naturally emphasises different SiP domains. Unexamined, these perspectives produce functional OKRs where enterprise OKRs are needed. Participants match each leadership role to its typical hot zone and its alignment question. Recognising these patterns allows the leadership team to integrate perspectives into a balanced execution system that reflects the full enterprise.'},
+  {arc:'Integration — Collective',title:'From Strategic Imagination to Operational Clearance',body:'In Strategy Airport each participant applies the same translation alone to a new case: what the company must keep, improve, start and stop, then one KISS theme converted into an Objective and two Key Results with contributing roles. KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.'},
+  {arc:'Application — In Practice',title:'Individual Expertise into Collective Intelligence',body:'Each group translates its Success in Practice into a confirmed KISS map across the four SiP domains, then into enterprise priorities and enterprise OKRs through the five steps. Each leader begins with insights from a functional domain, and the final outcome reflects the success of the enterprise as a whole. The Prioritisation Matrix concentrates execution energy on the priorities that will most accelerate progress toward the SiP. The confirmed outputs feed the team\'s Capstone S2R Blueprint.'}
+];
+var curHZ=null;
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderKissGuide(){
+  var a=document.getElementById('kissGuideList');if(a)a.innerHTML=kissGuideHtml('kgd_','u3ToggleDomain');
+  var b=document.getElementById('kissPrepList');if(b)b.innerHTML=kissGuideHtml('kgq_','u3ToggleDomain');
+}
+
+function renderHotZones(){
+  document.getElementById('hzGrid').innerHTML=HOT_ZONES.map(function(h,i){
+    return '<div class="hz-card" id="hz_'+i+'" onclick="showHZ('+i+')">'+
+      '<div class="hz-top"><div class="hz-role">'+h.role+'</div><div class="hz-title">'+h.title+'</div></div>'+
+      '<div class="hz-bar"></div>'+
+    '</div>';
+  }).join('');
+}
+
+function showHZ(i){
+  var h=HOT_ZONES[i];
+  document.querySelectorAll('.hz-card').forEach(function(c,x){c.classList.toggle('active',x===i);});
+  var d=document.getElementById('hzDetail');
+  if(curHZ===i){d.className='hz-detail';d.innerHTML='';curHZ=null;return;}
+  curHZ=i;
+  d.className='hz-detail visible';
+  d.innerHTML='<div class="hz-col"><h5>Dominant Future Realities</h5><p>'+h.top2+'</p><h5 style="margin-top:14px;">Natural OKR Emphasis</h5><p>'+h.emphasis+'</p></div>'+
+    '<div class="hz-col"><h5>Alignment Question</h5><div class="hz-align">'+h.align+'</div><h5 style="margin-top:12px;">Typical Hot Zone</h5><div class="hz-hot">'+h.hot+'</div></div>';
+}
+
+function renderSummary(){
+  document.getElementById('summaryList').innerHTML=SUMMARY.map(function(s,i){
+    return '<div class="sum-block" id="sum_'+i+'">'+
+      '<div class="sum-h" onclick="tSum('+i+')">'+
+        '<span class="sum-arc">'+s.arc+'</span>'+
+        '<span class="sum-title">'+s.title+'</span>'+
+        '<span class="sum-arr">▾</span>'+
+      '</div>'+
+      '<div class="sum-body"><p>'+s.body+'</p></div>'+
+    '</div>';
+  }).join('');
+}
+
+// ── GENERIC HELPERS ──────────────────────────────────────────────────────────
+function tA(h){h.parentElement.classList.toggle('open');}
+function tSA(h){h.parentElement.classList.toggle('open');}
+function tSum(i){document.getElementById('sum_'+i).classList.toggle('open');}
+function showMod(i){
+  document.querySelectorAll('.mod-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('.mod-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── ACCESS GATE ───────────────────────────────────────────────────────────────
+renderKissGuide();renderHotZones();renderPMCards('pmGuideList');renderCase('caseF');renderWorked('workedF');renderSummary();
+saInit('saHostF','f',null);
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+</body>
+</html>

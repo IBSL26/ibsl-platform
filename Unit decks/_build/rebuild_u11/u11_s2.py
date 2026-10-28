@@ -4,7 +4,7 @@ from u11_content import acc, tbl
 TITLE = 'Why Organisational Health Determines Execution Performance'
 HERO = 'How organisational health multiplies execution capability, what poor health costs the enterprise, and how health sustains performance over time.'
 LO = ['Determine how organisational health can be leveraged to strengthen strategy execution capability and sustain enterprise performance.',
-      'Calculate the hidden costs of poor organisational health and determine their implications for enterprise performance.']
+      'Quantify the enterprise cost of poor organisational health to direct leadership attention to its performance implications.']
 MULT = [('Strategic Direction','Shared commitment strengthens alignment around organisational priorities.'),
  ('Execution Accountability','Trust and ownership support consistent delivery of commitments.'),
  ('Performance Management','Openness enables constructive performance conversations and corrective action.'),

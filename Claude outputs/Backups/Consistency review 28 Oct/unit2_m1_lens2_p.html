@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Module 2 · Unit 3 — Participant</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--teal:#1a7a6a;--gold:#c9a84c;}
+body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teal);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;padding:0;text-decoration:none;}
+.nav-back:hover{color:var(--teal);}
+.unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.6);max-width:760px;margin-bottom:18px;}
+.outcomes-bar{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;}
+.outcomes-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);flex-basis:100%;margin-bottom:4px;}
+.outcome{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.65);}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.12);border:1px solid rgba(107,143,204,.25);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.08);border:1px solid rgba(46,168,122,.2);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.2);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.08);border:1px solid rgba(230,126,34,.2);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:110px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--teal);border-color:rgba(26,122,106,.3);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 100px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(26,122,106,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.mod-hero h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.7;max-width:720px;}
+.mod-body{padding:0 40px;}
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.85);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.sub-acc{border:1px solid rgba(255,255,255,.06);border-radius:3px;margin:10px 0;overflow:hidden;}
+.sub-acc-h{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;transition:background .2s;}
+.sub-acc-h:hover{background:rgba(255,255,255,.02);}
+.sub-acc-h span{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);}
+.sub-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sub-acc.open .sub-arr{transform:rotate(180deg);color:var(--teal);}
+.sub-acc-b{display:none;padding:14px 16px 16px;}
+.sub-acc.open .sub-acc-b{display:block;}
+.cb p{font-size:14px;line-height:1.95;color:rgba(255,255,255,.65);margin-bottom:12px;}
+.cb ul,.cb ol{padding-left:22px;margin-bottom:14px;}
+.cb li{font-size:14px;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.85);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin:20px 0 10px;}
+.quote{border-left:3px solid var(--gold);padding:16px 22px;margin:20px 0;background:rgba(201,168,76,.05);border-radius:0 3px 3px 0;}
+.quote p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.8;}
+.hbox.teal{background:rgba(26,122,106,.07);border-color:rgba(26,122,106,.25);}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+.ref-block{margin:20px 0;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:4px;overflow:hidden;}
+.ref-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(26,122,106,.08);border-bottom:1px solid rgba(26,122,106,.15);}
+.ref-icon{font-size:14px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);}
+.ref-prompt{font-size:13px;color:rgba(255,255,255,.65);padding:12px 16px 6px;line-height:1.7;}
+.ref-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(26,122,106,.1);padding:12px 16px;color:rgba(255,255,255,.75);font-size:13px;line-height:1.7;font-family:'Montserrat',sans-serif;resize:vertical;min-height:90px;outline:none;}
+.ref-ta::placeholder{color:rgba(255,255,255,.2);}
+.ref-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.1);border:none;border-top:1px solid rgba(26,122,106,.15);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.ref-save:hover{background:rgba(26,122,106,.2);}
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 16px 8px;display:none;}
+.reflection-saved{font-size:11px;padding:4px 16px 8px;display:none;color:var(--teal);transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:var(--teal);}
+.reflection-error{font-size:11px;color:var(--gold);padding:4px 16px 8px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2a1e;border-color:var(--teal);border-bottom-color:#1a2a1e;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.6);margin-bottom:4px;}
+.step-name{font-family:'Cormorant Garamond',serif;font-size:.85rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.kiss-domain{border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:12px 0;overflow:hidden;}
+.kiss-domain-h{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;cursor:pointer;transition:background .2s;}
+.kiss-domain-h:hover{background:rgba(255,255,255,.02);}
+.kiss-accent{width:3px;min-height:36px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.kiss-accent.cx{background:#8ab0e8;} .kiss-accent.op{background:var(--gold);} .kiss-accent.pc{background:#5ecba1;} .kiss-accent.ev{background:#c39de0;}
+.kiss-domain-info{flex:1;}
+.kiss-domain-title{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:3px;}
+.kiss-domain-anchor{font-size:12px;color:rgba(255,255,255,.5);font-style:italic;line-height:1.5;}
+.kiss-domain-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;flex-shrink:0;margin-top:4px;}
+.kiss-el{background:#151c15;border-radius:3px;overflow:hidden;margin-bottom:0;}
+.kiss-el-head{padding:8px 12px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.keep-h{background:rgba(39,174,96,.12);color:#5ecba1;} .improve-h{background:rgba(243,156,18,.12);color:#f0c060;} .start-h{background:rgba(52,152,219,.12);color:#7ec8f0;} .stop-h{background:rgba(231,76,60,.12);color:#f08080;}
+.kiss-q{font-size:13px;color:rgba(255,255,255,.6);padding:6px 12px 4px;line-height:1.5;font-style:italic;}
+.kiss-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(26,122,106,.1);padding:10px 12px;color:rgba(255,255,255,.85);font-size:14px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.kiss-ta::placeholder{color:rgba(255,255,255,.4);}
+.kiss-save{display:block;width:100%;padding:6px;background:rgba(26,122,106,.07);border:none;border-top:1px solid rgba(26,122,106,.1);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.kiss-save:hover{background:rgba(26,122,106,.18);}
+.hz-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.hz-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.hz-card:hover{border-color:rgba(26,122,106,.3);transform:translateY(-2px);}
+.hz-card.active{border-color:var(--teal);background:#1a2a1e;}
+.hz-role{font-size:15px;font-weight:700;color:var(--teal);padding:14px 12px 4px;}
+.hz-title{font-size:9px;color:rgba(255,255,255,.4);padding:0 12px 10px;line-height:1.4;}
+.hz-bar{height:3px;background:rgba(26,122,106,.2);}
+.hz-card.active .hz-bar{background:var(--teal);}
+.hz-detail{display:none;background:#0a1a0d;border:1px solid rgba(26,122,106,.2);border-radius:4px;margin-top:10px;padding:20px 24px;}
+.hz-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.hz-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.hz-col p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;}
+.hz-hot{font-size:12px;margin-top:10px;padding:10px 14px;background:rgba(231,76,60,.06);border-radius:2px;border-left:2px solid rgba(231,76,60,.4);line-height:1.65;color:rgba(255,200,100,.8);}
+.hz-align{font-size:12px;margin-top:8px;padding:10px 14px;background:rgba(26,122,106,.06);border-radius:2px;border-left:2px solid rgba(26,122,106,.4);line-height:1.65;color:rgba(100,210,180,.8);font-style:italic;}
+.okr-obj{border:1px solid rgba(26,122,106,.2);border-radius:4px;margin:14px 0;overflow:hidden;}
+.okr-obj-head{padding:14px 18px;background:rgba(26,122,106,.06);border-bottom:1px solid rgba(26,122,106,.1);display:flex;align-items:center;gap:12px;cursor:pointer;}
+.okr-obj-num{font-size:9px;font-weight:700;letter-spacing:2px;color:var(--teal);flex-shrink:0;background:rgba(26,122,106,.1);padding:4px 8px;border-radius:2px;}
+.okr-obj-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;flex:1;}
+.okr-obj-toggle{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.okr-obj.open .okr-obj-toggle{transform:rotate(180deg);color:var(--teal);}
+.okr-obj-body{display:none;padding:18px;}
+.okr-obj.open .okr-obj-body{display:block;}
+.okr-hint{background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.12);border-radius:3px;padding:10px 14px;margin-bottom:14px;font-size:11px;color:rgba(255,255,255,.45);line-height:1.7;}
+.okr-hint strong{color:var(--teal);}
+.okr-kr{background:#151c15;border-radius:3px;padding:14px;margin:8px 0;}
+.okr-kr label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:6px;}
+.okr-ta{width:100%;background:transparent;border:1px solid rgba(26,122,106,.1);border-radius:2px;padding:10px 12px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:65px;outline:none;transition:border-color .2s;}
+.okr-ta:focus{border-color:rgba(26,122,106,.4);}
+.okr-ta::placeholder{color:rgba(255,255,255,.18);}
+.okr-check{font-size:10px;color:rgba(255,255,255,.3);margin-top:5px;line-height:1.5;}
+.okr-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.08);border:none;border-top:1px solid rgba(26,122,106,.12);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;margin-top:10px;border-radius:2px;}
+.okr-save:hover{background:rgba(26,122,106,.18);}
+.port-block{margin:20px 0;background:#0a1a0d;border:1px solid rgba(26,122,106,.2);border-radius:4px;overflow:hidden;}
+.port-head{padding:12px 16px;background:rgba(26,122,106,.07);border-bottom:1px solid rgba(26,122,106,.12);}
+.port-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:3px;}
+.port-prompt{font-size:13px;color:rgba(255,255,255,.55);padding:10px 16px 0;line-height:1.65;font-style:italic;}
+.port-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(26,122,106,.1);padding:12px 16px;margin-top:8px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.port-ta::placeholder{color:rgba(255,255,255,.2);}
+.port-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.08);border:none;border-top:1px solid rgba(26,122,106,.12);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.port-save:hover{background:rgba(26,122,106,.18);}
+.port-saved{font-size:11px;color:var(--teal);padding:4px 16px 6px;display:none;}
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:10px;padding:13px 16px;background:rgba(26,122,106,.05);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:130px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(26,122,106,.3);background:rgba(26,122,106,.08);color:var(--teal);transition:all .2s;font-family:'Montserrat',sans-serif;}
+.btn:hover{background:rgba(26,122,106,.18);}
+@media print{.unit-nav,.mod-tabs,.mod-nav,.gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+
+/* ── S2R PORTAL COMPONENTS (migrated from u2m1_lens1) ───────────────────────── */
+/* C1: SUBMISSION FEEDBACK */
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+/* C5: PARTICIPANT MESSAGE THREAD */
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+/* C6: UPLOAD WIDGET */
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+/* C7: inline save-error colour (reuses existing .ref-saved / .port-saved indicators) */
+.save-failed{color:var(--gold)!important;}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:18px 22px;margin:22px 0 16px;}
+.slo-box-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.7);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#1a7a6a;font-size:12px;}
+/* ── Unit 3 rebuild (October 2026): five steps, worked example, matching exercise, Capstone group work, Strategy Airport ── */
+.kiss-accent{width:3px;min-height:36px;border-radius:2px;flex-shrink:0;margin-top:2px;}
+.kiss-accent.cx{background:#8ab0e8;}.kiss-accent.op{background:var(--gold);}.kiss-accent.pc{background:#5ecba1;}.kiss-accent.ev{background:#c39de0;}
+.keep-h{background:rgba(39,174,96,.12);color:#5ecba1;}.improve-h{background:rgba(243,156,18,.12);color:#f0c060;}.start-h{background:rgba(52,152,219,.12);color:#7ec8f0;}.stop-h{background:rgba(231,76,60,.12);color:#f08080;}
+.kiss-domain-info{flex:1;}
+.u3-kgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:14px;}
+.u3-kcell{background:#151c15;border-radius:3px;overflow:hidden;}
+.u3-kcell .kiss-q{font-size:13px;color:rgba(255,255,255,.6);padding:8px 12px 10px;line-height:1.5;font-style:italic;}
+.u3-pm{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
+.u3-pm-card{background:#151c15;border-radius:3px;padding:12px;}
+.u3-pm-h{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.u3-pm-card p{font-size:11px!important;color:rgba(255,255,255,.5)!important;line-height:1.55!important;margin:0!important;}
+.u3-gq{color:var(--gold);margin:0 0 8px;font-size:13px;}
+.u3-outp{background:rgba(201,168,76,.05);border-radius:3px;padding:12px 16px;margin-top:10px;}
+.u3-outp p{font-size:12px!important;color:rgba(255,255,255,.6)!important;margin:0!important;line-height:1.7!important;}
+.u3-small{font-size:11px!important;color:rgba(255,255,255,.45)!important;line-height:1.6!important;margin:6px 0 8px!important;}
+/* worked example */
+.u3-wx-sip{border-left:3px solid var(--gold);background:rgba(201,168,76,.05);border-radius:0 3px 3px 0;padding:16px 22px;margin:16px 0;}
+.u3-wx-sip-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.u3-wx-sip p{font-family:'Cormorant Garamond',serif;font-size:1.1rem!important;color:rgba(255,255,255,.85)!important;line-height:1.7!important;margin:0!important;}
+.u3-wx-dom{border:1px solid rgba(255,255,255,.07);border-radius:3px;margin:8px 0;overflow:hidden;}
+.u3-wx-dom-h{padding:10px 14px;background:#1a2a1e;font-size:11px;font-weight:700;color:rgba(255,255,255,.8);}
+.u3-wx-row{display:grid;grid-template-columns:repeat(4,1fr);}
+.u3-wx-cell{padding:10px 12px;border-top:1px solid rgba(255,255,255,.04);border-left:1px solid rgba(255,255,255,.04);}
+.u3-wx-cell:first-child{border-left:none;}
+.u3-wx-k{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.u3-wx-cell p{font-size:11px!important;color:rgba(255,255,255,.6)!important;line-height:1.6!important;margin:0!important;}
+.u3-wx-line{display:grid;grid-template-columns:230px 1fr;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;overflow:hidden;}
+.u3-wx-l{padding:10px 14px;background:#151c15;border-right:1px solid rgba(255,255,255,.06);font-size:11px;color:rgba(201,168,76,.8);line-height:1.6;}
+.u3-wx-r{padding:10px 14px;font-size:12px;color:rgba(255,255,255,.75);line-height:1.65;}
+.u3-wx-res{display:grid;grid-template-columns:1fr 90px 1fr;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;overflow:hidden;}
+.u3-wx-res .u3-wx-n{padding:10px 8px;font-size:12px;font-weight:700;color:rgba(255,255,255,.8);text-align:center;border-right:1px solid rgba(255,255,255,.06);line-height:1.65;}
+.u3-wx-res.in{border-color:rgba(201,168,76,.45);}
+.u3-wx-res.in .u3-wx-r{color:var(--gold);font-weight:700;}
+.u3-wx-res.out .u3-wx-r{color:rgba(240,128,128,.9);}
+.u3-wx-theme{display:flex;align-items:center;gap:14px;border:1px solid rgba(255,255,255,.06);border-radius:2px;margin:4px 0;padding:11px 14px;background:#151c15;font-size:13px;color:rgba(255,255,255,.85);}
+.u3-wx-theme span{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);}
+.u3-roles{min-height:52px;}
+.u3-how ol{margin:8px 0 10px;padding-left:20px;}
+.u3-how li{font-size:13px!important;color:rgba(255,255,255,.8)!important;line-height:1.75!important;margin-bottom:4px;}
+.u3-wx-okr{background:#151c15;border-radius:3px;padding:14px 16px;margin:8px 0;}
+.u3-wx-okr-h{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;margin-bottom:6px;}
+.u3-wx-okr ul{margin:0 0 8px;padding-left:20px;}
+.u3-wx-okr li{font-size:12px!important;color:rgba(255,255,255,.7)!important;line-height:1.65!important;}
+.u3-wx-roles{font-size:11px;color:rgba(255,255,255,.5);}
+/* prioritisation matrix */
+.u3-mx{display:grid;grid-template-columns:110px repeat(3,1fr);gap:6px;margin:16px 0;}
+.u3-mx-corner,.u3-mx-ax{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;justify-content:center;text-align:center;padding:6px;}
+.u3-mx-cell{background:#151c15;border:1px solid;border-radius:3px;padding:10px;min-height:74px;}
+.u3-mx-name{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.u3-mx-tag{display:block;font-size:11px;color:#fff;background:rgba(255,255,255,.08);border-radius:2px;padding:4px 7px;margin-top:4px;line-height:1.4;}
+/* shared form parts */
+.u3-progress{margin:16px 0 10px;}
+.u3-progress-top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px;}
+.u3-progress-top b{color:var(--gold);}
+.u3-bar{height:5px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;}
+.u3-bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .3s;}
+.u3-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 14px;}
+.u3-chip{display:flex;align-items:center;gap:7px;padding:6px 11px 6px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s;}
+.u3-chip:hover{border-color:rgba(26,122,106,.5);color:#fff;}
+.u3-chip.active{border-color:var(--gold);color:#fff;background:rgba(201,168,76,.08);}
+.u3-chip-n{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.u3-chip.done .u3-chip-n{background:#1a7a6a;color:#fff;}
+.u3-btnrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:12px;}
+.u3-b{padding:8px 14px;border-radius:2px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.75);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+.u3-b:hover{border-color:var(--gold);color:var(--gold);}
+.u3-b.ok{background:#1a7a6a;border-color:#1a7a6a;color:#fff;}
+.u3-pill{display:inline-block;font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:10px;background:#1a7a6a;color:#fff;margin:0 8px;vertical-align:middle;}
+.u3-note{font-size:12px;color:var(--gold);margin-top:10px;line-height:1.6;}
+.u3-note.ok{color:#5ecba1;}
+.u3-saved{display:none;font-size:10px;color:var(--teal);padding:3px 12px 6px;}
+.u3-inlbl{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin:14px 0 6px;}
+.u3-in{width:100%;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;font-family:'Montserrat',sans-serif;outline:none;}
+.u3-in::placeholder,.u3-ta::placeholder{color:rgba(255,255,255,.25);}
+select.u3-in option{background:#0a1a0d;color:#fff;}
+.u3-ta{width:100%;min-height:74px;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;outline:none;}
+.u3-sipbox{margin-bottom:4px;}
+.u3-mirror{background:#0a1a0d;border:1px dashed rgba(26,122,106,.4);border-radius:3px;padding:10px 14px;margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.65;white-space:pre-wrap;}
+.u3-mirror.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.u3-mirror-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:12px;}
+.u3-out{margin:12px 0;padding:14px 16px;background:#151c15;border:1px solid rgba(26,122,106,.2);border-radius:3px;}
+.u3-out-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.u3-final{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.u3-final:last-child{border-bottom:none;}
+.u3-final-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.u3-final-h.keep{color:#5ecba1;}.u3-final-h.improve{color:#f0c060;}.u3-final-h.start{color:#7ec8f0;}.u3-final-h.stop{color:#f08080;}
+.u3-final-t{font-size:12px;color:rgba(255,255,255,.78);line-height:1.7;white-space:pre-wrap;}
+.u3-final-t.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.u3-locked{border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.03);border-radius:3px;padding:14px 16px;font-size:12px;color:rgba(255,255,255,.5);margin:12px 0;}
+.u3-elnav{display:flex;justify-content:space-between;margin:18px 0 0;}
+.u3-elnav .btn[disabled]{opacity:.35;cursor:default;}
+.u3-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.u3-test{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:14px 16px;margin:10px 0;}
+.u3-test-h{display:flex;align-items:center;gap:10px;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;margin-bottom:8px;}
+.u3-tick{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid rgba(255,255,255,.05);cursor:pointer;}
+.u3-tick input{margin-top:3px;accent-color:#1a7a6a;width:16px;height:16px;flex-shrink:0;}
+.u3-tick span{font-size:13px;color:rgba(255,255,255,.75);line-height:1.6;}
+.u3-tick em{display:block;font-style:normal;font-size:11px;color:rgba(255,255,255,.45);margin-top:2px;}
+.u3-chain{border-left:2px solid rgba(201,168,76,.5);margin:2px 0 12px;}
+.u3-chain-row{display:grid;grid-template-columns:140px 1fr;gap:10px;padding:5px 0 5px 12px;}
+.u3-chain-l{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding-top:4px;}
+.u3-chain-v{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;white-space:pre-wrap;}
+.u3-chain-v ol{margin:0;padding-left:18px;white-space:normal;}
+.u3-chain-v li{font-size:13px!important;color:rgba(255,255,255,.85)!important;line-height:1.6!important;margin-bottom:4px;white-space:pre-wrap;}
+.u3-chain-v em{color:rgba(255,255,255,.35);}
+.u3-chain-roles{display:block;font-size:11px;color:rgba(255,255,255,.5);}
+.u3-from{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;}
+.u3-pill-r{float:right;margin:0;}
+.u3-rec-item{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.u3-rec-item:last-child{border-bottom:none;}
+.u3-rec-item .u3-chain{margin-bottom:0;}
+.u3-test .okr-kr{margin-top:12px;}
+.u3-test .okr-kr label.u3-inlbl{color:var(--teal);}
+.u3-pri{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:12px 14px;margin:8px 0;}
+.u3-pri.on{border-color:var(--gold);background:rgba(201,168,76,.06);}
+.u3-pos{border-left:3px solid;padding:8px 12px;margin-top:12px;font-size:12px;color:rgba(255,255,255,.7);line-height:1.6;background:rgba(255,255,255,.03);}
+/* matching exercise */
+.u3-role{background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:20px 22px;margin-top:6px;}
+.u3-role-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;}
+.u3-role-n{font-size:22px;font-weight:700;color:var(--teal);}
+.u3-role-t{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.u3-role-given{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px;}
+.u3-role-given>div{background:#151c15;border-radius:3px;padding:12px 14px;}
+.u3-role h5{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin:0 0 6px;}
+.u3-role h5 span{font-weight:400;letter-spacing:1px;color:rgba(255,255,255,.35);margin-left:6px;}
+.u3-role-given p{font-size:12px!important;color:rgba(255,255,255,.78)!important;line-height:1.6!important;margin:0!important;}
+.u3-role-q{margin-top:18px;}
+.u3-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.u3-opt{display:block;width:100%;text-align:left;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-family:'Montserrat',sans-serif;font-size:12px;line-height:1.55;cursor:pointer;transition:all .15s;}
+button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,76,.06);}
+.u3-opt.used{cursor:default;opacity:.45;}
+.u3-opt.used em{display:block;font-style:normal;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#5ecba1;margin-top:4px;}
+.u3-matched{font-size:13px;line-height:1.65;padding:12px 14px;border-radius:3px;}
+.u3-matched.hot{background:rgba(231,76,60,.06);border-left:2px solid rgba(231,76,60,.4);color:rgba(255,200,100,.9);}
+.u3-matched.al{background:rgba(26,122,106,.08);border-left:2px solid rgba(26,122,106,.5);color:rgba(100,210,180,.95);font-style:italic;}
+.u3-matched .u3-pill{margin-left:0;font-style:normal;}
+.u3-flash{margin-top:8px;padding:9px 12px;border-radius:3px;font-size:12px;line-height:1.5;}
+.u3-flash.ok{background:rgba(39,174,96,.12);color:#5ecba1;border:1px solid rgba(39,174,96,.3);}
+.u3-flash.bad{background:rgba(231,76,60,.1);color:#f0a090;border:1px solid rgba(231,76,60,.3);}
+/* Strategy Airport */
+.sa{margin:16px 0;}
+.sa-head{background:linear-gradient(135deg,#043f2f,#0a2a1e);border:1px solid rgba(201,168,76,.3);border-radius:6px;padding:20px 22px;display:flex;justify-content:space-between;gap:18px;align-items:center;}
+.sa-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#fff;line-height:1.05;}
+.sa-tag{margin-top:6px;color:rgba(232,245,239,.8);font-size:13px;}
+.sa-badge{border:1px solid rgba(255,255,255,.3);padding:8px 14px;border-radius:999px;white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;}
+.sa-sip{margin-top:14px;background:#151c15;border:1px solid rgba(255,255,255,.08);border-left:5px solid var(--gold);border-radius:6px;padding:16px 20px;}
+.sa-sip-h{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold);margin-bottom:6px;}
+.sa-sip p{font-size:13px!important;line-height:1.65!important;color:rgba(255,255,255,.82)!important;margin:0!important;}
+.sa-board{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.sa-gate{background:#151c15;border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:14px 16px;}
+.sa-gate.locked{opacity:.5;}
+.sa-gate.active{border:2px solid var(--gold);}
+.sa-gate.done{border:2px solid #1a7a6a;}
+.sa-gate small{color:var(--gold);text-transform:uppercase;letter-spacing:2px;font-weight:700;font-size:9px;}
+.sa-gate-n{margin-top:6px;font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;}
+.sa-gate p{font-size:11px!important;color:rgba(255,255,255,.5)!important;margin:2px 0 0!important;line-height:1.4!important;}
+.sa-status{margin-top:10px;display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-size:10px;font-weight:700;letter-spacing:1px;}
+.sa-gate.done .sa-status{background:rgba(26,122,106,.3);color:#7fe0c4;}
+.sa-gate.active .sa-status{background:rgba(201,168,76,.2);color:#f0c060;}
+.sa-screen{margin-top:14px;background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-radius:6px;padding:20px;}
+.sa-st{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:14px;margin-bottom:16px;}
+.sa-st-h{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#fff;}
+.sa-st p{margin:6px 0 0!important;color:rgba(255,255,255,.6)!important;font-size:13px!important;line-height:1.55!important;max-width:760px;}
+.sa-btn{border:0;border-radius:4px;background:#1a7a6a;color:#fff;padding:10px 16px;font-weight:700;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap;}
+.sa-btn:hover{filter:brightness(1.12);}
+.sa-btn.gold{background:var(--gold);color:#111811;}
+.sa-btn.ghost{background:transparent;color:#7fe0c4;border:1px solid rgba(26,122,106,.6);}
+.sa-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.sa-card{border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:14px;background:#151c15;}
+.sa-card-h{color:#7fe0c4;margin-bottom:6px;font-family:'Cormorant Garamond',serif;font-size:1.2rem;}
+.sa-hint{color:rgba(255,255,255,.5)!important;font-size:12px!important;line-height:1.45!important;margin:0 0 8px!important;}
+.sa-ta,.sa-in{width:100%;background:#0a1a0d;border:1px solid rgba(26,122,106,.3);border-radius:4px;padding:9px 10px;color:rgba(255,255,255,.88);font-family:'Montserrat',sans-serif;font-size:12px;line-height:1.5;outline:none;}
+.sa-ta{min-height:96px;resize:vertical;}
+.sa-ta::placeholder,.sa-in::placeholder{color:rgba(255,255,255,.25);}
+.sa-lbl{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);margin:12px 0 6px;}
+.sa-options{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;}
+.sa-chip{border:1px solid rgba(201,168,76,.45);background:rgba(201,168,76,.08);color:#f0d9a0;border-radius:999px;padding:6px 10px;font-size:11px;line-height:1.3;cursor:pointer;}
+.sa-chip:hover{background:rgba(201,168,76,.2);color:#fff;}
+.sa-msg{margin-top:14px;padding:11px 14px;border-radius:6px;background:rgba(201,168,76,.1);color:#f0d9a0;border:1px solid rgba(201,168,76,.3);font-size:13px;line-height:1.5;}
+.sa-msg.success{background:rgba(39,174,96,.12);color:#7fe0a8;border-color:rgba(39,174,96,.35);}
+.sa-msg.danger{background:rgba(231,76,60,.12);color:#f5a59a;border-color:rgba(231,76,60,.35);}
+.sa-actions{margin-top:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.sa-packs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.sa-pack{border:1px solid rgba(255,255,255,.08);border-left:4px solid var(--gold);border-radius:6px;background:#151c15;padding:10px;text-align:left;color:#fff;cursor:pointer;font-family:'Montserrat',sans-serif;}
+.sa-pack:hover{background:rgba(201,168,76,.08);}
+.sa-pack strong{display:block;color:var(--gold);margin-bottom:4px;font-size:10px;letter-spacing:1.5px;}
+.sa-pack span{font-size:12px;color:rgba(255,255,255,.7);line-height:1.4;}
+.sa-okr-wrap{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sa-okr-list{display:flex;flex-direction:column;gap:10px;}
+.sa-okr-item{border:1px solid rgba(255,255,255,.08);border-left:5px solid var(--gold);border-radius:6px;padding:12px;background:#0a1a0d;font-size:13px;color:#fff;}
+.sa-okr-item ul,.sa-summary ul{margin:8px 0 0;padding-left:18px;}
+.sa-okr-item li,.sa-summary li{font-size:12px!important;color:rgba(255,255,255,.72)!important;line-height:1.55!important;margin-bottom:4px;}
+.sa-summary{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.sa-big{font-family:'Cormorant Garamond',serif;font-size:44px;line-height:1;color:var(--gold);margin-bottom:8px;}
+@media(max-width:900px){
+  .u3-kgrid,.u3-pm,.u3-opts,.u3-role-given,.u3-meta,.sa-board,.sa-grid4,.sa-packs,.sa-okr-wrap,.sa-summary{grid-template-columns:1fr;}
+  .u3-wx-row{grid-template-columns:1fr 1fr;}
+  .u3-wx-line{grid-template-columns:1fr;}
+  .u3-wx-l{border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .u3-chain-row{grid-template-columns:1fr;gap:2px;}
+  .u3-wx-res{grid-template-columns:1fr;}
+  .u3-wx-res .u3-wx-n{text-align:left;padding:8px 14px;border-right:none;border-bottom:1px solid rgba(255,255,255,.06);}
+  .u3-mx{grid-template-columns:64px repeat(3,1fr);gap:4px;}
+  .u3-mx-cell{padding:6px;}
+  .sa-head,.sa-st{display:block;}
+  .sa-badge{display:inline-block;margin-top:12px;}
+  .sa-st .sa-btn{margin-top:12px;}
+}
+.u3-kr4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px;}
+.u3-kr4>div{background:#0f1f12;border-radius:3px;padding:12px;}
+.u3-kr4-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.u3-kr4 p{font-size:11px!important;color:rgba(255,255,255,.55)!important;line-height:1.6!important;margin:0!important;}
+.u3-lead{font-size:14px;line-height:1.9;color:rgba(255,255,255,.7);margin:18px 0 6px;}
+.u3-lead strong{color:rgba(255,255,255,.9);}
+@media(max-width:900px){.u3-kr4{grid-template-columns:1fr 1fr;}}
+@media(max-width:900px){.sa-badge{white-space:normal;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
+</head>
+<body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
+<!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
+<style>@media print{#p-lock-overlay{display:none!important;}}</style>
+<div id="p-lock-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:440px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 12px;font-size:1.6rem;">Unit Locked</h2>
+    <p id="p-lock-msg" style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin:0 0 22px;">Checking access&hellip;</p>
+    <a href="index.html" style="display:inline-block;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;">&#8592; Back to Platform</a>
+  </div>
+</div>
+<script>
+/* Phase 2B participant lock gate — fail-closed; mirrors #f1-gate-overlay (facilitator). */
+(function(){
+  var LENS_ID="u2m1_lens2";
+  var LOCK_MSG="This unit is locked. Your facilitator will unlock it after reviewing your submission for Unit 2 — Strategy Visioning & Success in Practice (SiP).";
+  function showLock(msg){var ov=document.getElementById("p-lock-overlay");if(!ov)return;var m=document.getElementById("p-lock-msg");if(m)m.textContent=msg;ov.style.display="flex";}
+  var ACCESSIBLE={unlocked:1,in_progress:1,submitted:1,reviewed:1,completed:1};
+  (async function(){
+    try{
+      if(!window.S2R||typeof S2R.context!=="function"){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var ctx=await S2R.context();
+      if(!ctx){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var res=await S2R._client.from("lens_progress").select("status").eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id",LENS_ID).maybeSingle();
+      if(res.error){console.error("[p-lock] lens_progress read error:",res.error);showLock("Couldn’t verify access — please try refreshing.");return;}
+      if(res.data&&ACCESSIBLE[res.data.status])return;
+      showLock(LOCK_MSG);
+    }catch(err){console.error("[p-lock] gate exception:",err);showLock("Couldn’t verify access — please try refreshing.");}
+  })();
+})();
+</script>
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Back to Platform</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 2 · Direction</strong>Unit 3 · SiP KISS Mapping &amp; OKR Definition — Participant</div>
+  </div>
+  <div class="nav-badge">Participant View</div><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in…</span>
+</nav>
+<div class="unit-header"><div class="uh-inner">
+  <div class="eyebrow">Module 2 · Direction · Unit 3</div>
+  <h1 class="unit-title">SiP KISS Mapping &amp; OKR Definition</h1>
+  <div class="unit-sub">Participant Journey · Collective Intelligence of Execution</div>
+  <div class="unit-desc">This unit moves you from your Success in Practice into a focused, measurable execution architecture — through KISS reflection, OKR construction, and enterprise prioritisation.</div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Evaluate existing practices to determine which advance or obstruct strategic progress.</span>
+      <span class="klo">Prioritise enterprise changes that bridge the current position and intended future.</span>
+      <span class="klo">Formulate measurable strategic outcomes that provide reliable evidence of progress.</span>
+      <span class="klo">Establish a clear line of sight from strategic ambition through contributions to measurable results.</span>
+    </div>
+</div></div>
+<div class="mod-tabs">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+<!-- TAB 1: AWARENESS -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 1 · Awareness — What</div>
+  <h2>What is KISS Framing &amp; OKR Definition?</h2>
+  <p>Before defining Objectives and Key Results, you must examine the organisation's current operating reality in relation to its Success in Practice — this is the bridge between strategy and execution.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Evaluate organisational practices and determine what should be sustained or changed.</li><li>Translate strategic intent into outcomes that can be meaningfully measured.</li></ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">1.1 — Translating Success in Practice into Action</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Foundation</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>Your group has produced a Strategy Intent Statement and four Success in Practice (SiP) statements, one for each SiP domain. These describe what, why, how, and when the organisation will deliver its value — and what success looks like in practice. The next step is translating this future description into a practical execution agenda.</p>
+  <div class="quote"><p>The question now becomes: If the Success in Practice we described is the future organisation, what must change in the organisation today to make that future possible?</p></div>
+  <p>Before jumping to Objectives and Key Results, the organisation must first examine its current operating reality honestly in relation to the SiP. The KISS framework provides the structured filter to do this.</p>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">1.2 — KISS: Keep · Improve · Start · Stop</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Reflective Filters</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>KISS passes the SiP statements through four reflective filters, each examining the organisation against the future state described:</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;">
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid #5ecba1;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;">KEEP — Protect what is already working</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">Practices, capabilities, and behaviours already moving the organisation toward the SiP. Protect and reinforce these strategic assets.</p></div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid #f0c060;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f0c060;margin-bottom:8px;">IMPROVE — Strengthen what is partially working</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">Areas already moving in the right direction where performance, coordination, or capability must strengthen to support the SiP more fully.</p></div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid #7ec8f0;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#7ec8f0;margin-bottom:8px;">START — Introduce what does not yet exist</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">New practices, capabilities, or initiatives that do not yet exist but will be necessary for the organisation to operate as described in the SiP.</p></div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid #f08080;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f08080;margin-bottom:8px;">STOP — Eliminate what contradicts the SiP</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">Activities, routines, or commitments that consume energy and resources but do not contribute to the future organisation described in the SiP.</p></div>
+  </div>
+  <div class="hbox teal"><p><strong>Critical principle:</strong> Every KISS reflection must be anchored to the SiP statements. You are evaluating the organisation against the specific future your group has collectively described.</p></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">1.3 — The KISS Reflection Table: Four SiP Domains</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Click to expand each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>The KISS reflection examines the organisation across the four SiP domains. Click each domain to see the reflection questions for all four KISS elements.</p>
+  <div id="kissGuideP"></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">1.4 — OKR Anatomy: Objectives &amp; Key Results</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Structure &amp; Formula</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>Objective Key Results (OKRs) translate the changes identified in the KISS reflection into measurable progress.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0;">
+    <div style="background:#151c15;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px;"><div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Objectives</div><p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin:0;">Define strategic ambition. Must be: <strong>Qualitative · Ambitious · Action-Oriented · Inspirational · Memorable.</strong> If you cannot wear it on a T-shirt, it is not worth pursuing.</p></div>
+    <div style="background:#151c15;border:1px solid rgba(46,168,122,.2);border-radius:3px;padding:18px;"><div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#5ecba1;margin-bottom:10px;">Key Results</div><p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin:0;">Define measurable progress. <strong>Formula: Verb of Change + Metric + From X to Y + By Deadline.</strong></p></div>
+  </div>
+  <div class="quote"><p>Example Key Result: Increase digital transaction completion rate from 40% to 75% of total transactions by Q4 2026.</p></div>
+  <div class="sub-acc">
+    <div class="sub-acc-h" onclick="tSA(this)"><span>Key Result Construction Guide — 4 Elements</span><span class="sub-arr">▾</span></div>
+    <div class="sub-acc-b">
+      <div class="u3-kr4">
+        <div><div class="u3-kr4-h">Verb of Change</div><p>Indicates the direction of improvement. E.g.: Increase, Reduce, Achieve, Improve, Maintain.</p></div>
+        <div><div class="u3-kr4-h">Metric</div><p>A clear and measurable indicator. E.g.: Customer satisfaction score, cycle time, adoption rate.</p></div>
+        <div><div class="u3-kr4-h">From X to Y</div><p>Defines the baseline and target. E.g.: From 40% to 75%. Always establish a starting point.</p></div>
+        <div><div class="u3-kr4-h">Deadline</div><p>Specifies when the result must be achieved. E.g.: By Q4 2026, By end of FY.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="hbox red"><p><strong>Critical Distinction:</strong> OKRs define outcomes. If a statement can be checked off a task list — "launch new platform" or "run customer survey" — it is a task. Those are activities that support the Key Result. Key Results describe the impact those activities must produce.</p></div>
+  <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">&#x270E; Reflection</span></div>
+  <div class="ref-prompt">Think of a goal your team set in the last 12 months. Was it an Objective, a Key Result, or a task disguised as one of these? What would a proper Key Result look like using the formula?</div>
+  <textarea class="ref-ta reflection-textarea" id="ref2" placeholder="Your reflection here..."></textarea>
+  <button class="ref-save" onclick="saveRef('ref2')">Save Reflection</button>
+  <div class="ref-saved" id="ref2-saved">✓ Saved</div></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">1.5 — Five Steps: From KISS Output to Enterprise OKRs</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">5 Steps · Click each to explore</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <div class="step-tabs" id="fiveTabs">
+    <div class="step-tab active" onclick="u3Tab('five',0)"><div class="step-num">Step 1</div><div class="step-name">Find Themes</div></div>
+    <div class="step-tab" onclick="u3Tab('five',1)"><div class="step-num">Step 2</div><div class="step-name">Inspiring Objectives</div></div>
+    <div class="step-tab" onclick="u3Tab('five',2)"><div class="step-num">Step 3</div><div class="step-name">Define Key Results</div></div>
+    <div class="step-tab" onclick="u3Tab('five',3)"><div class="step-num">Step 4</div><div class="step-name">Alignment Test</div></div>
+    <div class="step-tab" onclick="u3Tab('five',4)"><div class="step-num">Step 5</div><div class="step-name">Priority Matrix</div></div>
+  </div>
+  <div id="five_0" class="step-panel active">
+    <h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5>
+    <p>Review your KISS reflection and identify the 2–3 big shifts in your area that will contribute to moving the whole organisation forward. Ask: <em>"If the organisation is to reach the future it has described, what is the one thing my area can change that would make the biggest difference for everyone?"</em></p>
+    <p>Then review the patterns that surfaced across the four SiP domains. Identify the strategic themes that repeatedly appeared in the KEEP, IMPROVE, START, and STOP reflections. These themes represent the most important shifts required to move the organisation toward the SiP.</p>
+    <div class="u3-outp"><p><strong>Output produced:</strong> A small set of strategic themes that reflect the organisation's priority execution shifts.</p></div>
+  </div>
+  <div id="five_1" class="step-panel">
+    <h5 class="u3-gq">Guiding Question: If we get this theme right, what will we be known for?</h5>
+    <p>Translate each theme into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. An Objective should look like a transformation. Ask: <em>"If the organisation actually pulls this off, what will customers and competitors say it is known for?"</em></p>
+    <ul>
+      <li>Make it <strong>ambitious</strong> — stretch the team.</li>
+      <li>Keep it <strong>qualitative</strong> — describe the destination.</li>
+      <li>Keep it <strong>memorable</strong> — if you cannot say it in a hallway conversation, it is too complex.</li>
+    </ul>
+    <div class="u3-outp"><p><strong>Output produced:</strong> A clear Objective that expresses the strategic ambition.</p></div>
+  </div>
+  <div id="five_2" class="step-panel">
+    <h5 class="u3-gq">Guiding Question: What measurable outcomes will prove the Objective is being achieved?</h5>
+    <p>For every Objective, identify 2–3 measurable results that demonstrate progress toward it. Each Key Result must describe a meaningful shift in performance and must follow the Key Result formula: <strong>Verb + Metric + From X to Y + Deadline.</strong></p>
+    <p><strong>Example:</strong> Shift response time from 12 hours (frustrating) to 4 hours (exceptional) by Q3.</p>
+    <div class="quote"><p>Quick check: If the team can simply "check it off" a list, it is a task. Key Results describe outcomes — the actual change in the world that proves the Objective is being achieved.</p></div>
+    <div class="u3-outp"><p><strong>Output produced:</strong> Measurable Key Results that define progress toward the Objective.</p></div>
+  </div>
+  <div id="five_3" class="step-panel">
+    <p>Before sharing your OKR with the group, test it against four questions:</p>
+    <ul>
+      <li>Does this truly get the organisation closer to the shared SiP vision?</li>
+      <li>Would fellow leaders see this as a win for the whole organisation — or just for one function?</li>
+      <li>Does it visibly improve culture, operations, or value creation?</li>
+      <li>Is there clear accountability for delivering this outcome?</li>
+    </ul>
+  </div>
+  <div id="five_4" class="step-panel">
+    <p>The Prioritisation Matrix evaluates each initiative against two dimensions: <strong>Impact</strong> — the degree of strategic value delivered if achieved — and <strong>Effort</strong> — the time, resources, coordination, and organisational change required. This structured approach helps distinguish initiatives that accelerate strategic movement from those that consume resources without meaningful progress.</p>
+    <div id="pmGuideP"></div>
+    <p>Pay particular attention to initiatives in <strong>Strategic Catalysts</strong>, <strong>Accelerated Enablers</strong>, and <strong>Core Strategic Drivers</strong> — these represent the highest leverage execution signals.</p>
+  </div>
+</div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 2 — Intelligence →</button></div>
+</div></div>
+<!-- TAB 2: INTELLIGENCE -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 2 · Intelligence — Why</div>
+  <h2>Why the KISS-to-OKR Sequence Matters</h2>
+  <p>Most OKR failures are reflection failures. The KISS-OKR bridge ensures your goals are built from operating reality.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Assess the strategic changes required before committing to performance targets.</li><li>Derive measurable results that are traceable to Success in Practice.</li></ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">2.1 — The Danger of Moving Too Fast</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Human Problems</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>Many organisations dive into OKRs with energy, but that enthusiasm often sours into frustration. Teams end up with vague goals and Key Results that feel like yet another to-do list.</p>
+  <p>Most of the time, the framework is not the problem. The problem is that organisations try to measure progress before having an honest conversation about where they are actually standing. When leadership moves straight from vision to hard targets, three human problems emerge:</p>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;">
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">Disconnected Targets</div><p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">People hit numbers without acknowledging the hurdles that make those numbers nearly impossible.</p></div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">Fragmented Efforts</div><p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">Functions row in different directions because they have not agreed on what success looks like in the trenches.</p></div>
+    <div style="background:#151c15;border-radius:3px;padding:16px;border-top:2px solid rgba(231,76,60,.5);"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.8);margin-bottom:8px;">The Activity Trap</div><p style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.65;margin:0;">People default to measuring busyness because they are unsure how to prove they are achieving real outcomes.</p></div>
+  </div>
+  <div class="quote"><p>Essentially, the organisation starts measuring the finish line before it has mapped the terrain.</p></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">2.2 — Turning Intent into Action: The Strategy2Results® Sequence</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Worked Example</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;">
+    <div style="background:#0f1f12;border:1px solid rgba(107,143,204,.2);border-radius:3px;padding:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#8ab0e8;margin-bottom:8px;">Success in Practice</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The dream of where the organisation wants to be — a vivid future state across the four SiP domains.</p></div>
+    <div style="background:#0f1f12;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">KISS</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The honest look at the changes required to get there — the bridge between the future and the present operating reality.</p></div>
+    <div style="background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px;"><div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;">OKRs</div><p style="font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;">The manageable, measurable steps that prove the organisation is moving — the execution compass pointing toward the SiP.</p></div>
+  </div>
+  <div class="hbox teal"><p>When this sequence is respected, OKRs stop being a goal-setting tool and become a way for the organisation to learn, align, and prove progress. Strategy transforms from a statement of intent into a living system.</p></div>
+  <h4>Worked Example: One SiP Statement Through the Sequence</h4>
+  <p>The example below follows one simple SiP statement through the whole sequence: first through the KISS filters, then through the five steps of 1.5. Open each step in turn. Refer to it when your group does its own work in Section 5.</p>
+  <div id="caseP"></div>
+  <div id="workedP"></div>
+  <div class="ref-block"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">&#x270E; Reflection</span></div>
+  <div class="ref-prompt">At which point in the SiP → KISS → OKR sequence does your organisation typically enter? What is the consequence of skipping the KISS stage?</div>
+  <textarea class="ref-ta reflection-textarea" id="ref3" placeholder="Your reflection here..."></textarea>
+  <button class="ref-save" onclick="saveRef('ref3')">Save Reflection</button>
+  <div class="ref-saved" id="ref3-saved">✓ Saved</div></div>
+</div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(0)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(2)">Section 3 — Extrapolating →</button></div>
+</div></div>
+<!-- TAB 3: EXTRAPOLATING -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 3 · Extrapolating — Where</div>
+  <h2>Where do OKR Hot Zones Appear?</h2>
+  <p>The Collective Intelligence for Execution Discipline · Every leadership role naturally emphasises certain SiP domains over others. Recognising your hot zone is the first step toward enterprise-level thinking.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Challenge functional preferences that distort enterprise priority-setting.</li><li>Align functional contributions with enterprise-wide strategic priorities.</li></ul></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">3.1 — Natural OKR Emphasis Across Leadership Functions</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">10 Roles · Portfolio Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>Every leadership role tends to emphasise some of the four SiP domains more strongly than others, because each role carries responsibility for specific organisational outcomes. This creates a natural imbalance in how OKRs are proposed and evaluated:</p>
+  <ul>
+    <li><strong>Commercial leaders</strong> emphasise Customer Experience &amp; Value and Enterprise Value Creation</li>
+    <li><strong>Operational leaders</strong> emphasise Operational Capability &amp; Execution Rhythm and Enterprise Value Creation</li>
+    <li><strong>People leaders</strong> emphasise People &amp; Culture Dynamics and Operational Capability &amp; Execution Rhythm</li>
+    <li><strong>Financial leaders</strong> emphasise Enterprise Value Creation and Operational Capability &amp; Execution Rhythm</li>
+  </ul>
+  <p>Each perspective is valid. When these perspectives remain unexamined, OKRs gradually drift into functional scorecards and the organisation accumulates <strong>functional OKRs</strong> where <strong>enterprise OKRs</strong> are needed. This produces four execution risks:</p>
+  <ul>
+    <li>Competing definitions of success across functions</li>
+    <li>Fragmented measurement systems that cannot be integrated</li>
+    <li>Functional optimisation that stalls enterprise progress</li>
+    <li>Slow decision-making due to misaligned incentives</li>
+  </ul>
+  <p>Each leadership role therefore has a <strong>typical hot zone</strong>: the point where its natural emphasis distorts the OKRs it proposes. Each role also has an <strong>alignment question</strong> that challenges it toward enterprise thinking.</p>
+  <p>When your group names its natural biases explicitly, the conversation shifts from <em>functional interpretation of success</em> to <em>collective definition of success</em>.</p>
+  <div class="quote"><p>Recognising these patterns allows the leadership team to integrate perspectives into a balanced execution system that reflects the full enterprise.</p></div>
+  <h4>Exercise: Match the Hot Zone and the Alignment Question to Each Role</h4>
+  <div class="hbox teal u3-how"><p><strong>Portfolio work · How to complete the exercise</strong></p>
+    <ol>
+      <li>Select a role. Start with the first role and work through all ten.</li>
+      <li>Read the two suggested entries for the role: its Dominant Future Realities and its Natural OKR Emphasis.</li>
+      <li>Choose the Typical Hot Zone that this emphasis creates. A green light confirms the match. A red alert means the choice belongs to another role: read the emphasis again and choose again.</li>
+      <li>Choose the Alignment Question that brings the role back to the enterprise, in the same way.</li>
+      <li>Move to the next role. The exercise is complete when ten of ten roles are matched.</li>
+    </ol>
+    <p>Complete the exercise on your own. Your matches become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
+  <div id="hzMatchP"></div>
+  <div class="ref-block" style="margin-top:20px;"><div class="ref-head"><span class="ref-icon">✦</span><span class="ref-label">&#x270E; Reflection</span></div>
+  <div class="ref-prompt">Which hot zone description most accurately reflects how you instinctively approach OKR definition? What would you need to do differently to write an enterprise-level Key Result?</div>
+  <textarea class="ref-ta reflection-textarea" id="ref4" placeholder="Your reflection here..."></textarea>
+  <button class="ref-save" onclick="saveRef('ref4')">Save Reflection</button>
+  <div class="ref-saved" id="ref4-saved">✓ Saved</div></div>
+</div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(3)">Section 4 — Integration →</button></div>
+</div></div>
+<!-- TAB 4: INTEGRATION -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 4 · Integration — Collective</div>
+  <h2>Strategy Airport: From Strategic Imagination to Operational Clearance</h2>
+  <p>Portfolio work · Play the Strategy Airport game · Move from strategic imagination to operational clearance · Translate a Success in Practice statement into KISS insights and an OKR flight plan.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Translate strategic intent into execution-ready objectives and key results.</li><li>Construct a measurable strategic trajectory from the intended future position.</li></ul></div>
+
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">4.1 — Strategy Airport</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">2 Gates · Portfolio Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>You have built your group's KISS map and enterprise OKRs. Strategy Airport lets you practise the same translation on your own with a new case: a medical health company.</p>
+  <p>Clear two gates. At <strong>Gate 1 · Baggage Check</strong> you decide what the company must keep, improve, start and stop. At <strong>Gate 2 · Flight Plan</strong> you convert one KISS theme into an Objective and two Key Results.</p>
+  <div class="hbox teal u3-how"><p><strong>Portfolio work · How to complete the learning round</strong></p>
+    <ol>
+      <li>Read the Success in Practice statement of the company.</li>
+      <li><strong>Gate 1 · Baggage Check:</strong> for each KISS filter, choose the options that belong to it. A green light confirms a choice. A red alert gives the reason the option fails the SiP. Collect at least two items for each filter.</li>
+      <li><strong>Gate 2 · Flight Plan:</strong> choose one KISS theme and convert it into one Objective, two Key Results and the contributing roles. Add the flight plan.</li>
+      <li>Finish the learning round.</li>
+    </ol>
+    <p>Play the learning round on your own. Your KISS choices and your flight plans become part of your Learning Portfolio and reach your facilitator when you select Submit to Facilitator at the end of the unit.</p></div>
+  <div id="saHostP"></div>
+</div></div>
+<div class="mod-nav"><button class="btn" onclick="showMod(2)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(4)">Section 5 — Application →</button></div>
+</div></div>
+<!-- TAB 5: APPLICATION -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero">
+  <div class="mod-hero-label">Section 5 · Application — In Practice</div>
+  <h2>Building Collective Intelligence: From SiP to KISS to Enterprise OKRs</h2>
+  <p>With your group you translate your Success in Practice into a KISS map and then into enterprise OKRs. This is Capstone work: your confirmed outputs feed your team's Capstone S2R Blueprint.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Negotiate a coherent set of enterprise objectives and results across the leadership team.</li><li>Integrate diverse executive perspectives into a shared strategic trajectory.</li></ul></div>
+<p class="u3-lead">Work with your group through two connected stages. Each output is the foundation for the next: <strong>Success in Practice → KISS → OKRs</strong>.</p>
+<div class="hbox teal"><p><strong>Working as a group.</strong> Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.</p></div>
+<div id="twBar"></div>
+<div class="acc open"><div class="acc-h" onclick="tA(this)"><span class="acc-t">5.1 — Translating SiP to KISS</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>Your group's four SiP statements describe the future organisation. In this step you pass each statement through the four KISS filters and record what the organisation must <strong>keep, improve, start and stop</strong> to reach it.</p>
+  <h4>Your Group's Four SiP Statements</h4>
+  <p>The four statements your group confirmed in Unit 2 are brought in from your Unit 2 page. Read each one with your group. Where your team has since refined a statement in the Capstone S2R Blueprint, type the confirmed wording in the box.</p>
+  <div id="sipCaptureP"></div>
+  <h4>Build Your KISS Map</h4>
+  <p>Take one SiP domain at a time. Read the domain's SiP statement, then answer the four guiding questions with your group. Anchor every entry to the statement and be specific: "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS entry.</p>
+  <div id="kissFormP"></div>
+  <h4>Read Your KISS Map</h4>
+  <p>When all sixteen boxes are complete, read the map across the four domains as a group. Your KISS map is the source for 5.2.</p>
+  <div id="kissConfirmP"></div>
+  <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Keep, Improve, Start and Stop feed your team's Capstone S2R Blueprint. Its Unit 3 section opens once every member of your team has completed this unit, and brings your confirmed outputs in from your page. Your team then reads them together and confirms them.</p></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">5.2 — Translating KISS to OKRs: The Five Steps</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">5 Steps · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb">
+  <p>With your KISS map confirmed, your group converts it into enterprise OKRs through the five steps of 1.5. Work through the steps in order. Each step shows what your group recorded in the steps before it: the themes of Step 1 become Objectives in Step 2, each Objective receives its Key Results and contributing roles in Step 3, each OKR is tested in Step 4, and the aligned OKRs are placed on the Prioritisation Matrix in Step 5.</p>
+  <h4>Your Five-Step Record</h4>
+  <p>Everything your group records in the five steps below builds up here from Step 1, theme by theme, and is saved on this page.</p>
+  <div id="okrRecP"></div>
+  <h4>The Five Steps</h4>
+  <div id="okrToolP"></div>
+  <h4>Agree and Print</h4>
+  <p>When the five steps are complete, read your group record together, select Agree, then print the record.</p>
+  <div id="okrOutP"></div>
+  <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Enterprise Priorities and Enterprise OKRs feed your team's Capstone S2R Blueprint, together with your KISS map.</p></div>
+</div></div>
+
+<div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">Unit Summary</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 3 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b cb"><div id="summaryP"></div></div></div>
+
+<!-- C1: FACILITATOR FEEDBACK (hidden until reviewed/returned) -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+
+<!-- C5: MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.parentElement.classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation…</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator…" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div>
+
+<!-- C6: SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(3)">← Section 4 — Integration</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+function goBack(){location.href='index.html';}
+// ── UNIT 3 · SHARED DATA (same in the participant and facilitator files) ─────────────────────────
+var KISS_DOMAINS=[
+  {id:'cx',cls:'cx',label:'Customer Experience & Value',anchor:'If our SiP statement is true, what should customers consistently experience?',
+   keep:'Which aspects of the current customer experience already move us toward the SiP and should be protected?',
+   improve:'Where do we see good customer outcomes but recurring friction that weakens reliability or responsiveness?',
+   start:'What new practices or capabilities must begin for customers to experience the organisation as described in the SiP?',
+   stop:'Which processes or behaviours create customer friction and contradict the SiP experience we described?'},
+  {id:'op',cls:'op',label:'Operational Capability & Execution Rhythm',anchor:'If the SiP becomes reality, how will the organisation operate differently?',
+   keep:'Which operational routines already support the execution rhythm described in the SiP?',
+   improve:'Where do we see operational capability but delays, coordination gaps, or decision bottlenecks?',
+   start:'What new execution rhythms, coordination practices, or decision frameworks must be introduced?',
+   stop:'Which processes, reporting routines, or meetings consume effort without strengthening execution?'},
+  {id:'pc',cls:'pc',label:'People & Culture Dynamics',anchor:'If the SiP is realised, how will leaders and teams work together?',
+   keep:'Which leadership behaviours and collaboration patterns already reinforce the culture described in the SiP?',
+   improve:'Where do we see positive teamwork but inconsistent accountability or unclear ownership?',
+   start:'What new leadership habits or collaboration norms must be introduced?',
+   stop:'Which behaviours, informal norms, or leadership practices undermine alignment or trust?'},
+  {id:'ev',cls:'ev',label:'Enterprise Value Creation',anchor:'If the SiP succeeds, what financial reality should we see?',
+   keep:'Which business activities or revenue streams already support the value creation described in the SiP?',
+   improve:'Where do we see positive results but margin pressure or inefficient resource use?',
+   start:'What new investments, capabilities, or revenue engines must be introduced?',
+   stop:'Which initiatives or commitments consume resources without contributing to the value creation described in the SiP?'}
+];
+var KISS_EL=[['keep','KEEP'],['improve','IMPROVE'],['start','START'],['stop','STOP']];
+
+var HOT_ZONES=[
+  {role:'CEO',title:'Chief Executive Officer',top2:'Enterprise Value Creation · Customer Experience & Value',emphasis:'Strategic ambition and market positioning',hot:'Objectives become visionary but insufficiently grounded in operational capability',align:'Do our OKRs translate ambition into outcomes the organisation can reliably deliver?'},
+  {role:'CFO',title:'Chief Financial Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Financial performance and efficiency',hot:'Key Results become overly financial, ignoring customer or capability drivers',align:'Are we measuring the drivers of value creation as well as the financial outcomes?'},
+  {role:'COO',title:'Chief Operating Officer',top2:'Operational Capability & Execution Rhythm · Enterprise Value Creation',emphasis:'Operational reliability and execution efficiency',hot:'Objectives drift toward operational optimisation and away from strategic transformation',align:'Are our OKRs reinforcing strategic movement, beyond operational performance?'},
+  {role:'CHRO',title:'Chief People & Culture Officer',top2:'People & Culture Dynamics · Operational Capability & Execution Rhythm',emphasis:'Capability development and organisational health',hot:'Objectives emphasise culture initiatives without clear connection to enterprise results',align:'Do our people objectives clearly support strategic outcomes?'},
+  {role:'CTO/CIO',title:'Chief Technology / Information Officer',top2:'Operational Capability & Execution Rhythm · Customer Experience & Value',emphasis:'Technology capability and digital infrastructure',hot:'Key Results become technology delivery milestones with no line of sight to business outcomes',align:'Are we measuring the impact technology creates for customers and the enterprise?'},
+  {role:'CMO',title:'Chief Marketing Officer',top2:'Customer Experience & Value · Enterprise Value Creation',emphasis:'Market positioning and brand strength',hot:'Objectives emphasise perception beyond what the organisation can consistently deliver',align:'Do our OKRs balance customer promise with operational capability?'},
+  {role:'CCO',title:'Chief Commercial Officer',top2:'Enterprise Value Creation · Customer Experience & Value',emphasis:'Revenue growth and commercial expansion',hot:'Key Results prioritise sales outcomes without strengthening the customer experience system',align:'Are we building repeatable value creation, beyond short-term revenue?'},
+  {role:'CPO',title:'Chief Procurement Officer',top2:'Operational Capability & Execution Rhythm · Enterprise Value Creation',emphasis:'Supply chain efficiency and cost discipline',hot:'Objectives prioritise cost optimisation at the expense of strategic capability development',align:'Are we balancing efficiency with long-term strategic capability?'},
+  {role:'CRO',title:'Chief Risk Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Risk control and regulatory protection',hot:'Key Results become defensive safeguards that slow strategic movement',align:'Are we enabling responsible risk-taking while protecting the organisation?'},
+  {role:'CSO',title:'Chief Strategy Officer',top2:'Enterprise Value Creation · Operational Capability & Execution Rhythm',emphasis:'Strategic planning coherence',hot:'Objectives become conceptually strong but disconnected from operational ownership',align:'Are our OKRs grounded in clear accountability and execution ownership?'}
+];
+
+// The nine positions of the Prioritisation Matrix: impact, effort, name, colour, meaning.
+var PM_CATS=[
+  {i:'High',e:'Low',l:'Strategic Catalysts',c:'rgba(39,174,96,.7)',d:'Quick breakthroughs that accelerate strategic momentum.'},
+  {i:'High',e:'Medium',l:'Accelerated Enablers',c:'rgba(52,152,219,.7)',d:'Important initiatives requiring coordination but delivering strong value.'},
+  {i:'High',e:'High',l:'Core Strategic Drivers',c:'rgba(155,89,182,.7)',d:'Major transformation initiatives essential to achieving the SiP.'},
+  {i:'Medium',e:'Low',l:'Quick Efficiency Plays',c:'rgba(243,156,18,.7)',d:'Improvements that enhance performance with minimal effort.'},
+  {i:'Medium',e:'Medium',l:'Targeted Growth Projects',c:'rgba(201,168,76,.7)',d:'Initiatives contributing to strategic progress but not immediate priorities.'},
+  {i:'Medium',e:'High',l:'Heavy Investment Candidates',c:'rgba(230,126,34,.7)',d:'Initiatives requiring significant resources and careful timing.'},
+  {i:'Low',e:'Low',l:'Supportive Enablers',c:'rgba(149,165,166,.6)',d:'Helpful but non-critical initiatives.'},
+  {i:'Low',e:'Medium',l:'Marginal Utility Tasks',c:'rgba(149,165,166,.5)',d:'Limited strategic return relative to effort.'},
+  {i:'Low',e:'High',l:'Resource Pitfalls',c:'rgba(231,76,60,.7)',d:'Consume significant energy without meaningful strategic value.'}
+];
+function pmFind(impact,effort){for(var k=0;k<PM_CATS.length;k++){if(PM_CATS[k].i===impact&&PM_CATS[k].e===effort)return PM_CATS[k];}return null;}
+function u3esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// Step tabs: tabs sit in #<prefix>Tabs, panels carry ids <prefix>_0, <prefix>_1 …
+function u3Tab(prefix,i){
+  document.querySelectorAll('#'+prefix+'Tabs .step-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('[id^="'+prefix+'_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});
+}
+function renderPMCards(hostId){
+  var el=document.getElementById(hostId);if(!el)return;
+  el.innerHTML='<div class="u3-pm">'+PM_CATS.map(function(c){
+    return '<div class="u3-pm-card" style="border-left:2px solid '+c.c+';"><div class="u3-pm-h" style="color:'+c.c+';">'+c.l+'</div><p>'+c.i+' Impact – '+c.e+' Effort: '+c.d+'</p></div>';
+  }).join('')+'</div>';
+}
+function kissGuideHtml(prefix,toggleFn){
+  return KISS_DOMAINS.map(function(d){
+    return '<div class="kiss-domain" id="'+prefix+d.id+'">'+
+      '<div class="kiss-domain-h" onclick="'+toggleFn+'(\''+prefix+d.id+'\')">'+
+        '<div class="kiss-accent kiss-domain-accent '+d.cls+'"></div>'+
+        '<div class="kiss-domain-info"><div class="kiss-domain-title">'+u3esc(d.label)+'</div>'+
+        '<div class="kiss-domain-anchor">SiP Anchor: '+u3esc(d.anchor)+'</div></div>'+
+        '<span class="kiss-domain-arr">▾</span></div>'+
+      '<div class="kiss-domain-body" style="display:none;padding:0 18px 18px;">'+
+        '<div class="u3-kgrid">'+KISS_EL.map(function(k){
+          return '<div class="u3-kcell"><div class="kiss-el-head '+k[0]+'-h '+k[0]+'">◆ '+k[1]+'</div><div class="kiss-q kiss-el-prompt">'+u3esc(d[k[0]])+'</div></div>';
+        }).join('')+'</div></div></div>';
+  }).join('');
+}
+function u3ToggleDomain(id){
+  var el=document.getElementById(id);if(!el)return;
+  var body=el.querySelector('.kiss-domain-body'),arr=el.querySelector('.kiss-domain-arr');if(!body)return;
+  var open=body.style.display!=='none'&&body.style.display!=='';
+  body.style.display=open?'none':'block';
+  if(arr)arr.style.transform=open?'':'rotate(180deg)';
+}
+
+// ── 2.2 · WORKED EXAMPLE: one simple SiP statement, its KISS table and the five steps (client services company) ──
+// Shown on both pages, read-only. Each step uses what the step before it produced: four themes, four Objectives,
+// four OKRs; all four pass the alignment test and are placed on the matrix.
+var WORKED={
+  sip:'We will be the service partner our clients rely on first, by ensuring every client experiences fast, consistent and effortless service. To achieve this, we will move quickly from insight to action across functions, build shared ownership of enterprise priorities and run scalable, efficient operations that strengthen enterprise performance.',
+  kiss:[
+    {domain:'Customer Experience & Value',cls:'cx',keep:'Strong client relationships with key accounts',improve:'Response time to customer requests varies across teams',start:'Introduce proactive customer engagement model',stop:'Slow internal handovers that delay customer responses'},
+    {domain:'Operational Capability & Execution Rhythm',cls:'op',keep:'Clear strategic priorities already exist',improve:'Decision-making slows when multiple functions are involved',start:'Introduce cross-functional execution routines and faster decision forums',stop:'Excessive reporting cycles that delay action'},
+    {domain:'People & Culture Dynamics',cls:'pc',keep:'Strong trust within teams',improve:'Collaboration across functions remains inconsistent',start:'Introduce shared ownership of enterprise priorities',stop:'Functional silos and escalation behaviours'},
+    {domain:'Enterprise Value Creation',cls:'ev',keep:'Solid revenue base and loyal client segments',improve:'Profit margins fluctuate due to operational inefficiencies',start:'Develop scalable service delivery models',stop:'Low-value projects that absorb leadership attention'}
+  ],
+  items:[
+    {theme:'Customer responsiveness',obj:'Deliver consistently fast and effortless service experiences for customers',
+     krs:['Reduce average response time to customer requests from 12 hours to 4 hours by 30 June 2027','Increase customer requests resolved at first contact from 60% to 85% by 30 September 2027'],
+     roles:'Commercial, Operations, Customer Service, Technology',impact:'High',effort:'Medium'},
+    {theme:'Execution speed',obj:'Build a high-speed execution engine that moves quickly from insight to action',
+     krs:['Reduce cross-functional decision time from 5 days to 1 day by 30 June 2027','Reduce recurring management reports from 24 to 10 by 31 March 2027'],
+     roles:'Operations, Finance, Strategy',impact:'High',effort:'Low'},
+    {theme:'Collaboration culture',obj:'Create a culture of shared ownership across functions for strategic priorities',
+     krs:['Increase enterprise priorities with a named cross-functional owner from 40% to 100% by 31 March 2027','Reduce issues escalated to the executive team from 30 to 10 per quarter by 30 September 2027'],
+     roles:'People & Culture, all functional heads',impact:'High',effort:'High'},
+    {theme:'Value creation',obj:'Strengthen enterprise performance through scalable and efficient operations',
+     krs:['Improve operating margin from 14% to 18% by 31 December 2027','Reduce leadership time spent on low-value projects from 25% to 10% by 30 June 2027'],
+     roles:'Finance, Operations, Commercial',impact:'Medium',effort:'High'}
+  ],
+  test:[
+    ['Does this truly get the organisation closer to the shared SiP vision?','Yes. Fast, consistent and effortless service is the first line of the SiP statement.'],
+    ['Would fellow leaders see this as a win for the whole organisation — or just for one function?','The whole organisation. It needs Commercial, Operations, Customer Service and Technology, and no single function can deliver it alone.'],
+    ['Does it visibly improve culture, operations, or value creation?','Yes. Handovers improve in operations, and client retention strengthens value creation.'],
+    ['Is there clear accountability for delivering this outcome?','Yes. One executive owns the Objective and the contributing roles are named for each Key Result.']
+  ],
+  signal:'execution speed moves first, customer responsiveness follows, shared ownership is the long transformation, and the investment in scalable operations is timed with care.'
+};
+var FIVE_STEPS=['Find Themes','Inspiring Objectives','Define Key Results','Alignment Test','Priority Matrix'];
+function renderCase(hostId){
+  var host=document.getElementById(hostId);if(!host)return;
+  var W=WORKED,col={keep:'#5ecba1',improve:'#f0c060',start:'#7ec8f0',stop:'#f08080'};
+  var kiss=W.kiss.map(function(d){
+    return '<div class="u3-wx-dom"><div class="u3-wx-dom-h"><span class="kiss-accent '+d.cls+'" style="display:inline-block;min-height:12px;height:12px;margin-right:8px;vertical-align:middle;"></span>'+u3esc(d.domain)+'</div><div class="u3-wx-row">'+
+      KISS_EL.map(function(k){return '<div class="u3-wx-cell"><div class="u3-wx-k" style="color:'+col[k[0]]+';">'+k[1]+'</div><p>'+u3esc(d[k[0]])+'</p></div>';}).join('')+'</div></div>';
+  }).join('');
+  host.innerHTML='<div class="u3-wx-sip"><div class="u3-wx-sip-h">Example · Success in Practice statement of a client services company</div><p>'+u3esc(W.sip)+'</p></div>'+
+    '<h4>From SiP to KISS</h4><p>The leadership team passes the SiP statement through the four KISS filters, one SiP domain at a time:</p>'+kiss;
+}
+function renderWorked(hostId){
+  var host=document.getElementById(hostId);if(!host)return;
+  var W=WORKED,N=W.items.length;
+  var word=['','one','two','three','four','five'];
+  var tabs=FIVE_STEPS.map(function(n,i){
+    return '<div class="step-tab'+(i===0?' active':'')+'" onclick="u3Tab(\'wx\','+i+')"><div class="step-num">Step '+(i+1)+'</div><div class="step-name">'+n+'</div></div>';
+  }).join('');
+  var row3=function(a,b,c,cls){return '<div class="u3-wx-res'+(cls?' '+cls:'')+'"><div class="u3-wx-l">'+a+'</div><div class="u3-wx-n">'+b+'</div><div class="u3-wx-r">'+c+'</div></div>';};
+  var s1='<p>Reading across the four KISS domains, '+word[N]+' recurring strategic themes emerge:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-theme"><span>'+(i<9?'0':'')+(i+1)+'</span>'+u3esc(o.theme)+'</div>';}).join('');
+  var s2='<p>Translate each strategic theme into one clear, qualitative Objective:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(o.theme)+'</div><div class="u3-wx-r"><strong>Objective '+(i+1)+':</strong> '+u3esc(o.obj)+'</div></div>';}).join('');
+  var s3='<p>Define measurable Key Results using Verb + Metric + From X to Y + Deadline, and name the contributing roles:</p>'+
+    W.items.map(function(o,i){return '<div class="u3-wx-okr"><div class="u3-wx-okr-h">Objective '+(i+1)+' · '+u3esc(o.obj)+'</div><ul>'+o.krs.map(function(k){return '<li>'+u3esc(k)+'</li>';}).join('')+'</ul><div class="u3-wx-roles"><strong>Contributing roles:</strong> '+u3esc(o.roles)+'</div></div>';}).join('');
+  var s4='<p>Test each OKR before it goes forward. Objective 1 is shown below:</p>'+
+    W.test.map(function(t){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(t[0])+'</div><div class="u3-wx-r">'+u3esc(t[1])+'</div></div>';}).join('')+
+    '<h5 class="u3-gq" style="margin-top:18px;">Result of the alignment test</h5>'+
+    W.items.map(function(o,i){return row3('Objective '+(i+1)+' · '+u3esc(o.theme),'4 of 4','Aligned. Goes forward to Step 5','in');}).join('');
+  var grid='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
+    ['High','Medium','Low'].map(function(im){
+      return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
+        var c=pmFind(im,ef),here=[];W.items.forEach(function(o,i){if(o.impact===im&&o.effort===ef)here.push('<span class="u3-mx-tag">Objective '+(i+1)+' · '+u3esc(o.theme)+'</span>');});
+        return '<div class="u3-mx-cell" style="border-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
+      }).join('');
+    }).join('')+'</div>';
+  var s5='<p>Place the aligned Objectives on the Prioritisation Matrix according to strategic impact and effort:</p>'+grid+
+    '<div class="hbox teal"><p><strong>The execution signal:</strong> '+u3esc(W.signal)+'</p></div>';
+  var panels=[s1,s2,s3,s4,s5].map(function(h,i){return '<div id="wx_'+i+'" class="step-panel'+(i===0?' active':'')+'">'+h+'</div>';}).join('');
+  host.innerHTML='<h4>From KISS to OKRs: The Five Steps</h4><div class="step-tabs" id="wxTabs">'+tabs+'</div>'+panels;
+}
+
+// ── 4.1 · STRATEGY AIRPORT (Carol's game, Medical Health Company case) ─────────────────────────
+var SA_SIP='We will deliver reliable, accessible and patient-centred healthcare by ensuring patients experience timely support, clear communication and coordinated care across every touchpoint. To achieve this, we will strengthen operational coordination, use data to guide decisions, build shared accountability across teams and improve service reliability, efficiency, patient trust and health outcomes.';
+var SA_OPTIONS={
+  keep:[["Existing patient trust",1,"Green light: this is a real strength to protect."],["Committed clinical teams",1,"Green light: this supports patient-centred delivery."],["Strong referral relationships",1,"Green light: this can improve access and continuity."],["Known community presence",1,"Green light: this can support trust and accessibility."],["Functional appointment channels",1,"Green light: this is useful infrastructure for access."],["Keep all approval layers because they create control",0,"Red alert: this protects bureaucracy, not timely patient care."],["Keep department-specific patient files separate",0,"Red alert: this weakens coordinated care."],["Keep complaints informal so teams are not blamed",0,"Red alert: this hides evidence the strategy needs."]],
+  improve:[["Slow patient handovers",1,"Green light: this directly affects coordinated care."],["Inconsistent patient updates",1,"Green light: this affects clear communication."],["Delayed lab or test feedback",1,"Green light: this affects timely support."],["Fragmented patient records",1,"Green light: this affects reliability and coordination."],["Long waiting times",1,"Green light: this affects accessibility."],["Improve the poster design for the strategy launch",0,"Red alert: this is communication activity, not operational reality."],["Improve executive parking arrangements",0,"Red alert: this does not support the SiP."],["Improve the wording of internal slogans",0,"Red alert: slogans are not evidence of patient-centred care."]],
+  start:[["Patient journey dashboard",1,"Green light: this supports data-guided decisions."],["Weekly care coordination huddles",1,"Green light: this supports execution rhythm."],["Single patient update protocol",1,"Green light: this supports clear communication."],["Data-based service reviews",1,"Green light: this supports learning and reliability."],["Clear handover standard",1,"Green light: this supports coordinated care."],["Start a new committee for every service issue",0,"Red alert: more committees may slow execution."],["Start collecting more data without deciding how it will be used",0,"Red alert: data without decisions creates noise."],["Start sending all decisions to the CEO",0,"Red alert: this weakens shared accountability."]],
+  stop:[["Asking patients for the same information repeatedly",1,"Green light: this directly reduces patient friction."],["Departments handing off without ownership",1,"Green light: this supports accountability."],["Reporting activity in place of patient outcomes",1,"Green light: this protects outcome discipline."],["Treating complaints as isolated incidents",1,"Green light: this supports system learning."],["Launching initiatives without capacity",1,"Green light: this protects execution discipline."],["Stop patient feedback because it creates pressure",0,"Red alert: this removes patient evidence."],["Stop cross-functional meetings to save time",0,"Red alert: this weakens coordination."],["Stop measuring waiting time if performance is poor",0,"Red alert: this hides reliability problems."]]
+};
+var SA_ORDER={keep:[5,0,6,1,3,7,2,4],improve:[0,5,2,6,1,7,3,4],start:[5,0,6,1,3,7,2,4],stop:[0,5,1,6,2,7,3,4]};
+var SA_CARDS=[
+  ['keep','KEEP','What must be protected because it already supports the SiP?','Existing patient trust\nCommitted clinical teams'],
+  ['improve','IMPROVE','What must work better because it weakens delivery?','Slow patient handovers\nDelayed communication'],
+  ['start','START','What must begin because it is missing?','Patient journey dashboard\nWeekly care coordination huddles'],
+  ['stop','STOP','What must stop because it contradicts the SiP?','Duplicated patient information requests\nDepartments handing off without ownership']
+];
+// Wording that differs between the facilitator's lesson round ('f') and the participant's own round ('p').
+var SA_TXT={
+  f:{g1:'Use the SiP statement above. Ask the group to choose an option. The facilitator clicks it, and the system will then show a green light or red alert.',
+     rule:'Game rule: let participants choose first. The answer is revealed only after selection.',
+     g2:'The KISS choices have now become your OKR themes. Ask the group to pick one theme, then convert it into one Objective and two Key Results.',
+     pick:'Choose one KISS theme above. The system will translate it into a draft OKR for the group to test and edit.',
+     done:'The team has translated the medical health SiP into KISS insights, then converted one selected theme into an Objective and two Key Results.'},
+  p:{g1:'Use the SiP statement above. Choose an option for each filter. The system will then show a green light or red alert.',
+     rule:'Game rule: choose first. The answer is revealed only after you select.',
+     g2:'Your KISS choices have now become your OKR themes. Pick one theme, then convert it into one Objective and two Key Results.',
+     pick:'Choose one KISS theme above. The system will translate it into a draft OKR for you to test and edit.',
+     done:'You have translated the medical health SiP into KISS insights, then converted one selected theme into an Objective and two Key Results.'}
+};
+var SA={mode:'f',host:null,onChange:null,state:{step:1,kiss:{keep:'',improve:'',start:'',stop:''},okrs:[]}};
+function saLines(v){return String(v||'').split('\n').map(function(x){return x.trim();}).filter(Boolean);}
+function saEl(id){return document.getElementById(id);}
+function saChanged(){if(SA.onChange)SA.onChange(SA.state);}
+function saInit(hostId,mode,onChange){
+  SA.host=document.getElementById(hostId);if(!SA.host)return;
+  SA.mode=mode;SA.onChange=onChange||null;
+  SA.host.innerHTML='<div class="sa">'+
+    '<div class="sa-head"><div><div class="sa-title">Strategy Airport</div><div class="sa-tag">Move from strategic imagination to operational clearance.</div></div><div class="sa-badge">Medical Health Company Case</div></div>'+
+    '<div class="sa-sip"><div class="sa-sip-h">Success in Practice Statement</div><p>'+u3esc(SA_SIP)+'</p></div>'+
+    '<div class="sa-board"><div id="saGate1" class="sa-gate"><small>Gate 1</small><div class="sa-gate-n">Baggage Check</div><p>KISS Mapping</p><span class="sa-status">Open</span></div>'+
+    '<div id="saGate2" class="sa-gate"><small>Gate 2</small><div class="sa-gate-n">Flight Plan</div><p>OKR Construction</p><span class="sa-status">Locked</span></div></div>'+
+    '<div class="sa-screen" id="saScreen"></div></div>';
+  saRender();
+}
+function saLoad(state){
+  if(state&&typeof state==='object'){
+    var k=state.kiss||{};
+    SA.state={step:state.step===2||state.step===3?state.step:1,kiss:{keep:String(k.keep||''),improve:String(k.improve||''),start:String(k.start||''),stop:String(k.stop||'')},okrs:Array.isArray(state.okrs)?state.okrs.slice(0,4):[]};
+  }
+  if(SA.host)saRender();
+}
+function saRender(){if(SA.state.step===3)saRenderDone();else if(SA.state.step===2)saRenderOkr();else saRenderKiss();}
+function saGates(){
+  [1,2].forEach(function(n){
+    var g=saEl('saGate'+n);if(!g)return;
+    g.className='sa-gate'+(n<SA.state.step?' done':n===SA.state.step?' active':' locked');
+    g.querySelector('.sa-status').textContent=n<SA.state.step?'Complete':n===SA.state.step?'Open':'Locked';
+  });
+}
+function saKissCard(c){
+  var key=c[0];
+  return '<div class="sa-card"><div class="sa-card-h">'+c[1]+'</div><p class="sa-hint">'+c[2]+'</p>'+
+    '<textarea class="sa-ta" id="sa_'+key+'" placeholder="'+u3esc(c[3])+'" oninput="saKissInput(\''+key+'\',this.value)">'+u3esc(SA.state.kiss[key])+'</textarea>'+
+    '<div class="sa-options">'+SA_ORDER[key].map(function(i){return '<span class="sa-chip" onclick="saAdd(\''+key+'\','+i+')">'+u3esc(SA_OPTIONS[key][i][0])+'</span>';}).join('')+'</div></div>';
+}
+function saRenderKiss(){
+  saGates();var T=SA_TXT[SA.mode];
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Gate 1: Baggage Check</div><p>'+T.g1+'</p></div>'+
+    (SA.mode==='f'?'<button type="button" class="sa-btn gold" onclick="saFill()">Use Example</button>':'')+'</div>'+
+    '<div class="sa-grid4">'+SA_CARDS.map(saKissCard).join('')+'</div>'+
+    '<div id="saKissMsg" class="sa-msg">'+T.rule+'</div>'+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Reset Game</button><button type="button" class="sa-btn" onclick="saToGate2()">Proceed to Flight Plan</button></div>';
+}
+function saKissInput(key,val){SA.state.kiss[key]=val;saChanged();}
+function saAdd(key,index){
+  var opt=SA_OPTIONS[key][index],msg=saEl('saKissMsg');
+  if(!opt[1]){msg.className='sa-msg danger';msg.textContent=opt[2];return;}
+  var el=saEl('sa_'+key),existing=saLines(el.value);
+  if(existing.indexOf(opt[0])<0){existing.push(opt[0]);el.value=existing.join('\n');SA.state.kiss[key]=el.value;saChanged();}
+  msg.className='sa-msg success';msg.textContent=opt[2];
+}
+function saFill(){
+  SA.state.kiss={keep:'Strong patient relationships\nCommitted nurses and clinical teams',improve:'Slow handovers between departments\nPatient communication is inconsistent',start:'Patient journey dashboard\nWeekly cross-functional care coordination huddles',stop:'Asking patients for the same information repeatedly\nTreating service failures as one department\'s problem'};
+  saRenderKiss();saChanged();
+}
+function saToGate2(){
+  ['keep','improve','start','stop'].forEach(function(k){var el=saEl('sa_'+k);if(el)SA.state.kiss[k]=el.value;});
+  var missing=['keep','improve','start','stop'].filter(function(k){return saLines(SA.state.kiss[k]).length<2;}).map(function(k){return k.toUpperCase();});
+  var msg=saEl('saKissMsg');
+  if(missing.length){msg.className='sa-msg danger';msg.textContent='Not cleared: add at least two items for '+missing.join(', ')+'.';return;}
+  SA.state.step=2;saRenderOkr();saChanged();
+}
+function saThemes(){var out=[];['keep','improve','start','stop'].forEach(function(k){saLines(SA.state.kiss[k]).forEach(function(v){out.push({type:k.toUpperCase(),text:v});});});return out;}
+function saOkrFromTheme(theme){
+  var t=theme.text.toLowerCase();
+  if(t.indexOf('handover')>=0||t.indexOf('coordin')>=0)return {objective:'Strengthen coordinated care across patient touchpoints',kr1:'Reduce patient handover delays from 48 hours to 12 hours by 31 March 2027',kr2:'Increase complete patient handover records from 60% to 95% by 31 March 2027',roles:'Clinical Teams, Operations, Care Coordinators, IT'};
+  if(t.indexOf('update')>=0||t.indexOf('communication')>=0||t.indexOf('complaint')>=0)return {objective:'Improve clarity and consistency of patient communication',kr1:'Increase patients receiving clear status updates from 50% to 90% by 31 March 2027',kr2:'Reduce communication-related complaints from 80 to 30 per quarter by 31 March 2027',roles:'Customer Support, Clinical Teams, Operations, Communications'};
+  if(t.indexOf('waiting')>=0||t.indexOf('appointment')>=0||t.indexOf('access')>=0||t.indexOf('referral')>=0)return {objective:'Improve timely access to patient-centred care',kr1:'Reduce average appointment waiting time from 14 days to 7 days by 31 March 2027',kr2:'Increase same-day response to patient enquiries from 55% to 90% by 31 March 2027',roles:'Operations, Clinical Teams, Customer Support, IT'};
+  if(t.indexOf('data')>=0||t.indexOf('dashboard')>=0||t.indexOf('review')>=0||t.indexOf('records')>=0)return {objective:'Use service data to improve patient outcomes and reliability',kr1:'Increase weekly review of patient service data from 0 to 4 reviews per month by 31 March 2027',kr2:'Reduce unresolved service exceptions older than 7 days from 40 to 10 by 31 March 2027',roles:'Executive Team, Operations, IT, Quality Assurance'};
+  if(t.indexOf('ownership')>=0||t.indexOf('accountability')>=0||t.indexOf('capacity')>=0||t.indexOf('initiative')>=0)return {objective:'Build shared accountability for patient-centred execution',kr1:'Increase cross-functional issue closure within 5 working days from 45% to 85% by 31 March 2027',kr2:'Reduce escalations caused by unclear ownership from 50 to 15 per quarter by 31 March 2027',roles:'Executive Team, Department Leads, Operations, HR'};
+  return {objective:'Improve reliability of patient-centred service delivery',kr1:'Increase on-time completion of priority patient actions from 65% to 90% by 31 March 2027',kr2:'Reduce repeat patient information requests from 35% to 10% by 31 March 2027',roles:'Operations, Clinical Teams, IT, Customer Support'};
+}
+function saRenderOkr(){
+  saGates();var T=SA_TXT[SA.mode],themes=saThemes();
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Gate 2: Flight Plan</div><p>'+T.g2+'</p></div>'+
+    (SA.mode==='f'?'<button type="button" class="sa-btn gold" onclick="saAuto()">Build Example OKR</button>':'')+'</div>'+
+    '<div class="sa-packs">'+themes.map(function(t,i){return '<button type="button" class="sa-pack" onclick="saUseTheme('+i+')"><strong>'+t.type+'</strong><span>'+u3esc(t.text)+'</span></button>';}).join('')+'</div>'+
+    '<div class="sa-okr-wrap"><div class="sa-card"><div class="sa-card-h">Convert Selected Theme</div>'+
+      '<label class="sa-lbl" for="saObjective">Objective</label><input class="sa-in" id="saObjective" placeholder="Select a KISS theme above">'+
+      '<label class="sa-lbl" for="saKr1">Key Result 1</label><input class="sa-in" id="saKr1" placeholder="Generated from selected theme">'+
+      '<label class="sa-lbl" for="saKr2">Key Result 2</label><input class="sa-in" id="saKr2" placeholder="Generated from selected theme">'+
+      '<label class="sa-lbl" for="saRoles">Contributing Roles</label><input class="sa-in" id="saRoles" placeholder="Generated from selected theme">'+
+      '<div id="saOkrMsg" class="sa-msg">'+T.pick+'</div>'+
+      '<div style="margin-top:14px"><button type="button" class="sa-btn" onclick="saAddOkr()">Add Flight Plan</button></div></div>'+
+    '<div class="sa-card"><div class="sa-card-h">Accepted Flight Plan</div><div id="saOkrList" class="sa-okr-list"></div></div></div>'+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saBack()">Back to Baggage Check</button><button type="button" class="sa-btn" onclick="saFinish()">Finish Learning Round</button></div>';
+  saRenderOkrList();
+}
+function saBack(){SA.state.step=1;saRenderKiss();saChanged();}
+function saUseTheme(i){
+  var p=saOkrFromTheme(saThemes()[i]);
+  saEl('saObjective').value=p.objective;saEl('saKr1').value=p.kr1;saEl('saKr2').value=p.kr2;saEl('saRoles').value=p.roles;
+  var msg=saEl('saOkrMsg');msg.className='sa-msg success';
+  msg.textContent='Green light: selected KISS theme converted into a draft OKR. Now test whether the Objective is enterprise-level and the Key Results show measurable change.';
+}
+function saAuto(){
+  saEl('saObjective').value='Improve reliability of patient-centred service delivery';
+  saEl('saKr1').value='Reduce patient handover delays from 48 hours to 12 hours by 31 March 2027';
+  saEl('saKr2').value='Increase patients receiving clear service updates from 50% to 90% by 31 March 2027';
+  saEl('saRoles').value='Clinical Teams, Operations, IT, Customer Support, Executive Team';
+}
+function saKrPasses(t){return /\d/.test(t)&&/from|to|increase|reduce|improve|decrease|raise|lower/i.test(t)&&/by|march|april|may|june|july|august|september|october|november|december|2027|2026/i.test(t);}
+function saAddOkr(){
+  var objective=saEl('saObjective').value.trim(),kr1=saEl('saKr1').value.trim(),kr2=saEl('saKr2').value.trim(),roles=saEl('saRoles').value.trim(),msg=saEl('saOkrMsg');
+  if(!objective||!kr1||!kr2||!roles){msg.className='sa-msg danger';msg.textContent='Not cleared: the flight plan has missing fields.';return;}
+  if(!saKrPasses(kr1)||!saKrPasses(kr2)){msg.className='sa-msg danger';msg.textContent='This flight has weak instrument readings. Each KR needs a metric, movement and deadline.';return;}
+  if(SA.state.okrs.length>=4){msg.className='sa-msg danger';msg.textContent='Too many destinations. Maximum four objectives.';return;}
+  SA.state.okrs.push({objective:objective,kr1:kr1,kr2:kr2,roles:roles});
+  ['saObjective','saKr1','saKr2','saRoles'].forEach(function(id){saEl(id).value='';});
+  msg.className='sa-msg success';msg.textContent='Flight plan accepted.';saRenderOkrList();saChanged();
+}
+function saRenderOkrList(){
+  var list=saEl('saOkrList');if(!list)return;
+  if(!SA.state.okrs.length){list.innerHTML='<p class="sa-hint">No flight plans accepted yet.</p>';return;}
+  list.innerHTML=SA.state.okrs.map(function(o,i){return '<div class="sa-okr-item"><strong>'+(i+1)+'. '+u3esc(o.objective)+'</strong><ul><li>'+u3esc(o.kr1)+'</li><li>'+u3esc(o.kr2)+'</li><li><strong>Crew:</strong> '+u3esc(o.roles)+'</li></ul></div>';}).join('');
+}
+function saFinish(){
+  if(SA.state.okrs.length<1){var m=saEl('saOkrMsg');m.className='sa-msg danger';m.textContent='Not cleared: create one OKR flight plan.';return;}
+  SA.state.step=3;saRenderDone();saChanged();
+}
+function saRenderDone(){
+  ['saGate1','saGate2'].forEach(function(id){var g=saEl(id);if(!g)return;g.className='sa-gate done';g.querySelector('.sa-status').textContent='Complete';});
+  var K=SA.state.kiss,T=SA_TXT[SA.mode];
+  saEl('saScreen').innerHTML='<div class="sa-st"><div><div class="sa-st-h">Learning Round Complete</div><p>'+T.done+'</p></div><button type="button" class="sa-btn gold" onclick="saPrint()">Print Summary</button></div>'+
+    '<div class="sa-summary"><div class="sa-card"><div class="sa-big">1</div><div class="sa-card-h">KISS Themes Captured</div><ul><li>Keep: '+saLines(K.keep).length+'</li><li>Improve: '+saLines(K.improve).length+'</li><li>Start: '+saLines(K.start).length+'</li><li>Stop: '+saLines(K.stop).length+'</li></ul></div>'+
+    '<div class="sa-card"><div class="sa-big">2</div><div class="sa-card-h">OKR Built From One Theme</div><ul>'+SA.state.okrs.map(function(o){return '<li><strong>'+u3esc(o.objective)+'</strong><br>'+u3esc(o.kr1)+'<br>'+u3esc(o.kr2)+'</li>';}).join('')+'</ul></div></div>'+
+    '<div class="sa-msg success" style="margin-top:18px">Learning point: KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress.</div>'+
+    (SA.mode==='p'?'<div class="sa-msg" style="margin-top:10px">This learning round is part of your Learning Portfolio. It reaches your facilitator when you select Submit to Facilitator at the end of the unit.</div>':'')+
+    '<div class="sa-actions"><button type="button" class="sa-btn ghost" onclick="saReset()">Start Again</button></div>';
+}
+function saReset(){
+  if(SA.mode==='p'&&(SA.state.okrs.length||saThemes().length)&&!window.confirm('Start the game again? Your saved KISS choices and flight plans will be cleared.'))return;
+  SA.state={step:1,kiss:{keep:'',improve:'',start:'',stop:''},okrs:[]};saRenderKiss();saChanged();
+}
+function saKissText(){return SA_CARDS.map(function(c){var l=saLines(SA.state.kiss[c[0]]);return c[1]+': '+(l.length?l.join('; '):'—');}).join('\n');}
+function saPlanText(){return SA.state.okrs.map(function(o,i){return (i+1)+'. Objective: '+o.objective+'\n   Key Result 1: '+o.kr1+'\n   Key Result 2: '+o.kr2+'\n   Contributing roles: '+o.roles;}).join('\n\n');}
+function saPrint(){
+  var w=window.open('','_blank');if(!w){window.print();return;}
+  var body='<h1>Strategy Airport · Learning Round</h1><h2>Success in Practice Statement</h2><p>'+u3esc(SA_SIP)+'</p><h2>Gate 1 · Baggage Check (KISS Mapping)</h2><pre>'+u3esc(saKissText())+'</pre><h2>Gate 2 · Flight Plan (OKR Construction)</h2><pre>'+u3esc(saPlanText())+'</pre>';
+  w.document.write('<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Strategy Airport · Learning Round</title><style>body{font-family:Georgia,serif;color:#172033;max-width:760px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:26px}h2{color:#071b4d;font-size:17px;margin-top:22px;border-bottom:1px solid #e5e7eb;padding-bottom:4px}pre{white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px}</style></head><body>'+body+'</body></html>');
+  w.document.close();w.focus();setTimeout(function(){w.print();},300);
+}
+
+// ── UNIT 3 · PARTICIPANT PAGE ───────────────────────────────────────────────────────────────────
+var LENS='u2m1_lens2';
+var SUMMARY=[
+  {arc:"Awareness — What",title:"The KISS Framework as Reflective Filter",body:"You saw that KISS (Keep, Improve, Start, Stop) functions as a reflective filter between strategic vision and execution commitments. Before defining Objectives and Key Results, you examine the organisation's current operating reality in relation to its Success in Practice. This step prevents the common strategic mistake of layering new ambitions on top of an unchanged operational system. Five steps then carry the KISS output into enterprise OKRs."},
+  {arc:"Intelligence — Why",title:"Most OKR Failures are Reflection Failures",body:"When organisations move directly from vision to targets, legacy routines remain in place, resources remain misaligned, and teams attempt to pursue transformational goals while still carrying the weight of outdated priorities. The KISS-to-OKR sequence resolves this tension: SiP defines the future, KISS identifies the changes required, and OKRs translate those changes into measurable progress. The worked example showed the full sequence in practice."},
+  {arc:"Extrapolating — Where",title:"Functional Bias Creates OKR Hot Zones",body:"Each leader naturally emphasises different SiP domains. Unexamined, these perspectives produce functional OKRs where enterprise OKRs are needed. You matched each leadership role to its typical hot zone and its alignment question. Recognising these patterns allows your group to integrate perspectives into a balanced execution system that reflects the full enterprise."},
+  {arc:"Integration — Collective",title:"From Strategic Imagination to Operational Clearance",body:"In Strategy Airport you applied the same translation on your own to a new case. You decided what the company must keep, improve, start and stop, then converted one KISS theme into an Objective and two Key Results with contributing roles. KISS is the evidence base for deciding what the Objective should be and what Key Results will prove progress."},
+  {arc:"Application — In Practice",title:"Individual Expertise into Collective Intelligence",body:"With your group you translated your Success in Practice into a confirmed KISS map across the four SiP domains, then into enterprise priorities and enterprise OKRs through the five steps. Each member began with insights from a functional domain, and the final outcome reflects the success of the enterprise as a whole. The Prioritisation Matrix concentrated execution energy on the priorities that will most accelerate progress toward the SiP. Your confirmed outputs feed your team's Capstone S2R Blueprint."}
+];
+var U3={v:{},conf:[]};
+function u3v(k){var x=U3.v[k];return (x===undefined||x===null)?'':String(x);}
+function u3el(id){return document.getElementById(id);}
+function u3msg(id,text,cls){var m=u3el(id);if(!m)return;m.textContent=text||'';m.className='u3-note'+(cls?' '+cls:'');m.style.display=text?'block':'none';}
+async function u3save(k,val){
+  if(k==='confirmed_items'){var _ts=window.S2RTeam&&S2RTeam.status(),_own=(Array.isArray(val)?val:[]).filter(function(n){return U3_TW_NAMES().indexOf(n)<0;});if(!_own.length)return true;val=_own.concat(_ts&&_ts.all_agreed?U3_TW_NAMES():[]);}
+  else if(window.S2RTeam&&/^(kex_|kiss_(keep|improve|start|stop)$|sip_d\d_st$|__okr_work$|okr_drafts$|ent_priorities$|ent_okrs$)/.test(k)){var _ok=S2RTeam.save(k,val);if(_ok&&!/^__tw_out/.test(k))u3TeamOut();return _ok;}
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return false;}
+  return await S2R.save(LENS,k,val);
+}
+async function u3put(k,val){U3.v[k]=val;u3Mirrors();return await u3save(k,val);}
+function isConf(name){return U3.conf.indexOf(name)>=0;}
+async function setConfMany(names,on){
+  var changed=false;
+  names.forEach(function(name){
+    var i=U3.conf.indexOf(name);
+    if(on&&i<0){U3.conf.push(name);changed=true;}else if(!on&&i>=0){U3.conf.splice(i,1);changed=true;}
+  });
+  if(changed)await u3save('confirmed_items',U3.conf);
+}
+function u3Mirrors(){
+  document.querySelectorAll('[data-mirror]').forEach(function(m){
+    var v=u3v(m.getAttribute('data-mirror')).trim();
+    if(v){m.textContent=v;m.classList.remove('empty');}
+    else{m.textContent=m.getAttribute('data-empty')||'';m.classList.add('empty');}
+  });
+}
+
+// ── Teaching content rendered from the shared data ──────────────────────────────────────────────
+function renderKissGuideP(){var el=u3el('kissGuideP');if(el)el.innerHTML=kissGuideHtml('kgp_','u3ToggleDomain');}
+function renderSummaryP(){
+  document.getElementById("summaryP").innerHTML=SUMMARY.map(function(s,i){
+    return "<div class=\"sum-block\" id=\"sump_"+i+"\">"+
+      "<div class=\"sum-h\" onclick=\"document.getElementById('sump_"+i+"').classList.toggle('open')\">"+
+        "<span class=\"sum-arc\">"+s.arc+"</span>"+
+        "<span class=\"sum-title\">"+s.title+"</span>"+
+        "<span class=\"sum-arr\">▾</span></div>"+
+      "<div class=\"sum-body\"><p>"+s.body+"</p></div></div>";
+  }).join("");
+}
+
+// ── 3.1 · Matching exercise: Typical Hot Zone and Alignment Question to each role (portfolio work) ──
+var HZ_ORDER={hot:[6,2,9,0,4,7,1,8,3,5],al:[3,8,1,5,9,0,6,2,7,4]};
+var HZ={cur:0,m:[],note:null};
+function hzBlank(){return HOT_ZONES.map(function(){return {hot:false,al:false,ht:0,at:0};});}
+HZ.m=hzBlank();
+function hzDone(i){return HZ.m[i].hot&&HZ.m[i].al;}
+function hzCount(){var n=0;HOT_ZONES.forEach(function(_,i){if(hzDone(i))n++;});return n;}
+function hzOptions(kind){
+  var i=HZ.cur,field=kind==='hot'?'hot':'align',done=HZ.m[i][kind];
+  if(done)return '<div class="u3-matched '+kind+'"><span class="u3-pill">Matched</span>'+u3esc(HOT_ZONES[i][field])+'</div>';
+  return '<div class="u3-opts">'+HZ_ORDER[kind].map(function(j){
+    if(HZ.m[j][kind])return '<div class="u3-opt used"><span>'+u3esc(HOT_ZONES[j][field])+'</span><em>Matched · '+u3esc(HOT_ZONES[j].role)+'</em></div>';
+    return '<button type="button" class="u3-opt" onclick="hzPick(\''+kind+'\','+j+')">'+u3esc(HOT_ZONES[j][field])+'</button>';
+  }).join('')+'</div>';
+}
+function hzNote(kind){
+  if(!HZ.note||HZ.note.kind!==kind||HZ.note.role!==HZ.cur)return '';
+  return '<div class="u3-flash '+(HZ.note.ok?'ok':'bad')+'">'+u3esc(HZ.note.text)+'</div>';
+}
+function renderMatch(){
+  var host=u3el('hzMatchP');if(!host)return;
+  var n=hzCount(),i=HZ.cur,h=HOT_ZONES[i],all=n===HOT_ZONES.length;
+  var chips=HOT_ZONES.map(function(r,x){
+    return '<button type="button" class="u3-chip'+(x===i?' active':'')+(hzDone(x)?' done':'')+'" onclick="hzGo('+x+')"><span class="u3-chip-n">'+(hzDone(x)?'✓':(x+1))+'</span>'+u3esc(r.role)+'</button>';
+  }).join('');
+  var next='';
+  if(hzDone(i)&&!all)next='<div class="u3-btnrow"><button type="button" class="u3-b ok" onclick="hzNext()">Next role →</button></div>';
+  host.innerHTML='<div class="u3-progress"><div class="u3-progress-top"><span>Roles matched</span><b>'+n+' of '+HOT_ZONES.length+'</b></div><div class="u3-bar"><span style="width:'+Math.round(n/HOT_ZONES.length*100)+'%"></span></div></div>'+
+    '<div class="u3-chips">'+chips+'</div>'+
+    (all?'<div class="hbox teal"><p><strong>All ten roles matched.</strong> Select any role above to review its full card.</p></div>':'')+
+    '<div class="u3-role"><div class="u3-role-h"><div class="u3-role-n">'+u3esc(h.role)+'</div><div class="u3-role-t">'+u3esc(h.title)+'</div></div>'+
+      '<div class="u3-role-given"><div><h5>Dominant Future Realities <span>suggested</span></h5><p>'+u3esc(h.top2)+'</p></div><div><h5>Natural OKR Emphasis <span>suggested</span></h5><p>'+u3esc(h.emphasis)+'</p></div></div>'+
+      '<div class="u3-role-q"><h5>Typical Hot Zone</h5><p class="u3-small">Which hot zone does this emphasis create?</p>'+hzOptions('hot')+hzNote('hot')+'</div>'+
+      '<div class="u3-role-q"><h5>Alignment Question</h5><p class="u3-small">Which question brings this role back to enterprise thinking?</p>'+hzOptions('al')+hzNote('al')+'</div>'+
+      next+'</div>';
+}
+function hzGo(i){HZ.cur=i;HZ.note=null;renderMatch();}
+function hzNext(){
+  for(var k=1;k<=HOT_ZONES.length;k++){var j=(HZ.cur+k)%HOT_ZONES.length;if(!hzDone(j)){hzGo(j);return;}}
+}
+function hzText(){
+  var first=0;HZ.m.forEach(function(x){if(x.hot&&x.ht===1)first++;if(x.al&&x.at===1)first++;});
+  var one=function(ok,tries){return (ok?'matched':'not yet matched')+(tries?' ('+tries+(tries===1?' attempt':' attempts')+')':'');};
+  return hzCount()+' of '+HOT_ZONES.length+' roles matched · '+first+' of '+(HOT_ZONES.length*2)+' matches at the first attempt\n'+
+    HOT_ZONES.map(function(h,i){var x=HZ.m[i];return h.role+' — Typical Hot Zone: '+one(x.hot,x.ht)+' · Alignment Question: '+one(x.al,x.at);}).join('\n');
+}
+async function hzPick(kind,j){
+  var i=HZ.cur,x=HZ.m[i];
+  if(kind==='hot')x.ht++;else x.at++;
+  if(j===i){x[kind]=true;HZ.note={kind:kind,role:i,ok:true,text:'Green light: matched.'};}
+  else HZ.note={kind:kind,role:i,ok:false,text:'Red alert: this one belongs to another role. Read the emphasis of this role again, then choose again.'};
+  renderMatch();
+  await u3save('__hz_match',{cur:HZ.cur,m:HZ.m});
+  await u3save('hz_match',hzText());
+}
+
+// ── 5.1 · Your group's four SiP statements (brought in from your Unit 2 page) and the KISS form ──
+function sipKey(d){return 'sip_d'+(d+1)+'_st';}
+function renderSipCapture(){
+  var host=u3el('sipCaptureP');if(!host)return;
+  host.innerHTML=KISS_DOMAINS.map(function(x,d){
+    return '<div class="u3-sipbox"><label class="u3-inlbl" for="'+sipKey(d)+'">D'+(d+1)+' · '+u3esc(x.label)+'</label>'+
+      '<textarea class="u3-ta" id="'+sipKey(d)+'" placeholder="Your group\'s SiP statement for this domain..." oninput="sipCapInput('+d+',this.value)" onchange="sipCapChange('+d+')">'+u3esc(u3v(sipKey(d)))+'</textarea></div>';
+  }).join('')+'<div class="u3-btnrow"><button type="button" class="u3-b" onclick="sipBring(true)">Bring in from my Unit 2 page</button></div><div class="u3-note" id="sipCapMsg" style="display:none;"></div>';
+}
+function sipCapInput(d,val){U3.v[sipKey(d)]=val;u3Mirrors();}
+async function sipCapChange(d){await u3save(sipKey(d),u3v(sipKey(d)));}
+async function sipBring(manual){
+  if(!window.S2R){if(manual)u3msg('sipCapMsg','The save system is not ready. Reload the page and try again.');return;}
+  var u2={};try{u2=await S2R.loadAll('u2m1_lens1');}catch(e){u2={};}
+  var found=[];
+  for(var d=0;d<4;d++){var t=u2?u2[sipKey(d)]:null;found.push(typeof t==='string'?t.trim():'');}
+  if(!found.some(Boolean)){if(manual)u3msg('sipCapMsg','No SiP statements were found on your Unit 2 page. Type your group\'s four statements in the boxes above.');return;}
+  var replaces=found.some(function(t,d){var cur=u3v(sipKey(d)).trim();return t&&cur&&cur!==t;});
+  if(manual&&replaces&&!window.confirm('Replace the text in these boxes with the SiP statements from your Unit 2 page?'))return;
+  if(!manual&&replaces)return;
+  var n=0;
+  for(var k=0;k<4;k++){
+    if(found[k]&&u3v(sipKey(k)).trim()!==found[k]){U3.v[sipKey(k)]=found[k];var ta=u3el(sipKey(k));if(ta)ta.value=found[k];await u3save(sipKey(k),found[k]);n++;}
+  }
+  u3Mirrors();
+  if(manual)u3msg('sipCapMsg',n?'Brought in from your Unit 2 page.':'The boxes already match your Unit 2 page.','ok');
+}
+
+var KISS_NAMES=['KISS · Keep','KISS · Improve','KISS · Start','KISS · Stop'];
+var KISS_OUT=['kiss_keep','kiss_improve','kiss_start','kiss_stop'];
+function kexKey(d,k){return 'kex_'+d.id+'_'+k;}
+function kissFilled(){var n=0;KISS_DOMAINS.forEach(function(d){KISS_EL.forEach(function(k){if(u3v(kexKey(d,k[0])).trim())n++;});});return n;}
+function kissConfirmed(){return KISS_NAMES.every(isConf);}
+function kissCompose(k){
+  return KISS_DOMAINS.map(function(d){return d.label+': '+u3v(kexKey(d,k)).trim().replace(/\s*\n+\s*/g,'; ');}).join('\n');
+}
+function renderKissForm(){
+  var host=u3el('kissFormP');if(!host)return;
+  host.innerHTML=KISS_DOMAINS.map(function(d,x){
+    return '<div class="kiss-domain" id="kex_'+d.id+'">'+
+      '<div class="kiss-domain-h" onclick="u3ToggleDomain(\'kex_'+d.id+'\')">'+
+        '<div class="kiss-accent '+d.cls+'"></div>'+
+        '<div class="kiss-domain-info"><div class="kiss-domain-title">'+u3esc(d.label)+'</div>'+
+        '<div class="kiss-domain-anchor">SiP Anchor: '+u3esc(d.anchor)+'</div></div>'+
+        '<span class="kiss-domain-arr"'+(x===0?' style="transform:rotate(180deg)"':'')+'>▾</span></div>'+
+      '<div class="kiss-domain-body" style="display:'+(x===0?'block':'none')+';padding:0 18px 18px;">'+
+        '<div class="u3-mirror-lbl">Your group\'s SiP statement for this domain</div>'+
+        '<div class="u3-mirror empty" data-mirror="'+sipKey(x)+'" data-empty="Capture this SiP statement in the boxes above."></div>'+
+        '<div class="u3-kgrid" style="margin-top:12px;">'+KISS_EL.map(function(k){
+          var kid=kexKey(d,k[0]);
+          return '<div class="kiss-el"><div class="kiss-el-head '+k[0]+'-h">◆ '+k[1]+'</div>'+
+            '<div class="kiss-q">'+u3esc(d[k[0]])+'</div>'+
+            '<textarea class="kiss-ta" id="'+kid+'" oninput="kexInput(\''+kid+'\',this.value)" onchange="kexChange(\''+kid+'\')" placeholder="Your group\'s agreed entry...">'+u3esc(u3v(kid))+'</textarea>'+
+            '<div class="u3-saved" id="'+kid+'-s"></div></div>';
+        }).join('')+'</div></div></div>';
+  }).join('');
+  renderKissConfirm();u3Mirrors();
+}
+function renderKissConfirm(){
+  var host=u3el('kissConfirmP');if(!host)return;
+  if(!u3el('kissBtn')){
+    host.innerHTML='<div class="u3-progress"><div class="u3-progress-top"><span>KISS entries complete</span><b id="kissCount"></b></div><div class="u3-bar"><span id="kissBar"></span></div></div>'+
+      '<div class="u3-btnrow"><button type="button" class="u3-b" id="kissBtn" onclick="kissConfirm()">Check the KISS map</button><span class="u3-pill" id="kissPill" style="display:none;">Confirmed</span></div>'+
+      '<div class="u3-note" id="kissMsg" style="display:none;"></div><div id="kissOut"></div>';
+  }
+  var done=kissConfirmed(),n=kissFilled();
+  u3el('kissCount').textContent=n+' of 16';u3el('kissBar').style.width=Math.round(n/16*100)+'%';
+  u3el('kissBtn').classList.toggle('ok',done);u3el('kissPill').style.display=done?'':'none';
+  if(done)u3msg('kissMsg','');
+  u3el('kissOut').innerHTML=done?'<div class="u3-out"><div class="u3-out-h">Your confirmed KISS map</div>'+KISS_EL.map(function(k,x){
+      return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t">'+u3esc(u3v(KISS_OUT[x]))+'</div></div>';
+    }).join('')+'</div>':'';
+}
+var _kexTimers={};
+function kexInput(kid,val){
+  U3.v[kid]=val;
+  if(kissConfirmed()){KISS_NAMES.forEach(function(nm){var i=U3.conf.indexOf(nm);if(i>=0)U3.conf.splice(i,1);});U3._kdirty=true;renderKissConfirm();okrRefreshMirror();}
+  clearTimeout(_kexTimers[kid]);_kexTimers[kid]=setTimeout(function(){kexChange(kid);},900);
+}
+async function kexChange(kid){
+  clearTimeout(_kexTimers[kid]);
+  var ok=await u3save(kid,u3v(kid));
+  var s=u3el(kid+'-s');
+  if(s){s.textContent=ok?'✓ Saved':'⚠ Save failed — try again';s.style.display='block';if(ok)setTimeout(function(){s.style.display='none';},2000);}
+  if(U3._kdirty){U3._kdirty=false;await u3save('confirmed_items',U3.conf);}
+  renderKissConfirm();
+}
+/* ── Shared group record (19 Oct 2026): the scribe types, every member agrees (s2r-team.js) ── */
+function U3_TW_NAMES(){return KISS_NAMES.concat([N_PRI,N_OKR]);}
+function u3TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(kissFilled()===16){for(var x=0;x<KISS_EL.length;x++)S2RTeam.save(KISS_OUT[x],kissCompose(KISS_EL[x][0]));}if(!okrProblems().length){S2RTeam.save('ent_priorities',okrPriText());S2RTeam.save('ent_okrs',okrOkrText());}}
+var _twOn=false;
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:LENS,mount:'twBar',lock:['mod4'],names:U3_TW_NAMES(),complete:function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');},onRemote:function(r){Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined)U3.v[k]=r[k];});U3.conf=Array.isArray(r.confirmed_items)?r.confirmed_items.slice():[];okrLoad(r.__okr_work);u3RenderAll();}});}
+async function kissConfirm(){
+  if(kissFilled()<16){u3msg('kissMsg','Complete all sixteen boxes first. Where your group finds nothing for a box, record "None identified".');return;}
+  u3msg('kissMsg','All sixteen boxes are complete. Your group agrees the whole record in 5.2.','ok');
+}
+
+// ── 5.2 · THE FIVE STEPS: themes → Objectives → Key Results → alignment test → Priority Matrix (group work) ──
+// Each step shows what the steps before it produced: the theme is carried into Step 2, theme and Objective into
+// Step 3, theme, Objective and Key Results into Step 4, and the aligned OKR into Step 5.
+// Above the steps one record builds from Step 1 onwards; it is saved with the page and can be printed.
+// Limits (Carol's deck, 5.2): up to four themes, one Objective for each theme, up to two Key Results for each Objective.
+var N_PRI='Enterprise priorities',N_OKR='Enterprise OKRs';
+var OKR_STEPS=FIVE_STEPS;
+var OKR_TEST=['Does this truly get the organisation closer to the shared SiP vision?','Would fellow leaders see this as a win for the whole organisation — or just for one function?','Does it visibly improve culture, operations, or value creation?','Is there clear accountability for delivering this outcome?'];
+var SX_THEMES=4,SX_KRS=2;
+function sxBlank(){var k=[];for(var j=0;j<SX_KRS;j++)k.push({t:'',r:''});return {theme:'',obj:'',krs:k,al:[false,false,false,false],im:'',ef:''};}
+function sxState(){var s={step:0,items:[]};for(var i=0;i<SX_THEMES;i++)s.items.push(sxBlank());return s;}
+function sxLoadInto(S,s){
+  if(!s||typeof s!=='object'||!Array.isArray(s.items))return;
+  for(var i=0;i<SX_THEMES;i++){
+    var a=s.items[i]||{},b=sxBlank();
+    b.theme=String(a.theme||'');b.obj=String(a.obj||'');
+    for(var j=0;j<SX_KRS;j++){var kr=(a.krs&&a.krs[j])||{};b.krs[j]={t:String(kr.t||''),r:String(kr.r||'')};}
+    for(var q=0;q<4;q++)b.al[q]=!!(a.al&&a.al[q]);
+    b.im=String(a.im||'');b.ef=String(a.ef||'');
+    S.items[i]=b;
+  }
+  S.step=(s.step>=0&&s.step<OKR_STEPS.length)?s.step:0;
+}
+function okrKrOk(t){return /from\s+\w/i.test(t)&&/to\s+\w/i.test(t)&&/q[1-4]|fy|20\d\d|by/i.test(t);}
+function okrKrCheck(t){
+  if(!t.trim())return '';
+  return okrKrOk(t)?'<span style="color:rgba(100,210,140,.8);">✓ Formula looks complete</span>':'<span style="color:rgba(255,180,80,.7);">⚠ Add From X → Y baseline+target and a deadline</span>';
+}
+function sxAl(o){return o.al.filter(Boolean).length;}
+function sxKrs(o){return o.krs.filter(function(k){return k.t.trim();});}
+function sxReady(o){return sxKrs(o).length>=1;}                 // an OKR is tested once it holds a Key Result
+function sxThemes(S){var out=[];S.items.forEach(function(o,i){if(o.theme.trim())out.push(i);});return out;}
+function sxWithObj(S){return sxThemes(S).filter(function(i){return S.items[i].obj.trim();});}
+function sxPassed(S){return sxWithObj(S).filter(function(i){var o=S.items[i];return sxReady(o)&&sxAl(o)===4;});}
+function sxNeed(text){return '<div class="u3-locked">'+text+'</div>';}
+function sxPlace(o){var c=pmFind(o.im,o.ef);return c?c.l+' ('+o.im+' impact, '+o.ef+' effort)':'';}
+// What one theme carries so far. upto: 1 theme · 2 Objective · 3 Key Results · 4 alignment test · 5 matrix.
+// rec=true (the record): a row appears once it holds something. rec=false (inside a step): the rows the step works from.
+function sxChain(S,i,upto,rec){
+  var o=S.items[i],r=[['Theme '+(i+1),u3esc(o.theme)]],k=sxKrs(o),n=sxAl(o),passed=sxReady(o)&&n===4;
+  if(upto>=2&&(o.obj.trim()||!rec))r.push(['Objective '+(i+1),o.obj.trim()?u3esc(o.obj):'<em>Not written yet</em>']);
+  if(upto>=3&&(k.length||!rec))r.push(['Key Results',k.length?'<ol>'+k.map(function(x){return '<li>'+u3esc(x.t)+(x.r.trim()?'<span class="u3-chain-roles">Contributing roles: '+u3esc(x.r)+'</span>':'')+'</li>';}).join('')+'</ol>':'<em>Not written yet</em>']);
+  if(upto>=4&&((k.length&&(n>0||!rec))||(!rec&&upto>4)))r.push(['Alignment test',n+' of 4'+(passed?' · aligned':'')]);
+  if(upto>=5&&passed&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
+  return '<div class="u3-chain">'+r.map(function(x){return '<div class="u3-chain-row"><div class="u3-chain-l">'+x[0]+'</div><div class="u3-chain-v">'+x[1]+'</div></div>';}).join('')+'</div>';
+}
+function sxFrom(n){return '<div class="u3-from">From Step'+(n===1?' 1':n===2?'s 1 and 2':'s 1 to '+n)+'</div>';}
+function sxNav(T){
+  var s=T.S.step,p="'"+T.p+"'",last=OKR_STEPS.length-1;
+  return '<div class="u3-elnav"><button type="button" class="btn" onclick="sxStep('+p+','+(s-1)+')"'+(s===0?' disabled':'')+'>← Previous step</button><button type="button" class="btn" onclick="sxStep('+p+','+(s+1)+')"'+(s===last?' disabled':'')+'>Next step →</button></div>';
+}
+function sxPanel(T){
+  var S=T.S,P=T.p,q="'"+P+"'",s=S.step,x=T.t,h='';
+  if(s===0){
+    h='<h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5><p>'+x.s1+'</p>'+(T.mirror?'<div id="'+P+'KissMirror">'+T.mirror()+'</div>':'')+
+      S.items.map(function(o,i){return '<label class="u3-inlbl" for="'+P+'Theme_'+i+'">Theme '+(i+1)+'</label><input type="text" class="u3-in" id="'+P+'Theme_'+i+'" value="'+u3esc(o.theme)+'" oninput="sxSet('+q+','+i+',\'theme\',this.value)" onchange="sxChanged('+q+')">';}).join('')+
+      '<p class="u3-small">'+x.s1small+'</p>';
+  }else if(s===1){
+    h='<h5 class="u3-gq">Guiding Question: If we get this theme right, what will we be known for?</h5><p>'+x.s2+'</p>';
+    var th=sxThemes(S);
+    h+=th.length?th.map(function(i){
+      return '<div class="u3-test">'+sxFrom(1)+sxChain(S,i,1)+'<label class="u3-inlbl" for="'+P+'Obj_'+i+'">Objective '+(i+1)+' · for this theme</label><textarea class="u3-ta" id="'+P+'Obj_'+i+'" placeholder="Objective: start with a verb..." oninput="sxSet('+q+','+i+',\'obj\',this.value)" onchange="sxChanged('+q+')">'+u3esc(S.items[i].obj)+'</textarea></div>';
+    }).join(''):sxNeed('Record your themes in Step 1 first.');
+  }else if(s===2){
+    h='<h5 class="u3-gq">Guiding Question: What measurable outcomes will prove the Objective is being achieved?</h5><p>'+x.s3+'</p>'+
+      '<div class="okr-hint"><strong>Formula:</strong> Verb of Change + Metric + From X → Y + By Deadline &nbsp;|&nbsp; <strong>Test:</strong> Can this be checked off a list? If yes, it is a task.</div>';
+    var ob=sxWithObj(S),wait=sxThemes(S).filter(function(i){return !S.items[i].obj.trim();});
+    h+=ob.length?ob.map(function(i){
+      var o=S.items[i];
+      return '<div class="u3-test">'+sxFrom(2)+sxChain(S,i,2)+o.krs.map(function(k,j){
+          return '<div class="okr-kr"><label class="u3-inlbl" style="margin-top:0;" for="'+P+'Kr_'+i+'_'+j+'">Key Result '+(j+1)+' · for Objective '+(i+1)+(j>0?' (optional)':'')+'</label>'+
+            '<textarea class="u3-ta" id="'+P+'Kr_'+i+'_'+j+'" placeholder="Verb of Change + Metric + From X to Y + By Deadline" oninput="sxKr('+q+','+i+','+j+',\'t\',this.value)" onchange="sxChanged('+q+')">'+u3esc(k.t)+'</textarea>'+
+            '<div class="okr-check" id="'+P+'Chk_'+i+'_'+j+'">'+okrKrCheck(k.t)+'</div>'+
+            '<label class="u3-inlbl" for="'+P+'Role_'+i+'_'+j+'">Contributing roles · for Key Result '+(j+1)+'</label>'+
+            '<textarea class="u3-ta u3-roles" id="'+P+'Role_'+i+'_'+j+'" placeholder="Name the roles that must contribute to this Key Result. E.g. Operations, Commercial, Technology" oninput="sxKr('+q+','+i+','+j+',\'r\',this.value)" onchange="sxChanged('+q+')">'+u3esc(k.r)+'</textarea></div>';
+        }).join('')+'</div>';
+    }).join('')+(wait.length?'<p class="u3-small">Still in Step 2, without an Objective: '+wait.map(function(i){return 'Theme '+(i+1);}).join(' · ')+'.</p>':''):sxNeed('Write your Objectives in Step 2 first.');
+  }else if(s===3){
+    h='<p>'+x.s4+'</p>';
+    var ob3=sxWithObj(S);
+    h+=ob3.length?ob3.map(function(i){
+      var o=S.items[i],n=sxAl(o),ready=sxReady(o);
+      return '<div class="u3-test">'+sxFrom(3)+(ready&&n===4?'<span class="u3-pill u3-pill-r">Aligned</span>':'')+sxChain(S,i,3)+
+        (ready?OKR_TEST.map(function(t,y){return '<label class="u3-tick"><input type="checkbox"'+(o.al[y]?' checked':'')+' onchange="sxTick('+q+','+i+','+y+',this.checked)"><span>'+u3esc(t)+'</span></label>';}).join('')
+              :sxNeed('Write a Key Result for Objective '+(i+1)+' in Step 3 before you test it.'))+'</div>';
+    }).join('')+'<div class="hbox teal"><p><strong>Output of Step 4:</strong> '+sxPassed(S).length+' of your '+ob3.length+' OKRs are aligned and go forward to Step 5.</p></div>':sxNeed('Write your Objectives in Step 2 first.');
+  }else{
+    h='<p>'+x.s5+'</p>';
+    var pr=sxPassed(S),all=sxWithObj(S);
+    if(!all.length)h+=sxNeed('Write your Objectives in Step 2 first.');
+    else if(!pr.length)h+=sxNeed('No OKR is aligned yet. Complete the alignment test in Step 4 first.');
+    else{
+      h+=pr.map(function(i){
+        var o=S.items[i],c=pmFind(o.im,o.ef);
+        var selH=function(f,opts,val,lab){return '<label class="u3-inlbl" for="'+P+'Mx_'+f+'_'+i+'">'+lab+'</label><select class="u3-in" id="'+P+'Mx_'+f+'_'+i+'" onchange="sxMx('+q+','+i+',\''+f+'\',this.value)"><option value="">Select…</option>'+opts.map(function(v){return '<option'+(val===v?' selected':'')+'>'+v+'</option>';}).join('')+'</select>';};
+        return '<div class="u3-test">'+sxFrom(4)+sxChain(S,i,4)+
+          '<div class="u3-meta"><div>'+selH('im',['High','Medium','Low'],o.im,'Impact')+'</div><div>'+selH('ef',['Low','Medium','High'],o.ef,'Effort')+'</div></div>'+
+          (c?'<div class="u3-pos" style="border-left-color:'+c.c+';"><strong style="color:'+c.c+';">'+c.l+'</strong> '+u3esc(c.d)+'</div>':'')+'</div>';
+      }).join('');
+      var back=all.filter(function(i){return pr.indexOf(i)<0;});
+      if(back.length)h+='<p class="u3-small">Still in Step 3 or Step 4: '+back.map(function(i){return 'Objective '+(i+1)+' ('+sxAl(S.items[i])+' of 4)';}).join(' · ')+'.</p>';
+      h+='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
+        ['High','Medium','Low'].map(function(im){
+          return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
+            var c=pmFind(im,ef),here=pr.filter(function(i){return S.items[i].im===im&&S.items[i].ef===ef;}).map(function(i){return '<span class="u3-mx-tag">Objective '+(i+1)+' · '+u3esc(S.items[i].theme)+'</span>';});
+            return '<div class="u3-mx-cell" style="border-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
+          }).join('');
+        }).join('')+'</div>';
+    }
+  }
+  return h+sxNav(T);
+}
+// The record: every theme with all it carries so far, in step order.
+function sxRecord(S){
+  return sxThemes(S).map(function(i){return '<div class="u3-rec-item">'+sxChain(S,i,5,true)+'</div>';}).join('');
+}
+// Readable copy of the record, saved for the facilitator's report. Group work feeds the Capstone and is left out of the Learning Portfolio.
+function sxText(S){
+  var out=[];
+  sxThemes(S).forEach(function(i){
+    var o=S.items[i],lines=['Theme '+(i+1)+': '+o.theme.trim()];
+    if(o.obj.trim())lines.push('Objective '+(i+1)+': '+o.obj.trim());
+    o.krs.forEach(function(k,j){if(k.t.trim())lines.push('Key Result '+(j+1)+': '+k.t.trim()+(k.r.trim()?' (Contributing roles: '+k.r.trim()+')':''));});
+    if(o.obj.trim()){
+      var n=sxAl(o),ok=(sxReady(o)&&n===4);
+      lines.push('Alignment test: '+n+' of 4'+(ok?' · aligned':'')+(ok&&sxPlace(o)?' · Matrix: '+sxPlace(o):''));
+    }
+    out.push(lines.join('\n'));
+  });
+  return out.join('\n\n');
+}
+// The record sits above the steps. When it grows or shrinks, the steps would move on the screen while someone is
+// typing or about to click; the page is scrolled by the same amount, so the steps stay exactly where they are.
+function sxSetRec(el,html,anchorId){
+  if(!el||el.__h===html)return;
+  var a=u3el(anchorId),on=a&&a.offsetParent!==null,t0=on?a.getBoundingClientRect().top:0;
+  el.innerHTML=html;el.__h=html;
+  if(on&&t0<window.innerHeight){
+    var d=a.getBoundingClientRect().top-t0;
+    if(d){try{window.scrollBy({top:d,left:0,behavior:'instant'});}catch(e){window.scrollBy(0,d);}}
+  }
+}
+var SX_EMPTY='<div class="u3-final-t empty">Your record starts with the themes of Step 1. Each step adds to it: the Objective, the Key Results, the alignment test and the matrix position.</div>';
+// Print: the record on a plain page in a new window.
+function sxPrint(title,sub,S,headHtml,tailHtml){
+  var rows=sxThemes(S).map(function(i){
+    var o=S.items[i],k=sxKrs(o),n=sxAl(o),passed=sxReady(o)&&n===4,r=[];
+    if(o.obj.trim())r.push(['Objective '+(i+1),u3esc(o.obj)]);
+    if(k.length)r.push(['Key Results','<ol>'+k.map(function(x){return '<li>'+u3esc(x.t)+(x.r.trim()?'<br><span class="s">Contributing roles: '+u3esc(x.r)+'</span>':'')+'</li>';}).join('')+'</ol>']);
+    if(o.obj.trim())r.push(['Alignment test',n+' of 4'+(passed?' · aligned':'')]);
+    if(passed&&sxPlace(o))r.push(['Priority Matrix',u3esc(sxPlace(o))]);
+    return '<h2>Theme '+(i+1)+' · '+u3esc(o.theme)+'</h2>'+(r.length?'<table>'+r.map(function(x){return '<tr><th>'+x[0]+'</th><td>'+x[1]+'</td></tr>';}).join('')+'</table>':'');
+  }).join('');
+  var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>'+u3esc(title)+'</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:15px;margin:22px 0 6px}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;color:#043f2f;padding:6px 10px 6px 0;border-bottom:1px solid #e5e7eb}td{padding:6px 0;border-bottom:1px solid #e5e7eb;vertical-align:top}ol{margin:0;padding-left:18px}li{margin-bottom:4px}.s{color:#666;font-size:12px}p,pre{font-family:Arial,sans-serif;font-size:13px}pre{white-space:pre-wrap}</style></head><body><h1>'+u3esc(title)+'</h1><p class="sub">'+u3esc(sub)+'</p>'+(headHtml||'')+(rows||'<p>Nothing has been recorded yet.</p>')+(tailHtml||'')+'</body></html>';
+  var w=window.open('','_blank');if(!w){window.print();return;}
+  w.document.write(doc);w.document.close();w.focus();setTimeout(function(){w.print();},300);
+}
+
+// ── Handlers ──
+var SX={};
+function sxRenderTool(T){
+  var host=u3el(T.host);if(!host)return;
+  host.innerHTML='<div class="step-tabs" id="'+T.p+'STabs">'+OKR_STEPS.map(function(n,i){
+    return '<div class="step-tab'+(i===T.S.step?' active':'')+'" onclick="sxStep(\''+T.p+'\','+i+')"><div class="step-num">Step '+(i+1)+'</div><div class="step-name">'+n+'</div></div>';
+  }).join('')+'</div><div class="step-panel active" id="'+T.p+'Panel">'+sxPanel(T)+'</div>';
+  T.out();
+}
+function sxRepaint(T){var p=u3el(T.p+'Panel');if(p)p.innerHTML=sxPanel(T);T.out();}
+function sxStep(p,i){var T=SX[p];if(i<0||i>=OKR_STEPS.length)return;T.S.step=i;sxRenderTool(T);T.queue();}
+function sxTouch(T){T.touch();clearTimeout(T._o);T._o=setTimeout(T.out,500);}
+function sxSet(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;sxTouch(T);}
+function sxKr(p,i,j,f,val){
+  var T=SX[p];T.S.items[i].krs[j][f]=val;
+  if(f==='t'){var c=u3el(p+'Chk_'+i+'_'+j);if(c)c.innerHTML=okrKrCheck(val);}
+  sxTouch(T);
+}
+function sxChanged(p){SX[p].out();}
+function sxTick(p,i,y,on){var T=SX[p];T.S.items[i].al[y]=!!on;T.touch();sxRepaint(T);}
+function sxMx(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;T.touch();sxRepaint(T);}
+
+var OK=sxState();
+function okrLoad(s){sxLoadInto(OK,s);}
+function okrConfirmed(){return isConf(N_PRI)&&isConf(N_OKR);}
+function okrMirrorHtml(){
+  if(!kissConfirmed())return '<div class="u3-locked">Your KISS map appears here once your group has confirmed it in 5.1.</div>';
+  return '<div class="u3-out"><div class="u3-out-h">Your confirmed KISS map</div>'+KISS_EL.map(function(k,x){
+    return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t">'+u3esc(u3v(KISS_OUT[x]))+'</div></div>';
+  }).join('')+'</div>';
+}
+function okrRefreshMirror(){var m=u3el('okrKissMirror');if(m)m.innerHTML=okrMirrorHtml();}
+// The enterprise priorities are the aligned Objectives, each with its position on the matrix.
+function okrPriText(){
+  return sxPassed(OK).map(function(i,n){var o=OK.items[i];return (n+1)+'. '+o.theme.trim()+(sxPlace(o)?' — '+sxPlace(o):'');}).join('\n');
+}
+function okrOkrText(){
+  return sxPassed(OK).map(function(i,n){
+    var o=OK.items[i],j=0;
+    return 'Objective '+(n+1)+': '+o.obj.trim()+'\n'+sxKrs(o).map(function(k){j++;return '   Key Result '+j+': '+k.t.trim()+(k.r.trim()?' (Contributing roles: '+k.r.trim()+')':'');}).join('\n');
+  }).join('\n\n');
+}
+function okrProblems(){
+  var p=[],pr=sxPassed(OK);
+  if(!pr.length)return ['Complete Steps 1 to 4 first: at least one OKR must be aligned.'];
+  pr.forEach(function(i){
+    var o=OK.items[i],n=i+1,filled=sxKrs(o);
+    if(filled.some(function(k){return !okrKrOk(k.t);}))p.push('Each Key Result of Objective '+n+' needs a metric, From X to Y and a deadline (Step 3).');
+    if(filled.some(function(k){return !k.r.trim();}))p.push('Name the contributing roles for each Key Result of Objective '+n+' (Step 3).');
+    if(!pmFind(o.im,o.ef))p.push('Place Objective '+n+' on the Prioritisation Matrix (Step 5).');
+  });
+  return p;
+}
+// The blocks are built once; later calls only refresh what changed, so a click on a button is never lost to a redraw.
+function renderOkrOut(){
+  var host=u3el('okrOutP'),rh=u3el('okrRecP');if(!host||!rh)return;
+  if(!u3el('okrRec')){
+    rh.innerHTML='<div class="u3-out"><div class="u3-rec" id="okrRec"></div></div>';
+    host.innerHTML='<div id="okrFinal" style="display:none;">'+
+      '<div class="u3-out"><div class="u3-out-h">Your Enterprise Priorities<span class="u3-pill" id="okrPillA" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrPriOut"></div></div>'+
+      '<div class="u3-out"><div class="u3-out-h">Your Enterprise OKRs<span class="u3-pill" id="okrPillB" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrOkrOut"></div></div></div>'+
+      '<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">Agree</button><button type="button" class="u3-b" onclick="okrPrint()">Print the five-step record</button></div>'+
+      '<div class="u3-note" id="okrMsg" style="display:none;"></div>';
+  }
+  var done=okrConfirmed(),pri=okrPriText(),okr=okrOkrText();
+  sxSetRec(u3el('okrRec'),sxRecord(OK)||SX_EMPTY,'okrToolP');
+  u3el('okrFinal').style.display=pri?'':'none';
+  u3el('okrPriOut').textContent=pri;u3el('okrOkrOut').textContent=okr;
+  u3el('okrPillA').style.display=done?'':'none';u3el('okrPillB').style.display=done?'':'none';
+  u3el('okrConfirmBtn').classList.toggle('ok',done);
+  if(done)u3msg('okrMsg','');
+}
+var _okrTimer=null;
+function okrTouch(){
+  if(okrConfirmed()){[N_PRI,N_OKR].forEach(function(nm){var i=U3.conf.indexOf(nm);if(i>=0)U3.conf.splice(i,1);});U3._odirty=true;renderOkrOut();}
+  okrQueue();
+}
+function okrQueue(){clearTimeout(_okrTimer);_okrTimer=setTimeout(okrSaveNow,900);}
+async function okrSaveNow(){
+  clearTimeout(_okrTimer);
+  await u3save('__okr_work',OK);
+  await u3save('okr_drafts',sxText(OK));
+  if(U3._odirty){U3._odirty=false;await u3save('confirmed_items',U3.conf);}
+}
+async function okrConfirm(){
+  var _o=(function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');})();
+  if(_o){u3msg('okrMsg',_o);return;}
+  if(!window.S2RTeam)return;
+  if(S2RTeam.isScribe()){await okrSaveNow();u3TeamOut();await S2RTeam.flush();}
+  await S2RTeam.agree();
+  renderOkrOut();renderKissConfirm();
+}
+function okrPrint(){
+  var pri=okrPriText(),okr=okrOkrText();
+  sxPrint('Unit 3 · Translating KISS to OKRs: Five-Step Record','Strategy2Results® · Module 2 · Unit 3 · Part 5.2 · Group work',OK,'',
+    pri?'<h3>Enterprise Priorities'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(pri)+'</pre><h3>Enterprise OKRs'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(okr)+'</pre>':'');
+}
+var OKT=SX.okr={S:OK,p:'okr',host:'okrToolP',mirror:okrMirrorHtml,touch:okrTouch,queue:okrQueue,out:renderOkrOut,t:{
+  s1:'Each member first writes down the 2–3 big shifts they see in the KISS map. Share them, then agree your group\'s themes. A theme names one shift the organisation must make to reach the SiP.',
+  s1small:'Record up to four themes. Each theme you record is carried into Step 2, where your group turns it into an Objective.',
+  s2:'Each theme from Step 1 is shown below. Translate it into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. Make it ambitious, keep it qualitative and keep it memorable.',
+  s3:'Each Objective from Step 2 is shown below with its theme. Write up to two Key Results for it and name the contributing roles for each one.',
+  s4:'Each OKR from Step 3 is shown below: the theme, the Objective and its Key Results. Test it against the four questions. Tick each question your group answers with a clear yes. An OKR that earns all four ticks is aligned and goes forward to Step 5. An OKR that cannot earn all four goes back to Step 2 or Step 3.',
+  s5:'Each aligned OKR from Step 4 is shown below. Place it on the Prioritisation Matrix. <strong>Impact</strong> is the strategic value delivered if the Objective is achieved. <strong>Effort</strong> is the time, resources, coordination and organisational change required. Agree what high impact and high effort mean for your organisation before you place the first one.'}};
+function renderOkrTool(){sxRenderTool(OKT);}
+
+// ── 4.1 · Strategy Airport: the participant's own learning round is saved and submitted ──────────
+var _gameTimer=null;
+function gameChanged(){
+  clearTimeout(_gameTimer);
+  _gameTimer=setTimeout(async function(){
+    var st=SA.state;
+    await u3save('__game',st);
+    await u3save('game_kiss',saKissText());
+    await u3save('game_flight_plan',saPlanText());
+    await u3save('game_round',st.step===3?'Learning round complete':st.step===2?'In progress · Gate 2: Flight Plan':'In progress · Gate 1: Baggage Check');
+  },700);
+}
+
+function toggleDomain(id){u3ToggleDomain(id);}
+
+// Reflection draft + save — parity with deployed Unit 2. draftRef gives the
+// "Drafting… / Draft saved" affordance as the participant types; saveRef does
+// the real S2R.save on the button, with an inline retry on failure.
+var _draftTimers={};
+
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+'-saved');
+  if(!ok)return;
+  ok.textContent=text;
+  ok.className='reflection-saved '+cls;
+  ok.style.display='block';
+}
+
+function draftRef(id){
+  _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
+  clearTimeout(_draftTimers[id]);
+  // Real autosave: after a short pause, actually persist via saveRef (which
+  // calls S2R.save and shows the true "Saved to your portfolio" status).
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
+}
+
+function showSaveError(id){
+  var existing=document.getElementById(id+'-error');
+  if(existing){existing.style.display='block';return;}
+  var savedEl=document.getElementById(id+'-saved');
+  if(!savedEl)return;
+  var err=document.createElement('div');
+  err.id=id+'-error';
+  err.className='reflection-error';
+  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">TAP TO RETRY</button>';
+  err.style.display='block';
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+
+function retryRef(id){
+  var err=document.getElementById(id+'-error');
+  if(err)err.style.display='none';
+  saveRef(id);
+}
+
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
+  var existingErr=document.getElementById(id+'-error');
+  if(existingErr)existingErr.style.display='none';
+  var result=await S2R.save('u2m1_lens2',id,ta.value);
+  if(result){
+    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+    setTimeout(function(){
+      var ok=document.getElementById(id+'-saved');
+      if(ok){ok.style.display='none';ok.className='ref-saved reflection-saved';}
+    },3000);
+  }else{
+    console.error('[unit2_m1_lens2_p C7] saveRef failed for '+id+' (save returned false)');
+    var ok=document.getElementById(id+'-saved');
+    if(ok)ok.style.display='none';
+    showSaveError(id);
+  }
+}
+
+// Auto-wire draft feedback on all reflection textareas
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('textarea.reflection-textarea').forEach(function(ta){
+    if(ta.id)ta.addEventListener('input',function(){draftRef(ta.id);});
+  });
+});
+
+async function sendToFacilitator(){
+  if(!window.S2R){
+    alert('The save system is not yet ready. Please reload the page and try again.');
+    return;
+  }
+  if(!confirm('Submit your Module 2 · Unit 3 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
+    return;
+  }
+  var result=await S2R.submit('u2m1_lens2');
+  if(result.ok){
+    alert('✓ Submitted to your facilitator.\n\n'+result.message);
+    loadSubmissionFeedback();
+  }else{
+    alert('Could not submit to your facilitator.\n\n'+result.message);
+  }
+}
+
+function showMod(i){
+  document.querySelectorAll(".mod-tab").forEach(function(t,x){t.classList.toggle("active",x===i);});
+  document.querySelectorAll(".mod-panel").forEach(function(p,x){p.classList.toggle("active",x===i);});
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function tA(h){h.parentElement.classList.toggle("open");}
+function tSA(h){h.parentElement.classList.toggle("open");}
+
+function u3RenderAll(){
+  renderKissGuideP();renderPMCards('pmGuideP');renderCase('caseP');renderWorked('workedP');renderMatch();
+  renderSipCapture();renderKissForm();renderOkrTool();renderSummaryP();u3Mirrors();
+}
+window.addEventListener("load",async function(){
+  if(!window.S2R){console.warn('[unit2_m1_lens2_p] S2R helper not loaded');return;}
+  try{
+    var responses=await S2R.loadAll('u2m1_lens2');
+    // Reflections
+    ["ref2","ref3","ref4"].forEach(function(id){
+      var ta=document.getElementById(id);
+      if(ta&&responses[id]!=null)ta.value=responses[id];
+    });
+    // Everything else: KISS entries (kex_*), SiP statements, confirmed outputs, matching, five steps, game
+    Object.keys(responses).forEach(function(k){if(responses[k]!==null&&responses[k]!==undefined)U3.v[k]=responses[k];});
+    if(Array.isArray(responses['confirmed_items']))U3.conf=responses['confirmed_items'].slice();
+    var hz=responses['__hz_match'];
+    if(hz&&Array.isArray(hz.m)&&hz.m.length===HOT_ZONES.length){
+      HZ.m=hz.m.map(function(x){x=x||{};return {hot:!!x.hot,al:!!x.al,ht:Number(x.ht)||0,at:Number(x.at)||0};});
+      HZ.cur=(hz.cur>=0&&hz.cur<HOT_ZONES.length)?hz.cur:0;
+    }
+    okrLoad(responses['__okr_work']);
+    u3RenderAll();
+    twAttach();
+    saLoad(responses['__game']);
+    // The group's four SiP statements: brought in from the Unit 2 page while the boxes are still empty
+    if(![0,1,2,3].some(function(d){return u3v(sipKey(d)).trim();}))await sipBring(false);
+    // C1/C5/C6 — reveal facilitator feedback, messages, and upload if a submission exists
+    loadSubmissionFeedback();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p] Load exception:',err);
+  }
+});
+
+document.body.style.overflow="";
+u3RenderAll();saInit('saHostP','p',gameChanged);
+
+// Signed-in badge — reads S2R.context() and flags login confusion (red when
+// the active session is not a participant), so the facilitator-vs-participant
+// mix-up is visible at a glance instead of surfacing as "no feedback".
+function renderSignedInBadge(){
+  var el=document.getElementById('signedInBadge');
+  if(!el)return;
+  if(!window.S2R||typeof S2R.context!=='function'){el.textContent='Sign-in: unknown';return;}
+  Promise.resolve(S2R.context()).then(function(ctx){
+    if(!ctx){el.textContent='Not signed in';el.classList.add('mismatch');el.title='No active session. Sign in as the participant to view their submission and feedback.';return;}
+    var role=(ctx.role||'unknown');
+    var pid=(ctx.profileId||'').slice(0,8);
+    var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+    el.textContent='Signed in: '+roleLabel+(pid?(' \u00b7 '+pid):'');
+    if(role!=='participant'){
+      el.classList.add('mismatch');
+      el.title='You are on the participant page while signed in as '+role+'. This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.';
+    }else{
+      el.classList.remove('mismatch');el.title='';
+    }
+    try{
+      if(ctx.profileId&&S2R._client){
+        Promise.resolve(S2R._client.from('profiles').select('full_name').eq('id',ctx.profileId).maybeSingle()).then(function(r){
+          try{var name=r&&r.data&&r.data.full_name;if(name)el.textContent='Signed in: '+roleLabel+' \u00b7 '+name;}catch(_){}
+        }).catch(function(){});
+      }
+    }catch(_){}
+  }).catch(function(){el.textContent='Sign-in: unknown';});
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderSignedInBadge);
+else renderSignedInBadge();
+window.addEventListener('load',renderSignedInBadge);
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 1 — FACILITATOR FEEDBACK DISPLAY
+// ══════════════════════════════════════════════════════════════════════════════
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState('Not signed in','','Sign in as the participant to view facilitator feedback for this unit.');return;}
+    var _c=S2R._client;
+    var result=await _c
+      .from('submissions')
+      .select('id,review_status,facilitator_feedback,submitted_at,reviewed_at')
+      .eq('profile_id',ctx.profileId)
+      .eq('cohort_id',ctx.cohortId)
+      .eq('lens_id','u2m1_lens2')
+      .order('submitted_at',{ascending:false})
+      .limit(20);
+    if(result.error){console.error('[unit2_m1_lens2_p] Submission fetch error:',result.error);showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this unit.');return;}
+    var newest=rows[0];
+    // Persist facilitator feedback: surface the most recent returned/reviewed
+    // submission even when a newer resubmission now sits on top of it.
+    var row=null;
+    for(var i=0;i<rows.length;i++){
+      var st=rows[i].review_status;
+      if(st==='pending_revision'||st==='reviewed'){row=rows[i];break;}
+    }
+    if(!row){
+      showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',newest.submitted_at);
+      return;
+    }
+    renderSubmissionFeedback(row);
+    // If a newer revision was submitted after this feedback, keep the feedback
+    // visible but flag that the resubmission is awaiting re-review.
+    if(newest.id!==row.id&&(newest.review_status==='submitted'||newest.review_status==='pending')){
+      var sl=document.getElementById('sf-status-label');
+      if(sl)sl.textContent=(row.review_status==='pending_revision'?'Returned for Revision':'Reviewed')+' \u00b7 revision resubmitted';
+    }
+    // Messages + uploads, tied to the reviewed/returned submission
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById('msg-acc');
+    if(msgAcc)msgAcc.style.display='block';
+    pLoadMessages();
+    var uploadAcc=document.getElementById('upload-acc');
+    if(uploadAcc)uploadAcc.style.display='block';
+    pWireUpload();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p] Submission fetch exception:',err);
+    showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');
+  }
+}
+
+// Always-visible feedback panel state — shows a clear message for every case
+// (no submission, awaiting review, error) so the section is never silently
+// missing. The real facilitator feedback is filled by renderSubmissionFeedback.
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var tsEl=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(statusClass?(' '+statusClass):'');}
+  if(tsEl){
+    if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+    else tsEl.textContent='';
+  }
+  if(tx)tx.textContent=text;
+  acc.style.display='block';
+}
+
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var isReturned=row.review_status==='pending_revision';
+  var isReviewed=row.review_status==='reviewed';
+  var label=isReturned?'Returned for Revision':isReviewed?'Reviewed':'';
+  if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?'Your facilitator has reviewed your submission.':'');
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var ts=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(isReturned?' returned':'');}
+  if(ts&&row.submitted_at){
+    var d=new Date(row.submitted_at);
+    ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  }
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display='block';
+  acc.classList.add('open');
+  // Phase 3 — feedback-seen write-back: stamp reviewed_at into the per-lens
+  // localStorage map so the index.html badge clears on next portal load. Raw
+  // string, no transform — must match the format the index.html query reads.
+  try{
+    var seen=JSON.parse(localStorage.getItem('ibsl_feedback_seen')||'{}')||{};
+    if(row&&row.reviewed_at){
+      seen['u2m1_lens2']=row.reviewed_at;
+      localStorage.setItem('ibsl_feedback_seen',JSON.stringify(seen));
+    }
+  }catch(e){console.warn('[feedback-seen] write error:',e);}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 5 — PARTICIPANT MESSAGE THREAD
+// ══════════════════════════════════════════════════════════════════════════════
+var _msgSubmissionId=null;
+
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201D'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit2_m1_lens2_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit2_m1_lens2_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit2_m1_lens2_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 6 — DOCUMENT UPLOAD
+// ══════════════════════════════════════════════════════════════════════════════
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit2_m1_lens2_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit2_m1_lens2_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit2_m1_lens2_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit2_m1_lens2_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit2_m1_lens2_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+</body>
+</html>
