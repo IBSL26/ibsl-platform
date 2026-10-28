@@ -3663,6 +3663,23 @@
   // F2: COHORT OVERVIEW
   // ═══════════════════════════════════════════════════════════════════
 
+  // Admin view (28 Oct 2026): an administrator is not a member of any cohort, so
+  // get_facilitator_cohorts returns nothing. In admin view, list every active cohort
+  // so the admin can open a cohort roster and unlock units for the whole cohort.
+  async function facilitatorCohorts() {
+    const res = await supabaseClient.rpc('get_facilitator_cohorts');
+    if (!isAdminView || res.error || (res.data && res.data.length)) return res;
+    const cRes = await supabaseClient.from('cohorts').select('id,name,status').neq('status', 'archived').order('created_at', { ascending: false });
+    if (cRes.error) return res;
+    const mRes = await supabaseClient.from('cohort_memberships').select('cohort_id,role_in_cohort');
+    const counts = {};
+    (mRes.data || []).forEach(function(m) { if (m.role_in_cohort === 'participant') counts[m.cohort_id] = (counts[m.cohort_id] || 0) + 1; });
+    return { data: (cRes.data || []).map(function(c) {
+      return { cohort_id: c.id, cohort_name: c.name, organisation_name: '', participant_count: counts[c.id] || 0,
+               pending_review_count: 0, reviewed_count: 0, status: c.status };
+    }), error: null };
+  }
+
   async function loadFacilitatorCohorts() {
     const list = document.getElementById('cohortList');
     list.innerHTML = '<div class="cohort-loading">Loading cohorts…</div>';
@@ -3672,7 +3689,7 @@
       // F8: fetch cohort grid + inbox count in parallel — single round-trip latency
       // [PILLAR]: fetchMyUnits runs in parallel, populates _cohortUnitsMap before renderCohorts
       const [cohortsResult, inboxResult] = await Promise.all([
-        supabaseClient.rpc('get_facilitator_cohorts'),
+        facilitatorCohorts(),
         supabaseClient.rpc('get_facilitator_inbox'),
         fetchMyUnits()
       ]);
@@ -4069,7 +4086,7 @@
     // Fetch the cohort metadata (for the header) and the participants in parallel
     try {
       const [cohortMetaResult, participantsResult, lensScoresResult] = await Promise.all([
-        supabaseClient.rpc('get_facilitator_cohorts'),
+        facilitatorCohorts(),
         supabaseClient.rpc('get_cohort_participants', { p_cohort_id: cohortId }),
         // WS5.5: per-lens facilitator scores for the whole cohort, in one read
         // (parallel — no extra round-trip). Facilitators already hold SELECT on

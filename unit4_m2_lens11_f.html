@@ -299,8 +299,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
     if(role!=='facilitator'){ window.location.href='index.html'; return; }
     const { data:canFac, error:gateErr } = await supabaseClient
       .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
-    if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
-    if(canFac===false){ showDenied('You are not assigned to facilitate this unit. Please contact your administrator.'); return; }
+    if(gateErr){ console.warn('[GATE] can_facilitate_lens error:', gateErr); showDenied('We could not confirm your unit assignment. Please refresh the page, or contact your administrator.'); return; }
+    if(canFac!==true){ showDenied('You are not assigned to facilitate this unit. Please contact your administrator.'); return; }
   }
   document.addEventListener('DOMContentLoaded', checkAccess);
 })();
