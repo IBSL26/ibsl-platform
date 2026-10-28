@@ -148,16 +148,34 @@
   // Establish a session from the invite link. The link carries token_hash and
   // type in the query string; verifyOtp exchanges them for a real session.
   // Deterministic — does not rely on detectSessionInUrl catching a redirect.
+  // The invitation link always wins over anyone already signed in on this browser
+  // (for example an admin or facilitator testing the link on their own computer).
+  var linkProblem = '';
   async function establishSession() {
-    // Reuse an existing session if the page is refreshed after verification.
-    var existing = await sb.auth.getSession();
-    if (existing.data && existing.data.session) return existing.data.session;
-
     var params    = new URLSearchParams(window.location.search);
+    var hashP     = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
     var tokenHash = params.get('token_hash');
     var otpType   = params.get('type');
-    if (!tokenHash || !otpType) return null;
+    linkProblem   = params.get('error_description') || hashP.get('error_description') || '';
+    if (linkProblem) return null;
 
+    // Link that carries the session in the address (#access_token=…).
+    if (hashP.get('access_token') && hashP.get('refresh_token')) {
+      await sb.auth.signOut({ scope: 'local' });
+      var setRes = await sb.auth.setSession({ access_token: hashP.get('access_token'), refresh_token: hashP.get('refresh_token') });
+      history.replaceState(null, '', window.location.pathname);
+      if (setRes.error) { console.error('setSession error:', JSON.stringify(setRes.error)); return null; }
+      return setRes.data.session;
+    }
+
+    // No token in the address: reuse the session if the page is refreshed after verification.
+    if (!tokenHash || !otpType) {
+      var existing = await sb.auth.getSession();
+      return (existing.data && existing.data.session) || null;
+    }
+
+    // Sign out whoever is signed in on this browser before using the invitation token.
+    await sb.auth.signOut({ scope: 'local' });
     var verifyRes = await sb.auth.verifyOtp({ token_hash: tokenHash, type: otpType });
     if (verifyRes.error) {
       console.error('verifyOtp error:', JSON.stringify(verifyRes.error));
@@ -173,7 +191,9 @@
       var session = await establishSession();
 
       if (!session) {
-        showInvalid('This invitation link is invalid or has expired. Please ask your administrator to resend your invitation.');
+        showInvalid(linkProblem
+          ? 'This invitation link has expired or has already been used. Please ask your administrator to resend your invitation.'
+          : 'This invitation link is invalid or has expired. Please ask your administrator to resend your invitation.');
         return;
       }
       currentUser = session.user;
@@ -191,7 +211,7 @@
         return;
       }
       if (!invRes.data || invRes.data.length === 0) {
-        showInvalid('Your invitation could not be found. It may have already been used. Please contact your administrator.');
+        showInvalid('No open invitation was found for ' + currentUser.email + '. It may have already been used. Please contact your administrator.');
         return;
       }
       currentInvitation = invRes.data[0];
