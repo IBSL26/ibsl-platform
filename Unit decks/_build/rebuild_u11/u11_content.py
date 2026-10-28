@@ -18,11 +18,11 @@ UNIT_LO = [
 ]
 INTENT = 'Develop executive capability to assess how organisational values become lived culture and how that culture shapes organisational health, then establish the practices required to reinforce healthy organisational behaviour.'
 JOURNEY = [
- ('1 · Awareness — What', 'Values, culture and organisational health; Five Observable Health Traits; Organisational Health Pyramid.'),
- ('2 · Intelligence — Why', 'Translate values into behavioural standards; establish a Cultural Operating Code; embed values in performance measurement and feedback.'),
- ('3 · Extrapolating — Where', 'Identify cultural vulnerabilities and assess organisational health using the Health Thermometer.'),
- ('4 · Integration — Collective', 'Align executive expectations and collective responsibility for consistent cultural reinforcement.'),
- ('5 · Application — In Practice', 'Apply the health assessment and develop targeted cultural reinforcement interventions, including ACE-IT coaching.'),
+ ('1 · Awareness — What', 'Organisational values, culture and health; the Cultural Operating Code; the Five Observable Health Traits; the Organisational Health Pyramid.'),
+ ('2 · Intelligence — Why', 'Organisational health as a performance multiplier; execution velocity; the price of poor health; health and sustained performance.'),
+ ('3 · Extrapolating — Where', 'Organisational health signals and the thermometer; CXO functional bias and debiasing; personal health profile.'),
+ ('4 · Integration — Collective', 'The Cross-CXO Health Architecture: the thermometer, functional scores, loss quantification and the enterprise position; from values to a Cultural Operating Code; individual reflection.'),
+ ('5 · Application — In Practice', 'The Cross-CXO Organisational Health Clinic: functional assessments, consolidation, Review–Realign–Restore, the Organisational Health Response and the group’s Cultural Operating Code.'),
 ]
 EMPHASIS = 'Keep the central progression explicit: values establish behavioural principles; culture reflects how these principles are lived; organisational health reflects the resulting collective condition. Use participant organisations as reference points. The executive team presentation takes place only at the final programme panel assessment.'
 

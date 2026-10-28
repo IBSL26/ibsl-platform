@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Module 2 · Unit 2 — Participant</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--teal:#1a7a6a;--teal-l:rgba(26,122,106,.25);}
+body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(26,122,106,.2);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--teal);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);padding:5px 12px;border-radius:2px;}
+.nav-badge.signed-in{color:#9fb8a8;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.18);margin-left:8px;}
+.nav-badge.signed-in.mismatch{color:#f0b0a0;background:rgba(231,76,60,.15);border:1px solid rgba(231,76,60,.55);cursor:help;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;padding:0;}
+.nav-back:hover{color:var(--teal);}
+.unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.unit-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:'Cormorant Garamond',serif;font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.6);max-width:760px;margin-bottom:18px;}
+.outcomes-bar{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;}
+.outcomes-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);flex-basis:100%;margin-bottom:4px;}
+.outcome{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:4px 10px;font-size:11px;color:rgba(255,255,255,.65);}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.12);border:1px solid rgba(107,143,204,.25);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.08);border:1px solid rgba(46,168,122,.2);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.08);border:1px solid rgba(155,89,182,.2);color:#c39de0;}
+.arc-seg.ap{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);color:#e8917a;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+/* TABS */
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:100px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--teal);border-color:rgba(26,122,106,.3);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 100px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(26,122,106,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.mod-hero h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;max-width:700px;}
+.mod-body{padding:0 40px;}
+/* ACC */
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.85);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s,border-color .2s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc-h:hover .arr{border-color:rgba(201,168,76,.4);}
+.acc-h:hover .arr svg{stroke:var(--gold);}
+.acc.open .arr{transform:rotate(180deg);border-color:rgba(201,168,76,.4);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.sub-acc{border:1px solid rgba(255,255,255,.06);border-radius:3px;margin:10px 0;overflow:hidden;}
+.sub-acc-h{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;cursor:pointer;transition:background .2s;}
+.sub-acc-h:hover{background:rgba(255,255,255,.02);}
+.sub-acc-h span{font-size:12px;font-weight:600;color:rgba(255,255,255,.7);}
+.sub-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sub-acc.open .sub-arr{transform:rotate(180deg);color:var(--teal);}
+.sub-acc-b{display:none;padding:0 16px 16px;}
+/* CONTENT */
+.cb p{font-size:13px;line-height:1.95;color:rgba(255,255,255,.65);margin-bottom:12px;}
+.cb ul,.cb ol{padding-left:22px;margin-bottom:14px;}
+.cb li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.6);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.85);}
+.cb h4{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin:20px 0 10px;}
+.cb h5{font-size:12px;font-weight:700;color:rgba(255,255,255,.7);margin:16px 0 8px;}
+.quote{border-left:3px solid var(--gold);padding:16px 22px;margin:20px 0;background:rgba(201,168,76,.05);border-radius:0 3px 3px 0;}
+.quote p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.85);line-height:1.75;font-style:italic;}
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:18px 22px;margin:16px 0;}
+.hbox p{font-size:13px;color:rgba(255,255,255,.8);line-height:1.8;}
+.hbox.teal{background:rgba(26,122,106,.07);border-color:rgba(26,122,106,.25);}
+.hbox.red{background:rgba(231,76,60,.06);border-color:rgba(231,76,60,.2);}
+/* REFLECTION */
+.ref-block{margin:20px 0;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:4px;overflow:hidden;}
+.ref-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(26,122,106,.08);border-bottom:1px solid rgba(26,122,106,.15);}
+.ref-icon{font-size:14px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);}
+.ref-prompt{font-size:12px;color:rgba(255,255,255,.65);padding:12px 16px 6px;line-height:1.7;}
+.ref-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(26,122,106,.1);padding:12px 16px;color:rgba(255,255,255,.75);font-size:13px;line-height:1.7;font-family:'Montserrat',sans-serif;resize:vertical;min-height:90px;outline:none;}
+.ref-ta::placeholder{color:rgba(255,255,255,.2);}
+.ref-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.1);border:none;border-top:1px solid rgba(26,122,106,.15);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.ref-save:hover{background:rgba(26,122,106,.2);}
+.ref-saved{font-size:11px;color:var(--teal);padding:4px 16px 8px;display:none;}
+/* PH TABS */
+.ph-tabs{display:flex;gap:6px;margin:16px 0 0;}
+.ph-tab{flex:1;padding:13px 8px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;text-align:center;transition:all .2s;}
+.ph-tab.active{background:#1a2a1e;border-color:var(--teal);border-bottom-color:#1a2a1e;}
+.ph-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.6);margin-bottom:4px;}
+.ph-name{font-family:'Cormorant Garamond',serif;font-size:.9rem;color:rgba(255,255,255,.6);}
+.ph-tab.active .ph-name{color:#fff;}
+.ph-panel{display:none;background:#0f1f12;border:1px solid rgba(26,122,106,.2);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.ph-panel.active{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+.pp-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.pp-col p,.pp-col li{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+.pp-col ul{padding-left:14px;margin:0;}
+.pp-col li{margin-bottom:3px;}
+.pp-col.fail p{color:rgba(231,100,80,.8);}
+/* DIM TABS */
+.dim-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.dim-tab{flex:1;min-width:120px;padding:11px 8px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px 3px 0 0;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);transition:all .2s;}
+.dim-tab.active{color:var(--teal);border-color:rgba(26,122,106,.35);background:rgba(26,122,106,.07);border-bottom-color:rgba(26,122,106,.07);}
+.dim-panel{display:none;padding:20px;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;margin-bottom:12px;}
+.dim-panel.active{display:block;}
+.ind-row{border:1px solid rgba(255,255,255,.06);border-radius:3px;margin-bottom:6px;overflow:hidden;}
+.ind-row-h{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;transition:background .2s;}
+.ind-row-h:hover{background:rgba(255,255,255,.02);}
+.ind-row.open{border-color:rgba(26,122,106,.3);}
+.ind-name{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);flex:1;}
+.ind-toggle{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.ind-row.open .ind-toggle{transform:rotate(180deg);color:var(--teal);}
+.ind-body{display:none;padding:0 14px 14px;}
+.ind-row.open .ind-body{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.ind-col-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.ind-col-h.good{color:rgba(46,168,122,.7);}
+.ind-col-h.miss{color:rgba(231,76,60,.7);}
+.ind-col p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.7;}
+/* CXO */
+.cxo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0;}
+.cxo-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.cxo-card:hover{border-color:rgba(26,122,106,.3);transform:translateY(-2px);}
+.cxo-card.active{border-color:var(--teal);background:#1a2a1e;}
+.cxo-top{padding:14px 12px 10px;}
+.cxo-role{font-size:16px;font-weight:700;color:var(--teal);margin-bottom:4px;}
+.cxo-title{font-size:9px;color:rgba(255,255,255,.4);line-height:1.4;}
+.cxo-bar{height:3px;background:rgba(26,122,106,.2);}
+.cxo-card.active .cxo-bar{background:var(--teal);}
+.cxo-detail{display:none;background:#0a1a0d;border:1px solid rgba(26,122,106,.15);border-radius:4px;margin-top:8px;padding:20px 24px;}
+.cxo-detail.visible{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.cxo-col h5{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.cxo-col p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;font-style:italic;}
+/* ASSESS */
+.ag-tabs{display:flex;gap:3px;margin:14px 0 0;flex-wrap:wrap;}
+.ag-tab{flex:1;min-width:80px;padding:9px 6px;background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px 3px 0 0;cursor:pointer;text-align:center;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);transition:all .2s;}
+.ag-tab.active{background:#1a2a1e;border-color:var(--teal);color:var(--teal);border-bottom-color:#1a2a1e;}
+.ag-panel{display:none;background:#1a2a1e;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;padding:18px;}
+.ag-panel.active{display:block;}
+.ag-desc{font-size:11px;color:rgba(255,255,255,.4);font-style:italic;margin-bottom:14px;padding:8px 12px;background:rgba(26,122,106,.04);border-radius:2px;line-height:1.6;}
+.s-row{display:flex;align-items:flex-start;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.s-num{font-size:11px;font-weight:700;color:var(--teal);width:20px;flex-shrink:0;padding-top:2px;}
+.s-content{flex:1;}
+.s-title{font-size:12px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:2px;}
+.s-sub{font-size:10px;color:rgba(255,255,255,.35);margin-bottom:5px;}
+.s-q{font-size:11px;color:rgba(255,255,255,.5);font-style:italic;line-height:1.6;}
+.s-score{display:flex;gap:4px;flex-shrink:0;margin-top:2px;}
+.sc-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:center;}
+.sc-btn:hover{border-color:var(--teal);color:var(--teal);}
+.sc-btn.sel{background:var(--teal);border-color:var(--teal);color:#fff;}
+.mat-totals{display:flex;gap:6px;margin:18px 0;flex-wrap:wrap;}
+.mat-zone{flex:1;min-width:120px;padding:14px 12px;border-radius:3px;text-align:center;}
+.mat-zone.z1{background:rgba(231,76,60,.08);border:1px solid rgba(231,76,60,.2);}
+.mat-zone.z2{background:rgba(243,156,18,.08);border:1px solid rgba(243,156,18,.2);}
+.mat-zone.z3{background:rgba(39,174,96,.08);border:1px solid rgba(39,174,96,.2);}
+.mat-zone .rng{font-size:12px;font-weight:700;margin-bottom:3px;}
+.mat-zone.z1 .rng{color:rgba(231,100,80,.8);}
+.mat-zone.z2 .rng{color:rgba(243,200,80,.8);}
+.mat-zone.z3 .rng{color:rgba(100,210,140,.8);}
+.mat-zone .lbl{font-size:10px;color:rgba(255,255,255,.6);margin-bottom:2px;}
+.mat-zone .desc{font-size:10px;color:rgba(255,255,255,.3);line-height:1.4;}
+.mat-total-box{text-align:center;padding:20px;background:#151c15;border-radius:4px;margin-top:12px;}
+.mat-score{font-size:3.5rem;font-weight:700;color:var(--teal);line-height:1;}
+.mat-max{font-size:1rem;color:rgba(255,255,255,.3);}
+.mat-level{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;margin-top:6px;}
+/* SiP EXERCISE */
+.sip-role-wrap{margin:14px 0;}
+.sip-role-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+.sip-role-select{display:flex;flex-wrap:wrap;gap:6px;}
+.sip-role-btn{padding:7px 14px;border-radius:2px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;}
+.sip-role-btn:hover{border-color:rgba(26,122,106,.4);color:var(--teal);}
+.sip-role-btn.active{background:rgba(26,122,106,.12);border-color:var(--teal);color:var(--teal);}
+.sip-form{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0;}
+.sip-dim-card{border-radius:3px;overflow:hidden;}
+.sip-dim-head{padding:10px 14px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+.sip-dim-card:nth-child(1) .sip-dim-head{background:rgba(107,143,204,.15);color:#8ab0e8;}
+.sip-dim-card:nth-child(2) .sip-dim-head{background:rgba(201,168,76,.1);color:var(--gold);}
+.sip-dim-card:nth-child(3) .sip-dim-head{background:rgba(46,168,122,.1);color:#5ecba1;}
+.sip-dim-card:nth-child(4) .sip-dim-head{background:rgba(155,89,182,.1);color:#c39de0;}
+.sip-dim-prompt{font-size:11px;color:rgba(255,255,255,.45);padding:8px 14px 4px;font-style:italic;line-height:1.5;background:#151c15;}
+.sip-ta{width:100%;background:#151c15;border:none;border-top:1px solid rgba(255,255,255,.05);padding:10px 14px;color:rgba(255,255,255,.75);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.sip-ta::placeholder{color:rgba(255,255,255,.2);}
+.sip-save-btn{padding:9px 20px;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;background:rgba(26,122,106,.12);border:1px solid rgba(26,122,106,.4);color:var(--teal);transition:all .2s;margin-top:10px;}
+.sip-save-btn:hover{background:rgba(26,122,106,.22);}
+.sip-save-msg{font-size:11px;color:#5ecba1;margin-top:6px;display:none;}
+/* PORTFOLIO */
+.port-block{margin:14px 0;background:#0a1a0d;border:1px solid rgba(26,122,106,.2);border-radius:4px;overflow:hidden;}
+.port-head{padding:12px 16px;background:rgba(26,122,106,.06);border-bottom:1px solid rgba(26,122,106,.12);}
+.port-lbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:4px;}
+.port-desc{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6;}
+.port-ta{width:100%;background:transparent;border:none;border-top:1px solid rgba(26,122,106,.1);padding:12px 16px;color:rgba(255,255,255,.75);font-size:13px;line-height:1.7;font-family:'Montserrat',sans-serif;resize:vertical;min-height:80px;outline:none;}
+.port-ta::placeholder{color:rgba(255,255,255,.2);}
+.port-save{display:block;width:100%;padding:8px;background:rgba(26,122,106,.08);border:none;border-top:1px solid rgba(26,122,106,.12);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.port-save:hover{background:rgba(26,122,106,.18);}
+.port-msg{font-size:11px;color:var(--teal);padding:4px 16px 6px;display:none;}
+/* MOD NAV */
+.mod-nav{display:flex;justify-content:space-between;padding:20px 0;margin-top:6px;}
+.btn{padding:10px 20px;border-radius:2px;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(26,122,106,.3);background:rgba(26,122,106,.08);color:var(--teal);transition:all .2s;font-family:'Montserrat',sans-serif;}
+.btn:hover{background:rgba(26,122,106,.18);}
+/* SUB-ACC grid fix */
+.sub-acc-b{display:none;padding:0 16px 16px;}
+.sub-acc.open .sub-acc-b{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+/* ACCESS GATE */
+/* FLAMMABLE ANSWER */
+.flam-answer-ta{width:100%;background:#111811;border:none;border-top:1px solid rgba(26,122,106,.1);padding:10px 14px;color:rgba(255,255,255,.7);font-size:12px;font-family:'Montserrat',sans-serif;resize:vertical;min-height:60px;outline:none;display:block;}
+.flam-answer-ta::placeholder{color:rgba(255,255,255,.2);}
+.flam-save-bar{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:rgba(26,122,106,.06);border-top:1px solid rgba(26,122,106,.1);}
+.flam-save-bar button{background:none;border:none;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.flam-saved-msg{font-size:10px;color:var(--teal);display:none;}
+/* ASSESSMENT ACTIONS */
+.assess-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+.assess-action-btn{padding:9px 16px;border-radius:2px;font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.assess-action-btn.primary{background:rgba(26,122,106,.12);border:1px solid rgba(26,122,106,.35);color:var(--teal);}
+.assess-action-btn.primary:hover{background:rgba(26,122,106,.22);}
+/* SUMMARY BLOCKS */
+.sum-block{margin:10px 0;border:1px solid rgba(26,122,106,.2);border-radius:3px;overflow:hidden;}
+.sum-h{display:flex;align-items:center;gap:12px;padding:13px 16px;background:rgba(26,122,106,.06);border-bottom:1px solid rgba(26,122,106,.1);cursor:pointer;}
+.sum-arc{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);width:120px;flex-shrink:0;}
+.sum-title{font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;flex:1;}
+.sum-arr{font-size:10px;color:rgba(255,255,255,.3);transition:transform .3s;}
+.sum-block.open .sum-arr{transform:rotate(180deg);color:var(--teal);}
+.sum-body{display:none;padding:16px;}
+.sum-block.open .sum-body{display:block;}
+.sum-body p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.85;margin-bottom:8px;}
+
+/* C7: REFLECTION STATUS + ERROR */
+.reflection-saved{font-size:12px;padding:4px 0 8px;display:none;color:#1a7a6a;transition:color .3s;}
+.reflection-saved.rs-drafting{color:rgba(255,255,255,.3);}
+.reflection-saved.rs-draft{color:rgba(26,122,106,.6);}
+.reflection-saved.rs-saving{color:rgba(201,168,76,.75);}
+.reflection-saved.rs-ok{color:#1a7a6a;}
+.reflection-error{font-size:12px;color:var(--gold);padding:4px 0 8px;display:none;}
+.reflection-error-btn{background:none;border:none;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;padding:0;font-family:'Montserrat',sans-serif;text-decoration:underline;margin-left:4px;}
+.reflection-error-btn:hover{opacity:.8;}
+
+/* C1: SUBMISSION FEEDBACK */
+.sf-status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.sf-status{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;}
+.sf-status.returned{color:var(--gold);}
+.sf-ts{font-size:12px;color:rgba(255,255,255,.3);}
+.sf-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.85;white-space:pre-wrap;}
+
+/* C5: PARTICIPANT MESSAGE THREAD */
+.p-thread-list[data-state="loading"],.p-thread-list[data-state="empty"]{font-size:12px;color:rgba(255,255,255,.4);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="error"]{font-size:12px;color:rgba(231,76,60,.7);padding:12px 0;font-style:italic;}
+.p-thread-list[data-state="populated"]{display:flex;flex-direction:column;gap:10px;padding:4px 0 16px;}
+.p-msg-item{background:rgba(255,255,255,.03);border-radius:3px;padding:12px 14px;border-left:3px solid rgba(255,255,255,.1);}
+.p-msg-item.from-facilitator{border-left-color:var(--gold);}
+.p-msg-item.from-participant{border-left-color:var(--teal);}
+.p-msg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.p-msg-author{font-size:12px;font-weight:700;color:rgba(255,255,255,.8);}
+.p-msg-role{font-size:11px;padding:2px 7px;border-radius:2px;margin-left:8px;}
+.p-msg-role.role-facilitator,.p-msg-role.role-admin{background:rgba(201,168,76,.1);color:var(--gold);}
+.p-msg-role.role-participant{background:rgba(26,122,106,.1);color:var(--teal);}
+.p-msg-time{font-size:11px;color:rgba(255,255,255,.3);}
+.p-msg-body{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;}
+.p-msg-body a{color:var(--teal);text-decoration:underline;}
+.p-thread-compose{margin-top:12px;border-top:1px solid rgba(26,122,106,.1);padding-top:12px;}
+.p-thread-ta{width:100%;background:rgba(26,122,106,.04);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;min-height:70px;outline:none;}
+.p-thread-ta::placeholder{color:rgba(255,255,255,.2);}
+.p-thread-ta:focus{border-color:rgba(26,122,106,.5);}
+.p-thread-ta:disabled{opacity:.5;}
+.p-thread-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px;}
+.p-thread-error{font-size:12px;color:rgba(231,76,60,.8);flex:1;}
+.p-thread-count{font-size:12px;color:rgba(255,255,255,.25);margin-left:8px;}
+.p-thread-count.warn{color:var(--gold);}
+.p-thread-count.over{color:rgba(231,76,60,.7);}
+.p-thread-btn{background:#1a7a6a;color:#fff;border:none;border-radius:2px;padding:7px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:background .2s;}
+.p-thread-btn:hover:not(:disabled){background:#22916e;}
+.p-thread-btn:disabled{opacity:.5;cursor:default;}
+
+/* C6: UPLOAD WIDGET */
+.p-upload-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:14px;}
+.p-upload-btn{display:inline-flex;align-items:center;gap:8px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.25);border-radius:2px;padding:8px 16px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a7a6a;cursor:pointer;transition:background .2s;font-family:'Montserrat',sans-serif;}
+.p-upload-btn:hover{background:rgba(26,122,106,.2);}
+.p-upload-feedback{margin-top:10px;}
+.p-upload-msg{font-size:12px;padding:4px 0;line-height:1.6;}
+.p-upload-ok{color:#1a7a6a;}
+.p-upload-err{color:rgba(231,76,60,.8);}
+.p-upload-list{margin-bottom:14px;border:1px solid rgba(26,122,106,.15);border-radius:3px;overflow:hidden;}
+.p-upload-list-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.7);padding:7px 12px;background:rgba(26,122,106,.05);border-bottom:1px solid rgba(26,122,106,.1);}
+.p-upload-list-item{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,.04);font-size:12px;color:rgba(255,255,255,.7);}
+.p-upload-list-item:last-child{border-bottom:none;}
+.p-upload-list-size{font-size:11px;color:rgba(255,255,255,.3);flex-shrink:0;margin-left:10px;}
+
+/* SUBMIT TO FACILITATOR — standard full-width button (matches all lenses) */
+.send-btn{width:100%;padding:14px;background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.3);border-radius:3px;color:var(--teal);font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:16px;}
+.send-btn:hover{background:rgba(26,122,106,.2);}
+.send-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:18px 22px;margin:22px 0 16px;}
+.slo-box-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.7);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#1a7a6a;font-size:12px;}
+/* UNIT 2 REBUILD (Oct 2026) */
+.u2-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0;}
+.u2-card{background:#151c15;border:1px solid rgba(255,255,255,.06);border-radius:3px;padding:14px 16px;}
+.u2-card-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;color:var(--teal);}
+.u2-card p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.65;margin:0;}
+.u2-chain{display:flex;align-items:stretch;gap:8px;margin:16px 0;}
+.u2-chain-box{flex:1;padding:14px 12px;text-align:center;background:#151c15;border:1px solid rgba(201,168,76,.25);border-radius:3px;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:#fff;}
+.u2-chain-box small{display:block;font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u2-chain-arr{display:flex;align-items:center;color:var(--gold);font-size:1.1rem;}
+.u2-why{grid-column:1/-1;}
+.u2-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.u2-txt{font-size:13px;color:rgba(255,255,255,.7);line-height:1.75;margin:0;}
+.u2-signs{margin:0;padding-left:18px;}.u2-signs li{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:5px;}
+.u2-ql{margin:0;padding-left:20px;}.u2-ql li{font-size:13px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:4px;}
+@media(max-width:700px){.u2-grid{grid-template-columns:1fr;}.u2-chain{flex-direction:column;}.u2-chain-arr{justify-content:center;transform:rotate(90deg);}}
+.u2-mirror{background:#0a1a0d;border:1px dashed rgba(26,122,106,.4);border-radius:3px;padding:10px 14px;margin-top:6px;font-size:12px;color:rgba(255,255,255,.78);line-height:1.65;white-space:pre-wrap;}
+.u2-mirror.empty{color:rgba(255,255,255,.3);font-style:italic;}
+.u2-mirror-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:12px;}
+.u2-out{margin:12px 0;padding:14px 16px;background:#151c15;border:1px solid rgba(26,122,106,.2);border-radius:3px;}
+.u2-out-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:2px;}
+.u2-out-d{font-size:11px;color:rgba(255,255,255,.45);line-height:1.6;}
+.u2-meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 6px;}
+.u2-inlbl{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+.u2-in{width:100%;background:#0a1a0d;border:1px solid rgba(26,122,106,.25);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.8);font-size:13px;font-family:'Montserrat',sans-serif;outline:none;}
+.u2-in::placeholder{color:rgba(255,255,255,.2);}
+.u2-progress{margin:16px 0 10px;}
+.u2-progress-top{display:flex;justify-content:space-between;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px;}
+.u2-progress-top b{color:var(--gold);}
+.u2-bar{height:5px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;}
+.u2-bar span{display:block;height:100%;width:0;background:var(--gold);transition:width .3s;}
+.u2-chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 14px;}
+.u2-chip{display:flex;align-items:center;gap:7px;padding:6px 11px 6px 6px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.5);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .15s;}
+.u2-chip:hover{border-color:rgba(26,122,106,.5);color:#fff;}
+.u2-chip.active{border-color:var(--gold);color:#fff;background:rgba(201,168,76,.08);}
+.u2-chip-n{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.u2-chip.done .u2-chip-n{background:#1a7a6a;color:#fff;}
+.u2-el-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;margin:2px 0 0;}
+.u2-el-tag{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px;}
+.u2-el-body{padding:6px 16px 14px;}
+.u2-q{display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.8);margin:14px 0 6px;line-height:1.5;}
+.u2-ans,.u2-sipin{border:1px solid rgba(26,122,106,.2)!important;border-radius:3px;background:#111811!important;}
+.u2-sipin{min-height:64px;}
+.u2-btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+.u2-btnrow.u2-pad{padding:0 16px 14px;}
+.u2-b{padding:8px 14px;border-radius:2px;border:1px solid rgba(255,255,255,.18);background:transparent;color:rgba(255,255,255,.75);font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;}
+.u2-b:hover{border-color:var(--gold);color:var(--gold);}
+.u2-b.ok{background:#1a7a6a;border-color:#1a7a6a;color:#fff;}
+.u2-gen{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:3px;padding:16px 18px;margin-top:16px;}
+.u2-sipd .u2-gen{margin:0 16px 14px;}
+.u2-sipd .u2-ref-ta{min-height:130px;}
+.u2-gen-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.u2-gen-h{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:#fff;margin:6px 0 8px;}
+.u2-gen-txt{font-size:13px;color:rgba(255,255,255,.8);line-height:1.7;white-space:pre-line;margin:0;}
+.u2-pill{font-size:8px;letter-spacing:1.5px;padding:3px 8px;border-radius:10px;background:#1a7a6a;color:#fff;margin-left:8px;vertical-align:middle;}
+.u2-ref-ta{width:100%;min-height:84px;margin-top:10px;background:#111811;border:1px solid rgba(201,168,76,.3);border-radius:3px;padding:10px 12px;color:rgba(255,255,255,.85);font-size:13px;line-height:1.6;font-family:'Montserrat',sans-serif;resize:vertical;outline:none;}
+.u2-locked{border:1px dashed rgba(255,255,255,.2);background:rgba(255,255,255,.03);border-radius:3px;padding:14px 16px;font-size:12px;color:rgba(255,255,255,.5);margin:12px 0;}
+.u2-ok{font-size:12px;font-weight:700;color:#5ecba1;margin:12px 0 0;}
+.u2-note{font-size:12px;color:var(--gold);margin-top:10px;}
+.u2-elnav{display:flex;justify-content:space-between;margin:12px 0 6px;}
+.u2-elnav .btn[disabled]{opacity:.35;cursor:default;}
+.u2-src{margin:6px 0 0;padding-left:18px;}
+.u2-src li{font-size:12px;color:rgba(255,255,255,.75);line-height:1.6;margin-bottom:5px;}
+.u2-sipgrid{align-items:start;}
+.u2-final{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.u2-final:last-child{border-bottom:none;}
+.u2-final-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.u2-final-t{font-size:13px;color:rgba(255,255,255,.82);line-height:1.7;white-space:pre-wrap;}
+.u2-pad.u2-note{padding:0 16px 12px;margin-top:0;}
+@media(max-width:700px){.u2-meta{grid-template-columns:1fr;}}
+
+/* Unit 2 · Section 4 worked example and Section 5 group build (19 Oct 2026) */
+.u2w-how{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.25);border-left:3px solid var(--teal);border-radius:0 3px 3px 0;padding:14px 18px 10px;margin:0 0 16px;}
+.u2w-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin:0 0 6px;}
+.u2w-how ol{margin:6px 0 8px;padding-left:20px;}
+.u2w-how li{font-size:13px;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:4px;}
+.u2w-how p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.8);margin:8px 0 0;}
+.u2b-co{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin:12px 0 16px;}
+.u2b-co-c{background:#151c15;border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:12px 14px;}
+.u2b-co-c b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u2b-co-c span{font-size:13px;line-height:1.65;color:rgba(255,255,255,.82);white-space:pre-wrap;}
+.u2b-wide{grid-column:1/-1;}
+details.u2w-det{border:1px solid rgba(255,255,255,.08);border-radius:3px;margin:8px 0;background:#141d15;}
+details.u2w-det>summary{cursor:pointer;padding:12px 16px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.85);list-style:none;}
+details.u2w-det>summary::-webkit-details-marker{display:none;}
+details.u2w-det>summary::after{content:'▼';float:right;font-size:10px;color:rgba(255,255,255,.35);}
+details.u2w-det[open]>summary::after{content:'▲';color:var(--gold);}
+details.u2w-det>summary small{font-weight:400;color:rgba(255,255,255,.45);margin-left:8px;}
+.u2w-body{padding:2px 16px 14px;}
+.u2w-qa{margin:0 0 10px;}
+.u2w-q{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.55);line-height:1.5;}
+.u2w-a{font-size:13px;color:rgba(255,255,255,.85);line-height:1.65;}
+.u2w-say{background:rgba(201,168,76,.07);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:10px 14px;margin-top:10px;}
+.u2w-say b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.u2w-say span{font-size:13px;color:#fff;line-height:1.65;}
+.u2w-grp{margin:0 0 14px;}
+.u2w-grp-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin:0 0 6px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.08);}
+.u2w-row{display:grid;grid-template-columns:150px 1fr;gap:12px;margin:0 0 8px;}
+.u2w-row b{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase;}
+.u2w-row span{font-size:12.5px;color:rgba(255,255,255,.82);line-height:1.6;}
+.u2w-intent{border-left:4px solid var(--gold);background:rgba(201,168,76,.06);padding:16px 18px;margin:14px 0;font-family:'Cormorant Garamond',serif;font-size:1.2rem;line-height:1.6;color:#fff;}
+.u2w-list{margin:6px 0 12px;padding-left:20px;}
+.u2w-list li{font-size:13px;color:rgba(255,255,255,.78);line-height:1.7;margin-bottom:4px;}
+.u2b-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:16px;align-items:start;margin:10px 0;}
+.u2b-lesson{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:3px;padding:14px 16px;}
+.u2b-lesson-h{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#5ecba1;margin-bottom:8px;}
+.u2b-lesson p{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.75);margin:0 0 8px;}
+.u2b-lesson p b{color:#fff;}
+.u2b-entry .u2-q{margin-top:10px;}
+.u2b-ta{background:#0a1a0d!important;border:1px solid rgba(26,122,106,.25)!important;border-radius:3px;min-height:64px;}
+.u2b-say{color:var(--gold)!important;}
+.u2b-count{font-size:11px;color:rgba(255,255,255,.6);}
+.u2b-count b{color:var(--gold);}
+.u2b-lead{font-size:12.5px;color:rgba(255,255,255,.6);font-style:italic;margin:0 0 4px;padding:0 16px;}
+details.u2b-det{border:1px solid rgba(255,255,255,.08);border-radius:3px;margin:8px 0;padding-bottom:10px;background:#141d15;}
+details.u2b-det>summary{cursor:pointer;padding:12px 16px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.85);}
+details.u2b-det .u2-q,details.u2b-det textarea{margin-left:16px;margin-right:16px;width:calc(100% - 32px);}
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;background:#121e1c;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab.active{background:#1a2e28;border-color:var(--teal);border-bottom-color:#1a2e28;}
+.step-num{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(26,122,106,.8);margin-bottom:4px;}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:.9rem;color:rgba(255,255,255,.6);}
+.step-tab.active .step-name{color:#fff;}
+.step-panel{display:none;background:#0d1a17;border:1px solid rgba(26,122,106,.15);border-top:none;border-radius:0 0 4px 4px;padding:20px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.u7-rec{border-top:1px solid rgba(255,255,255,.07);padding:8px 0;}
+.u7-rec-s{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin:10px 0 3px;}
+.u7-rec-t{font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.78);white-space:pre-wrap;}
+.u7-rec-t i{color:rgba(255,255,255,.3);}
+.u2b-period{max-width:320px;margin:4px 0 12px;}
+@media (max-width:760px){.u2b-grid{grid-template-columns:1fr;}.u2w-row{grid-template-columns:1fr;gap:2px;}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/s2r-save.js"></script>
+<script src="/s2r-team.js"></script>
+</head>
+<body style="background:#111811;color:#fff;font-family:Montserrat,Segoe UI,Arial,sans-serif;">
+<!-- ── Phase 2B: participant-side lock gate (lens_progress) ── -->
+<style>@media print{#p-lock-overlay{display:none!important;}}</style>
+<div id="p-lock-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:#1c2a1e;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:440px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 12px;font-size:1.6rem;">Unit Locked</h2>
+    <p id="p-lock-msg" style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;margin:0 0 22px;">Checking access&hellip;</p>
+    <a href="index.html" style="display:inline-block;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;">&#8592; Back to Platform</a>
+  </div>
+</div>
+<script>
+/* Phase 2B participant lock gate — fail-closed; mirrors #f1-gate-overlay (facilitator). */
+(function(){
+  var LENS_ID="u2m1_lens1";
+  var LOCK_MSG="This unit is locked. Your facilitator will unlock it after reviewing your submission for Unit 1 — Behavioural Strategy Fundamentals.";
+  function showLock(msg){var ov=document.getElementById("p-lock-overlay");if(!ov)return;var m=document.getElementById("p-lock-msg");if(m)m.textContent=msg;ov.style.display="flex";}
+  var ACCESSIBLE={unlocked:1,in_progress:1,submitted:1,reviewed:1,completed:1};
+  (async function(){
+    try{
+      if(!window.S2R||typeof S2R.context!=="function"){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var ctx=await S2R.context();
+      if(!ctx){showLock("Couldn’t verify your access — please refresh or sign in.");return;}
+      var res=await S2R._client.from("lens_progress").select("status").eq("profile_id",ctx.profileId).eq("cohort_id",ctx.cohortId).eq("lens_id",LENS_ID).maybeSingle();
+      if(res.error){console.error("[p-lock] lens_progress read error:",res.error);showLock("Couldn’t verify access — please try refreshing.");return;}
+      if(res.data&&ACCESSIBLE[res.data.status])return;
+      showLock(LOCK_MSG);
+    }catch(err){console.error("[p-lock] gate exception:",err);showLock("Couldn’t verify access — please try refreshing.");}
+  })();
+})();
+</script>
+
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Back to Platform</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 2 · Direction</strong>Unit 2 · Strategy Visioning &amp; Success in Practice (SiP) — Participant</div>
+  </div>
+  <span class="nav-badge">Participant View</span><span class="nav-badge signed-in" id="signedInBadge">Checking sign-in…</span>
+</nav>
+
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 2 · Direction · Unit 2</div>
+    <h1 class="unit-title">Strategy Visioning &amp; Success in Practice <span style="color:var(--teal);font-style:italic;">(SiP)</span></h1>
+    <div class="unit-sub">Direction · Pillar 1 of DIG</div>
+    <p class="unit-desc">This unit helps you to determine your organisation&rsquo;s strategy architecture, articulate its strategic intent and define the Success in Practice (SiP) of the chosen Strategy Intent.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Design a coherent strategic direction that connects organisational purpose, stakeholder value and long-term ambition.</span>
+      <span class="klo">Articulate a shared future position and define what organisational success will look like in practice.</span>
+      <span class="klo">Test strategic ambition against organisational identity and operating realities to strengthen its feasibility.</span>
+      <span class="klo">Align enterprise decisions and leadership interpretation around a common strategic direction.</span>
+    </div>
+  </div>
+</div>
+
+<div class="mod-tabs" id="modTabs">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+
+<div class="main">
+
+<!-- ═══ TAB 1: AWARENESS ═══ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 1 · Awareness — What</p>
+  <h2>What is Strategy?</h2>
+  <p>Interrogative Anchor · What is the Strategy Architecture? What is the Strategy Intent Statement? What is Success in Practice?</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Frame strategic direction in terms of the value and success the organisation intends to create.</li><li>Differentiate strategic direction from the future position it seeks while maintaining coherence between them.</li></ul></div>
+
+<div class="port-block" style="margin:0 0 22px;">
+  <div class="port-head"><div class="port-lbl">Opening the Session — Your Definition of Strategy</div><div class="port-desc">Write your definition of strategy in one sentence — right now, without consulting anyone.</div></div>
+  <textarea class="port-ta" id="strategy_definition" placeholder="Write your one-sentence definition here..."></textarea>
+  <button class="port-save" onclick="saveField('strategy_definition')">Save</button>
+  <div class="port-msg" id="strategy_definition-msg">✓ Saved to your portfolio</div>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.1 — Define the Strategy Architecture</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">9 Concepts · Click to expand each</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Before you can express strategy clearly, you need to understand what sits underneath it. This is the <strong>Strategy Architecture</strong>: the interconnected choices and logic that determine what your organisation will do, why, how and when; how it will create, deliver and sustain value; for whom; and within what environment.</p>
+  <p>A strategy can sound compelling while important parts of its underlying logic remain weak, disconnected or undefined. In the S2R® framework, strategy has a specific applied definition. Every word carries strategic weight, and each concept in it is part of the architecture.</p>
+  <div class="quote"><p>"Strategy is the output of iterative thinking, logic and process to determine what, why, how and when an organisation creates, delivers and sustains value to its stakeholders while navigating the forces within its operating environment."</p></div>
+  <p>As you work through the concepts, consider how well defined each part of your organisation's strategy architecture is today.</p>
+  <div id="conceptListP"></div>
+  <div class="ref-block" style="margin-top:18px;">
+    <div class="ref-head"><span class="ref-label">&#x270E; Reflection &mdash; Strategy Architecture</span></div>
+    <div class="ref-prompt">Which part of your organisation's strategy architecture is least well defined today? What is the consequence?</div>
+    <textarea class="ref-ta reflection-textarea" id="ref1" placeholder="Write your reflection here..."></textarea>
+    <button class="ref-save" onclick="saveRef('ref1')">Save Reflection</button>
+    <div class="ref-saved" id="ref1-saved">✓ Saved to your portfolio</div>
+  </div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.2 — Defining the Strategy Intent Statement</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Dimensions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Your Strategy Architecture is the foundation from which the Strategy Intent Statement is derived. It establishes your organisation's strategic choices and the logic connecting them.</p>
+  <p>The Strategy Intent Statement brings forward four dimensions from that architecture. Select each one.</p>
+  <div class="ph-tabs" id="w1hPTabs">
+    <div class="ph-tab active" onclick="showPhP('w1hP',0)"><div class="ph-num">Dimension 1</div><div class="ph-name">WHAT</div></div>
+    <div class="ph-tab" onclick="showPhP('w1hP',1)"><div class="ph-num">Dimension 2</div><div class="ph-name">WHY</div></div>
+    <div class="ph-tab" onclick="showPhP('w1hP',2)"><div class="ph-num">Dimension 3</div><div class="ph-name">HOW</div></div>
+    <div class="ph-tab" onclick="showPhP('w1hP',3)"><div class="ph-num">Dimension 4</div><div class="ph-name">WHEN</div></div>
+  </div>
+  <div id="w1hPanelsP"></div>
+  <p style="margin-top:16px;">You then crystallise these four dimensions into one clear Strategy Intent Statement.</p>
+  <p>The strength of the statement comes from the architecture beneath it. Keep it crisp, directional and easy to express. Your Strategy Architecture holds the depth and the supporting logic.</p>
+  <div class="hbox teal"><p>The resulting Strategy Intent becomes your organisation's directional anchor for strategic choices, alignment and execution.</p></div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">1.3 — Success in Practice (SiP): From Intent to Future Reality</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Observable Domains</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Your Strategy Intent Statement establishes the ambition. Success in Practice defines what must be seen, experienced and executed for that ambition to become reality within a given time horizon. Defining this together gives you and your leadership team a shared picture of success, and reduces the risk of different functions interpreting the same strategic intent differently.</p>
+  <p>Stand inside the future created by your Strategy Intent. Imagine that the intent has been successfully realised and describe the organisational reality you can observe.</p>
+  <div class="quote"><p>"If our Strategy Intent is successful, what should we see in practice?"</p></div>
+  <p>Success is considered across four observable domains:</p>
+  <div class="u2-grid">
+    <div class="u2-card"><div class="u2-card-h" style="color:#8ab0e8;">D1 · Customer Experience &amp; Value</div><p>What your customers and other value recipients experience when the strategic intent is working.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:var(--gold);">D2 · Operational Capability &amp; Execution Rhythm</div><p>How your organisation operates, coordinates, delivers and adapts when the capabilities required by the intent are functioning effectively.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#5ecba1;">D3 · People &amp; Culture Dynamics</div><p>How people understand the strategic intent, make decisions, collaborate, take ownership and behave when the intent is embedded in your organisation.</p></div>
+    <div class="u2-card"><div class="u2-card-h" style="color:#c39de0;">D4 · Enterprise Value Creation</div><p>How your organisation benefits across its measures of enterprise success.</p></div>
+  </div>
+  <p>Together, the four domains give you a shared organisational picture of success against which you align decisions, trade-offs and execution.</p>
+  <div class="hbox teal"><p><strong>Stay with observable reality.</strong> Your SiP describes what is happening when the strategy is working. Initiatives, projects and activities stay out of it.</p></div>
+</div>
+</div>
+
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 2 — Intelligence →</button></div>
+</div>
+</div>
+
+<!-- ═══ TAB 2: INTELLIGENCE ═══ -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 2 · Intelligence — Why</p>
+  <h2>The Importance and Relevance of SiP</h2>
+  <p>Ignition Point · Why do the Strategy Intent and SiP matter once they are defined? How do they shape alignment, choices and execution?</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Reconcile leadership perspectives into a shared strategic ambition and picture of success.</li><li>Apply strategic direction as a consistent basis for enterprise decisions.</li></ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">2.1 — Role of Strategy Intent &amp; SiP in the S2R® Architecture</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">3 Functions</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Your Strategy Intent and your SiP become useful when they begin to shape how your organisation <strong>aligns, makes choices and executes</strong>.</p>
+  <p>Once you and your leadership team have established a shared strategic ambition and defined what success looks like in practice, those two outputs become common reference points across the organisation. They serve three functions within the Strategy2Results® architecture. Click each to expand.</p>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:#fff;">2.1.1 — Strategic Alignment</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Why It Matters</p><p class="u2-txt">Strategy fragments when you and other leaders interpret the organisation's ambition differently. Alignment creates a common strategic reference point while allowing each part of the organisation to make the contribution required of it.</p></div><div><p class="u2-lbl" style="color:rgba(201,168,76,.6);">Strategy Intent</p><p class="u2-txt">Creates shared understanding of your organisation's strategic ambition and the choices that define it. You and your fellow leaders are anchored to the same WHAT, WHY, HOW and WHEN.</p></div><div><p class="u2-lbl" style="color:rgba(46,168,122,.6);">Success in Practice (SiP)</p><p class="u2-txt">Creates a shared picture of what successful realisation of that ambition looks like. Functions may contribute differently, but you are all working towards the same organisational reality.</p></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:#fff;">2.1.2 — Decision Filter</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Why It Matters</p><p class="u2-txt">Your organisation continuously faces competing opportunities, investments, initiatives and demands. Without a common strategic filter, priorities become shaped by urgency, functional interests or whoever has the strongest influence in the room.</p></div><div><p class="u2-lbl" style="color:rgba(201,168,76,.6);">Strategy Intent</p><p class="u2-txt">Gives you the reference point for determining whether a choice is consistent with your organisation's strategic ambition and the choices already made.</p></div><div><p class="u2-lbl" style="color:rgba(46,168,122,.6);">Success in Practice (SiP)</p><p class="u2-txt">Tests whether that choice contributes to the conditions of success you have defined. It connects each decision to the future reality it is expected to help create.</p></div></div></div>
+  <div class="sub-acc"><div class="sub-acc-h" onclick="tSA(this)"><span style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:#fff;">2.1.3 — Execution Coherence</span><span class="sub-arr">▼</span></div><div class="sub-acc-b cols2"><div class="u2-why"><p class="u2-lbl" style="color:rgba(255,255,255,.4);">Why It Matters</p><p class="u2-txt">Strategy is delivered through many functions, teams and decisions acting together. Your function can perform well on its own while the organisation still fails to produce the intended enterprise outcome. Coherence ensures the contributions connect.</p></div><div><p class="u2-lbl" style="color:rgba(201,168,76,.6);">Strategy Intent</p><p class="u2-txt">Gives you the common strategic anchor for interpreting your mandate and your choices in relation to the enterprise ambition.</p></div><div><p class="u2-lbl" style="color:rgba(46,168,122,.6);">Success in Practice (SiP)</p><p class="u2-txt">Shows what the combined contributions must produce across <strong>customer value, operational capability, people and culture, and enterprise value</strong>. It lets you see beyond your own outputs to the organisational outcome you collectively enable.</p></div></div></div>
+  <div class="hbox teal"><p><strong>How they work together:</strong> The Intent anchors the ambition and the strategic choices. SiP anchors the organisational reality those choices are intended to produce. When a new initiative, investment or opportunity appears, the Strategy Intent gives you the test of <strong>strategic fit</strong> and SiP gives you the test of <strong>strategic contribution</strong>: whether the choice moves your organisation closer to the success it has defined.</p></div>
+  <div class="ref-block">
+    <div class="ref-head"><span class="ref-label">&#x270E; Reflection &mdash; Three Functions</span></div>
+    <div class="ref-prompt">Which of the three functions is weakest in your organisation today? What happens as a result?</div>
+    <textarea class="ref-ta reflection-textarea" id="ref6" placeholder="Write your reflection here..."></textarea>
+    <button class="ref-save" onclick="saveRef('ref6')">Save Reflection</button>
+    <div class="ref-saved" id="ref6-saved">✓ Saved to your portfolio</div>
+  </div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(0)">← Section 1 — Awareness</button>
+  <button class="btn" onclick="showMod(2)">Section 3 — Extrapolating →</button>
+</div>
+</div>
+</div>
+
+<!-- ═══ TAB 3: EXTRAPOLATING ═══ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 3 · Extrapolating — Where</p>
+  <h2>Examining Success in Practice</h2>
+  <p>Locate Hot Zones · Depth within each SiP domain · Balance across all four SiP domains</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Specify observable evidence of success across the four SiP domains.</li><li>Interpret gaps between intended success and current conditions to identify strategic misalignment.</li></ul></div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">3.1 — SiP Observable Indicators</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · Click indicators to expand</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>Each SiP domain is examined through a set of <strong>observable indicators</strong>. They help you move from a broad description of success to the specific conditions through which that success becomes visible in your organisation.</p>
+  <p>For every indicator, examine two positions. <strong>When Working</strong> describes what you expect to observe when that aspect of the SiP is functioning effectively. <strong>Signal of Absence</strong> describes what may become visible when that condition is weak, missing or disconnected from the Strategy Intent.</p>
+  <p>Use both positions. Sometimes the absence of a condition gives you the clearest evidence of why it matters.</p>
+  <div class="dim-tabs" id="dimTabsP">
+    <div class="dim-tab active" onclick="showDimP(0)">D1 · Customer Experience &amp; Value</div>
+    <div class="dim-tab" onclick="showDimP(1)">D2 · Operational Capability</div>
+    <div class="dim-tab" onclick="showDimP(2)">D3 · People &amp; Culture</div>
+    <div class="dim-tab" onclick="showDimP(3)">D4 · Enterprise Value</div>
+  </div>
+  <div id="dimPanelsP"></div>
+  <div class="ref-block" style="margin-top:14px;">
+    <div class="ref-head"><span class="ref-label">&#x270E; Reflection &mdash; SiP Indicators</span></div>
+    <div class="ref-prompt">From your assigned executive leader role: which SiP domain shows the most significant gaps in your organisation right now? What is the primary cause?</div>
+    <textarea class="ref-ta reflection-textarea" id="ref4" placeholder="Write your reflection here..."></textarea>
+    <button class="ref-save" onclick="saveRef('ref4')">Save Reflection</button>
+    <div class="ref-saved" id="ref4-saved">✓ Saved to your portfolio</div>
+  </div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">3.2 — SiP Flammables: When the Picture of Success Becomes Distorted</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Risk Patterns</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+  <p>The four SiP domains describe <strong>one organisational reality</strong>. You and your fellow leaders bring different perspectives into the conversation: a commercial leader may see success through customers and growth, an operations leader through efficiency, process and delivery, a people leader through culture and capability, a finance leader through financial and enterprise outcomes.</p>
+  <p>Each perspective contributes something important. The strategic risk emerges when one perspective becomes so dominant that it begins to define success for the entire organisation.</p>
+  <p>The SiP Flammables are your balance test. They help you recognise when a legitimate dimension of success has become disproportionately influential and the enterprise picture has narrowed into a functional one. Each pattern below shows what the imbalance creates, the indicators that reveal it and the strategic risk if it is left unbalanced.</p>
+  <div id="flamListP"></div>
+</div>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(1)">← Section 2 — Intelligence</button>
+  <button class="btn" onclick="showMod(3)">Section 4 — Integration →</button>
+</div>
+</div>
+</div>
+
+<!-- ═══ TAB 4: INTEGRATION ═══ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 4 · Integration — Collective</p>
+  <h2>One Worked Example: Architecture · Intent · Success in Practice</h2>
+  <p>Follow one company through the three connected outputs: Strategy Architecture → Strategy Intent → Success in Practice. In Section 5 your group builds the same three outputs for its own company.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Integrate the elements of Strategy Architecture into a coherent enterprise strategy.</li><li>Synthesise diverse leadership perspectives into an agreed enterprise position.</li></ul></div>
+
+<div class="u2w-how"><div class="u2w-how-h">How to read the worked example</div><ol><li>Meet the company and its central organisational problem.</li><li>4.1 shows each of the 14 elements answered, what each element is saying and the Strategy Architecture under its five headings.</li><li>4.2 shows how WHAT, WHY, HOW and WHEN became one Strategy Intent Statement.</li><li>4.3 shows the four SiP domains answered and the four statements, tested for depth and balance.</li></ol><p>Open each part in turn. Refer to it when your group builds its own three outputs in Section 5.</p></div>
+<div class="u2b-co"><div class="u2b-co-c"><b>Company</b><span>Kestrel Point Services</span></div><div class="u2b-co-c"><b>Sector</b><span>Business services: facilities management and technical maintenance for corporate clients</span></div><div class="u2b-co-c"><b>Size</b><span>About 1,200 employees, eight regional service hubs</span></div><div class="u2b-co-c"><b>Strategy period</b><span>2027–2029</span></div><div class="u2b-co-c u2b-wide"><b>Its central organisational problem</b><span>Kestrel Point wins clients on relationships and loses them on service. Response times vary from team to team, requests stall in handovers between functions, decisions that involve more than one function wait for escalation, and margins swing with the cost of rework.</span></div></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">4.1 — Step 1: The Strategy Architecture</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">14 Elements · One Integrated Architecture · Worked Example</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+<p>The elements are interconnected: a strong answer to one element can expose a weakness or contradiction in another. The value an organisation intends to create must be supported by its HOW. Its WHEN must reflect the capabilities it needs to build. Its approach to sustaining value must respond to the forces within its operating environment.</p><div class="hbox teal"><p><strong>How each element works.</strong> Each element has four questions (THE FORCES has five). They are answered with actual strategic choices. Then one or two sentences state <strong>what the element is saying</strong>. Open each element to read it.</p></div><details class="u2w-det"><summary>1 · ITERATIVE<small>Continuously refined</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What core hypotheses does the strategy depend on?</div><div class="u2w-a">Clients will value speed and consistency above the lowest price.</div></div><div class="u2w-qa"><div class="u2w-q">How will reality test those hypotheses?</div><div class="u2w-a">Quarterly client reviews and monthly service data test that hypothesis.</div></div><div class="u2w-qa"><div class="u2w-q">What evidence would trigger refinement?</div><div class="u2w-a">Two consecutive quarters of falling retention in key accounts would trigger a review.</div></div><div class="u2w-qa"><div class="u2w-q">How and when will strategic choices be revisited?</div><div class="u2w-a">The executive team revisits its strategic choices every quarter and in full each year.</div></div><div class="u2w-say"><b>What this element is saying</b><span>The strategy rests on one hypothesis, that clients value speed and consistency above the lowest price, and the executive team tests it against service data every quarter.</span></div></div></details>
+<details class="u2w-det"><summary>2 · THINKING &amp; LOGIC<small>The cognitive engine</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What alternative possibilities were explored?</div><div class="u2w-a">Competing on price, adding new service lines and becoming the most responsive partner.</div></div><div class="u2w-qa"><div class="u2w-q">What assumptions underpin the preferred direction?</div><div class="u2w-a">Key accounts will pay for reliability, and responsiveness can be built without new headcount.</div></div><div class="u2w-qa"><div class="u2w-q">What must be true for this strategy to work?</div><div class="u2w-a">Requests must move between functions without delay, and leaders must decide at the right level.</div></div><div class="u2w-qa"><div class="u2w-q">What evidence supports or challenges the logic?</div><div class="u2w-a">Client feedback names slow response as the first reason for leaving; price comes third.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Price competition and new service lines were weighed and set aside. The evidence points to responsiveness, which holds only if requests and decisions move across functions without delay.</span></div></div></details>
+<details class="u2w-det"><summary>3 · PROCESS<small>Structured container</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">Who must participate in shaping the strategy?</div><div class="u2w-a">The executive team, the regional hub managers and five key account clients.</div></div><div class="u2w-qa"><div class="u2w-q">What inputs and evidence are required?</div><div class="u2w-a">Client feedback, response-time data, margin per contract and the reasons clients left.</div></div><div class="u2w-qa"><div class="u2w-q">What decision stages will be used?</div><div class="u2w-a">Diagnose, choose, test with two hubs, then roll out to all eight.</div></div><div class="u2w-qa"><div class="u2w-q">How will decisions and rationale be recorded?</div><div class="u2w-a">One strategy log records each decision, the evidence behind it and who agreed it.</div></div><div class="u2w-say"><b>What this element is saying</b><span>The strategy is shaped with the hub managers and key clients, moves from diagnosis to a two-hub test before full roll-out, and every decision is recorded with its evidence.</span></div></div></details>
+<details class="u2w-det"><summary>4 · WHAT<small>Scope &amp; definition</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What business are we actually in?</div><div class="u2w-a">Keeping corporate buildings and their technical systems running without disruption.</div></div><div class="u2w-qa"><div class="u2w-q">What value are we choosing to create?</div><div class="u2w-a">Fast, consistent and effortless service that clients can rely on first.</div></div><div class="u2w-qa"><div class="u2w-q">What will we offer?</div><div class="u2w-a">Integrated facilities and technical maintenance, with one client team for each key account.</div></div><div class="u2w-qa"><div class="u2w-q">What will we deliberately not offer or pursue?</div><div class="u2w-a">Once-off construction projects and low-value contracts that absorb leadership attention.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Kestrel Point is in the business of keeping client buildings running, and it chooses to win on fast, consistent and effortless service through one client team per key account.</span></div></div></details>
+<details class="u2w-det"><summary>5 · WHY<small>Purpose &amp; rationale</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">Why does the organisation exist?</div><div class="u2w-a">To let clients focus on their own business while their buildings simply work.</div></div><div class="u2w-qa"><div class="u2w-q">Why should stakeholders choose or support us?</div><div class="u2w-a">One call reaches a team that already knows the site and resolves the request.</div></div><div class="u2w-qa"><div class="u2w-q">Why are these strategic choices appropriate?</div><div class="u2w-a">Responsiveness is what clients reward with renewals and new sites.</div></div><div class="u2w-qa"><div class="u2w-q">What unifying rationale makes the choices coherent?</div><div class="u2w-a">Being the partner clients rely on first ties every choice together.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Kestrel Point exists so that clients can focus on their own business, and every choice serves one rationale: to be the partner clients rely on first.</span></div></div></details>
+<details class="u2w-det"><summary>6 · HOW<small>Mechanism &amp; model</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What operating mechanism makes the strategy work?</div><div class="u2w-a">Integrated client teams supported by one cross-functional operating rhythm.</div></div><div class="u2w-qa"><div class="u2w-q">Which capabilities are essential?</div><div class="u2w-a">Request triage, first-contact resolution, cross-functional decision-making and account management.</div></div><div class="u2w-qa"><div class="u2w-q">Which processes and structures must support it?</div><div class="u2w-a">Weekly cross-functional execution reviews, decision rights at hub level and a single request system.</div></div><div class="u2w-qa"><div class="u2w-q">Which partnerships or ecosystem relationships are required?</div><div class="u2w-a">Specialist subcontractors under shared service standards, and a technology partner for the request system.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Value is delivered through integrated client teams, decision rights at hub level and one weekly cross-functional rhythm, supported by a single request system and partners held to shared standards.</span></div></div></details>
+<details class="u2w-det"><summary>7 · WHEN<small>Timing &amp; sequencing</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What must happen first, next and later?</div><div class="u2w-a">First responsiveness, next cross-functional decision-making, then scalable service models.</div></div><div class="u2w-qa"><div class="u2w-q">What determines when we move, hold or exit?</div><div class="u2w-a">Hubs move once their response times are stable; contracts that stay below margin are exited.</div></div><div class="u2w-qa"><div class="u2w-q">Which dependencies shape the sequence?</div><div class="u2w-a">The request system must be live before hub-level decision rights can work.</div></div><div class="u2w-qa"><div class="u2w-q">What timing assumptions could change the strategy?</div><div class="u2w-a">That key accounts renew on service quality over the three years of the strategy.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Responsiveness comes first, cross-functional decision-making next and scalable service models last, with the request system in place before decision rights move to the hubs.</span></div></div></details>
+<details class="u2w-det"><summary>8 · CREATES VALUE<small>Origination layer</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What new or improved value will come into existence?</div><div class="u2w-a">Faster resolution, fewer repeat visits and proactive maintenance that prevents breakdowns.</div></div><div class="u2w-qa"><div class="u2w-q">Through which activities is that value created?</div><div class="u2w-a">Redesigning service routines and building a proactive engagement model with key accounts.</div></div><div class="u2w-qa"><div class="u2w-q">What capabilities or assets enable creation?</div><div class="u2w-a">Site knowledge held in client teams and the request system data.</div></div><div class="u2w-qa"><div class="u2w-q">How will we know that genuine value has been created?</div><div class="u2w-a">Clients renew, expand to new sites and refer Kestrel Point to others.</div></div><div class="u2w-say"><b>What this element is saying</b><span>New value comes from faster resolution and maintenance that prevents breakdowns, built on site knowledge held in client teams.</span></div></div></details>
+<details class="u2w-det"><summary>9 · DELIVERS VALUE<small>Distribution &amp; access layer</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">How will created value reach each intended recipient?</div><div class="u2w-a">Through the client team for the site, reachable through one number and one portal.</div></div><div class="u2w-qa"><div class="u2w-q">Which channels and access mechanisms matter?</div><div class="u2w-a">The service desk, the client portal and the on-site team.</div></div><div class="u2w-qa"><div class="u2w-q">What experience must recipients have?</div><div class="u2w-a">Requests are acknowledged at once and resolved at first contact wherever possible.</div></div><div class="u2w-qa"><div class="u2w-q">What could prevent value from reaching them?</div><div class="u2w-a">Slow internal handovers and decisions that wait for escalation.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Value reaches clients through one client team, one number and one portal, and the main threat to delivery is slow handovers between functions.</span></div></div></details>
+<details class="u2w-det"><summary>10 · SUSTAINS VALUE<small>Durability &amp; compounding layer</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What makes this value durable over time?</div><div class="u2w-a">Relationships with key accounts and a track record of consistent service.</div></div><div class="u2w-qa"><div class="u2w-q">What must be continually invested in or renewed?</div><div class="u2w-a">The skills of client teams, the request system and service standards.</div></div><div class="u2w-qa"><div class="u2w-q">What could erode the value?</div><div class="u2w-a">Functional silos, excessive reporting cycles and contracts that run below margin.</div></div><div class="u2w-qa"><div class="u2w-q">How will relevance and viability be sustained?</div><div class="u2w-a">Annual service reviews with each key account and reinvestment in scalable service models.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Value lasts through key account relationships and consistent service, and it is protected by removing silos, cutting reporting that delays action and exiting contracts that run below margin.</span></div></div></details>
+<details class="u2w-det"><summary>11 · STAKEHOLDERS<small>Full universe of value recipients</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">Who has a material stake in our actions?</div><div class="u2w-a">Corporate clients, employees, subcontractors, the board and the communities around client sites.</div></div><div class="u2w-qa"><div class="u2w-q">What value does each stakeholder group receive or contribute?</div><div class="u2w-a">Clients receive reliable buildings, employees clear ownership, subcontractors steady work, the board stable margins.</div></div><div class="u2w-qa"><div class="u2w-q">Where do stakeholder interests reinforce or conflict?</div><div class="u2w-a">Faster service can conflict with margin when it requires extra visits.</div></div><div class="u2w-qa"><div class="u2w-q">Whose interests could be overlooked by this strategy?</div><div class="u2w-a">Subcontractors, who carry the service standards on site without shaping them.</div></div><div class="u2w-say"><b>What this element is saying</b><span>The strategy serves clients, employees, subcontractors and the board, and it must hold the tension between faster service and margin while bringing subcontractors into the service standards.</span></div></div></details>
+<details class="u2w-det"><summary>12 · NAVIGATING<small>Active, skilful movement</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">How will the organisation sense changes in its environment?</div><div class="u2w-a">Monthly service data per hub and quarterly client reviews.</div></div><div class="u2w-qa"><div class="u2w-q">How will signals be interpreted and translated into decisions?</div><div class="u2w-a">The weekly execution review turns signals into decisions with named owners.</div></div><div class="u2w-qa"><div class="u2w-q">Where can external forces be used to advantage?</div><div class="u2w-a">Clients moving to fewer, larger service partners favour an integrated provider.</div></div><div class="u2w-qa"><div class="u2w-q">What enables deliberate course correction?</div><div class="u2w-a">Decision rights at hub level and a quarterly review of the strategic choices.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Kestrel Point reads its environment through service data and client reviews, turns signals into owned decisions every week, and uses the client shift to fewer, larger partners to its advantage.</span></div></div></details>
+<details class="u2w-det"><summary>13 · THE FORCES<small>What must be navigated</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">Which competitive forces materially shape the strategy?</div><div class="u2w-a">Low-price competitors and clients who bring maintenance in-house.</div></div><div class="u2w-qa"><div class="u2w-q">Which macro and regulatory forces matter most?</div><div class="u2w-a">Rising labour costs and stricter building safety regulation.</div></div><div class="u2w-qa"><div class="u2w-q">Which disruptive forces could alter the model?</div><div class="u2w-a">Remote monitoring technology that lets competitors respond faster.</div></div><div class="u2w-qa"><div class="u2w-q">Which social or environmental forces create risk or opportunity?</div><div class="u2w-a">Clients expect greener buildings and lower energy use.</div></div><div class="u2w-qa"><div class="u2w-q">Which internal forces (culture, behaviour patterns, institutional habits, legacy identity) work for or against the strategy?</div><div class="u2w-a">Functional silos and a habit of escalating decisions upwards.</div></div><div class="u2w-say"><b>What this element is saying</b><span>Price competition, labour costs, safety regulation, remote monitoring technology and greener buildings shape the strategy, and the strongest force against it is internal: silos and the habit of escalation.</span></div></div></details>
+<details class="u2w-det"><summary>14 · OPERATING ENVIRONMENT<small>The bounded context</small></summary><div class="u2w-body"><div class="u2w-qa"><div class="u2w-q">What is the defined operating context for this strategy?</div><div class="u2w-a">Facilities and technical services for mid-sized corporate clients in one regional market.</div></div><div class="u2w-qa"><div class="u2w-q">Which industry and market conditions shape it?</div><div class="u2w-a">A mature market in which clients are consolidating suppliers.</div></div><div class="u2w-qa"><div class="u2w-q">Which regulatory, technological and social conditions matter?</div><div class="u2w-a">Building safety regulation, remote monitoring technology and client expectations of greener buildings.</div></div><div class="u2w-qa"><div class="u2w-q">Where would this strategy stop making sense if the context changed?</div><div class="u2w-a">If clients moved to the lowest price as their first choice, the strategy would need to change.</div></div><div class="u2w-say"><b>What this element is saying</b><span>The strategy is set for a mature regional market of mid-sized corporate clients who are consolidating suppliers, and it holds as long as clients put service ahead of price.</span></div></div></details><h4>The Strategy Architecture</h4><p>When all 14 elements say what they mean, they come together under five headings and are read as one strategic system:</p><div class="quote"><p>"What is this architecture collectively saying about our organisation's strategy?"</p></div><details class="u2w-det" open><summary>Kestrel Point Services · Strategy Architecture<small>2027–2029</small></summary><div class="u2w-body"><div class="u2w-grp"><div class="u2w-grp-h">Strategic Position</div><div class="u2w-row"><b>WHAT</b><span>Kestrel Point is in the business of keeping client buildings running, and it chooses to win on fast, consistent and effortless service through one client team per key account.</span></div><div class="u2w-row"><b>WHY</b><span>Kestrel Point exists so that clients can focus on their own business, and every choice serves one rationale: to be the partner clients rely on first.</span></div></div><div class="u2w-grp"><div class="u2w-grp-h">Strategic Model</div><div class="u2w-row"><b>HOW</b><span>Value is delivered through integrated client teams, decision rights at hub level and one weekly cross-functional rhythm, supported by a single request system and partners held to shared standards.</span></div><div class="u2w-row"><b>WHEN</b><span>Responsiveness comes first, cross-functional decision-making next and scalable service models last, with the request system in place before decision rights move to the hubs.</span></div></div><div class="u2w-grp"><div class="u2w-grp-h">Value Architecture</div><div class="u2w-row"><b>CREATES VALUE</b><span>New value comes from faster resolution and maintenance that prevents breakdowns, built on site knowledge held in client teams.</span></div><div class="u2w-row"><b>DELIVERS VALUE</b><span>Value reaches clients through one client team, one number and one portal, and the main threat to delivery is slow handovers between functions.</span></div><div class="u2w-row"><b>SUSTAINS VALUE</b><span>Value lasts through key account relationships and consistent service, and it is protected by removing silos, cutting reporting that delays action and exiting contracts that run below margin.</span></div><div class="u2w-row"><b>STAKEHOLDERS</b><span>The strategy serves clients, employees, subcontractors and the board, and it must hold the tension between faster service and margin while bringing subcontractors into the service standards.</span></div></div><div class="u2w-grp"><div class="u2w-grp-h">Strategic Navigation</div><div class="u2w-row"><b>NAVIGATING</b><span>Kestrel Point reads its environment through service data and client reviews, turns signals into owned decisions every week, and uses the client shift to fewer, larger partners to its advantage.</span></div><div class="u2w-row"><b>THE FORCES</b><span>Price competition, labour costs, safety regulation, remote monitoring technology and greener buildings shape the strategy, and the strongest force against it is internal: silos and the habit of escalation.</span></div><div class="u2w-row"><b>OPERATING ENVIRONMENT</b><span>The strategy is set for a mature regional market of mid-sized corporate clients who are consolidating suppliers, and it holds as long as clients put service ahead of price.</span></div></div><div class="u2w-grp"><div class="u2w-grp-h">Strategy Discipline</div><div class="u2w-row"><b>ITERATIVE</b><span>The strategy rests on one hypothesis, that clients value speed and consistency above the lowest price, and the executive team tests it against service data every quarter.</span></div><div class="u2w-row"><b>THINKING &amp; LOGIC</b><span>Price competition and new service lines were weighed and set aside. The evidence points to responsiveness, which holds only if requests and decisions move across functions without delay.</span></div><div class="u2w-row"><b>PROCESS</b><span>The strategy is shaped with the hub managers and key clients, moves from diagnosis to a two-hub test before full roll-out, and every decision is recorded with its evidence.</span></div></div></div></details><p>Read as one system, the choices reinforce one another: the client promise in WHAT is carried by the mechanism in HOW, sequenced in WHEN and protected by naming the internal forces that work against it.</p>
+</div>
+</div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">4.2 — Step 2: The Strategy Intent Statement</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">WHAT · WHY · HOW · WHEN → One Strategic Ambition · Worked Example</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+<p>The Architecture holds the depth. The Strategy Intent Statement gives the clarity. These are the four dimensions Kestrel Point brought forward from its Architecture:</p><div class="u2-grid"><div class="u2-card"><div class="u2-card-h">WHAT — Scope &amp; Definition</div><p>Kestrel Point is in the business of keeping client buildings running, and it chooses to win on fast, consistent and effortless service through one client team per key account.</p></div><div class="u2-card"><div class="u2-card-h">WHY — Purpose &amp; Rationale</div><p>Kestrel Point exists so that clients can focus on their own business, and every choice serves one rationale: to be the partner clients rely on first.</p></div><div class="u2-card"><div class="u2-card-h">HOW — Mechanism &amp; Model</div><p>Value is delivered through integrated client teams, decision rights at hub level and one weekly cross-functional rhythm, supported by a single request system and partners held to shared standards.</p></div><div class="u2-card"><div class="u2-card-h">WHEN — Timing &amp; Sequencing</div><p>Responsiveness comes first, cross-functional decision-making next and scalable service models last, with the request system in place before decision rights move to the hubs.</p></div></div><h4>How the statement was deduced</h4><ul class="u2w-list"><li>WHAT gave the ambition: fast, consistent and effortless service that clients rely on first.</li><li>WHY gave the reason it holds together: clients reward responsiveness with renewals and new sites.</li><li>HOW gave the mechanism: integrated client teams and one cross-functional operating rhythm.</li><li>WHEN gave the order: responsiveness first, scalable service models after, within 2027–2029.</li></ul><div class="u2w-intent">By the end of 2029, Kestrel Point will be the service partner its corporate clients rely on first, delivering fast, consistent and effortless facilities and technical service through integrated client teams and one cross-functional operating rhythm, building responsiveness first and scalable service models after.</div><div class="quote"><p>"Does this statement faithfully express the strategic ambition contained in our Architecture?"</p></div><p>Read against the Architecture, the statement carries the ambition and leaves the detail to the Architecture.</p>
+</div>
+</div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">4.3 — Step 3: Success in Practice</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">4 Domains · 4 Statements · One SiP · Worked Example</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+<p>Standing inside the future its Strategy Intent describes, Kestrel Point asked one central question:</p><div class="quote"><p>"If our Strategy Intent is successful, what should we see in practice?"</p></div><details class="u2w-det" open><summary>D1 · Customer Experience &amp; Value</summary><div class="u2w-body"><p class="u2w-q" style="font-style:italic;margin-bottom:8px;">If the intent succeeds, what should customers and other value recipients see and experience?</p><div class="u2w-qa"><div class="u2w-q">What will customers or value recipients experience differently?</div><div class="u2w-a">Clients reach a team that knows their site, and requests are acknowledged at once.</div></div><div class="u2w-qa"><div class="u2w-q">What value or result will they consistently receive?</div><div class="u2w-a">Most requests are resolved at first contact, and key accounts are engaged before problems surface.</div></div><div class="u2w-qa"><div class="u2w-q">What observable evidence will tell us this is true?</div><div class="u2w-a">Response times fall and first-contact resolution rises in every hub.</div></div><div class="u2w-say"><b>SiP statement 1</b><span>Every client experiences fast, consistent and effortless service: requests are acknowledged at once, most are resolved at first contact, and key accounts are engaged before problems surface.</span></div></div></details>
+<details class="u2w-det"><summary>D2 · Operational Capability &amp; Execution Rhythm</summary><div class="u2w-body"><p class="u2w-q" style="font-style:italic;margin-bottom:8px;">If the intent succeeds, what should be visible in how the organisation operates and executes?</p><div class="u2w-qa"><div class="u2w-q">What capabilities and operating conditions will be functioning effectively?</div><div class="u2w-a">Integrated client teams and a single request system work in every hub.</div></div><div class="u2w-qa"><div class="u2w-q">How will priorities, decisions, coordination and delivery work in practice?</div><div class="u2w-a">Decisions are taken at hub level within a day, and handovers between functions run without delay.</div></div><div class="u2w-qa"><div class="u2w-q">What observable evidence will show that execution is working?</div><div class="u2w-a">Cross-functional decision time falls, and management reports are limited to those that drive action.</div></div><div class="u2w-say"><b>SiP statement 2</b><span>Kestrel Point moves quickly from insight to action across functions: decisions are taken at the right level within a day, handovers run without delay, and reporting is limited to what drives action.</span></div></div></details>
+<details class="u2w-det"><summary>D3 · People &amp; Culture Dynamics</summary><div class="u2w-body"><p class="u2w-q" style="font-style:italic;margin-bottom:8px;">If the intent succeeds, what should be visible in how people understand, decide and behave?</p><div class="u2w-qa"><div class="u2w-q">What will people understand about the strategic intent and their contribution?</div><div class="u2w-a">Every leader can say how their work serves the promise to be the partner clients rely on first.</div></div><div class="u2w-qa"><div class="u2w-q">How will people decide, collaborate, take ownership and behave?</div><div class="u2w-a">Teams resolve issues across functions without escalation and own enterprise priorities together.</div></div><div class="u2w-qa"><div class="u2w-q">What observable evidence will show that these conditions are embedded?</div><div class="u2w-a">Escalations fall, and cross-functional work is visible in every weekly review.</div></div><div class="u2w-say"><b>SiP statement 3</b><span>People hold shared ownership of enterprise priorities: teams work across functions without escalation, and every leader can name how their work serves the client promise.</span></div></div></details>
+<details class="u2w-det"><summary>D4 · Enterprise Value Creation</summary><div class="u2w-body"><p class="u2w-q" style="font-style:italic;margin-bottom:8px;">If the intent succeeds, how should the organisation benefit across its success metrics?</p><div class="u2w-qa"><div class="u2w-q">What enterprise outcomes should improve as a result of the strategy?</div><div class="u2w-a">Margins hold steady, and growth comes from retained and expanded key accounts.</div></div><div class="u2w-qa"><div class="u2w-q">What strategic or market position should the organisation achieve?</div><div class="u2w-a">The first-choice integrated service partner for mid-sized corporate clients in the region.</div></div><div class="u2w-qa"><div class="u2w-q">What evidence will show that value is being sustained within the time horizon?</div><div class="u2w-a">Key account retention, margin per contract and leadership time spent on high-value work.</div></div><div class="u2w-say"><b>SiP statement 4</b><span>Scalable, efficient service models strengthen enterprise performance: margins hold steady, growth comes from retained and expanded key accounts, and leadership attention goes to high-value work.</span></div></div></details><h4>Testing the SiP</h4><div class="u2-grid"><div class="u2-card"><div class="u2-card-h">Depth</div><p>Each statement names conditions a leader could observe in a hub: acknowledgement at once, decisions within a day, fewer escalations, steady margins.</p></div><div class="u2-card"><div class="u2-card-h">Balance</div><p>Customer, operational, people and enterprise success each carry their own statement, so no one perspective defines success for the whole organisation.</p></div></div><h4>The three outputs together</h4><div class="u2-chain"><div class="u2-chain-box"><small>Strategy Architecture</small>Provides the logic</div><div class="u2-chain-arr">→</div><div class="u2-chain-box"><small>Strategy Intent</small>Crystallises the ambition</div><div class="u2-chain-arr">→</div><div class="u2-chain-box"><small>Success in Practice</small>Makes the ambition observable</div></div><p>In Section 5 your group builds these three outputs for its own simulated company.</p>
+</div>
+</div>
+
+<div class="mod-nav"><button class="btn" onclick="showMod(2)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(4)">Section 5 — Application →</button></div>
+</div>
+</div>
+
+
+<div class="mod-panel" id="mod4">
+<div class="mod-hero">
+  <p class="mod-hero-label">Section 5 · Application — In Practice</p>
+  <h2>Build Your Company's Strategy</h2>
+  <p>With your group, build the Strategy Architecture, the Strategy Intent Statement and the Success in Practice of your simulated company.</p>
+</div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Translate Success in Practice into clear executive contribution expectations.</li><li>Coordinate leadership contributions required to realise strategic intent.</li></ul></div>
+
+<div class="u2w-how"><div class="u2w-how-h">Capstone work · How Section 5 works</div><p>This is group work and Capstone work. Your group builds three outputs for the simulated company of its Problem Charter, in order:</p><ol><li><strong>Step 1 · Strategy Architecture.</strong> Answer the questions of the 14 elements and write what each element is saying. The scribe then brings the elements together under five headings, and your group edits the text until it says what your group intends.</li><li><strong>Step 2 · Strategy Intent Statement.</strong> Deduce one crisp statement from WHAT, WHY, HOW and WHEN.</li><li><strong>Step 3 · Success in Practice.</strong> Answer the three questions of each SiP domain and write one statement for each domain.</li></ol><p>Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member's page. Your group can change the scribe at any time.</p><p>In the Group record tab, each member reads the record and selects Agree. When every member has agreed, the three outputs go into boxes 2A to 2F of your team's Capstone S2R® Blueprint. Section 4 shows each step completed for Kestrel Point Services.</p></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">5.1 — Your Company's Strategy</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Architecture · Intent · SiP · Capstone Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb">
+<div id="u2bCharter"></div>
+<div id="u2bTeam"></div>
+<div id="u2bTool">
+<label class="u2-inlbl" for="strategy_period">Strategy period</label><input class="u2-in u2b-period" type="text" id="strategy_period" placeholder="e.g. 2027–2029" oninput="u2In('strategy_period',this.value)">
+<div class="step-tabs"><div class="step-tab active" onclick="u2Step(0)"><div class="step-num">Step 1</div><div class="step-name">Strategy Architecture</div></div><div class="step-tab" onclick="u2Step(1)"><div class="step-num">Step 2</div><div class="step-name">Strategy Intent Statement</div></div><div class="step-tab" onclick="u2Step(2)"><div class="step-num">Step 3</div><div class="step-name">Success in Practice</div></div><div class="step-tab" onclick="u2Step(3)"><div class="step-num">Record</div><div class="step-name">Group record</div></div></div>
+<div class="step-panel active"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 1 &middot; Strategy Architecture</div><ol><li>Choose an element from the row below. Read the lesson for the element beside the boxes.</li><li>Answer its questions with your group's actual strategic choices for your company.</li><li>Write <strong>what this element is saying</strong>: one or two sentences in your own words. The element shows a tick when it is written.</li><li>When all 14 elements are written, the scribe selects <strong>Bring the 14 elements together</strong>. The elements appear under the five headings.</li><li>Read the Architecture as one system with the checks in the lesson, and edit the text until it says what your group intends.</li></ol></div><div class="u2-chips" id="u2bChips"></div><div id="u2bEl"></div><h4>Producing the Strategy Architecture</h4><div id="u2bArch"></div></div>
+<div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 2 &middot; Strategy Intent Statement</div><ol><li>Read the four cards: what your WHAT, WHY, HOW and WHEN elements are saying.</li><li>Deduce one crisp statement of your company's strategic ambition that carries the four, and type it in the box.</li><li>Read the statement against your Architecture. Where it exposes a contradiction, resolve it in the Architecture first.</li></ol></div><div id="u2bIntent"></div></div>
+<div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 3 &middot; Success in Practice</div><ol><li>Open each of the four domains in turn.</li><li>Answer the three questions of the domain for your company.</li><li>Write one SiP statement for the domain from your answers.</li><li>Read the four statements together and test them for depth and balance, with the SiP Flammables from 3.2 as the final balance check.</li></ol></div><div id="u2bSip"></div></div>
+<div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete the Group record</div><ol><li>Read your group's full record: Strategy Architecture, Strategy Intent Statement and the four SiP statements.</li><li>When it says what your group agreed, select <strong>Agree</strong> in the group record bar above. Every member agrees on their own page.</li><li>When every member has agreed, the three outputs go into boxes 2A to 2F of your team's Capstone S2R® Blueprint. You can print them as one report.</li><li>If the scribe changes an entry after members have agreed, the agreements clear and every member agrees again.</li></ol></div><div id="u2bRecord"></div></div>
+</div>
+<div class="ref-block" style="margin-top:6px;">
+    <div class="ref-head"><span class="ref-label">&#x270E; Reflection &mdash; Application</span></div>
+    <div class="ref-prompt">Having completed the full application exercise — what is the single most important shift your organisation must make to close the gap between your current strategic capability and the SiP you have collectively described?</div>
+    <textarea class="ref-ta" id="app_ref_final" placeholder="Write your final integration reflection here..."></textarea>
+    <button class="ref-save" onclick="saveApp('app_ref_final')">Save Reflection</button>
+    <div class="ref-saved" id="app_ref_final-saved">✓ Saved to your portfolio</div>
+  </div>
+</div>
+</div>
+
+<div class="acc">
+<div class="acc-h" onclick="tA(this)">
+  <span class="acc-t">Unit Summary</span>
+  <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Unit 2 synthesis &middot; Review before submitting</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
+</div>
+<div class="acc-b cb" id="summaryP"></div>
+</div>
+
+<!-- SUBMISSION CLUSTER (feedback / messages / documents) — placed at end of Application for cross-lens consistency -->
+<div class="acc" id="feedback-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Facilitator Feedback</span><div style="display:flex;align-items:center;gap:10px"><span id="sf-status-meta" class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
+<div id="sf-text" class="sf-text"></div>
+</div></div>
+
+<!-- MESSAGES (hidden until submission exists) -->
+<div class="acc" id="msg-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<div id="p-thread-list" class="p-thread-list" data-state="loading">Loading conversation…</div>
+<div class="p-thread-compose">
+<textarea id="p-thread-ta" class="p-thread-ta" maxlength="4000" rows="3" placeholder="Write a message to your facilitator…" oninput="pUpdateCount()"></textarea>
+<div class="p-thread-meta">
+<span id="p-thread-error" class="p-thread-error"></span>
+<span id="p-thread-count" class="p-thread-count">0 / 4000</span>
+<button id="p-thread-btn" type="button" class="p-thread-btn" onclick="pPostMessage()">Send</button>
+</div>
+</div>
+</div></div>
+
+<!-- SUPPORTING DOCUMENTS (hidden until submission exists) -->
+<div class="acc" id="upload-acc" style="display:none;">
+<div class="acc-h" onclick="tA(this)"><span class="acc-t">Supporting Documents</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Attach files to your submission</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
+<div class="acc-b">
+<p class="p-upload-desc">Attach supporting files to your submission — board papers, strategy decks, or other materials. Accepted: PDF, Word, Excel, PowerPoint, PNG, JPG. Limits: 20 MB per file, 5 files per submission.</p>
+<div id="p-upload-list" class="p-upload-list" style="display:none;">
+<div class="p-upload-list-label">Already attached</div>
+<div id="p-upload-list-items"></div>
+</div>
+<label class="p-upload-btn" for="p-upload-input">
+<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+Attach Files
+<input type="file" id="p-upload-input" accept=".pdf,.docx,.xlsx,.pptx,.png,.jpg,.jpeg" multiple style="display:none;">
+</label>
+<div id="p-upload-feedback" class="p-upload-feedback"></div>
+</div></div>
+
+<div style="padding:20px 0 10px;">
+  <button class="send-btn" onclick="sendToFacilitator()">
+    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    Submit to Facilitator
+  </button>
+</div>
+
+<div class="mod-nav">
+  <button class="btn" onclick="showMod(3)">← Section 4 — Integration</button>
+</div>
+</div>
+</div>
+
+
+</div><!-- /main -->
+
+<script>
+// ── DATA (shared with fac version) ────────────────────────────────────────────
+var CONCEPTS=[
+  {badge:'OUTPUT',name:'A decided position',what:'Strategy is a tangible, expressible, decided position.',impl:'Clarity of direction. People know what the organisation has committed to and can align decisions to it.',fail:'Strategy remains trapped in conversations. Activity is mistaken for direction. No one can articulate what was actually decided.'},
+  {badge:'ITERATIVE',name:'Continuously refined',what:'Strategy is never finished in one pass. It is a hypothesis that loops: form → test against reality → revise → repeat.',impl:'Adaptability. The organisation stays responsive to changing conditions without losing its overall direction.',fail:'Strategy becomes doctrine — defended as settled belief and closed to evidence. Stale assumptions compound until the organisation is blindsided.'},
+  {badge:'THINKING & LOGIC',name:'The cognitive engine',what:'Thinking is divergent and exploratory. Logic is convergent and analytical — testing what must be true for the strategy to hold. Both required in sequence.',impl:'Strategy is reasoned. Prevents both wishful thinking and paralysis by analysis.',fail:'Either wishful vision (thinking without logic) or analysis paralysis (logic without fresh thinking). Most organisations under-invest in genuinely uncomfortable questions.'},
+  {badge:'PROCESS',name:'The structured container',what:'Process converts ad hoc thinking into a repeatable, auditable, scalable method. It defines who is involved, what inputs are needed, and what decisions are made at each stage.',impl:'Strategy becomes an organisational capability. It survives leadership change.',fail:'Strategy is brilliant but fragile. When the individual who carries it leaves, the capability collapses.'},
+  {badge:'WHAT · WHY · HOW · WHEN',name:'The 3Ws & H — complete decision space',what:'Four dimensions that define every coherent strategy. WHAT sets the domain. WHY establishes the differentiating logic. HOW defines the operating model. WHEN governs timing and sequencing.',impl:'A complete and internally consistent strategy. Each dimension is a necessary condition for the others.',fail:'Structural incompleteness. WHAT and WHY without HOW and WHEN is vision without execution.'},
+  {badge:'CREATES · DELIVERS · SUSTAINS',name:'The Value Triad',what:'Creating value means nothing if it does not reach its intended recipients. Delivering value means nothing if the conditions that make it possible are steadily depleted. All three layers must be explicitly designed.',impl:'Long-term viability. The organisation does not harvest today at the expense of tomorrow.',fail:'Most organisations over-invest in creation and delivery while underinvesting in sustainability — the culture, financial health, and ecosystem relationships that make value durable.'},
+  {badge:'STAKEHOLDERS',name:'Broader than customers',what:'Everyone with a stake in the organisation\'s actions: customers, employees, investors, communities, regulators, and partners.',impl:'Legitimacy and resilience. Organisations that optimise for one stakeholder class create fragilities that others eventually exploit or oppose.',fail:'Blind spots. When any stakeholder group is systematically ignored, each becomes a structural risk.'},
+  {badge:'NAVIGATING',name:'Active, skilful movement through forces',what:'Navigation implies agency — the deliberate, skilled reading of forces and the intentional choice of how to move in response to them. Strategy is a continuous navigation discipline: the forces in the operating environment do not pause when the strategy is set, when targets are reached, or when the organisation is performing well.',impl:'The organisation maintains strategic control even as conditions shift. Leaders make deliberate moves and shape their circumstances. Navigation transforms external pressure from a threat into a manageable variable.',fail:'The organisation becomes reactive — responding to what has already happened, with little anticipation of what is coming. Reactive organisations lose strategic initiative and operate in permanent catch-up.'},
+  {badge:'THE FORCES',name:'Five categories every strategy must navigate',what:'Five distinct force categories continuously shape the environment in which strategy must deliver: (1) Competitive forces — rivals, new entrants, substitutes, and shifts in customer power; (2) Macro-environmental forces — economic cycles, regulatory frameworks, political dynamics, and technological infrastructure; (3) Disruptive forces — new business models and technology applications emerging at the margins of the industry; (4) Social and environmental forces — stakeholder expectations, social norms, ESG standards, and demographic shifts; (5) Internal forces — culture, enterprise behaviour patterns, institutional habits, and legacy identity that exert force on the organisation from within, often in opposition to the stated strategy.',impl:'Leaders develop structured awareness of which forces are most active and most likely to invalidate current strategic assumptions. Each force category requires a specific navigation discipline — built progressively across the units of this programme.',fail:'Strategy is designed for a force environment that no longer exists. By the time the gap between assumed and actual forces is visible in results, the cost of recalibration is significantly higher than earlier navigation would have required.'}
+];
+var W1H=[
+  {name:'WHAT',sub:'Scope & Definition',def:"The value your organisation has chosen to create and its field of play.",governs:'Scope, portfolio, product and service definition, boundary-setting, market choice, capability focus.',diag:['What arenas are we choosing to compete in?','What have we decided not to do?','Can every team member describe our WHAT in one sentence?']},
+  {name:'WHY',sub:'Purpose & Rationale',def:"The rationale for those choices and why they matter.",governs:'Purpose, mission, competitive differentiation, value proposition, organisational identity.',diag:['Does our WHY actually differentiate us, or could a competitor claim it unchanged?','Do our decisions consistently reflect this WHY?','Do stakeholders believe and repeat our WHY?']},
+  {name:'HOW',sub:'Mechanism & Model',def:"The operating model, capabilities and mechanisms through which the value will be delivered.",governs:'Operating model, capabilities, processes, organisational design, technology architecture, partnerships.',diag:['Does our operating model match our strategy?','What capabilities are core and must be owned versus outsourced?','Where are the HOW gaps between strategic ambition and current capability?']},
+  {name:'WHEN',sub:'Timing & Sequencing',def:"The timing, sequencing and strategic moves through which the ambition will be pursued.",governs:'Timing, sequencing, pacing, prioritisation, horizon planning, entry and exit decisions.',diag:['Have we mapped the sequence of moves needed?','Are we moving at the right pace?','What signals tell us when to accelerate or pause?']}
+];
+var DIMS=[
+  {name:'Customer Experience & Value',intro:'Customers encounter the organisation through People · Processes · Products · Platforms and experience four forms of value (the CARE Model):',inds:[
+    {name:'C — Connection Value',good:'Customers feel understood, respected, and supported. People representing the organisation genuinely care about the problem.',miss:'Customers describe interactions as transactional, impersonal, or difficult. They feel processed.'},
+    {name:'A — Access Value',good:'Customers can interact quickly, easily, and reliably through their preferred channels. Availability and responsiveness are consistent.',miss:'Customers describe friction, unavailability, or inconsistency. Digital and service channels feel designed for the organisation\'s convenience.'},
+    {name:'R — Results Value',good:'Customers receive solutions that actually solve their problems and improve their outcomes. Performance is reliable; the product does what it promises.',miss:'Customers report that the offering underdelivers against its stated value. Complaints cluster around gaps between promise and performance.'},
+    {name:'E — Effort Value',good:'Customers experience simple, predictable processes requiring minimal effort. Complexity is absorbed by the organisation.',miss:'Customers describe the experience as complicated, slow, or requiring too many steps.'}
+  ]},
+  {name:'Operational Capability & Execution Rhythm',intro:'How the organisation operates internally when its strategy is translating into results:',inds:[
+    {name:'Priority Clarity',good:'Strategic priorities are explicit, stable, and understood across every function. Leaders can state the top priorities without checking a document — and their answers match.',miss:'Leaders describe different priorities. Resources are spread across too many initiatives. Every function has a different view of what matters most.'},
+    {name:'Decision Flow',good:'Decisions are made at the right level, with the right information, at the right speed. Authority is matched to accountability.',miss:'Decisions queue upward and slow down. Leaders feel they cannot act without approval. Strategic momentum is lost in governance process.'},
+    {name:'Cross-Functional Coordination',good:'Hand-offs between functions are smooth, responsibilities are unambiguous, and execution friction is visible, named, and managed.',miss:'Teams work hard in their own lanes but create problems at the boundaries. White space between functions is ungoverned.'},
+    {name:'Delivery Rhythm',good:'Teams operate to a predictable cadence — weekly, monthly, quarterly — and delivery is consistent and reliable across the enterprise.',miss:'Execution is reactive and event-driven. Reviews happen only when there is a crisis.'}
+  ]},
+  {name:'People & Culture Dynamics',intro:'Observable behavioural patterns when the organisation is operating at its best:',inds:[
+    {name:'Cross-Boundary Collaboration',good:'People work across functional boundaries without being directed to. Teams solve problems that belong to no single function because they own the enterprise outcome.',miss:'Silos are strong and quiet. Cross-functional problems stay unresolved because no one is accountable for the boundary.'},
+    {name:'Ownership Culture',good:'Leaders and teams carry outcomes. When something goes wrong, people step in because they care about the result.',miss:'People complete tasks and declare them done, regardless of the downstream consequence. Accountability is assigned but not felt.'},
+    {name:'Strategic Alignment',good:'Teams connect their day-to-day actions to the enterprise strategy without being reminded. When asked why they are doing something, they can trace it to the strategic intent.',miss:'Teams are busy but unfocused. Actions are driven by habit or last year\'s priorities.'},
+    {name:'Dialogue Quality',good:'Honest challenge, diverse perspective, and collective sense-making are normal. Disagreement surfaces before decisions are made.',miss:'Meetings are performative. Consensus is assumed without being built. The most important concerns are raised only in corridors.'}
+  ]},
+  {name:'Enterprise Value Creation',intro:'The commercial and strategic outcomes confirming the strategy is producing durable enterprise value:',inds:[
+    {name:'Growth Trajectory',good:'Revenue, market share, and customer acquisition are moving in the direction the strategic intent predicted. Growth is traceable to specific strategic choices.',miss:'Growth is inconsistent and driven by the market. The strategy does not explain the results.'},
+    {name:'Profitability Quality',good:'Margin discipline reflects deliberate value positioning. The organisation earns what its strategic intent says it should — its differentiation commands a premium.',miss:'Margin pressure is treated as a market problem when its root is positioning. The organisation competes on price because its WHY is insufficiently differentiated.'},
+    {name:'Market Position',good:'The organisation occupies the competitive position its strategic intent described. Stakeholders describe the organisation in the language the SiP predicted.',miss:'The organisation\'s external reputation does not match its internal self-description. The strategy has not translated into a distinctive market position.'},
+    {name:'Value Durability',good:'The conditions that made success possible — talent, brand trust, infrastructure, ecosystem relationships — are being actively reinvested in and strengthened.',miss:'The organisation is harvesting value faster than it is creating it. Short-term results come at the cost of the capabilities that make future success possible.'}
+  ]}
+];
+var FLAMS=[
+  {"dim": "D1 Dominant — Customer Only", "what": "The SiP reads as a marketing aspiration: vivid about the customer experience, silent on how the organisation will build and sustain it. The customer statement is rich and specific. The operational, people and enterprise statements are thin, or repeat the customer promise in other words. Leaders can describe what customers will feel and cannot describe the capability, the behaviour or the economics that produce it.", "signs": ["Every domain statement begins and ends with the customer.", "No statement names a capability, a decision right or a delivery rhythm.", "The enterprise statement assumes that growth follows from satisfaction, with no account of cost to serve."], "risk": "Execution capacity is underestimated. The customer promise is made without accounting for the operational and cultural conditions required to deliver it. The organisation commits publicly to an experience it cannot yet produce at scale, so delivery teams absorb the gap through workarounds and overtime. Service becomes inconsistent, cost to serve rises faster than revenue, and the promise that was meant to differentiate the organisation becomes the source of customer disappointment."},
+  {"dim": "D2 Dominant — Operations Only", "what": "The SiP reads as a process optimisation plan: efficient and measurable, and stripped of the customer meaning and cultural texture that make execution energising. Success is described in throughput, cycle time, cost and compliance. The customer appears as a recipient of efficiency. People appear as resources inside the process.", "signs": ["Statements describe how work flows and say little about who benefits.", "Every measure of success is internal: speed, cost, error rates.", "The people statement lists roles and procedures, with no behaviour or ownership."], "risk": "The organisation improves its machine while losing sight of what the machine is for. Execution becomes an end in itself. The efficiency gains are real, and the value they were meant to serve drifts: the organisation becomes faster at delivering what customers value less. People comply with the process without owning the outcome, so the system stops adapting when the market moves."},
+  {"dim": "D3 Dominant — People Only", "what": "The SiP reads as an organisational development narrative: rich in values, commercially unanchored, difficult to measure and easy to dismiss. Success is described through engagement, collaboration, trust and leadership behaviour. The customer outcome and the enterprise outcome are implied and never stated.", "signs": ["Statements describe how people feel and behave, with no link to a customer result or a commercial result.", "No statement could be tested against evidence within the time horizon.", "Operational capability is described as culture, with no mechanism behind it."], "risk": "Culture work becomes disconnected from commercial outcomes. The strategy describes who the organisation wants to be and leaves what it intends to achieve undefined. Investment in people and culture cannot be defended when results come under pressure, so it is the first budget to be cut. Leaders outside the people function disengage from the SiP, and culture becomes one function's project."},
+  {"dim": "D4 Dominant — Value Only", "what": "The SiP reads as a financial target: measurable and motivationally thin, describing the score without describing the game. Success is expressed in revenue, margin, market share and return. The statements say what the organisation will gain and say little about what customers, operations and people must look like to produce it.", "signs": ["Every statement resolves into a number.", "The customer statement is a sales target or a share target.", "No statement describes a capability or a behaviour that produces the result."], "risk": "Leaders optimise for metrics without creating the conditions that produce them. Short-termism disguises itself as strategic clarity. Targets are met through cost cutting, price moves and deferred investment, which weakens the capabilities and relationships that future results depend on. Functions compete for the numbers they are measured on, and the enterprise outcome erodes while each scorecard stays green."}
+];
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function renderConcepts(){
+  var el=document.getElementById('conceptListP');if(!el)return;
+  el.innerHTML=CONCEPTS.map(function(c,i){
+    return '<div class="sub-acc" id="con_'+i+'">'+
+      '<div class="sub-acc-h" onclick="tSA(this)">'+
+        '<span><strong style="color:var(--teal);margin-right:8px;">'+c.badge+'</strong>'+c.name+'</span>'+
+        '<span class="sub-arr">▼</span>'+
+      '</div>'+
+      '<div class="sub-acc-b">'+
+        '<div><p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;">What It Means + Strategic Implication</p>'+
+          '<p style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.7;margin:0;">'+c.what+'</p>'+
+          '<p style="font-size:12px;color:rgba(255,255,255,.5);line-height:1.7;margin-top:6px;">'+c.impl+'</p>'+
+        '</div>'+
+        '<div><p style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,76,60,.6);margin-bottom:6px;">Failure If Missing</p>'+
+          '<p style="font-size:12px;color:rgba(231,100,80,.75);line-height:1.7;margin:0;">'+c.fail+'</p>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderW1H(){
+  var el=document.getElementById('w1hPanelsP');if(!el)return;
+  el.innerHTML=W1H.map(function(w,i){
+    return '<div class="ph-panel'+(i===0?' active':'')+'" id="w1hP_'+i+'">'+
+      '<div class="pp-col"><h5>What It Brings Forward</h5><p>'+w.def+'</p><div style="margin-top:10px;padding:8px 12px;background:rgba(26,122,106,.06);border-radius:2px;"><p style="font-size:11px;color:var(--teal);font-weight:700;margin:0;">'+w.name+' — '+w.sub+'</p></div></div>'+
+      '<div class="pp-col"><h5>What It Governs</h5><p>'+w.governs+'</p></div>'+
+      '<div class="pp-col"><h5>Diagnostic Questions</h5><ul>'+w.diag.map(function(d){return '<li>'+d+'</li>';}).join('')+'</ul></div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderDimsP(){
+  var el=document.getElementById('dimPanelsP');if(!el)return;
+  el.innerHTML=DIMS.map(function(d,di){
+    return '<div class="dim-panel'+(di===0?' active':'')+'" id="dimP_'+di+'">'+
+      '<p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.8;margin-bottom:12px;">'+d.intro+'</p>'+
+      d.inds.map(function(ind,ii){
+        return '<div class="ind-row" id="indP_'+di+'_'+ii+'">'+
+          '<div class="ind-row-h" onclick="tIndP('+di+','+ii+')">'+
+            '<span class="ind-name">'+ind.name+'</span>'+
+            '<span class="ind-toggle">▼</span>'+
+          '</div>'+
+          '<div class="ind-body">'+
+            '<div class="ind-col"><p class="ind-col-h good">When Working</p><p>'+ind.good+'</p></div>'+
+            '<div class="ind-col"><p class="ind-col-h miss">Signal of Absence</p><p>'+ind.miss+'</p></div>'+
+          '</div>'+
+        '</div>';
+      }).join('')+
+    '</div>';
+  }).join('');
+}
+
+function renderFlamP(){
+  var el=document.getElementById('flamListP');if(!el)return;
+  el.innerHTML=FLAMS.map(function(f,i){
+    return '<div class="sub-acc" id="flamP_'+i+'">'+
+      '<div class="sub-acc-h" onclick="tSA(this)" style="border-left:3px solid rgba(231,76,60,.4);padding-left:14px;">'+
+        '<span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(231,100,80,.9);">'+f.dim+'</span>'+
+        '<span class="sub-arr">▼</span>'+
+      '</div>'+
+      '<div class="sub-acc-b" style="padding-top:12px;">'+
+        '<div>'+
+          '<p class="u2-lbl" style="color:rgba(255,255,255,.4);">What It Creates</p>'+
+          '<p class="u2-txt">'+f.what+'</p>'+
+          '<p class="u2-lbl" style="color:rgba(255,255,255,.4);margin-top:14px;">Indicators</p>'+
+          '<ul class="u2-signs">'+f.signs.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul>'+
+        '</div>'+
+        '<div>'+
+          '<p class="u2-lbl" style="color:rgba(231,76,60,.65);">Strategic Risk if Not Balanced</p>'+
+          '<p class="u2-txt" style="color:rgba(231,120,100,.9);">'+f.risk+'</p>'+
+        '</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+var SUMMARY=[
+  {"arc": "Awareness — What", "t": "What Was Established", "body": "Strategy was defined precisely: the output of iterative thinking, logic and process to determine what, why, how and when an organisation creates, delivers and sustains value to its stakeholders while navigating the forces within its operating environment. Each concept in the definition is part of the Strategy Architecture: the interconnected choices and logic that sit underneath a strategy. The Strategy Intent Statement brings forward four dimensions from that architecture (WHAT, WHY, HOW and WHEN) and crystallises them into one clear statement. Success in Practice (SiP) defines what must be seen, experienced and executed for that ambition to become reality, across four observable domains: Customer Experience & Value, Operational Capability & Execution Rhythm, People & Culture Dynamics, and Enterprise Value Creation."},
+  {"arc": "Intelligence — Why", "t": "Why It Matters", "body": "Your Strategy Intent and your SiP become useful when they shape how your organisation aligns, makes choices and executes. They serve three functions. Strategic Alignment keeps you and your fellow leaders oriented around the same ambition and picture of success. The Decision Filter gives you a basis for determining which choices, opportunities and investments support the strategy: the Strategy Intent tests strategic fit and SiP tests strategic contribution. Execution Coherence helps you see how your function's contribution connects with the others to produce the enterprise outcome."},
+  {"arc": "Extrapolating — Where", "t": "Where Success Shows Up", "body": "You examined each SiP domain through observable indicators in two positions: When Working and Signal of Absence. The indicators help you test, deepen and make observable the success you have defined. The SiP Flammables gave you the balance test: they show when one legitimate perspective has become so dominant that the enterprise picture narrows into a functional one. Two disciplines result: depth within each SiP domain and balance across all four."},
+  {"arc": "Integration — Collective", "t": "What Was Shown", "body": "One worked example took Kestrel Point Services through the three connected outputs. Its Strategy Architecture: the integrated strategic logic constructed from the 14 elements, each stating what it is saying. Its Strategy Intent Statement: the crisp expression of its ambition deduced from WHAT, WHY, HOW and WHEN. Its Success in Practice: four statements describing what realising that ambition looks like across the organisation, tested for depth and balance."},
+  {"arc": "Application — In Practice", "t": "What Was Built", "body": "With your group you built the same three outputs for your own simulated company: your Strategy Architecture, your Strategy Intent Statement and your Success in Practice. Every member agreed the group record, and the three outputs went into your team's Capstone S2R® Blueprint. The Architecture provides the logic. The Intent crystallises the ambition. Success in Practice makes the ambition observable. These outputs are the strategic foundation that later S2R® work carries into alignment, execution and performance."}
+];
+
+function renderSummaryP(){
+  var el=document.getElementById('summaryP');if(!el)return;
+  el.innerHTML=SUMMARY.map(function(s,i){
+    return '<div class="sum-block" id="sumP_'+i+'">'+
+      '<div class="sum-h" onclick="tSumP('+i+')">'+
+        '<span class="sum-arc">'+s.arc+'</span>'+
+        '<span class="sum-title">'+s.t+'</span>'+
+        '<span class="sum-arr">▼</span>'+
+      '</div>'+
+      '<div class="sum-body"><p>'+s.body+'</p></div>'+
+    '</div>';
+  }).join('');
+}
+function tSumP(i){document.getElementById('sumP_'+i).classList.toggle('open');}
+
+function goBack(){location.href='index.html';}
+
+function tA(h){h.parentElement.classList.toggle('open');}
+function tSA(h){h.parentElement.classList.toggle('open');}
+function tIndP(di,ii){document.getElementById('indP_'+di+'_'+ii).classList.toggle('open');}
+function showEl(i){
+  document.querySelectorAll('#elTabsP .ag-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('#elPanelsP .ag-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
+}
+function showPhP(prefix,i){
+  document.querySelectorAll('#'+prefix+'Tabs .ph-tab, #'+prefix+'TabsP .ph-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('[id^="'+prefix+'_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});
+}
+function showDimP(i){
+  document.querySelectorAll('#dimTabsP .dim-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('[id^="dimP_"]').forEach(function(p,x){p.classList.toggle('active',x===i);});
+}
+function showMod(i){
+  document.querySelectorAll('.mod-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('.mod-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+async function saveRef(id){
+  var ta=document.getElementById(id);if(!ta)return;
+  if(!window.S2R){console.warn('[unit2_m1_lens1_p] S2R helper not loaded');return;}
+  clearTimeout(_draftTimers[id]);
+  _setRefStatus(id,'⏳ Saving\u2026','rs-saving');
+  var existingErr=document.getElementById(id+'-error');
+  if(existingErr)existingErr.style.display='none';
+  var result=await S2R.save('u2m1_lens1',id,ta.value);
+  if(result){
+    _setRefStatus(id,'✓ Saved to your portfolio','rs-ok');
+    setTimeout(function(){
+      var ok=document.getElementById(id+'-saved');
+      if(ok){ok.style.display='none';ok.className='ref-saved reflection-saved';}
+    },3000);
+  }else{
+    console.error('[unit2_m1_lens1_p C7] saveRef failed for '+id+' (save returned false)');
+    var ok=document.getElementById(id+'-saved');
+    if(ok)ok.style.display='none';
+    showSaveError(id);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// UNIT 2 · STRATEGY INTENT DESIGN (Section 4)
+// Strategy Architecture (14 elements) → Strategy Intent Statement → Success in Practice.
+// Step 1 follows Carol's S2R Strategy Architect tool (v15, "Define Strategy" mode). Steps 2 and 3 are written by the
+// group itself: the page does not draft the Intent or the SiP statements. Answers save to the
+// portal database through S2R.save; every key is listed in Unit decks/_build/rebuild_u02/README.md.
+// ══════════════════════════════════════════════════════════════════════════════
+var EL=[
+  {"n": "ITERATIVE", "tag": "Continuously refined", "guide": "Strategy is never finished in one pass. It is a hypothesis that loops: form → test against reality → revise → repeat. This rules out strategy as an annual ritual and rules in strategy as a living capability.", "qs": ["What core hypotheses does the strategy depend on?", "How will reality test those hypotheses?", "What evidence would trigger refinement?", "How and when will strategic choices be revisited?"]},
+  {"n": "THINKING & LOGIC", "tag": "The cognitive engine", "guide": "Thinking = divergent, exploratory, hypothesis-generating. Logic = convergent, analytical, assumption-testing. Both are required in sequence.", "qs": ["What alternative possibilities were explored?", "What assumptions underpin the preferred direction?", "What must be true for this strategy to work?", "What evidence supports or challenges the logic?"]},
+  {"n": "PROCESS", "tag": "Structured container", "guide": "Process turns ad hoc thinking into a repeatable, auditable, scalable method. It defines who is involved, what inputs are needed, what tools are used, and what decisions get made at each stage.", "qs": ["Who must participate in shaping the strategy?", "What inputs and evidence are required?", "What decision stages will be used?", "How will decisions and rationale be recorded?"]},
+  {"n": "WHAT", "tag": "Scope & definition", "guide": "What value are we creating? What business are we actually in? What do we offer and deliberately not offer? This sets the boundary of the organisation's field of play.", "qs": ["What business are we actually in?", "What value are we choosing to create?", "What will we offer?", "What will we deliberately not offer or pursue?"]},
+  {"n": "WHY", "tag": "Purpose & rationale", "guide": "Why does this organisation exist? Why would stakeholders choose us? The North Star that makes all other decisions coherent and gives the strategy its internal logic.", "qs": ["Why does the organisation exist?", "Why should stakeholders choose or support us?", "Why are these strategic choices appropriate?", "What unifying rationale makes the choices coherent?"]},
+  {"n": "HOW", "tag": "Mechanism & model", "guide": "How do we actually deliver the value? What capabilities, processes, structures and partnerships make it possible? This is where strategy meets the operating model.", "qs": ["What operating mechanism makes the strategy work?", "Which capabilities are essential?", "Which processes and structures must support it?", "Which partnerships or ecosystem relationships are required?"]},
+  {"n": "WHEN", "tag": "Timing & sequencing", "guide": "When do we move? When do we hold? When do we exit? Timing determines whether the right move wins or fails. Sequencing determines whether capability is built in the right order.", "qs": ["What must happen first, next and later?", "What determines when we move, hold or exit?", "Which dependencies shape the sequence?", "What timing assumptions could change the strategy?"]},
+  {"n": "CREATES VALUE", "tag": "Origination layer", "guide": "Value comes into existence through creation: product/service development, innovation, capability building, IP, brand equity — activities that generate new or improved worth.", "qs": ["What new or improved value will come into existence?", "Through which activities is that value created?", "What capabilities or assets enable creation?", "How will we know that genuine value has been created?"]},
+  {"n": "DELIVERS VALUE", "tag": "Distribution & access layer", "guide": "Creating value means nothing if it does not reach intended recipients. Delivery is the full system of transmission: channels, distribution, customer experience, partnerships and pricing.", "qs": ["How will created value reach each intended recipient?", "Which channels and access mechanisms matter?", "What experience must recipients have?", "What could prevent value from reaching them?"]},
+  {"n": "SUSTAINS VALUE", "tag": "Durability & compounding layer", "guide": "Sustaining requires investment in the conditions that make value possible: relationships, infrastructure, culture, financial health and continued relevance.", "qs": ["What makes this value durable over time?", "What must be continually invested in or renewed?", "What could erode the value?", "How will relevance and viability be sustained?"]},
+  {"n": "STAKEHOLDERS", "tag": "Full universe of value recipients", "guide": "Broader than customers: everyone with a stake in the organisation's actions, including employees, investors, communities, regulators, partners and future generations.", "qs": ["Who has a material stake in our actions?", "What value does each stakeholder group receive or contribute?", "Where do stakeholder interests reinforce or conflict?", "Whose interests could be overlooked by this strategy?"]},
+  {"n": "NAVIGATING", "tag": "Active, skilful movement", "guide": "Navigation implies agency, skill and continuous course correction. Read the environment, interpret it and make deliberate moves through it — putting the forces to use.", "qs": ["How will the organisation sense changes in its environment?", "How will signals be interpreted and translated into decisions?", "Where can external forces be used to advantage?", "What enables deliberate course correction?"]},
+  {"n": "THE FORCES", "tag": "What must be navigated", "guide": "Competitive, macro, disruptive, social and environmental, and internal forces shape strategic viability: rivals, substitutes, regulation, economics, technology, business models, ESG, demographic shifts, culture and legacy identity.", "qs": ["Which competitive forces materially shape the strategy?", "Which macro and regulatory forces matter most?", "Which disruptive forces could alter the model?", "Which social or environmental forces create risk or opportunity?", "Which internal forces (culture, behaviour patterns, institutional habits, legacy identity) work for or against the strategy?"]},
+  {"n": "OPERATING ENVIRONMENT", "tag": "The bounded context", "guide": "The full system within which the organisation exists: industry, economy, regulation, technology, social context and physical environment. Strategy only makes sense within a defined environment.", "qs": ["What is the defined operating context for this strategy?", "Which industry and market conditions shape it?", "Which regulatory, technological and social conditions matter?", "Where would this strategy stop making sense if the context changed?"]}
+];
+var ARCH_GROUPS=[["Strategic Position", ["WHAT", "WHY"]], ["Strategic Model", ["HOW", "WHEN"]], ["Value Architecture", ["CREATES VALUE", "DELIVERS VALUE", "SUSTAINS VALUE", "STAKEHOLDERS"]], ["Strategic Navigation", ["NAVIGATING", "THE FORCES", "OPERATING ENVIRONMENT"]], ["Strategy Discipline", ["ITERATIVE", "THINKING & LOGIC", "PROCESS"]]];
+var SIPD=[
+  {"t": "Customer Experience & Value", "lead": "If the intent succeeds, what should customers and other value recipients see and experience?", "qs": ["What will customers or value recipients experience differently?", "What value or result will they consistently receive?", "What observable evidence will tell us this is true?"]},
+  {"t": "Operational Capability & Execution Rhythm", "lead": "If the intent succeeds, what should be visible in how the organisation operates and executes?", "qs": ["What capabilities and operating conditions will be functioning effectively?", "How will priorities, decisions, coordination and delivery work in practice?", "What observable evidence will show that execution is working?"]},
+  {"t": "People & Culture Dynamics", "lead": "If the intent succeeds, what should be visible in how people understand, decide and behave?", "qs": ["What will people understand about the strategic intent and their contribution?", "How will people decide, collaborate, take ownership and behave?", "What observable evidence will show that these conditions are embedded?"]},
+  {"t": "Enterprise Value Creation", "lead": "If the intent succeeds, how should the organisation benefit across its success metrics?", "qs": ["What enterprise outcomes should improve as a result of the strategy?", "What strategic or market position should the organisation achieve?", "What evidence will show that value is being sustained within the time horizon?"]}
+];
+var DIM4=[
+  ['WHAT','Scope & Definition','The value chosen and field of play.'],
+  ['WHY','Purpose & Rationale','The rationale for the choices and why they matter.'],
+  ['HOW','Mechanism & Model','The operating model, capabilities and mechanisms through which the value will be delivered.'],
+  ['WHEN','Timing & Sequencing','The timing, sequencing and strategic moves through which the ambition will be pursued.']
+];
+/* ── SECTION 5 · YOUR COMPANY'S STRATEGY (group work, Capstone work, one group record) ──
+   Built 19 October 2026. The group's scribe types; the entries appear on every member's page
+   (S2RTeam, s2r-team.js). Each member selects Agree; when every member has agreed, the names
+   below go into each member's confirmed list and the Capstone S2R® Blueprint brings the outputs in.
+   Keys (lens u2m1_lens1): strategy_period, arch_eNN_qN, arch_eNN_rs (what the element is saying),
+   arch_output, intent_statement, sip_dN_qN, sip_dN_st. The page writes no statement for the group. */
+var U2={v:{},cur:0,step:0,pc:{}};
+var N_ARCH='Strategy Architecture',N_INTENT='Strategy Intent Statement',N_SIP='Success in Practice';
+var U2_LENS='u2m1_lens1';
+function pad2(n){return (n<10?'0':'')+n;}
+function qk(i,j){return 'arch_e'+pad2(i+1)+'_q'+(j+1);}
+function rk(i){return 'arch_e'+pad2(i+1)+'_rs';}
+function sqk(d,j){return 'sip_d'+(d+1)+'_q'+(j+1);}
+function ssk(d){return 'sip_d'+(d+1)+'_st';}
+function scn(d){return 'SiP · '+SIPD[d].t;}
+function u2Names(){return [N_ARCH,N_INTENT].concat(SIPD.map(function(_,d){return scn(d);})).concat([N_SIP]);}
+function u2v(k){var x=U2.v[k];return (x===undefined||x===null)?'':String(x);}
+function u2t(k){return u2v(k).replace(/\s+/g,' ').trim();}
+function u2esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function u2el(id){return document.getElementById(id);}
+function u2Key(k){return /^(strategy_period$|arch_e\d\d_(q\d|rs)$|arch_output$|intent_statement$|sip_d[1-4]_(q[1-3]|st)$)/.test(k);}
+function u2In(k,val){U2.v[k]=val;if(window.S2RTeam)S2RTeam.save(k,val);u2Live(k);}
+function elIndex(name){for(var i=0;i<EL.length;i++){if(EL[i].n===name)return i;}return -1;}
+function elDone(i){return !!u2t(rk(i));}
+function elDoneCount(){var n=0;EL.forEach(function(_,i){if(elDone(i))n++;});return n;}
+function u2Company(){return String(U2.pc.company||'').trim();}
+
+/* What is still missing before the group can agree ('' when complete). */
+function u2Missing(){
+  var out=[],n=EL.length-elDoneCount();
+  if(n)out.push(n+' of the 14 elements still need what the element is saying');
+  if(!u2t('arch_output'))out.push('the Strategy Architecture');
+  if(!u2t('intent_statement'))out.push('the Strategy Intent Statement');
+  var s=SIPD.filter(function(_,d){return !u2t(ssk(d));}).length;
+  if(s)out.push(s+' of the 4 SiP statements');
+  return out.join('; ');
+}
+
+/* Small live updates that keep the scribe's cursor in place. */
+function u2Live(k){
+  if(/_rs$/.test(k)){u2Chips();var b=u2el('u2bArchBtn');if(b)b.disabled=elDoneCount()<EL.length;var c=u2el('u2bCount');if(c)c.textContent=elDoneCount()+' of 14';}
+  if(k==='intent_statement'){var m=u2el('u2bIntentMirror');if(m)m.textContent=u2t('intent_statement')||'Your Strategy Intent Statement appears here once your group writes it in Step 2.';}
+  if(window.S2RTeam)S2RTeam.redraw();
+}
+
+/* The group's Problem Charter company, read-only. */
+async function u2LoadCharter(){
+  var r={};try{r=await S2R.loadAll('u1_foundations');}catch(e){r={};}
+  var conf=Array.isArray(r.confirmed_items)?r.confirmed_items:[];
+  function g(k,n){return conf.indexOf(n)>=0&&typeof r[k]==='string'?r[k].trim():'';}
+  U2.pc={company:g('pc_company','Problem Charter · Simulated Company'),team:g('pc_team','Problem Charter · Executive Team'),
+         org:g('pc_org','Problem Charter · Our Organisation'),problem:g('pc_problem','Problem Charter · Central Organisational Problem')};
+  u2Charter();
+}
+function u2Charter(){
+  var host=u2el('u2bCharter');if(!host)return;
+  var p=U2.pc;
+  if(!p.company){host.innerHTML='<div class="u2-locked">Your group\'s company appears here once every member of your group has agreed your Problem Charter in Unit 1, part 6.2.</div>';return;}
+  host.innerHTML='<div class="u2b-co">'+
+    '<div class="u2b-co-c"><b>Your simulated company</b><span>'+u2esc(p.company)+'</span></div>'+
+    (p.org?'<div class="u2b-co-c"><b>Our organisation</b><span>'+u2esc(p.org)+'</span></div>':'')+
+    (p.team?'<div class="u2b-co-c"><b>Your executive team</b><span>'+u2esc(p.team)+'</span></div>':'')+
+    (p.problem?'<div class="u2b-co-c u2b-wide"><b>Your central organisational problem</b><span>'+u2esc(p.problem)+'</span></div>':'')+
+  '</div>';
+}
+
+function u2Step(i){
+  U2.step=i;
+  document.querySelectorAll('#u2bTool .step-tab').forEach(function(t,x){t.classList.toggle('active',x===i);});
+  document.querySelectorAll('#u2bTool .step-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
+  u2RenderStep(i);
+}
+function u2RenderStep(i){if(i===0)u2RenderArch();else if(i===1)u2RenderIntent();else if(i===2)u2RenderSip();else u2RenderRecord();if(window.S2RTeam)S2RTeam.redraw();}
+function u2RenderAll(){u2Charter();u2RenderStep(U2.step);}
+
+function u2Chips(){
+  var host=u2el('u2bChips');if(!host)return;
+  host.innerHTML=EL.map(function(e,i){
+    return '<button type="button" class="u2-chip'+(i===U2.cur?' active':'')+(elDone(i)?' done':'')+'" data-team-free onclick="u2Go('+i+')"><span class="u2-chip-n">'+(elDone(i)?'✓':(i+1))+'</span>'+u2esc(e.n)+'</button>';
+  }).join('');
+}
+function u2Go(i){U2.cur=Math.max(0,Math.min(EL.length-1,i));u2RenderEl();u2Chips();}
+function u2RenderEl(){
+  var host=u2el('u2bEl');if(!host)return;
+  var i=U2.cur,e=EL[i];
+  host.innerHTML='<div class="u2b-grid"><div class="u2b-lesson"><div class="u2b-lesson-h">The lesson for this element</div>'+
+      '<div class="u2-el-name">'+(i+1)+' · '+u2esc(e.n)+'</div><div class="u2-el-tag">'+u2esc(e.tag)+'</div><p>'+u2esc(e.guide)+'</p></div>'+
+    '<div class="u2b-entry">'+
+      e.qs.map(function(q,j){var k=qk(i,j);return '<label class="u2-q" for="'+k+'">'+u2esc(q)+'</label><textarea class="port-ta u2b-ta" id="'+k+'" oninput="u2In(\''+k+'\',this.value)" placeholder="Your group\'s answer…">'+u2esc(u2v(k))+'</textarea>';}).join('')+
+      '<label class="u2-q u2b-say" for="'+rk(i)+'">What this element is saying</label>'+
+      '<textarea class="port-ta u2b-ta" id="'+rk(i)+'" oninput="u2In(\''+rk(i)+'\',this.value)" placeholder="In one or two sentences, what your answers say about your strategy…">'+u2esc(u2v(rk(i)))+'</textarea>'+
+    '</div></div>'+
+    '<div class="u2-elnav"><button type="button" class="btn" data-team-free onclick="u2Go('+(i-1)+')"'+(i===0?' disabled':'')+'>← Previous element</button><button type="button" class="btn" data-team-free onclick="u2Go('+(i+1)+')"'+(i===EL.length-1?' disabled':'')+'>Next element →</button></div>';
+}
+function u2RenderArch(){
+  u2Chips();u2RenderEl();
+  var host=u2el('u2bArch');if(!host)return;
+  host.innerHTML='<div class="u2b-grid"><div class="u2b-lesson"><div class="u2b-lesson-h">The lesson for the Strategy Architecture</div>'+
+      '<p>Step back from the single elements and read them as one strategic system: <em>"What is this architecture collectively saying about our organisation\'s strategy?"</em></p>'+
+      '<p>Check together: Do our choices reinforce one another? Where are there contradictions or unresolved tensions? Does our HOW support what we have chosen to achieve? Does our timing and sequencing reflect the realities of our capability and environment? Have we addressed how value will be created, delivered and sustained? Does the architecture represent the strategic position we collectively intend?</p></div>'+
+    '<div class="u2b-entry"><div class="u2b-count">Elements with what they are saying: <b id="u2bCount">'+elDoneCount()+' of 14</b></div>'+
+      '<div class="u2-btnrow tw-scribe-only"><button type="button" class="u2-b" id="u2bArchBtn" onclick="u2ArchBring()"'+(elDoneCount()<EL.length?' disabled':'')+'>Bring the 14 elements together</button></div>'+
+      '<label class="u2-q" for="arch_output">Your Strategy Architecture, under its five headings</label>'+
+      '<textarea class="port-ta u2b-ta" id="arch_output" style="min-height:280px;" oninput="u2In(\'arch_output\',this.value)" placeholder="When all 14 elements say what they mean, the scribe brings them together here under the five headings. Your group then edits the text until it says what your group intends.">'+u2esc(u2v('arch_output'))+'</textarea>'+
+    '</div></div>';
+}
+function u2ArchBring(){
+  if(elDoneCount()<EL.length)return;
+  if(u2t('arch_output')&&!window.confirm('Replace the text in the box with the 14 elements as they stand now?'))return;
+  var txt=ARCH_GROUPS.map(function(g){return g[0]+'\n'+g[1].map(function(n){var i=elIndex(n);return n+': '+u2t(rk(i));}).join('\n');}).join('\n\n');
+  var ta=u2el('arch_output');if(ta)ta.value=txt;u2In('arch_output',txt);
+}
+function u2RenderIntent(){
+  var host=u2el('u2bIntent');if(!host)return;
+  host.innerHTML='<div class="u2b-grid"><div class="u2b-lesson"><div class="u2b-lesson-h">The lesson for this step</div>'+
+      '<p>The Architecture holds the depth. The Intent gives the clarity: one crisp statement of strategic ambition that carries WHAT, WHY, HOW and WHEN.</p>'+
+      '<p><b>Protect the Intent from overload.</b> Leave the detail in the Architecture. A strong Intent lets a leader understand your strategic position without a paragraph of explanation.</p>'+
+      '<p>Read your statement against your Architecture: <em>"Does this statement faithfully express the strategic ambition contained in our Architecture?"</em> Where it exposes a contradiction, resolve the contradiction in the Architecture first.</p></div>'+
+    '<div class="u2b-entry"><div class="u2-grid">'+DIM4.map(function(d){var i=elIndex(d[0]),t=i<0?'':u2t(rk(i));
+        return '<div class="u2-card"><div class="u2-card-h">'+d[0]+' — '+u2esc(d[1])+'</div><p>'+u2esc(d[2])+'</p><div class="u2-mirror-lbl">What your element is saying</div>'+
+          (t?'<div class="u2-mirror">'+u2esc(t)+'</div>':'<div class="u2-mirror empty">Appears here once your group writes it in Step 1.</div>')+'</div>';}).join('')+'</div>'+
+      '<label class="u2-q" for="intent_statement">Your Strategy Intent Statement</label>'+
+      '<textarea class="port-ta u2b-ta" id="intent_statement" style="min-height:110px;" oninput="u2In(\'intent_statement\',this.value)" placeholder="One crisp statement your group deduces from WHAT, WHY, HOW and WHEN…">'+u2esc(u2v('intent_statement'))+'</textarea>'+
+    '</div></div>';
+}
+function u2RenderSip(){
+  var host=u2el('u2bSip');if(!host)return;
+  var it=u2t('intent_statement');
+  host.innerHTML='<div class="u2b-grid"><div class="u2b-lesson"><div class="u2b-lesson-h">The lesson for this step</div>'+
+      '<p>Stand inside the future your Strategy Intent describes and ask: <em>"If our Strategy Intent is successful, what should we see in practice?"</em></p>'+
+      '<p>For each domain, answer the three questions, then write one statement for the domain from your answers. Use the observable indicators from Section 3 to deepen the discussion.</p>'+
+      '<p><b>Depth.</b> Could you recognise each condition if you saw it in practice?</p>'+
+      '<p><b>Balance.</b> Do the four statements together describe enterprise success? Use the SiP Flammables from 3.2 as the final balance check.</p></div>'+
+    '<div class="u2b-entry"><div class="u2-out"><div class="u2-out-h">Your Strategy Intent Statement</div><div class="u2-mirror'+(it?'':' empty')+'" id="u2bIntentMirror">'+u2esc(it||'Your Strategy Intent Statement appears here once your group writes it in Step 2.')+'</div></div>'+
+      SIPD.map(function(x,d){
+        return '<details class="u2b-det"'+(d===0?' open':'')+'><summary>D'+(d+1)+' · '+u2esc(x.t)+'</summary><p class="u2b-lead">'+u2esc(x.lead)+'</p>'+
+          x.qs.map(function(q,j){var k=sqk(d,j);return '<label class="u2-q" for="'+k+'">'+u2esc(q)+'</label><textarea class="port-ta u2b-ta" id="'+k+'" oninput="u2In(\''+k+'\',this.value)" placeholder="Your group\'s answer…">'+u2esc(u2v(k))+'</textarea>';}).join('')+
+          '<label class="u2-q u2b-say" for="'+ssk(d)+'">Your SiP statement · '+u2esc(x.t)+'</label><textarea class="port-ta u2b-ta" id="'+ssk(d)+'" oninput="u2In(\''+ssk(d)+'\',this.value)" placeholder="One statement for this domain, written from your answers…">'+u2esc(u2v(ssk(d)))+'</textarea></details>';
+      }).join('')+
+    '</div></div>';
+}
+function u2RecRow(label,text){return '<div class="u7-rec"><div class="u7-rec-s">'+u2esc(label)+'</div><div class="u7-rec-t">'+(text?u2esc(text):'<i>Not written yet.</i>')+'</div></div>';}
+function u2RenderRecord(){
+  var host=u2el('u2bRecord');if(!host)return;
+  var miss=u2Missing();
+  host.innerHTML=(miss?'<div class="u2-note">Still to complete: '+u2esc(miss)+'.</div>':'<div class="u2-ok">✓ Every part of the record is written. Each member reads it and selects Agree in the group record bar above.</div>')+
+    u2RecRow('Company',u2Company())+u2RecRow('Strategy period',u2t('strategy_period'))+
+    u2RecRow('Strategy Architecture',u2v('arch_output').trim())+u2RecRow('Strategy Intent Statement',u2t('intent_statement'))+
+    SIPD.map(function(x,d){return u2RecRow('SiP '+(d+1)+' · '+x.t,u2t(ssk(d)));}).join('')+
+    '<div class="u2-btnrow"><button type="button" class="u2-b ok" data-team-free onclick="S2RTeam.agree()"'+(miss?' disabled':'')+'>Agree</button><button type="button" class="u2-b" data-team-free onclick="u2Print(\'all\')"'+(miss?' disabled':'')+'>Print our group record</button></div>';
+}
+
+/* ── Printed report: Strategy Architecture → Strategy Intent → Success in Practice ── */
+function rptArch(){
+  var names=EL.map(function(e){return e.n;}),groups=ARCH_GROUPS.map(function(g){return g[0];});
+  var html='',open=false;
+  u2v('arch_output').split(/\r?\n/).forEach(function(raw){
+    var line=raw.trim();if(!line)return;
+    if(groups.indexOf(line)>=0){if(open)html+='</div>';html+='<div class="group"><div class="group-title">'+u2esc(line)+'</div>';open=true;return;}
+    if(!open){html+='<div class="group">';open=true;}
+    var k=line.indexOf(':'),label=k>0?line.slice(0,k).trim():'';
+    if(label&&names.indexOf(label)>=0)html+='<div class="arch-row"><div class="arch-label">'+u2esc(label)+'</div><div class="arch-text">'+u2esc(line.slice(k+1).trim())+'</div></div>';
+    else html+='<div class="arch-row"><div class="arch-label"></div><div class="arch-text">'+u2esc(line)+'</div></div>';
+  });
+  if(open)html+='</div>';
+  return '<section class="section"><div class="section-title">Strategy Architecture</div><div class="section-rule"></div>'+html+'</section>';
+}
+function rptIntent(){return '<section class="section"><div class="section-title">Strategy Intent Statement</div><div class="section-rule"></div><div class="intent-panel">'+u2esc(u2t('intent_statement'))+'</div></section>';}
+function rptSip(){
+  return '<section class="section"><div class="section-title">Success in Practice</div><div class="section-rule"></div>'+
+    SIPD.map(function(x,d){return '<div class="sip-card"><div class="sip-kicker">Statement '+(d+1)+'</div><div class="sip-title">'+u2esc(x.t)+'</div><div class="sip-text">'+u2esc(u2t(ssk(d)))+'</div></div>';}).join('')+'</section>';
+}
+function rptShell(title,body){
+  var org=u2Company()||'Organisation',period=u2t('strategy_period');
+  return '<!doctype html><html><head><meta charset="utf-8"><title>'+u2esc(title)+'</title><style>'+
+    '@page{size:A4;margin:17mm 16mm 18mm}*{box-sizing:border-box}'+
+    'body{font-family:Arial,Helvetica,sans-serif;color:#1f2a24;line-height:1.52;font-size:10.2pt;margin:0}'+
+    '.topline{height:5px;background:#C6A24C;margin-bottom:18px}'+
+    '.brand{font-size:8.5pt;letter-spacing:.14em;font-weight:800;color:#1A5C2C;text-transform:uppercase}'+
+    'h1{font-size:23pt;line-height:1.12;margin:7px 0 5px;color:#12301c}'+
+    '.meta{margin:0 0 22px;color:#687482;font-size:9.5pt}.meta strong{color:#12301c}'+
+    '.section{margin:0 0 26px}.section-title{font-size:16pt;font-weight:800;color:#12301c;margin:0 0 5px}'+
+    '.section-rule{height:3px;width:58px;background:#C6A24C;margin:0 0 16px}'+
+    '.group{margin:0 0 21px}.group-title{font-size:11.5pt;font-weight:800;color:#1A5C2C;text-transform:uppercase;letter-spacing:.04em;margin:0 0 9px;padding-bottom:5px;border-bottom:1px solid #d9e0e5;page-break-after:avoid;break-after:avoid}'+
+    '.arch-row{display:grid;grid-template-columns:145px 1fr;gap:13px;margin:0 0 11px;page-break-inside:avoid}'+
+    '.arch-label{font-size:9.3pt;font-weight:800;color:#12301c;text-transform:uppercase;letter-spacing:.025em}.arch-text{font-size:10pt;color:#2b3a31}'+
+    '.intent-panel{border-left:5px solid #C6A24C;background:#f4f6f1;padding:18px 20px;margin-top:12px;font-size:13.2pt;line-height:1.58;color:#12301c;font-weight:600;page-break-inside:avoid;white-space:pre-wrap}'+
+    '.sip-card{border:1px solid #d9e0e5;border-left:5px solid #1A5C2C;border-radius:5px;padding:14px 16px;margin:0 0 13px;page-break-inside:avoid}'+
+    '.sip-kicker{font-size:8.5pt;font-weight:800;letter-spacing:.09em;color:#a8862f;text-transform:uppercase;margin-bottom:3px}'+
+    '.sip-title{font-size:11.5pt;font-weight:800;color:#12301c;margin:0 0 7px}.sip-text{font-size:10.2pt;color:#2b3a31;white-space:pre-wrap}'+
+    '.summary-band{background:#1A5C2C;color:#fff;padding:10px 14px;margin:22px 0 15px;font-weight:700;font-size:10pt}'+
+    '.footer{margin-top:30px;padding-top:9px;border-top:1px solid #d9e0e5;font-size:8.2pt;color:#7a8490}'+
+    '@media print{.report-break{page-break-before:always}}'+
+    '</style></head><body><div class="topline"></div>'+
+    '<div class="brand">Strategy2Results® · Module 2 · Unit 2</div><h1>'+u2esc(title)+'</h1>'+
+    '<div class="meta"><strong>'+u2esc(org)+'</strong>'+(period?' &nbsp;·&nbsp; Strategy Period: '+u2esc(period):'')+'</div>'+body+
+    '<div class="footer">Strategy2Results® &nbsp;·&nbsp; Institute of Behavioural Strategy &amp; Leadership</div>'+
+    '<scr'+'ipt>window.onload=function(){window.print();};<\/scr'+'ipt></body></html>';
+}
+function u2Print(){
+  var w=window.open('','_blank');
+  if(!w){alert('Please allow pop-ups for this page to print your three outputs.');return;}
+  w.document.open();w.document.write(rptShell('Strategy Intent Design','<div class="summary-band">Strategy Architecture → Strategy Intent → Success in Practice</div>'+rptArch()+'<div class="report-break"></div>'+rptIntent()+rptSip()));w.document.close();
+}
+
+/* Fill the tool from saved answers (own page or the group record). */
+function u2Fill(responses){
+  U2.v={};
+  Object.keys(responses||{}).forEach(function(k){if(u2Key(k)&&responses[k]!==null&&responses[k]!==undefined)U2.v[k]=responses[k];});
+  var p=u2el('strategy_period');if(p&&document.activeElement!==p)p.value=u2v('strategy_period');
+}
+async function u2Attach(){
+  if(!window.S2RTeam)return;
+  await S2RTeam.attach({lens:U2_LENS,mount:'u2bTeam',lock:['u2bTool'],names:u2Names(),complete:u2Missing,
+    onRemote:async function(r){u2Fill(r);u2RenderAll();}});
+}
+
+// ── Plain box: the opening definition of strategy (id = response key) ──
+async function u2put(k,val){if(!window.S2R){console.warn('[unit2_m1_lens1_p] S2R helper not loaded');return false;}return await S2R.save('u2m1_lens1',k,val);}
+var U2_FIELDS=["strategy_definition"];
+async function saveField(id){
+  var el=u2el(id);if(!el)return false;
+  var ok=await u2put(id,el.value);
+  var msg=u2el(id+'-msg');
+  if(msg){
+    msg.textContent=ok?'✓ Saved to your portfolio':'⚠ Save failed — try again';
+    msg.style.display='block';
+    setTimeout(function(){msg.style.display='none';msg.textContent='✓ Saved to your portfolio';},2500);
+  }
+  return ok;
+}
+U2_FIELDS.forEach(function(id){
+  var el=u2el(id);if(!el)return;
+  el.addEventListener('input',function(){U2.v[id]=el.value;});
+  el.addEventListener('change',function(){saveField(id);});
+});
+
+async function sendToFacilitator(){
+  if(!window.S2R){
+    alert('The save system is not yet ready. Please reload the page and try again.');
+    return;
+  }
+  if(!confirm('Submit your Module 2 · Unit 2 reflections to your facilitator?\n\nThis will send a snapshot of everything you have saved so far. You can keep editing and submit again later if needed.')){
+    return;
+  }
+  var result=await S2R.submit('u2m1_lens1');
+  if(result.ok){
+    alert('✓ Submitted to your facilitator.\n\n'+result.message);
+  }else{
+    alert('Could not submit to your facilitator.\n\n'+result.message);
+  }
+}
+
+// ── LOAD SAVED FROM SUPABASE ──────────────────────────────────────────────────
+window.addEventListener('load',async function(){
+  if(!window.S2R){console.warn('[unit2_m1_lens1_p] S2R helper not loaded');return;}
+  try{
+    var responses=await S2R.loadAll('u2m1_lens1');
+    // Reflections
+    ['ref1','ref4','ref6'].forEach(function(id){
+      var ta=document.getElementById(id);
+      if(ta&&responses[id]!==undefined&&responses[id]!==null)ta.value=responses[id];
+    });
+    // Section 5: the group's Strategy Intent Design (shared group record) and the opening definition
+    u2Fill(responses);
+    U2_FIELDS.forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&responses[id]!==undefined&&responses[id]!==null)el.value=responses[id];
+    });
+    u2RenderAll();
+    u2LoadCharter();
+    u2Attach();
+    // Section 5 reflection
+    ['app_ref_final'].forEach(function(id){
+      var key='app_'+id;
+      var v=responses[key];
+      appResponsesP[key]=(v!==undefined&&v!==null)?v:'';
+      var el=document.getElementById(id);
+      if(el&&v!==undefined&&v!==null)el.value=v;
+    });
+  }catch(err){
+    console.error('[unit2_m1_lens1_p] Failed to load responses:',err);
+  }
+  // Load facilitator feedback / messages / uploads if a submission exists
+  if(window.S2R)loadSubmissionFeedback();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderConcepts();renderW1H();renderDimsP();renderFlamP();
+renderSummaryP();u2RenderAll();
+
+// ── SECTION 5 REFLECTION ──────────────────────────────────────────────────
+var appResponsesP={};
+
+async function saveApp(id){
+  var el=document.getElementById(id);
+  if(!el)return;
+  if(!window.S2R){console.warn('[unit2_m1_lens1_p] S2R helper not loaded');return;}
+  var ok=await S2R.save('u2m1_lens1','app_'+id,el.value);
+  appResponsesP['app_'+id]=el.value;
+  var msg=document.getElementById(id+'-msg')||document.getElementById(id+'-saved');
+  if(msg){
+    msg.textContent=ok?'✓ Saved to your portfolio':'⚠ Save failed — try again';
+    msg.style.display='block';
+    setTimeout(function(){msg.style.display='none';msg.textContent='✓ Saved to your portfolio';},2000);
+  }
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 1 — FACILITATOR FEEDBACK DISPLAY
+// ══════════════════════════════════════════════════════════════════════════════
+async function loadSubmissionFeedback(){
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){showFeedbackState('Not signed in','','Sign in as the participant to view facilitator feedback for this unit.');return;}
+    var _c=S2R._client;
+    var result=await _c
+      .from('submissions')
+      .select('id,review_status,facilitator_feedback,submitted_at,reviewed_at')
+      .eq('profile_id',ctx.profileId)
+      .eq('cohort_id',ctx.cohortId)
+      .eq('lens_id','u2m1_lens1')
+      .order('submitted_at',{ascending:false})
+      .limit(20);
+    if(result.error){console.error('[unit2_m1_lens1_p] Submission fetch error:',result.error);showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');return;}
+    var rows=result.data||[];
+    if(rows.length===0){showFeedbackState('No submission yet','','No submission found for this account. If you were expecting feedback, make sure you are signed in as the participant who submitted this unit.');return;}
+    var newest=rows[0];
+    // Persist facilitator feedback: surface the most recent returned/reviewed
+    // submission even when a newer resubmission now sits on top of it.
+    var row=null;
+    for(var i=0;i<rows.length;i++){
+      var st=rows[i].review_status;
+      if(st==='pending_revision'||st==='reviewed'){row=rows[i];break;}
+    }
+    if(!row){
+      showFeedbackState('Awaiting Review','','Submitted \u2014 your facilitator will review it and respond. Their feedback will appear here.',newest.submitted_at);
+      return;
+    }
+    renderSubmissionFeedback(row);
+    // If a newer revision was submitted after this feedback, keep the feedback
+    // visible but flag that the resubmission is awaiting re-review.
+    if(newest.id!==row.id&&(newest.review_status==='submitted'||newest.review_status==='pending')){
+      var sl=document.getElementById('sf-status-label');
+      if(sl)sl.textContent=(row.review_status==='pending_revision'?'Returned for Revision':'Reviewed')+' \u00b7 revision resubmitted';
+    }
+    // Messages + uploads, tied to the reviewed/returned submission
+    _msgSubmissionId=row.id;
+    var msgAcc=document.getElementById('msg-acc');
+    if(msgAcc)msgAcc.style.display='block';
+    pLoadMessages();
+    var uploadAcc=document.getElementById('upload-acc');
+    if(uploadAcc)uploadAcc.style.display='block';
+    pWireUpload();
+  }catch(err){
+    console.error('[unit2_m1_lens1_p] Submission fetch exception:',err);
+    showFeedbackState('Facilitator Feedback','','Couldn\u2019t load feedback right now \u2014 please reload the page.');
+  }
+}
+
+// Always-visible feedback panel state — shows a clear message for every case
+// (no submission, awaiting review, error) so the section is never silently
+// missing. The real facilitator feedback is filled by renderSubmissionFeedback.
+function showFeedbackState(label,statusClass,text,ts){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var tsEl=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(statusClass?(' '+statusClass):'');}
+  if(tsEl){
+    if(ts){var d=new Date(ts);tsEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});}
+    else tsEl.textContent='';
+  }
+  if(tx)tx.textContent=text;
+  acc.style.display='block';
+}
+
+function renderSubmissionFeedback(row){
+  var acc=document.getElementById('feedback-acc');
+  if(!acc)return;
+  var isReturned=row.review_status==='pending_revision';
+  var isReviewed=row.review_status==='reviewed';
+  var label=isReturned?'Returned for Revision':isReviewed?'Reviewed':'';
+  if(!label)return;
+  var feedbackText=row.facilitator_feedback||(isReviewed?'Your facilitator has reviewed your submission.':'');
+  var meta=document.getElementById('sf-status-meta');
+  var sl=document.getElementById('sf-status-label');
+  var ts=document.getElementById('sf-timestamp');
+  var tx=document.getElementById('sf-text');
+  if(meta)meta.textContent=label;
+  if(sl){sl.textContent=label;sl.className='sf-status'+(isReturned?' returned':'');}
+  if(ts&&row.submitted_at){
+    var d=new Date(row.submitted_at);
+    ts.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' at '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+  }
+  if(tx)tx.textContent=feedbackText;
+  acc.style.display='block';
+  acc.classList.add('open');
+  // Phase 3 — feedback-seen write-back: stamp reviewed_at into the per-lens
+  // localStorage map so the index.html badge clears on next portal load. Raw
+  // string, no transform — must match the format the index.html query reads.
+  try{
+    var seen=JSON.parse(localStorage.getItem('ibsl_feedback_seen')||'{}')||{};
+    if(row&&row.reviewed_at){
+      seen['u2m1_lens1']=row.reviewed_at;
+      localStorage.setItem('ibsl_feedback_seen',JSON.stringify(seen));
+    }
+  }catch(e){console.warn('[feedback-seen] write error:',e);}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 5 — PARTICIPANT MESSAGE THREAD
+// ══════════════════════════════════════════════════════════════════════════════
+var _msgSubmissionId=null;
+
+async function pLoadMessages(){
+  var listEl=document.getElementById('p-thread-list');
+  if(!listEl||!_msgSubmissionId)return;
+  listEl.setAttribute('data-state','loading');
+  listEl.textContent='Loading conversation\u2026';
+  try{
+    var result=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(result.error){
+      var m=(result.error.message||'').toLowerCase();
+      listEl.setAttribute('data-state','error');
+      if(m.indexOf('not_authenticated')!==-1){listEl.textContent='Session expired. Please reload the page.';}
+      else if(m.indexOf('not_authorised')!==-1){listEl.textContent='You do not have access to this conversation.';}
+      else{listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';}
+      return;
+    }
+    pRenderThread(listEl,Array.isArray(result.data)?result.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens1_p C5] pLoadMessages:',err);
+    listEl.setAttribute('data-state','error');
+    listEl.textContent='Couldn\'t load the conversation. Try refreshing the page.';
+  }
+}
+
+function pRenderThread(listEl,messages){
+  if(!messages||messages.length===0){
+    listEl.setAttribute('data-state','empty');
+    listEl.textContent='No messages yet. Write below to start the conversation.';
+    return;
+  }
+  listEl.setAttribute('data-state','populated');
+  listEl.innerHTML='';
+  messages.forEach(function(m){listEl.appendChild(pMsgItemEl(m));});
+}
+
+function pMsgItemEl(m){
+  var item=document.createElement('div');
+  item.className='p-msg-item';
+  var role=(m.author_role||'').toLowerCase();
+  item.classList.add((role==='facilitator'||role==='admin')?'from-facilitator':'from-participant');
+  var header=document.createElement('div');
+  header.className='p-msg-header';
+  var left=document.createElement('div');
+  left.style.display='flex';left.style.alignItems='center';
+  var author=document.createElement('span');
+  author.className='p-msg-author';author.textContent=m.author_name||'Unknown';
+  var rEl=document.createElement('span');
+  rEl.className='p-msg-role role-'+(role||'participant');
+  rEl.textContent=role?role.charAt(0).toUpperCase()+role.slice(1):'Participant';
+  left.appendChild(author);left.appendChild(rEl);
+  var timeEl=document.createElement('span');
+  timeEl.className='p-msg-time';
+  if(m.created_at){
+    var d=new Date(m.created_at);
+    timeEl.textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})+' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+    timeEl.title=m.created_at;
+  }else{timeEl.textContent='\u2014';}
+  header.appendChild(left);header.appendChild(timeEl);
+  var body=document.createElement('div');
+  body.className='p-msg-body';
+  pFormatBody(m.body||'',body);
+  item.appendChild(header);item.appendChild(body);
+  return item;
+}
+
+function pFormatBody(text,targetEl){
+  if(!text)return;
+  var re=/https?:\/\/[^\s<>"]+/g;
+  var lastIndex=0,match;
+  while((match=re.exec(text))!==null){
+    var url=match[0],trailing='';
+    while(url.length>0&&'.,;:!?)]}\u2019\u201D'.indexOf(url.charAt(url.length-1))!==-1){
+      trailing=url.charAt(url.length-1)+trailing;url=url.slice(0,-1);
+    }
+    if(!url.length)continue;
+    if(match.index>lastIndex)targetEl.appendChild(document.createTextNode(text.slice(lastIndex,match.index)));
+    var a=document.createElement('a');
+    a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=url;
+    targetEl.appendChild(a);
+    if(trailing)targetEl.appendChild(document.createTextNode(trailing));
+    lastIndex=match.index+match[0].length;
+  }
+  if(lastIndex<text.length)targetEl.appendChild(document.createTextNode(text.slice(lastIndex)));
+}
+
+async function pPostMessage(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-thread-list');
+  var ta=document.getElementById('p-thread-ta');
+  var btn=document.getElementById('p-thread-btn');
+  var errEl=document.getElementById('p-thread-error');
+  var body=(ta.value||'').trim();
+  errEl.textContent='';
+  if(!body){errEl.textContent='Message cannot be empty.';ta.focus();return;}
+  if(body.length>4000){errEl.textContent='Message is too long (max 4,000 characters).';return;}
+  btn.disabled=true;ta.disabled=true;btn.textContent='Sending\u2026';
+  try{
+    var result=await S2R._client.rpc('post_message',{p_submission_id:_msgSubmissionId,p_body:body});
+    if(result.error){
+      console.error('[unit2_m1_lens1_p C5] post_message error:',result.error);
+      errEl.textContent='Something went wrong. Please try again.';
+      return;
+    }
+    var d=result.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var msg='Couldn\'t send. Please try again.';
+      if(code==='body_required')msg='Message cannot be empty.';
+      else if(code==='body_too_long')msg='Message is too long (max 4,000 characters).';
+      else if(code==='not_authorised')msg='You do not have permission to post here.';
+      else if(code==='cohort_not_active')msg='This cohort is no longer active.';
+      else if(code==='not_authenticated')msg='Your session has expired. Please reload the page.';
+      errEl.textContent=msg;
+      return;
+    }
+    ta.value='';pUpdateCount();
+    var msgs=await S2R._client.rpc('list_submission_messages',{p_submission_id:_msgSubmissionId});
+    if(!msgs.error&&msgs.data)pRenderThread(listEl,Array.isArray(msgs.data)?msgs.data:[]);
+  }catch(err){
+    console.error('[unit2_m1_lens1_p C5] pPostMessage exception:',err);
+    errEl.textContent='Network error \u2014 please try again.';
+  }finally{
+    btn.disabled=false;ta.disabled=false;btn.textContent='Send';
+  }
+}
+
+function pUpdateCount(){
+  var ta=document.getElementById('p-thread-ta');
+  var ct=document.getElementById('p-thread-count');
+  if(!ta||!ct)return;
+  var len=(ta.value||'').length;
+  ct.textContent=len+' / 4000';
+  ct.classList.remove('warn','over');
+  if(len>3900)ct.classList.add('over');
+  else if(len>3500)ct.classList.add('warn');
+}
+
+async function pMarkRead(){
+  if(!_msgSubmissionId)return;
+  try{
+    var result=await S2R._client.rpc('mark_thread_read',{p_submission_id:_msgSubmissionId});
+    if(result.error)console.warn('[unit2_m1_lens1_p C5] mark_thread_read non-fatal:',result.error);
+  }catch(err){
+    console.warn('[unit2_m1_lens1_p C5] mark_thread_read exception (non-fatal):',err);
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 6 — DOCUMENT UPLOAD
+// ══════════════════════════════════════════════════════════════════════════════
+async function pLoadDocumentList(){
+  if(!_msgSubmissionId)return;
+  var listEl=document.getElementById('p-upload-list');
+  var itemsEl=document.getElementById('p-upload-list-items');
+  if(!listEl||!itemsEl)return;
+  try{
+    var result=await S2R._client.rpc('list_submission_documents',{p_submission_id:_msgSubmissionId});
+    if(result.error){console.warn('[unit2_m1_lens1_p C6] list docs:',result.error);return;}
+    var docs=Array.isArray(result.data)?result.data:[];
+    if(!docs.length){listEl.style.display='none';return;}
+    itemsEl.innerHTML='';
+    docs.forEach(function(d){
+      var row=document.createElement('div');
+      row.className='p-upload-list-item';
+      var name=document.createElement('span');
+      name.textContent=d.filename||'document';
+      name.style.overflow='hidden';
+      name.style.textOverflow='ellipsis';
+      name.style.whiteSpace='nowrap';
+      var size=document.createElement('span');
+      size.className='p-upload-list-size';
+      size.textContent=pFormatSize(d.size_bytes);
+      row.appendChild(name);row.appendChild(size);
+      itemsEl.appendChild(row);
+    });
+    listEl.style.display='block';
+  }catch(err){
+    console.warn('[unit2_m1_lens1_p C6] list docs exception:',err);
+  }
+}
+
+function pFormatSize(bytes){
+  if(!bytes||isNaN(bytes))return '';
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1048576)return Math.round(bytes/1024)+' KB';
+  return (bytes/1048576).toFixed(1)+' MB';
+}
+
+var _uploadWired=false;
+var P_UPLOAD_ALLOWED=['application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+  'image/png','image/jpeg'];
+var P_UPLOAD_MAX_BYTES=20*1024*1024;
+
+function pWireUpload(){
+  if(_uploadWired)return;
+  var inp=document.getElementById('p-upload-input');
+  if(!inp)return;
+  inp.addEventListener('change',pHandleFiles);
+  _uploadWired=true;
+  pLoadDocumentList();
+}
+
+async function pHandleFiles(e){
+  var files=Array.from(e.target.files||[]);
+  e.target.value='';
+  var feedbackEl=document.getElementById('p-upload-feedback');
+  feedbackEl.innerHTML='';
+  if(!_msgSubmissionId){pUploadMsg(feedbackEl,'No submission found. Please submit your reflections first.','err');return;}
+  if(!files.length)return;
+  var valid=[];
+  files.forEach(function(f){
+    if(P_UPLOAD_ALLOWED.indexOf(f.type)===-1){pUploadMsg(feedbackEl,f.name+' \u2014 file type not allowed.','err');}
+    else if(f.size>P_UPLOAD_MAX_BYTES){pUploadMsg(feedbackEl,f.name+' \u2014 exceeds 20 MB limit.','err');}
+    else{valid.push(f);}
+  });
+  for(var i=0;i<valid.length;i++){await pUploadFile(valid[i],feedbackEl);}
+}
+
+async function pUploadFile(file,feedbackEl){
+  var msgEl=pUploadMsg(feedbackEl,'Uploading '+file.name+'\u2026','prog');
+  try{
+    var ctx=await S2R.context();
+    if(!ctx){msgEl.textContent=file.name+' \u2014 session expired. Please reload.';msgEl.className='p-upload-msg p-upload-err';return;}
+    var safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    var path=_msgSubmissionId+'/'+Date.now()+'-'+safeName;
+    var sr=await S2R._client.storage.from('submission_documents').upload(path,file,{contentType:file.type,upsert:false});
+    if(sr.error){
+      console.error('[unit2_m1_lens1_p C6] storage upload:',sr.error);
+      msgEl.textContent=file.name+' \u2014 upload failed. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var ir=await S2R._client.rpc('upload_document',{
+      p_submission_id:_msgSubmissionId,
+      p_filename:file.name,
+      p_storage_path:path,
+      p_mime_type:file.type,
+      p_size_bytes:file.size
+    });
+    if(ir.error){
+      console.error('[unit2_m1_lens1_p C6] upload_document RPC error:',ir.error);
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 could not save record. Please try again.';
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    var d=ir.data;
+    if(!d||d.success!==true){
+      var code=(d&&d.error_code)?d.error_code:'unknown_error';
+      var errmsg='Could not save record. Please try again.';
+      if(code==='quota_exceeded')errmsg='Maximum of 5 files already attached to this submission.';
+      else if(code==='not_authenticated')errmsg='Session expired. Please reload the page.';
+      else if(code==='not_authorised')errmsg='You do not have permission to attach files here.';
+      S2R._client.storage.from('submission_documents').remove([path]);
+      msgEl.textContent=file.name+' \u2014 '+errmsg;
+      msgEl.className='p-upload-msg p-upload-err';
+      return;
+    }
+    msgEl.textContent='\u2713 '+file.name+' uploaded.';
+    msgEl.className='p-upload-msg p-upload-ok';
+    pLoadDocumentList();
+  }catch(err){
+    console.error('[unit2_m1_lens1_p C6] pUploadFile exception:',err);
+    msgEl.textContent=file.name+' \u2014 unexpected error. Please try again.';
+    msgEl.className='p-upload-msg p-upload-err';
+  }
+}
+
+function pUploadMsg(feedbackEl,text,type){
+  var d=document.createElement('div');
+  d.className='p-upload-msg p-upload-'+type;
+  d.textContent=text;
+  feedbackEl.appendChild(d);
+  return d;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// COMPONENT 7 — DRAFT FEEDBACK + INLINE SAVE ERROR HANDLING
+// ══════════════════════════════════════════════════════════════════════════════
+var _draftTimers={};
+
+function _setRefStatus(id,text,cls){
+  var ok=document.getElementById(id+'-saved');
+  if(!ok)return;
+  ok.textContent=text;
+  ok.className='reflection-saved '+cls;
+  ok.style.display='block';
+}
+
+function draftRef(id){
+  _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
+  clearTimeout(_draftTimers[id]);
+  _draftTimers[id]=setTimeout(function(){
+    _setRefStatus(id,'✓ Draft saved','rs-draft');
+  },1500);
+}
+
+function showSaveError(id){
+  var existing=document.getElementById(id+'-error');
+  if(existing){existing.style.display='block';return;}
+  var savedEl=document.getElementById(id+'-saved');
+  if(!savedEl)return;
+  var err=document.createElement('div');
+  err.id=id+'-error';
+  err.className='reflection-error';
+  err.innerHTML='Didn\'t save \u2014 <button type="button" class="reflection-error-btn" onclick="retryRef(\''+id+'\')">TAP TO RETRY</button>';
+  err.style.display='block';
+  savedEl.parentNode.insertBefore(err,savedEl.nextSibling);
+}
+
+function retryRef(id){
+  var err=document.getElementById(id+'-error');
+  if(err)err.style.display='none';
+  saveRef(id);
+}
+
+// Auto-wire draft feedback on all reflection textareas
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('textarea.reflection-textarea').forEach(function(ta){
+    if(ta.id)ta.addEventListener('input',function(){draftRef(ta.id);});
+  });
+});
+
+</script>
+<script>
+(function(){
+  function renderSignedInBadge(){
+    var el=document.getElementById('signedInBadge');
+    if(!el)return;
+    if(!window.S2R||typeof S2R.context!=='function'){el.textContent='Sign-in: unknown';return;}
+    Promise.resolve(S2R.context()).then(function(ctx){
+      if(!ctx){el.textContent='Not signed in';el.classList.add('mismatch');el.title='No active session. Sign in as the participant to view their submission and feedback.';return;}
+      var role=(ctx.role||'unknown');
+      var pid=(ctx.profileId||'').slice(0,8);
+      var roleLabel=role.charAt(0).toUpperCase()+role.slice(1);
+      el.textContent='Signed in: '+roleLabel+(pid?(' \u00b7 '+pid):'');
+      if(role!=='participant'){
+        el.classList.add('mismatch');
+        el.title='You are on the participant page while signed in as '+role+'. This page reads the signed-in account, so a participant\u2019s feedback will not appear. Sign in as the participant to test it.';
+      }else{
+        el.classList.remove('mismatch');el.title='';
+      }
+      try{
+        if(ctx.profileId&&S2R._client){
+          Promise.resolve(S2R._client.from('profiles').select('full_name').eq('id',ctx.profileId).maybeSingle()).then(function(r){
+            try{var name=r&&r.data&&r.data.full_name;if(name)el.textContent='Signed in: '+roleLabel+' \u00b7 '+name;}catch(_){}
+          }).catch(function(){});
+        }
+      }catch(_){}
+    }).catch(function(){el.textContent='Sign-in: unknown';});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',renderSignedInBadge);
+  else renderSignedInBadge();
+  window.addEventListener('load',renderSignedInBadge);
+})();
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+</body>
+</html>

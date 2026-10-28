@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBSL | Module 4 · Unit 10 — Facilitator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#c9a84c;--gl:#e8c96a;--blue:rgba(52,152,219,.7);--blues:rgba(52,152,219,.06);}
+body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size:14px;}
+.unit-nav{background:#0d1a10;border-bottom:1px solid rgba(201,168,76,.15);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.nav-left{display:flex;align-items:center;gap:16px;}
+.nav-brand{font-family:"Cormorant Garamond",serif;font-size:.95rem;color:rgba(255,255,255,.6);}
+.nav-brand strong{color:var(--gold);display:block;}
+.nav-badge{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:5px 12px;border-radius:2px;}
+.nav-back{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);cursor:pointer;background:none;border:none;font-family:"Montserrat",sans-serif;}
+.nav-back:hover{color:var(--gold);}
+.unit-header{background:linear-gradient(135deg,#0d1f15,#1a3a2a);padding:50px 40px 40px;border-bottom:1px solid rgba(201,168,76,.15);}
+.uh-inner{max-width:1100px;margin:0 auto;}
+.eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.unit-title{font-family:"Cormorant Garamond",serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;margin-bottom:8px;line-height:1.2;}
+.unit-sub{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:20px;}
+.unit-desc{font-family:"Cormorant Garamond",serif;font-size:1.1rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:760px;margin-bottom:22px;}
+.arc-bar{display:flex;gap:2px;}
+.arc-seg{flex:1;padding:10px 8px;text-align:center;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border-radius:2px;}
+.arc-seg.aw{background:rgba(107,143,204,.15);border:1px solid rgba(107,143,204,.3);color:#8ab0e8;}
+.arc-seg.in{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);color:var(--gold);}
+.arc-seg.ex{background:rgba(46,168,122,.1);border:1px solid rgba(46,168,122,.25);color:#5ecba1;}
+.arc-seg.iz{background:rgba(155,89,182,.1);border:1px solid rgba(155,89,182,.25);color:#c39de0;}
+.arc-seg.ap{background:rgba(230,126,34,.1);border:1px solid rgba(230,126,34,.25);color:#f0a070;}
+.arc-seg span{display:block;font-size:8px;font-weight:400;letter-spacing:1px;opacity:.55;margin-top:2px;text-transform:none;}
+.mod-tabs{display:flex;gap:2px;max-width:1100px;margin:0 auto;padding:32px 40px 0;overflow-x:auto;}
+.mod-tab{flex:1;min-width:110px;padding:12px 8px;text-align:center;background:#1a2a1e;border:1px solid rgba(255,255,255,.06);border-bottom:none;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);border-radius:3px 3px 0 0;white-space:nowrap;transition:all .2s;}
+.mod-tab.active{background:#1c2a1e;color:var(--gold);border-color:rgba(201,168,76,.25);border-bottom-color:#1c2a1e;}
+.mod-tab:hover:not(.active){color:rgba(255,255,255,.6);}
+.main{max-width:1100px;margin:0 auto;padding:0 40px 80px;}
+.mod-panel{display:none;background:#1c2a1e;border:1px solid rgba(201,168,76,.2);border-top:none;border-radius:0 0 4px 4px;}
+.mod-panel.active{display:block;}
+.mod-hero{background:linear-gradient(135deg,#0a1a0d,#162414);padding:32px 40px 24px;border-bottom:1px solid rgba(201,168,76,.1);}
+.mod-hero-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.mod-hero h2{font-family:"Cormorant Garamond",serif;font-size:1.8rem;font-weight:300;margin-bottom:8px;}
+.mod-hero p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.75;max-width:720px;}
+.mod-body{padding:0 40px;}
+/* Obj + Notes */
+.fac-obj{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.fac-obj-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.fac-obj ul{list-style:none;padding:0;}
+.fac-obj li{font-size:13px;color:rgba(255,255,255,.82);padding:5px 0 5px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.fac-obj li:last-child{border-bottom:none;}
+.fac-obj li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+.fac-note-full{background:var(--blues);border:1px solid rgba(52,152,219,.22);border-left:4px solid var(--blue);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.fac-note-full-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(100,180,240,.9);margin-bottom:10px;}
+.fac-note-full p{font-size:13px;color:rgba(255,255,255,.78);line-height:1.85;margin-bottom:8px;}
+.fac-note-full p:last-child{margin-bottom:0;}
+.fac-note-full ul{padding-left:20px;margin-bottom:6px;}
+.fac-note-full li{font-size:13px;color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:4px;}
+.fac-note-full strong{color:rgba(255,255,255,.95);}
+.fac-note-full em{color:rgba(100,180,240,.85);font-style:normal;}
+/* Accordions */
+.acc{border-bottom:1px solid rgba(255,255,255,.06);}
+.acc-h{display:flex;align-items:center;justify-content:space-between;padding:20px 0;cursor:pointer;}
+.acc-h:hover .acc-t{color:var(--gold);}
+.acc-t{font-family:"Cormorant Garamond",serif;font-size:1.2rem;font-weight:400;color:rgba(255,255,255,.87);}
+.acc-meta{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.25);flex-shrink:0;margin-left:10px;}
+.arr{width:24px;height:24px;border:1px solid rgba(255,255,255,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .3s;}
+.arr svg{width:12px;height:12px;fill:none;stroke:rgba(255,255,255,.4);stroke-width:2;}
+.acc.open .arr{transform:rotate(180deg);}
+.acc.open .arr svg{stroke:var(--gold);}
+.acc-b{display:none;padding-bottom:28px;}
+.acc.open .acc-b{display:block;}
+.cb p{font-size:14px;line-height:2;color:rgba(255,255,255,.72);margin-bottom:12px;}
+.cb ul{padding-left:22px;margin-bottom:12px;}
+.cb li{font-size:13px;line-height:1.9;color:rgba(255,255,255,.65);margin-bottom:5px;}
+.cb strong{color:rgba(255,255,255,.92);}
+/* ESRG domain cards */
+.esrg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:18px 0;}
+.esrg-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;transition:all .2s;}
+.esrg-card:hover{border-color:rgba(201,168,76,.25);}
+.esrg-card.open{border-color:rgba(201,168,76,.3);}
+.esrg-head{padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;}
+.esrg-meta{flex:1;}
+.esrg-code{font-size:26px;font-weight:700;font-family:"Cormorant Garamond",serif;color:var(--gold);margin-bottom:2px;}
+.esrg-name{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+.esrg-tag{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.45);margin-top:4px;}
+.esrg-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;padding:0 4px;flex-shrink:0;}
+.esrg-card.open .esrg-arr{transform:rotate(180deg);color:var(--gold);}
+.esrg-bar{height:3px;background:rgba(201,168,76,.14);}
+.esrg-card.open .esrg-bar{background:var(--gold);}
+.esrg-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.esrg-card.open .esrg-body{display:block;}
+.esrg-body p{font-size:13px;color:rgba(255,255,255,.7);line-height:1.8;margin-bottom:10px;}
+.esrg-body ul{padding-left:20px;margin-bottom:10px;}
+.esrg-body li{font-size:13px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:4px;}
+.esrg-body strong{color:rgba(255,255,255,.9);}
+.dim-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* Step tabs */
+.step-tabs{display:flex;gap:4px;margin:16px 0 0;flex-wrap:wrap;}
+.step-tab{flex:1;min-width:80px;padding:14px 10px;text-align:center;background:#151c15;border:1px solid rgba(255,255,255,.1);border-radius:3px 3px 0 0;cursor:pointer;transition:all .2s;}
+.step-tab:hover:not(.active){background:#1a2318;border-color:rgba(201,168,76,.3);}
+.step-tab.active{background:rgba(201,168,76,.15);border-color:var(--gold);border-bottom-color:rgba(201,168,76,.15);box-shadow:0 -2px 0 var(--gold) inset;}
+.step-num{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:6px;}
+.step-tab.active .step-num{color:var(--gold);}
+.step-name{font-family:"Cormorant Garamond",serif;font-size:1rem;color:rgba(255,255,255,.45);font-weight:400;}
+.step-tab.active .step-name{color:#fff;font-weight:500;}
+.step-panel{display:none;background:#0f1f12;border:1px solid rgba(201,168,76,.15);border-top:none;border-radius:0 0 4px 4px;padding:22px;margin-bottom:14px;}
+.step-panel.active{display:block;}
+.step-panel p{font-size:13px;line-height:1.9;color:rgba(255,255,255,.68);margin-bottom:12px;}
+.step-panel ul{padding-left:20px;margin-bottom:12px;}
+.step-panel li{font-size:13px;line-height:1.85;color:rgba(255,255,255,.62);margin-bottom:5px;}
+.step-panel h5{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:14px 0 8px;}
+/* COC cards */
+.coc-card{background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;cursor:pointer;overflow:hidden;margin-bottom:8px;transition:all .2s;}
+.coc-card:hover{border-color:rgba(201,168,76,.25);}
+.coc-card.open{border-color:rgba(201,168,76,.3);}
+.coc-head{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.coc-left{flex:1;}
+.coc-val{font-family:"Cormorant Garamond",serif;font-size:1.1rem;color:#fff;}
+.coc-def{font-size:11px;color:rgba(255,255,255,.35);margin-top:2px;}
+.coc-acronym{font-size:20px;font-weight:700;letter-spacing:4px;color:var(--gold);font-family:"Cormorant Garamond",serif;flex-shrink:0;margin:0 14px;}
+.coc-arr{font-size:10px;color:rgba(255,255,255,.22);transition:transform .3s;flex-shrink:0;}
+.coc-card.open .coc-arr{transform:rotate(180deg);color:var(--gold);}
+.coc-body{display:none;padding:16px 18px;background:#0f1a10;border-top:1px solid rgba(255,255,255,.05);}
+.coc-card.open .coc-body{display:block;}
+.coc-norm{font-size:12px;color:rgba(201,168,76,.75);letter-spacing:.5px;margin-bottom:10px;line-height:1.6;}
+.coc-body p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.85;margin-bottom:8px;}
+.coc-360{font-size:12px;padding:8px 13px;border-radius:0 3px 3px 0;border-left:2px solid rgba(52,152,219,.3);background:var(--blues);color:rgba(100,180,240,.8);font-style:italic;margin-top:8px;line-height:1.65;}
+/* Summary table */
+.sum-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.sum-tbl th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.sum-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.sum-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:22%;}
+.sum-tbl td:nth-child(2){color:var(--gold);font-weight:700;width:10%;letter-spacing:2px;font-size:12px;}
+/* Scanner tables */
+.scanner-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:11px;}
+.scanner-tbl th{background:#1a2a1e;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:8px 10px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.scanner-tbl td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.scanner-tbl td strong{color:rgba(255,255,255,.88);}
+.rag-h{color:#ef9a9a;font-weight:700;}
+.rag-m{color:#fff59d;font-weight:700;}
+.rag-g{color:#a5d6a7;font-weight:700;}
+.check-y{color:#66bb6a;font-weight:700;text-align:center;}
+.check-n{color:rgba(255,255,255,.2);text-align:center;}
+.compass-flag{font-size:10px;color:var(--gold);font-weight:600;}
+/* Overlap cards */
+.overlap-card{background:#151c15;border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 18px;margin-bottom:10px;}
+.overlap-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.overlap-card p{font-size:13px;color:rgba(255,255,255,.68);line-height:1.8;margin-bottom:8px;}
+.overlap-card ul{padding-left:20px;}
+.overlap-card li{font-size:13px;color:rgba(255,255,255,.62);line-height:1.8;margin-bottom:4px;}
+.signal-box{font-size:13px;padding:10px 14px;background:rgba(201,168,76,.06);border-left:2px solid rgba(201,168,76,.3);border-radius:0 3px 3px 0;margin-top:10px;color:rgba(255,220,120,.8);font-style:italic;line-height:1.7;}
+/* Consolidated colour table */
+.rag-table{width:100%;border-collapse:collapse;margin:14px 0;}
+.rag-table th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;}
+.rag-table td{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;color:rgba(255,255,255,.75);}
+.rag-table td:first-child{font-weight:600;color:rgba(255,255,255,.9);}
+.rag-amber{color:#fff59d;font-weight:700;}
+.rag-red{color:#ef9a9a;font-weight:700;}
+/* Value set selector */
+.vs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0;}
+.vs-card{background:#151c15;border:2px solid rgba(255,255,255,.07);border-radius:4px;padding:18px;cursor:pointer;transition:all .2s;}
+.vs-card:hover{border-color:rgba(201,168,76,.3);}
+.vs-card.selected{border-color:var(--gold);background:rgba(201,168,76,.07);}
+.vs-type{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.vs-title{font-family:"Cormorant Garamond",serif;font-size:1.05rem;margin-bottom:10px;color:#fff;line-height:1.3;}
+.vs-values{font-size:11px;color:rgba(255,255,255,.4);line-height:2;}
+/* COC Reference (fac only) */
+.coc-ref{margin:6px 0;background:#0f1a10;border:1px solid rgba(255,255,255,.06);border-radius:3px;cursor:pointer;overflow:hidden;}
+.coc-ref-head{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;}
+.coc-ref-val{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.coc-ref-acr{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--gold);}
+.coc-ref-arr{font-size:9px;color:rgba(255,255,255,.2);transition:transform .3s;}
+.coc-ref.open .coc-ref-arr{transform:rotate(180deg);color:var(--gold);}
+.coc-ref-body{display:none;padding:12px 14px;border-top:1px solid rgba(255,255,255,.04);}
+.coc-ref.open .coc-ref-body{display:block;}
+.coc-ref-body p{font-size:12px;color:rgba(255,255,255,.65);line-height:1.8;margin-bottom:6px;}
+.coc-ref-norm{font-size:11px;color:rgba(201,168,76,.7);margin-bottom:6px;line-height:1.6;}
+.coc-ref-360{font-size:11px;color:rgba(100,180,240,.75);font-style:italic;margin-top:6px;padding:6px 10px;border-left:2px solid rgba(52,152,219,.25);background:var(--blues);}
+/* Hbox */
+.hbox{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}
+.hbox p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;}
+/* Reflection */
+.ref-block{margin:14px 0;background:#151c15;border-radius:3px;padding:14px 16px;}
+.ref-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:8px;}
+.ref-ta{width:100%;background:#0f1a10;border:1px solid rgba(255,255,255,.1);border-radius:2px;color:rgba(255,255,255,.75);font-family:"Montserrat",sans-serif;font-size:12px;padding:10px 12px;line-height:1.7;resize:vertical;min-height:80px;outline:none;}
+.ref-ta:focus{border-color:rgba(201,168,76,.3);}
+.ref-save{margin-top:8px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:6px 14px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.ref-save:hover{border-color:var(--gold);color:var(--gold);}
+/* Summary cards */
+.sum-cards{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0;}
+.sum-card{flex:1;min-width:180px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:16px 18px;}
+.sum-card-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+.sum-card p{font-size:13px;color:rgba(255,255,255,.65);line-height:1.7;}
+/* COMPASS-ESRG table */
+.compass-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:12px;}
+.compass-tbl th{background:#1a2a1e;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:9px 12px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.compass-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.compass-tbl td:first-child{color:rgba(255,255,255,.85);font-weight:600;width:26%;}
+.compass-tbl td:nth-child(2){color:var(--gold);width:18%;font-weight:600;}
+/* Nav */
+.mod-nav{display:flex;justify-content:flex-end;gap:8px;padding:16px 40px 24px;}
+.btn{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:none;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:10px 20px;border-radius:2px;cursor:pointer;font-family:"Montserrat",sans-serif;transition:all .2s;}
+.btn:hover{background:rgba(201,168,76,.1);}
+.btn.prev{color:rgba(255,255,255,.4);border-color:rgba(255,255,255,.12);}
+.btn.prev:hover{color:#fff;border-color:rgba(255,255,255,.3);}
+/* Gate */
+/* Exercise output */
+.ex-output{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-left:4px solid var(--gold);border-radius:0 3px 3px 0;padding:16px 20px;margin:14px 0;}
+.ex-output-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.ex-output ul{list-style:none;padding:0;}
+.ex-output li{font-size:13px;color:rgba(255,255,255,.78);padding:6px 0 6px 20px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.65;}
+.ex-output li:last-child{border-bottom:none;}
+.ex-output li::before{content:"\2192";position:absolute;left:0;color:var(--gold);}
+@media(max-width:900px){.esrg-grid,.vs-grid{grid-template-columns:1fr;}}
+@media print{.unit-nav,.mod-tabs,.mod-nav,#f1-gate-overlay{display:none!important;}body{background:#fff;color:#000;}.mod-panel{display:block!important;border:none;}}
+/* KEY LEARNING OUTCOMES */
+.klo-bar{background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.2);border-radius:4px;padding:18px 24px;margin:28px 0 0;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;}
+.klo-label{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#1a7a6a;flex-basis:100%;margin-bottom:4px;}
+.klo{background:rgba(26,122,106,.1);border:1px solid rgba(26,122,106,.2);border-radius:2px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.7);}
+/* SECTION LEARNING OUTCOMES */
+.slo-box{background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);border-left:4px solid #c9a84c;border-radius:0 3px 3px 0;padding:16px 20px;margin:18px 0 14px;}
+.slo-box-label{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;}
+.slo-box ul{list-style:none;padding:0;margin:0;}
+.slo-box li{font-size:12px;color:rgba(255,255,255,.75);padding:4px 0 4px 18px;position:relative;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.6;}
+.slo-box li:last-child{border-bottom:none;}
+.slo-box li::before{content:'\2192';position:absolute;left:0;color:#c9a84c;font-size:12px;}
+.esrg-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.esrg-tbl th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 14px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.esrg-tbl td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.65);line-height:1.65;vertical-align:top;}
+.esrg-tbl td:first-child{color:var(--gold);font-weight:700;width:8%;letter-spacing:2px;}
+.esrg-tbl td:nth-child(2){color:rgba(255,255,255,.85);font-weight:600;width:24%;}
+@media (max-width:600px){.esrg-tbl th,.esrg-tbl td{padding:8px;}}
+.u10-tbl{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;}
+.u10-tbl th{background:#1a2a1e;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);padding:10px 12px;text-align:left;border-bottom:1px solid rgba(201,168,76,.2);}
+.u10-tbl td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.68);line-height:1.6;vertical-align:top;}
+.u10-tbl td:first-child{color:rgba(255,255,255,.88);font-weight:600;}
+.u10-cap td:nth-child(2){color:var(--gold);font-weight:700;white-space:nowrap;}
+.u10-scale td:first-child{color:var(--gold);font-weight:700;width:8%;}
+.u10-scale td:nth-child(2){color:rgba(255,255,255,.85);width:26%;}
+.u10-scroll{overflow-x:auto;margin:14px 0;}
+.u10-scroll .u10-tbl{margin:0;min-width:760px;}
+.u10-scan td.u10-dom{color:var(--gold);font-weight:700;background:rgba(201,168,76,.06);width:15%;}
+.u10-scan td.u10-el{color:rgba(255,255,255,.88);font-weight:600;width:14%;}
+.u10-scan tr.u10-dstart td{border-top:1px solid rgba(201,168,76,.2);}
+.u10-scan th:nth-child(n+4),.u10-sc{text-align:center;width:7%;}
+.u10-sel{background:#091612;border:1px solid rgba(255,255,255,.15);border-radius:2px;color:#fff;font-size:13px;padding:4px 2px;width:54px;cursor:pointer;}
+.u10-prof td:not(:first-child),.u10-prof th:not(:first-child){text-align:center;}
+.u10-pv{font-weight:700;}
+.u10-pv.b4{color:#5ecba1;}.u10-pv.b3{color:#e8c96a;}.u10-pv.b2{color:#e8955a;}.u10-pv.b1{color:#e06666;}
+.u10-bands{font-size:13px!important;}
+.u10-sub{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:20px 0 4px;}
+.u10-how{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-left:3px solid var(--gold);border-radius:0 3px 3px 0;padding:14px 18px 10px;margin:0 0 16px;}
+.u10-how-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:0 0 6px;}
+.u10-how ol,.u10-activity ol{margin:6px 0 8px;padding-left:20px;}
+.u10-how li,.u10-activity li{font-size:13px;color:rgba(255,255,255,.8);line-height:1.75;margin-bottom:4px;}
+.u10-headf td:first-child{width:34%;}
+.u10-part{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:22px 0 6px;}
+.u10-lead{font-size:14px;line-height:1.9;color:rgba(255,255,255,.72);margin:0 0 14px;}
+.u10-bias-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;color:var(--gold);border:1px solid rgba(201,168,76,.25);border-radius:2px;padding:4px 10px;margin:0 0 6px;}
+.u10-bias td:nth-child(2){color:var(--gold);}
+.u10-bias td:nth-child(3){color:rgba(255,255,255,.88);font-weight:600;}
+.u10-we{border-left:3px solid rgba(201,168,76,.25);padding:4px 0 4px 14px;margin:8px 0 14px;}
+.u10-we p{font-size:13px!important;line-height:1.75!important;margin-bottom:6px!important;}
+.u10-ent th:nth-child(n+4),.u10-ent td:nth-child(n+4){text-align:center;}
+.u10-sum th:nth-child(3),.u10-sum td:nth-child(3){text-align:center;}
+.u10-int td{font-size:12.5px;}
+.u10-co{font-size:13px;color:rgba(255,255,255,.8);margin:4px 0 2px;}
+.u10-note{font-size:12px;color:rgba(255,255,255,.55);margin:4px 0;}
+.u10-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px;margin:8px 0;}
+.u10-row .fld-isel{width:auto;min-width:140px;}
+.u10-q{margin:10px 0 14px;}
+.u10-ql{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.75);}
+.u10-qq{font-size:13px;color:rgba(255,255,255,.7);margin:2px 0 6px;line-height:1.6;}
+.u10-comps{font-size:13px!important;color:rgba(255,255,255,.6)!important;margin-bottom:4px!important;}
+.u10-card{border:1px solid rgba(255,255,255,.1);border-radius:3px;padding:12px 14px;margin:10px 0;background:rgba(255,255,255,.02);}
+.u10-card-h{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.u10-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 12px;}
+.u10-ro{font-size:13px;color:rgba(255,255,255,.8);line-height:1.6;padding:6px 0;}
+.u10-miss{color:#e8955a;font-weight:700;}
+.u10-ok{color:#5ecba1;font-weight:700;}
+.u10-rec{margin-top:10px;}
+.u10-ta{min-height:60px;resize:vertical;line-height:1.6;}
+.u10-det{border:1px solid rgba(255,255,255,.1);border-radius:3px;margin:10px 0;background:rgba(255,255,255,.02);}
+.u10-det>summary{cursor:pointer;list-style:none;padding:11px 14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.82);display:flex;justify-content:space-between;align-items:center;}
+.u10-det>summary::-webkit-details-marker{display:none;}
+.u10-det>summary::after{content:"\25BE";font-size:13px;opacity:.6;transition:transform .2s;}
+.u10-det[open]>summary::after{transform:rotate(180deg);}
+.u10-det-b{padding:2px 14px 12px;}
+
+.u10-add{margin-top:4px;}
+.u10-when td:first-child{width:20%;}
+.u10-ul{margin:0 0 12px 20px;}
+.u10-ul li{font-size:14px;line-height:1.85;color:rgba(255,255,255,.72);margin-bottom:4px;}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SB_URL  = 'https://tayrxqbrttlrdowrzobm.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0';
+  const LENS_ID = 'u4m1_lens9';
+  const supabaseClient = supabase.createClient(SB_URL, SB_ANON);
+  function showDenied(msg){
+    document.getElementById('f1-gate-overlay').style.display='flex';
+    document.getElementById('f1-gate-msg').textContent=msg||'Access denied.';
+  }
+  async function checkAccess(){
+    const { data:{ session }, error:sessErr } = await supabaseClient.auth.getSession();
+    if(sessErr||!session){ window.location.href='index.html'; return; }
+    const { data:profile, error:profErr } = await supabaseClient
+      .from('profiles').select('role').eq('id', session.user.id).single();
+    if(profErr||!profile){ showDenied('Could not verify your role.'); return; }
+    const role = profile.role;
+    if(role==='admin') return;
+    if(role!=='facilitator'){ window.location.href='index.html'; return; }
+    const { data:canFac, error:gateErr } = await supabaseClient
+      .rpc('can_facilitate_lens', { p_user_id: session.user.id, p_lens_id: LENS_ID });
+    if(gateErr){ console.warn('[GATE] can_facilitate_lens error — failing open:', gateErr); return; }
+    if(canFac===false){ showDenied('You are not assigned to facilitate this unit. Please contact your administrator.'); return; }
+  }
+  document.addEventListener('DOMContentLoaded', checkAccess);
+})();
+</script>
+</head>
+<body>
+
+<!-- ACCESS GATE (role-based; shown only on denial) -->
+<div id="f1-gate-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9999;align-items:center;justify-content:center;">
+  <div class="f1-gate-card" style="background:#0d1f15;border:1px solid rgba(201,168,76,.25);border-radius:6px;padding:40px;max-width:420px;text-align:center;">
+    <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#fff;margin:0 0 10px;">Access Restricted</h2>
+    <p id="f1-gate-msg" style="font-size:13px;color:rgba(255,255,255,.6);line-height:1.7;margin:0;">Checking access&hellip;</p>
+    <a href="dashboard_F.html" style="display:inline-block;margin-top:16px;padding:12px 28px;border:1px solid rgba(201,168,76,.4);color:#c9a84c;text-decoration:none;border-radius:4px;font-size:.8rem;letter-spacing:1.5px;text-transform:uppercase;">&#8592; Return to Dashboard</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="unit-nav">
+  <div class="nav-left">
+    <button class="nav-back" onclick="goBack()">&#8592; Back to Dashboard</button>
+    <div style="width:1px;height:24px;background:rgba(255,255,255,.1);"></div>
+    <div class="nav-brand"><strong>Module 4 · Grounding</strong>Unit 10 · ESRG Alignment — Facilitator</div>
+  </div>
+  <span class="nav-badge">Facilitator View</span>
+</nav>
+
+<!-- HEADER -->
+<div class="unit-header">
+  <div class="uh-inner">
+    <div class="eyebrow">Module 4 · Grounding · Unit 10</div>
+    <h1 class="unit-title">ESRG Alignment</h1>
+    <div class="unit-sub">Grounding · Pillar 3 of DIG</div>
+    <p class="unit-desc">Grounding establishes the organisational capabilities and healthy operating status required to anchor and sustain strategic performance. It considers how the enterprise is configured to deliver results, the organisational health that sustains performance, and how both are leveraged over time.</p>
+    <p class="unit-desc">The Grounding learning journey progresses from Unit 10 — ESRG Alignment (organisational operating environment), to Unit 11 — Culture Reinforcement &amp; Organisational Health (culture), and then to Unit 12 — Sustaining Performance, which leverages both to sustain high performance.</p>
+    <div class="klo-bar">
+      <span class="klo-label">Module learning outcomes</span>
+      <span class="klo">Configure organisational operating conditions to support strategic priorities and enable consistent enterprise performance.</span>
+      <span class="klo">Shape organisational culture by establishing and embedding the conditions and practices that strengthen organisational health.</span>
+      <span class="klo">Integrate organisational capabilities and cultural practices into a coherent operating environment that supports sustained high performance.</span>
+      <span class="klo">Institutionalise organisational performance sustainability through mechanisms that preserve strategic alignment, strengthen adaptability and maintain performance continuity.</span>
+    </div>
+    <div class="klo-bar">
+      <span class="klo-label">Key learning outcomes</span>
+      <span class="klo">Design an ESRG-aligned organisational operating environment by establishing the Environment, Systems, Resources and Governance requirements necessary to deliver strategic commitments.</span>
+      <span class="klo">Develop targeted organisational alignment interventions that address operating constraints and strengthen the organisation’s capacity for consistent strategic delivery.</span>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="mod-tabs main" style="padding-bottom:0;">
+  <div class="mod-tab active" onclick="showMod(0)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Facilitator</small>Guide<br><small style="font-size:8px;opacity:.5;">Overview</small></div>
+  <div class="mod-tab" onclick="showMod(1)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 1</small>Awareness<br><small style="font-size:8px;opacity:.5;">What</small></div>
+  <div class="mod-tab" onclick="showMod(2)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 2</small>Intelligence<br><small style="font-size:8px;opacity:.5;">Why</small></div>
+  <div class="mod-tab" onclick="showMod(3)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 3</small>Extrapolating<br><small style="font-size:8px;opacity:.5;">Where</small></div>
+  <div class="mod-tab" onclick="showMod(4)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 4</small>Integration<br><small style="font-size:8px;opacity:.5;">Collective</small></div>
+  <div class="mod-tab" onclick="showMod(5)"><small style="display:block;font-size:8px;opacity:.6;margin-bottom:2px;">Section 5</small>Application<br><small style="font-size:8px;opacity:.5;">In Practice</small></div>
+</div>
+<div class="main">
+
+<!-- ═══ TAB 0 — GUIDE ═══ -->
+<div class="mod-panel active" id="mod0">
+<div class="mod-hero"><div class="mod-hero-label">Facilitator Guide</div><h2>Unit 10 &mdash; Session Overview</h2><p>Orientation, key facilitation questions and pacing for the full unit.</p></div>
+<div class="mod-body" style="padding-top:24px;padding-bottom:10px;">
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitation Orientation</div>
+<p>Anchor the discussion in one strategic commitment from the participants’ existing capstone work. The emphasis is on whether the enterprise operating environment can carry the demands of that commitment. Move from required condition, to observed evidence, to the organisational adjustment needed. Avoid building a general-purpose audit of every ESRG component.</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Key Facilitation Questions</div><ul>
+<li>What must be operationally true for this strategic commitment to be delivered consistently?</li>
+<li>Which condition is essential, and what evidence would demonstrate that it is fit for the required demand?</li>
+<li>Where is the visible delay or shortfall, and which operating condition is producing it?</li>
+<li>Which function experiences the effect, and which function can change the condition?</li>
+<li>What specific organisational adjustment would most improve the strategic result?</li>
+</ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitation Pacing</div>
+<p>Keep Awareness focused on establishing the operating requirements. Reserve deeper evidence testing, causal diagnosis, cross-functional reconciliation and intervention design for the later sections. Reuse the same capstone commitment throughout the unit.</p>
+</div>
+<div class="mod-nav"><button class="btn" onclick="showMod(1)">Section 1 — Awareness →</button></div>
+</div></div>
+
+<!-- ═══ TAB 1 — AWARENESS ═══ -->
+<div class="mod-panel" id="mod1">
+<div class="mod-hero"><div class="mod-hero-label">Section 1 · Awareness — What</div><h2>What operating conditions must support strategic delivery?</h2><p>Specifying the organisational capability one strategic commitment requires, domain by domain.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Specify the essential organisational operating requirements associated with a selected strategic commitment.</li><li>Assign each requirement to the appropriate ESRG domain and component, explaining its direct contribution to the intended result.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Awareness</div>
+<p>Begin with one strategic commitment from the capstone. Ask: “What must be in place within the organisation for this result to be delivered?” Recall the four ESRG domains and their three components each from Unit 6. Ask participants to identify only the operating requirements that materially affect their chosen commitment. At this stage, the task is to define and locate requirements; detailed evidence testing follows in Intelligence.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">ESRG Alignment — The Grounding Question</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>A strategy places demands on the organisation’s operating environment. Participants met ESRG in Unit 6 as the organisational operating system: Environment (FIT), Systems (SIP), Resources (AIR) and Governance (PAR), each with three components. Unit 10 uses ESRG to develop the organisational capability that grounds performance. Section 1 starts with one strategic commitment from the group’s capstone work: which components its delivery depends on, and what each of those components must provide for the result to be delivered.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">ESRG Alignment and Strategic Unclogging: When to Use Each</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>In Unit 9 participants used Strategic Unclogging to clear clogs: blockages that slow a Key Result already in execution. They read each clog through its performance outcome, the behaviour around it and the condition behind it, across people performance and organisational performance. They cleared it with a Strategic Unclogging Lever and the Review–Realign–Restore cycle.</p>
+<p>ESRG Alignment works on the organisational operating conditions themselves. It starts from a strategic commitment and the demand that commitment places on the Environment, Systems, Resources and Governance. Its purpose is to build the organisational capability that carries the strategy. Leaders specify the conditions before demand arrives, score them on a fixed schedule and strengthen them through targeted organisational alignment interventions.</p>
+<div class="u10-scroll"><table style="min-width:620px" class="u10-tbl u10-when"><thead><tr><th></th><th>Strategic Unclogging</th><th>ESRG Alignment</th></tr></thead><tbody>
+<tr><td>Use it when</td><td>A Key Result is slowing and friction signals show in results or behaviour</td><td>A strategic commitment is approved, launched or scaled, and at each annual baseline and quarterly recalibration</td></tr>
+<tr><td>Question it answers</td><td>What is blocking this result, and how do we clear it?</td><td>Can our operating conditions carry this commitment, and where must we build capability?</td></tr>
+<tr><td>What it covers</td><td>People performance and organisational performance</td><td>Organisational operating conditions (ESRG)</td></tr>
+<tr><td>Leaders’ response</td><td>Select an Unclogging Lever and run Review–Realign–Restore</td><td>Coordinate, reconcile or align, and design targeted organisational alignment interventions</td></tr>
+</tbody></table></div>
+<p>The two disciplines feed each other in three ways:</p><ul class="u10-ul"><li>A clog traced to an organisational condition becomes an ESRG component to score and strengthen.</li><li>Recurring clogs in the same component show a capability gap the next annual baseline must address.</li><li>A component that scores low at a quarterly recalibration shows leaders where clogs are likely to form, so they can act before Key Results slow.</li></ul>
+<p><strong>Illustration:</strong> A service team’s response-time Key Result slips for three weeks because cases wait between the sales and operations platforms. Strategic Unclogging clears the backlog: leaders realign the handover and restore the response time. At the next recalibration, ESRG Alignment shows the same low Integration score in three functions. The executive team then agrees a shared integration requirement so the clog does not return.</p>
+</div></div></div>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.1 &mdash; Environment | FIT</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Environment concerns the suitability and reliability of the physical and technological setting in which organisational operations take place.</p>
+<table class="esrg-tbl"><thead><tr><th>FIT</th><th>Component</th><th>What to establish for strategic delivery</th></tr></thead><tbody>
+<tr><td>F</td><td>Facilities</td><td>Whether operating locations and physical facilities are functional and suited to the planned activity.</td></tr>
+<tr><td>I</td><td>Infrastructure</td><td>Whether essential utilities, connectivity and supporting infrastructure can reliably carry operational demand.</td></tr>
+<tr><td>T</td><td>Technology</td><td>Whether the technological operating environment is available, reliable and fit for the required activity.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Diagnostic question:</strong> Are our facilities, infrastructure and technology fit for the strategic requirement?</p></div>
+<p><strong>Illustration:</strong> A production expansion depends on stable electrical supply. Repeated outages prevent the additional production capacity from being used consistently.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.2 &mdash; Systems | SIP</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Systems concerns how operational work is defined, connected and performed efficiently across the enterprise.</p>
+<table class="esrg-tbl"><thead><tr><th>SIP</th><th>Component</th><th>What to establish for strategic delivery</th></tr></thead><tbody>
+<tr><td>S</td><td>Standardisation</td><td>Whether recurring operational processes are clearly defined and consistently applied.</td></tr>
+<tr><td>I</td><td>Integration</td><td>Whether systems and process handoffs connect across functions without avoidable breaks.</td></tr>
+<tr><td>P</td><td>Process Efficiency</td><td>Whether the required output can be delivered without unnecessary steps, delay, duplication or waste.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Diagnostic question:</strong> Are our operational processes standardised, integrated and efficient?</p></div>
+<p><strong>Illustration:</strong> Customer onboarding follows a documented process, but disconnected sales and finance platforms require repeated manual entry, slowing completion.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.3 &mdash; Resources | AIR</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Resources concerns the availability, funding and productive deployment of the organisation’s operational assets.</p>
+<table class="esrg-tbl"><thead><tr><th>AIR</th><th>Component</th><th>What to establish for strategic delivery</th></tr></thead><tbody>
+<tr><td>A</td><td>Asset Availability</td><td>Whether sufficient productive equipment and other operating assets are available for the required output.</td></tr>
+<tr><td>I</td><td>Investment</td><td>Whether financial provision is adequate for the strategic and operational commitment.</td></tr>
+<tr><td>R</td><td>Resource Utilisation</td><td>Whether existing assets and funding are allocated and used productively against priorities.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Diagnostic question:</strong> Are our assets and financial resources sufficient and effectively utilised?</p></div>
+<p><strong>Illustration:</strong> A logistics operation has enough vehicles, but uneven deployment leaves some idle while others are overused, reducing delivery reliability.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">1.4 &mdash; Governance | PAR</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Governance concerns the institutional arrangements through which operational decisions are guided, authorised and exposed risks managed.</p>
+<table class="esrg-tbl"><thead><tr><th>PAR</th><th>Component</th><th>What to establish for strategic delivery</th></tr></thead><tbody>
+<tr><td>P</td><td>Policies &amp; Procedures</td><td>Whether the necessary institutional policies and procedures are established and suitable for the decisions and operations required.</td></tr>
+<tr><td>A</td><td>Authority</td><td>Whether decision rights, delegated authority and approval pathways support timely decisions.</td></tr>
+<tr><td>R</td><td>Risk Management</td><td>Whether material risks to the strategic commitment are identified, assessed, mitigated and monitored.</td></tr>
+</tbody></table>
+<div class="hbox"><p><strong>Diagnostic question:</strong> Is our organisational governance up to PAR?</p></div>
+<p><strong>Illustration:</strong> Funding for expansion has been approved, yet avoidable approval levels delay the release of expenditure and postpone implementation.</p>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(0)">← Facilitator Guide</button><button class="btn" onclick="showMod(2)">Section 2 — Intelligence →</button></div>
+</div></div>
+
+<!-- ═══ TAB 2 — INTELLIGENCE ═══ -->
+<div class="mod-panel" id="mod2">
+<div class="mod-hero"><div class="mod-hero-label">Section 2 · Intelligence — Why</div><h2>The ESRG Ignition Point: How Each Domain Enables Execution</h2><p>The four execution-enabling capabilities, and a scanner that profiles how well a function’s operating conditions support its strategic commitments.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Translate strategic performance requirements into functional operating capabilities through the four ESRG execution enablers.</li><li>Build and maintain an evidence-based functional ESRG performance profile to identify operating strengths, constraints and changes in alignment over time.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Intelligence</div>
+<p>In Awareness, participants specified the operating conditions their strategic commitments require and located them within FIT, SIP, AIR and PAR. Intelligence now asks whether those conditions enable the level of performance demanded. Introduce the four execution-enabling capabilities, then have participants score their own function. Use the same scanner for the annual baseline and quarterly recalibration; detailed root-cause diagnosis belongs in Extrapolating.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.1 &mdash; The ESRG Ignition Point</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The ESRG Ignition Point is reached when organisational operating conditions are sufficiently aligned to support the performance demands of the strategy. The four domains make distinct, interdependent contributions to execution:</p>
+<div class="u10-scroll"><table style="min-width:620px" class="u10-tbl u10-cap"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>What it makes possible</th></tr></thead><tbody>
+<tr><td>Environment · FIT</td><td>Operational Readiness</td><td>Provides a dependable operating setting: facilities accommodate planned activity; essential infrastructure sustains continuity; and technology has the functionality, reliability and capacity to handle strategic demand. This reduces interruptions and protects service or production availability.</td></tr>
+<tr><td>Systems · SIP</td><td>Operational Flow</td><td>Enables work to progress predictably from initiation to completion: standardised processes create consistency, integrated workflows support handovers across functions, and efficient process design removes avoidable steps, duplication and waiting time. This improves throughput and turnaround time.</td></tr>
+<tr><td>Resources · AIR</td><td>Delivery Capacity</td><td>Makes the required scale of delivery achievable: productive assets are available when needed, financial investment supports strategic priorities, and existing resources are deployed where demand is greatest. This prevents capacity shortages and avoidable underutilisation.</td></tr>
+<tr><td>Governance · PAR</td><td>Decision Responsiveness</td><td>Allows organisational action to proceed with clarity and control: policies and procedures guide consistent operations, authority arrangements enable decisions at the right level and time, and risks are identified and managed. This reduces approval bottlenecks while protecting sound decisions.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Ignition principle:</strong> A strategic commitment can be delivered consistently only when the operating conditions it depends upon can meet its performance demands.</p></div>
+<p><strong>Illustration:</strong> A customer service function has reliable technology and adequate assets, but disconnected handovers delay case resolution. Its constraint is Operational Flow (SIP). Additional equipment would not directly resolve the delay.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator prompt</div>
+<p>Which of the four capabilities is most critical to your function’s current strategic commitment, and what would happen if it were unable to meet the required demand?</p>
+</div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.2 &mdash; Functional ESRG Performance Scanner</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p><strong>Purpose:</strong> Evaluate how effectively the current operating conditions of a business function support its strategic performance commitments. Score actual operating performance from the available evidence of how policies, systems and plans perform in practice.</p>
+<table class="u10-tbl u10-headf"><tbody><tr><td>Business function</td><td>____________________</td></tr><tr><td>Functional leader</td><td>____________________</td></tr><tr><td>Strategic commitment / key result</td><td>____________________</td></tr></tbody></table>
+<div class="u10-sub">Scoring guide</div>
+<table class="u10-tbl u10-scale"><thead><tr><th>Score</th><th>Rating</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>1</td><td>Critical constraint</td><td>Condition materially prevents required performance.</td></tr>
+<tr><td>2</td><td>Significant gap</td><td>Condition regularly disrupts or limits performance.</td></tr>
+<tr><td>3</td><td>Partially effective</td><td>Supports basic operations but does not consistently meet strategic demand.</td></tr>
+<tr><td>4</td><td>Effective</td><td>Reliably supports current strategic performance requirements.</td></tr>
+<tr><td>5</td><td>Fully aligned</td><td>Reliably supports requirements and anticipated strategic demand.</td></tr>
+</tbody></table>
+<p>Use one consistent 1–5 scale for the annual baseline and each quarterly recalibration. Enter a score for every component at each review point.</p>
+<div class="u10-sub">ESRG Scanner &mdash; Annual Baseline and Quarterly Recalibration</div>
+<div class="u10-scroll"><table class="u10-tbl u10-scan"><thead><tr><th>ESRG domain / capability</th><th>Element</th><th>Functional assessment statement</th><th>Annual</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr></thead><tbody>
+<tr class="u10-dstart"><td rowspan="3" class="u10-dom">FIT · Operational Readiness</td><td class="u10-el">Facilities</td><td>Our facilities are suitable and functional for our strategic commitments.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Infrastructure</td><td>Essential infrastructure reliably supports our required operations.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Technology</td><td>Our technology supports our performance requirements reliably.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr class="u10-dstart"><td rowspan="3" class="u10-dom">SIP · Operational Flow</td><td class="u10-el">Standardisation</td><td>Our core operational processes are clearly defined and consistently applied.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Integration</td><td>Our processes and systems connect effectively across functions.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Process Efficiency</td><td>Our processes deliver required outputs without unnecessary delays, duplication or waste.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr class="u10-dstart"><td rowspan="3" class="u10-dom">AIR · Delivery Capacity</td><td class="u10-el">Asset Availability</td><td>We have access to the productive assets required for delivery.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Investment</td><td>Adequate financial provision supports our strategic priorities.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Resource Utilisation</td><td>Available assets and financial resources are allocated and utilised effectively.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr class="u10-dstart"><td rowspan="3" class="u10-dom">PAR · Decision Responsiveness</td><td class="u10-el">Policies &amp; Procedures</td><td>Our policies and procedures support consistent organisational decisions and operations.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Authority</td><td>Decision rights and approval arrangements enable timely decisions.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+<tr><td class="u10-el">Risk Management</td><td>Material organisational risks are identified, assessed, mitigated and monitored.</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td><td class="u10-sc">—</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.3 &mdash; Reading the ESRG Performance Profile</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Calculate each domain score as the average of its three component scores. The overall ESRG score is the average of the four domain scores. Review individual component scores as well: a strong average can conceal a critical constraint.</p>
+<div class="u10-scroll"><table style="min-width:480px" class="u10-tbl u10-prof"><thead><tr><th>Execution-enabling capability</th><th>Annual</th><th>Q1</th><th>Q2</th><th>Q3</th><th>Q4</th></tr></thead><tbody>
+<tr><td>Operational Readiness · FIT</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Operational Flow · SIP</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Delivery Capacity · AIR</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>Decision Responsiveness · PAR</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td><strong>Overall ESRG score</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<p class="u10-bands">Score interpretation: 4.0–5.0 Aligned &nbsp;|&nbsp; 3.0–3.9 Improvement required &nbsp;|&nbsp; 2.0–2.9 Significant constraint &nbsp;|&nbsp; 1.0–1.9 Critical constraint.</p>
+<p>Annual review establishes the baseline. Quarterly recalibration repeats the same 12 statements using the same scale, allowing leaders to see where operating capability has strengthened, weakened or remained stable. Scores are directional management judgements, read together with the operational evidence behind them.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">2.4 &mdash; Making Sense of the Results</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p><strong>Illustrative profile:</strong> A customer service function scores Operational Readiness 4.3, Operational Flow 2.0, Delivery Capacity 4.0 and Decision Responsiveness 3.7. Operational Flow is the lowest-rated execution-enabling capability. Leaders should examine its Standardisation, Integration and Process Efficiency scores, together with supporting evidence, before identifying which operating condition is restricting case resolution.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator questions</div><ul><li>Which component has the lowest score?</li><li>What evidence supports that rating?</li><li>Has the score changed since the previous review?</li><li>Which strategic commitment is most exposed?</li></ul></div>
+<div class="hbox"><p><strong>Section output:</strong> A completed Functional ESRG Performance Scanner with annual baseline and quarterly review columns, plus a four-capability performance profile. Carry the material low-scoring or deteriorating conditions into Section 3 — Extrapolating for deeper diagnosis and prioritisation.</p></div>
+</div></div></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(1)">← Section 1 — Awareness</button><button class="btn" onclick="showMod(3)">Section 3 — Extrapolating →</button></div>
+</div></div>
+
+<!-- ═══ TAB 3 — EXTRAPOLATING ═══ -->
+<div class="mod-panel" id="mod3">
+<div class="mod-hero"><div class="mod-hero-label">Section 3 · Extrapolating — Where</div><h2>Where Do Executive Biases Distort ESRG Operating Capabilities?</h2><p>Examining how executive assumptions, functional priorities and decision-making practices influence organisational operating conditions, create execution constraints and affect strategic performance.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Diagnose executive decision biases that distort specific ESRG components and weaken the organisational capabilities required for strategic execution.</li><li>Develop evidence-based debiasing techniques that strengthen executive decision-making and prevent cross-functional operating constraints.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Extrapolating</div>
+<p>Connect this section to the four execution-enabling capabilities introduced in Intelligence: Environment — Operational Readiness; Systems — Operational Flow; Resources — Delivery Capacity; Governance — Decision Responsiveness.</p>
+<p>Executives influence these capabilities through decisions within their functional portfolios. Legitimate functional priorities can introduce assumptions that affect operating conditions beyond the executive’s immediate portfolio. A decision intended to improve one function may inadvertently constrain another.</p>
+<p>For example, a CFO may reduce expenditure to protect financial performance while weakening investment required for operational continuity. A COO may standardise procedures to improve consistency while introducing unnecessary delays.</p>
+<p><strong>Central question:</strong> Where might my executive decisions and assumptions be weakening the organisational operating capabilities required to deliver our strategy?</p>
+</div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator Approach</div>
+<p>For each CXO card: introduce the bias and decision; examine the two ESRG components most directly affected; trace the execution consequences; and discuss the evidence or decision adjustment required to counter the bias. Invite participants to challenge the examples and identify alternative decisions that preserve functional objectives while strengthening enterprise performance. Examples are illustrative.</p>
+</div>
+
+<div class="u10-part">3.1 &mdash; The CXO ESRG Bias Contributors</div>
+<p class="u10-lead">Executive leaders make decisions through the responsibilities, priorities and performance expectations of their portfolios. These perspectives are necessary, but may also determine which operating conditions receive attention, which risks are underestimated and which consequences remain invisible. Each card examines a decision at the point it is made: the approval, investment, sourcing or design choice, the assumption behind it and the ESRG component it weakens.</p>
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 1 &mdash; CEO &middot; Enterprise Direction</div><div class="acc-meta">Potential bias: Strategic Optimism</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Strategic Optimism</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CEO approves a 30% operational expansion within 12 months, assuming existing operations can accommodate demand because current targets are being met. Current performance is mistaken for evidence of spare capacity.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>Existing infrastructure is assumed to have sufficient spare capacity. Increased demand may overload utilities or connectivity, causing interruptions and reducing output reliability.</td><td>Validate infrastructure capacity and reliability against projected demand before approving the expansion timetable.</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>Expansion is approved without establishing full financial provision for additional operating capacity, delaying essential investment.</td><td>Establish and approve the investment requirements needed to support the expansion commitment.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Current performance does not by itself demonstrate readiness for future strategic demands.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which strategic commitment may have been approved without sufficiently validating operating readiness and investment?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 2 &mdash; CFO &middot; Financial Stewardship</div><div class="acc-meta">Potential bias: Short-Term Cost Preference</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Short-Term Cost Preference</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CFO introduces aggressive expenditure reductions and postpones replacement of ageing operational equipment to protect annual financial targets, overlooking the cost of declining reliability.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability</td><td>Deferring replacement increases breakdowns and reduces the availability of productive assets needed for planned output.</td><td>Evaluate replacement against equipment reliability, downtime costs and strategic output requirements.</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>Capital expenditure is reduced without distinguishing discretionary spending from investment essential to strategic delivery.</td><td>Prioritise investment according to its contribution to sustaining strategic delivery capacity.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Immediate savings may weaken the productive capacity required to sustain enterprise performance.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Where might financial savings be achieved at the expense of operating capacity?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 3 &mdash; COO &middot; Operational Discipline</div><div class="acc-meta">Potential bias: Standardisation Fixation</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Standardisation Fixation</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The COO introduces uniform procedures across branches. Every transaction follows identical verification and approval steps, irrespective of complexity or risk, increasing routine turnaround times.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Systems</td><td>Operational Flow</td><td>Standardisation</td><td>Uniform procedures disregard differences in operational requirements and introduce unnecessary procedural steps.</td><td>Define essential controls and outputs that must be consistent while allowing appropriate process variation.</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Process Efficiency</td><td>Additional steps reduce throughput even though procedures are followed consistently.</td><td>Test procedures against turnaround and output requirements; remove unnecessary delays and duplication.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Standardisation supports consistency; process efficiency ensures consistent operations deliver without unnecessary waste.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which standardised procedure may be creating unnecessary operational friction?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 4 &mdash; CHRO &middot; People and Culture</div><div class="acc-meta">Potential bias: People-Centred Attribution</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; People-Centred Attribution</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CHRO responds to recurring service delays with more training and performance interventions, although teams are repeatedly transferring information between disconnected systems.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>Disconnected workflows remain unresolved because delays are attributed primarily to employee capability.</td><td>Examine process handovers and system connectivity before choosing the performance intervention.</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Technology</td><td>Technology limitations are overlooked while resources are directed towards training.</td><td>Verify whether the technological environment supports required operational activities.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Interventions should address the operating condition actually limiting delivery.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which problem attributed to employees may stem from technology or disconnected processes?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 5 &mdash; CTO/CIO &middot; Technology and Information</div><div class="acc-meta">Potential bias: Legacy Loyalty</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Legacy Loyalty</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CIO extends the life of the core operating system for a further three years to defer replacement cost. Transaction volumes have doubled since it was installed, and month-end processing now runs into the next working day.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Technology</td><td>System capacity no longer matches transaction volumes, causing slow processing and outages at peak times.</td><td>Test system capacity and reliability against projected strategic volumes before approving any extension.</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>Replacement is deferred without a funded plan, so the investment need grows while the system constrains delivery.</td><td>Establish a funded replacement roadmap with milestones linked to strategic demand.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Deferring technology investment preserves budget only while the technology can still carry strategic demand.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which core system is being kept beyond the capacity our strategy now requires?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 6 &mdash; CMO &middot; Market and Customer Insight</div><div class="acc-meta">Potential bias: Brand-Led Investment</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Brand-Led Investment</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CMO directs the refurbishment budget to redesigning customer-facing branches for brand impact. Service counters, queuing layouts and the back-office processes behind them stay as they were, and customer waiting times remain unchanged.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Facilities</td><td>Space is redesigned for appearance while service points, queue capacity and customer flow stay the same, so congestion continues at peak periods.</td><td>Specify the facility requirements of the service model, including service points, queue capacity and flow, before approving the design.</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Process Efficiency</td><td>The steps, handovers and waiting time behind each transaction remain untouched.</td><td>Map the end-to-end service process and fund the changes that reduce turnaround alongside the refurbishment.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Customer-facing investment creates value when the facility and the process behind it are designed for the service the strategy promises.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which customer-facing investment improved appearance while the operating conditions behind it stayed the same?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 7 &mdash; CCO &middot; Commercial Performance</div><div class="acc-meta">Potential bias: Revenue Prioritisation</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Revenue Prioritisation</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CCO signs a major contract with aggressive delivery timelines to secure revenue growth without testing process throughput and the implications of reallocating assets.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Systems</td><td>Operational Flow</td><td>Process Efficiency</td><td>Contractual turnaround commitments exceed process throughput, producing backlogs and delayed fulfilment.</td><td>Validate throughput and turnaround capability before agreeing delivery timelines.</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Resource Utilisation</td><td>Assets are redirected to the new contract without accounting for their allocation to other strategic commitments.</td><td>Assess enterprise-wide consequences of resource reallocation before confirming obligations.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Commercial growth must be matched by operational flow and effective resource deployment.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which commercial commitment is creating pressure because operating requirements were not validated?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 8 &mdash; CPO &middot; Procurement and Supply</div><div class="acc-meta">Potential bias: Consolidation Efficiency</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Consolidation Efficiency</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CPO consolidates the supply of critical spare parts with a single supplier to secure volume discounts. No alternative source is qualified, and a supplier stock-out halts repairs for three weeks.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability</td><td>Equipment waiting for parts stays out of service, reducing the productive assets available for planned output.</td><td>Identify critical parts and qualify an alternative source, or hold buffer stock sized to repair lead times.</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Risk Management</td><td>Supplier concentration risk is not assessed when the contract is awarded, so no mitigation exists when supply fails.</td><td>Assess supply continuity risk in every critical sourcing decision and record the agreed mitigation.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Sourcing savings hold their value when the supply that delivery depends on is protected.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which critical supply depends on a single source with no tested fallback?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 9 &mdash; CRO &middot; Risk and Governance</div><div class="acc-meta">Potential bias: Compliance Framing</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Compliance Framing</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CRO’s enterprise risk register concentrates on financial, regulatory and fraud risks. Operational continuity risks, such as power supply, connectivity and the failure of a core system, are not recorded, so no owner, mitigation or recovery plan exists.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Risk Management</td><td>Risks that threaten delivery continuity are not identified, assessed or monitored, so leaders learn of them when an outage occurs.</td><td>Extend the risk register to operational continuity risks, each with an owner, mitigation and tested recovery plan.</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>Single points of failure in infrastructure receive no investment priority because they are absent from the risk register.</td><td>Assess critical infrastructure for single points of failure and agree the backup capacity strategic delivery requires.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Risk management protects strategic delivery when it covers the operating conditions that delivery depends on.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which operating risk would halt delivery tomorrow, and does it appear in our risk register?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">CXO Card 10 &mdash; CSO &middot; Strategic Integration</div><div class="acc-meta">Potential bias: Planning Optimism</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-bias-tag">Potential bias &middot; Planning Optimism</div>
+<div class="u10-sub">Executive decision or practice</div>
+<p>The CSO develops an ambitious roadmap with milestones that assume funding and cross-functional processes will be ready, without confirming these dependencies with accountable functions.</p>
+<div class="u10-sub">ESRG implications</div>
+<div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Component</th><th>How the bias affects execution</th><th>Debiasing action</th></tr></thead><tbody>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>Milestones are confirmed before implementation funding is secured.</td><td>Validate investment commitments and funding timing before fixing delivery milestones.</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>The roadmap assumes functional handovers will work cohesively without testing readiness.</td><td>Map cross-functional workflow dependencies and confirm integration requirements.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Executive insight:</strong> Strategic milestones depend on validated operating conditions as well as coherent plans.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Executive reflection</div><p>Which milestone depends on funding or integration that has not yet been established?</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">3.2 &mdash; Personal Activity: Where Might My Executive Bias Influence ESRG?</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="fac-note-full u10-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY — My Executive ESRG Bias Reflection</div><p><strong>Purpose:</strong> Identify where personal executive assumptions and functional priorities may introduce bias into decisions affecting organisational operating conditions.</p><p><strong>Instructions:</strong> For each of the four ESRG domains, select one component where your executive role or functional priorities may introduce bias. Reflect on the assumption, its potential consequences and the evidence or alternative perspective needed to counter it.</p></div>
+<div class="u10-sub">Worked example &mdash; CFO</div><div class="u10-we"><p><strong>ESRG domain:</strong> Resources &nbsp;|&nbsp; <strong>Execution-enabling capability:</strong> Delivery Capacity &nbsp;|&nbsp; <strong>Selected component:</strong> Investment</p><p><strong>My potential bias:</strong> I may prioritise immediate expenditure reductions over investment required for long-term operating reliability.</p><p><strong>Potential execution consequence:</strong> My decisions could delay essential investment, reducing capacity for consistent operational delivery.</p><p><strong>My debiasing technique:</strong> Before approving reductions, I should examine the investment’s contribution to strategic delivery and assess longer-term consequences of postponement.</p></div>
+<div class="u10-sub">My Executive ESRG Bias Reflection</div><div class="u10-scroll"><table class="u10-tbl u10-bias" style="min-width:760px"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Select one component</th><th>My potential bias</th><th>Potential execution consequence</th><th>My debiasing technique</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Facilities / Infrastructure / Technology</td><td></td><td></td><td></td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Standardisation / Integration / Process Efficiency</td><td></td><td></td><td></td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability / Investment / Resource Utilisation</td><td></td><td></td><td></td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Policies &amp; Procedures / Authority / Risk Management</td><td></td><td></td><td></td></tr>
+</tbody></table></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR DEBRIEF</div><p>Invite participants to share one component where their executive perspective may introduce bias. Explore how different executives interpret the same operating requirement. A CFO may view an infrastructure upgrade as expenditure; a COO may view it as operational continuity. Both perspectives contribute to a better enterprise decision when examined together.</p><p><strong>Debrief question:</strong> What changes when executives examine decisions through the operating capabilities required by the enterprise as well as through their functional priorities?</p></div>
+</div></div></div>
+<div class="hbox"><p><strong>Closing insight:</strong> Executive decisions shape organisational operating conditions through the priorities, assumptions and practices applied within each function. Effective ESRG alignment requires leaders to recognise how their decisions influence operating capabilities beyond their portfolios and challenge assumptions that undermine strategic delivery.</p><p>Section 4 — Integration · Collective will examine how executive leaders reconcile these perspectives and establish organisational adjustments to strengthen enterprise-wide execution capability.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(2)">← Section 2 — Intelligence</button><button class="btn" onclick="showMod(4)">Section 4 — Integration →</button></div>
+</div></div>
+
+<!-- ═══ TAB 4 — INTEGRATION ZONE ═══ -->
+<div class="mod-panel" id="mod4">
+<div class="mod-hero"><div class="mod-hero-label">Section 4 · Integration — Collective</div><h2>How Does the Executive Team Create Collective Intelligence for ESRG Alignment?</h2><p>Combining functional operating assessments into a shared executive understanding of common conditions, differences between functions and the dependencies that determine strategic delivery.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Integrate functional ESRG assessments into a collective intelligence view by identifying convergence, divergence and dependency across organisational operating capabilities.</li><li>Formulate collective intelligence responses that coordinate shared conditions, reconcile functional differences and align operating dependencies affecting strategic commitments.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDANCE — Integration</div>
+<p>In Intelligence, participants learned the four execution-enabling capabilities and the Functional ESRG Scanner. In Extrapolating, they examined executive biases that can distort operating decisions. Integration brings functional perspectives together to establish what the executive team can see, understand and address collectively.</p>
+<p>Use the illustrative, prepopulated Enterprise ESRG Scanner in this section to teach interpretation and response. Participants do not rescore the illustrative data. In 4.5, each participant completes the Functional ESRG Scanner for their assigned capstone executive function. Those actual scores feed the Enterprise Scanner for the capstone work in Section 5, where the team validates findings and determines its organisational interventions.</p>
+<p><strong>Central question:</strong> What can the executive team discover about the operating environment collectively that no function can establish from its own assessment alone?</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.1 &mdash; Three Dimensions of Collective ESRG Intelligence</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Collective intelligence progresses through three connected dimensions. Each is associated with one primary interpretive perspective and a corresponding response discipline. The pairing is a practical learning sequence; each perspective can also be applied at the other levels.</p>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-cap"><thead><tr><th>Intelligence dimension</th><th>Primary perspective</th><th>What the team establishes</th><th>Guiding question</th><th>Response discipline</th></tr></thead><tbody>
+<tr><td>Functional Intelligence</td><td>Convergence</td><td>Common operating strengths or constraints emerging when individual functional assessments are brought together.</td><td>Where are our functions pointing to the same operating conditions?</td><td>Coordinate</td></tr>
+<tr><td>Cross-Functional Intelligence</td><td>Divergence</td><td>Differences in functional scores or experiences that need explanation and reconciliation.</td><td>Where do our functional assessments differ, and why?</td><td>Reconcile</td></tr>
+<tr><td>Enterprise Intelligence</td><td>Dependency</td><td>How capabilities in one function enable or constrain other functions and enterprise strategic commitments.</td><td>Where do we depend on one another to deliver enterprise results?</td><td>Align</td></tr>
+</tbody></table></div>
+<div class="hbox"><p>The executive conversation progresses: What do we have in common? &rarr; Where do we differ? &rarr; How do we depend on one another?</p></div>
+<div class="u10-sub">Convergence — Functional Intelligence</div><p>When multiple functions independently report a similar condition, the executive team gains evidence of a potentially shared operating pattern. For example, low Integration scores in Commercial, Operations and Technology may indicate a recurring difficulty connecting workflows. Convergence invites the team to test whether the weakness has a common cause and whether a coordinated response is warranted.</p>
+<div class="u10-sub">Divergence — Cross-Functional Intelligence</div><p>Differences in scores invite investigation before any judgement is made. Technology may report that its systems are reliable while Operations reports that the same technological environment does not adequately support required activities. The executive team examines the basis of each assessment, distinguishes differing operating experiences from inconsistent criteria and reconciles the actual requirement.</p>
+<div class="u10-sub">Dependency — Enterprise Intelligence</div><p>A function may score strongly while its strategic contribution remains exposed to another function’s operating weakness. Commercial growth, for example, may depend on Operations infrastructure and Finance investment. Dependency makes the chain of delivery visible and enables executives to agree shared operating requirements and commitments.</p>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.2 &mdash; Enterprise ESRG Scanner: One Source, Two Linked Views</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Enterprise ESRG Scanner is populated directly from the Functional ESRG Scanners. The detailed component-level view comes first; the enterprise capability profile is calculated from that detail. There is no separate enterprise scoring exercise.</p>
+<div class="u10-sub">B. Detailed Enterprise Component-Level View &mdash; Source of the Summary</div>
+<p>The following illustration is prepopulated with example scores to demonstrate how the instrument works. In the actual tool, each cell links to the corresponding function’s 1–5 component score for the same assessment period. The figures are illustrative and come from no real organisation.</p>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-ent"><thead><tr><th>ESRG domain</th><th>Execution capability</th><th>Component</th><th>Finance</th><th>Operations</th><th>Commercial</th><th>HR</th><th>Technology</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Facilities</td><td>4</td><td>3</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>4</td><td>2</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Technology</td><td>4</td><td>3</td><td>4</td><td>4</td><td>2</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Standardisation</td><td>4</td><td>3</td><td>4</td><td>4</td><td>3</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>2</td><td>2</td><td>2</td><td>3</td><td>2</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Process Efficiency</td><td>4</td><td>3</td><td>3</td><td>4</td><td>3</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability</td><td>4</td><td>2</td><td>4</td><td>4</td><td>3</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>4</td><td>3</td><td>4</td><td>4</td><td>3</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Resource Utilisation</td><td>4</td><td>3</td><td>3</td><td>4</td><td>3</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Policies &amp; Procedures</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Authority</td><td>4</td><td>2</td><td>3</td><td>4</td><td>3</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Risk Management</td><td>4</td><td>4</td><td>4</td><td>4</td><td>4</td></tr>
+</tbody></table></div>
+<p><strong>Instrument logic:</strong> Each component score is pulled from its functional source; missing assessments remain blank and are flagged, and a blank never counts as zero. The scoring definitions, annual baseline and quarterly periods remain identical to the Functional Scanner. Where a component is genuinely not applicable, this must be explicitly recorded and excluded from the relevant average.</p>
+<div class="u10-sub">A. Enterprise Capability Profile &mdash; Calculated Summary</div>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-ent u10-sum"><thead><tr><th>ESRG domain</th><th>Execution capability</th><th>Finance</th><th>Operations</th><th>Commercial</th><th>HR</th><th>Technology</th><th>Enterprise avg.</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>4.00</td><td>2.67</td><td>4.00</td><td>4.00</td><td>3.33</td><td>3.60</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>3.33</td><td>2.67</td><td>3.00</td><td>3.67</td><td>2.67</td><td>3.07</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>4.00</td><td>2.67</td><td>3.67</td><td>4.00</td><td>3.00</td><td>3.47</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>4.00</td><td>3.33</td><td>3.67</td><td>4.00</td><td>3.67</td><td>3.73</td></tr>
+</tbody></table></div>
+<p><strong>Calculation:</strong> Each functional capability score is the average of its three component scores; the enterprise capability average is the average of the assessed functional capability scores. These descriptive averages are signals for investigation; the significance of individual constraints and dependencies still requires evaluation.</p>
+<div class="hbox"><p>Read the detailed component view alongside the summary. A reasonable enterprise average can conceal a critical low score in a function on which strategic delivery depends.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.3 &mdash; Interpreting the Prepopulated Scanner</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Interpret the prepopulated functional scores capability by capability. For each capability, use the three linked intelligence perspectives in sequence: identify common patterns (Convergence), investigate differences (Divergence), then establish strategic operating dependencies (Dependency). All findings below are hypotheses to validate through evidence and executive dialogue.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator prompts &mdash; for each execution-enabling capability</div><ul><li><strong>Convergence:</strong> Which functions report similar conditions, and do those ratings reflect a shared cause?</li><li><strong>Divergence:</strong> What explains the differences in scores, requirements or operating experience?</li><li><strong>Dependency:</strong> Which strategic commitment depends on these conditions, and which functions must act together?</li></ul></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Facilitator caution</div><p>A difference in ratings does not by itself prove misalignment; a shared low rating does not by itself prove a shared root cause. Executive dialogue must validate both.</p></div>
+<div class="u10-sub">Illustrative interpretation of the prepopulated scanner</div>
+<div class="u10-scroll"><table style="min-width:860px" class="u10-tbl u10-int"><thead><tr><th>Execution-enabling capability</th><th>Functional Intelligence / Convergence</th><th>Cross-Functional Intelligence / Divergence</th><th>Enterprise Intelligence / Dependency</th></tr></thead><tbody>
+<tr><td>Operational Readiness (Environment)</td><td>Infrastructure scores 4 in Finance, Commercial, HR and Technology: similar confidence in readiness; verify whether these functions rely on the same infrastructure or separate arrangements.</td><td>Infrastructure: Operations 2 versus four functions at 4. Determine what differs in capacity, reliability or operating requirements; do not assume identical conditions.</td><td>Commercial expansion relies on Operations fulfilment. Operations Infrastructure 2 may threaten the enterprise commitment despite Commercial Infrastructure 4.</td></tr>
+<tr><td>Operational Flow (Systems)</td><td>Integration: Finance 2, Operations 2, Commercial 2 and Technology 2. Test whether shared handover failures explain the common weakness.</td><td>Integration: HR 3 versus four functions at 2. Examine whether HR has better-connected workflows or a different basis for its rating.</td><td>Order-to-delivery performance depends on connected Commercial, Operations and Technology workflows; failures at handovers can constrain the whole delivery chain.</td></tr>
+<tr><td>Delivery Capacity (Resources)</td><td>Investment: Finance, Commercial and HR each 4. Test whether adequate provision is consistently available for their strategic requirements.</td><td>Asset Availability: Operations 2 versus Finance, Commercial and HR at 4. Examine which assets and delivery loads explain the gap.</td><td>Commercial commitments may depend on Operations assets (2), even when Commercial reports Asset Availability 4. Validate the capacity needed to fulfil enterprise demand.</td></tr>
+<tr><td>Decision Responsiveness (Governance)</td><td>Policies &amp; Procedures and Risk Management are rated 4 by every function. Confirm whether the shared strength is supported by consistent practice.</td><td>Authority: Operations 2, Commercial and Technology 3, Finance and HR 4. Investigate delegated decision rights and approval delays.</td><td>If Operations approvals are delayed (Authority 2), customer fulfilment can be held up despite responsive decisions elsewhere; agree cross-functional escalation and delegation needs.</td></tr>
+</tbody></table></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.4 &mdash; Collective Intelligence Response</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The Collective Intelligence Response records the operating condition, the evidence-based finding and the executive action required. Apply the response discipline appropriate to the finding: Coordinate shared conditions, Reconcile differences or Align dependencies. The perspective is established during interpretation in 4.3 and does not need another column here.</p>
+<div class="u10-scroll"><table style="min-width:860px" class="u10-tbl u10-int"><thead><tr><th>ESRG domain</th><th>Capability</th><th>Component</th><th>Collective finding</th><th>Collective intelligence response</th><th>Executive functions</th></tr></thead><tbody>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>Four functions score Integration at 2, suggesting a possible shared workflow constraint.</td><td><strong>COORDINATE:</strong> map the recurring handover failures; confirm whether the root cause is common; agree shared integration requirements and an accountable coordinating lead.</td><td>COO, CIO, CFO, CCO</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Technology</td><td>The Technology function scores Technology at 2 while several other functions score 4.</td><td><strong>RECONCILE:</strong> compare assessment evidence and functional operating requirements; identify the precise shortfall; agree what must be changed and who will validate readiness.</td><td>CIO, COO, affected functional executives</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>Operations scores Infrastructure at 2; Commercial’s growth commitment relies on Operations fulfilment.</td><td><strong>ALIGN:</strong> validate infrastructure capacity against commercial demand; agree required upgrades, funding and sequencing before confirming delivery commitments.</td><td>CEO, COO, CFO, CCO</td></tr>
+</tbody></table></div>
+<p>The table is an illustrative Collective Intelligence Response. In Section 5, the capstone team uses its actual linked assessments to validate the findings, prioritise constraints and develop targeted organisational alignment interventions.</p>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; Collective executive discussion</div><p>For each proposed response, ask:</p><ol><li>What does the evidence actually establish?</li><li>What strategic commitment is affected?</li><li>What decision requires collective executive agreement?</li><li>Which functions must contribute?</li></ol></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">4.5 &mdash; Personal Activity: My Capstone Functional ESRG Assessment</div><div class="acc-meta">Personal Activity</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="fac-note-full u10-activity"><div class="fac-note-full-label">&#9670; PARTICIPANT ACTIVITY</div><p><strong>Purpose:</strong> Generate the functional operating intelligence that will populate the capstone team’s Enterprise ESRG Scanner.</p><p>Working in their assigned capstone executive roles, participants complete the Functional ESRG Performance Scanner for their respective functions within the capstone organisation. The activity is a personal functional assessment; enterprise interpretation and decisions are reserved for Section 5.</p><ol><li>Participants open the Functional ESRG Scanner assigned to their capstone role and select the stated problem from the group’s Problem Charter that their function’s assessment addresses.</li><li>Participants score all 12 components using the existing assessment statements and 1–5 criteria.</li><li>Participants complete the annual baseline; the scores save as they work.</li><li>Participants confirm that their function’s results are available for consolidation into the capstone Enterprise ESRG Scanner.</li></ol></div>
+<div class="u10-scroll"><table style="min-width:560px" class="u10-tbl u10-cap"><thead><tr><th>ESRG domain</th><th>Execution-enabling capability</th><th>Components to score</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Facilities; Infrastructure; Technology</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Standardisation; Integration; Process Efficiency</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability; Investment; Resource Utilisation</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Policies &amp; Procedures; Authority; Risk Management</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Activity output:</strong> One completed Functional ESRG Performance Scanner per capstone executive function. The scores populate the detailed Enterprise Scanner and its calculated capability summary. In Section 5 — Application, the team uses these results to interpret convergence, divergence and dependency, and determine its collective ESRG alignment responses.</p></div>
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR DEBRIEF AND TRANSITION</div><p>Ask: What becomes visible when functional operating assessments are brought together, compared and connected to strategic commitments?</p></div>
+</div></div></div>
+<div class="hbox"><p><strong>Closing insight:</strong> Collective ESRG intelligence develops as executives coordinate what functions have in common, reconcile what they experience differently and align the operating dependencies required for enterprise results.</p><p><strong>Transition to Section 5 &mdash; Application:</strong> The capstone executive team now has the functional evidence needed to populate its Enterprise ESRG Scanner and determine targeted alignment interventions.</p></div>
+<div class="mod-nav"><button class="btn prev" onclick="showMod(3)">← Section 3 — Extrapolating</button><button class="btn" onclick="showMod(5)">Section 5 — Application →</button></div>
+</div></div>
+
+<!-- ═══ TAB 5 — APPLICATION ═══ -->
+<div class="mod-panel" id="mod5">
+<div class="mod-hero"><div class="mod-hero-label">Section 5 · Application — In Practice</div><h2>The Enterprise ESRG Alignment Clinic</h2><p>From individual functional assessments to enterprise intelligence, collective responses and implementable operating interventions.</p></div>
+<div class="mod-body">
+<div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Consolidate and interpret functional ESRG assessments to establish an evidence-based enterprise view of the operating capabilities required for strategic delivery.</li><li>Develop and operationalise collective ESRG alignment interventions that address operating constraints and strengthen cross-functional delivery of strategic commitments.</li></ul></div>
+
+<div class="fac-note-full"><div class="fac-note-full-label">&#9670; FACILITATOR GUIDE — Overview</div>
+<p>Participants work as the executive team of their assigned capstone organisation. Each member brings the Functional ESRG Performance Scanner completed for their assigned function in Section 4.5. The team consolidates those existing scores into the Enterprise ESRG Scanner, interprets them by execution-enabling capability, agrees a Collective Intelligence Response and then transfers each agreed response into an ESRG Alignment Intervention Plan.</p>
+<p><strong>It is now Q1. The executive team meets for its first quarterly ESRG review, working from the annual baseline each member completed in Section 4.5.</strong></p>
+<p><strong>Core application question:</strong> What must this executive team collectively strengthen in the organisation’s operating conditions to deliver its strategic commitments consistently?</p>
+<p><strong>Inputs:</strong> Capstone strategy and commitments; individual functional scanners; linked Enterprise ESRG Scanner; Collective Intelligence Response Table; ESRG Alignment Intervention Plan.</p>
+<p><strong>Non-negotiable:</strong> No rescoring at enterprise level. Component scores are pulled directly from the functional scanners. The executive team may query the evidence behind a score, but any correction is made in the originating functional assessment and flows through to the enterprise view.</p>
+</div>
+
+<div class="acc open">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.1 &mdash; Consolidate Individual Functional Scores</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<div class="u10-sub">Step 1 &middot; Verify the functional inputs</div><p>Confirm that each executive function has submitted one completed assessment covering all 12 components, using the same 1–5 scale and assessment period. Record missing submissions or evidence gaps before interpretation. The capstone executive team works with the functions represented in its simulation; the five columns below are illustrative.</p>
+<div class="u10-sub">Step 2 &middot; Populate the Enterprise Component-Level Scanner</div><p>This is the detailed source view. Every numeric cell is linked to the corresponding component in the relevant Functional ESRG Scanner; participants do not enter scores a second time.</p>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-ent"><thead><tr><th>ESRG domain</th><th>Execution capability</th><th>Component</th><th>Finance</th><th>Operations</th><th>Commercial</th><th>HR</th><th>Technology</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Facilities</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Technology</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Standardisation</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Process Efficiency</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Asset Availability</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Investment</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Resource Utilisation</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Policies &amp; Procedures</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Authority</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Risk Management</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td><td>Linked</td></tr>
+</tbody></table></div>
+<div class="u10-sub">Step 3 &middot; Generate the Enterprise Capability Summary</div><p>The scanner calculates each function’s capability score as the mean of its three component scores, then displays an enterprise average across the participating functions. The average is a directional indicator; it does not override the significance of a critical low-scoring function or component.</p>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-ent u10-sum"><thead><tr><th>ESRG domain</th><th>Execution capability</th><th>Finance</th><th>Operations</th><th>Commercial</th><th>HR</th><th>Technology</th><th>Enterprise avg.</th></tr></thead><tbody>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td></tr>
+<tr><td>Systems</td><td>Operational Flow</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td></tr>
+<tr><td>Resources</td><td>Delivery Capacity</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td></tr>
+<tr><td>Governance</td><td>Decision Responsiveness</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td><td>Calc.</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Checkpoint:</strong> Confirm that the detailed component view and calculated capability summary reflect the same source assessments. Retain both views for interpretation.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.2 &mdash; Interpret the Enterprise Scanner by Execution Capability</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>For each capability, examine the three intelligence levels and their corresponding perspectives in the agreed sequence: Functional Intelligence / Convergence &rarr; Cross-Functional Intelligence / Divergence &rarr; Enterprise Intelligence / Dependency. Use the detailed component scores to support each finding; use the summary to identify areas meriting attention.</p>
+<div class="u10-scroll"><table style="min-width:760px" class="u10-tbl u10-cap"><thead><tr><th>Intelligence level</th><th>Perspective</th><th>Interpretation prompt</th><th>Response discipline</th></tr></thead><tbody>
+<tr><td>Functional Intelligence</td><td>Convergence</td><td>Where do multiple functions report a similar condition?</td><td>Coordinate</td></tr>
+<tr><td>Cross-Functional Intelligence</td><td>Divergence</td><td>Where do functional assessments differ, and why?</td><td>Reconcile</td></tr>
+<tr><td>Enterprise Intelligence</td><td>Dependency</td><td>Where does one function’s operating capability enable or constrain another’s strategic delivery?</td><td>Align</td></tr>
+</tbody></table></div>
+<details class="u10-det" open><summary>Environment &mdash; Operational Readiness</summary><div class="u10-det-b"><p class="u10-comps">Components: Facilities · Infrastructure · Technology</p>
+<div class="u10-scroll"><table style="min-width:600px" class="u10-tbl u10-int"><thead><tr><th>Intelligence / perspective</th><th>Question to investigate</th><th>Finding / evidence</th></tr></thead><tbody>
+<tr><td>Functional / Convergence</td><td>Which environment components show similar scores or conditions across functions?</td><td>________________________</td></tr>
+<tr><td>Cross-functional / Divergence</td><td>Where do functions differ on the same component, and what evidence explains the difference?</td><td>________________________</td></tr>
+<tr><td>Enterprise / Dependency</td><td>Which strategic commitments rely on an operating condition supplied or controlled by another function?</td><td>________________________</td></tr>
+</tbody></table></div></div></details>
+<details class="u10-det"><summary>Systems &mdash; Operational Flow</summary><div class="u10-det-b"><p class="u10-comps">Components: Standardisation · Integration · Process Efficiency</p>
+<div class="u10-scroll"><table style="min-width:600px" class="u10-tbl u10-int"><thead><tr><th>Intelligence / perspective</th><th>Question to investigate</th><th>Finding / evidence</th></tr></thead><tbody>
+<tr><td>Functional / Convergence</td><td>Which systems components show similar scores or conditions across functions?</td><td>________________________</td></tr>
+<tr><td>Cross-functional / Divergence</td><td>Where do functions differ on the same component, and what evidence explains the difference?</td><td>________________________</td></tr>
+<tr><td>Enterprise / Dependency</td><td>Which strategic commitments rely on an operating condition supplied or controlled by another function?</td><td>________________________</td></tr>
+</tbody></table></div></div></details>
+<details class="u10-det"><summary>Resources &mdash; Delivery Capacity</summary><div class="u10-det-b"><p class="u10-comps">Components: Asset Availability · Investment · Resource Utilisation</p>
+<div class="u10-scroll"><table style="min-width:600px" class="u10-tbl u10-int"><thead><tr><th>Intelligence / perspective</th><th>Question to investigate</th><th>Finding / evidence</th></tr></thead><tbody>
+<tr><td>Functional / Convergence</td><td>Which resources components show similar scores or conditions across functions?</td><td>________________________</td></tr>
+<tr><td>Cross-functional / Divergence</td><td>Where do functions differ on the same component, and what evidence explains the difference?</td><td>________________________</td></tr>
+<tr><td>Enterprise / Dependency</td><td>Which strategic commitments rely on an operating condition supplied or controlled by another function?</td><td>________________________</td></tr>
+</tbody></table></div></div></details>
+<details class="u10-det"><summary>Governance &mdash; Decision Responsiveness</summary><div class="u10-det-b"><p class="u10-comps">Components: Policies &amp; Procedures · Authority · Risk Management</p>
+<div class="u10-scroll"><table style="min-width:600px" class="u10-tbl u10-int"><thead><tr><th>Intelligence / perspective</th><th>Question to investigate</th><th>Finding / evidence</th></tr></thead><tbody>
+<tr><td>Functional / Convergence</td><td>Which governance components show similar scores or conditions across functions?</td><td>________________________</td></tr>
+<tr><td>Cross-functional / Divergence</td><td>Where do functions differ on the same component, and what evidence explains the difference?</td><td>________________________</td></tr>
+<tr><td>Enterprise / Dependency</td><td>Which strategic commitments rely on an operating condition supplied or controlled by another function?</td><td>________________________</td></tr>
+</tbody></table></div></div></details>
+<div class="hbox"><p><strong>Interpretation rule:</strong> A shared low score may indicate convergence; a large score difference may indicate divergence; dependency requires a demonstrable relationship between functions and a strategic commitment. Scores alone do not prove a dependency.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.3 &mdash; Complete the Collective Intelligence Response Table</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>The team selects the most consequential findings from 5.2 and records an agreed executive response. Each response must identify the specific ESRG component, the strategic commitment affected and the functions involved.</p>
+<div class="u10-scroll"><table style="min-width:900px" class="u10-tbl u10-int"><thead><tr><th>ESRG domain</th><th>Execution capability</th><th>Component</th><th>Collective finding</th><th>Strategic commitment affected</th><th>Collective intelligence response</th><th>Functions involved</th></tr></thead><tbody>
+<tr><td>Systems</td><td>Operational Flow</td><td>Integration</td><td>Order-to-delivery handovers are disconnected across Commercial and Operations.</td><td>Reduce fulfilment time.</td><td>Agree a connected workflow, handover requirements and shared information standards.</td><td>COO, CCO, CIO</td></tr>
+<tr><td>Environment</td><td>Operational Readiness</td><td>Infrastructure</td><td>Operations infrastructure capacity constrains planned commercial growth.</td><td>Increase service capacity.</td><td>Confirm required capacity, funding and coordinated upgrade decision.</td><td>COO, CFO, CCO</td></tr>
+<tr><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<p>Use the response discipline appropriate to the finding: Convergence &rarr; Coordinate shared conditions; Divergence &rarr; Reconcile differing assessments using evidence; Dependency &rarr; Align interdependent operating requirements and responsibilities. A finding may involve more than one perspective, but the table records one coherent collective response.</p>
+<div class="hbox"><p><strong>Prioritisation test:</strong> Is the finding supported by component-level evidence? Does it threaten an identifiable strategic commitment? Does it require a collective executive decision? Select the responses that pass these tests.</p></div>
+</div></div></div>
+<div class="acc">
+<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; Translate the Agreed Responses into an ESRG Alignment Intervention Plan</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
+<div class="acc-b"><div class="cb">
+<p>Use the completed Collective Intelligence Response Table in 5.3 as the sole starting point. Carry each agreed response into the intervention plan, then specify its implementation actions, accountable executive, contributing functions, target date and evidence of improvement. Do not introduce new findings or repeat the diagnosis.</p>
+<div class="u10-scroll"><table style="min-width:900px" class="u10-tbl u10-int"><thead><tr><th>Agreed collective response (from 5.3)</th><th>Implementation actions</th><th>Accountable executive</th><th>Contributing functions</th><th>Target date</th><th>Evidence of improvement</th></tr></thead><tbody>
+<tr><td>Connected workflow and shared handover requirements.</td><td>Map current handovers; agree target workflow; implement shared information checkpoints; test end-to-end processing.</td><td>COO</td><td>CCO, CIO</td><td>[date]</td><td>Reduced handover delays and fulfilment time.</td></tr>
+<tr><td>Confirm infrastructure capacity and coordinated upgrade decision.</td><td>Validate demand/capacity gap; cost options; approve investment; deliver priority upgrade.</td><td>COO</td><td>CFO, CCO</td><td>[date]</td><td>Capacity and reliability meet expansion requirements.</td></tr>
+<tr><td>[Copy from 5.3]</td><td>[Actions]</td><td>[Owner]</td><td>[Functions]</td><td>[date]</td><td>[Measure]</td></tr>
+</tbody></table></div>
+<div class="hbox"><p><strong>Continuity check:</strong> Every intervention in 5.4 must correspond to an agreed response in 5.3. Each implementation action must advance that response, and the evidence of improvement must demonstrate a change in the operating condition identified.</p></div>
+</div></div></div>
+<div class="hbox"><div class="u10-sub">Application outputs</div><ul class="u10-ul"><li>Enterprise ESRG Scanner populated from the individual Functional ESRG Scanners.</li><li>Completed Collective Intelligence Response Table (5.3).</li><li>ESRG Alignment Intervention Plan developed directly from the agreed responses in 5.3.</li></ul><p><strong>Completion focus:</strong> Accurate consolidation of the functional scores; consistent three-level intelligence interpretation; evidence supporting the findings; relevance to strategic commitments; quality of the collective executive decisions; traceability from each agreed response to its implementation plan.</p></div>
+<div class="hbox"><p><strong>Closing insight:</strong> Functional assessments make operating conditions visible. Collective intelligence establishes what those conditions mean for the enterprise. The Collective Intelligence Response determines what must change; the ESRG Alignment Intervention Plan establishes how the executive team will make that change happen.</p></div>
+
+<div class="mod-nav"><button class="btn prev" onclick="showMod(4)">← Section 4 — Integration</button></div>
+</div></div>
+
+</div><!-- /main -->
+<script>
+function showMod(n){
+  document.querySelectorAll('.mod-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.mod-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('mod'+n).classList.add('active');
+  document.querySelectorAll('.mod-tab')[n].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tA(h){h.closest('.acc').classList.toggle('open');}
+function toggleESRG(c){c.classList.toggle('open');}
+function toggleCOC(c){c.classList.toggle('open');}
+function toggleCocRef(c){c.classList.toggle('open');}
+function selectVS(card,set){
+  document.querySelectorAll('.vs-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+}
+function saveTA(btn){
+  const o=btn.textContent;btn.textContent='Saved \u2713';
+  btn.style.background='rgba(94,203,161,.2)';btn.style.borderColor='#5ecba1';btn.style.color='#5ecba1';
+  setTimeout(()=>{btn.textContent=o;btn.style.background='';btn.style.borderColor='';btn.style.color='';},2200);
+}
+function goBack(){window.location.href='dashboard_F.html';}
+function showStep(n,tab){
+  const grp=tab.closest('.step-group');
+  grp.querySelectorAll('.step-panel').forEach(p=>p.classList.remove('active'));
+  grp.querySelectorAll('.step-tab').forEach(t=>t.classList.remove('active'));
+  grp.querySelectorAll('.step-panel')[n].classList.add('active');
+  tab.classList.add('active');
+}
+// COC ref toggle
+document.addEventListener('click',function(e){
+  const h=e.target.closest('.coc-ref-head');
+  if(h)h.closest('.coc-ref').classList.toggle('open');
+});
+</script>
+<footer class="ibsl-legal" style="width:100%;flex-basis:100%;box-sizing:border-box;text-align:center;padding:28px 16px 36px;font-family:'Montserrat',sans-serif;font-size:11px;line-height:1.7;letter-spacing:.3px;color:rgba(255,255,255,.4);">
+  &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
+  Programme content may not be reproduced, distributed or adapted without written consent.
+</footer>
+</body>
+</html>

@@ -30,10 +30,20 @@ A brief for a new chat is written from this file's section 1 at the moment it is
 - Reminder emails (`supabase/functions/send-reminders`) still say "Capstone S2R Blueprint" without ®: an Edge Function deploy is needed; fold into the next function deploy.
 - Locked learning outcomes flagged, unchanged: Unit 10 (tool names, task wording), Unit 1 (three Key outcomes; two task-led section outcomes), Units 2, 3, 9 tool names; Key outcome counts 3 / 4 / 2.
 - Unit 10 Facilitator Guide headings (Carol's locked text).
-- Waiting for Carol's review in chat (drafts): Module paragraphs and Module learning outcomes for Modules 1–3 (sent 28 Oct), section closing insights and transitions for Units 1–10 (Unit 11: Section 1 transition and Section 5 closing insight), Unit 1–3 section sub-lines, Learning Journey tables for Units 1–10, unit-to-unit hand-off boxes.
+- (Built 28 Oct, second round; see section 5.)
 
 ## 4. Push status
-- 28 Oct: push block given to Carol (files listed in it). After "pushed": read `.git\refs`, read the live pages with WebFetch, update this line.
+- 28 Oct 08:02: Carol pushed `39c372b` (= origin/main). Live check 08:05 in the built-in browser (fetch with cache off): Units 1, 2, 9, 11, 12, Capstone and Learning Portfolio carry the new header lines, "Capstone S2R® Blueprint" (none without ®), "Print our group record", Unit 11 4.7/5.8, new transitions and outcomes, Module 4 line, Capstone heading. WebFetch returned a stale cached copy: use the browser for live checks.
+
+## 5. Second round: learning journey build (Carol 28 Oct 08:05: "make all the changes in the units then I can do one complete review")
+- Head before: `c72886d` (Carol's certificate push after 39c372b). Backups: `Claude outputs\Backups\Consistency build 28 Oct`.
+- Script `Unit decks\_build\consistency_28oct\build.py`, texts in `c1.py` (module paragraphs, Module learning outcomes, Unit 1-4 section sub-lines, Unit 1 section headings), `c2.py` (Closing Insights, Transitions), `c3.py` (unit hand-offs, Unit 11 Learning Journey). Inserted blocks carry `data-cr="1"`; the script skips a file that has them. Re-run it after a unit is rebuilt from its backups (Units 10 and 11 build scripts do not carry these boxes; `u11_content.py` now carries the corrected Learning Journey).
+- Units 1-9 headers: module paragraphs replace the old unit description; "Module learning outcomes" (Module 1: 3, Modules 2 and 3: 4) above "Key learning outcomes".
+- Units 1-4: new section sub-lines; Unit 1 section headings shortened ("What Behavioural Strategy Is" …).
+- Units 1-11: "Section Closing Insight" and "Transition to Section N — Name: Anchor" boxes in every section (Unit 11 adds only the Section 1 transition and the Section 5 insight; Unit 10's and Unit 9's old inline boxes replaced by the standard boxes with the same text); a transition box to the next unit or module at the end of each unit (participant page: before Facilitator Feedback; facilitator page: before the last navigation).
+- Facilitator Guides Units 1-10: Learning Journey table built from each section's heading line; Unit 11's table corrected (it still described ACE-IT coaching). Unit 1 facilitator page: inline duplicate of the Section 2 closing insight removed.
+- Checks: ids, onclick, href, scripts, navigation and section counts equal to the backups; div balance unchanged; every inline script passes `node --check`; Learning Portfolio rebuilt; standards checker shows only deck slide sizes. STANDARDS rule 30 added.
+- Noted, unchanged: Unit 7 facilitator section sub-lines differ from the participant page (older wording).
 
 ## State now (28 Oct 2026)
-Fixes applied in her folder; waiting for her push; drafts waiting for her review.
+First round live (39c372b). Second round (section 5) built in her folder, waiting for her push; then live check and her one complete review.

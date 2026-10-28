@@ -29,6 +29,8 @@ Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and
 28. Section 5 opens with a "Capstone work · How Section 5 works" box (Unit 1: "How 6.2 works") that names the Capstone boxes the record fills; the group record ends with Agree and "Print our group record".
 29. The Capstone is named "Capstone S2R® Blueprint" everywhere.
 
+30. Every unit header carries the module paragraphs (what the module establishes; the module's units in order), "Module learning outcomes" and "Key learning outcomes". Every section ends with a "Section Closing Insight" box and, for Sections 1-4, a "Transition to Section N — Name: Anchor" box; every unit ends with a transition box to the next unit or module. Every facilitator Guide carries a Learning Journey table. Built by `Unit decks/_build/consistency_28oct/build.py` (texts in c1-c3.py); re-run it after rebuilding a unit from its backups.
+
 ## Wording
 
 11. British spelling throughout.
