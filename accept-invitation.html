@@ -142,7 +142,13 @@
   function redirectForRole(r) {
     if (r === 'facilitator') return 'https://ibslportal.netlify.app/dashboard_F.html';
     if (r === 'admin') return 'https://ibslportal.netlify.app/dashboard_A.html';
-    return 'https://ibslportal.netlify.app/unit1_P.html';
+    // Participants land on the Participant Journey Portal, where every unit stays locked
+    // until it is unlocked during the live class.
+    try {
+      sessionStorage.setItem('ibsl_portal_role', 'Participant Access');
+      sessionStorage.setItem('ibsl_portal_days', 'Welcome, ' + ((currentInvitation && currentInvitation.full_name) || ''));
+    } catch (e) {}
+    return 'https://ibslportal.netlify.app/index.html';
   }
 
   // Establish a session from the invite link. The link carries token_hash and
