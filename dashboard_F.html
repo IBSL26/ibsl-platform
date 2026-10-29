@@ -6016,7 +6016,7 @@
       { name: 'Hot Zone Matching',        test: function (k) { return /^hz_match$/i.test(k); } },
       { name: 'KISS Mapping',             test: function (k) { return /^kex_/i.test(k); } },
       { name: 'KISS Map — Confirmed',     test: function (k) { return /^kiss_(keep|improve|start|stop)$/i.test(k); } },
-      { name: 'Enterprise Priorities & OKRs', test: function (k) { return /^(okr_drafts|ent_priorities|ent_okrs)$/i.test(k); } },
+      { name: 'Objectives & Key Results', test: function (k) { return /^(okr_drafts|ent_priorities|ent_okrs)$/i.test(k); } },
       { name: 'Strategy Airport',         test: function (k) { return /^game_(kiss|flight_plan|round)$/i.test(k); } },
       { name: 'SiP Flammables',           test: function (k) { return /^flam_\d+$/i.test(k); } },
       { name: 'Strategic Intent (SiP)',   test: function (k) { return /^sip_data$/i.test(k); } },
@@ -6662,8 +6662,8 @@
       kiss_start: 'Start — confirmed',
       kiss_stop: 'Stop — confirmed',
       okr_drafts: 'Five-step record — themes, Objectives, Key Results, alignment test and matrix',
-      ent_priorities: 'Enterprise Priorities — confirmed',
-      ent_okrs: 'Enterprise OKRs — confirmed',
+      ent_priorities: 'Objectives — confirmed',
+      ent_okrs: 'Key Results — confirmed',
       confirmed_items: 'Confirmed by the group',
       game_kiss: 'Gate 1 · Baggage Check — KISS choices (portfolio work)',
       game_flight_plan: 'Gate 2 · Flight Plan — Objective, Key Results and contributing roles (portfolio work)',
@@ -7834,6 +7834,21 @@
   function showCommitError(errorEl, message) {
     if (!errorEl) return;
     errorEl.textContent = message;
+    errorEl.classList.add('shown');
+  }
+
+  // Error display for the cohort-unlock and return-for-revision modals.
+  // The open functions hide the error box with an inline style, so this sets it back.
+  function showCohortUnlockError(errorEl, message) {
+    if (!errorEl) return;
+    errorEl.innerHTML = message;
+    errorEl.style.display = 'block';
+    errorEl.classList.add('shown');
+  }
+  function showRevisionError(errorEl, message) {
+    if (!errorEl) return;
+    errorEl.innerHTML = message;
+    errorEl.style.display = 'block';
     errorEl.classList.add('shown');
   }
 

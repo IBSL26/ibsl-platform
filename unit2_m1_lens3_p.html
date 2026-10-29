@@ -598,7 +598,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Strategic Context</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <p>In Unit 3 your group translated its Success in Practice into Enterprise OKRs. They are measurable, they are ambitious and they have deadlines. The next step is to move past well-written OKRs and ask whether they are strategically sound.</p>
+  <p>In Unit 3 your group translated its Success in Practice into OKRs. They are measurable, they are ambitious and they have deadlines. The next step is to move past well-written OKRs and ask whether they are strategically sound.</p>
   <p>ABCV is used to interrogate whether an agreed strategic direction is sound enough to carry into execution. A strategy or OKR may be clear, measurable and ambitious and still rest on assumptions that have not been tested.</p>
   <p>Most strategies fail because of unnamed conditions. Goals are built on a bed of invisible assumptions that are discovered only once execution begins and things start to break. By then, the cost of correction is massive.</p>
   <p>ABCV takes you through the strategic logic at four checkpoints:</p>
@@ -608,7 +608,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="u4-flow"><div class="u4-flow-s"><b>Step 1</b><span>Define the Arena</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Step 2</b><span>Understand the Boundaries</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Step 3</b><span>See the Competition</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Step 4</b><span>Establish the Value Proposition</span></div></div>
   <p>At each step, name what Must Be True.</p>
   <h4>From Unit 3 to Unit 4</h4>
-  <div class="u4-flow"><div class="u4-flow-s"><b>From Unit 3</b><span>Your group&rsquo;s Enterprise OKRs: the Objectives and Key Results you confirmed.</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Four checkpoints</b><span>Arena &middot; Boundaries &middot; Competition &middot; Value Proposition.</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Must-Be-True conditions</b><span>One at each checkpoint, for each Key Result.</span></div></div>
+  <div class="u4-flow"><div class="u4-flow-s"><b>From Unit 3</b><span>Your group&rsquo;s OKRs: the Objectives and Key Results you confirmed.</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Four checkpoints</b><span>Arena &middot; Boundaries &middot; Competition &middot; Value Proposition.</span></div><div class="u4-flow-a">&rarr;</div><div class="u4-flow-s"><b>Must-Be-True conditions</b><span>One at each checkpoint, for each Key Result.</span></div></div>
   <h4>What the Test Secures</h4>
   <p>Strategic priorities that are:</p>
   <ol class="u4-ol"><li>Anchored in customer reality.</li><li>Designed to withstand operational constraints.</li><li>Positioned accurately against the competitive landscape.</li><li>Coherent with the organisation&rsquo;s core value.</li></ol>
@@ -2151,7 +2151,7 @@ function mbPrint(){
   var w=window.open('','_blank');if(!w){window.print();return;}
   w.document.write(doc);w.document.close();w.focus();setTimeout(function(){w.print();},300);
 }
-/* Bring in the group's confirmed Enterprise OKRs from the member's own Unit 3 page (read only; nothing is typed again). */
+/* Bring in the group's confirmed OKRs from the member's own Unit 3 page (read only; nothing is typed again). */
 async function mbBring(manual){
   if(!window.S2R){if(manual)u4msg('mbBringMsg','The save system is not ready. Reload the page and try again.');return;}
   var u3={};try{u3=await S2R.loadAll(U3_LENS);}catch(e){u3={};}
@@ -2165,8 +2165,8 @@ async function mbBring(manual){
       if(krs.length&&al)found.push({obj:String(o.obj).trim(),krs:krs.map(function(k){return mbBlankKr(String(k.t).trim());})});
     });
   }
-  if(!found.length||conf.indexOf('Enterprise OKRs')<0){
-    if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed Enterprise OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2, then select Bring in from my Unit 3 page.');
+  if(!found.length||conf.indexOf('OKRs')<0){
+    if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2, then select Bring in from my Unit 3 page.');
     return;
   }
   var old={};mbAll().forEach(function(x){old[x.k.t]=x.k;});
