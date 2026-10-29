@@ -3258,12 +3258,10 @@
 
           <div id="capstoneCreateMsg" class="capstone-msg" role="alert" style="display:none;"></div>
 
-          <!-- Capstone build: cohort brief (brief text, dates), shown on participants' capstone page. Each team names its own simulated company in its Problem Charter (Unit 1, part 6.2). -->
+          <!-- Capstone build: cohort dates (29 Oct 2026: no brief; each team's problem statement comes from its Problem Charter), shown on participants' capstone page. Each team names its own simulated company in its Problem Charter (Unit 1, part 6.2). -->
           <div id="capstoneBriefPanel" class="capstone-team" style="display:none;">
-            <div class="capstone-team__head"><h2 class="capstone-team__name">Cohort brief</h2></div>
+            <div class="capstone-team__head"><h2 class="capstone-team__name">Capstone dates</h2></div>
             <div class="capstone-brief-grid">
-              <label class="capstone-brief-field capstone-brief-field--wide"><span class="filter-group__label">Brief</span>
-                <textarea id="capBriefText" rows="6" placeholder="Paste the brief for this cohort"></textarea></label>
               <label class="capstone-brief-field"><span class="filter-group__label">Submission deadline</span>
                 <input type="datetime-local" id="capBriefDue"></label>
               <label class="capstone-brief-field"><span class="filter-group__label">Showcase date and time</span>
@@ -3272,7 +3270,7 @@
                 <input type="text" id="capBriefVenue" maxlength="200"></label>
             </div>
             <div class="capstone-team__actions" style="margin-top:14px;">
-              <button type="button" class="btn btn--primary" id="capBriefSaveBtn">Save brief</button>
+              <button type="button" class="btn btn--primary" id="capBriefSaveBtn">Save dates</button>
               <span id="capBriefMsg" class="capstone-score-saved"></span>
             </div>
           </div>
@@ -12966,15 +12964,14 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!panel) return;
       const cohortId = capstoneState.cohortId;
       const msg = document.getElementById('capBriefMsg'); if (msg) msg.textContent = '';
-      ['capBriefText','capBriefDue','capBriefShowcase','capBriefVenue'].forEach(function(id) { const el = document.getElementById(id); if (el) el.value = ''; });
+      ['capBriefDue','capBriefShowcase','capBriefVenue'].forEach(function(id) { const el = document.getElementById(id); if (el) el.value = ''; });
       if (!cohortId) { panel.style.display = 'none'; return; }
       panel.style.display = '';
       const res = await sb.from('capstone_brief').select('case_name, brief_text, submission_due, showcase_at, showcase_venue').eq('cohort_id', cohortId).maybeSingle();
       if (cohortId !== capstoneState.cohortId) return;   // cohort changed while loading
-      if (res.error) { if (msg) msg.textContent = 'Could not load the brief.'; return; }
+      if (res.error) { if (msg) msg.textContent = 'Could not load the dates.'; return; }
       const b = res.data;
-      if (!b) { if (msg) msg.textContent = 'No brief saved for this cohort yet.'; return; }
-      document.getElementById('capBriefText').value = b.brief_text || '';
+      if (!b) { if (msg) msg.textContent = 'No dates saved for this cohort yet.'; return; }
       document.getElementById('capBriefDue').value = capIsoToLocalInput(b.submission_due);
       document.getElementById('capBriefShowcase').value = capIsoToLocalInput(b.showcase_at);
       document.getElementById('capBriefVenue').value = b.showcase_venue || '';
@@ -12990,13 +12987,13 @@ sam@gamma.org, Sam Lee, participant,`;
       const res = await sb.rpc('admin_set_capstone_brief', {
         p_cohort_id: cohortId,
         p_case_name: null,
-        p_brief_text: document.getElementById('capBriefText').value || null,
+        p_brief_text: null,
         p_submission_due: capLocalInputToIso(document.getElementById('capBriefDue').value),
         p_showcase_at: capLocalInputToIso(document.getElementById('capBriefShowcase').value),
         p_showcase_venue: venue || null
       });
       if (btn) btn.disabled = false;
-      if (msg) msg.textContent = res.error ? ('Could not save: ' + (res.error.message || 'error')) : 'Brief saved.';
+      if (msg) msg.textContent = res.error ? ('Could not save: ' + (res.error.message || 'error')) : 'Dates saved.';
     }
 
     function wireCapstone() {

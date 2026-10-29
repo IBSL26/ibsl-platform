@@ -263,6 +263,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['1A','Simulated company','The simulated company our team leads throughout this Blueprint.'],
       ['1B','Simulated executive team','Our executive team at [Case] and the executive role each of us holds.'],
       ['1C','Our organisation','Our sector, size and main activity or service.'],
+      ['','PROBLEM CHARTER','The problem our team identified from the combined experience of its members: the challenges, how they manifested, their consequences for results, and the central problem we will solve as an executive team.','1D–1H'],
       ['1D','Challenges experienced','The recurring challenges we have experienced in strategy design, strategy execution and sustaining performance.'],
       ['1E','How they manifested','How these challenges show up in our behaviours, management practices and organisational conditions.'],
       ['1F','Consequences for results','How these challenges have undermined our results in strategy design, strategy execution and sustaining performance.'],
@@ -727,18 +728,14 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   }
 
   function briefCard(){
-    var b = S.data && S.data.brief;
-    var h = '<div class="card"><div class="card-label">The brief</div>';
-    if (!b){
-      h += '<p class="muted">IBSL will publish your cohort’s brief shortly.</p>';
-    } else {
-      if (b.brief_text) h += '<div class="brief-text">' + esc(b.brief_text) + '</div>';
-      h += '<div class="facts">' +
-        fact('Submission deadline', fmtDateTime(b.submission_due)) +
-        fact('Showcase', fmtDateTime(b.showcase_at)) +
-        fact('Venue', b.showcase_venue) +
-      '</div>';
-    }
+    // 29 Oct 2026: no IBSL brief. The problem statement is the team's own Problem Charter (Blueprint 1D–1H); this card holds the dates only.
+    var b = (S.data && S.data.brief) || {};
+    var h = '<div class="card"><div class="card-label">Key dates</div>';
+    h += '<div class="facts">' +
+      fact('Submission deadline', fmtDateTime(b.submission_due)) +
+      fact('Showcase', fmtDateTime(b.showcase_at)) +
+      fact('Venue', b.showcase_venue) +
+    '</div>';
     return h + '</div>';
   }
   function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
