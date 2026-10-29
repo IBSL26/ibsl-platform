@@ -114,6 +114,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .box-gl{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:4px;}
 .box-sub{margin-left:14px;}
 .box-hl > .box-v{border-left:3px solid var(--gold);background:rgba(201,168,76,.07);}
+/* 29 Oct 2026: the Strategy Intent Statement (2A.1) and the SiP statement (2B.5) are the foundations of the Blueprint. */
+.box-found{border:2px solid var(--gold);border-radius:6px;background:rgba(201,168,76,.10);padding:18px 20px;margin:22px 0;}
+.box-found > .box-v.empty{font-family:inherit;font-size:13px;}
+.found-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0f1a14;background:var(--gold);padding:3px 10px;border-radius:3px;margin-bottom:10px;}
+.box-found > .box-l{color:var(--gold);font-size:15px;}
+.box-found > .box-v{border:none;background:transparent;padding-left:0;font-family:'Cormorant Garamond',Georgia,serif;font-size:1.35rem;line-height:1.5;color:#fff;}
 .box-stand{margin-top:20px;}
 .box-stand > .box-l{color:var(--gold);}
 .bt-item tr.lead th,.bt-item tr.lead td{background:rgba(26,122,106,.22);color:#fff;font-weight:700;}
@@ -198,6 +204,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   .box-sub{margin-left:10px;}
   .box-hl > .box-v{background:#f7f3e6 !important;border-left:4px solid #C6A24C !important;padding:10px 12px !important;margin-left:12px;font-size:10.5pt;}
   .box-stand,.box-hl{break-inside:avoid;}
+  .box-found{border:2px solid #C6A24C !important;background:#f7f3e6 !important;padding:12px 14px !important;margin:16px 0 !important;}
+  .found-tag{background:#1A5C2C !important;color:#fff !important;font-size:8pt;letter-spacing:.2em;}
+  .box-found > .box-l{color:#12301c !important;font-size:12.5pt;border-left:none;padding-left:0;}
+  .box-found > .box-v{background:transparent !important;border-left:none !important;margin-left:0;padding:4px 0 !important;font-family:'Cormorant Garamond',Georgia,serif;font-size:14pt;color:#12301c !important;}
   .box-stand > .box-l{color:#a8862f !important;border-left-color:#1A5C2C;}
   .bt-item tr.lead th,.bt-item tr.lead td{background:#1A5C2C !important;color:#fff !important;font-weight:700;}
   .bt-item{break-inside:auto;}
@@ -818,9 +828,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       if (!b[0]){ h += '<div class="box-group"><div class="box-gl">' + esc(b[3]) + ' · ' + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div></div>'; return; }
       var val = content[b[0]] || '';
       var lbl = (b[3] === undefined) ? b[0] : b[3];
-      var cls = b[4] === 'hl' ? ' box-hl' : (b[4] === 'stand' ? ' box-hl box-stand' : '');
-      if (b[3] && /\./.test(b[3])) cls += ' box-sub';
-      h += '<div class="box' + cls + '"><div class="box-l">' + (lbl ? esc(lbl) + ' · ' : '') + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
+      var cls = b[4] === 'hl' ? ' box-hl box-found' : (b[4] === 'stand' ? ' box-hl box-stand' : '');
+      if (b[3] && /\./.test(b[3]) && b[4] !== 'hl') cls += ' box-sub';
+      h += '<div class="box' + cls + '">' + '<div class="box-l">' + (lbl ? esc(lbl) + ' · ' : '') + esc(b[1]) + '</div><div class="box-i">' + caseText(b[2]) + '</div>';
       if (editable){
         h += '<textarea class="box-ta" data-sec="' + sec.key + '" data-box="' + esc(b[0]) + '" oninput="capInput(this)">' + esc(val) + '</textarea>' +
              '<div class="ptext" id="pt_' + sec.key + '_' + esc(b[0]) + '">' + esc(val) + '</div>';
