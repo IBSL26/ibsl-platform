@@ -13543,9 +13543,9 @@ sam@gamma.org, Sam Lee, participant,`;
             <label class="form-label" for="sesUnit">Unit</label>
             <select class="form-select" id="sesUnit"></select>
           </div>
-          <div class="ses-field">
+          <div class="ses-field" id="sesTitleWrap">
             <label class="form-label" for="sesTitle">Session title <span class="form-label__required">*</span></label>
-            <input type="text" class="form-input" id="sesTitle" maxlength="140" placeholder="Unit 1 · Behavioural Strategy Fundamentals">
+            <input type="text" class="form-input" id="sesTitle" maxlength="140" placeholder="e.g. Programme orientation">
           </div>
           <div class="ses-field">
             <div class="ses-form-grid">
@@ -13961,6 +13961,10 @@ sam@gamma.org, Sam Lee, participant,`;
         for (var n = 1; n <= 12; n++) html += '<option value="' + n + '">' + esc(unitTitle(n)) + '</option>';
         sel.innerHTML = html;
       }
+      // A unit session takes the unit name as its title; only a general session needs a typed title.
+      function syncTitleBox() {
+        $('sesTitleWrap').style.display = $('sesUnit').value ? 'none' : '';
+      }
       function openForm(row) {
         fillUnitOptions();
         state.editing = row || null;
@@ -13970,7 +13974,8 @@ sam@gamma.org, Sam Lee, participant,`;
         $('sesFormSaveBtn').disabled = false;
         $('sesFormError').textContent = '';
         $('sesUnit').value = row && row.unit_no ? String(row.unit_no) : '';
-        $('sesTitle').value = row ? row.title : '';
+        $('sesTitle').value = row && !row.unit_no ? row.title : '';
+        syncTitleBox();
         if (row) {
           var d = new Date(row.starts_at);
           $('sesDate').value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
@@ -13994,16 +13999,16 @@ sam@gamma.org, Sam Lee, participant,`;
         $('sesTzHint').textContent = 'Times are in this computer’s time zone (' + tzLabel(new Date()) +
           '). The calendar invite shows each person the time in their own zone.';
         openModal('sesFormModal');
-        setTimeout(function () { $(row ? 'sesTitle' : 'sesUnit').focus(); }, 30);
+        setTimeout(function () { $('sesUnit').focus(); }, 30);
       }
       async function saveForm() {
         var err = $('sesFormError');
-        var title = $('sesTitle').value.trim();
+        var unit = $('sesUnit').value ? parseInt($('sesUnit').value, 10) : null;
+        var title = unit ? unitTitle(unit) : $('sesTitle').value.trim();
         var date = $('sesDate').value, time = $('sesTime').value;
         var url = $('sesUrl').value.trim();
-        var unit = $('sesUnit').value ? parseInt($('sesUnit').value, 10) : null;
         err.textContent = '';
-        if (!title) { err.textContent = 'Give the session a title.'; $('sesTitle').focus(); return; }
+        if (!title) { err.textContent = 'Type the title of the general session.'; $('sesTitle').focus(); return; }
         if (!date || !time) { err.textContent = 'Choose the date and the start time.'; return; }
         var starts = new Date(date + 'T' + time + ':00');
         if (isNaN(starts.getTime())) { err.textContent = 'The date or time is not valid.'; return; }
@@ -14348,13 +14353,7 @@ sam@gamma.org, Sam Lee, participant,`;
       document.addEventListener('change', function (e) {
         if (e.target && e.target.closest && e.target.closest('#sesAttList')) { attCount(); return; }
         if (!e.target || e.target.id !== 'sesUnit') return;
-        // Fill the title from the unit, unless the admin has typed their own.
-        var titleEl = $('sesTitle');
-        var n = e.target.value ? parseInt(e.target.value, 10) : null;
-        if (titleEl.value.trim() === '' || titleEl.value === state.autoTitle) {
-          state.autoTitle = n ? unitTitle(n) : '';
-          titleEl.value = state.autoTitle;
-        }
+        syncTitleBox();
       });
 
       // Called by renderCohortDetail() each time the cohort detail view is drawn.
