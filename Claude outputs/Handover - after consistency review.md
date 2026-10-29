@@ -46,4 +46,4 @@ A brief for a new chat is written from this file's section 1 at the moment it is
 - Noted, unchanged: Unit 7 facilitator section sub-lines differ from the participant page (older wording).
 
 ## State now (28 Oct 2026)
-First round live (39c372b). Second round (section 5) built in her folder, waiting for her push; then live check and her one complete review.
+Both rounds live: 39c372b (fixes) and 44b4802 (learning journey, pushed by Carol 09:12). Live check 09:14 in the built-in browser, cache off: every unit page carries its module header, closing insights, transitions, hand-off and (facilitator) Learning Journey; box counts equal the folder. Next: Carol's one complete review on the live portal; her corrections are applied in one pass. This line goes in with the next push.

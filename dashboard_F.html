@@ -3503,9 +3503,9 @@
       var uid = session.user.id;
       var result = await supabaseClient
         .from('cohort_memberships')
-        .select('cohort_id, unit')
+        .select('cohort_id, unit, role_in_cohort')
         .eq('profile_id', uid)
-        .eq('role_in_cohort', 'facilitator');
+        .in('role_in_cohort', ['facilitator', 'lead_facilitator']);
       if (result.error || !result.data) {
         console.warn('[PILLAR] fetchMyUnits error:', result.error);
         return;
@@ -3513,6 +3513,12 @@
       _cohortUnitsMap = {};
       result.data.forEach(function(row) {
         if (!_cohortUnitsMap[row.cohort_id]) _cohortUnitsMap[row.cohort_id] = [];
+        // Lead facilitator covers all four modules of the cohort
+        if (row.role_in_cohort === 'lead_facilitator') {
+          _cohortUnitsMap[row.cohort_id] = [1, 2, 3, 4];
+          return;
+        }
+        if (result.data.some(function(r) { return r.cohort_id === row.cohort_id && r.role_in_cohort === 'lead_facilitator'; })) return;
         if (row.unit !== null && row.unit !== undefined) {
           _cohortUnitsMap[row.cohort_id].push(Number(row.unit));
         }

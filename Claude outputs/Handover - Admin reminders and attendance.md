@@ -32,3 +32,12 @@ Built 27 October 2026 on Carol's decision ("We are not engaging them, we are clo
 4. Deploy send-reminders (new) and redeploy send-session-email; set the CRON_SECRET secret.
 5. SQL: the schedule block from the chat, with the secret.
 6. Live check: take attendance on a test session, send a test check-in to the test participant, run the job once by hand and read its result.
+
+## Live (27 Oct 2026, 16:15)
+
+- Pushed: 4679a98 (rename + admin card), 55e70ae (senders use the Supabase server key).
+- Database: migrations/cohort_sessions.sql had never been run before today; run now, then session_reminders_attendance.sql. Grants added for service_role (select on cohort_sessions, cohorts, cohort_memberships, profiles, capstone_brief, capstone_team, capstone_individual, capstone_blueprint_section, session_checkins; update on cohort_sessions, capstone_brief, session_checkins). pg_net switched on; cron job `ibsl-send-reminders` (jobid 2, minute 7 hourly) active.
+- Edge Functions deployed and checked in the dashboard: send-reminders (19,944 chars, reports its key type), send-session-email (23,250 chars, kind checkin). The dashboard asks for a second "Deploy updates" in a confirm box; without it nothing deploys.
+- Key finding: the secret SB_SERVICE_ROLE_KEY holds the project's publishable (public) key. Both new senders use SUPABASE_SERVICE_ROLE_KEY (Supabase's own). send-invitation-email(-ts) also read SB_SERVICE_ROLE_KEY and were left untouched at Carol's word; if invitations fail with a permissions error, this is the cause.
+- First good run: net._http_response id 6, status 200, nothing due.
+- Still open: Storage upload of the renamed decks (Units 1–9 .pptx, manifests, Unit 5 s33.jpg), after all unit changes are complete (Carol). Unit 10 Capstone work on hold until Carol finishes cleaning Unit 10.
