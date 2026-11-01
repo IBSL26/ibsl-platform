@@ -1762,6 +1762,7 @@
     }).join('');
     return '<table class="tt-table"><thead><tr><th>#</th><th>Date</th><th>Time</th><th>Session</th></tr></thead><tbody>' + body + '</tbody></table>';
   }
+  function ttSource() { return rows; }
   function closeTimetable() {
     var o = document.getElementById('ttOverlay');
     if (o) o.parentNode.removeChild(o);
@@ -1770,7 +1771,8 @@
   function openTimetable() {
     closeTimetable();
     var byCohort = {}, order = [];
-    rows.forEach(function (r) {
+    ttSource().forEach(function (r) {
+      if (window.ibslTtFilter && !window.ibslTtFilter(r)) return;   // facilitators: only their units, plus programme events
       if (!byCohort[r.cohort_id]) { byCohort[r.cohort_id] = { name: r.cohort_name, list: [] }; order.push(r.cohort_id); }
       byCohort[r.cohort_id].list.push(r);
     });

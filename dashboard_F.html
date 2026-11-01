@@ -3073,6 +3073,7 @@
     }).join('');
     return '<table class="tt-table"><thead><tr><th>#</th><th>Date</th><th>Time</th><th>Session</th></tr></thead><tbody>' + body + '</tbody></table>';
   }
+  function ttSource() { return rows; }
   function closeTimetable() {
     var o = document.getElementById('ttOverlay');
     if (o) o.parentNode.removeChild(o);
@@ -3081,7 +3082,8 @@
   function openTimetable() {
     closeTimetable();
     var byCohort = {}, order = [];
-    rows.forEach(function (r) {
+    ttSource().forEach(function (r) {
+      if (window.ibslTtFilter && !window.ibslTtFilter(r)) return;   // facilitators: only their units, plus programme events
       if (!byCohort[r.cohort_id]) { byCohort[r.cohort_id] = { name: r.cohort_name, list: [] }; order.push(r.cohort_id); }
       byCohort[r.cohort_id].list.push(r);
     });
@@ -3148,6 +3150,19 @@
     syncTimetableButton();
     closeTimetable();
   }
+
+  // A facilitator's timetable lists the sessions of the modules they teach (a lead facilitator: all),
+  // plus the programme events. Module → units: 1 → 1; 2 → 2–4; 3 → 5–9; 4 → 10–12.
+  var MODULE_UNITS = { 1: [1], 2: [2, 3, 4], 3: [5, 6, 7, 8, 9], 4: [10, 11, 12] };
+  window.ibslTtFilter = function (r) {
+    if (isEvent(r)) return true;
+    var map = window._cohortUnitsMap;
+    var mods = map && map[r.cohort_id];
+    if (!mods || !mods.length) return true;   // admin view, or modules not loaded: show all
+    var mine = [];
+    mods.forEach(function (m) { mine = mine.concat(MODULE_UNITS[Number(m)] || []); });
+    return unitsOf(r).some(function (u) { return mine.indexOf(Number(u)) !== -1; });
+  };
 
   window.ibslLiveSessions = { load: load, clear: clear, fill: fill, openTimetable: openTimetable };
 })();
