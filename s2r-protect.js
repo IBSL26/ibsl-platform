@@ -85,7 +85,7 @@
                       : '<text x="0" y="2">' + esc(email) + '</text>');
     var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="320" height="200">' +
       '<g transform="translate(160 100) rotate(-28)" text-anchor="middle" font-family="Arial,sans-serif" ' +
-      'font-size="15" font-weight="600" fill="#808080" fill-opacity="0.2">' + lines + '</g></svg>';
+      'font-size="15" font-weight="400" fill="#808080" fill-opacity="0.09">' + lines + '</g></svg>';
     return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
   }
 
