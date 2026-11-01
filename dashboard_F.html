@@ -2919,6 +2919,10 @@
   .lses-slot:empty { display: none; }
   .lses-unit { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 6px; padding: 10px 12px; border: 1px solid rgba(201,168,76,0.3); border-left: 3px solid #c9a84c; border-radius: 3px; background: rgba(201,168,76,0.06); font-family: 'Montserrat', sans-serif; cursor: default; }
   .lses-unit + .lses-unit { margin-top: 6px; }
+  .lses-unit:has(.lses-actions) { flex-direction: column; align-items: stretch; gap: 10px; }
+  .lses-unit:has(.lses-actions) .lses-unit-main { flex: none; }
+  .lses-actions { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .lses-actions .lses-pending { flex: 1 1 200px; text-align: left; }
   .lses-unit-main { min-width: 0; flex: 1; }
   .lses-unit-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; }
   .lses-unit-when { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 3px; line-height: 1.5; text-transform: none; letter-spacing: 0; }
@@ -3021,8 +3025,8 @@
                '<div class="lses-unit-when">' + whenText(r) + '</div>' +
                (r.will_record ? '<div class="lses-unit-note">This session will be recorded.</div>' : '') +
                (r.notes ? '<div class="lses-unit-note">' + esc(r.notes) + '</div>' : '') +
-             '</div>' + action +
-             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.ibslLiveSessions.approved(\'' + esc(r.cohort_id) + '\')">Approved list</button></div>';
+             '</div><div class="lses-actions">' + action +
+             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.ibslLiveSessions.approved(\'' + esc(r.cohort_id) + '\')">Approved list</button></div></div>';
     }
     var ageDays = (t - end) / 86400000;
     if (!(r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS))) return '';
