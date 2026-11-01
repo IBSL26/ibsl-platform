@@ -2828,11 +2828,6 @@
           <span class="inbox-chip-badge is-zero" id="inboxChipBadge">0</span>
         </a>
       </div>
-      <!-- [SESSIONS] Live sessions — hidden until get_my_sessions() returns a session (see ibslLiveSessions) -->
-      <div id="liveSessionsCard" style="display:none;">
-        <h2 class="section-heading">Live sessions</h2>
-        <div class="lses-panel" id="liveSessionsBody"></div>
-      </div>
       <h2 class="section-heading">Your Cohorts</h2>
       <div id="cohortList">
         <div class="cohort-loading">Loading cohorts…</div>
@@ -2915,30 +2910,29 @@
   <span class="footer-mark">&copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.</span>
 </footer>
 
-<!-- [SESSIONS] Live sessions for the signed-in person's cohorts: Join session and Watch recording.
-     Draws into #liveSessionsCard / #liveSessionsBody. Data: get_my_sessions() (migrations/cohort_sessions.sql). -->
+<!-- [SESSIONS] Live sessions sit on their own unit inside each cohort card (1 Nov 2026). The strip under a
+     unit's Facilitator Manual link shows the date and time, and the Join session button only from 30 minutes
+     before the start until the end. Data: get_my_sessions() (migrations/live_sessions_per_unit.sql). -->
 <style>
-  .lses-item { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'Montserrat', sans-serif; }
-  .lses-group .lses-item:first-child { padding-top: 0; }
-  .lses-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .lses-main { min-width: 0; flex: 1; }
-  .lses-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.25rem; font-weight: 400; color: #fff; line-height: 1.25; }
-  .lses-when { font-size: 12px; color: rgba(255,255,255,0.72); margin-top: 5px; line-height: 1.5; }
-  .lses-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 5px; line-height: 1.5; white-space: pre-wrap; }
-  .lses-chip { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; border: 1px solid #c9a84c; color: #c9a84c; margin-left: 8px; vertical-align: middle; font-family: 'Montserrat', sans-serif; }
+  .lses-slot { flex-basis: 100%; }
+  .lses-slot:empty { display: none; }
+  .lses-unit { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 2px 0 6px; padding: 10px 12px; border: 1px solid rgba(201,168,76,0.3); border-left: 3px solid #c9a84c; border-radius: 3px; background: rgba(201,168,76,0.06); font-family: 'Montserrat', sans-serif; cursor: default; }
+  .lses-unit + .lses-unit { margin-top: 6px; }
+  .lses-unit-main { min-width: 0; flex: 1; }
+  .lses-unit-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; }
+  .lses-unit-when { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 3px; line-height: 1.5; text-transform: none; letter-spacing: 0; }
+  .lses-unit-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 3px; line-height: 1.5; white-space: pre-wrap; }
+  .lses-chip { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; border: 1px solid #c9a84c; color: #c9a84c; margin-left: 8px; vertical-align: middle; }
   .lses-chip--live { background: #27ae60; border-color: #27ae60; color: #fff; }
-  .lses-join, .lses-watch { flex-shrink: 0; display: inline-block; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 18px; border-radius: 2px; text-decoration: none; cursor: pointer; white-space: nowrap; }
+  .lses-join, .lses-watch { flex-shrink: 0; display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 9px 16px; border-radius: 2px; text-decoration: none; cursor: pointer; white-space: nowrap; }
   .lses-join { background: #c9a84c; color: #1c1c1c; border: 1px solid #c9a84c; }
   .lses-join:hover { background: #e8c96a; border-color: #e8c96a; }
   .lses-watch { background: transparent; color: #c9a84c; border: 1px solid rgba(201,168,76,0.5); }
   .lses-watch:hover { border-color: #c9a84c; background: rgba(201,168,76,0.1); }
-  .lses-pending { flex-shrink: 0; font-size: 11px; font-style: italic; color: rgba(255,255,255,0.45); font-family: 'Montserrat', sans-serif; }
-  .lses-subhead { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); font-family: 'Montserrat', sans-serif; margin: 22px 0 12px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); }
-  .lses-subhead:first-child { margin-top: 0; padding-top: 0; border-top: none; }
-  .lses-tz { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 16px; font-family: 'Montserrat', sans-serif; }
-  .lses-panel { background: rgba(34,71,47,0.55); border: 1px solid rgba(201,168,76,0.25); border-radius: 8px; padding: 22px; margin-bottom: 34px; }
+  .lses-pending { flex-shrink: 0; font-size: 11px; font-style: italic; color: rgba(255,255,255,0.5); text-align: right; }
   @media (max-width: 600px) {
-    .lses-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .lses-unit { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .lses-pending { text-align: left; }
   }
 </style>
 <script>
@@ -2946,8 +2940,10 @@
   'use strict';
   var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var RECORDING_WAIT_DAYS = 14; // how long a past session shows "Recording to follow"
-  var seq = 0;
+  var RECORDING_WAIT_DAYS = 14;       // how long a past session shows "Recording to follow"
+  var OPEN_BEFORE_MS = 30 * 60000;    // Join session appears 30 minutes before the start
+  var REFRESH_MS = 60000;             // re-check every minute so the button appears on time
+  var seq = 0, timer = null, rows = [];
 
   function esc(s) {
     if (s == null) return '';
@@ -2955,7 +2951,7 @@
                     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
   function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function safeUrl(u) { return /^https:\/\//i.test(u || '') ? u : '#'; }
+  function safeUrl(u) { return /^https:\/\//i.test(u || '') ? u : ''; }
   function tzLabel(d) {
     var o = -d.getTimezoneOffset();
     var a = Math.abs(o), h = Math.floor(a / 60), m = a % 60;
@@ -2965,93 +2961,78 @@
   function dayText(d) { return DOW[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' ' + d.getFullYear(); }
   function whenText(r) {
     var s = new Date(r.starts_at), e = endOf(r);
-    return dayText(s) + ' · ' + pad(s.getHours()) + ':' + pad(s.getMinutes()) + '–' + pad(e.getHours()) + ':' + pad(e.getMinutes());
+    return dayText(s) + ' · ' + pad(s.getHours()) + ':' + pad(s.getMinutes()) + '–' + pad(e.getHours()) + ':' + pad(e.getMinutes()) +
+           ' (' + tzLabel(s) + ')';
   }
   function sameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
 
-  function render(card, body, rows) {
-    var now = new Date();
-    var upcoming = [], recorded = [];
-    var cohorts = {};
-    rows.forEach(function (r) {
-      cohorts[r.cohort_id] = true;
-      if (endOf(r).getTime() >= now.getTime()) { upcoming.push(r); return; }
-      var ageDays = (now.getTime() - endOf(r).getTime()) / 86400000;
-      if (r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS)) recorded.push(r);
-    });
-    recorded.reverse(); // most recent first
-    if (!upcoming.length && !recorded.length) { card.style.display = 'none'; body.innerHTML = ''; return; }
-    var showCohort = Object.keys(cohorts).length > 1;
-
-    function cohortBit(r) { return showCohort ? ' · ' + esc(r.cohort_name) : ''; }
-    var html = '';
-    if (upcoming.length) {
-      html += '<div class="lses-subhead">Upcoming</div><div class="lses-group">';
-      upcoming.forEach(function (r) {
-        var s = new Date(r.starts_at);
-        var chip = s.getTime() <= now.getTime() ? '<span class="lses-chip lses-chip--live">Live now</span>'
-                 : (sameDay(s, now) ? '<span class="lses-chip">Today</span>' : '');
-        html += '<div class="lses-item">' +
-                  '<div class="lses-main">' +
-                    '<div class="lses-title">' + esc(r.title) + chip + '</div>' +
-                    '<div class="lses-when">' + whenText(r) + cohortBit(r) + '</div>' +
-                    (r.will_record ? '<div class="lses-note">This session will be recorded.</div>' : '') +
-                    (r.notes ? '<div class="lses-note">' + esc(r.notes) + '</div>' : '') +
-                  '</div>' +
-                  '<a class="lses-join" href="' + esc(safeUrl(r.teams_url)) + '" target="_blank" rel="noopener"' +
-                     ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>' +
-                '</div>';
-      });
-      html += '</div>';
+  function stripHtml(r, now) {
+    var t = now.getTime(), start = new Date(r.starts_at).getTime(), end = endOf(r).getTime();
+    if (end >= t) {
+      var link = safeUrl(r.teams_url);
+      var chip = t >= start ? '<span class="lses-chip lses-chip--live">Live now</span>'
+               : (sameDay(new Date(start), now) ? '<span class="lses-chip">Today</span>' : '');
+      var action = (t >= start - OPEN_BEFORE_MS && link)
+        ? '<a class="lses-join" href="' + esc(link) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
+            ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>'
+        : '<span class="lses-pending">Join opens 30 minutes before the start</span>';
+      return '<div class="lses-unit"><div class="lses-unit-main">' +
+               '<div class="lses-unit-label">Live session' + chip + '</div>' +
+               '<div class="lses-unit-when">' + whenText(r) + '</div>' +
+               (r.will_record ? '<div class="lses-unit-note">This session will be recorded.</div>' : '') +
+               (r.notes ? '<div class="lses-unit-note">' + esc(r.notes) + '</div>' : '') +
+             '</div>' + action + '</div>';
     }
-    if (recorded.length) {
-      html += '<div class="lses-subhead">Recordings</div><div class="lses-group">';
-      recorded.forEach(function (r) {
-        html += '<div class="lses-item">' +
-                  '<div class="lses-main">' +
-                    '<div class="lses-title">' + esc(r.title) + '</div>' +
-                    '<div class="lses-when">' + dayText(new Date(r.starts_at)) + cohortBit(r) + '</div>' +
-                  '</div>' +
-                  (r.recording_url
-                    ? '<a class="lses-watch" href="' + esc(safeUrl(r.recording_url)) + '" target="_blank" rel="noopener"' +
-                        ' aria-label="Watch recording: ' + esc(r.title) + '">Watch recording</a>'
-                    : '<span class="lses-pending">Recording to follow</span>') +
-                '</div>';
-      });
-      html += '</div>';
-    }
-    if (upcoming.length) html += '<div class="lses-tz">Times are shown in your time zone (' + tzLabel(now) + ').</div>';
-    body.innerHTML = html;
-    card.style.display = '';
+    var ageDays = (t - end) / 86400000;
+    if (!(r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS))) return '';
+    var rec = safeUrl(r.recording_url);
+    return '<div class="lses-unit"><div class="lses-unit-main">' +
+             '<div class="lses-unit-label">Session recording</div>' +
+             '<div class="lses-unit-when">' + dayText(new Date(start)) + '</div>' +
+           '</div>' +
+           (rec ? '<a class="lses-watch" href="' + esc(rec) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
+                    ' aria-label="Watch recording: ' + esc(r.title) + '">Watch recording</a>'
+                : '<span class="lses-pending">Recording to follow</span>') + '</div>';
   }
 
-  function load() {
-    var card = document.getElementById('liveSessionsCard');
-    var body = document.getElementById('liveSessionsBody');
-    if (!card || !body) return;
+  // Fill every unit slot on the cohort cards from the last rows fetched.
+  function fill() {
+    var now = new Date();
+    var slots = document.querySelectorAll('.lses-slot');
+    for (var i = 0; i < slots.length; i++) {
+      var cid = slots[i].getAttribute('data-cohort'), unit = Number(slots[i].getAttribute('data-unit'));
+      var html = '';
+      rows.forEach(function (r) {
+        if (r.cohort_id === cid && Number(r.unit_no) === unit) html += stripHtml(r, now);
+      });
+      slots[i].innerHTML = html;
+    }
+  }
+
+  function fetchRows() {
     if (typeof supabaseClient === 'undefined' || !supabaseClient || !supabaseClient.rpc) return;
     var mine = ++seq;
     Promise.resolve(supabaseClient.rpc('get_my_sessions')).then(function (res) {
       if (mine !== seq) return;
-      if (res.error) {
-        console.error('[sessions] get_my_sessions error:', res.error);
-        card.style.display = 'none';
-        return;
-      }
-      render(card, body, res.data || []);
+      if (res.error) { console.error('[sessions] get_my_sessions error:', res.error); rows = []; fill(); return; }
+      rows = res.data || [];
+      fill();
     }).catch(function (err) {
       console.error('[sessions] load error:', err);
     });
   }
+  function load() {
+    fetchRows();
+    if (!timer) timer = setInterval(fetchRows, REFRESH_MS);
+  }
   function clear() {
     seq++;
-    var card = document.getElementById('liveSessionsCard');
-    var body = document.getElementById('liveSessionsBody');
-    if (card) card.style.display = 'none';
-    if (body) body.innerHTML = '';
+    rows = [];
+    if (timer) { clearInterval(timer); timer = null; }
+    fill();
   }
 
-  window.ibslLiveSessions = { load: load, clear: clear };
+  window.ibslLiveSessions = { load: load, clear: clear, fill: fill };
 })();
 </script>
 
@@ -3659,6 +3640,9 @@
                  '?cohort=' + encodeURIComponent(cohortId) + '" onclick="event.stopPropagation();">' +
                  '📖 ' + lens.label + '</a>';
         links += deckLinkHtml(Number(u), lens.label);
+        // [SESSIONS] this unit's live session, filled by ibslLiveSessions.fill()
+        var um = /^Unit (\d+)/.exec(lens.label || '');
+        if (um) links += '<div class="lses-slot" data-cohort="' + escapeHtml(cohortId) + '" data-unit="' + um[1] + '"></div>';
       });
     });
     if (!links) return '';
@@ -3757,6 +3741,7 @@
     const list = document.getElementById('cohortList');
     list.innerHTML = '';
     list.appendChild(grid);
+    if (window.ibslLiveSessions) window.ibslLiveSessions.fill();   // [SESSIONS] sessions onto their units
   }
 
   function cohortCardEl(c) {
@@ -3800,6 +3785,7 @@
       // [MANUAL] If the click came from the Facilitator Manual link, let the
       // anchor navigate naturally — do not swallow it with handleCohortClick.
       if (e.target && e.target.closest && e.target.closest('.teaching-notes-link')) return;
+      if (e.target && e.target.closest && e.target.closest('.lses-unit')) return;   // [SESSIONS] session strip
       handleCohortClick(c);
     });
     card.addEventListener('keydown', function(e) {
