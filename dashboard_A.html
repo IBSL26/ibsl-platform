@@ -13567,16 +13567,8 @@ sam@gamma.org, Sam Lee, participant,`;
                 <input type="time" class="form-input" id="sesTime" style="color-scheme:dark;">
               </div>
               <div>
-                <label class="form-label" for="sesDuration">Length</label>
-                <select class="form-select" id="sesDuration">
-                  <option value="60">1 hour</option>
-                  <option value="90">1½ hours</option>
-                  <option value="120" selected>2 hours</option>
-                  <option value="150">2½ hours</option>
-                  <option value="180">3 hours</option>
-                  <option value="240">4 hours</option>
-                  <option value="480">8 hours</option>
-                </select>
+                <label class="form-label" for="sesEnd">End time <span class="form-label__required">*</span></label>
+                <input type="time" class="form-input" id="sesEnd" style="color-scheme:dark;">
               </div>
             </div>
             <div class="ses-hint" id="sesTzHint"></div>
@@ -14020,15 +14012,13 @@ sam@gamma.org, Sam Lee, participant,`;
           $('sesDate').value = '';
           $('sesTime').value = '';
         }
-        var dur = String(row ? row.duration_minutes : 120);
-        var durSel = $('sesDuration');
-        var has = Array.prototype.some.call(durSel.options, function (o) { return o.value === dur; });
-        if (!has) {
-          var o = document.createElement('option');
-          o.value = dur; o.textContent = dur + ' minutes';
-          durSel.appendChild(o);
+        // End time (1 Nov 2026): typed freely; the length is worked out from the start and end times.
+        if (row) {
+          var en = endOf(row);
+          $('sesEnd').value = pad(en.getHours()) + ':' + pad(en.getMinutes());
+        } else {
+          $('sesEnd').value = '';
         }
-        durSel.value = dur;
         $('sesUrl').value = row && row.teams_url !== PORTAL_URL ? row.teams_url : '';
         $('sesRecord').checked = !!(row && row.will_record);
         $('sesNotes').value = row && row.notes ? row.notes : '';
@@ -14051,6 +14041,12 @@ sam@gamma.org, Sam Lee, participant,`;
         if (!date || !time) { err.textContent = 'Choose the date and the start time.'; return; }
         var starts = new Date(date + 'T' + time + ':00');
         if (isNaN(starts.getTime())) { err.textContent = 'The date or time is not valid.'; return; }
+        var endTime = $('sesEnd').value;
+        if (!endTime) { err.textContent = 'Choose the end time.'; $('sesEnd').focus(); return; }
+        var ends = new Date(date + 'T' + endTime + ':00');
+        if (ends.getTime() <= starts.getTime()) ends = new Date(ends.getTime() + 86400000);   // ends after midnight
+        var durationMin = Math.round((ends.getTime() - starts.getTime()) / 60000);
+        if (durationMin < 15 || durationMin > 600) { err.textContent = 'The session must be between 15 minutes and 10 hours long. Check the start and end times.'; $('sesEnd').focus(); return; }
         if (kind === 'event' && !url) url = PORTAL_URL;   // in-person event: no Teams link
         if (!httpsOk(url)) { err.textContent = 'Paste the full Teams link, starting with https://'; $('sesUrl').focus(); return; }
 
@@ -14064,7 +14060,7 @@ sam@gamma.org, Sam Lee, participant,`;
             p_teams_url: url,
             p_session_id: state.editing ? state.editing.id : null,
             p_unit_no: unit,
-            p_duration_minutes: parseInt($('sesDuration').value, 10),
+            p_duration_minutes: durationMin,
             p_will_record: $('sesRecord').checked,
             p_notes: $('sesNotes').value.trim() || null
           });
