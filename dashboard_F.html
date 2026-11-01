@@ -2979,6 +2979,7 @@
   var OPEN_BEFORE_MS = 30 * 60000;    // Join session appears 30 minutes before the start
   var REFRESH_MS = 60000;             // re-check every minute so the button appears on time
   var seq = 0, timer = null, rows = [];
+  var needsTerms = false;             // not yet signed: Sign terms shows in place of Join (the server also holds back the link)
 
   function esc(s) {
     if (s == null) return '';
@@ -3009,7 +3010,9 @@
       if (toFollow) link = '';
       var chip = t >= start ? '<span class="lses-chip lses-chip--live">Live now</span>'
                : (sameDay(new Date(start), now) ? '<span class="lses-chip">Today</span>' : '');
-      var action = (t >= start - OPEN_BEFORE_MS && link)
+      var action = needsTerms
+        ? '<a class="lses-join" href="terms.html?back=dashboard_F.html" onclick="event.stopPropagation();" aria-label="Sign the terms to join">Sign terms to join</a>'
+        : (t >= start - OPEN_BEFORE_MS && link)
         ? '<a class="lses-join" href="' + esc(link) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
             ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>'
         : '<span class="lses-pending">' + (toFollow ? 'Teams link to follow' : 'Join opens 30 minutes before the start') + '</span>';
@@ -3018,7 +3021,8 @@
                '<div class="lses-unit-when">' + whenText(r) + '</div>' +
                (r.will_record ? '<div class="lses-unit-note">This session will be recorded.</div>' : '') +
                (r.notes ? '<div class="lses-unit-note">' + esc(r.notes) + '</div>' : '') +
-             '</div>' + action + '</div>';
+             '</div>' + action +
+             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.ibslLiveSessions.approved(\'' + esc(r.cohort_id) + '\')">Approved list</button></div>';
     }
     var ageDays = (t - end) / 86400000;
     if (!(r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS))) return '';
@@ -3127,10 +3131,40 @@
     if (b) b.style.display = rows.length ? '' : 'none';
   }
 
+  function checkTerms() {
+    return Promise.resolve(supabaseClient.rpc('get_my_terms')).then(function (res) {
+      var t = res && !res.error && res.data && res.data[0];
+      needsTerms = !!(t && t.required && !t.signed);
+    }).catch(function () { needsTerms = false; });
+  }
+  // Approved list: who may be admitted from the Teams lobby (terms signed).
+  function closeApproved() { var o = document.getElementById('apprOverlay'); if (o) o.parentNode.removeChild(o); }
+  function approved(cid) {
+    closeApproved();
+    var o = document.createElement('div');
+    o.className = 'tt-overlay'; o.id = 'apprOverlay';
+    o.innerHTML = '<div class="tt-dialog" role="dialog" aria-label="Approved list"><div class="tt-head"><div><div class="tt-kicker">Live session</div><div class="tt-title">Approved list</div></div><div class="tt-btns"><button type="button" class="tt-open" id="apprClose">Close</button></div></div><div id="apprBody">Loading…</div></div>';
+    document.body.appendChild(o);
+    o.addEventListener('click', function (e) { if (e.target === o || e.target.id === 'apprClose') closeApproved(); });
+    Promise.resolve(supabaseClient.rpc('get_cohort_terms_record', { p_cohort_id: cid })).then(function (res) {
+      var box = document.getElementById('apprBody');
+      if (!box) return;
+      if (res.error) { box.textContent = 'The list could not load. Please try again.'; return; }
+      var list = (res.data || []).filter(function (p) { return p.required; });
+      var n = list.filter(function (p) { return p.signed; }).length;
+      box.innerHTML = '<div class="tt-note" style="margin-bottom:12px;">Admit only people marked Signed. ' + n + ' of ' + list.length + ' have signed.</div>' +
+        '<table class="tt-table"><thead><tr><th>Name</th><th>Role</th><th>Terms</th></tr></thead><tbody>' +
+        list.map(function (p) {
+          return '<tr><td>' + esc(p.full_name) + '</td><td>' + (p.role_in_cohort === 'facilitator' ? 'Facilitator' : 'Participant') + '</td><td style="font-weight:700;color:' + (p.signed ? '#7ddba3' : '#f3a3a3') + ';">' + (p.signed ? 'Signed' : 'Not signed') + '</td></tr>';
+        }).join('') + '</tbody></table>';
+    });
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeApproved(); });
   function fetchRows() {
     if (typeof supabaseClient === 'undefined' || !supabaseClient || !supabaseClient.rpc) return;
     var mine = ++seq;
-    Promise.resolve(supabaseClient.rpc('get_my_sessions')).then(function (res) {
+    Promise.all([supabaseClient.rpc('get_my_sessions'), checkTerms()]).then(function (all) {
+      var res = all[0];
       if (mine !== seq) return;
       if (res.error) { console.error('[sessions] get_my_sessions error:', res.error); rows = []; fill(); syncTimetableButton(); return; }
       rows = res.data || [];
@@ -3166,7 +3200,7 @@
     return unitsOf(r).some(function (u) { return mine.indexOf(Number(u)) !== -1; });
   };
 
-  window.ibslLiveSessions = { load: load, clear: clear, fill: fill, openTimetable: openTimetable };
+  window.ibslLiveSessions = { load: load, clear: clear, fill: fill, openTimetable: openTimetable, approved: approved };
 })();
 </script>
 

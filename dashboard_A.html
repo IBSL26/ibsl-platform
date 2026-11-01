@@ -4380,6 +4380,7 @@
         </div>
 
         <div class="detail-card" id="cohortSessionsCard"></div>
+        <div class="detail-card" id="cohortTermsCard"></div>
 
         ${dangerZone}
       `;
@@ -14519,11 +14520,80 @@ sam@gamma.org, Sam Lee, participant,`;
         syncTitleBox();
       });
 
+      // [TERMS] Who has signed the portal terms, per cohort (migrations/portal_terms.sql).
+      var terms = { cohortId: null, rows: [], loaded: false, error: null };
+      var TERMS_HEADS = ['Name', 'Email', 'Role', 'Terms', 'Signed as', 'Date and time', 'Version'];
+      function termsWhen(ts) {
+        if (!ts) return '';
+        var d = new Date(ts);
+        return d.getDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()] + ' ' + d.getFullYear() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+      }
+      function termsRole(p) { return p.role_in_cohort === 'facilitator' ? 'Facilitator' : 'Participant'; }
+      function termsPeople() { return terms.rows.filter(function (p) { return p.required; }); }
+      function termsRender() {
+        var card = $('cohortTermsCard');
+        if (!card) return;
+        var list = termsPeople();
+        var signed = list.filter(function (p) { return p.signed; }).length;
+        var td = '<td style="padding:8px 10px;border-bottom:1px solid var(--border-subtle);">';
+        var body;
+        if (terms.error) body = '<div class="people-list__empty">Could not load the terms record: ' + esc(terms.error) + '</div>';
+        else if (!terms.loaded) body = '<div class="people-list__empty">Loading the terms record…</div>';
+        else if (!list.length) body = '<div class="people-list__empty">No participants or facilitators in this cohort yet.</div>';
+        else body = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
+          TERMS_HEADS.map(function (h) {
+            return '<th style="text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:8px 10px;border-bottom:1px solid var(--border-default);white-space:nowrap;">' + h + '</th>';
+          }).join('') + '</tr></thead><tbody>' + list.map(function (p) {
+            return '<tr>' + td + esc(p.full_name) + '</td>' + td + esc(p.email) + '</td>' + td + termsRole(p) + '</td>' + td +
+              '<span class="ses-chip ' + (p.signed ? 'ses-chip--ok' : 'ses-chip--warn') + '">' + (p.signed ? 'Signed' : 'Not signed') + '</span></td>' +
+              td + esc(p.signed_name) + '</td>' + td + '<span style="white-space:nowrap;">' + esc(termsWhen(p.accepted_at)) + '</span></td>' + td + esc(p.terms_version) + '</td></tr>';
+          }).join('') + '</tbody></table></div>';
+        card.innerHTML = '<div class="detail-card__head"><div><div class="detail-card__title">Terms of use</div>' +
+          '<div class="detail-card__count">' + (terms.loaded && !terms.error ? signed + ' of ' + list.length + ' signed' : '') + '</div></div>' +
+          (list.length ? '<button type="button" class="detail-card__action" id="termsCsv">Download record</button>' : '') + '</div>' + body;
+        var dl = $('termsCsv');
+        if (dl) dl.onclick = termsCsv;
+      }
+      function termsCsv() {
+        function cell(v) {
+          var s = v == null ? '' : String(v);
+          if (/^[=+\-@]/.test(s)) s = "'" + s;
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        var lines = [TERMS_HEADS.map(cell).join(',')];
+        termsPeople().forEach(function (p) {
+          lines.push([p.full_name, p.email, termsRole(p), p.signed ? 'Signed' : 'Not signed', p.signed_name, termsWhen(p.accepted_at), p.terms_version].map(cell).join(','));
+        });
+        var c = cohort();
+        var a = document.createElement('a');
+        var url = URL.createObjectURL(new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+        a.href = url;
+        a.download = 'Terms record - ' + ((c && c.name) || 'cohort') + '.csv';
+        document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      }
+      async function termsLoad(id) {
+        if (terms.cohortId !== id) { terms.cohortId = id; terms.rows = []; terms.loaded = false; terms.error = null; }
+        termsRender();
+        try {
+          var res = await sb.rpc('get_cohort_terms_record', { p_cohort_id: id });
+          if (terms.cohortId !== id) return;
+          terms.error = res.error ? (res.error.message || 'request failed') : null;
+          if (!res.error) terms.rows = res.data || [];
+        } catch (e) {
+          if (terms.cohortId !== id) return;
+          terms.error = e.message || 'network error';
+        }
+        terms.loaded = true;
+        termsRender();
+      }
+
       // Called by renderCohortDetail() each time the cohort detail view is drawn.
       window.ibslSessions = {
         mount: function (bundle) {
           if (!bundle || !bundle.cohort) return;
           state.bundle = bundle;
+          termsLoad(bundle.cohort.id);   // [TERMS]
           if (state.cohortId !== bundle.cohort.id) {
             state.cohortId = bundle.cohort.id;
             state.rows = [];

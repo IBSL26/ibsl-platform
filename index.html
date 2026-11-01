@@ -1650,6 +1650,7 @@
     10: '[data-lens-id="u4m1_lens9"]', 11: '[data-lens-id="u4m1_lens10"]', 12: '[data-lens-id="u4m2_lens11"]'
   };
   var seq = 0, timer = null, rows = [];
+  var needsTerms = false;             // not yet signed: Sign terms shows in place of Join (the server also holds back the link)
 
   function esc(s) {
     if (s == null) return '';
@@ -1709,7 +1710,9 @@
         if (toFollow) link = '';
         var chip = t >= start ? '<span class="lses-chip lses-chip--live">Live now</span>'
                  : (sameDay(new Date(start), now) ? '<span class="lses-chip">Today</span>' : '');
-        var action = (open && link)
+        var action = needsTerms
+          ? '<a class="lses-join" href="terms.html" onclick="event.stopPropagation();" aria-label="Sign the terms to join">Sign terms to join</a>'
+          : (open && link)
           ? '<a class="lses-join" href="' + esc(link) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
               ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>'
           : '<span class="lses-pending">' + (open && toFollow ? 'Teams link to follow' : 'Join opens 30 minutes before the start') + '</span>';
@@ -1816,10 +1819,17 @@
     if (b) b.style.display = rows.length ? '' : 'none';
   }
 
+  function checkTerms() {
+    return Promise.resolve(supabaseClient.rpc('get_my_terms')).then(function (res) {
+      var t = res && !res.error && res.data && res.data[0];
+      needsTerms = !!(t && t.required && !t.signed);
+    }).catch(function () { needsTerms = false; });
+  }
   function fetchRows() {
     if (typeof supabaseClient === 'undefined' || !supabaseClient || !supabaseClient.rpc) return;
     var mine = ++seq;
-    Promise.resolve(supabaseClient.rpc('get_my_sessions')).then(function (res) {
+    Promise.all([supabaseClient.rpc('get_my_sessions'), checkTerms()]).then(function (all) {
+      var res = all[0];
       if (mine !== seq) return;
       if (res.error) { console.error('[sessions] get_my_sessions error:', res.error); rows = []; removeStrips(); syncTimetableButton(); return; }
       rows = res.data || [];
