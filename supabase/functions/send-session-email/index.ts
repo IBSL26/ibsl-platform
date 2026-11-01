@@ -101,7 +101,7 @@ function buildIcs(s: SessionRow, cohortName: string) {
   const end   = new Date(start.getTime() + s.duration_minutes * 60000)
   const desc  = [
     `Strategy2Results® live session for ${cohortName}.`,
-    `Join: ${s.teams_url}`,
+    `Join from your S2R® Portal: ${PORTAL_URL} (the Join session button opens 30 minutes before the start).`,
     s.will_record ? 'This session will be recorded.' : '',
     s.notes || '',
   ].filter(Boolean).join('\n\n')
@@ -120,7 +120,7 @@ function buildIcs(s: SessionRow, cohortName: string) {
     `SUMMARY:${icsText(s.title)}`,
     `DESCRIPTION:${icsText(desc)}`,
     'LOCATION:Microsoft Teams',
-    `URL:${s.teams_url}`,
+    `URL:${PORTAL_URL}`,
     'STATUS:CONFIRMED',
     'BEGIN:VALARM',
     'TRIGGER:-PT15M',
@@ -166,10 +166,10 @@ function buildEmail(kind: Kind, s: SessionRow, cohortName: string, firstName: st
   }
 
   if (kind === 'invite' || kind === 'update') {
-    buttonLabel  = 'Join session'
-    buttonUrl    = s.teams_url
-    footnote     = `The attached calendar file adds this session to your calendar in your own time zone. The Join session button is also on your <a href="${PORTAL_URL}" style="color:#2a7a7a;">S2R® Portal</a> home page.`
-    footnoteText = `The attached calendar file adds this session to your calendar in your own time zone. The Join session button is also on your S2R® Portal home page: ${PORTAL_URL}`
+    buttonLabel  = 'Go to my portal'
+    buttonUrl    = PORTAL_URL
+    footnote     = `You join the session from your <a href="${PORTAL_URL}" style="color:#2a7a7a;">S2R® Portal</a>: the Join session button appears on the unit 30 minutes before the start. The attached calendar file adds this session to your calendar in your own time zone.`
+    footnoteText = `You join the session from your S2R® Portal (${PORTAL_URL}): the Join session button appears on the unit 30 minutes before the start. The attached calendar file adds this session to your calendar in your own time zone.`
   } else if (kind === 'recording') {
     buttonLabel  = 'Watch recording'
     buttonUrl    = s.recording_url || ''

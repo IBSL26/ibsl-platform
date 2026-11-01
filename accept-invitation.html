@@ -187,45 +187,82 @@
     return 'https://ibslportal.netlify.app/index.html';
   }
 
-  // Establish a session from the invite link. The link carries token_hash and
-  // type in the query string; verifyOtp exchanges them for a real session.
-  // Deterministic — does not rely on detectSessionInUrl catching a redirect.
-  // The invitation link always wins over anyone already signed in on this browser
-  // (for example an admin or facilitator testing the link on their own computer).
+  // Establish a session from the invite link (reusable link, 1 Nov 2026).
+  // New links carry ?invite=<invitation id>. Each visit asks the send-invitation-email
+  // function for a fresh one-time sign-in token, which works while the invitation is still
+  // pending. So a person who leaves the setup page before finishing can open the same link
+  // again, on any device, and land back on the setup form. Once registered, the link only
+  // points them to sign-in. Links sent before this change carry only token_hash and type;
+  // those still work the first time, and on a return visit in the same browser the session
+  // kept from the first visit is reused while the invitation is still pending.
+  // The invitation link always wins over anyone already signed in on this browser:
+  // a successful verifyOtp replaces that session.
   var linkProblem = '';
+  var inviteOutcome = '';        // 'registered' | 'expired' | 'invalid' from the invite lookup
+  var inviteOutcomeEmail = '';
+
+  async function hasPendingInvitation(email) {
+    if (!email) return false;
+    var r = await sb.from('invitations').select('id').eq('email', email).eq('status', 'pending').limit(1);
+    return !r.error && r.data && r.data.length > 0;
+  }
+
+  async function verifyToken(tokenHash, otpType) {
+    var v = await sb.auth.verifyOtp({ token_hash: tokenHash, type: otpType });
+    if (v.error) { console.error('verifyOtp error:', JSON.stringify(v.error)); return null; }
+    return v.data.session;
+  }
+
   async function establishSession() {
     var params    = new URLSearchParams(window.location.search);
     var hashP     = new URLSearchParams((window.location.hash || '').replace(/^#/, ''));
+    var inviteId  = params.get('invite');
     var tokenHash = params.get('token_hash');
     var otpType   = params.get('type');
+    var cleanUrl  = window.location.pathname + (inviteId ? '?invite=' + encodeURIComponent(inviteId) : '');
     linkProblem   = params.get('error_description') || hashP.get('error_description') || '';
-    if (linkProblem) return null;
+    if (linkProblem && !inviteId) return null;
 
-    // Link that carries the session in the address (#access_token=…).
+    // 1. Reusable link: get a fresh sign-in token for this invitation.
+    if (inviteId) {
+      try {
+        var res = await sb.functions.invoke('send-invitation-email', { body: { invite: inviteId } });
+        var d = res.data || {};
+        if (!res.error && d.ok && d.token_hash) {
+          var fresh = await verifyToken(d.token_hash, d.type || 'magiclink');
+          if (fresh) { history.replaceState(null, '', cleanUrl); return fresh; }
+        } else if (d.reason === 'registered' || d.reason === 'expired' || d.reason === 'invalid') {
+          inviteOutcome = d.reason;
+          inviteOutcomeEmail = d.email || '';
+          history.replaceState(null, '', cleanUrl);
+          return null;
+        }
+      } catch (e) { console.error('Invitation lookup error:', e); }
+      // Anything else: carry on with the token in the link, as before.
+    }
+
+    // 2. Link that carries the session in the address (#access_token=…).
     if (hashP.get('access_token') && hashP.get('refresh_token')) {
-      await sb.auth.signOut({ scope: 'local' });
       var setRes = await sb.auth.setSession({ access_token: hashP.get('access_token'), refresh_token: hashP.get('refresh_token') });
-      history.replaceState(null, '', window.location.pathname);
+      history.replaceState(null, '', cleanUrl);
       if (setRes.error) { console.error('setSession error:', JSON.stringify(setRes.error)); return null; }
       return setRes.data.session;
     }
 
-    // No token in the address: reuse the session if the page is refreshed after verification.
-    if (!tokenHash || !otpType) {
-      var existing = await sb.auth.getSession();
-      return (existing.data && existing.data.session) || null;
+    // Session already on this browser (a refresh, or a return visit before registration was finished).
+    var existing = (await sb.auth.getSession()).data.session || null;
+
+    // 3. One-time token in the address.
+    if (tokenHash && otpType) {
+      var verified = await verifyToken(tokenHash, otpType);
+      history.replaceState(null, '', cleanUrl);   // burn the token so a refresh can't retry it
+      if (verified) return verified;
     }
 
-    // Sign out whoever is signed in on this browser before using the invitation token.
-    await sb.auth.signOut({ scope: 'local' });
-    var verifyRes = await sb.auth.verifyOtp({ token_hash: tokenHash, type: otpType });
-    if (verifyRes.error) {
-      console.error('verifyOtp error:', JSON.stringify(verifyRes.error));
-      return null;
-    }
-    // Burn the consumed token from the address bar so a refresh can't retry it.
-    history.replaceState(null, '', window.location.pathname);
-    return verifyRes.data.session;
+    // 4. Token already used: reuse the session from the first visit, but only for someone
+    //    whose invitation is still pending (never an admin or facilitator already signed in here).
+    if (existing && await hasPendingInvitation(existing.user && existing.user.email)) return existing;
+    return null;
   }
 
   async function init() {
@@ -233,9 +270,13 @@
       var session = await establishSession();
 
       if (!session) {
-        showInvalid(linkProblem
-          ? 'This invitation link has already been used or has expired. If you have registered, sign in at the portal address below. If you have not, ask your administrator to resend your invitation.'
-          : 'This invitation link is invalid or has expired. Please ask your administrator to resend your invitation.');
+        if (inviteOutcome === 'registered') {
+          showInvalid('You have already registered' + (inviteOutcomeEmail ? ' with ' + inviteOutcomeEmail : '') + '. Sign in at the portal address below with your email and the password you set.');
+        } else if (inviteOutcome === 'expired') {
+          showInvalid('This invitation has expired. Please ask your administrator to resend your invitation.');
+        } else {
+          showInvalid('This invitation link has already been used or has expired. If you have registered, sign in at the portal address below. If you have not, ask your administrator to resend your invitation.');
+        }
         return;
       }
       currentUser = session.user;

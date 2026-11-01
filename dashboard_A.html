@@ -13537,7 +13537,7 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" style="padding:22px 28px 8px;">
           <div class="ses-field">
-            <label class="form-label" for="sesUnit">Unit</label>
+            <label class="form-label" for="sesUnit">Unit <span class="form-label__required">*</span></label>
             <select class="form-select" id="sesUnit"></select>
           </div>
           <div class="ses-field" id="sesTitleWrap">
@@ -13954,13 +13954,13 @@ sam@gamma.org, Sam Lee, participant,`;
       function fillUnitOptions() {
         var sel = $('sesUnit');
         if (sel.options.length) return;
-        var html = '<option value="">General session (no unit)</option>';
+        var html = '<option value="">Choose the unit</option>';
         for (var n = 1; n <= 12; n++) html += '<option value="' + n + '">' + esc(unitTitle(n)) + '</option>';
         sel.innerHTML = html;
       }
-      // A unit session takes the unit name as its title; only a general session needs a typed title.
+      // Every session belongs to a unit (1 Nov 2026) and takes the unit name as its title.
       function syncTitleBox() {
-        $('sesTitleWrap').style.display = $('sesUnit').value ? 'none' : '';
+        $('sesTitleWrap').style.display = 'none';
       }
       function openForm(row) {
         fillUnitOptions();
@@ -14001,7 +14001,8 @@ sam@gamma.org, Sam Lee, participant,`;
       async function saveForm() {
         var err = $('sesFormError');
         var unit = $('sesUnit').value ? parseInt($('sesUnit').value, 10) : null;
-        var title = unit ? unitTitle(unit) : $('sesTitle').value.trim();
+        if (!unit) { $('sesFormError').textContent = 'Choose the unit this session is for.'; $('sesUnit').focus(); return; }
+        var title = unitTitle(unit);
         var date = $('sesDate').value, time = $('sesTime').value;
         var url = $('sesUrl').value.trim();
         err.textContent = '';
