@@ -13507,6 +13507,10 @@ sam@gamma.org, Sam Lee, participant,`;
       .ses-subhead:first-child { margin-top: 0; }
       .ses-form-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 14px; }
       .ses-field { margin-bottom: 16px; }
+      .ses-kind { display: flex; flex-direction: column; gap: 8px; }
+      .ses-units { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+      .ses-units .ses-check { font-size: 12px; }
+      @media (max-width: 640px) { .ses-units { grid-template-columns: 1fr; } }
       .ses-check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: rgba(255,255,255,0.85); cursor: pointer; line-height: 1.45; }
       .ses-check input { margin-top: 3px; accent-color: #c9a84c; }
       .ses-hint { font-size: 11px; color: rgba(255,255,255,0.50); margin-top: 6px; line-height: 1.5; }
@@ -13537,12 +13541,20 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
         <div class="modal-body" style="padding:22px 28px 8px;">
           <div class="ses-field">
-            <label class="form-label" for="sesUnit">Unit <span class="form-label__required">*</span></label>
-            <select class="form-select" id="sesUnit"></select>
+            <div class="form-label">What is this session? <span class="form-label__required">*</span></div>
+            <div class="ses-kind">
+              <label class="ses-check" for="sesKindUnit"><input type="radio" name="sesKind" value="unit" id="sesKindUnit" checked><span>Unit session · one unit, or two or more units taught together</span></label>
+              <label class="ses-check" for="sesKindEvent"><input type="radio" name="sesKind" value="event" id="sesKindEvent"><span>Programme event · for example Capstone finalisation, Capstone presentations, graduation</span></label>
+            </div>
+          </div>
+          <div class="ses-field" id="sesUnitsWrap">
+            <div class="form-label">Units taught in this session <span class="form-label__required">*</span></div>
+            <div class="ses-units" id="sesUnits"></div>
+            <div class="ses-hint">Tick one unit, or tick two or more for a combined session. The session and its Join button show under every unit ticked, with one Teams link.</div>
           </div>
           <div class="ses-field" id="sesTitleWrap">
-            <label class="form-label" for="sesTitle">Session title <span class="form-label__required">*</span></label>
-            <input type="text" class="form-input" id="sesTitle" maxlength="140" placeholder="e.g. Programme orientation">
+            <label class="form-label" for="sesTitle">Event title <span class="form-label__required">*</span></label>
+            <input type="text" class="form-input" id="sesTitle" maxlength="140" placeholder="e.g. Capstone presentations">
           </div>
           <div class="ses-field">
             <div class="ses-form-grid">
@@ -13570,7 +13582,7 @@ sam@gamma.org, Sam Lee, participant,`;
             <div class="ses-hint" id="sesTzHint"></div>
           </div>
           <div class="ses-field">
-            <label class="form-label" for="sesUrl">Teams link <span class="form-label__required">*</span></label>
+            <label class="form-label" for="sesUrl">Teams link <span class="form-label__required" id="sesUrlReq">*</span><span id="sesUrlOpt" style="display:none;"> (only if the event is online)</span></label>
             <input type="url" class="form-input" id="sesUrl" placeholder="https://teams.microsoft.com/…" autocomplete="off">
             <div class="ses-hint">Create the meeting in Teams, choose Copy join link, and paste it here.</div>
           </div>
@@ -13818,7 +13830,9 @@ sam@gamma.org, Sam Lee, participant,`;
       }
       function itemHtml(r) {
         var cls = 'ses-item' + (r.status === 'cancelled' ? ' ses-item--cancelled' : (isPast(r) ? ' ses-item--past' : ''));
-        var links = '<a href="' + esc(r.teams_url) + '" target="_blank" rel="noopener">Teams link ↗</a>';
+        var links = r.teams_url && r.teams_url !== PORTAL_URL
+          ? '<a href="' + esc(r.teams_url) + '" target="_blank" rel="noopener">Teams link ↗</a>'
+          : '<span>In person · no Teams link</span>';
         if (r.recording_url) links += '<a href="' + esc(r.recording_url) + '" target="_blank" rel="noopener">Recording ↗</a>';
         return '<li class="' + cls + '" data-session-id="' + esc(r.id) + '">' +
                  '<div class="ses-top">' +
@@ -13951,16 +13965,35 @@ sam@gamma.org, Sam Lee, participant,`;
       }
 
       function unitTitle(n) { return 'Unit ' + n + ' · ' + UNIT_TITLES[n]; }
+      // A session is either a unit session (one or more units, 1 Nov 2026) or a programme event.
+      var PORTAL_URL = 'https://ibslportal.netlify.app';   // stands in for the Teams link of an in-person event
       function fillUnitOptions() {
-        var sel = $('sesUnit');
-        if (sel.options.length) return;
-        var html = '<option value="">Choose the unit</option>';
-        for (var n = 1; n <= 12; n++) html += '<option value="' + n + '">' + esc(unitTitle(n)) + '</option>';
-        sel.innerHTML = html;
+        var box = $('sesUnits');
+        if (box.children.length) return;
+        var html = '';
+        for (var n = 1; n <= 12; n++) {
+          html += '<label class="ses-check" for="sesU' + n + '"><input type="checkbox" id="sesU' + n + '" data-unit-no="' + n + '">' +
+                  '<span>' + esc(unitTitle(n)) + '</span></label>';
+        }
+        box.innerHTML = html;
       }
-      // Every session belongs to a unit (1 Nov 2026) and takes the unit name as its title.
+      function formKind() { return $('sesKindEvent').checked ? 'event' : 'unit'; }
+      function checkedUnits() {
+        var out = [];
+        document.querySelectorAll('#sesUnits input[data-unit-no]').forEach(function (b) { if (b.checked) out.push(parseInt(b.getAttribute('data-unit-no'), 10)); });
+        return out.sort(function (a, b) { return a - b; });
+      }
+      function rowUnits(row) {
+        if (!row) return [];
+        if (row.unit_nos && row.unit_nos.length) return row.unit_nos.slice();
+        return row.unit_no ? [row.unit_no] : [];
+      }
       function syncTitleBox() {
-        $('sesTitleWrap').style.display = 'none';
+        var ev = formKind() === 'event';
+        $('sesTitleWrap').style.display = ev ? '' : 'none';
+        $('sesUnitsWrap').style.display = ev ? 'none' : '';
+        $('sesUrlReq').style.display = ev ? 'none' : '';
+        $('sesUrlOpt').style.display = ev ? '' : 'none';
       }
       function openForm(row) {
         fillUnitOptions();
@@ -13970,8 +14003,14 @@ sam@gamma.org, Sam Lee, participant,`;
         $('sesFormSaveBtn').textContent = 'Save session';
         $('sesFormSaveBtn').disabled = false;
         $('sesFormError').textContent = '';
-        $('sesUnit').value = row && row.unit_no ? String(row.unit_no) : '';
-        $('sesTitle').value = row && !row.unit_no ? row.title : '';
+        var units = rowUnits(row);
+        var isEvent = !!(row && (row.kind === 'event' || !units.length));
+        $('sesKindEvent').checked = isEvent;
+        $('sesKindUnit').checked = !isEvent;
+        document.querySelectorAll('#sesUnits input[data-unit-no]').forEach(function (b) {
+          b.checked = units.indexOf(parseInt(b.getAttribute('data-unit-no'), 10)) !== -1;
+        });
+        $('sesTitle').value = row && isEvent ? row.title : '';
         syncTitleBox();
         if (row) {
           var d = new Date(row.starts_at);
@@ -13990,26 +14029,29 @@ sam@gamma.org, Sam Lee, participant,`;
           durSel.appendChild(o);
         }
         durSel.value = dur;
-        $('sesUrl').value = row ? row.teams_url : '';
+        $('sesUrl').value = row && row.teams_url !== PORTAL_URL ? row.teams_url : '';
         $('sesRecord').checked = !!(row && row.will_record);
         $('sesNotes').value = row && row.notes ? row.notes : '';
         $('sesTzHint').textContent = 'Times are in this computer’s time zone (' + tzLabel(new Date()) +
           '). The calendar invite shows each person the time in their own zone.';
         openModal('sesFormModal');
-        setTimeout(function () { $('sesUnit').focus(); }, 30);
+        setTimeout(function () { $('sesKindUnit').focus(); }, 30);
       }
       async function saveForm() {
         var err = $('sesFormError');
-        var unit = $('sesUnit').value ? parseInt($('sesUnit').value, 10) : null;
-        if (!unit) { $('sesFormError').textContent = 'Choose the unit this session is for.'; $('sesUnit').focus(); return; }
-        var title = unitTitle(unit);
+        var kind = formKind();
+        var units = kind === 'unit' ? checkedUnits() : [];
+        if (kind === 'unit' && !units.length) { $('sesFormError').textContent = 'Tick the unit or units taught in this session.'; return; }
+        var unit = units.length ? units[0] : null;
+        var title = kind === 'unit' ? units.map(unitTitle).join(' + ') : $('sesTitle').value.trim();
         var date = $('sesDate').value, time = $('sesTime').value;
         var url = $('sesUrl').value.trim();
         err.textContent = '';
-        if (!title) { err.textContent = 'Type the title of the general session.'; $('sesTitle').focus(); return; }
+        if (!title) { err.textContent = 'Type the title of the event.'; $('sesTitle').focus(); return; }
         if (!date || !time) { err.textContent = 'Choose the date and the start time.'; return; }
         var starts = new Date(date + 'T' + time + ':00');
         if (isNaN(starts.getTime())) { err.textContent = 'The date or time is not valid.'; return; }
+        if (kind === 'event' && !url) url = PORTAL_URL;   // in-person event: no Teams link
         if (!httpsOk(url)) { err.textContent = 'Paste the full Teams link, starting with https://'; $('sesUrl').focus(); return; }
 
         var btnEl = $('sesFormSaveBtn');
@@ -14029,6 +14071,15 @@ sam@gamma.org, Sam Lee, participant,`;
           if (res.error) {
             err.textContent = res.error.message || 'Could not save the session.';
             btnEl.disabled = false; btnEl.textContent = 'Save session';
+            return;
+          }
+          // Record whether this is a unit session (and which units) or a programme event.
+          var sid = res.data || (state.editing && state.editing.id);
+          var kr = await sb.rpc('admin_set_session_units', { p_session_id: sid, p_kind: kind, p_unit_nos: kind === 'unit' ? units : null });
+          if (kr.error) {
+            err.textContent = kr.error.message || 'The session was saved, but its units could not be set. Open it with Edit and save again.';
+            btnEl.disabled = false; btnEl.textContent = 'Save session';
+            await load();
             return;
           }
           var wasEdit = !!state.editing;
@@ -14350,7 +14401,7 @@ sam@gamma.org, Sam Lee, participant,`;
       });
       document.addEventListener('change', function (e) {
         if (e.target && e.target.closest && e.target.closest('#sesAttList')) { attCount(); return; }
-        if (!e.target || e.target.id !== 'sesUnit') return;
+        if (!e.target || e.target.name !== 'sesKind') return;
         syncTitleBox();
       });
 

@@ -2827,6 +2827,7 @@
           <span>Inbox</span>
           <span class="inbox-chip-badge is-zero" id="inboxChipBadge">0</span>
         </a>
+        <button type="button" class="tt-open" id="ttOpenBtn" style="display:none;margin-left:10px;" onclick="window.ibslLiveSessions &amp;&amp; window.ibslLiveSessions.openTimetable()">Programme timetable</button>
       </div>
       <h2 class="section-heading">Your Cohorts</h2>
       <div id="cohortList">
@@ -2934,6 +2935,40 @@
     .lses-unit { flex-direction: column; align-items: flex-start; gap: 8px; }
     .lses-pending { text-align: left; }
   }
+  .tt-open { display: inline-block; background: transparent; border: 1px solid rgba(201,168,76,0.55); color: #c9a84c; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 9px 16px; border-radius: 2px; cursor: pointer; text-decoration: none; }
+  .tt-open:hover { background: rgba(201,168,76,0.1); border-color: #c9a84c; }
+  .tt-overlay { position: fixed; inset: 0; z-index: 9000; background: rgba(5,15,9,0.82); display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 40px 16px; }
+  .tt-dialog { width: 100%; max-width: 860px; background: #1c2a1e; border: 1px solid rgba(201,168,76,0.35); border-top: 3px solid #c9a84c; border-radius: 4px; padding: 28px 30px; font-family: 'Montserrat', sans-serif; color: rgba(255,255,255,0.85); }
+  .tt-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+  .tt-kicker { font-size: 9px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #c9a84c; }
+  .tt-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.7rem; font-weight: 400; color: #fff; margin-top: 4px; }
+  .tt-btns { display: flex; gap: 8px; flex-shrink: 0; }
+  .tt-cohort { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 18px 0 8px; }
+  .tt-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .tt-table th { text-align: left; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #c9a84c; padding: 8px 10px; border-bottom: 1px solid rgba(201,168,76,0.35); }
+  .tt-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); vertical-align: top; line-height: 1.5; }
+  .tt-table td.tt-num { color: rgba(255,255,255,0.5); width: 34px; }
+  .tt-table td.tt-day { white-space: nowrap; width: 150px; }
+  .tt-table td.tt-time { white-space: nowrap; width: 110px; }
+  .tt-table tr.tt-event td { background: rgba(201,168,76,0.08); color: #fff; font-weight: 600; }
+  .tt-table tr.tt-past td { opacity: 0.55; }
+  .tt-unit { display: block; }
+  .tt-note { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 14px; line-height: 1.6; }
+  html.tt-printing body * { visibility: hidden !important; }
+  html.tt-printing .tt-overlay, html.tt-printing .tt-overlay * { visibility: visible !important; }
+  @media print {
+    html.tt-printing .tt-overlay { position: absolute; inset: 0; background: #fff; padding: 0; overflow: visible; }
+    html.tt-printing .tt-dialog { background: #fff; color: #000; border: none; max-width: none; padding: 0; }
+    html.tt-printing .tt-title, html.tt-printing .tt-table td, html.tt-printing .tt-table tr.tt-event td { color: #000; background: #fff; }
+    html.tt-printing .tt-kicker, html.tt-printing .tt-table th { color: #1A5C2C; }
+    html.tt-printing .tt-btns { display: none; }
+    html.tt-printing .tt-table tr.tt-past td { opacity: 1; }
+  }
+  @media (max-width: 600px) {
+    .tt-dialog { padding: 20px 16px; }
+    .tt-head { flex-direction: column; }
+    .tt-table td.tt-day, .tt-table td.tt-time { white-space: normal; width: auto; }
+  }
 </style>
 <script>
 (function () {
@@ -3003,10 +3038,89 @@
       var cid = slots[i].getAttribute('data-cohort'), unit = Number(slots[i].getAttribute('data-unit'));
       var html = '';
       rows.forEach(function (r) {
-        if (r.cohort_id === cid && Number(r.unit_no) === unit) html += stripHtml(r, now);
+        if (r.cohort_id === cid && !isEvent(r) && unitsOf(r).indexOf(unit) !== -1) html += stripHtml(r, now);
       });
       slots[i].innerHTML = html;
     }
+  }
+
+  // ── Programme timetable (1 Nov 2026): every session and programme event of my cohort(s). ──
+  var TT_UNIT = {
+    1: 'Behavioural Strategy Fundamentals', 2: 'Strategy Visioning & Success in Practice (SiP)',
+    3: 'SiP KISS Mapping & OKR Definition', 4: 'Direction Integrity (ABCV-MBT)',
+    5: 'Aligning Heart & Mind', 6: 'Performance Management Setup',
+    7: 'Establishing Performance Expectations', 8: 'Performance Measurement',
+    9: 'Strategic Unclogging', 10: 'ESRG Alignment',
+    11: 'Culture Reinforcement & Organisational Health', 12: 'Sustaining Performance'
+  };
+  var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  function unitsOf(r) { return (r.unit_nos && r.unit_nos.length) ? r.unit_nos : (r.unit_no ? [r.unit_no] : []); }
+  function isEvent(r) { return r.kind === 'event' || !unitsOf(r).length; }
+  function ttTableHtml(list) {
+    var now = Date.now(), n = 0;
+    var body = list.map(function (r) {
+      var s = new Date(r.starts_at), e = endOf(r);
+      var ev = isEvent(r);
+      if (!ev) n++;
+      var what = ev ? esc(r.title)
+        : unitsOf(r).map(function (u) { return '<span class="tt-unit">Unit ' + u + ' · ' + esc(TT_UNIT[u] || '') + '</span>'; }).join('');
+      return '<tr class="' + (ev ? 'tt-event' : '') + (e.getTime() < now ? ' tt-past' : '') + '">' +
+               '<td class="tt-num">' + (ev ? '—' : n) + '</td>' +
+               '<td class="tt-day">' + DAYS[s.getDay()] + ' ' + s.getDate() + ' ' + MON[s.getMonth()] + ' ' + s.getFullYear() + '</td>' +
+               '<td class="tt-time">' + pad(s.getHours()) + ':' + pad(s.getMinutes()) + '–' + pad(e.getHours()) + ':' + pad(e.getMinutes()) + '</td>' +
+               '<td>' + what + '</td>' +
+             '</tr>';
+    }).join('');
+    return '<table class="tt-table"><thead><tr><th>#</th><th>Date</th><th>Time</th><th>Session</th></tr></thead><tbody>' + body + '</tbody></table>';
+  }
+  function closeTimetable() {
+    var o = document.getElementById('ttOverlay');
+    if (o) o.parentNode.removeChild(o);
+    document.documentElement.classList.remove('tt-printing');
+  }
+  function openTimetable() {
+    closeTimetable();
+    var byCohort = {}, order = [];
+    rows.forEach(function (r) {
+      if (!byCohort[r.cohort_id]) { byCohort[r.cohort_id] = { name: r.cohort_name, list: [] }; order.push(r.cohort_id); }
+      byCohort[r.cohort_id].list.push(r);
+    });
+    var many = order.length > 1;
+    var html = order.map(function (id) {
+      var c = byCohort[id];
+      c.list.sort(function (a, b) { return new Date(a.starts_at) - new Date(b.starts_at); });
+      return (many ? '<div class="tt-cohort">' + esc(c.name) + '</div>' : '') + ttTableHtml(c.list);
+    }).join('');
+    var title = many ? 'Programme timetable' : (order.length ? esc(byCohort[order[0]].name) + ' · Programme timetable' : 'Programme timetable');
+    var o = document.createElement('div');
+    o.className = 'tt-overlay';
+    o.id = 'ttOverlay';
+    o.setAttribute('role', 'dialog');
+    o.setAttribute('aria-modal', 'true');
+    o.innerHTML =
+      '<div class="tt-dialog">' +
+        '<div class="tt-head">' +
+          '<div><div class="tt-kicker">Strategy2Results® · S2R® Portal</div><div class="tt-title">' + title + '</div></div>' +
+          '<div class="tt-btns"><button type="button" class="tt-open" data-tt="print">Print</button>' +
+          '<button type="button" class="tt-open" data-tt="close">Close</button></div>' +
+        '</div>' +
+        (order.length ? html : '<p>No sessions have been set up yet.</p>') +
+        '<div class="tt-note">Times are shown in your time zone (' + tzLabel(new Date()) + '). Join each session from its unit on your portal; the Join session button opens 30 minutes before the start.</div>' +
+      '</div>';
+    o.addEventListener('click', function (e) {
+      var b = e.target.closest ? e.target.closest('[data-tt]') : null;
+      if (e.target === o || (b && b.getAttribute('data-tt') === 'close')) { closeTimetable(); return; }
+      if (b && b.getAttribute('data-tt') === 'print') {
+        document.documentElement.classList.add('tt-printing');
+        setTimeout(function () { window.print(); document.documentElement.classList.remove('tt-printing'); }, 50);
+      }
+    });
+    document.body.appendChild(o);
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeTimetable(); });
+  function syncTimetableButton() {
+    var b = document.getElementById('ttOpenBtn');
+    if (b) b.style.display = rows.length ? '' : 'none';
   }
 
   function fetchRows() {
@@ -3014,9 +3128,10 @@
     var mine = ++seq;
     Promise.resolve(supabaseClient.rpc('get_my_sessions')).then(function (res) {
       if (mine !== seq) return;
-      if (res.error) { console.error('[sessions] get_my_sessions error:', res.error); rows = []; fill(); return; }
+      if (res.error) { console.error('[sessions] get_my_sessions error:', res.error); rows = []; fill(); syncTimetableButton(); return; }
       rows = res.data || [];
       fill();
+      syncTimetableButton();
     }).catch(function (err) {
       console.error('[sessions] load error:', err);
     });
@@ -3030,9 +3145,11 @@
     rows = [];
     if (timer) { clearInterval(timer); timer = null; }
     fill();
+    syncTimetableButton();
+    closeTimetable();
   }
 
-  window.ibslLiveSessions = { load: load, clear: clear, fill: fill };
+  window.ibslLiveSessions = { load: load, clear: clear, fill: fill, openTimetable: openTimetable };
 })();
 </script>
 
