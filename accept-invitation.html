@@ -311,6 +311,16 @@
         if (!cohortRes.error && cohortRes.data) cohortName = cohortRes.data.name;
       }
 
+      // The invitee cannot read the cohorts table before registering, and an admin may assign the
+      // cohort after inviting. get_my_invitation_placement() reads the cohort(s) the person is already
+      // assigned to (from the invitation or the cohort membership) and the organisation (1 Nov 2026).
+      try {
+        var plRes = await sb.rpc('get_my_invitation_placement');
+        var pl = !plRes.error && plRes.data && plRes.data[0];
+        if (pl && pl.cohort_names && pl.cohort_names.length) cohortName = pl.cohort_names.join(', ');
+        if (pl && pl.organisation_name) orgName = pl.organisation_name;
+      } catch (e) { console.error('Placement lookup error:', e); }
+
       var firstName = (currentInvitation.full_name || '').split(' ')[0];
       document.getElementById('greeting').textContent = 'Welcome, ' + firstName;
       document.getElementById('fullName').value = currentInvitation.full_name || '';
