@@ -3738,7 +3738,7 @@
   // at Module-<module>/unit-<NN>.pptx. Storage policy (facilitator_decks.sql)
   // only lets a facilitator read decks for modules they are assigned to
   // (cohort_memberships.unit) and never the .pptx files; admins read all.
-  // Facilitators get the reader only; the PPTX download shows in admin view.
+  // The reader is the only way to open a deck; the PPTX download is removed for all roles (1 Nov 2026).
   // Download links are signed for 5 minutes.
   var DECK_FILE_NAMES = {
     1: 'Unit 01 - Behavioural Strategy Fundamentals.pptx',
@@ -3764,11 +3764,7 @@
     var readHref = 'deck_reader.html?unit=' + unitNo + (isAdminView ? '&adminView=1' : '');
     return '<a class="teaching-notes-link deck-read-link" href="' + readHref + '"' +
            ' aria-label="Read the Unit ' + unitNo + ' facilitator deck with presenter notes">' +
-           '🖥 Read Unit ' + unitNo + ' deck</a>' +
-           (isAdminView ? ('<a class="teaching-notes-link deck-download-link" href="#" role="button"' +
-           ' data-deck-path="' + path + '" data-deck-name="' + DECK_FILE_NAMES[unitNo].replace(/&/g, '&amp;') + '"' +
-           ' aria-label="Download the Unit ' + unitNo + ' facilitator deck (PowerPoint)">' +
-           '⬇ Unit ' + unitNo + ' deck (PPTX)</a>') : '');
+           '🖥 Read Unit ' + unitNo + ' deck</a>';
   }
 
   document.addEventListener('click', async function(e) {

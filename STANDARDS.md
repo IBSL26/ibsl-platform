@@ -28,7 +28,7 @@ Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and
 
 28. Section 5 opens with a "Capstone work · How Section 5 works" box (Unit 1: "How 6.2 works") that names the Capstone boxes the record fills; the group record ends with Agree and "Print our group record".
 29. The Capstone is named "Capstone S2R® Blueprint" everywhere.
-31. Every participant and facilitator unit file, and deck_reader.html, loads s2r-protect.js (copy block, name watermark, print block). collection.html loads it with data-allow-print. Answer boxes stay usable and free of the watermark. capstone_P.html is left out because it holds the team's own work.
+31. Every participant and facilitator unit file, and deck_reader.html, loads s2r-protect.js (copy block, name watermark, print block). collection.html loads it with data-allow-print. Answer boxes stay usable and free of the watermark. capstone_P.html is left out because it holds the team's own work. The deck reader's presenting window (mode=present) carries no watermark. No role can download a PPTX deck from the portal.
 
 32. Participants and facilitators sign the terms of use (terms.html) once. Until they sign, get_my_sessions() holds back the Teams link and the portal shows "Sign terms to join". The admin record sits on the cohort page.
 

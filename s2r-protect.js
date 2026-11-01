@@ -8,6 +8,7 @@
  *  - print block: printing the page gives a notice. Printed group records and reports open in
  *    their own window, so they are unaffected. Add data-allow-print to the script tag to keep
  *    printing on a page, and the watermark then prints with it.
+ * Add data-no-mark-present to the script tag to leave the watermark off the presenting window.
  * Admin accounts are exempt.
  * No website can stop a device taking a screenshot: the watermark is what covers that risk.
  *
@@ -25,6 +26,7 @@
   var root = document.documentElement;
   var script = document.currentScript;
   var allowPrint = !!(script && script.hasAttribute('data-allow-print'));
+  var noMark = !!(script && script.hasAttribute('data-no-mark-present')) && /[?&]mode=present\b/.test(location.search);
   var active = true;
   var layer = null;
   var pending = false;
@@ -154,7 +156,7 @@
     }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }).then(function (rows) {
       var p = rows && rows[0] || {};
       if (p.role === 'admin') { release(); return; }
-      showMark(p.full_name || meta.full_name || '', email);
+      if (!noMark) showMark(p.full_name || meta.full_name || '', email);
     });
   }
 
