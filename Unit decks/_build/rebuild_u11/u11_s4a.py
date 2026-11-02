@@ -55,10 +55,10 @@ CLOSING = 'Organisational health is strengthened when leaders understand how the
 TRANSITION = 'Participants apply the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position, and build their organisation’s Cultural Operating Code.'
 TRANSITION_P = 'Your group applies the Cross-CXO Health Architecture to interpret functional health assessments, examine cultural vulnerabilities, quantify associated losses and consolidate the findings into an enterprise organisational health position, and builds your organisation’s Cultural Operating Code.'
 
-# Individual reflection (Carol 21:11: "Add a reflection for individual at the end that goes into the personal profile for facilitator feedback"). Key ref7.
+# Individual reflection (Carol 21:11). Key ref7.
 REF_TITLE = 'Reflection — My Functional Health Accountability'
-REF_INTRO_P = 'Reflect on the function you lead. Your reflection is saved to your personal profile, where your facilitator reads it and gives you feedback.'
-REF_INTRO_F = 'Each participant completes this reflection on the function they lead. It is saved to the participant’s personal profile, where the facilitator reads it and gives feedback.'
+REF_INTRO_P = 'Reflect on the function you lead.'
+REF_INTRO_F = 'Each participant completes this reflection on the function they lead.'
 REF_Q = ['Which of the Five Observable Health Traits would my employees most likely rate lowest on the thermometer, and what evidence do I see?',
          'Which of the five hidden costs (lost time, employee disengagement, declining trust, emotional fatigue, talent loss) is that vulnerability most likely creating in my function, and what evidence links it to organisational health?',
          'Using an assumption I can defend, what is the estimated quarterly loss exposure for that cost, and how did I calculate it?',

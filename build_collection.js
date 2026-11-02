@@ -164,7 +164,7 @@ function stripTags(s){
   return s.replace(/<[^>]*>/g, ' ')
           .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–').replace(/&amp;/g, '&')
           .replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘').replace(/&hellip;/g, '…')
-          .replace(/&nbsp;/g, ' ').replace(/&rarr;/g, '→').replace(/&[a-z]+;/gi, ' ')
+          .replace(/&nbsp;/g, ' ').replace(/&rarr;/g, '→').replace(/&#39;/g, '’').replace(/&#x270E;|✎/gi, '').replace(/&#?[a-z0-9]+;/gi, ' ')
           .replace(/\s+/g, ' ').trim();
 }
 // Heuristic: for each persisted key, find the nearest preceding question/label text.
@@ -176,7 +176,7 @@ function extractPrompts(html, lensId){
   const dkRe = /\bdata-key="([a-z0-9_]+)"/gi;
   while ((m = dkRe.exec(html)) !== null) if (keys[m[1]] === undefined) keys[m[1]] = m.index;
 
-  const labelRe = /<(?:div|p|label|span|h[2-6])\b[^>]*class="[^"]*(?:ref-label|score-notes-lbl|field-label|prompt|q-label|reflection-prompt|port-desc)[^"]*"[^>]*>([\s\S]*?)<\/(?:div|p|label|span|h[2-6])>/gi;
+  const labelRe = /<(?:div|p|label|span|h[2-6])\b[^>]*class="[^"]*(?:ref-label|score-notes-lbl|field-label|prompt|q-label|reflection-prompt|port-desc|u12-q)[^"]*"[^>]*>([\s\S]*?)<\/(?:div|p|label|span|h[2-6])>/gi;
   const forRe = function(key){ return new RegExp('<label\\b[^>]*\\bfor="' + key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"[^>]*>([\\s\\S]*?)<\\/label>', 'i'); };
 
   let found = 0; const missed = [];
@@ -203,13 +203,35 @@ function extractPrompts(html, lensId){
   return prompts;
 }
 
+// Units 10 and 11 have no Unit Summary on their pages (removed 27 Oct); the Learning Portfolio carries these.
+const PORTFOLIO_SUMMARY = {
+  u4m1_lens9: [
+    {arc:"Awareness — What",title:"What Was Established",body:"Every strategic commitment places specific demands on the organisation’s operating conditions. ESRG names those conditions: Environment (FIT), Systems (SIP), Resources (AIR) and Governance (PAR). You specified what each component must provide for one commitment to be delivered, and you learnt when to use ESRG Alignment and when to use Strategic Unclogging."},
+    {arc:"Intelligence — Why",title:"Why It Matters",body:"The ESRG Ignition Point is reached when operating conditions can meet the performance demands of the strategy. Each domain enables execution through one capability: Operational Readiness, Operational Flow, Delivery Capacity and Decision Responsiveness. A functional ESRG profile shows where conditions enable a commitment and where they constrain it."},
+    {arc:"Extrapolating — Where",title:"Where Bias Distorts Capability",body:"Executive decisions shape operating conditions through the priorities and assumptions of each portfolio. The CXO ESRG Bias Contributors show the approval, investment, sourcing or design choice where a bias enters, the ESRG component it weakens and the debiasing action that protects it."},
+    {arc:"Integration — Collective",title:"What Was Built",body:"Functional assessments become collective intelligence through three dimensions: Convergence shows what functions have in common and calls for Coordinate; Divergence shows where they differ and calls for Reconcile; Dependency shows how they rely on one another and calls for Align. You completed your function’s annual ESRG baseline."},
+    {arc:"Application — In Practice",title:"What You Applied",body:"In the Enterprise ESRG Alignment Clinic your group consolidated every member’s baseline into the Enterprise Scanner, interpreted it by capability, agreed its Collective Intelligence Responses and completed an ESRG Alignment Intervention Plan for each. The response determines what must change; the plan establishes how the executive team will make that change happen."}
+  ],
+  u4m1_lens10: [
+    {arc:"Awareness — What",title:"What Was Established",body:"Values set the principles that guide behaviour. Culture is how those principles become established ways of working, expressed through the Cultural Operating Code. Organisational health reveals how effectively values are lived, and it shows in the Five Observable Health Traits and the Organisational Health Pyramid."},
+    {arc:"Intelligence — Why",title:"Why It Matters",body:"Organisational health multiplies strategy execution capability and determines execution velocity. When health deteriorates, execution friction increases, performance systems lose effectiveness and the cost of delivering strategy rises. That cost can be quantified, which directs leadership attention to its performance implications."},
+    {arc:"Extrapolating — Where",title:"Where the Signals Show",body:"The Organisational Health Thermometer reads each of the Five Observable Health Traits as strong, vulnerable or poor, using observable employee behaviour and supporting evidence. A credible assessment also requires awareness of functional bias and personal accountability for the behaviours leaders reinforce."},
+    {arc:"Integration — Collective",title:"What Was Built",body:"The Cross-CXO Health Architecture connects functional accountability with collective responsibility. Employees complete the Thermometer independently; each CXO interprets the consolidated score, investigates vulnerabilities and quantifies people-performance losses; and the executive team addresses what affects the enterprise on a quarterly rhythm."},
+    {arc:"Application — In Practice",title:"What You Applied",body:"In the Cross-CXO Organisational Health Clinic your group interpreted functional assessments, consolidated scores and losses into an enterprise position, determined remedial actions through Review–Realign–Restore and built its own Cultural Operating Code. Health improves when the executive team reads it from evidence, prices what poor health costs, acts with named accountability and models its norms."}
+  ]
+};
+function decodeSummaryText(s){
+  return String(s == null ? '' : s).replace(/&mdash;/g, '—').replace(/&ndash;/g, '–').replace(/&rsquo;/g, '’').replace(/&lsquo;/g, '‘')
+    .replace(/&ldquo;/g, '“').replace(/&rdquo;/g, '”').replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&middot;/g, '·');
+}
 const MICRO_CLIMB = {};
 const PROMPTS = {};
 Object.keys(LENS_FILES).forEach(function(lensId){
   const f = LENS_FILES[lensId];
   assert(fs.existsSync(path.join(ROOT, f)), 'participant file missing: ' + f);
   const html = read(f);
-  MICRO_CLIMB[lensId] = extractSummary(html, lensId);
+  const summary = extractSummary(html, lensId) || PORTFOLIO_SUMMARY[lensId] || null;
+  MICRO_CLIMB[lensId] = summary && summary.map(function(b){ return Object.assign({}, b, { arc: decodeSummaryText(b.arc), title: decodeSummaryText(b.title || b.t), body: decodeSummaryText(b.body) }); });
   PROMPTS[lensId] = extractPrompts(html, lensId);
 });
 
@@ -291,6 +313,9 @@ function buildTemplate(){
 '.sheet .response-module-heading{background:#f4f1e8;}',
 '.sheet .sum-block{border:1px solid #e6e1d2;}',
 '@media print{',
+'  .sheet .response-text{background:#faf8f1;}',
+'  .sum-block,.response-label{break-inside:avoid;}',
+'  .response-label,.response-module-heading,.section-label{break-after:avoid;}',
 '  html,body{background:#fff;}',
 '  .print-bar{display:none!important;}',
 '  /* force every collapsible fully open on paper */',
@@ -328,7 +353,7 @@ function buildTemplate(){
 '  var CAPSTONE_KEYS={ u1_foundations:/^(pc_|confirmed_items$)/i, u2m1_lens1:/^(arch_|org_name$|strategy_period$|intent_statement$|sip_d\\d_(q\\d|st)$|sip_integrated$|confirmed_items$)/i, u2m1_lens2:/^(kex_|kiss_(keep|improve|start|stop)$|sip_d\\d_st$|okr_drafts$|ent_priorities$|ent_okrs$|confirmed_items$)/i, u2m1_lens3:/^(mbt_(record|arena|bound|comp|value|verify|blind)$|syn_(themes|disagree|top5)$|own_(internal|external|timeline)$|team_name$|exec_(name|role)$|confirmed_items$)/i, u3m1_lens4:/^(syn_(missing_compass|strong_compass|sequence)$|kit_(team|mind|heart|hands|habit|profile)$|oceavl_scores$|team_name$|exec_(name|role)$|confirmed_items$)/i, u3m1_lens5:/^(pm_(record|scoring|faces|execution|scorecards)$|cm_(record|map|faces|ward)$|confirmed_items$)/i, u3m1_lens6:/^(ex_(record|future|delivery|chain|ownership|dialogue)$|confirmed_items$)/i, u3m2_lens7:/^(rd_(record|warning|accountability|learning|credibility|ward)$|confirmed_items$)/i, u3m2_lens8:/^(uc_(record|challenge|clog|lever|review_realign|restore)$|confirmed_items$)/i, u4m1_lens9:/^(es_(scanner|interp|resp|plan)$|confirmed_items$)/i, u4m1_lens10:/^(oh_(func|cons|rrr|resp|coc)$|confirmed_items$)/i, u4m2_lens11:/^(qs_(strategic|operational|behavioural|kiss)$|confirmed_items$)/i };',
 '  function portfolioPayload(payload,lensId){ var rx=CAPSTONE_KEYS[lensId]; if(!rx||!payload||!payload.responses) return payload; var out={}; Object.keys(payload).forEach(function(k){ out[k]=payload[k]; }); var r={}; Object.keys(payload.responses).forEach(function(k){ if(!rx.test(k)) r[k]=payload.responses[k]; }); out.responses=r; return out; }',
 '  // prompt-primary label hook (spec §: extracted question prompt, else verbatim humanizeFieldName)',
-'  function labelFor(name,lensId){ var p=PROMPTS[lensId]&&PROMPTS[lensId][name]; return (p&&String(p).trim())?p:humanizeFieldName(name,lensId); }',
+'  function labelFor(name,lensId){ var m=PROMPTS[lensId]||{}; var p=m[name]; if(!p){ Object.keys(m).some(function(k){ if(k.replace(/^r_m\\d+_/,"")===name){ p=m[k]; return true; } return false; }); } return (p&&String(p).trim())?p:humanizeFieldName(name,lensId); }',
 '',
 '  // ───────────────────────── helpers ─────────────────────────',
 '  function el(tag,cls,txt){ var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e; }',
