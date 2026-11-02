@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>My Profile — S2R® Portal</title>
+<meta name="copyright" content="© 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results® and S2R® are trade marks of IBSL. All rights reserved." />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  [hidden] { display:none !important; }
+  body { min-height:100vh; font-family:'Montserrat',sans-serif; background:linear-gradient(160deg,#0d1f15 0%,#1a3a2a 60%,#0f2419 100%); color:rgba(255,255,255,0.85); padding:32px 16px 48px; }
+  .wrap { max-width:760px; margin:0 auto; }
+  .brand { text-align:center; margin-bottom:24px; }
+  .brand img { width:72px; height:auto; }
+  .card { background:#1c2a1e; border:1px solid rgba(201,168,76,0.35); border-top:3px solid #c9a84c; border-radius:4px; padding:32px 34px; margin-bottom:20px; }
+  .kicker { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:#c9a84c; }
+  h1 { font-family:'Cormorant Garamond',Georgia,serif; font-size:2rem; font-weight:400; color:#fff; margin-top:6px; line-height:1.2; }
+  .sub { font-size:12px; color:rgba(255,255,255,0.6); margin-top:6px; line-height:1.6; }
+  label.nm { display:block; font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#c9a84c; margin:24px 0 8px; }
+  textarea, select { width:100%; padding:11px 12px; font:inherit; font-size:14px; line-height:1.6; color:#fff; background:rgba(255,255,255,0.06); border:1px solid rgba(201,168,76,0.4); border-radius:2px; }
+  textarea { min-height:170px; resize:vertical; }
+  select option { color:#fff; background:#1c2a1e; }
+  select[disabled] { opacity:0.6; }
+  .note { font-size:11px; line-height:1.6; color:rgba(255,255,255,0.55); margin-top:8px; }
+  .note.over { color:#f3a3a3; font-weight:600; }
+  .btn { display:inline-block; background:#c9a84c; color:#1c1c1c; border:1px solid #c9a84c; font-family:inherit; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:12px 22px; border-radius:2px; cursor:pointer; text-decoration:none; }
+  .btn.ghost { background:transparent; color:#c9a84c; border-color:rgba(201,168,76,0.55); }
+  .btn[disabled] { opacity:0.45; cursor:not-allowed; }
+  .photo-row { display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap; }
+  .photo { width:140px; height:180px; border:1px solid rgba(201,168,76,0.4); border-radius:2px; background:rgba(255,255,255,0.05); object-fit:cover; display:block; flex-shrink:0; }
+  .photo.empty { display:flex; align-items:center; justify-content:center; font-size:11px; color:rgba(255,255,255,0.45); text-align:center; padding:10px; }
+  .photo-side { flex:1; min-width:200px; }
+  #crop { display:block; width:280px; height:360px; max-width:100%; background:#000; border:1px solid #c9a84c; touch-action:none; cursor:grab; }
+  .zoom { display:flex; align-items:center; gap:10px; width:280px; max-width:100%; margin-top:10px; font-size:11px; }
+  .zoom input { flex:1; accent-color:#c9a84c; }
+  .acts { margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .save { margin-top:26px; display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+  .msg { font-size:12px; line-height:1.6; }
+  .msg.err { color:#f3a3a3; }
+  .msg.ok { color:#7ddba3; }
+  .mem { display:flex; gap:16px; padding:16px 0; border-top:1px solid rgba(201,168,76,0.2); }
+  .mem:first-of-type { margin-top:14px; }
+  .mem img, .mem .ph { width:70px; height:90px; object-fit:cover; flex-shrink:0; border:1px solid rgba(201,168,76,0.35); border-radius:2px; background:rgba(255,255,255,0.05); }
+  .mem-n { font-size:14px; font-weight:600; color:#fff; }
+  .mem-r { font-size:11px; font-weight:600; color:#c9a84c; margin-top:2px; }
+  .mem-b { font-size:12px; line-height:1.65; margin-top:6px; white-space:pre-wrap; overflow-wrap:anywhere; }
+  footer { text-align:center; font-size:11px; line-height:1.7; color:rgba(255,255,255,0.4); margin-top:24px; }
+  @media (max-width:600px) { .card { padding:24px 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><img src="logo.png" alt="IBSL"></div>
+  <div class="card">
+    <div class="kicker">Participant profile</div>
+    <h1 id="who">My profile</h1>
+    <div class="sub" id="group"></div>
+    <div id="load" class="sub">Loading…</div>
+    <div id="form" hidden>
+      <label class="nm">Passport photo</label>
+      <div id="view" class="photo-row">
+        <div id="photoHolder"></div>
+        <div class="photo-side">
+          <button type="button" class="btn ghost" id="pick">Choose a photo</button>
+          <input type="file" id="file" accept="image/jpeg,image/png" hidden>
+          <div class="note">A clear head-and-shoulders photo, in JPG or PNG. You position it in the next step.</div>
+        </div>
+      </div>
+      <div id="cropper" hidden>
+        <canvas id="crop" width="560" height="720"></canvas>
+        <div class="zoom"><span>Zoom</span><input type="range" id="zoom" min="1" max="3" step="0.01" value="1"></div>
+        <div class="note">Drag the photo to centre your head and shoulders.</div>
+        <div class="acts"><button type="button" class="btn ghost" id="useCrop">Use this photo</button><button type="button" class="btn ghost" id="noCrop">Cancel</button></div>
+      </div>
+
+      <label class="nm" for="bio">Bio</label>
+      <textarea id="bio" maxlength="2000" placeholder="Your current role, your experience and what you bring to your executive team."></textarea>
+      <div class="note" id="count">0 of 150 words</div>
+
+      <label class="nm" for="role">Position in the simulated executive team</label>
+      <select id="role"></select>
+      <div class="note" id="roleNote"></div>
+
+      <div class="save"><button type="button" class="btn" id="go">Save profile</button><span class="msg" id="out"></span></div>
+      <div class="note" style="margin-top:18px;">Your group, your facilitators and the IBSL admin team can see your profile.</div>
+    </div>
+    <div class="save"><a class="btn ghost" href="index.html">Back to portal</a></div>
+  </div>
+  <div class="card" id="teamCard" hidden>
+    <div class="kicker">Your group</div>
+    <h1>Your executive team</h1>
+    <div id="team"></div>
+  </div>
+  <footer>&copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.</footer>
+</div>
+<script src="supabase.umd.js"></script>
+<script>
+(function () {
+  'use strict';
+  var sb = supabase.createClient('https://tayrxqbrttlrdowrzobm.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRheXJ4cWJydHRscmRvd3J6b2JtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3ODAyOTUsImV4cCI6MjA5MjM1NjI5NX0.8eaQauK1GPI3OXyHLdRAfbSwLfaYLB3_amHt6FhZxG0', {
+    auth: { autoRefreshToken: true, persistSession: true, detectSessionInUrl: false }
+  });
+  var BUCKET = 'participant_photos', MAX_WORDS = 150, OUT_W = 420, OUT_H = 540;
+  var uid = null, P = null, newPhoto = null, previewUrl = null;
+  var img = null, cx = 0, cy = 0, zoom = 1, drag = null;
+  var ERR = {
+    bio_long: 'Your bio is longer than 150 words.',
+    role_taken: 'Another member of your group has just taken that position. Choose another.',
+    role_locked: 'Positions have closed for your group.',
+    role_not_in_charter: 'That position is no longer in your Problem Charter. Choose another.',
+    charter_open: 'Your group has not yet agreed its Problem Charter.'
+  };
+  var HELP = 'Please try again, or email projects@ibsleadership.com.';
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function words(s) { s = s.trim(); return s ? s.split(/\s+/).length : 0; }
+  function say(text, cls) { $('out').textContent = text || ''; $('out').className = 'msg' + (cls ? ' ' + cls : ''); }
+  function overLimit() { return words($('bio').value) > MAX_WORDS; }
+  function syncCount() {
+    var n = words($('bio').value);
+    $('count').textContent = n + ' of ' + MAX_WORDS + ' words';
+    $('count').className = 'note' + (n > MAX_WORDS ? ' over' : '');
+    $('go').disabled = n > MAX_WORDS;
+  }
+  function showPhoto(url) {
+    $('photoHolder').innerHTML = url ? '<img class="photo" alt="Your passport photo" src="' + esc(url) + '">' : '<div class="photo empty">No photo yet</div>';
+  }
+  async function signed(paths) {
+    var map = {};
+    paths = paths.filter(Boolean);
+    if (!paths.length) return map;
+    var res = await sb.storage.from(BUCKET).createSignedUrls(paths, 3600);
+    (res.data || []).forEach(function (r) { if (r.signedUrl) map[r.path] = r.signedUrl; });
+    return map;
+  }
+  function fillRoles() {
+    var s = $('role'), note = $('roleNote');
+    s.innerHTML = '';
+    if (P.role_locked) {
+      s.innerHTML = '<option value="">' + esc(P.exec_role || 'No position recorded') + '</option>';
+      s.disabled = true;
+      note.textContent = P.exec_role ? 'Positions closed when your group began its Capstone work.'
+        : 'Positions have closed for your group. Email projects@ibsleadership.com to record yours.';
+      return;
+    }
+    if (!P.charter_ready) {
+      s.innerHTML = '<option value="">Opens after your Problem Charter</option>';
+      s.disabled = true;
+      note.textContent = 'You choose your position here once your group has agreed its Problem Charter in Unit 1, Part 6.2.';
+      return;
+    }
+    s.disabled = false;
+    var seen = false, html = '<option value="">Choose your position</option>';
+    (P.roles || []).forEach(function (r) {
+      var mine = !!P.exec_role && r.role.toLowerCase() === P.exec_role.toLowerCase();
+      if (mine) seen = true;
+      var label = r.role + (r.name ? ' · Charter: ' + r.name : '') + (r.taken_by ? ' · taken by ' + r.taken_by : '');
+      html += '<option value="' + esc(r.role) + '"' + (r.taken_by ? ' disabled' : '') + (mine ? ' selected' : '') + '>' + esc(label) + '</option>';
+    });
+    if (P.exec_role && !seen) html += '<option value="' + esc(P.exec_role) + '" selected>' + esc(P.exec_role) + '</option>';
+    s.innerHTML = html;
+    note.textContent = 'These are the positions in your group’s Problem Charter. Each position is held by one member.';
+  }
+  function fillTeam(urls) {
+    var list = P.members || [];
+    $('teamCard').hidden = !list.length;
+    $('team').innerHTML = list.map(function (m) {
+      var u = urls[m.photo_path];
+      return '<div class="mem">' + (u ? '<img alt="" src="' + esc(u) + '">' : '<div class="ph"></div>') +
+        '<div><div class="mem-n">' + esc(m.full_name) + '</div><div class="mem-r">' + esc(m.exec_role || 'Position not yet chosen') + '</div>' +
+        '<div class="mem-b">' + esc(m.bio || 'Bio not yet added.') + '</div></div></div>';
+    }).join('');
+  }
+  async function load() {
+    var res = await sb.rpc('get_my_participant_profile');
+    if (res.error || !res.data) { $('load').textContent = 'Your profile could not load. Please refresh this page, or email projects@ibsleadership.com.'; return; }
+    P = res.data;
+    if (!P.required) { $('load').textContent = 'Profiles are for programme participants.'; return; }
+    $('load').hidden = true; $('form').hidden = false;
+    $('who').textContent = P.full_name || 'My profile';
+    $('group').textContent = P.team_name || 'Your group will show here once the IBSL team has placed you in one.';
+    $('bio').value = P.bio || '';
+    syncCount(); fillRoles();
+    var urls = await signed([P.photo_path].concat((P.members || []).map(function (m) { return m.photo_path; })));
+    showPhoto(previewUrl || urls[P.photo_path]);
+    fillTeam(urls);
+  }
+  /* ── Photo: position inside the passport frame, then keep a small JPEG. ── */
+  function base() { return Math.max(OUT_W * 4 / 3 / img.width, OUT_H * 4 / 3 / img.height); }
+  function clamp() {
+    var c = $('crop'), s = base() * zoom, w = img.width * s, h = img.height * s;
+    cx = Math.min(0, Math.max(c.width - w, cx));
+    cy = Math.min(0, Math.max(c.height - h, cy));
+  }
+  function draw() {
+    var c = $('crop'), s = base() * zoom;
+    clamp();
+    var g = c.getContext('2d');
+    g.fillStyle = '#000'; g.fillRect(0, 0, c.width, c.height);
+    g.drawImage(img, cx, cy, img.width * s, img.height * s);
+  }
+  function closeCrop() { $('cropper').hidden = true; $('view').hidden = false; $('file').value = ''; }
+  $('pick').addEventListener('click', function () { $('file').click(); });
+  $('file').addEventListener('change', function () {
+    var f = this.files && this.files[0];
+    if (!f) return;
+    say('');
+    if (!/^image\/(jpeg|png)$/.test(f.type)) { say('Choose a JPG or PNG photo.', 'err'); this.value = ''; return; }
+    if (f.size > 15 * 1048576) { say('That photo is too large. Choose one under 15 MB.', 'err'); this.value = ''; return; }
+    var i = new Image(), url = URL.createObjectURL(f);
+    i.onload = function () {
+      URL.revokeObjectURL(url);
+      if (i.width < 200 || i.height < 200) { say('That photo is too small. Choose a clearer one.', 'err'); return; }
+      img = i; zoom = 1; $('zoom').value = 1;
+      var c = $('crop'), s = base();
+      cx = (c.width - i.width * s) / 2; cy = (c.height - i.height * s) / 2;
+      $('view').hidden = true; $('cropper').hidden = false;
+      draw();
+    };
+    i.onerror = function () { URL.revokeObjectURL(url); say('That photo could not be opened. Choose a JPG or PNG photo.', 'err'); };
+    i.src = url;
+  });
+  $('zoom').addEventListener('input', function () {
+    var c = $('crop'), old = base() * zoom;
+    zoom = parseFloat(this.value);
+    var s = base() * zoom, mx = c.width / 2, my = c.height / 2;
+    cx = mx - (mx - cx) * s / old; cy = my - (my - cy) * s / old;
+    draw();
+  });
+  $('crop').addEventListener('pointerdown', function (e) {
+    var r = this.getBoundingClientRect();
+    drag = { x: e.clientX, y: e.clientY, cx: cx, cy: cy, k: this.width / r.width };
+    this.setPointerCapture(e.pointerId);
+  });
+  $('crop').addEventListener('pointermove', function (e) {
+    if (!drag) return;
+    cx = drag.cx + (e.clientX - drag.x) * drag.k;
+    cy = drag.cy + (e.clientY - drag.y) * drag.k;
+    draw();
+  });
+  ['pointerup', 'pointercancel'].forEach(function (n) { $('crop').addEventListener(n, function () { drag = null; }); });
+  $('noCrop').addEventListener('click', closeCrop);
+  $('useCrop').addEventListener('click', function () {
+    var out = document.createElement('canvas');
+    out.width = OUT_W; out.height = OUT_H;
+    var g = out.getContext('2d');
+    g.fillStyle = '#fff'; g.fillRect(0, 0, OUT_W, OUT_H);
+    g.drawImage($('crop'), 0, 0, OUT_W, OUT_H);
+    out.toBlob(function (b) {
+      if (!b) { say('That photo could not be prepared. Please try again.', 'err'); return; }
+      newPhoto = b;
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = URL.createObjectURL(b);
+      showPhoto(previewUrl); closeCrop();
+      say('Select Save profile to keep this photo.');
+    }, 'image/jpeg', 0.85);
+  });
+  $('bio').addEventListener('input', syncCount);
+  $('go').addEventListener('click', async function () {
+    if (overLimit()) return;
+    var btn = this, path = null;
+    btn.disabled = true; say('Saving…');
+    try {
+      if (newPhoto) {
+        path = uid + '/' + Date.now() + '.jpg';
+        var up = await sb.storage.from(BUCKET).upload(path, newPhoto, { contentType: 'image/jpeg', upsert: false });
+        if (up.error) throw up.error;
+      }
+      var res = await sb.rpc('save_my_participant_profile', { p_bio: $('bio').value, p_exec_role: $('role').disabled ? '' : $('role').value, p_photo_path: path });
+      if (res.error) throw res.error;
+      if (!res.data || !res.data.ok) {
+        if (path) await sb.storage.from(BUCKET).remove([path]);
+        say(ERR[res.data && res.data.error] || ('Your profile was not saved. ' + HELP), 'err');
+        await load();
+        btn.disabled = overLimit();
+        return;
+      }
+      if (res.data.old_photo_path) await sb.storage.from(BUCKET).remove([res.data.old_photo_path]);
+      newPhoto = null;
+      await load();
+      say('✓ Profile saved', 'ok');
+    } catch (e) {
+      console.error('[profile] save failed:', e);
+      say('Your profile was not saved. ' + HELP, 'err');
+    }
+    btn.disabled = overLimit();
+  });
+  (async function () {
+    var s = await sb.auth.getSession();
+    if (!s.data || !s.data.session) { location.replace('index.html'); return; }
+    uid = s.data.session.user.id;
+    await load();
+  })();
+})();
+</script>
+</body>
+</html>

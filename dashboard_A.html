@@ -3457,6 +3457,7 @@
 
   <!-- Supabase JS -->
   <script src="supabase.umd.js"></script>
+  <script src="s2r-profiles.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script>
     /* ===========================================================
@@ -4381,6 +4382,7 @@
 
         <div class="detail-card" id="cohortSessionsCard"></div>
         <div class="detail-card" id="cohortTermsCard"></div>
+        <div class="detail-card" id="cohortProfilesCard"></div>
 
         ${dangerZone}
       `;
@@ -14573,6 +14575,48 @@ sam@gamma.org, Sam Lee, participant,`;
         document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
         setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
       }
+      // [PROFILES] Who has completed their participant profile.
+      var profs = { cohortId: null, rows: [], loaded: false, error: null };
+      function profComplete(p) { return !!(p.bio && p.photo_path && p.exec_role); }
+      function profRender() {
+        var card = $('cohortProfilesCard');
+        if (!card) return;
+        var list = profs.rows, done = list.filter(profComplete).length;
+        var td = '<td style="padding:8px 10px;border-bottom:1px solid var(--border-subtle);">';
+        function yes(v) { return '<span class="ses-chip ' + (v ? 'ses-chip--ok' : 'ses-chip--warn') + '">' + (v ? 'Added' : 'Missing') + '</span>'; }
+        var body;
+        if (profs.error) body = '<div class="people-list__empty">Could not load the profiles: ' + esc(profs.error) + '</div>';
+        else if (!profs.loaded) body = '<div class="people-list__empty">Loading the profiles…</div>';
+        else if (!list.length) body = '<div class="people-list__empty">No participants in this cohort yet.</div>';
+        else body = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>' +
+          ['Name', 'Group', 'Position', 'Bio', 'Photo', 'Profile'].map(function (h) {
+            return '<th style="text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:8px 10px;border-bottom:1px solid var(--border-default);white-space:nowrap;">' + h + '</th>';
+          }).join('') + '</tr></thead><tbody>' + list.map(function (p) {
+            var c = profComplete(p);
+            return '<tr>' + td + esc(p.full_name) + '</td>' + td + esc(p.team_name || '—') + '</td>' + td + esc(p.exec_role || '—') + '</td>' + td + yes(p.bio) + '</td>' + td + yes(p.photo_path) + '</td>' + td +
+              '<span class="ses-chip ' + (c ? 'ses-chip--ok' : 'ses-chip--warn') + '">' + (c ? 'Complete' : 'Incomplete') + '</span></td></tr>';
+          }).join('') + '</tbody></table></div>';
+        card.innerHTML = '<div class="detail-card__head"><div><div class="detail-card__title">Participant profiles</div>' +
+          '<div class="detail-card__count">' + (profs.loaded && !profs.error ? done + ' of ' + list.length + ' complete' : '') + '</div></div>' +
+          (list.length ? '<button type="button" class="detail-card__action" id="profsOpen">View profiles</button>' : '') + '</div>' + body;
+        var b = $('profsOpen');
+        if (b) b.onclick = function () { var c = cohort(); window.S2RProfiles.open(sb, profs.cohortId, c && c.name); };
+      }
+      async function profLoad(id) {
+        if (profs.cohortId !== id) { profs.cohortId = id; profs.rows = []; profs.loaded = false; profs.error = null; }
+        profRender();
+        try {
+          var res = await sb.rpc('get_cohort_participant_profiles', { p_cohort_id: id });
+          if (profs.cohortId !== id) return;
+          profs.error = res.error ? (res.error.message || 'request failed') : null;
+          if (!res.error) profs.rows = res.data || [];
+        } catch (e) {
+          if (profs.cohortId !== id) return;
+          profs.error = e.message || 'network error';
+        }
+        profs.loaded = true;
+        profRender();
+      }
       async function termsLoad(id) {
         if (terms.cohortId !== id) { terms.cohortId = id; terms.rows = []; terms.loaded = false; terms.error = null; }
         termsRender();
@@ -14595,6 +14639,7 @@ sam@gamma.org, Sam Lee, participant,`;
           if (!bundle || !bundle.cohort) return;
           state.bundle = bundle;
           termsLoad(bundle.cohort.id);   // [TERMS]
+          profLoad(bundle.cohort.id);    // [PROFILES]
           if (state.cohortId !== bundle.cohort.id) {
             state.cohortId = bundle.cohort.id;
             state.rows = [];

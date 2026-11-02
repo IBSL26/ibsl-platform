@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBSL | Facilitator Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="s2r-profiles.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -3043,7 +3044,8 @@
                (r.will_record ? '<div class="lses-unit-note">This session will be recorded.</div>' : '') +
                (r.notes ? '<div class="lses-unit-note">' + esc(r.notes) + '</div>' : '') +
              '</div><div class="lses-actions">' + action +
-             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.ibslLiveSessions.approved(\'' + esc(r.cohort_id) + '\')">Approved list</button></div></div>';
+             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.ibslLiveSessions.approved(\'' + esc(r.cohort_id) + '\')">Approved list</button>' +
+             '<button type="button" class="lses-watch" onclick="event.stopPropagation();window.S2RProfiles.open(supabaseClient,\'' + esc(r.cohort_id) + '\',\'' + esc(String(r.cohort_name || '').replace(/[\\']/g, ' ')) + '\')">Participant profiles</button></div></div>';
     }
     var ageDays = (t - end) / 86400000;
     if (!(r.recording_url || (r.will_record && ageDays <= RECORDING_WAIT_DAYS))) return '';
