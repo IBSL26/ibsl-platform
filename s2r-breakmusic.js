@@ -7,7 +7,7 @@
   'use strict';
 
   var TRACKS = {
-    ours:   { label: 'Our music', file: 'media/break-music.m4a', gain: 0.35, loopEnd: 146 },
+    ours:   { label: 'Our music', file: 'media/break-music.m4a', gain: 0.55 },
     calm:   { label: 'Calm',   chord: 10, wave: 'sine',     cutoff: 900,  bells: 2, chords: [[50,57,62,66],[47,54,59,62],[43,50,55,59],[45,52,57,61]], scale: [74,76,78,81,83,86] },
     warm:   { label: 'Warm',   chord: 8,  wave: 'triangle', cutoff: 1000, bells: 3, chords: [[48,55,60,64],[45,52,57,60],[41,48,53,57],[43,50,55,59]], scale: [72,74,76,79,81,84] },
     bright: { label: 'Bright', chord: 6,  wave: 'triangle', cutoff: 1400, bells: 4, chords: [[50,57,62,66],[43,50,59,62],[47,54,59,62],[45,52,57,64]], scale: [74,76,78,81,83,86,88] }
@@ -77,7 +77,7 @@
 
   // ---- Live playback ----
   var st = load(), ctx = null, master = null, graph = null, sched = null, tick = null;
-  var bus = null, source = null, fileBytes = {}, session = 0, failed = false;
+  var bus = null, player = null, loading = false, session = 0, failed = false;
   var playing = false, endAt = 0, nextT = 0, idx = 0, walk = { pos: 2 }, ui = {};
 
   function load() {
@@ -112,21 +112,15 @@
     bus.gain.linearRampToValueAtTime(tr.gain || 1, c.currentTime + 1);
     bus.connect(master);
     if (tr.file) {
-      var mine = bus;
-      (fileBytes[tr.file] || (fileBytes[tr.file] = fetch(tr.file).then(function (r) {
-        if (!r.ok) throw new Error('fetch'); return r.arrayBuffer();
-      }))).then(function (bytes) {
-        return c.decodeAudioData(bytes.slice(0));
-      }).then(function (buf) {
-        if (run !== session) return;
-        source = c.createBufferSource();
-        source.buffer = buf; source.loop = true; source.loopEnd = Math.min(tr.loopEnd, buf.duration);
-        source.connect(mine); source.start();
-      }).catch(function () {
-        delete fileBytes[tr.file];
-        if (run !== session) return;
-        failed = true; stop(0.1);
-      });
+      // Streams, so the music starts before the whole file has downloaded.
+      var fail = function () { if (run === session) { failed = true; stop(0.1); } };
+      var a = new Audio(tr.file);
+      a.loop = true; a.preload = 'auto';
+      a.addEventListener('playing', function () { if (run === session) { loading = false; update(); } });
+      a.addEventListener('error', fail);
+      c.createMediaElementSource(a).connect(bus);
+      player = a; loading = true;
+      a.play().catch(fail);
     } else {
       graph = buildGraph(c, bus);
       idx = 0; nextT = c.currentTime + 0.1;
@@ -137,13 +131,13 @@
   function endMusic() {
     session++;
     clearInterval(sched); sched = null; graph = null;
-    var b = bus, s = source, c = ctx;
-    bus = source = null;
+    var b = bus, a = player, c = ctx;
+    bus = player = null; loading = false;
     if (!b) return;
     b.gain.cancelScheduledValues(c.currentTime);
     b.gain.setValueAtTime(b.gain.value, c.currentTime);
     b.gain.linearRampToValueAtTime(0, c.currentTime + 1);
-    setTimeout(function () { try { if (s) s.stop(); b.disconnect(); } catch (e) {} }, 1200);
+    setTimeout(function () { try { if (a) { a.pause(); a.removeAttribute('src'); a.load(); } b.disconnect(); } catch (e) {} }, 1200);
   }
 
   function pump() {
@@ -159,12 +153,12 @@
     playing = false;
     session++;
     clearInterval(sched); clearInterval(tick);
-    var c = ctx, m = master, f = fade || 1.5;
+    var c = ctx, m = master, f = fade || 1.5, a = player;
     m.gain.cancelScheduledValues(c.currentTime);
     m.gain.setValueAtTime(m.gain.value, c.currentTime);
     m.gain.linearRampToValueAtTime(0, c.currentTime + f);
-    setTimeout(function () { try { c.close(); } catch (e) {} }, (f + 0.5) * 1000);
-    ctx = master = graph = bus = source = null;
+    setTimeout(function () { try { if (a) { a.pause(); a.removeAttribute('src'); a.load(); } c.close(); } catch (e) {} }, (f + 0.5) * 1000);
+    ctx = master = graph = bus = player = null; loading = false;
     update();
   }
 
@@ -179,7 +173,7 @@
     var left = playing && endAt ? clock(endAt - Date.now()) : '';
     ui.open.textContent = playing ? '♪ ' + (left || 'Playing') : '♪ Break music';
     ui.play.textContent = playing ? 'Stop' : 'Play';
-    ui.status.textContent = playing ? (left ? 'Ends in ' + left : 'Playing until you stop it') : (failed ? 'The music could not load. Try again or pick another.' : 'Stopped');
+    ui.status.textContent = loading ? 'Loading the music\u2026' : playing ? (left ? 'Ends in ' + left : 'Playing until you stop it') : (failed ? 'The music could not load. Try again or pick another.' : 'Stopped');
   }
 
   // ---- Interface ----
