@@ -32,7 +32,7 @@ Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and
 
 32. Participants and facilitators sign the terms of use (terms.html) once. Until they sign, get_my_sessions() holds back the Teams link and the portal shows "Sign terms to join". The admin record sits on the cohort page.
 
-33. Break music (s2r-breakmusic.js) loads on dashboard_A.html and dashboard_F.html only. The music is generated in the browser, with no recorded tracks or audio files.
+33. Break music (s2r-breakmusic.js) loads on dashboard_A.html and dashboard_F.html only. "Our music" is media/break-music.m4a; Calm, Warm and Bright are generated in the browser.
 
 30. Every unit header carries the module paragraphs (what the module establishes; the module's units in order), "Module learning outcomes" and "Key learning outcomes". Every section ends with a "Section Closing Insight" box and, for Sections 1-4, a "Transition to Section N — Name: Anchor" box; every unit ends with a transition box to the next unit or module. Every facilitator Guide carries a Learning Journey table. Built by `Unit decks/_build/consistency_28oct/build.py` (texts in c1-c3.py); re-run it after rebuilding a unit from its backups.
 

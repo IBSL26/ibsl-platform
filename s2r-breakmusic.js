@@ -1,12 +1,13 @@
 /*
  * s2r-breakmusic.js: break music for the admin and facilitator dashboards.
- * The music is generated in the browser, so there are no audio files and no
- * third-party recordings. Loaded by dashboard_A.html and dashboard_F.html only.
+ * "Our music" plays media/break-music.m4a. Calm, Warm and Bright are generated
+ * in the browser. Loaded by dashboard_A.html and dashboard_F.html only.
  */
 (function () {
   'use strict';
 
   var TRACKS = {
+    ours:   { label: 'Our music', file: 'media/break-music.m4a', gain: 0.35, loopEnd: 146 },
     calm:   { label: 'Calm',   chord: 10, wave: 'sine',     cutoff: 900,  bells: 2, chords: [[50,57,62,66],[47,54,59,62],[43,50,55,59],[45,52,57,61]], scale: [74,76,78,81,83,86] },
     warm:   { label: 'Warm',   chord: 8,  wave: 'triangle', cutoff: 1000, bells: 3, chords: [[48,55,60,64],[45,52,57,60],[41,48,53,57],[43,50,55,59]], scale: [72,74,76,79,81,84] },
     bright: { label: 'Bright', chord: 6,  wave: 'triangle', cutoff: 1400, bells: 4, chords: [[50,57,62,66],[43,50,59,62],[47,54,59,62],[45,52,57,64]], scale: [74,76,78,81,83,86,88] }
@@ -76,12 +77,13 @@
 
   // ---- Live playback ----
   var st = load(), ctx = null, master = null, graph = null, sched = null, tick = null;
+  var bus = null, source = null, fileBytes = {}, session = 0, failed = false;
   var playing = false, endAt = 0, nextT = 0, idx = 0, walk = { pos: 2 }, ui = {};
 
   function load() {
-    var d = { track: 'calm', mins: 10, vol: 60 };
+    var d = { track: 'ours', mins: 10, vol: 60 };
     try { var s = JSON.parse(localStorage.getItem(KEY) || '{}'); for (var k in d) if (s[k] !== undefined) d[k] = s[k]; } catch (e) {}
-    if (!TRACKS[d.track]) d.track = 'calm';
+    if (!TRACKS[d.track]) d.track = 'ours';
     return d;
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
@@ -96,11 +98,52 @@
     master.gain.setValueAtTime(0, ctx.currentTime);
     master.gain.linearRampToValueAtTime(level(), ctx.currentTime + 2);
     master.connect(ctx.destination);
-    graph = buildGraph(ctx, master);
-    playing = true; idx = 0; nextT = ctx.currentTime + 0.1;
-    pump(); sched = setInterval(pump, 1000);
+    playing = true; failed = false;
+    beginMusic();
     setTimer(); tick = setInterval(update, 500);
     update();
+  }
+
+  // Each piece plays through its own bus, so switching music is a short crossfade.
+  function beginMusic() {
+    var run = ++session, tr = TRACKS[st.track], c = ctx;
+    bus = c.createGain();
+    bus.gain.setValueAtTime(0, c.currentTime);
+    bus.gain.linearRampToValueAtTime(tr.gain || 1, c.currentTime + 1);
+    bus.connect(master);
+    if (tr.file) {
+      var mine = bus;
+      (fileBytes[tr.file] || (fileBytes[tr.file] = fetch(tr.file).then(function (r) {
+        if (!r.ok) throw new Error('fetch'); return r.arrayBuffer();
+      }))).then(function (bytes) {
+        return c.decodeAudioData(bytes.slice(0));
+      }).then(function (buf) {
+        if (run !== session) return;
+        source = c.createBufferSource();
+        source.buffer = buf; source.loop = true; source.loopEnd = Math.min(tr.loopEnd, buf.duration);
+        source.connect(mine); source.start();
+      }).catch(function () {
+        delete fileBytes[tr.file];
+        if (run !== session) return;
+        failed = true; stop(0.1);
+      });
+    } else {
+      graph = buildGraph(c, bus);
+      idx = 0; nextT = c.currentTime + 0.1;
+      pump(); sched = setInterval(pump, 1000);
+    }
+  }
+
+  function endMusic() {
+    session++;
+    clearInterval(sched); sched = null; graph = null;
+    var b = bus, s = source, c = ctx;
+    bus = source = null;
+    if (!b) return;
+    b.gain.cancelScheduledValues(c.currentTime);
+    b.gain.setValueAtTime(b.gain.value, c.currentTime);
+    b.gain.linearRampToValueAtTime(0, c.currentTime + 1);
+    setTimeout(function () { try { if (s) s.stop(); b.disconnect(); } catch (e) {} }, 1200);
   }
 
   function pump() {
@@ -114,13 +157,14 @@
   function stop(fade) {
     if (!playing) return;
     playing = false;
+    session++;
     clearInterval(sched); clearInterval(tick);
     var c = ctx, m = master, f = fade || 1.5;
     m.gain.cancelScheduledValues(c.currentTime);
     m.gain.setValueAtTime(m.gain.value, c.currentTime);
     m.gain.linearRampToValueAtTime(0, c.currentTime + f);
     setTimeout(function () { try { c.close(); } catch (e) {} }, (f + 0.5) * 1000);
-    ctx = master = graph = null;
+    ctx = master = graph = bus = source = null;
     update();
   }
 
@@ -135,7 +179,7 @@
     var left = playing && endAt ? clock(endAt - Date.now()) : '';
     ui.open.textContent = playing ? '♪ ' + (left || 'Playing') : '♪ Break music';
     ui.play.textContent = playing ? 'Stop' : 'Play';
-    ui.status.textContent = playing ? (left ? 'Ends in ' + left : 'Playing until you stop it') : 'Stopped';
+    ui.status.textContent = playing ? (left ? 'Ends in ' + left : 'Playing until you stop it') : (failed ? 'The music could not load. Try again or pick another.' : 'Stopped');
   }
 
   // ---- Interface ----
@@ -162,8 +206,8 @@
       '.bm-title{font-weight:700;color:#1a3a2a;font-size:15px}' +
       '.bm-x{background:none;border:0;font-size:20px;line-height:1;cursor:pointer;color:#6b7280;padding:0 4px}' +
       '.bm-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin:10px 0 5px}' +
-      '.bm-row{display:flex;gap:6px}' +
-      '.bm-choice{flex:1;padding:7px 2px;border:1px solid #d1d5db;background:#fff;color:#1c1c1c;border-radius:3px;cursor:pointer;font:inherit;font-size:12px;white-space:nowrap}' +
+      '.bm-row{display:flex;gap:6px;flex-wrap:wrap}' +
+      '.bm-choice{flex:1 1 auto;padding:7px 2px;border:1px solid #d1d5db;background:#fff;color:#1c1c1c;border-radius:3px;cursor:pointer;font:inherit;font-size:12px;white-space:nowrap}' +
       '.bm-choice.on{background:#1a3a2a;border-color:#1a3a2a;color:#fff}' +
       '.bm-vol{width:100%;accent-color:#1a3a2a;margin:0}' +
       '.bm-play{width:100%;margin-top:14px;padding:10px;background:#c9a84c;color:#0f2419;border:0;border-radius:3px;font:inherit;font-weight:700;cursor:pointer}' +
@@ -182,7 +226,10 @@
     var x = el('button', 'bm-x', head); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Close');
 
     el('div', 'bm-label', p).textContent = 'Music';
-    choiceRow(p, Object.keys(TRACKS).map(function (k) { return { label: TRACKS[k].label, value: k }; }), st.track, function (v) { st.track = v; save(); });
+    choiceRow(p, Object.keys(TRACKS).map(function (k) { return { label: TRACKS[k].label, value: k }; }), st.track, function (v) {
+      st.track = v; save(); failed = false;
+      if (playing) { endMusic(); beginMusic(); }
+    });
 
     el('div', 'bm-label', p).textContent = 'Break length';
     choiceRow(p, [{ label: '5 min', value: 5 }, { label: '10 min', value: 10 }, { label: '15 min', value: 15 }, { label: 'No limit', value: 0 }], st.mins, function (v) {
