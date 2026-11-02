@@ -41,11 +41,11 @@
       if (!rows.length) { box.textContent = 'No participants in this cohort yet.'; return; }
       var last = null, html = '';
       rows.forEach(function (r, i) {
-        var g = r.team_name || 'Not yet in a group';
-        if (i === 0 || g !== last) { html += '<div class="spf-g">' + esc(g) + '</div>'; last = g; }
+        var g = r.team_name || 'Not yet assigned';
+        if (i === 0 || g !== last) { html += '<div class="spf-g">CESI Company Name: ' + esc(g) + '</div>'; last = g; }
         var u = urls[r.photo_path];
         html += '<div class="spf-m">' + (u ? '<img alt="" src="' + esc(u) + '">' : '<div class="spf-ph"></div>') +
-          '<div><div class="spf-n">' + esc(r.full_name) + '</div><div class="spf-r">' + esc(r.exec_role || 'Position not yet chosen') + '</div>' +
+          '<div><div class="spf-n">' + esc(r.full_name) + '</div><div class="spf-r">CESI Executive Role: ' + esc(r.exec_role || 'Not yet chosen') + '</div>' +
           '<div class="spf-b">' + esc(r.bio || 'Bio not yet added.') + '</div></div></div>';
       });
       box.innerHTML = html;
@@ -91,14 +91,14 @@
         '</h1><div class="s">Certified Enterprise Strategy Integrator</div><div class="foot">© 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results® and S2R® are trade marks of IBSL. All rights reserved.</div></div>';
       var last = null, open = false, n = 0;
       rows.forEach(function (r) {
-        var g = r.team_name || 'Participants';
+        var g = r.team_name || '';
         if (g !== last) {
           if (open) html += '</div>';
-          html += '<div class="grp' + (n === 0 ? ' first' : '') + '"><h2>' + esc(g) + '</h2>'; open = true; last = g; n++;
+          html += '<div class="grp' + (n === 0 ? ' first' : '') + '"><h2>CESI Company Name: ' + esc(g) + '</h2>'; open = true; last = g; n++;
         }
         var u = urls[r.photo_path];
         html += '<div class="m">' + (u ? '<img alt="" src="' + esc(u) + '">' : '<div class="ph"></div>') + '<div><div class="n">' + esc(r.full_name) + '</div>' +
-          (r.exec_role ? '<div class="r">' + esc(r.exec_role) + '</div>' : '') + (r.bio ? '<div class="b">' + esc(r.bio) + '</div>' : '') + '</div></div>';
+          '<div class="r">CESI Executive Role: ' + esc(r.exec_role || '') + '</div>' + (r.bio ? '<div class="b">' + esc(r.bio) + '</div>' : '') + '</div></div>';
       });
       if (open) html += '</div>';
       sheet.innerHTML = html;

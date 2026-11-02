@@ -78,7 +78,7 @@
       <textarea id="bio" maxlength="2000" placeholder="Your current role, your experience and what you bring to your executive team."></textarea>
       <div class="note" id="count">0 of 150 words</div>
 
-      <label class="nm" for="role">Position in the simulated executive team</label>
+      <label class="nm" for="role">CESI Executive Role</label>
       <select id="role"></select>
       <div class="note" id="roleNote"></div>
 
@@ -106,9 +106,9 @@
   var img = null, cx = 0, cy = 0, zoom = 1, drag = null;
   var ERR = {
     bio_long: 'Your bio is longer than 150 words.',
-    role_taken: 'Another member of your group has just taken that position. Choose another.',
-    role_locked: 'Positions have closed for your group.',
-    role_not_in_charter: 'That position is no longer in your Problem Charter. Choose another.',
+    role_taken: 'Another member of your group has just taken that role. Choose another.',
+    role_locked: 'Executive roles have closed for your group.',
+    role_not_in_charter: 'That role is no longer in your Problem Charter. Choose another.',
     charter_open: 'Your group has not yet agreed its Problem Charter.'
   };
   var HELP = 'Please try again, or email projects@ibsleadership.com.';
@@ -138,20 +138,20 @@
     var s = $('role'), note = $('roleNote');
     s.innerHTML = '';
     if (P.role_locked) {
-      s.innerHTML = '<option value="">' + esc(P.exec_role || 'No position recorded') + '</option>';
+      s.innerHTML = '<option value="">' + esc(P.exec_role || 'No role recorded') + '</option>';
       s.disabled = true;
-      note.textContent = P.exec_role ? 'Positions closed when your group began its Capstone work.'
-        : 'Positions have closed for your group. Email projects@ibsleadership.com to record yours.';
+      note.textContent = P.exec_role ? 'Executive roles closed when your group began its Capstone work.'
+        : 'Executive roles have closed for your group. Email projects@ibsleadership.com to record yours.';
       return;
     }
     if (!P.charter_ready) {
       s.innerHTML = '<option value="">Opens after your Problem Charter</option>';
       s.disabled = true;
-      note.textContent = 'You choose your position here once your group has agreed its Problem Charter in Unit 1, Part 6.2.';
+      note.textContent = 'You choose your CESI Executive Role here once your group has agreed its Problem Charter in Unit 1, Part 6.2.';
       return;
     }
     s.disabled = false;
-    var seen = false, html = '<option value="">Choose your position</option>';
+    var seen = false, html = '<option value="">Choose your CESI Executive Role</option>';
     (P.roles || []).forEach(function (r) {
       var mine = !!P.exec_role && r.role.toLowerCase() === P.exec_role.toLowerCase();
       if (mine) seen = true;
@@ -160,7 +160,7 @@
     });
     if (P.exec_role && !seen) html += '<option value="' + esc(P.exec_role) + '" selected>' + esc(P.exec_role) + '</option>';
     s.innerHTML = html;
-    note.textContent = 'These are the positions in your group’s Problem Charter. Each position is held by one member.';
+    note.textContent = 'These are the roles in your group’s Problem Charter. Each role is held by one member.';
   }
   function fillTeam(urls) {
     var list = P.members || [];
@@ -168,7 +168,7 @@
     $('team').innerHTML = list.map(function (m) {
       var u = urls[m.photo_path];
       return '<div class="mem">' + (u ? '<img alt="" src="' + esc(u) + '">' : '<div class="ph"></div>') +
-        '<div><div class="mem-n">' + esc(m.full_name) + '</div><div class="mem-r">' + esc(m.exec_role || 'Position not yet chosen') + '</div>' +
+        '<div><div class="mem-n">' + esc(m.full_name) + '</div><div class="mem-r">CESI Executive Role: ' + esc(m.exec_role || 'Not yet chosen') + '</div>' +
         '<div class="mem-b">' + esc(m.bio || 'Bio not yet added.') + '</div></div></div>';
     }).join('');
   }
@@ -179,7 +179,7 @@
     if (!P.required) { $('load').textContent = 'Profiles are for programme participants.'; return; }
     $('load').hidden = true; $('form').hidden = false;
     $('who').textContent = P.full_name || 'My profile';
-    $('group').textContent = P.team_name || 'Your group will show here once the IBSL team has placed you in one.';
+    $('group').textContent = 'CESI Company Name: ' + (P.team_name || 'shows here once the IBSL team has placed you in a group');
     $('bio').value = P.bio || '';
     syncCount(); fillRoles();
     var urls = await signed([P.photo_path].concat((P.members || []).map(function (m) { return m.photo_path; })));
