@@ -14598,9 +14598,11 @@ sam@gamma.org, Sam Lee, participant,`;
           }).join('') + '</tbody></table></div>';
         card.innerHTML = '<div class="detail-card__head"><div><div class="detail-card__title">Participant profiles</div>' +
           '<div class="detail-card__count">' + (profs.loaded && !profs.error ? done + ' of ' + list.length + ' complete' : '') + '</div></div>' +
-          (list.length ? '<button type="button" class="detail-card__action" id="profsOpen">View profiles</button>' : '') + '</div>' + body;
+          (list.length ? '<div style="display:flex;gap:8px;flex-wrap:wrap;"><button type="button" class="detail-card__action" id="profsOpen">View profiles</button><button type="button" class="detail-card__action" id="profsBook">Print booklet</button></div>' : '') + '</div>' + body;
         var b = $('profsOpen');
         if (b) b.onclick = function () { var c = cohort(); window.S2RProfiles.open(sb, profs.cohortId, c && c.name); };
+        var bk = $('profsBook');
+        if (bk) bk.onclick = function () { var c = cohort(); window.S2RProfiles.booklet(sb, profs.cohortId, c && c.name); };
       }
       async function profLoad(id) {
         if (profs.cohortId !== id) { profs.cohortId = id; profs.rows = []; profs.loaded = false; profs.error = null; }
