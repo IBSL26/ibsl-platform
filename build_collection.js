@@ -401,7 +401,7 @@ function buildTemplate(){
 '    }',
 '',
 '    var mc = MICRO_CLIMB[cat.id];',
-'    if(mc && mc.length){ ch.appendChild(el("div","section-label","Unit Summary")); ch.appendChild(renderMicroClimb(mc)); }',
+'    if(latest && mc && mc.length){ ch.appendChild(el("div","section-label","Unit Summary")); ch.appendChild(renderMicroClimb(mc)); }',
 '',
 '    if(feedbackOn && latest && latest.facilitator_feedback && String(latest.facilitator_feedback).trim()){',
 '      ch.appendChild(el("div","section-label","Facilitator Feedback"));',
