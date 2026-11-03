@@ -12764,7 +12764,9 @@ sam@gamma.org, Sam Lee, participant,`;
                   capstoneCertControlHtml(m, t.cohort_id) +
                 '</span>' +
                 '<a class="capstone-cert-view" href="collection.html?participantId=' + encodeURIComponent(m.profile_id) + '&feedback=on&adminView=1" target="_blank" rel="noopener">Learning Portfolio</a>' +
-                '<button type="button" class="btn--ghost capstone-remove-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
+                '<button type="button" class="btn--ghost capstone-remove-btn capstone-edit-member-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
+                  '" data-name="' + capstoneEsc(m.full_name) + '" data-team-id="' + capstoneEsc(t.id) + '">Edit</button>' +
+                '<button type="button" class="btn--ghost capstone-remove-btn capstone-remove-member-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
                   '" data-name="' + capstoneEsc(m.full_name) + '">Remove</button>' +
               '</div>';
             }).join('')
@@ -12777,6 +12779,8 @@ sam@gamma.org, Sam Lee, participant,`;
               '<a class="capstone-cert-view" href="capstone_P.html?teamId=' + encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Open Blueprint</a>' +
               '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
                 '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
+              '<button type="button" class="btn--ghost capstone-remove-btn capstone-edit-team-btn" data-team-id="' + capstoneEsc(t.id) +
+                '" data-team-name="' + capstoneEsc(t.team_name) + '">Edit team</button>' +
               '<button type="button" class="btn--ghost capstone-delete-btn" data-team-id="' + capstoneEsc(t.id) +
                 '" data-team-name="' + capstoneEsc(t.team_name) + '">Delete team</button>' +
             '</div>' +
@@ -12915,12 +12919,123 @@ sam@gamma.org, Sam Lee, participant,`;
       try {
         const { error } = await sb.rpc('admin_add_capstone_member', { p_team_id: capstonePickerState.teamId, p_profile_id: profileId });
         if (error) { window.showToast(error.message || 'Could not add participant.', 4000); return; }
-        window.showToast('Participant added', 3000);
+        // The new member sees the team's Problem Charter on their own page.
+        const syncRes = await sb.rpc('admin_sync_member_charter', { p_profile_id: profileId, p_team_id: capstonePickerState.teamId });
+        window.showToast(syncRes.error ? 'Participant added. Their Problem Charter could not be copied.' : 'Participant added', syncRes.error ? 5000 : 3000);
         closeCapstonePicker();
         loadCapstoneTeams();
       } catch (e) {
         window.showToast(e.message || 'Network error.', 4000);
       }
+    }
+
+    // ── Corrections: team name, simulated company, member name, member's team ──
+    const capstoneEditState = { mode: null, teamId: null, profileId: null, name: '', company: '', team: '' };
+
+    function capstoneEditMsg(text) {
+      const el = document.getElementById('capstoneEditMsg');
+      if (el) { el.textContent = text || ''; el.style.display = text ? 'block' : 'none'; }
+    }
+    function showCapstoneEdit(title, html) {
+      document.getElementById('capstoneEditTitle').textContent = title;
+      document.getElementById('capstoneEditFields').innerHTML = html;
+      capstoneEditMsg('');
+      document.getElementById('capstoneEditSaveBtn').disabled = false;
+      const modal = document.getElementById('capstoneEditModal');
+      modal.classList.add('modal-backdrop--shown');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+    function closeCapstoneEdit() {
+      const modal = document.getElementById('capstoneEditModal');
+      if (modal) { modal.classList.remove('modal-backdrop--shown'); modal.setAttribute('aria-hidden', 'true'); }
+      capstoneEditState.mode = null;
+    }
+
+    async function openCapstoneTeamEdit(teamId, teamName) {
+      Object.assign(capstoneEditState, { mode: 'team', teamId: teamId, name: teamName, company: '' });
+      showCapstoneEdit('Edit team',
+        '<div class="form-row"><label class="form-label" for="capEditTeamName">Team name</label>' +
+          '<input class="form-input" id="capEditTeamName" type="text" maxlength="120" value="' + capstoneEsc(teamName) + '"></div>' +
+        '<div class="form-row" id="capEditCompanyRow"><div class="cert-score__loading">Loading…</div></div>');
+      const res = await sb.rpc('admin_capstone_team_companies', { p_cohort_id: capstoneState.cohortId });
+      if (capstoneEditState.mode !== 'team' || capstoneEditState.teamId !== teamId) return;
+      const row = document.getElementById('capEditCompanyRow');
+      if (res.error) { row.innerHTML = '<p class="capstone-score-err">Could not load the simulated company.</p>'; return; }
+      const hit = (res.data || []).find(function(r) { return r.team_id === teamId; });
+      capstoneEditState.company = (hit && hit.company) || '';
+      row.innerHTML = capstoneEditState.company
+        ? '<label class="form-label" for="capEditCompany">Simulated company</label>' +
+          '<input class="form-input" id="capEditCompany" type="text" maxlength="300" value="' + capstoneEsc(capstoneEditState.company) + '">'
+        : '<span class="capstone-score-saved">The team has not named its simulated company yet.</span>';
+    }
+
+    function openCapstoneMemberEdit(profileId, name, teamId) {
+      Object.assign(capstoneEditState, { mode: 'member', profileId: profileId, name: name, team: teamId });
+      const teams = capstoneState.teams.map(function(t) {
+        return '<option value="' + capstoneEsc(t.id) + '"' + (t.id === teamId ? ' selected' : '') + '>' + capstoneEsc(t.team_name) + '</option>';
+      }).join('');
+      showCapstoneEdit('Edit team member',
+        '<div class="form-row"><label class="form-label" for="capEditName">Full name</label>' +
+          '<input class="form-input" id="capEditName" type="text" maxlength="200" value="' + capstoneEsc(name) + '"></div>' +
+        '<div class="form-row"><label class="form-label" for="capEditMemberTeam">Team</label>' +
+          '<select class="form-select" id="capEditMemberTeam">' + teams + '</select>' +
+          '<span class="capstone-score-saved">A moved member keeps their Capstone score, chooses their executive position again, and agrees the new team\'s Problem Charter.</span></div>');
+    }
+
+    async function saveCapstoneTeamEdit() {
+      const st = capstoneEditState;
+      const name = document.getElementById('capEditTeamName').value.trim();
+      const compEl = document.getElementById('capEditCompany');
+      const company = compEl ? compEl.value.trim() : '';
+      if (!name) return 'Please enter a team name.';
+      if (compEl && !company) return 'Please enter the simulated company name.';
+      if (name !== st.name) {
+        const r = await sb.rpc('admin_rename_capstone_team', { p_team_id: st.teamId, p_team_name: name });
+        if (r.error) return (r.error.code === '23505' || /duplicate key|unique/i.test(r.error.message || ''))
+          ? 'A team with that name already exists. Please choose a different name.'
+          : (r.error.message || 'Could not rename the team.');
+      }
+      if (compEl && company !== st.company) {
+        const r = await sb.rpc('admin_set_capstone_company', { p_team_id: st.teamId, p_company: company });
+        if (r.error) return r.error.message || 'Could not update the simulated company.';
+      }
+      return null;
+    }
+
+    async function saveCapstoneMemberEdit() {
+      const st = capstoneEditState;
+      const name = document.getElementById('capEditName').value.trim();
+      const teamId = document.getElementById('capEditMemberTeam').value;
+      if (!name) return 'Please enter the full name.';
+      if (name !== st.name) {
+        const d = await sb.rpc('get_admin_user_detail', { p_user_id: st.profileId });
+        if (d.error || !d.data || !d.data.user) return (d.error && d.error.message) || 'Could not load this participant.';
+        const u = d.data.user;
+        const r = await sb.rpc('admin_edit_user', { p_user_id: st.profileId, p_full_name: name, p_role: u.role, p_organisation_id: u.organisation_id || null });
+        if (r.error) return r.error.message || 'Could not update the name.';
+      }
+      if (teamId !== st.team) {
+        const r = await sb.rpc('admin_move_capstone_member', { p_profile_id: st.profileId, p_cohort_id: capstoneState.cohortId, p_team_id: teamId });
+        if (r.error) return r.error.message || 'Could not move this participant.';
+      }
+      return null;
+    }
+
+    async function saveCapstoneEdit() {
+      const btn = document.getElementById('capstoneEditSaveBtn');
+      btn.disabled = true;
+      capstoneEditMsg('');
+      let err;
+      try {
+        err = capstoneEditState.mode === 'team' ? await saveCapstoneTeamEdit() : await saveCapstoneMemberEdit();
+      } catch (e) {
+        err = e.message || 'Network error.';
+      }
+      btn.disabled = false;
+      if (err) { capstoneEditMsg(err); loadCapstoneTeams(); return; }
+      closeCapstoneEdit();
+      window.showToast('Changes saved', 3000);
+      loadCapstoneTeams();
     }
 
     function confirmRemoveCapstoneMember(profileId, name) {
@@ -13024,7 +13139,11 @@ sam@gamma.org, Sam Lee, participant,`;
           if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team', addBtn.getAttribute('data-cohort-id')); return; }
           const delBtn = e.target.closest('.capstone-delete-btn');
           if (delBtn) { confirmDeleteCapstoneTeam(delBtn.getAttribute('data-team-id'), delBtn.getAttribute('data-team-name') || 'this team'); return; }
-          const remBtn = e.target.closest('.capstone-remove-btn');
+          const editTeamBtn = e.target.closest('.capstone-edit-team-btn');
+          if (editTeamBtn) { openCapstoneTeamEdit(editTeamBtn.getAttribute('data-team-id'), editTeamBtn.getAttribute('data-team-name') || ''); return; }
+          const editMemBtn = e.target.closest('.capstone-edit-member-btn');
+          if (editMemBtn) { openCapstoneMemberEdit(editMemBtn.getAttribute('data-profile-id'), editMemBtn.getAttribute('data-name') || '', editMemBtn.getAttribute('data-team-id')); return; }
+          const remBtn = e.target.closest('.capstone-remove-member-btn');
           if (remBtn) { confirmRemoveCapstoneMember(remBtn.getAttribute('data-profile-id'), remBtn.getAttribute('data-name') || 'this participant'); return; }
         });
       }
@@ -13035,6 +13154,12 @@ sam@gamma.org, Sam Lee, participant,`;
       if (pbody) pbody.addEventListener('click', function(e) {
         const cand = e.target.closest('.capstone-candidate');
         if (cand) addCapstoneMember(cand.getAttribute('data-profile-id'));
+      });
+      const editSave = document.getElementById('capstoneEditSaveBtn');
+      if (editSave) editSave.addEventListener('click', saveCapstoneEdit);
+      ['capstoneEditCloseBtn', 'capstoneEditCancelBtn'].forEach(function(id) {
+        const b = document.getElementById(id);
+        if (b) b.addEventListener('click', closeCapstoneEdit);
       });
       const closeBt = document.getElementById('capstoneMemberModalCloseBtn');
       if (closeBt) closeBt.addEventListener('click', closeCapstonePicker);
@@ -13252,6 +13377,22 @@ sam@gamma.org, Sam Lee, participant,`;
     </div>
 
     <!-- Capstone: add-participant picker modal -->
+    <div class="modal-backdrop" id="capstoneEditModal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-head">
+          <div class="modal-title" id="capstoneEditTitle">Edit</div>
+          <button type="button" class="modal-close" id="capstoneEditCloseBtn" aria-label="Close">×</button>
+        </div>
+        <div class="modal-body" style="padding:20px;">
+          <div id="capstoneEditMsg" class="capstone-msg" role="alert" style="display:none;"></div>
+          <div id="capstoneEditFields"></div>
+          <div class="capstone-team__actions" style="margin-top:16px;">
+            <button type="button" class="btn btn--primary" id="capstoneEditSaveBtn">Save</button>
+            <button type="button" class="btn--ghost capstone-remove-btn" id="capstoneEditCancelBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="modal-backdrop" id="capstoneMemberModal" role="dialog" aria-modal="true" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-head">
