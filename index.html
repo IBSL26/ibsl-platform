@@ -1063,9 +1063,10 @@
       <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
         <source src="media/chairman-message.mp4" type="video/mp4">
       </video>
-      <div>
+      <div style="flex:1;min-width:0;">
         <p style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;">IBSL Board</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:#fff;margin:0;">A message from the Chairman</h3>
+        <div id="bmMount"></div>
       </div>
     </div>
 
@@ -2706,6 +2707,12 @@ async function validateAccess() {
     sessionStorage.setItem('ibsl_portal_role', 'Admin Access');
     sessionStorage.setItem('ibsl_portal_days', welcomeMsg);
     sessionStorage.removeItem('ibsl_admin_viewing_as');
+    // Break music sits in the admin console only, so it loads for the admin only.
+    if (!document.getElementById('bmScript')) {
+      var bmScript = document.createElement('script');
+      bmScript.id = 'bmScript'; bmScript.src = 's2r-breakmusic.js';
+      document.body.appendChild(bmScript);
+    }
   }
 
   function adminViewAs(role) {

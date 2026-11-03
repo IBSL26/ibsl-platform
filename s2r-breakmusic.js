@@ -1,7 +1,8 @@
 /*
  * s2r-breakmusic.js: break music for the admin and facilitator dashboards.
  * "Our music" plays media/break-music.m4a. Calm, Warm and Bright are generated
- * in the browser. Loaded by dashboard_A.html and dashboard_F.html only.
+ * in the browser. The admin console in index.html shows the player beside the
+ * Chairman's video (#bmMount). dashboard_F.html shows it from a top bar button.
  */
 (function () {
   'use strict';
@@ -171,7 +172,7 @@
   function update() {
     if (playing && endAt && Date.now() >= endAt) { stop(FADE_END); return; }
     var left = playing && endAt ? clock(endAt - Date.now()) : '';
-    ui.open.textContent = playing ? '♪ ' + (left || 'Playing') : '♪ Break music';
+    if (ui.open) ui.open.textContent = playing ? '♪ ' + (left || 'Playing') : '♪ Break music';
     ui.play.textContent = playing ? 'Stop' : 'Play';
     ui.status.textContent = loading ? 'Loading the music\u2026' : playing ? (left ? 'Ends in ' + left : 'Playing until you stop it') : (failed ? 'The music could not load. Try again or pick another.' : 'Stopped');
   }
@@ -190,8 +191,9 @@
   function el(tag, cls, parent) { var e = document.createElement(tag); if (cls) e.className = cls; if (parent) parent.appendChild(e); return e; }
 
   function init() {
+    var mount = document.getElementById('bmMount');
     var ref = document.getElementById('chpwBtn');
-    if (!ref || document.getElementById('bmOpen')) return;
+    if ((!mount && !ref) || document.getElementById('bmPanel')) return;
 
     var css = el('style'); css.textContent =
       '.bm-panel{position:fixed;top:80px;right:16px;width:280px;max-width:calc(100vw - 32px);background:#fff;color:#1c1c1c;border-top:3px solid #c9a84c;border-radius:4px;box-shadow:0 10px 30px rgba(0,0,0,.28);padding:16px;z-index:9000;font-size:13px;box-sizing:border-box;display:none}' +
@@ -207,17 +209,30 @@
       '.bm-play{width:100%;margin-top:14px;padding:10px;background:#c9a84c;color:#0f2419;border:0;border-radius:3px;font:inherit;font-weight:700;cursor:pointer}' +
       '.bm-status{text-align:center;margin-top:8px;font-weight:600;color:#1a3a2a}' +
       '.bm-note{margin-top:8px;font-size:11.5px;line-height:1.45;color:#6b7280}' +
+      '.bm-inline{position:static;display:block;width:100%;max-width:340px;background:none;color:#fff;border-top:1px solid rgba(201,168,76,.3);border-radius:0;box-shadow:none;padding:18px 0 0;margin-top:22px}' +
+      '.bm-inline .bm-title{color:#fff;font-family:"Cormorant Garamond",Georgia,serif;font-size:1.25rem;font-weight:400}' +
+      '.bm-inline .bm-label{color:rgba(255,255,255,.55)}' +
+      '.bm-inline .bm-choice{background:none;color:#fff;border-color:rgba(255,255,255,.3)}' +
+      '.bm-inline .bm-choice.on{background:#c9a84c;border-color:#c9a84c;color:#0f2419}' +
+      '.bm-inline .bm-vol{accent-color:#c9a84c}' +
+      '.bm-inline .bm-status{color:#fff}' +
+      '.bm-inline .bm-note{color:rgba(255,255,255,.55)}' +
+      '@media (max-width:640px){.bm-inline{max-width:none}}' +
       '@media (max-width:640px){#bmOpen{position:fixed;right:16px;bottom:16px;z-index:8999;background:#1a3a2a;color:#fff;border-color:#c9a84c}.bm-panel{top:auto;bottom:64px}}';
     document.head.appendChild(css);
 
-    ui.open = el('button'); ui.open.id = 'bmOpen'; ui.open.type = 'button'; ui.open.className = ref.className;
-    ui.open.style.whiteSpace = 'nowrap';
-    ref.parentNode.insertBefore(ui.open, ref);
+    if (!mount) {
+      ui.open = el('button'); ui.open.id = 'bmOpen'; ui.open.type = 'button'; ui.open.className = ref.className;
+      ui.open.style.whiteSpace = 'nowrap';
+      ref.parentNode.insertBefore(ui.open, ref);
+    }
 
-    var p = el('div', 'bm-panel', document.body); p.id = 'bmPanel';
+    var p = el('div', mount ? 'bm-panel bm-inline' : 'bm-panel', mount || document.body); p.id = 'bmPanel';
     var head = el('div', 'bm-head', p);
     el('div', 'bm-title', head).textContent = 'Break music';
-    var x = el('button', 'bm-x', head); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Close');
+    if (!mount) {
+      var x = el('button', 'bm-x', head); x.type = 'button'; x.textContent = '×'; x.setAttribute('aria-label', 'Close');
+    }
 
     el('div', 'bm-label', p).textContent = 'Music';
     choiceRow(p, Object.keys(TRACKS).map(function (k) { return { label: TRACKS[k].label, value: k }; }), st.track, function (v) {
@@ -242,8 +257,10 @@
     ui.note = el('div', 'bm-note', p);
     ui.note.textContent = 'Keep this page open while the music plays. To let the class hear it in Teams, share with computer sound on.';
 
-    ui.open.addEventListener('click', function () { p.classList.toggle('open'); });
-    x.addEventListener('click', function () { p.classList.remove('open'); });
+    if (!mount) {
+      ui.open.addEventListener('click', function () { p.classList.toggle('open'); });
+      x.addEventListener('click', function () { p.classList.remove('open'); });
+    }
     ui.play.addEventListener('click', function () { playing ? stop() : start(); });
     window.addEventListener('pagehide', function () { if (playing) stop(0.1); });
     update();
