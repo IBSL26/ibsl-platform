@@ -5,6 +5,8 @@
 //      (participants and facilitators) with the date, time and Join session button.
 //      Sent 1 to 26 hours before the start, for sessions already sent to the cohort more than a day
 //      ahead. A session whose time changes gets a fresh reminder.
+//   1b. Starting-soon reminder: about an hour before each session (45–60 minutes; the scheduler runs
+//      every 15 minutes), the same people, once per session time.
 //   2. Blueprint reminder: 3 days before the Capstone S2R Blueprint submission deadline, an email to every member
 //      of each Capstone team in the cohort, with the team's agreed-sections count.
 //   3. Missed-session alert: one email to the IBSL admin inbox listing the participants marked absent
@@ -29,6 +31,7 @@ const DISPLAY_TZ_LABEL   = 'GMT+2'
 const SESSION_WINDOW_H   = 26        // remind when the session starts within this many hours
 const SESSION_MIN_H      = 1         // ...but not in the last hour
 const BLUEPRINT_DAYS     = 3         // remind this many days before the Blueprint deadline
+const HOUR_REMINDER_MIN  = 60        // second reminder: within this many minutes of the start
 const SEND_GAP_MS        = 600
 
 const HOUR = 3600000
@@ -183,6 +186,59 @@ async function sessionReminders(db: Db, now: Date) {
   return out
 }
 
+// ── 1b. Session-starting reminder (1 Nov 2026): about an hour before each session ─────────
+// The scheduler runs every 15 minutes, so this goes out 45 to 60 minutes before the start.
+async function hourReminders(db: Db, now: Date) {
+  const out = { sessions: 0, emails: 0, failed: 0 }
+  const to = new Date(now.getTime() + HOUR_REMINDER_MIN * 60000).toISOString()
+  const { data: rows, error } = await db.from('cohort_sessions')
+    .select('id, cohort_id, title, starts_at, duration_minutes, will_record, last_sent_at, hour_reminder_for_start, status')
+    .eq('status', 'scheduled').not('last_sent_at', 'is', null)
+    .gt('starts_at', now.toISOString()).lte('starts_at', to)
+  if (error) throw new Error('hour sessions: ' + error.message)
+
+  for (const s of rows || []) {
+    const start = new Date(s.starts_at)
+    if (s.hour_reminder_for_start && new Date(s.hour_reminder_for_start).getTime() === start.getTime()) continue
+    const { data: cohort } = await db.from('cohorts').select('name, archived_at').eq('id', s.cohort_id).maybeSingle()
+    if (!cohort || cohort.archived_at) continue
+    const { data: mem } = await db.from('cohort_memberships').select('profile_id').eq('cohort_id', s.cohort_id)
+    const ids = [...new Set((mem || []).map((m: { profile_id: string }) => m.profile_id))]
+    if (!ids.length) continue
+    const { data: people } = await db.from('profiles').select('id, full_name, email, suspended, deactivated_at').in('id', ids)
+    const recipients = activeUnique(people || [])
+
+    const a = local(start), b = local(new Date(start.getTime() + s.duration_minutes * 60000))
+    const subject = `Starting at ${a.time}: ${s.title}`
+    let sent = 0
+    for (let i = 0; i < recipients.length; i++) {
+      const p = recipients[i]
+      const name = firstName(p.full_name)
+      const intro = `Your Strategy2Results® session for <strong style="color:#ffffff;">${esc(cohort.name)}</strong> starts at ${a.time} (${DISPLAY_TZ_LABEL}).`
+      const html = shell('Your session starts soon', `Hi ${esc(name)},`, [intro],
+        [['Session', esc(s.title)], ['Date', a.day], ['Time', `${a.time}–${b.time} (${DISPLAY_TZ_LABEL})`]],
+        { label: 'Go to my portal', url: PORTAL_URL },
+        `The Join session button appears on the unit on your <a href="${PORTAL_URL}" style="color:#2a7a7a;">S2R® Portal</a> 30 minutes before the start.` +
+          (s.will_record ? ' This session will be recorded.' : ''))
+      const text = [
+        `Hi ${name},`,
+        `Your Strategy2Results® session for ${cohort.name} starts at ${a.time} (${DISPLAY_TZ_LABEL}).`,
+        `Session: ${s.title}\nDate: ${a.day}\nTime: ${a.time}–${b.time} (${DISPLAY_TZ_LABEL})`,
+        `The Join session button appears on the unit on your S2R® Portal (${PORTAL_URL}) 30 minutes before the start.` + (s.will_record ? '\nThis session will be recorded.' : ''),
+        '© 2026 IBSLeadership · Strategy2Results® · S2R® Portal',
+      ].join('\n\n')
+      const r = await sendOne({ from: FROM_ADDRESS, to: p.email, subject, html, text })
+      if (r.ok) sent++; else { out.failed++; console.error('Hour reminder failed for', p.email, r.error) }
+      if (i < recipients.length - 1) await sleep(SEND_GAP_MS)
+    }
+    if (sent > 0 || !recipients.length) {
+      await db.from('cohort_sessions').update({ hour_reminder_for_start: s.starts_at }).eq('id', s.id)
+    }
+    out.sessions++; out.emails += sent
+  }
+  return out
+}
+
 // ── 2. Blueprint deadline reminders ───────────────────────────────────────────────────────
 async function blueprintReminders(db: Db, now: Date) {
   const out = { cohorts: 0, emails: 0, failed: 0 }
@@ -316,6 +372,7 @@ Deno.serve(async (req) => {
   // Each part runs on its own, so one failure does not stop the others.
   for (const [key, fn] of [
     ['sessions', () => sessionReminders(db, now)],
+    ['starting', () => hourReminders(db, now)],
     ['blueprint', () => blueprintReminders(db, now)],
     ['missed', () => missedSessionAlert(db)],
   ] as [string, () => Promise<unknown>][]) {
