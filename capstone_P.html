@@ -237,7 +237,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <span class="nav-badge" id="viewBadge">Participant View</span>
   </div>
   <div class="nav-right">
-    <button class="nav-print" id="printBtn" onclick="window.print()" style="display:none;">Print Blueprint</button>
+    <button class="nav-print" id="printBtn" onclick="window.print()" style="display:none;">Print Capstone S2R® Blueprint</button>
     <button class="nav-back" id="backBtn" onclick="goBack()">&#8592; Back to Platform</button>
   </div>
 </nav>
@@ -247,7 +247,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     <div class="eyebrow">Capstone</div>
     <h1 class="unit-title">Capstone S2R® Blueprint Showcase</h1>
     <div class="unit-sub">A live business-system presentation</div>
-    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. This Blueprint records the decisions your team agrees as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.</p>
+    <p class="unit-desc" id="introText">Your team is the executive leadership team of your simulated company. The Capstone S2R® Blueprint records the decisions your team agrees as you progress through the programme. Each section fills as soon as every member of your group selects Agree on the group work in that unit.</p>
   </div>
 </div>
 
@@ -725,7 +725,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function render(){
     document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
     var intro = document.getElementById('introText');
-    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. This Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section opens once every member of the team has completed its unit. It fills from the Section 5 work your group agrees on each unit page.';
+    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. The Capstone S2R® Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section fills as soon as every member of your group selects Agree on the group work in that unit.';
     var html = '';
     html += coverHtml();
     html += briefCard();
@@ -777,25 +777,29 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
   function blueprintCard(){
     if (!S.bp) return '';
-    var h = '<div class="card bp-card"><div class="card-label">The Blueprint</div>';
+    var h = '<div class="card bp-card"><div class="card-label">Capstone S2R® Blueprint</div>';
     var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
     h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
     if (S.mode === 'admin'){
       h += '<div class="admin-bar">' +
+        '<button class="btn" id="capBringBtn" onclick="capAdminBringIn()">Bring in agreed work</button><span class="muted">Fills every section whose group work all members have agreed.</span>' +
+        '</div><div class="admin-bar">' +
         (S.bp.team && S.bp.team.reopened
-          ? '<button class="btn" onclick="capAdminReopenAll(false)">Lock Blueprint</button><span class="muted">Reopened: the team can edit after the deadline.</span>'
-          : '<button class="btn" onclick="capAdminReopenAll(true)">Reopen Blueprint</button><span class="muted">Lets the team edit after the deadline.</span>') +
+          ? '<button class="btn" onclick="capAdminReopenAll(false)">Lock Capstone S2R® Blueprint</button><span class="muted">Reopened: the team can edit after the deadline.</span>'
+          : '<button class="btn" onclick="capAdminReopenAll(true)">Reopen Capstone S2R® Blueprint</button><span class="muted">Lets the team edit after the deadline.</span>') +
         '</div><div class="msg" id="msg_admin"></div>';
     }
     if (S.bp.locked && S.mode === 'participant'){
-      h += '<div class="banner">The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.</div>';
+      h += '<div class="banner">The submission deadline has passed. The Capstone S2R® Blueprint is read-only. Contact IBSL to reopen it.</div>';
     }
     (S.bp.sections || []).forEach(function(sec){ h += modDivHtml(sec.key) + sectionHtml(sec); });
     h += standAllHtml();
     return h + '</div>';
   }
 
+  // An agreed section always shows (it fills on Agree). 'locked' only means the section has nothing agreed yet.
   function statusOf(sec){
+    if (sec.status === 'agreed') return 'agreed';
     if (!sec.open) return 'locked';
     return sec.status || 'draft';
   }
@@ -806,7 +810,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var members = S.bp.members || [];
     var confirmed = {}; (sec.confirmations || []).forEach(function(c){ confirmed[c.profile_id] = c.confirmed_at; });
     var nConf = Object.keys(confirmed).length;
-    var chipText = { locked:'Locked', draft:'Draft', awaiting:'Awaiting confirmation', agreed:'Agreed' }[st];
+    var chipText = { locked:'Not yet agreed', draft:'Not yet agreed', awaiting:'Awaiting confirmation', agreed:'Agreed' }[st];
     var isMember = S.mode === 'participant';
     var editable = false;   // participants read the Blueprint; it fills from the agreed unit work
     var content = sec.content || {};
@@ -817,8 +821,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         '<span class="chip ' + st + '">' + chipText + (st === 'awaiting' ? ' · ' + nConf + ' of ' + members.length : '') + '</span>' +
       '</div><div class="sec-b">';
 
-    if (st === 'locked') h += '<p class="sec-note">Opens when every team member has completed Unit ' + def.unit + '.' + (PULL[sec.key] ? ' Your confirmed outputs from Unit ' + def.unit + ' are then brought in.' : '') + '</p>';
-    if (isMember && st !== 'locked' && st !== 'agreed') h += '<p class="sec-note">This section fills from Section 5 of your Unit ' + def.unit + ' page once every member of your group has agreed the work there.</p>';
+    if (st === 'locked' || st === 'draft') h += '<p class="sec-note">Fills as soon as every member of ' + (isMember ? 'your group' : 'the group') + ' selects Agree on the group work in ' + (def.unit === 1 ? 'part 6.2' : 'Section 5') + ' of the Unit ' + def.unit + ' page.</p>';
     if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
     if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
     if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
@@ -951,7 +954,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     switch (r && r.error){
       case 'stale': return 'A teammate saved this section at ' + fmtDateTime(r.updated_at) + '. Reload to see their changes before saving.';
       case 'incomplete': return 'Complete every box before sending for confirmation.';
-      case 'locked': return 'The submission deadline has passed. The Blueprint is read-only. Contact IBSL to reopen it.';
+      case 'locked': return 'The submission deadline has passed. The Capstone S2R® Blueprint is read-only. Contact IBSL to reopen it.';
       case 'section_closed': return 'This section opens when every team member has completed Unit ' + (def ? def.unit : '') + '.';
       case 'not_draft': case 'not_awaiting': return 'This section has changed. Reload to see its current status.';
       case 'not_authenticated': return 'Your session has expired. Please sign in again.';
@@ -1107,9 +1110,22 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       reload().then(function(){ showMsg(key, res.error ? 'Could not reopen this section.' : 'Section reopened as Draft. Confirmations cleared.', res.error ? 'err' : 'ok'); });
     });
   };
+  window.capAdminBringIn = function(){
+    var btn = document.getElementById('capBringBtn'); if (btn) btn.disabled = true;
+    function unitName(k){ return 'Unit ' + String(k).replace('u',''); }
+    sb.rpc('admin_capstone_bring_in', { p_team_id: S.bp.team.id }).then(function(res){
+      var d = res.error ? null : res.data;
+      if (res.error) console.error('[capstone] admin_capstone_bring_in:', res.error);
+      reload().then(function(){
+        if (!d || !d.ok){ showMsg('admin', 'Could not bring in the agreed work. Please try again.', 'err'); return; }
+        var f = (d.filled || []).map(unitName), w = (d.waiting || []).map(unitName);
+        showMsg('admin', (f.length ? 'Brought in: ' + f.join(', ') + '.' : 'Nothing new to bring in.') + (w.length ? ' Not yet agreed by every member: ' + w.join(', ') + '.' : ''), 'ok');
+      });
+    });
+  };
   window.capAdminReopenAll = function(on){
     sb.rpc('admin_set_blueprint_reopened', { p_team_id: S.bp.team.id, p_reopened: !!on }).then(function(res){
-      reload().then(function(){ showMsg('admin', res.error ? 'Could not update the Blueprint.' : (on ? 'Blueprint reopened.' : 'Blueprint locked.'), res.error ? 'err' : 'ok'); });
+      reload().then(function(){ showMsg('admin', res.error ? 'Could not update the Capstone S2R® Blueprint.' : (on ? 'Capstone S2R® Blueprint reopened.' : 'Capstone S2R® Blueprint locked.'), res.error ? 'err' : 'ok'); });
     });
   };
 
