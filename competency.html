@@ -36,6 +36,11 @@
   .btn { display:inline-block; margin-top:22px; padding:13px 30px; font:inherit; font-size:.78rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#1c1c1c; background:#c9a84c; border:none; border-radius:4px; cursor:pointer; text-decoration:none; }
   .btn[disabled] { opacity:.45; cursor:not-allowed; }
   .link { display:inline-block; margin-top:18px; font-size:12px; color:#c9a84c; }
+  .howto { margin-top:16px; padding:14px 16px; border-left:3px solid #c9a84c; background:rgba(201,168,76,0.08); font-size:13px; line-height:1.7; }
+  .howto strong { color:#fff; }
+  .howto ol { margin:6px 0 0 18px; }
+  .ask { margin-top:10px; font-size:12px; font-weight:600; color:#c9a84c; }
+  .levelpick .opt strong { color:#fff; }
   .err { margin-top:12px; font-size:12px; color:#ff9d8f; }
   .tbl { width:100%; table-layout:fixed; border-collapse:collapse; margin-top:8px; font-size:13px; }
   .tbl th, .tbl td { text-align:left; vertical-align:top; padding:10px; border-bottom:1px solid rgba(255,255,255,0.1); }
@@ -84,15 +89,16 @@
 
   function renderSelf(fw) {
     var html = '<div class="kicker">Start of the programme</div><h1>Competency Self-Rating</h1>' +
-      '<p class="lead">This framework sets out the 12 competencies you will build through the programme, organised by the DIG Framework: Direction, Influence and Grounding. Read each competency and its demonstrable skills, then select your current proficiency level. You complete this once.</p>' +
+      '<p class="lead">This framework sets out the 12 competencies you will build through the programme, organised by the DIG Framework: Direction, Influence and Grounding. You complete this once.</p>' +
+      '<div class="howto"><strong>How to complete this page</strong><ol><li>Read the competency and its demonstrable skills.</li><li>Select the one proficiency level that best describes you today, based on how many of those skills you demonstrate.</li><li>Repeat for all 12 competencies, then select Save my self-rating at the end of the page.</li></ol></div>' +
       '<table class="levels"><tr><th>Proficiency level</th><th>Description</th></tr>' +
       LEVELS.map(function (l) { return '<tr><td>' + l[0] + '</td><td>' + l[1] + '</td></tr>'; }).join('') + '</table>';
     var area = '';
     fw.forEach(function (c) {
       if (c.area !== area) { area = c.area; html += '<h2>' + esc(area) + '</h2>'; }
-      html += '<div class="block"><h3>' + esc(c.name) + '</h3><p class="muted">' + esc(c.narrative) + '</p><ul>' +
-        c.skills.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul><div class="choices">' +
-        LEVELS.map(function (l, i) { return '<label class="pill"><input type="radio" name="c' + c.unit_no + '" value="' + (i + 1) + '">' + l[0] + '</label>'; }).join('') +
+      html += '<div class="block"><h3>' + esc(c.name) + '</h3><p class="muted">' + esc(c.narrative) + '</p><p class="ask">Demonstrable skills:</p><ul>' +
+        c.skills.map(function (s) { return '<li>' + esc(s) + '</li>'; }).join('') + '</ul><p class="ask">Select your proficiency level:</p><div class="levelpick">' +
+        LEVELS.map(function (l, i) { return '<label class="opt"><input type="radio" name="c' + c.unit_no + '" value="' + (i + 1) + '"><span><strong>' + l[0] + ':</strong> ' + l[1] + '</span></label>'; }).join('') +
         '</div></div>';
     });
     html += '<button class="btn" id="go" disabled>Save my self-rating</button><div class="err" id="err"></div>';
@@ -115,6 +121,7 @@
       return '<div class="choices">' + SCALE.map(function (s, i) { return '<label class="pill"><input type="radio" name="' + name + '" value="' + (i + 1) + '">' + (i + 1) + ' ' + s + '</label>'; }).join('') + '</div>';
     };
     var html = '<div class="kicker">Unit feedback</div><h1>Unit Feedback: Unit ' + f.unit_no + '</h1>' +
+      '<div class="howto"><strong>How to complete this form</strong><ol><li>Part A: answer the three questions about this unit.</li><li>Part B: read each scenario and select the one response closest to what you would do.</li><li>Select Submit at the end of the form. You submit once.</li></ol></div>' +
       '<h2>Part A: About this unit</h2>' +
       '<div class="block"><h3>1. The content was clear.</h3>' + scale('clear') + '</div>' +
       '<div class="block"><h3>2. The facilitator\u2019s delivery helped me learn.</h3>' + scale('delivery') + '</div>' +
