@@ -1627,7 +1627,7 @@
 
 <!-- [SESSIONS] Live sessions sit on their own unit (1 Nov 2026). Each session is tied to a unit; the strip
      under that unit shows the date and time, and the Join session button only from 30 minutes before the
-     start until the end. The Teams link itself is only released by get_my_sessions() inside that window.
+     start until the end. The Zoom link itself is only released by get_my_sessions() inside that window.
      Data: get_my_sessions() (migrations/cohort_sessions.sql, migrations/live_sessions_per_unit.sql). -->
 <style>
   .lses-unit { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 8px 0 4px; padding: 10px 14px; border: 1px solid rgba(201,168,76,0.3); border-left: 3px solid #c9a84c; border-radius: 2px; background: rgba(201,168,76,0.06); font-family: 'Montserrat', sans-serif; cursor: default; }
@@ -1760,7 +1760,7 @@
       if (end >= t) {
         var open = t >= start - OPEN_BEFORE_MS;
         var link = safeUrl(r.teams_url);
-        var toFollow = /^https:\/\/ibslportal\.netlify\.app\/?$/i.test(r.teams_url || '');   // no Teams link yet
+        var toFollow = /^https:\/\/ibslportal\.netlify\.app\/?$/i.test(r.teams_url || '');   // no Zoom link yet
         if (toFollow) link = '';
         var chip = t >= start ? '<span class="lses-chip lses-chip--live">Live now</span>'
                  : (sameDay(new Date(start), now) ? '<span class="lses-chip">Today</span>' : '');
@@ -1769,7 +1769,7 @@
           : (open && link)
           ? '<a class="lses-join" href="' + esc(link) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
               ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>'
-          : '<span class="lses-pending">' + (open && toFollow ? 'Teams link to follow' : 'Join opens 30 minutes before the start') + '</span>';
+          : '<span class="lses-pending">' + (open && toFollow ? 'Zoom link to follow' : 'Join opens 30 minutes before the start') + '</span>';
         addStrip(unit,
           '<div class="lses-unit-main">' +
             '<div class="lses-unit-label">Live session' + chip + '</div>' +

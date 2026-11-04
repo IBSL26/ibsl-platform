@@ -3037,7 +3037,7 @@
     var t = now.getTime(), start = new Date(r.starts_at).getTime(), end = endOf(r).getTime();
     if (end >= t) {
       var link = safeUrl(r.teams_url);
-      var toFollow = /^https:\/\/ibslportal\.netlify\.app\/?$/i.test(r.teams_url || '');   // no Teams link yet
+      var toFollow = /^https:\/\/ibslportal\.netlify\.app\/?$/i.test(r.teams_url || '');   // no Zoom link yet
       if (toFollow) link = '';
       var chip = t >= start ? '<span class="lses-chip lses-chip--live">Live now</span>'
                : (sameDay(new Date(start), now) ? '<span class="lses-chip">Today</span>' : '');
@@ -3046,7 +3046,7 @@
         : (t >= start - OPEN_BEFORE_MS && link)
         ? '<a class="lses-join" href="' + esc(link) + '" target="_blank" rel="noopener" onclick="event.stopPropagation();"' +
             ' aria-label="Join session: ' + esc(r.title) + '">Join session</a>'
-        : '<span class="lses-pending">' + (toFollow ? 'Teams link to follow' : 'Join opens 30 minutes before the start') + '</span>';
+        : '<span class="lses-pending">' + (toFollow ? 'Zoom link to follow' : 'Join opens 30 minutes before the start') + '</span>';
       return '<div class="lses-unit"><div class="lses-unit-main">' +
                '<div class="lses-unit-label">Live session' + chip + '</div>' +
                '<div class="lses-unit-when">' + whenText(r) + '</div>' +
@@ -3169,7 +3169,7 @@
       needsTerms = !!(t && t.required && !t.signed);
     }).catch(function () { needsTerms = false; });
   }
-  // Approved list: who may be admitted from the Teams lobby (terms signed).
+  // Approved list: who may be admitted from the Zoom meeting (terms signed).
   function closeApproved() { var o = document.getElementById('apprOverlay'); if (o) o.parentNode.removeChild(o); }
   function approved(cid) {
     closeApproved();

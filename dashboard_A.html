@@ -13618,7 +13618,7 @@ sam@gamma.org, Sam Lee, participant,`;
     </div>
     <script>_wireAdminMfaModal();</script>
 
-    <!-- [SESSIONS] Live sessions per cohort: Teams link, calendar invite, recording link.
+    <!-- [SESSIONS] Live sessions per cohort: Zoom link, calendar invite, recording link.
          Database: migrations/cohort_sessions.sql · Email: Edge Function send-session-email.
          Attendance and missed-session check-ins: migrations/session_reminders_attendance.sql
          (reminders are sent by the Edge Function send-reminders, run hourly by the database).
@@ -13730,7 +13730,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="ses-field" id="sesUnitsWrap">
             <div class="form-label">Units taught in this session <span class="form-label__required">*</span></div>
             <div class="ses-units" id="sesUnits"></div>
-            <div class="ses-hint">Tick one unit, or tick two or more for a combined session. The session and its Join button show under every unit ticked, with one Teams link.</div>
+            <div class="ses-hint">Tick one unit, or tick two or more for a combined session. The session and its Join button show under every unit ticked, with one Zoom link.</div>
           </div>
           <div class="ses-field" id="sesTitleWrap">
             <label class="form-label" for="sesTitle">Event title <span class="form-label__required">*</span></label>
@@ -13754,16 +13754,16 @@ sam@gamma.org, Sam Lee, participant,`;
             <div class="ses-hint" id="sesTzHint"></div>
           </div>
           <div class="ses-field">
-            <label class="form-label" for="sesUrl">Teams link <span id="sesUrlReq" style="display:none;"></span><span id="sesUrlOpt"> (add it now or later)</span></label>
-            <input type="url" class="form-input" id="sesUrl" placeholder="https://teams.microsoft.com/…" autocomplete="off">
-            <div class="ses-hint">Create the meeting in Teams, choose Copy join link, and paste it here. You can save the session without it, so it shows on the timetable, and add the link later with Edit. Leave it empty for an in-person event.</div>
+            <label class="form-label" for="sesUrl">Zoom link <span id="sesUrlReq" style="display:none;"></span><span id="sesUrlOpt"> (add it now or later)</span></label>
+            <input type="url" class="form-input" id="sesUrl" placeholder="https://zoom.us/j/…" autocomplete="off">
+            <div class="ses-hint">Create the meeting in Zoom, copy its invite link, and paste it here. You can save the session without it, so it shows on the timetable, and add the link later with Edit. Leave it empty for an in-person event.</div>
           </div>
           <div class="ses-field">
             <label class="ses-check" for="sesRecord">
               <input type="checkbox" id="sesRecord">
               <span>This session will be recorded</span>
             </label>
-            <div class="ses-hint">The invitation tells the cohort. Start the recording in Teams yourself when the session begins.</div>
+            <div class="ses-hint">The invitation tells the cohort. Start the recording in Zoom yourself when the session begins.</div>
           </div>
           <div class="ses-field">
             <label class="form-label" for="sesNotes">Note to the cohort (optional)</label>
@@ -13788,7 +13788,7 @@ sam@gamma.org, Sam Lee, participant,`;
           <div class="ses-field">
             <label class="form-label" for="sesRecUrl">Recording link</label>
             <input type="url" class="form-input" id="sesRecUrl" placeholder="https://…" autocomplete="off">
-            <div class="ses-hint">Open the recording in Teams or OneDrive, choose Share, give access to the people in this cohort, then copy the link and paste it here. Leave the box empty to remove the link.</div>
+            <div class="ses-hint">Open the recording in Zoom, choose Share, set who can view it, then copy the link and paste it here. Leave the box empty to remove the link.</div>
           </div>
           <div class="ses-error" id="sesRecError" role="alert"></div>
         </div>
@@ -14003,8 +14003,8 @@ sam@gamma.org, Sam Lee, participant,`;
       function itemHtml(r) {
         var cls = 'ses-item' + (r.status === 'cancelled' ? ' ses-item--cancelled' : (isPast(r) ? ' ses-item--past' : ''));
         var links = r.teams_url && r.teams_url !== PORTAL_URL
-          ? '<a href="' + esc(r.teams_url) + '" target="_blank" rel="noopener">Teams link ↗</a>'
-          : '<span>' + (r.kind === 'event' ? 'No Teams link (in person)' : 'Teams link to follow · add it with Edit') + '</span>';
+          ? '<a href="' + esc(r.teams_url) + '" target="_blank" rel="noopener">Zoom link ↗</a>'
+          : '<span>' + (r.kind === 'event' ? 'No Zoom link (in person)' : 'Zoom link to follow · add it with Edit') + '</span>';
         if (r.recording_url) links += '<a href="' + esc(r.recording_url) + '" target="_blank" rel="noopener">Recording ↗</a>';
         return '<li class="' + cls + '" data-session-id="' + esc(r.id) + '">' +
                  '<div class="ses-top">' +
@@ -14068,7 +14068,7 @@ sam@gamma.org, Sam Lee, participant,`;
         } else if (!state.loaded) {
           body = '<div class="people-list__empty">Loading sessions…</div>';
         } else if (!state.rows.length) {
-          body = '<div class="people-list__empty">No sessions yet. Add one to send the cohort a Teams link and a calendar invite.</div>';
+          body = '<div class="people-list__empty">No sessions yet. Add one to send the cohort a Zoom link and a calendar invite.</div>';
         } else {
           body = '';
           if (upcoming.length) {
@@ -14222,7 +14222,7 @@ sam@gamma.org, Sam Lee, participant,`;
 
       function unitTitle(n) { return 'Unit ' + n + ' · ' + UNIT_TITLES[n]; }
       // A session is either a unit session (one or more units, 1 Nov 2026) or a programme event.
-      var PORTAL_URL = 'https://ibslportal.netlify.app';   // stands in for the Teams link of an in-person event
+      var PORTAL_URL = 'https://ibslportal.netlify.app';   // stands in for the Zoom link of an in-person event
       function fillUnitOptions() {
         var box = $('sesUnits');
         if (box.children.length) return;
@@ -14310,8 +14310,8 @@ sam@gamma.org, Sam Lee, participant,`;
         if (ends.getTime() <= starts.getTime()) ends = new Date(ends.getTime() + 86400000);   // ends after midnight
         var durationMin = Math.round((ends.getTime() - starts.getTime()) / 60000);
         if (durationMin < 15 || durationMin > 600) { err.textContent = 'The session must be between 15 minutes and 10 hours long. Check the start and end times.'; $('sesEnd').focus(); return; }
-        if (!url) url = PORTAL_URL;   // no Teams link yet (or an in-person event): shows as "Teams link to follow"
-        if (!httpsOk(url)) { err.textContent = 'Paste the full Teams link, starting with https://'; $('sesUrl').focus(); return; }
+        if (!url) url = PORTAL_URL;   // no Zoom link yet (or an in-person event): shows as "Zoom link to follow"
+        if (!httpsOk(url)) { err.textContent = 'Paste the full Zoom link, starting with https://'; $('sesUrl').focus(); return; }
 
         var btnEl = $('sesFormSaveBtn');
         btnEl.disabled = true; btnEl.textContent = 'Saving…';
@@ -14576,7 +14576,7 @@ sam@gamma.org, Sam Lee, participant,`;
         if (action === 'send-invite') {
           confirmThen({
             title: row.last_sent_at ? 'Send this session again?' : 'Send this session to the cohort?',
-            bodyHtml: titleWhen(row) + '<br><br>An email with the Teams link and a calendar invite goes to ' + peopleText() +
+            bodyHtml: titleWhen(row) + '<br><br>An email with the Zoom link and a calendar invite goes to ' + peopleText() +
                       ' in ' + cname + '. The session shows on their portal with a Join session button.',
             proceed: row.last_sent_at ? 'Send again' : 'Send to cohort',
             run: function () { return sendEmail(row, 'invite'); }

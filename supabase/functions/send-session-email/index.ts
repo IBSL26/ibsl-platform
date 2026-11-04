@@ -119,7 +119,7 @@ function buildIcs(s: SessionRow, cohortName: string) {
     `DTEND:${icsStamp(end)}`,
     `SUMMARY:${icsText(s.title)}`,
     `DESCRIPTION:${icsText(desc)}`,
-    'LOCATION:Microsoft Teams',
+    'LOCATION:Zoom',
     `URL:${PORTAL_URL}`,
     'STATUS:CONFIRMED',
     'BEGIN:VALARM',
@@ -185,7 +185,7 @@ function buildEmail(kind: Kind, s: SessionRow, cohortName: string, firstName: st
     row('Session', esc(s.title)) +
     row('Date', a.day) +
     (kind === 'recording' ? '' : row('Time', timeLine)) +
-    (kind === 'invite' || kind === 'update' ? row('Where', 'Microsoft Teams') : '')
+    (kind === 'invite' || kind === 'update' ? row('Where', 'Zoom') : '')
 
   const recorded = (kind === 'invite' || kind === 'update') && s.will_record
     ? `<p style="margin:18px 0 0;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.7;"><strong style="color:#ffffff;">This session will be recorded.</strong> The recording is shared with your cohort and facilitators, for anyone who misses the session and to help us improve delivery.</p>`

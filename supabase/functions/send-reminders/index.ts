@@ -163,14 +163,14 @@ async function sessionReminders(db: Db, now: Date) {
       const name = firstName(p.full_name)
       const intro = `A reminder that your Strategy2Results® live session for <strong style="color:#ffffff;">${esc(cohort.name)}</strong> is coming up.`
       const html = shell('Your session is coming up', `Hi ${esc(name)},`, [intro],
-        [['Session', esc(s.title)], ['Date', a.day], ['Time', `${a.time}–${b.time} (${DISPLAY_TZ_LABEL})`], ['Where', 'Microsoft Teams']],
+        [['Session', esc(s.title)], ['Date', a.day], ['Time', `${a.time}–${b.time} (${DISPLAY_TZ_LABEL})`], ['Where', 'Zoom']],
         { label: 'Go to my portal', url: PORTAL_URL },
         `You join the session from your <a href="${PORTAL_URL}" style="color:#2a7a7a;">S2R® Portal</a>: the Join session button appears on the unit 30 minutes before the start.` +
           (s.will_record ? ' This session will be recorded.' : ''))
       const text = [
         `Hi ${name},`,
         `A reminder that your Strategy2Results® live session for ${cohort.name} is coming up.`,
-        `Session: ${s.title}\nDate: ${a.day}\nTime: ${a.time}–${b.time} (${DISPLAY_TZ_LABEL})\nWhere: Microsoft Teams`,
+        `Session: ${s.title}\nDate: ${a.day}\nTime: ${a.time}–${b.time} (${DISPLAY_TZ_LABEL})\nWhere: Zoom`,
         `You join the session from your S2R® Portal (${PORTAL_URL}): the Join session button appears on the unit 30 minutes before the start.` + (s.will_record ? '\nThis session will be recorded.' : ''),
         '© 2026 IBSLeadership · Strategy2Results® · S2R® Portal',
       ].join('\n\n')

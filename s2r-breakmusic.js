@@ -255,7 +255,7 @@
     ui.play = el('button', 'bm-play', p); ui.play.type = 'button';
     ui.status = el('div', 'bm-status', p);
     ui.note = el('div', 'bm-note', p);
-    ui.note.textContent = 'Keep this page open while the music plays. To let the class hear it in Teams, share with computer sound on.';
+    ui.note.textContent = 'Keep this page open while the music plays. To let the class hear it in Zoom, share with computer sound on.';
 
     if (!mount) {
       ui.open.addEventListener('click', function () { p.classList.toggle('open'); });
