@@ -1159,6 +1159,12 @@
       <div class="ms-links" id="msLinks" style="display:none;"></div>
     </div>
 
+    <!-- [COMPETENCY] Self-Rating and Unit Feedback tasks (competency.html, migrations/competency_framework.sql). -->
+    <div class="ms-card" id="compCard" style="display:none;">
+      <p class="ms-card-label">Your competency tasks</p>
+      <div class="ms-links" id="compLinks"></div>
+    </div>
+
     <button type="button" class="tt-open" id="ttOpenBtn" style="display:none;margin-bottom:36px;" onclick="window.ibslLiveSessions &amp;&amp; window.ibslLiveSessions.openTimetable()">Programme timetable</button>
     <a class="tt-open" id="profileOpenBtn" href="profile.html" style="display:none;margin-bottom:36px;text-decoration:none;">My profile</a>
     <div id="profilePrompt" style="display:none;margin:-20px 0 36px;padding:14px 18px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.4);border-left:3px solid #c9a84c;border-radius:3px;font-family:Montserrat,sans-serif;font-size:13px;line-height:1.6;color:rgba(255,255,255,0.85);"></div>
@@ -2485,6 +2491,22 @@ async function validateAccess() {
     });
   }
 
+  // [COMPETENCY] Shows the Self-Rating and any Unit Feedback forms that are due. Failure leaves the card hidden.
+  function loadCompetencyTasks(cohortId) {
+    supabaseClient.rpc('get_my_competency_state', { p_cohort_id: cohortId }).then(function(res) {
+      var st = res && !res.error ? res.data : null;
+      if (!st || !st.participant) return;
+      var html = st.self_rated ? '' : '<a href="competency.html?view=self">Complete your Competency Self-Rating &rarr;</a>';
+      (st.due || []).forEach(function(u) {
+        html += '<a href="competency.html?view=unit&unit=' + u + '">Unit Feedback: Unit ' + u + ' &rarr;</a>';
+      });
+      if (html) {
+        document.getElementById('compLinks').innerHTML = html;
+        document.getElementById('compCard').style.display = 'block';
+      }
+    }).catch(function(err) { console.error('[competency] state error:', err); });
+  }
+
   // Loads the participant's own scores and renders the headline + per-lens chips.
   // Called from pPortalLock (participant-only) once profile_id + cohort_id resolve.
   function loadParticipantScores(pid, cohortId) {
@@ -2514,7 +2536,7 @@ async function validateAccess() {
     var host = document.getElementById('msLinks');
     if (!host) return;
     var cert = (certRes && !certRes.error) ? certRes.data : null;
-    var html = '<a href="collection.html?participantId=' + encodeURIComponent(pid) + '&feedback=on" target="_blank" rel="noopener">My portfolio &rarr;</a>';
+    var html = '<a href="collection.html?participantId=' + encodeURIComponent(pid) + '&feedback=on" target="_blank" rel="noopener">My portfolio &rarr;</a><a href="competency.html">My Competency Profile &rarr;</a>';
     if (cert && cert.participant_number) {
       html += '<a href="certificate.html?participantId=' + encodeURIComponent(pid) + '&cohortId=' + encodeURIComponent(cohortId) + '" target="_blank" rel="noopener">View certificate &rarr;</a>';
     }
@@ -2620,6 +2642,7 @@ async function validateAccess() {
           if (!mres.data || !mres.data.length) return;                         // no cohort → leave open
           var cohortId = mres.data[0].cohort_id;
           loadParticipantScores(pid, cohortId);                                // WS5.5: headline + per-lens scores
+          loadCompetencyTasks(cohortId);                                       // [COMPETENCY] Self-Rating and Unit Feedback
           return supabaseClient.from('lens_progress').select('lens_id,status')
             .eq('profile_id', pid).eq('cohort_id', cohortId).then(function(res){
               if (res.error){ console.error('[p-portal-lock] lens_progress read error:', res.error); return; } // leave open

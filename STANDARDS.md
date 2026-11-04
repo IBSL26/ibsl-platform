@@ -36,6 +36,8 @@ Run `node check_standards.js` before every commit: it tests rules 1–13, 16 and
 
 30. Every unit header carries the module paragraphs (what the module establishes; the module's units in order), "Module learning outcomes" and "Key learning outcomes". Every section ends with a "Section Closing Insight" box and, for Sections 1-4, a "Transition to Section N — Name: Anchor" box; every unit ends with a transition box to the next unit or module. Every facilitator Guide carries a Learning Journey table. Built by `Unit decks/_build/consistency_28oct/build.py` (texts in c1-c3.py); re-run it after rebuilding a unit from its backups.
 
+34. Competency: participants complete the Competency Self-Rating once at the start of the programme (Beginning), and each unit's Unit Feedback form (three questions for admin, three scenarios). The scenarios set the Progressive proficiency level on the server, and the scoring key never reaches the browser. Feedback answers carry no names. Facilitators select skill evidence in the review and see neither feedback nor proficiency levels. Data: migrations/competency_framework.sql, competency.html, s2r-competency-gate.js.
+
 ## Wording
 
 11. British spelling throughout.

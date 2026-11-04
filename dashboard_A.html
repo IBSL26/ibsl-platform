@@ -4383,6 +4383,7 @@
         <div class="detail-card" id="cohortSessionsCard"></div>
         <div class="detail-card" id="cohortTermsCard"></div>
         <div class="detail-card" id="cohortProfilesCard"></div>
+        <div class="detail-card" id="cohortFeedbackCard"></div>
 
         ${dangerZone}
       `;
@@ -14776,6 +14777,89 @@ sam@gamma.org, Sam Lee, participant,`;
         termsRender();
       }
 
+      // [UNIT FEEDBACK] Unit feedback and competency levels, per cohort (migrations/competency_framework.sql).
+      // Feedback answers carry no names. Who has submitted is shown separately.
+      var uf = { cohortId: null, data: null, loaded: false, error: null, tab: 'feedback' };
+      function ufRender() {
+        var card = $('cohortFeedbackCard');
+        if (!card) return;
+        var th = function (h) { return '<th style="text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);padding:8px 10px;border-bottom:1px solid var(--border-subtle);">' + h + '</th>'; };
+        var td = '<td style="padding:8px 10px;border-bottom:1px solid var(--border-subtle);vertical-align:top;">';
+        var open = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:12px;"><thead><tr>';
+        var body = '', count = '';
+        if (uf.error) body = '<div class="people-list__empty">Could not load the unit feedback: ' + esc(uf.error) + '</div>';
+        else if (!uf.loaded) body = '<div class="people-list__empty">Loading the unit feedback…</div>';
+        else {
+          var units = uf.data.units || [], people = uf.data.people || [];
+          count = people.length + ' participant' + (people.length === 1 ? '' : 's');
+          if (uf.tab === 'feedback') {
+            body = open + ['Unit', 'Responses', 'Content clear', 'Delivery helped', 'Improvements suggested'].map(th).join('') + '</tr></thead><tbody>' +
+              units.map(function (u) {
+                return '<tr>' + td + 'Unit ' + u.unit_no + '</td>' + td + u.responses + ' of ' + people.length + '</td>' +
+                  td + (u.content_clear == null ? '' : esc(u.content_clear)) + '</td>' + td + (u.delivery_helped == null ? '' : esc(u.delivery_helped)) + '</td>' +
+                  td + (u.comments || []).map(function (c) { return '<div style="margin-bottom:6px;">' + esc(c) + '</div>'; }).join('') + '</td></tr>';
+              }).join('') + '</tbody></table></div>';
+          } else if (uf.tab === 'status') {
+            body = open + ['Name', 'Self-Rating', 'Units submitted'].map(th).join('') + '</tr></thead><tbody>' +
+              people.map(function (p) {
+                return '<tr>' + td + esc(p.full_name) + '</td>' + td + '<span class="ses-chip ' + (p.self_rated ? 'ses-chip--ok' : 'ses-chip--warn') + '">' + (p.self_rated ? 'Complete' : 'Outstanding') + '</span></td>' +
+                  td + ((p.submitted || []).join(', ') || 'None') + '</td></tr>';
+              }).join('') + '</tbody></table></div>';
+          } else {
+            body = open + [th('Competency')].concat(people.map(function (p) { return th(esc(p.full_name) + ': Beginning / Progressive'); })).join('') + '</tr></thead><tbody>' +
+              units.map(function (u) {
+                return '<tr>' + td + 'Unit ' + u.unit_no + ': ' + esc(u.competency) + '</td>' + people.map(function (p) {
+                  var l = (p.levels || {})[String(u.unit_no)] || {};
+                  return td + esc(l.beginning || '') + ' / ' + esc(l.progressive || '') + '</td>';
+                }).join('') + '</tr>';
+              }).join('') + '</tbody></table></div>';
+          }
+        }
+        var tab = function (id, label) {
+          return '<button type="button" class="detail-card__action" data-uf-tab="' + id + '"' + (uf.tab === id ? ' style="text-decoration:underline;"' : '') + '>' + label + '</button>';
+        };
+        card.innerHTML = '<div class="detail-card__head"><div><div class="detail-card__title">Unit feedback and competency</div>' +
+          '<div class="detail-card__count">' + count + '</div></div><div>' + tab('feedback', 'Feedback') + ' ' + tab('status', 'Submitted') + ' ' + tab('levels', 'Competency') +
+          (uf.loaded && !uf.error ? ' <button type="button" class="detail-card__action" id="ufCsv">Download</button>' : '') + '</div></div>' + body;
+        card.querySelectorAll('[data-uf-tab]').forEach(function (b) { b.onclick = function () { uf.tab = b.getAttribute('data-uf-tab'); ufRender(); }; });
+        var dl = $('ufCsv');
+        if (dl) dl.onclick = ufCsv;
+      }
+      function ufCsv() {
+        function cell(v) {
+          var s = v == null ? '' : String(v);
+          if (/^[=+\-@]/.test(s)) s = "'" + s;
+          return '"' + s.replace(/"/g, '""') + '"';
+        }
+        var lines = [['Unit', 'Competency', 'Responses', 'Content clear', 'Delivery helped', 'Improvement suggested'].map(cell).join(',')];
+        (uf.data.units || []).forEach(function (u) {
+          var cs = (u.comments && u.comments.length) ? u.comments : [''];
+          cs.forEach(function (c) { lines.push([u.unit_no, u.competency, u.responses, u.content_clear, u.delivery_helped, c].map(cell).join(',')); });
+        });
+        var c = cohort();
+        var a = document.createElement('a');
+        var url = URL.createObjectURL(new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }));
+        a.href = url;
+        a.download = 'Unit feedback - ' + ((c && c.name) || 'cohort') + '.csv';
+        document.body.appendChild(a); a.click(); a.parentNode.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      }
+      async function ufLoad(id) {
+        if (uf.cohortId !== id) { uf.cohortId = id; uf.data = null; uf.loaded = false; uf.error = null; }
+        ufRender();
+        try {
+          var res = await sb.rpc('admin_unit_feedback', { p_cohort_id: id });
+          if (uf.cohortId !== id) return;
+          uf.error = res.error ? (res.error.message || 'request failed') : null;
+          if (!res.error) uf.data = res.data || { units: [], people: [] };
+        } catch (e) {
+          if (uf.cohortId !== id) return;
+          uf.error = e.message || 'network error';
+        }
+        uf.loaded = true;
+        ufRender();
+      }
+
       // Called by renderCohortDetail() each time the cohort detail view is drawn.
       window.ibslSessions = {
         mount: function (bundle) {
@@ -14783,6 +14867,7 @@ sam@gamma.org, Sam Lee, participant,`;
           state.bundle = bundle;
           termsLoad(bundle.cohort.id);   // [TERMS]
           profLoad(bundle.cohort.id);    // [PROFILES]
+          ufLoad(bundle.cohort.id);      // [UNIT FEEDBACK]
           if (state.cohortId !== bundle.cohort.id) {
             state.cohortId = bundle.cohort.id;
             state.rows = [];

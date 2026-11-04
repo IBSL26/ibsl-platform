@@ -271,6 +271,18 @@
         return;
       }
 
+      // [COMPETENCY] The holder completes all twelve Unit Feedback forms first. If the check fails, the certificate stays open.
+      if (isSelf) {
+        try {
+          const gate = await supabaseClient.rpc('competency_gate', { p_cohort_id: cohortId, p_unit_no: 13 });
+          if (gate && !gate.error && gate.data && gate.data.blocked) {
+            location.replace('competency.html?view=' + (gate.data.need === 'self' ? 'self' : 'unit&unit=' + gate.data.unit_no) +
+              '&return=' + encodeURIComponent('certificate.html?participantId=' + participantId + '&cohortId=' + cohortId));
+            return;
+          }
+        } catch (gateErr) { console.error('[certificate] competency gate:', gateErr); }
+      }
+
       // Fetch participant name, cohort name (via the completion report), the certificate row, and certified state.
       const results = await Promise.all([
         supabaseClient.from('profiles').select('full_name').eq('id', participantId).maybeSingle(),

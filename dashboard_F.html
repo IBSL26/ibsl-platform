@@ -5600,6 +5600,56 @@
   // when the RPC resolves. The compose form is interactive from the moment
   // the section is appended \u2014 the facilitator can start typing while
   // historical messages are still loading. Mirrors F11's buildDocumentsSection.
+  // [COMPETENCY] Facilitator's drop-down for each demonstrable skill, read from the unit's reflections.
+  // The answers feed the Leading proficiency level. Facilitators do not see proficiency levels or unit feedback.
+  function buildSkillEvidenceSection(submissionId) {
+    const section = document.createElement('section');
+    section.className = 'thread-section';
+    section.innerHTML =
+      '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
+      '<p class="thread-section-sub">Select what the participant\u2019s reflections evidence for each skill.</p>' +
+      '<div class="skill-evidence-list">Loading\u2026</div>';
+    const list = section.querySelector('.skill-evidence-list');
+    const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
+    supabaseClient.rpc('get_skill_evidence', { p_submission_id: submissionId }).then(function(res) {
+      if (res.error || !res.data) { list.textContent = 'The skills could not be loaded.'; return; }
+      const d = res.data;
+      list.innerHTML = '';
+      const comp = document.createElement('p');
+      comp.style.cssText = 'font-size:12px;font-weight:600;margin:0 0 10px;';
+      comp.textContent = d.competency;
+      list.appendChild(comp);
+      (d.skills || []).forEach(function(skill, i) {
+        const no = i + 1;
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:8px 0;font-size:12px;border-top:1px solid rgba(128,128,128,0.25);';
+        const label = document.createElement('span');
+        label.style.cssText = 'flex:1 1 260px;';
+        label.textContent = skill;
+        const sel = document.createElement('select');
+        sel.style.cssText = 'font:inherit;padding:6px 8px;';
+        sel.setAttribute('aria-label', skill);
+        OPTIONS.forEach(function(o) {
+          const opt = document.createElement('option');
+          opt.value = o[0]; opt.textContent = o[1];
+          sel.appendChild(opt);
+        });
+        sel.value = (d.evidence && d.evidence[String(no)]) || '';
+        const status = document.createElement('span');
+        status.style.cssText = 'font-size:11px;min-width:44px;';
+        sel.addEventListener('change', function() {
+          status.textContent = 'Saving\u2026';
+          supabaseClient.rpc('set_skill_evidence', { p_submission_id: submissionId, p_skill_no: no, p_evidence: sel.value }).then(function(r) {
+            status.textContent = r.error ? 'Not saved' : 'Saved';
+          });
+        });
+        row.appendChild(label); row.appendChild(sel); row.appendChild(status);
+        list.appendChild(row);
+      });
+    }).catch(function() { list.textContent = 'The skills could not be loaded.'; });
+    return section;
+  }
+
   function buildMessageSection(submissionId) {
     const section = document.createElement('section');
     section.className = 'thread-section';
@@ -5918,6 +5968,7 @@
     content.appendChild(body);
     content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
+    content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
   }
