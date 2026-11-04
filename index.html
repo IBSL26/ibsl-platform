@@ -1161,8 +1161,11 @@
 
     <!-- [COMPETENCY] Self-Rating and Unit Feedback tasks (competency.html, migrations/competency_framework.sql). -->
     <div class="ms-card" id="compCard" style="display:none;">
-      <p class="ms-card-label">Your competency tasks</p>
-      <div class="ms-links" id="compLinks"></div>
+      <p class="ms-card-label">Your competency progress</p>
+      <p id="compCount" style="font-family:'Montserrat',sans-serif;font-size:13px;color:rgba(255,255,255,0.8);margin:0 0 10px;"></p>
+      <div style="height:6px;background:rgba(255,255,255,0.1);border-radius:3px;overflow:hidden;"><div id="compBar" style="height:100%;width:0;background:var(--gold);"></div></div>
+      <div id="compNext" style="margin-top:18px;"></div>
+      <div class="ms-links"><a href="competency.html">View my progress &rarr;</a></div>
     </div>
 
     <button type="button" class="tt-open" id="ttOpenBtn" style="display:none;margin-bottom:36px;" onclick="window.ibslLiveSessions &amp;&amp; window.ibslLiveSessions.openTimetable()">Programme timetable</button>
@@ -2492,18 +2495,25 @@ async function validateAccess() {
   }
 
   // [COMPETENCY] Shows the Self-Rating and any Unit Feedback forms that are due. Failure leaves the card hidden.
-  function loadCompetencyTasks(cohortId) {
-    supabaseClient.rpc('get_my_competency_state', { p_cohort_id: cohortId }).then(function(res) {
-      var st = res && !res.error ? res.data : null;
+  function loadCompetencyTasks(pid, cohortId) {
+    Promise.all([
+      supabaseClient.rpc('get_my_competency_state', { p_cohort_id: cohortId }),
+      supabaseClient.rpc('get_competency_profile', { p_cohort_id: cohortId, p_profile_id: pid })
+    ]).then(function(res) {
+      var st = res[0] && !res[0].error ? res[0].data : null;
       if (!st || !st.participant) return;
-      var html = st.self_rated ? '' : '<a href="competency.html?view=self">Complete your Competency Self-Rating &rarr;</a>';
-      (st.due || []).forEach(function(u) {
-        html += '<a href="competency.html?view=unit&unit=' + u + '">Unit Feedback: Unit ' + u + ' &rarr;</a>';
-      });
-      if (html) {
-        document.getElementById('compLinks').innerHTML = html;
-        document.getElementById('compCard').style.display = 'block';
-      }
+      var rows = (res[1] && !res[1].error && res[1].data) || [];
+      var done = rows.filter(function(r) { return !!r.progressive; }).length;
+      var due = st.due || [];
+      document.getElementById('compCount').textContent = done + ' of 12 competencies assessed';
+      document.getElementById('compBar').style.width = Math.round(done / 12 * 100) + '%';
+      var href = '', label = '';
+      if (!st.self_rated) { href = 'competency.html?view=self'; label = 'Complete your Self-Rating'; }
+      else if (due.length) { href = 'competency.html?view=unit&unit=' + due[0]; label = 'Complete Unit ' + due[0] + ' feedback'; }
+      document.getElementById('compNext').innerHTML = href
+        ? '<a href="' + href + '" style="display:inline-block;padding:11px 22px;background:var(--gold);color:#1c1c1c;font-family:Montserrat,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border-radius:3px;">' + label + ' &rarr;</a>'
+        : '';
+      document.getElementById('compCard').style.display = 'block';
     }).catch(function(err) { console.error('[competency] state error:', err); });
   }
 
@@ -2536,7 +2546,7 @@ async function validateAccess() {
     var host = document.getElementById('msLinks');
     if (!host) return;
     var cert = (certRes && !certRes.error) ? certRes.data : null;
-    var html = '<a href="collection.html?participantId=' + encodeURIComponent(pid) + '&feedback=on" target="_blank" rel="noopener">My portfolio &rarr;</a><a href="competency.html">My Competency Profile &rarr;</a>';
+    var html = '<a href="collection.html?participantId=' + encodeURIComponent(pid) + '&feedback=on" target="_blank" rel="noopener">My portfolio &rarr;</a>';
     if (cert && cert.participant_number) {
       html += '<a href="certificate.html?participantId=' + encodeURIComponent(pid) + '&cohortId=' + encodeURIComponent(cohortId) + '" target="_blank" rel="noopener">View certificate &rarr;</a>';
     }
@@ -2642,7 +2652,7 @@ async function validateAccess() {
           if (!mres.data || !mres.data.length) return;                         // no cohort → leave open
           var cohortId = mres.data[0].cohort_id;
           loadParticipantScores(pid, cohortId);                                // WS5.5: headline + per-lens scores
-          loadCompetencyTasks(cohortId);                                       // [COMPETENCY] Self-Rating and Unit Feedback
+          loadCompetencyTasks(pid, cohortId);                                       // [COMPETENCY] Self-Rating and Unit Feedback
           return supabaseClient.from('lens_progress').select('lens_id,status')
             .eq('profile_id', pid).eq('cohort_id', cohortId).then(function(res){
               if (res.error){ console.error('[p-portal-lock] lens_progress read error:', res.error); return; } // leave open
