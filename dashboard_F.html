@@ -2780,6 +2780,7 @@
   }
 
 </style>
+<script src="/s2r-skill-guide.js"></script><script src="/s2r-key-reflections.js"></script>
 </head>
 <body>
 
@@ -5602,12 +5603,128 @@
   // historical messages are still loading. Mirrors F11's buildDocumentsSection.
   // [COMPETENCY] Facilitator's drop-down for each demonstrable skill, read from the unit's reflections.
   // The answers feed the Leading proficiency level. Facilitators do not see proficiency levels or unit feedback.
+  // ─── KEY REFLECTIONS: one selection per reflection. 20 / 14 / 8 / 0, total out of 100. ───
+  var _krReview = false;
+  const KR_BANDS = [['', 'Select\u2026', null], ['full', 'Fully evidenced', 20], ['part', 'Partly evidenced', 14], ['none', 'Not evidenced', 8], ['blank', 'Not answered', 0]];
+  function buildReflectionMarksSection(submission, submissionId, lensId, responses) {
+    const section = document.createElement('section');
+    section.className = 'thread-section';
+    section.innerHTML =
+      '<h2 class="thread-section-heading">Reflection marks</h2>' +
+      '<p class="thread-section-sub">Select one mark for each reflection. The marks add up to the unit mark and set the participant\u2019s Progressive level. Selections save automatically.</p>' +
+      '<div class="kr-mark-list">Loading\u2026</div>';
+    const list = section.querySelector('.kr-mark-list');
+    const selects = {};
+    const totalEl = document.createElement('div');
+    totalEl.style.cssText = 'font-size:13px;font-weight:700;padding:10px 0 2px;border-top:1px solid rgba(128,128,128,0.25);';
+    function currentTotal() {
+      var t = 0, n = 0;
+      for (var s = 1; s <= 5; s++) {
+        var b = KR_BANDS.filter(function(x) { return x[0] === selects[s].value; })[0];
+        if (b && b[0]) { t += b[2]; n++; }
+      }
+      return { total: t, done: n };
+    }
+    function syncTotal(amend) {
+      const c = currentTotal();
+      totalEl.textContent = 'Unit mark: ' + (c.done === 5 ? c.total + ' / 100' : c.done + ' of 5 reflections marked');
+      const box = document.getElementById('scoreInputBox');
+      if (box) { box.value = c.done === 5 ? String(c.total) : ''; box.dispatchEvent(new Event('input')); }
+      // A mark changed after the review: the saved unit mark follows it.
+      if (amend && c.done === 5 && typeof submission.score === 'number' && submission.score !== c.total) {
+        supabaseClient.rpc('amend_submission_score', { p_submission_id: submissionId, p_score: c.total }).then(function(r) {
+          if (!r.error && r.data && r.data.ok === true) {
+            submission.score = c.total;
+            const shown = document.querySelector('.committed-score');
+            if (shown) shown.textContent = 'Score: ' + c.total + ' / 100';
+          }
+        });
+      }
+    }
+    supabaseClient.rpc('get_reflection_marks', { p_submission_id: submissionId }).then(function(res) {
+      if (res.error || !res.data) { list.textContent = 'The marks could not be loaded.'; return; }
+      const marks = res.data.marks || {};
+      list.innerHTML = '';
+      const key = document.createElement('div');
+      key.style.cssText = 'font-size:12px;line-height:1.7;margin:0 0 12px;padding:10px 12px;border-left:3px solid #c9a84c;';
+      [['Fully evidenced (20)', 'Meets the description shown under the reflection.'],
+       ['Partly evidenced (14)', 'Answers part of the question, or stays general without reference to their own organisation, team or work.'],
+       ['Not evidenced (8)', 'Written, but does not address the question.'],
+       ['Not answered (0)', 'Left blank.']].forEach(function(k) {
+        const line = document.createElement('div');
+        const b = document.createElement('strong');
+        b.textContent = k[0] + ': ';
+        line.appendChild(b); line.appendChild(document.createTextNode(k[1]));
+        key.appendChild(line);
+      });
+      list.appendChild(key);
+      [1, 2, 3, 4, 5].forEach(function(s) {
+        const row = document.createElement('div');
+        row.style.cssText = 'padding:10px 0;font-size:13px;line-height:1.6;border-top:1px solid rgba(128,128,128,0.25);';
+        const q = document.createElement('div');
+        q.style.fontWeight = '600';
+        q.textContent = window.S2R_KEY_REF.label(lensId, 'kr_s' + s) || ('Section ' + s);
+        row.appendChild(q);
+        const raw = responses['kr_s' + s];
+        const answered = typeof raw === 'string' && raw.trim() !== '';
+        const ans = document.createElement('div');
+        ans.style.cssText = 'margin:6px 0;white-space:pre-wrap;';
+        ans.textContent = answered ? raw : 'No answer submitted.';
+        row.appendChild(ans);
+        const g = window.S2R_REF_GUIDE && window.S2R_REF_GUIDE[res.data.unit_no] && window.S2R_REF_GUIDE[res.data.unit_no][s - 1];
+        if (g) {
+          const line = document.createElement('div');
+          line.style.cssText = 'font-size:11px;margin-bottom:6px;opacity:0.85;';
+          const b = document.createElement('strong');
+          b.textContent = 'Fully evidenced: ';
+          line.appendChild(b); line.appendChild(document.createTextNode(g));
+          row.appendChild(line);
+        }
+        const sel = document.createElement('select');
+        sel.style.cssText = 'font:inherit;padding:6px 8px;';
+        sel.setAttribute('aria-label', 'Mark for section ' + s);
+        KR_BANDS.forEach(function(o) {
+          const opt = document.createElement('option');
+          opt.value = o[0]; opt.textContent = o[2] === null ? o[1] : o[1] + ' (' + o[2] + ')';
+          sel.appendChild(opt);
+        });
+        const m = marks[String(s)] || {};
+        sel.value = m.band || '';
+        selects[s] = sel;
+        const status = document.createElement('span');
+        status.style.cssText = 'font-size:11px;margin-left:10px;';
+        const com = document.createElement('textarea');
+        com.rows = 2; com.maxLength = 1000; com.placeholder = 'Comment for the participant (optional)';
+        com.style.cssText = 'display:block;width:100%;box-sizing:border-box;margin-top:8px;font:inherit;padding:6px 8px;';
+        com.value = m.comment || '';
+        function save() {
+          if (!sel.value) { status.textContent = 'Select a mark first'; return; }
+          status.textContent = 'Saving\u2026';
+          supabaseClient.rpc('set_reflection_mark', { p_submission_id: submissionId, p_section: s, p_band: sel.value, p_comment: com.value }).then(function(r) {
+            status.textContent = r.error ? 'Not saved' : 'Saved';
+            if (!r.error) syncTotal(true);
+          });
+        }
+        sel.addEventListener('change', function() { syncTotal(false); save(); });
+        com.addEventListener('blur', function() { if (com.value !== (com._saved || m.comment || '')) { com._saved = com.value; save(); } });
+        [sel, com].forEach(function(el) { el.addEventListener('click', function(e) { e.stopPropagation(); }); });
+        row.appendChild(sel); row.appendChild(status); row.appendChild(com);
+        list.appendChild(row);
+        // An empty reflection is Not answered without the facilitator having to select it.
+        if (!answered && !m.band) { sel.value = 'blank'; save(); }
+      });
+      list.appendChild(totalEl);
+      syncTotal(false);
+    });
+    return section;
+  }
+
   function buildSkillEvidenceSection(submissionId) {
     const section = document.createElement('section');
     section.className = 'thread-section';
     section.innerHTML =
       '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
-      '<p class="thread-section-sub">Read the participant\u2019s reflections for this unit, then select what they evidence for each skill. Your selection saves automatically.</p>' +
+      '<p class="thread-section-sub">Read the participant\u2019s reflections for this unit, then select what they evidence for each skill. Your selection saves automatically, and sets the Progressive level once all three skills are selected.</p>' +
       '<div class="skill-evidence-list">Loading\u2026</div>';
     const list = section.querySelector('.skill-evidence-list');
     const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
@@ -5632,9 +5749,9 @@
       }
       const key = document.createElement('div');
       key.style.cssText = 'font-size:12px;line-height:1.7;margin:0 0 12px;padding:10px 12px;border-left:3px solid #c9a84c;';
-      [['Not evidenced', 'The reflections do not show this skill.'],
-       ['Evidenced', 'The reflections show the participant applying this skill in their own role.'],
-       ['Evidenced and developing others', 'The reflections also show the participant developing this skill in other leaders.']
+      [['Not evidenced', 'The reflections do not meet the description for this skill.'],
+       ['Evidenced', 'The reflections meet the description shown under the skill.'],
+       ['Evidenced and developing others', 'The reflections also meet the second description under the skill.']
       ].forEach(function(k) {
         const line = document.createElement('div');
         const b = document.createElement('strong');
@@ -5651,6 +5768,18 @@
         const label = document.createElement('span');
         label.style.cssText = 'flex:1 1 260px;';
         label.textContent = skill;
+        const g = window.S2R_SKILL_GUIDE && window.S2R_SKILL_GUIDE[d.unit_no] && window.S2R_SKILL_GUIDE[d.unit_no][i];
+        if (g) {
+          [['Evidenced: ', g[0]], ['Evidenced and developing others: ', g[1]]].forEach(function(x) {
+            const line = document.createElement('div');
+            line.style.cssText = 'font-size:11px;line-height:1.6;margin-top:4px;opacity:0.85;';
+            const b = document.createElement('strong');
+            b.textContent = x[0];
+            line.appendChild(b);
+            line.appendChild(document.createTextNode(x[1]));
+            label.appendChild(line);
+          });
+        }
         const sel = document.createElement('select');
         sel.style.cssText = 'font:inherit;padding:6px 8px;';
         sel.setAttribute('aria-label', skill);
@@ -5992,8 +6121,12 @@
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
     content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
+    // Key reflections: each carries a mark, and the marks set the unit mark and the competency level.
+    var _resp = payload.responses || {};
+    _krReview = !!window.S2R_KEY_REF && !!window.S2R_KEY_REF.label(lens.id, 'kr_s1') && [1, 2, 3, 4, 5].some(function(n) { return _resp['kr_s' + n] !== undefined; });
+    if (_krReview) content.appendChild(wrapCollapsibleSection(buildReflectionMarksSection(submission, submissionId, lens.id, _resp)));
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
-    content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId)));
+    if (!_krReview) content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
   }
@@ -6270,7 +6403,7 @@
     // Group flat (non-module) keys into named, collapsible families so the report
     // opens as a short list of section headings instead of one long wall of boxes.
     var FAMILY_DEFS = [
-      { name: 'Reflections',              test: function (k) { return /^ref\d+$/i.test(k); } },
+      { name: 'Reflections',              test: function (k) { return /^(ref\d+|kr_s[1-5])$/i.test(k); } },
       { name: 'Portfolio',                test: function (k) { return /^port\d+$/i.test(k); } },
       { name: 'Objectives & Key Results', test: function (k) { return /^okr_o\d+$/i.test(k) || /^kr\d+$/i.test(k); } },
       { name: 'Hot Zone Matching',        test: function (k) { return /^hz_match$/i.test(k); } },
@@ -7183,6 +7316,8 @@
   function humanizeFieldName(name, lensId) {
     if (!name) return '';
     let s = String(name);
+    // Key reflections: the question itself, from the one source file.
+    if (window.S2R_KEY_REF) { var _kr = window.S2R_KEY_REF.label(lensId, s); if (_kr) return _kr; }
     // Per-lens registered label wins (LENS_LABELS map above).
     if (lensId && LENS_LABELS[lensId] && LENS_LABELS[lensId][s]) return LENS_LABELS[lensId][s];
     // appSIP_<ROLE>_d1..d4 → "<ROLE> · D<n> · <dim name>" (cross-lens suffix rule).
@@ -7500,7 +7635,7 @@
       // ─── WS5.1: EDIT-SCORE CONTROL (non-Foundations reviewed submissions) ───
       // Foundations (unit 1) is unscored — no edit control (amend_submission_score
       // returns foundations_not_scored for it anyway).
-      if (Number(lensUnit) !== 1) {
+      if (Number(lensUnit) !== 1 && !_krReview) {
         const editWrap = document.createElement('div');
         editWrap.className = 'score-edit-wrap';
         editWrap.style.fontFamily = 'inherit';
@@ -7709,11 +7844,13 @@
       // clicks from bubbling up and toggling the section collapsed.
       scoreInput.addEventListener('click', function(e) { e.stopPropagation(); });
       scoreWrap.appendChild(scoreInput);
+      if (_krReview) { scoreInput.readOnly = true; scoreLabel.textContent = 'Unit mark (adds up from the reflection marks)'; }
 
       const scoreHelp = document.createElement('div');
       scoreHelp.className = 'score-input-help';
       scoreHelp.style.fontFamily = 'inherit';
       scoreHelp.textContent = 'Whole number 0–100. Required before you can mark this unit reviewed.';
+      if (_krReview) scoreHelp.textContent = 'Mark all five reflections before you mark this unit reviewed.';
       scoreWrap.appendChild(scoreHelp);
 
       wrap.appendChild(scoreWrap);

@@ -327,6 +327,7 @@ function buildTemplate(){
 '</style>',
 '<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>',
 '<script src="/s2r-protect.js" data-allow-print></script>',
+'<script src="/s2r-key-reflections.js"></script>',
 '</head>',
 '<body>',
 '<div class="print-bar"><button onclick="window.print()">Print / Save PDF</button></div>',

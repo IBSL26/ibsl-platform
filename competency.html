@@ -121,36 +121,29 @@
       return '<div class="choices">' + SCALE.map(function (s, i) { return '<label class="pill"><input type="radio" name="' + name + '" value="' + (i + 1) + '">' + (i + 1) + ' ' + s + '</label>'; }).join('') + '</div>';
     };
     var html = '<div class="kicker">Unit feedback</div><h1>Unit Feedback: Unit ' + f.unit_no + '</h1>' +
-      '<div class="howto"><strong>How to complete this form</strong><ol><li>Part A: answer the three questions about this unit.</li><li>Part B: read each scenario and select the one response closest to what you would do.</li><li>Select Submit at the end of the form. You submit once.</li></ol></div>' +
-      '<h2>Part A: About this unit</h2>' +
+      '<div class="howto"><strong>How to complete this form</strong><ol><li>Answer the three questions about this unit.</li><li>Select Submit at the end of the form. You submit once.</li></ol></div>' +
       '<div class="block"><h3>1. The content was clear.</h3>' + scale('clear') + '</div>' +
       '<div class="block"><h3>2. The facilitator\u2019s delivery helped me learn.</h3>' + scale('delivery') + '</div>' +
-      '<div class="block"><h3>3. One thing that would improve this unit.</h3><textarea id="imp" maxlength="2000"></textarea></div>' +
-      '<h2>Part B: ' + esc(f.competency) + '</h2><p class="muted">Select the response closest to what you would do.</p>';
-    f.questions.forEach(function (x, i) {
-      html += '<div class="block"><h3>' + (i + 4) + '. ' + esc(x.scenario) + '</h3>' + x.options.map(function (o) {
-        return '<label class="opt"><input type="radio" name="q' + x.q_no + '" value="' + esc(o.id) + '"><span>' + esc(o.text) + '</span></label>';
-      }).join('') + '</div>';
-    });
+      '<div class="block"><h3>3. One thing that would improve this unit.</h3><textarea id="imp" maxlength="2000"></textarea></div>';
     html += '<button class="btn" id="go" disabled>Submit</button><div class="err" id="err"></div>';
     card.innerHTML = html;
     var go = document.getElementById('go'), imp = document.getElementById('imp');
     function val(n) { var r = card.querySelector('input[name=' + n + ']:checked'); return r ? r.value : null; }
-    function sync() { go.disabled = !(val('clear') && val('delivery') && imp.value.trim().length >= 3 && val('q1') && val('q2') && val('q3')); }
+    function sync() { go.disabled = !(val('clear') && val('delivery') && imp.value.trim().length >= 3); }
     card.addEventListener('change', sync); imp.addEventListener('input', sync);
     go.onclick = function () {
       go.disabled = true; document.getElementById('err').textContent = '';
       sb.rpc('submit_unit_feedback', { p_cohort_id: cohortId, p_unit_no: f.unit_no, p_content_clear: parseInt(val('clear'), 10), p_delivery_helped: parseInt(val('delivery'), 10),
-        p_improvement: imp.value, p_answers: { 1: val('q1'), 2: val('q2'), 3: val('q3') } }).then(function (r) {
+        p_improvement: imp.value }).then(function (r) {
         if (r.error) { document.getElementById('err').textContent = r.error.message; go.disabled = false; return; }
-        done('Thank you', 'Your feedback for Unit ' + f.unit_no + ' has been submitted, and My Competency Profile has been updated.');
+        done('Feedback received', 'Your feedback for Unit ' + f.unit_no + ' has been submitted.');
       });
     };
   }
 
   function renderProfile(rows) {
     var html = '<div class="kicker">Strategy2Results®</div><h1>My Competency Profile</h1>' +
-      '<p class="lead">Beginning shows your self-rating at the start of the programme. Progressive shows the level your Unit Feedback determines, and fills as you complete each unit. Unit mark is the score your facilitator gave for the unit.</p>';
+      '<p class="lead">Beginning shows your self-rating at the start of the programme. Progressive shows the level your unit reflections evidence, once your facilitator has reviewed them. Unit mark is the score your facilitator gave for the unit.</p>';
     var area = '', open = false;
     rows.forEach(function (r) {
       if (r.area !== area) {
