@@ -2822,20 +2822,28 @@
 
     <!-- Chairman's message — same video as the participant portal home -->
     <style>
-      .chair-card{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.25);border-radius:6px;padding:28px;position:relative;margin:0 0 36px;display:flex;gap:28px;align-items:center;}
+      .chair-card{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.25);border-radius:6px;position:relative;margin:0 0 36px;}
       .chair-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#c9a84c;border-radius:6px 6px 0 0;}
+      .chair-sum{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 28px;cursor:pointer;list-style:none;}
+      .chair-sum::-webkit-details-marker{display:none;}
+      .chair-sum::after{content:'';flex-shrink:0;width:9px;height:9px;border-right:2px solid #c9a84c;border-bottom:2px solid #c9a84c;transform:rotate(45deg);transition:transform .2s;margin-right:4px;}
+      .chair-card[open] .chair-sum::after{transform:rotate(-135deg);}
+      .chair-sum:focus-visible{outline:2px solid #c9a84c;outline-offset:-2px;}
+      .chair-body{display:flex;gap:28px;align-items:flex-start;padding:0 28px 28px;}
       .chair-video{width:260px;max-width:100%;aspect-ratio:9/16;background:#000;border-radius:3px;flex-shrink:0;}
-      @media (max-width:640px){.chair-card{flex-direction:column;align-items:stretch;padding:22px;}.chair-video{width:100%;}}
+      @media (max-width:640px){.chair-sum{padding:18px 22px;}.chair-body{flex-direction:column;align-items:stretch;padding:0 22px 22px;}.chair-video{width:100%;}}
     </style>
-    <div class="chair-card" id="chairMessageCard">
-      <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
-        <source src="media/chairman-message.mp4" type="video/mp4">
-      </video>
-      <div>
+    <details class="chair-card" id="chairMessageCard" ontoggle="if(!this.open){var v=this.querySelector('video');if(v)v.pause();}">
+      <summary class="chair-sum"><div>
         <p style="font-size:11px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin:0 0 10px;">IBSL Board</p>
         <h3 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:1.8rem;font-weight:400;color:#fff;margin:0;">A message from the Chairman</h3>
+      </div></summary>
+      <div class="chair-body">
+        <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
+          <source src="media/chairman-message.mp4" type="video/mp4">
+        </video>
       </div>
-    </div>
+    </details>
 
     <!-- ─── F2: COHORT SECTION (populated by loadFacilitatorCohorts) ─── -->
     <section class="cohort-section" id="cohortSection" style="display:none;">
@@ -3399,6 +3407,7 @@
       document.getElementById('inboxSection').style.display = 'none';
       document.getElementById('reviewSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
+      document.getElementById('chairMessageCard').style.display = 'none';
       // F8-6: Back-link label reflects where the user came from
       document.getElementById('backToRoster').textContent = inboxFlag ? '← Back to inbox' : '← Back to roster';
       loadSubmissionReview(submissionId);
@@ -3413,6 +3422,7 @@
       document.getElementById('inboxSection').style.display = 'none';
       document.getElementById('rosterSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
+      document.getElementById('chairMessageCard').style.display = 'none';
       loadCohortParticipants(cohortId);
       return;
     }
@@ -3425,6 +3435,7 @@
       document.getElementById('reviewSection').style.display = 'none';
       document.getElementById('inboxSection').style.display = 'block';
       document.querySelector('.welcome').style.display = 'none';
+      document.getElementById('chairMessageCard').style.display = 'none';
       loadFacilitatorInbox();
       return;
     }

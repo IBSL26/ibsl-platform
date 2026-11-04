@@ -1059,16 +1059,18 @@
     </div>
 
     <!-- Chairman's message — same video as the participant portal home (.chair-card styles defined in the portal view) -->
-    <div class="chair-card" id="chairMessageCardAdmin">
-      <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
-        <source src="media/chairman-message.mp4" type="video/mp4">
-      </video>
-      <div style="flex:1;min-width:0;">
+    <details class="chair-card" id="chairMessageCardAdmin" ontoggle="if(!this.open){var v=this.querySelector('video');if(v)v.pause();}">
+      <summary class="chair-sum"><div>
         <p style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;">IBSL Board</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:#fff;margin:0;">A message from the Chairman</h3>
-        <div id="bmMount"></div>
+      </div></summary>
+      <div class="chair-body">
+        <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
+          <source src="media/chairman-message.mp4" type="video/mp4">
+        </video>
+        <div style="flex:1;min-width:0;"><div id="bmMount"></div></div>
       </div>
-    </div>
+    </details>
 
     <p style="font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:48px;">
       You are logged in as Administrator. From here you can enter the platform as a Facilitator or Participant to see what they see, or access the administration tools.
@@ -1127,20 +1129,28 @@
 
     <!-- Chairman's message — video shown on the participant and facilitator portal home -->
     <style>
-      .chair-card{background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;padding:28px;position:relative;margin-bottom:36px;display:flex;gap:28px;align-items:center;}
+      .chair-card{background:#1c2a1e;border:1px solid rgba(201,168,76,0.2);border-radius:4px;position:relative;margin-bottom:36px;}
       .chair-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#c9a84c;border-radius:4px 4px 0 0;}
+      .chair-sum{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 28px;cursor:pointer;list-style:none;}
+      .chair-sum::-webkit-details-marker{display:none;}
+      .chair-sum::after{content:'';flex-shrink:0;width:9px;height:9px;border-right:2px solid #c9a84c;border-bottom:2px solid #c9a84c;transform:rotate(45deg);transition:transform .2s;margin-right:4px;}
+      .chair-card[open] .chair-sum::after{transform:rotate(-135deg);}
+      .chair-sum:focus-visible{outline:2px solid #c9a84c;outline-offset:-2px;}
+      .chair-body{display:flex;gap:28px;align-items:flex-start;padding:0 28px 28px;}
       .chair-video{width:260px;max-width:100%;aspect-ratio:9/16;background:#000;border-radius:3px;flex-shrink:0;}
-      @media (max-width:640px){.chair-card{flex-direction:column;align-items:stretch;padding:22px;}.chair-video{width:100%;}}
+      @media (max-width:640px){.chair-sum{padding:18px 22px;}.chair-body{flex-direction:column;align-items:stretch;padding:0 22px 22px;}.chair-video{width:100%;}}
     </style>
-    <div class="chair-card" id="chairMessageCard">
-      <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
-        <source src="media/chairman-message.mp4" type="video/mp4">
-      </video>
-      <div>
+    <details class="chair-card" id="chairMessageCard" ontoggle="if(!this.open){var v=this.querySelector('video');if(v)v.pause();}">
+      <summary class="chair-sum"><div>
         <p style="font-family:Montserrat,sans-serif;font-size:10px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px;">IBSL Board</p>
         <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:#fff;margin:0;">A message from the Chairman</h3>
+      </div></summary>
+      <div class="chair-body">
+        <video class="chair-video" controls playsinline preload="metadata" controlsList="nodownload noplaybackrate" disablePictureInPicture oncontextmenu="return false;" poster="media/chairman-message.jpg">
+          <source src="media/chairman-message.mp4" type="video/mp4">
+        </video>
       </div>
-    </div>
+    </details>
 
     <!-- WS5.5: participant Overall Result panel — hidden until populated for a signed-in participant (see loadParticipantScores). -->
     <div class="ms-card" id="msHeadlineCard" style="display:none;">
