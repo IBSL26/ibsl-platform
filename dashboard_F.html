@@ -5607,18 +5607,43 @@
     section.className = 'thread-section';
     section.innerHTML =
       '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
-      '<p class="thread-section-sub">Select what the participant\u2019s reflections evidence for each skill.</p>' +
+      '<p class="thread-section-sub">Read the participant\u2019s reflections for this unit, then select what they evidence for each skill. Your selection saves automatically.</p>' +
       '<div class="skill-evidence-list">Loading\u2026</div>';
     const list = section.querySelector('.skill-evidence-list');
     const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
-    supabaseClient.rpc('get_skill_evidence', { p_submission_id: submissionId }).then(function(res) {
+    Promise.all([
+      supabaseClient.rpc('get_skill_evidence', { p_submission_id: submissionId }),
+      supabaseClient.rpc('get_competency_framework')
+    ]).then(function(all) {
+      const res = all[0];
       if (res.error || !res.data) { list.textContent = 'The skills could not be loaded.'; return; }
       const d = res.data;
+      const fw = ((all[1] && all[1].data) || []).filter(function(c) { return c.unit_no === d.unit_no; })[0];
       list.innerHTML = '';
       const comp = document.createElement('p');
       comp.style.cssText = 'font-size:12px;font-weight:600;margin:0 0 10px;';
       comp.textContent = d.competency;
       list.appendChild(comp);
+      if (fw && fw.narrative) {
+        const nar = document.createElement('p');
+        nar.style.cssText = 'font-size:12px;line-height:1.6;margin:0 0 10px;';
+        nar.textContent = fw.narrative;
+        list.appendChild(nar);
+      }
+      const key = document.createElement('div');
+      key.style.cssText = 'font-size:12px;line-height:1.7;margin:0 0 12px;padding:10px 12px;border-left:3px solid #c9a84c;';
+      [['Not evidenced', 'The reflections do not show this skill.'],
+       ['Evidenced', 'The reflections show the participant applying this skill in their own role.'],
+       ['Evidenced and developing others', 'The reflections also show the participant developing this skill in other leaders.']
+      ].forEach(function(k) {
+        const line = document.createElement('div');
+        const b = document.createElement('strong');
+        b.textContent = k[0] + ': ';
+        line.appendChild(b);
+        line.appendChild(document.createTextNode(k[1]));
+        key.appendChild(line);
+      });
+      list.appendChild(key);
       (d.skills || []).forEach(function(skill, i) {
         const no = i + 1;
         const row = document.createElement('div');
