@@ -10,27 +10,27 @@ window.S2R_SKILL_GUIDE = {
 3: [["Sections 1 and 4: states specific keep, improve, start and stop decisions tied to their Success in Practice, and names what would stop to give a Key Result capacity.", "Section 5 also shows how they would lead the team through these decisions."],
     ["Section 2: shows how the KISS analysis produces one Objective with a measurable Key Result that states an outcome.", "Section 5 also shows how they would coach others from activity measures to outcome measures."],
     ["Section 3: shows how they would hold Key Results to Success in Practice against their function's natural emphasis.", "Section 5 also shows how they would help others test the line of sight of their own Key Results."]],
-4: [["Section 1: names the ABCV checkpoint that objectives would find hardest to pass, and gives a reason specific to their context.", "Section 5 also shows how they would lead the team through this test on its Key Results."],
+4: [["Section 1: names the ABCV checkpoint that Key Results would find hardest to pass, and gives a reason specific to their context.", "Section 5 also shows how they would lead the team through this test on its Key Results."],
     ["Sections 3 and 4: names a real Must-Be-True condition their role may overlook, who should verify it, the untested condition that most threatens direction, and how to confirm it.", "Section 5 also shows how they would help others name conditions and owners."],
     ["Section 2: names an Industry Illusion trap at work and a practical way to test it.", "Section 5 also shows how they would help the team notice and test these traps."]],
 5: [["Section 3: draws on their own OCEAVL profile and states what they would do differently in leading the change.", "Section 5 also shows how they would use the profiles to help the team lead the change."],
-    ["Sections 1 and 2: states the change as Shift, Stake and Step, and names what would move people from compliance to commitment.", "Section 5 also shows how they would help the team land the agenda through to adoption."],
+    ["Sections 1 and 2: states the change as Shift, Stake and Step, and names the weakest of the 4 Checks and what they would do about it.", "Section 5 also shows how they would help the team land the agenda through to adoption."],
     ["Section 4: names where the leadership team is furthest from one voice on the change, and how they would close that gap.", "Section 5 also shows how they would bring other leaders to carry the same message."]],
 6: [["Section 1: takes a real Key Result and sets out what each function must contribute and what the organisation or team must provide.", "Section 5 also shows how they would build this with the leadership team."],
     ["Sections 3 and 4: states what would change for performance management to drive collective success, and which FACES function they would strengthen first, and how.", "Section 5 also shows how they would help the team build this into the management system."],
     ["Section 2: states a specific change to their own scorecard that reflects their contribution to Key Results.", "Section 5 also shows how they would help other leaders align their scorecards."]],
-7: [["Sections 1 and 2: describes how their tasks or targets were developed and their part in it, names one upline and one downline link, and shows how each connects to their task.", "Section 5 also shows how they would help the team establish expectations."],
-    ["Section 3: sets out how they would establish expectations around a task across functions.", "Section 5 also shows how they would help others map their own chains across the organisation or team."],
+7: [["Sections 1 and 3: names what they would change in how their tasks or targets were developed and the part they would play, and sets out how they would establish clarity, capability and commitment around a task across functions.", "Section 5 also shows how they would help the team establish expectations."],
+    ["Section 2: names one upline and one downline link, and shows how each connects to their task.", "Section 5 also shows how they would help others map their own chains across the organisation or team."],
     ["Section 4: applies each stage of GROW to the alignment dialogue with one link in the chain.", "Section 5 also shows how they would help others hold these dialogues."]],
-8: [["Section 4: shows how they would create awareness of the wider impact of the performance gap across the organisation or team.", "Section 5 also shows how they would help the team make these reviews a shared practice."],
+8: [["Section 4: shows how an Enterprise Performance Intelligence Circle would create awareness of the wider impact of the performance gap across the organisation or team.", "Section 5 also shows how they would help the team make these reviews a shared practice."],
     ["Sections 1 and 2: states how progress is measured, how they would recover a shortfall, and what they would do about a live early warning signal.", "Section 5 also shows how they would help the team run reviews that restore performance."],
-    ["Section 3: shows how they would establish the cause of a gap before choosing a response.", "Section 5 also shows how they would help others hold commitments in the same way."]],
+    ["Section 3: uses the Accountability Loop to establish the cause of a gap before choosing a response.", "Section 5 also shows how they would help others hold commitments in the same way."]],
 9: [["Sections 1 and 3: names the most active clog with evidence, and what in their own function may create or reinforce it, and what they would change.", "Section 5 also shows how they would help the team make clog diagnosis a habit."],
     ["Section 2: selects a lever for that clog and explains why it fits.", "Section 5 also shows how they would help others choose the right lever."],
     ["Section 4: takes the clog through Review–Realign–Restore across both people and organisational performance.", "Section 5 also shows how they would help the team make the cycle a habit."]],
 10: [["Sections 1 and 3: names the ESRG condition that most limits delivery, how their executive bias may affect the reading, and how they would correct for it.", "Section 5 also shows how they would help the team read its ESRG results."],
     ["Section 2: links that condition to an execution capability and gives a reason.", "Section 5 also shows how they would help others interpret results by capability."],
-    ["Section 4: sets out how they would mobilise a cross-functional review to address the failing condition.", "Section 5 also shows how they would help the team turn results into an alignment intervention."]],
+    ["Section 4: names the alignment intervention and how a cross-functional review would agree it.", "Section 5 also shows how they would help the team turn results into an alignment intervention."]],
 11: [["Section 3: names the weakest health trait in their function and what they would do to strengthen it.", "Section 5 also shows how they would help other leaders read health in their areas."],
     ["Section 2: chooses one element of poor health and gives an estimate of its cost, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
     ["Sections 1 and 4: names the value least lived with the behaviour that would show it, and writes a norm with demonstrable behaviours.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
@@ -55,7 +55,7 @@ window.S2R_REF_GUIDE = {
 "Sets out specific steps to lead the team from Success in Practice to Objectives and Key Results."
 ],
 "4": [
-"Names the checkpoint and gives a reason specific to their own objectives.",
+"Names the checkpoint and gives a reason specific to their own Key Results.",
 "Names the trap, shows how it is operating, and gives a practical test.",
 "Names a real condition their role could overlook and the person who should verify it.",
 "Names the untested condition, why it threatens direction, and how they would confirm it.",
@@ -63,7 +63,7 @@ window.S2R_REF_GUIDE = {
 ],
 "5": [
 "Names a real change and states its Shift, Stake and Step clearly.",
-"Names specific actions that would build commitment on that change, beyond instruction or enforcement.",
+"Names the weakest of the 4 Checks on that change and specific actions to strengthen it.",
 "Draws on their own OCEAVL profile and names what they would do differently.",
 "Names where the team is furthest apart and a practical way to close that gap.",
 "Sets out specific steps to help the team land the agenda through to adoption."
@@ -76,17 +76,17 @@ window.S2R_REF_GUIDE = {
 "Sets out specific steps to help the team build the performance management system."
 ],
 "7": [
-"Describes how their tasks or targets were developed and states their own part honestly.",
+"Names what they would change in how their tasks or targets were developed and the part they would play.",
 "Names one upline and one downline link and shows how each connects to their task.",
-"Sets out how they would establish expectations on a real task across functions.",
+"Sets out how they would establish clarity, capability and commitment on a real task across functions.",
 "Applies each stage of GROW to the dialogue with one link in the chain.",
 "Sets out specific steps to help the team establish expectations across the chain of delivery."
 ],
 "8": [
 "States how they measure progress and gives a specific way to recover a shortfall.",
 "Names a live early warning signal and the action they would take now.",
-"Shows how they would establish the cause of a gap before choosing a response.",
-"Shows how they would make the wider impact of the gap visible to others.",
+"Uses the Accountability Loop to establish the cause of a gap before choosing a response.",
+"Shows how an Enterprise Performance Intelligence Circle would make the wider impact of the gap visible to others.",
 "Sets out specific steps to help the team run reviews that restore performance."
 ],
 "9": [
@@ -100,7 +100,7 @@ window.S2R_REF_GUIDE = {
 "Names the ESRG condition and shows how it limits delivery.",
 "Links the condition to an execution capability and gives their reason.",
 "Names their likely bias on that condition and a practical way to correct for it.",
-"Sets out how they would mobilise a cross-functional review on the failing condition.",
+"Names the alignment intervention and how a cross-functional review would agree it.",
 "Sets out specific steps to help the team turn ESRG results into an alignment intervention."
 ],
 "11": [
