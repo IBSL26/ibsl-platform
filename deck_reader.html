@@ -107,6 +107,7 @@
   <div class="present-hint" id="presentHint">
     <span>Share this window. Arrow keys or click to move.</span>
     <button class="btn primary" id="fullBtn" type="button">Full screen</button>
+    <button class="btn" id="stopBtn" type="button">Stop presenting</button>
   </div>
 </div>
 
@@ -226,6 +227,12 @@
   document.getElementById('nextBtn').addEventListener('click', function() { show(current + 1); });
   document.getElementById('jump').addEventListener('change', function(e) { show(parseInt(e.target.value, 10)); });
   document.getElementById('fullBtn').addEventListener('click', function(e) { e.stopPropagation(); goFullScreen(); });
+  document.getElementById('stopBtn').addEventListener('click', function(e) {
+    e.stopPropagation();
+    window.close();
+    // Opened directly, not from Present: the browser keeps the window open, so go to the notes view.
+    setTimeout(function() { location.href = 'deck_reader.html?unit=' + unitNo + (isAdminView ? '&adminView=1' : ''); }, 300);
+  });
   document.getElementById('presentHint').addEventListener('click', function(e) { e.stopPropagation(); });
   document.getElementById('presentView').addEventListener('click', function() { show(current + 1); });
   document.getElementById('presentBtn').addEventListener('click', function() {
