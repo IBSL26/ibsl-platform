@@ -1803,9 +1803,8 @@ function _setRefStatus(id,text,cls){
 function draftRef(id){
   _setRefStatus(id,'✏ Drafting\u2026','rs-drafting');
   clearTimeout(_draftTimers[id]);
-  _draftTimers[id]=setTimeout(function(){
-    _setRefStatus(id,'✓ Draft saved','rs-draft');
-  },1500);
+  // Real autosave: after a short pause, save through saveRef.
+  _draftTimers[id]=setTimeout(function(){saveRef(id);},1200);
 }
 
 function showSaveError(id){

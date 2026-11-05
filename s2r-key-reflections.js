@@ -71,7 +71,12 @@
         '<textarea class="kr-ta" id="kr_s' + sec + '" placeholder="Write your reflection here..." aria-label="' + esc(q) + '"></textarea>' +
         '<button type="button" class="kr-save" data-sec="' + sec + '">Save Reflection</button><div class="kr-msg" id="kr_s' + sec + '-msg"></div></div>';
       var ta = el.querySelector('textarea');
-      ta.addEventListener('blur', function () { if (ta.value.trim() && ta.value.trim() !== ta.dataset.saved) save(sec); });
+      var krTimer = null;
+      ta.addEventListener('input', function () {
+        clearTimeout(krTimer);
+        krTimer = setTimeout(function () { if (ta.value.trim() && ta.value.trim() !== ta.dataset.saved) save(sec); }, 1200);
+      });
+      ta.addEventListener('blur', function () { clearTimeout(krTimer); if (ta.value.trim() && ta.value.trim() !== ta.dataset.saved) save(sec); });
       el.querySelector('.kr-save').addEventListener('click', function () { save(sec, this); });
     });
     document.addEventListener('click', function (e) {

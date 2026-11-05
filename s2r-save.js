@@ -170,6 +170,9 @@
     if (!ctx) return { ok: false, message: 'Not signed in or no cohort assigned.' };
 
     try {
+      // Write anything still waiting to autosave, so the snapshot is complete
+      await flushPendingSaves();
+
       // Fetch all current responses for this lens
       const responses = await loadAll(lensId);
 
@@ -220,9 +223,30 @@
     return await getContext();
   }
 
+  // Saves still travelling to the database, and reflections still in their typing pause.
+  const inFlight = new Set();
+  function trackedSave(lensId, responseKey, value) {
+    const p = save(lensId, responseKey, value);
+    inFlight.add(p);
+    p.finally(function () { inFlight.delete(p); });
+    return p;
+  }
+  async function flushPendingSaves() {
+    try {
+      if (window._draftTimers && typeof window.saveRef === 'function') {
+        await Promise.all(Object.keys(window._draftTimers).map(function (id) {
+          return window.saveRef(id);
+        }));
+      }
+      await Promise.all(Array.from(inFlight));
+    } catch (e) {
+      console.error('[S2R] Flush before submit failed:', e);
+    }
+  }
+
   // Expose on window.S2R
   window.S2R = {
-    save: save,
+    save: trackedSave,
     loadAll: loadAll,
     submit: submit,
     isReady: isReady,
