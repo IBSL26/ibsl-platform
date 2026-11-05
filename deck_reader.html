@@ -227,11 +227,15 @@
   document.getElementById('nextBtn').addEventListener('click', function() { show(current + 1); });
   document.getElementById('jump').addEventListener('change', function(e) { show(parseInt(e.target.value, 10)); });
   document.getElementById('fullBtn').addEventListener('click', function(e) { e.stopPropagation(); goFullScreen(); });
+  // Stop presenting: the deck page returns to the unit's facilitator content, and this slide window closes.
+  const UNIT_FILES = { 1:'unit1_F', 2:'unit2_m1_lens1_f', 3:'unit2_m1_lens2_f', 4:'unit2_m1_lens3_f', 5:'unit3_m1_lens4_f', 6:'unit3_m1_lens5_f', 7:'unit3_m1_lens6_f', 8:'unit3_m2_lens7_f', 9:'unit3_m2_lens8_f', 10:'unit4_m1_lens9_f', 11:'unit4_m1_lens10_f', 12:'unit4_m2_lens11_f' };
   document.getElementById('stopBtn').addEventListener('click', function(e) {
     e.stopPropagation();
-    window.close();
-    // Opened directly, not from Present: the browser keeps the window open, so go to the notes view.
-    setTimeout(function() { location.href = 'deck_reader.html?unit=' + unitNo + (isAdminView ? '&adminView=1' : ''); }, 300);
+    const unitPage = UNIT_FILES[unitNo] + '.html';
+    let openerMoved = false;
+    try { if (window.opener && !window.opener.closed) { window.opener.location.href = unitPage; openerMoved = true; } } catch (err) {}
+    if (openerMoved) { window.opener.focus(); window.close(); }
+    else location.href = unitPage;
   });
   document.getElementById('presentHint').addEventListener('click', function(e) { e.stopPropagation(); });
   document.getElementById('presentView').addEventListener('click', function() { show(current + 1); });
