@@ -4,7 +4,7 @@ window.S2R_SKILL_GUIDE = {
 1: [["Names a specific decision from their own work and identifies the bias or functional perspective that shaped it.","Also describes helping a colleague or team recognise bias in their own decisions."],
     ["Describes one real issue as it appears from at least two other executive functions, stating what each would see.","Also describes leading colleagues to examine an issue from one another's perspectives."],
     ["Names a specific practice they use or will introduce to draw out independent views before a decision.","Also describes other leaders adopting that practice in their own teams."]],
-2: [["Sections 1 and 4: names the least-defined part of the strategy architecture, says how they would define it, and shows how they would bring differing leaders on the strategy elements to one shared picture.", "Section 5 also sets out how they would lead their leadership team through designing the architecture."],
+2: [["Sections 1 and 4: names the least-defined part of the strategy architecture, says how they would define it, and names the one element they would incorporate in the current strategy and why.", "Section 5 also sets out how they would lead their leadership team through designing the architecture."],
     ["Section 2: gives one statement of their strategy and shows how they would use it to align functions, filter decisions and keep execution coherent.", "Section 5 also shows how they would help others state that intent and use it in their decisions."],
     ["Section 3: builds on their statement to describe Success in Practice in observable terms across the four domains.", "Section 5 also shows how they would guide other leaders to describe success beyond their own function."]],
 3: [["Section 1: states specific keep, improve, start and stop decisions tied to their Success in Practice.", "Section 5 also shows how they would lead the team through these decisions."],
@@ -44,7 +44,7 @@ window.S2R_REF_GUIDE = {
 "Names the specific element that is least defined and sets out how they would define it for their own context.",
 "Gives one concise statement and shows how they would use it to align functions, filter decisions and keep execution coherent.",
 "Builds directly on their statement and describes success in observable terms across the four domains.",
-"Names the elements where leaders would disagree and gives a practical way to reach one shared picture.",
+"Names the one element they would incorporate in their organisation’s current strategy and states why.",
 "Sets out specific steps they would take to lead the leadership team through designing the architecture."
 ],
 "3": [
