@@ -126,6 +126,20 @@
     letter-spacing: 1px;
   }
 
+  .cf-input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(42,122,122,0.45);
+    border-radius: 3px;
+    color: #fff;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+  }
+  .cf-input:focus { outline: none; border-color: var(--teal); }
+  .cf-error { display: none; color: var(--danger); font-size: 12px; margin: 2px 0 12px; line-height: 1.6; }
+
   /* State management */
   .state { display: none; }
   .state.active { display: block; }
@@ -156,10 +170,16 @@
   <!-- Error: no session -->
   <div class="state" id="noSessionState">
     <p class="brand-label">S2R® Portal</p>
-    <div class="icon" style="color:var(--danger);">✕</div>
-    <h1>Session not found</h1>
-    <p class="message">This confirmation link needs an active session to verify. Please return to the Portal home and try logging in again.</p>
-    <a href="/" class="btn">← Return to Portal</a>
+    <div class="icon" style="color:var(--teal);">🔒</div>
+    <h1>Sign in to confirm</h1>
+    <p class="message">Enter your Portal email and password to confirm this device.</p>
+    <form id="confirmLoginForm" onsubmit="signInToConfirm(event)" style="text-align:left;">
+      <input type="email" id="cfEmail" class="cf-input" placeholder="Email" autocomplete="username" required>
+      <input type="password" id="cfPassword" class="cf-input" placeholder="Password" autocomplete="current-password" required>
+      <p class="cf-error" id="cfError"></p>
+      <div style="text-align:center;"><button type="submit" class="btn" id="cfBtn">Sign in</button></div>
+    </form>
+    <p class="footer-note"><a href="/" style="color:rgba(255,255,255,0.5);">← Return to Portal</a></p>
   </div>
 
   <!-- Error: invalid/expired token -->
@@ -274,6 +294,36 @@
     } catch (err) {
       console.error('Init error:', err);
       showState('invalidState');
+    }
+  }
+
+  async function signInToConfirm(e) {
+    e.preventDefault();
+    var btn = document.getElementById('cfBtn');
+    var errEl = document.getElementById('cfError');
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Signing in...';
+    try {
+      var { error: loginErr } = await supabaseClient.auth.signInWithPassword({
+        email: document.getElementById('cfEmail').value.trim(),
+        password: document.getElementById('cfPassword').value
+      });
+      if (loginErr) {
+        errEl.textContent = 'Email or password not recognised. Please check and try again, or use Forgot password on the Portal home.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign in';
+        return;
+      }
+      document.getElementById('deviceLabel').textContent = getDeviceLabel();
+      showState('decisionState');
+    } catch (err) {
+      console.error('Sign-in error:', err);
+      errEl.textContent = 'We could not sign you in just now. Please try again.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Sign in';
     }
   }
 
