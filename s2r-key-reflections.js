@@ -55,7 +55,7 @@
     if (btn) btn.disabled = false;
     if (ok) {
       (cache[lens] = cache[lens] || {})['kr_s' + sec] = val;
-      ta.dataset.saved = val; msg.textContent = '✓ Saved to your portfolio'; refreshPrev();
+      ta.dataset.saved = val; msg.textContent = '✓ Saved to your portfolio. Send it with Submit to Facilitator at the end of Section 5.'; refreshPrev();
     } else { msg.className = 'kr-msg bad'; msg.textContent = 'Didn’t save. Select Save Reflection to try again.'; }
   }
   function renderAll() {

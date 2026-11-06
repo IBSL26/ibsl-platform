@@ -244,6 +244,14 @@
     }
   }
 
+  // Submit to Facilitator: solid gold on every unit page, so it stands out at the end of the last section.
+  (function () {
+    var st = document.createElement('style');
+    st.textContent = '.send-btn[onclick*="sendToFacilitator"]{background:#c9a84c!important;border:1px solid #c9a84c!important;color:#111811!important;font-size:13px!important;padding:17px!important;}' +
+      '.send-btn[onclick*="sendToFacilitator"]:hover{background:#e8c96a!important;border-color:#e8c96a!important;}';
+    (document.head || document.documentElement).appendChild(st);
+  })();
+
   // Expose on window.S2R
   window.S2R = {
     save: trackedSave,
