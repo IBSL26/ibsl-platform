@@ -5643,17 +5643,76 @@
     const L = _fbCtx.lensId;
     if (L === 'u1_foundations') {
       return Object.keys(FAC_PROMPTS.u1_foundations || {}).filter(function(k) { return /^r_m\d+_/.test(k); }).map(function(k) {
-        return { id: k, question: humanizeFieldName(k, L) + ': ' + (questionFor(k, L) || ''), keys: [k] };
+        const g = U1_GUIDE[k];
+        return { id: k, question: humanizeFieldName(k, L) + ': ' + (questionFor(k, L) || ''), keys: [k], evidenced: g ? g[1] : '' };
       });
     }
     if (window.S2R_KEY_REF && window.S2R_KEY_REF.label(L, 'kr_s1')) {
-      return [1, 2, 3, 4, 5].map(function(n) { return { id: 'kr_s' + n, question: 'Section ' + n + ': ' + window.S2R_KEY_REF.label(L, 'kr_s' + n), keys: ['kr_s' + n] }; });
+      const un = fbUnitNo();
+      return [1, 2, 3, 4, 5].map(function(n) {
+        const g = window.S2R_REF_GUIDE && window.S2R_REF_GUIDE[un] && window.S2R_REF_GUIDE[un][n - 1];
+        return { id: 'kr_s' + n, question: 'Section ' + n + ': ' + window.S2R_KEY_REF.label(L, 'kr_s' + n), keys: ['kr_s' + n], evidenced: g || '' };
+      });
     }
     return [];
   }
+  function fbUnitNo() {
+    if (!_fbCtx) return '';
+    if (_fbCtx.lensId === 'u1_foundations') return '1';
+    const D = window.S2R_KEY_REF_DATA || {};
+    return Object.keys(D).filter(function(u) { return D[u].lens === _fbCtx.lensId; })[0] || '';
+  }
+  // Recommendation from the marking: anything not answered or not evidenced points to Return for revision.
+  function fbRecommend() {
+    const items = fbItems(), m = _fbMarks(), R = (_fbCtx && _fbCtx.responses) || {};
+    let notAns = 0, notEv = 0, open = 0;
+    items.forEach(function(it) {
+      if (_fbCtx.lensId === 'u1_foundations' && u1SkillOf(it.id) < 0) return;
+      const v = R[it.id];
+      const answered = typeof v === 'string' && v.trim() !== '';
+      const mk = m[it.id];
+      if (!answered || mk === 'Not answered') notAns++;
+      else if (mk === 'Not evidenced') notEv++;
+      else if (!mk) open++;
+    });
+    return { revise: notAns + notEv > 0, notAns: notAns, notEv: notEv, open: open };
+  }
+  var _fbRefresh = function() {};
   function buildFeedbackSuggest(submissionId, textarea) {
     const box = document.createElement('div');
     box.style.cssText = 'margin:0 0 12px;';
+    const choice = document.createElement('div');
+    choice.style.cssText = 'font-size:13px;margin-bottom:6px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;';
+    const cl = document.createElement('strong');
+    cl.textContent = 'Feedback for:';
+    choice.appendChild(cl);
+    const radios = {};
+    [['revise', 'Return for revision'], ['review', 'Mark as reviewed']].forEach(function(o) {
+      const lab = document.createElement('label');
+      lab.style.cssText = 'display:inline-flex;gap:6px;align-items:center;cursor:pointer;';
+      const r = document.createElement('input');
+      r.type = 'radio'; r.name = 'fbAction_' + submissionId; r.value = o[0];
+      r.addEventListener('click', function(e) { e.stopPropagation(); });
+      radios[o[0]] = r;
+      lab.appendChild(r); lab.appendChild(document.createTextNode(o[1]));
+      choice.appendChild(lab);
+    });
+    const rec = document.createElement('div');
+    rec.style.cssText = 'font-size:12px;opacity:0.85;margin-bottom:8px;';
+    let userChose = false;
+    Object.keys(radios).forEach(function(k) { radios[k].addEventListener('change', function() { userChose = true; }); });
+    _fbRefresh = function() {
+      const r = fbRecommend();
+      const parts = [];
+      if (r.notAns) parts.push(r.notAns + (r.notAns === 1 ? ' reflection' : ' reflections') + ' not answered');
+      if (r.notEv) parts.push(r.notEv + ' not evidenced');
+      if (r.open) parts.push(r.open + ' still to judge');
+      rec.textContent = (r.revise ? 'Recommended: Return for revision. ' : 'Recommended: Mark as reviewed. ') +
+        (parts.length ? parts.join(', ') + '.' : 'All reflections evidenced.');
+      if (!userChose) radios[r.revise ? 'revise' : 'review'].checked = true;
+    };
+    _fbRefresh();
+    box.appendChild(choice); box.appendChild(rec);
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'score-edit-btn';
@@ -5668,18 +5727,19 @@
     use.textContent = 'Use this as my feedback';
     const note = document.createElement('div');
     note.style.cssText = 'display:none;font-size:11px;opacity:0.7;margin-top:4px;';
-    note.textContent = 'A suggestion only. It goes into your feedback box, where you edit it before you mark the unit as reviewed.';
+    note.textContent = 'A suggestion only. It goes into your feedback box, where you edit it before you return the unit for revision or mark it as reviewed.';
     let draft = '';
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       const items = fbItems();
       const m = _fbMarks();
       items.forEach(function(it) { if (m[it.id]) it.mark = m[it.id]; });
+      const action = radios.revise.checked ? 'revise' : 'review';
       btn.disabled = true;
       out.style.display = 'block';
       out.textContent = 'Writing a suggested feedback\u2026';
       use.style.display = 'none'; note.style.display = 'none';
-      supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: 'feedback', unit_title: (_fbCtx && _fbCtx.title) || '', items: items } }).then(function(r) {
+      supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: 'feedback', action: action, unit_no: fbUnitNo(), unit_title: (_fbCtx && _fbCtx.title) || '', items: items } }).then(function(r) {
         btn.disabled = false;
         const f = r && !r.error && r.data && r.data.ok ? r.data.feedback : '';
         if (!f) { out.textContent = 'A suggested feedback is not available just now. Please try again.'; return; }
@@ -5720,6 +5780,7 @@
       return { total: t, done: n };
     }
     function syncTotal(amend) {
+      _fbRefresh();
       const c = currentTotal();
       totalEl.textContent = 'Unit mark: ' + (c.done === 5 ? c.total + ' / 100' : c.done + ' of 5 reflections marked');
       const box = document.getElementById('scoreInputBox');
@@ -5971,7 +6032,7 @@
           status.textContent = 'Saving…';
           supabaseClient.rpc('set_u1_mark', { p_submission_id: submissionId, p_key: key, p_mark: sel.value }).then(function(r) {
             status.textContent = r.error ? 'Not saved' : 'Saved';
-            if (!r.error) { marks[key] = sel.value; drawSheet(); pushSkill(si); }
+            if (!r.error) { marks[key] = sel.value; drawSheet(); pushSkill(si); _fbRefresh(); }
           });
         });
         ctl.appendChild(lab); ctl.appendChild(sel); ctl.appendChild(status);
@@ -5981,6 +6042,7 @@
                      keys: [key], notevidenced: g ? g[0] : '', evidenced: g ? g[1] : '', developing: g ? g[2] : '' });
       });
       drawSheet();
+      _fbRefresh();
       U1_SKILLS.forEach(function(n, i) {
         // A skill whose reflections are all unanswered is settled without marking.
         if (SKILL_REFLECTIONS[1][i].every(function(k) { return !isAnswered(k); })) pushSkill(i);

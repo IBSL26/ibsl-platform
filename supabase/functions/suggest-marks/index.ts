@@ -86,7 +86,8 @@ Deno.serve(async (req) => {
       const answers = (it.keys || []).map((k) => ({ key: k, text: answerOf(responses[k]) }))
       return { ...it, answers }
     })
-    const hash = await sha(scale + JSON.stringify(blocks))
+    const action = body.action === 'review' ? 'review' : 'revise'
+    const hash = await sha(scale + (scale === 'feedback' ? action : '') + JSON.stringify(blocks))
 
     const cached = await admin.from('mark_suggestions').select('answers_hash, result').eq('submission_id', submissionId).eq('scale', scale).maybeSingle()
     if (cached.error) console.error('[suggest-marks] cache read:', cached.error.message)
@@ -97,19 +98,27 @@ Deno.serve(async (req) => {
     // Suggested overall feedback, addressed to the participant; the facilitator edits it before use.
     if (scale === 'feedback') {
       const unitTitle = String(body.unit_title || 'this unit').slice(0, 120)
+      const unitName = body.unit_no ? `Unit ${String(body.unit_no).slice(0, 4)}` : 'this unit'
       const fbMaterial = blocks.map((b) =>
         `### ${b.question || b.id}\n` +
-        (b.mark ? `Facilitator's mark: ${b.mark}\n` : '') +
+        (b.evidenced ? `What a fully evidenced answer does: ${b.evidenced}\n` : '') +
+        (b.mark ? `Facilitator's judgement: ${b.mark}\n` : '') +
         'Answer: ' + (b.answers.map((a) => a.text).join(' ').trim() || '(not answered)')
       ).join('\n\n')
+      const close = action === 'revise'
+        ? 'Open with what the answers show well, with specifics from what the participant wrote. ' +
+          'Then set out clearly what they need to do to complete the unit: the reflections left unanswered, named by title, and for each answer the facilitator judged Not evidenced or Partly evidenced, exactly what to add, taken from what a fully evidenced answer does. ' +
+          'A short list is fine where it helps. Close by asking them to resubmit, in your own words. '
+        : 'Open with what the answers show well, with specifics from what the participant wrote. ' +
+          'Then name one or two points to develop further in their own organisation, as practice at work. ' +
+          `Close by confirming that ${unitName} is complete, in your own words. Do not ask for anything to be resubmitted. `
       const fbPrompt =
-        `You are helping a facilitator of the CESI programme (IBSL, Strategy2Results) write overall feedback to a participant on ${unitTitle}. ` +
-        'Write it to the participant, using "you". British English. 120 to 180 words, in two or three short paragraphs, with no headings and no bullet points. ' +
-        'Peer-toned, warm and direct. First, name what the answers show well, with specifics from what the participant wrote. ' +
-        'Then name what is missing, including any reflections left unanswered, by their title. ' +
-        'Close with one or two concrete next steps the participant can take in their own organisation. ' +
-        'Follow the facilitator\'s marks where they are given. Do not mention marks, scores, ratings or that this text was suggested. ' +
-        'Reply with JSON only, in this form: {"feedback":"<the feedback>"}\n\n' + fbMaterial
+        `You are helping a facilitator of the CESI programme (IBSL, Strategy2Results) write overall feedback to a participant on ${unitName}, ${unitTitle}. ` +
+        'Write it as the facilitator, to the participant, using "you". British English. 120 to 220 words. Peer-toned, warm and direct, the way an experienced facilitator writes to a senior leader. No headings. ' + close +
+        'Make it specific to this participant: build every sentence from what they wrote or left out. ' +
+        'Avoid stock openings and closings, set phrases and formula wording, so that no two participants receive feedback that reads alike. ' +
+        'Follow the facilitator\'s judgements where they are given. Do not mention marks, scores, ratings or that this text was suggested. ' +
+        'Reply with JSON only, in this form: {"feedback":"<the feedback, with line breaks as \\n>"}\n\n' + fbMaterial
       const fr = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
