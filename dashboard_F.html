@@ -6,6 +6,7 @@
 <title>IBSL | Facilitator Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="s2r-profiles.js"></script>
+<script src="s2r-fac-capstone.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -4375,6 +4376,17 @@
     const headerRight = document.createElement('div');
     headerRight.className = 'roster-summary';
     headerRight.innerHTML = '<strong>' + participants.length + ' / 22</strong>Participants';
+    // [CAPSTONE] 7 Nov 2026: group progress and a read-only Blueprint for the units this facilitator teaches.
+    const capBtn = document.createElement('button');
+    capBtn.type = 'button';
+    capBtn.className = 'lses-watch';
+    capBtn.style.marginTop = '10px';
+    capBtn.textContent = 'Capstone progress';
+    capBtn.addEventListener('click', function() {
+      if (window.S2RFacCapstone && cohort) window.S2RFacCapstone.open(supabaseClient, cohort.cohort_id, cohortName);
+    });
+    headerRight.appendChild(document.createElement('br'));
+    headerRight.appendChild(capBtn);
 
     header.appendChild(headerLeft);
     header.appendChild(headerRight);
@@ -8294,6 +8306,18 @@
     returnBtn.textContent = 'Return for revision';
     actions.appendChild(returnBtn);
 
+    // 7 Nov 2026: once returned, say so above the buttons and take the gold highlight off Mark as reviewed.
+    if (status === 'pending_revision') {
+      const rn = document.createElement('div');
+      rn.style.cssText = 'font-size:13px;line-height:1.6;margin:0 0 12px;padding:10px 12px;border:1px solid rgba(201,168,76,0.6);border-radius:3px;';
+      const rb = document.createElement('strong');
+      rb.textContent = 'Returned for revision. ';
+      rn.appendChild(rb);
+      rn.appendChild(document.createTextNode('Your feedback has been sent, and the participant has been asked to resubmit. The next unit stays locked until you mark the resubmission as reviewed.'));
+      wrap.appendChild(rn);
+      primaryBtn.className = 'btn-commit-return';
+      returnBtn.textContent = 'Return for revision again';
+    }
     wrap.appendChild(actions);
 
     const help = document.createElement('p');

@@ -268,6 +268,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
   var params = new URLSearchParams(window.location.search);
   var adminTeamId = params.get('teamId');   // admin mode: capstone_P.html?teamId=<uuid>
+  // Facilitator mode (7 Nov 2026): capstone_P.html?facTeam=<uuid>&cohort=<uuid>. Read-only; only the units the facilitator teaches;
+  // no print; copy block and name watermark (s2r-protect.js). Data: get_facilitator_capstone_team().
+  var facTeamId = params.get('facTeam');
+  var facCohortId = params.get('cohort');
+  if (facTeamId && !adminTeamId){ var pj = document.createElement('script'); pj.src = 's2r-protect.js'; document.head.appendChild(pj); }
 
   // === Blueprint structure (approved wording). [Case] is replaced with the team's simulated company (box 1A). ===
   var BLUEPRINT = [
@@ -607,6 +612,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var h = '<div class="stand-all"><div class="sum-head">Our Strategy in Summary</div>' +
       '<p class="muted">Our team’s position from each unit, as we agreed it in that unit.</p>';
     BLUEPRINT.forEach(function(d){
+      if (S.mode === 'facilitator' && !by[d.key]) return;
       var m = MODULES[d.key]; if (m) h += '<div class="stand-mod">' + m[0] + ' · ' + m[1] + '</div>';
       var sec = by[d.key], v = sec && sec.content ? String(sec.content[d.unit + 'S'] || '').trim() : '';
       h += '<div class="stand-u"><div class="stand-t">Unit ' + d.unit + ' · ' + esc(d.title) + '</div>' +
@@ -630,6 +636,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function one(res){ if (!res || res.error || !res.data) return null; return Array.isArray(res.data) ? res.data[0] : res.data; }
 
   window.goBack = function(){
+    if (S.mode === 'facilitator'){ location.href = 'dashboard_F.html' + (facCohortId ? '?cohort=' + encodeURIComponent(facCohortId) : ''); return; }
     location.href = (S.mode === 'admin') ? 'dashboard_A.html?view=capstone' : 'index.html';
   };
 
@@ -644,6 +651,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       if (!session){ fatal('Not signed in', 'Sign in to the S2R Portal, then reopen the capstone from your portal.'); return; }
       S.uid = session.user.id;
       if (adminTeamId){ S.mode = 'admin'; return loadAdmin(); }
+      if (facTeamId){ S.mode = 'facilitator'; return loadFacilitator(); }
       return sb.from('cohort_memberships').select('cohort_id,role_in_cohort,joined_at')
         .eq('profile_id', S.uid).order('joined_at', { ascending:false }).then(function(mres){
           var rows = (mres && mres.data) || [];
@@ -685,9 +693,21 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     });
   }
 
+  function loadFacilitator(){
+    document.getElementById('viewBadge').textContent = 'Facilitator View';
+    document.getElementById('backBtn').innerHTML = '&#8592; Back to Facilitator Dashboard';
+    return sb.rpc('get_facilitator_capstone_team', { p_team_id: facTeamId }).then(function(res){
+      if (res.error){ console.error('[capstone] get_facilitator_capstone_team:', res.error); fatal('Could not load', 'This team’s Blueprint could not be loaded. It opens for facilitators of the team’s cohort.'); return; }
+      S.bp = res.data || null;
+      S.data = { brief: S.bp && S.bp.brief, cohort: S.bp && S.bp.cohort };
+      S.caseName = teamCompany();
+      render();
+    });
+  }
+
   function reload(){
     captureDirty();
-    return (S.mode === 'admin') ? loadAdmin() : loadParticipant();
+    return (S.mode === 'admin') ? loadAdmin() : (S.mode === 'facilitator') ? loadFacilitator() : loadParticipant();
   }
 
   // === Unit 5 · the team's OCEAVL profile (personal scores, read together once every member has submitted) ===
@@ -723,9 +743,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
   // === Render ===
   function render(){
-    document.getElementById('printBtn').style.display = S.bp ? '' : 'none';
+    document.getElementById('printBtn').style.display = (S.bp && S.mode !== 'facilitator') ? '' : 'none';
     var intro = document.getElementById('introText');
-    if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. The Capstone S2R® Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section fills as soon as every member of your group selects Agree on the group work in that unit.';
+    if (S.mode === 'facilitator') intro.innerHTML = 'Read-only view of ' + esc((S.bp && S.bp.team && S.bp.team.name) || 'this team') + '’s Capstone S2R® Blueprint' + (S.caseName ? ' for ' + esc(S.caseName) : '') + ', for the units you facilitate. Use it to support the group while it completes its work. The external panel assesses the Blueprint.';
+    else if (S.caseName) intro.innerHTML = 'Your team is the executive leadership team of ' + esc(S.caseName) + '. The Capstone S2R® Blueprint records the decisions your team agrees for ' + esc(S.caseName) + ' as you progress through the programme. Each section fills as soon as every member of your group selects Agree on the group work in that unit.';
     var html = '';
     html += coverHtml();
     html += briefCard();
@@ -736,7 +757,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     document.getElementById('root').innerHTML = html;
     restoreDirty();
     autoPull();
-    loadTeamOc();
+    if (S.mode !== 'facilitator') loadTeamOc();
   }
 
   function briefCard(){
@@ -753,7 +774,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
 
   function teamCard(){
-    var h = '<div class="card"><div class="card-label">' + (S.mode === 'admin' ? 'Team' : 'Your team') + '</div>';
+    var h = '<div class="card"><div class="card-label">' + (S.mode !== 'participant' ? 'Team' : 'Your team') + '</div>';
     if (!S.bp){ return h + '<p class="muted">IBSL will confirm your team.</p></div>'; }
     h += '<h2>' + esc(S.bp.team && S.bp.team.name) + '</h2><div class="members">';
     (S.bp.members || []).forEach(function(m){ h += '<span class="member">' + esc(m.full_name) + '</span>'; });
@@ -779,7 +800,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (!S.bp) return '';
     var h = '<div class="card bp-card"><div class="card-label">Capstone S2R® Blueprint</div>';
     var agreed = (S.bp.sections || []).filter(function(s){ return s.status === 'agreed'; }).length;
-    h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
+    if (S.mode === 'facilitator'){
+      h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of ' + (S.bp.sections || []).length + ' sections agreed in the units you facilitate. Read-only.</p>';
+    } else {
+      h += '<p class="muted" style="margin-bottom:16px;">' + agreed + ' of 12 sections agreed.</p>';
+    }
     if (S.mode === 'admin'){
       h += '<div class="admin-bar">' +
         '<button class="btn" id="capBringBtn" onclick="capAdminBringIn()">Bring in agreed work</button><span class="muted">Fills every section whose group work all members have agreed.</span>' +
@@ -824,7 +849,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (st === 'locked' || st === 'draft') h += '<p class="sec-note">Fills as soon as every member of ' + (isMember ? 'your group' : 'the group') + ' selects Agree on the group work in ' + (def.unit === 1 ? 'part 6.2' : 'Section 5') + ' of the Unit ' + def.unit + ' page.</p>';
     if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
     if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
-    if (sec.key === 'u5' && st !== 'locked') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
+    if (sec.key === 'u5' && st !== 'locked' && S.mode !== 'facilitator') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
 
     def.boxes.forEach(function(b){
       // A group heading (no box of its own), e.g. 2B · Success in Practice.
