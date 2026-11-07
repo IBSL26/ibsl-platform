@@ -5605,6 +5605,37 @@
   // The answers feed the Leading proficiency level. Facilitators do not see proficiency levels or unit feedback.
   // ─── KEY REFLECTIONS: one selection per reflection. 20 / 14 / 8 / 0, total out of 100. ───
   var _krReview = false;
+  // 7 Nov 2026: a suggested mark beside each mark, worked out by Claude (Edge Function suggest-marks).
+  // The facilitator still chooses the mark.
+  var SUGGEST_LABELS = { not_evidenced: 'Not evidenced', evidenced: 'Evidenced', developing_others: 'Evidenced and developing others',
+                         full: 'Fully evidenced (20)', part: 'Partly evidenced (14)', none: 'Not evidenced (8)', blank: 'Not answered (0)' };
+  function suggestBox() {
+    const el = document.createElement('div');
+    el.style.cssText = 'flex:1 1 100%;font-size:12px;line-height:1.6;margin-top:8px;padding:8px 12px;border:1px dashed rgba(201,168,76,0.6);border-radius:3px;';
+    el.textContent = 'Working out a suggested mark\u2026';
+    return el;
+  }
+  function loadSuggestions(submissionId, scale, items, boxes) {
+    supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: scale, items: items } }).then(function(r) {
+      const sug = r && !r.error && r.data && r.data.ok ? (r.data.suggestions || {}) : null;
+      Object.keys(boxes).forEach(function(id) {
+        const box = boxes[id];
+        const x = sug && sug[id];
+        box.textContent = '';
+        if (!x) { box.textContent = 'A suggested mark is not available for this one. Mark from the answers.'; box.style.opacity = '0.7'; return; }
+        const b = document.createElement('strong');
+        b.textContent = 'Suggested mark: ' + (SUGGEST_LABELS[x.mark] || x.mark) + '. ';
+        box.appendChild(b);
+        box.appendChild(document.createTextNode(x.reason || ''));
+        const note = document.createElement('div');
+        note.style.cssText = 'font-size:11px;opacity:0.7;margin-top:2px;';
+        note.textContent = 'A suggestion only. Your choice in the drop-down is the mark.';
+        box.appendChild(note);
+      });
+    }).catch(function() {
+      Object.keys(boxes).forEach(function(id) { boxes[id].textContent = 'A suggested mark is not available for this one. Mark from the answers.'; boxes[id].style.opacity = '0.7'; });
+    });
+  }
   const KR_BANDS = [['', 'Select\u2026', null], ['full', 'Fully evidenced', 20], ['part', 'Partly evidenced', 14], ['none', 'Not evidenced', 8], ['blank', 'Not answered', 0]];
   function buildReflectionMarksSection(submission, submissionId, lensId, responses) {
     const section = document.createElement('section');
@@ -5658,6 +5689,7 @@
         key.appendChild(line);
       });
       list.appendChild(key);
+      const _sugBoxes = {}, _sugItems = [];
       [1, 2, 3, 4, 5].forEach(function(s) {
         const row = document.createElement('div');
         row.style.cssText = 'padding:10px 0;font-size:13px;line-height:1.6;border-top:1px solid rgba(128,128,128,0.25);';
@@ -5691,6 +5723,8 @@
         const m = marks[String(s)] || {};
         sel.value = m.band || '';
         selects[s] = sel;
+        _sugBoxes[String(s)] = suggestBox();
+        _sugItems.push({ id: String(s), question: q.textContent, keys: ['kr_s' + s], evidenced: g || '' });
         const status = document.createElement('span');
         status.style.cssText = 'font-size:11px;margin-left:10px;';
         const com = document.createElement('textarea');
@@ -5708,13 +5742,14 @@
         sel.addEventListener('change', function() { syncTotal(false); save(); });
         com.addEventListener('blur', function() { if (com.value !== (com._saved || m.comment || '')) { com._saved = com.value; save(); } });
         [sel, com].forEach(function(el) { el.addEventListener('click', function(e) { e.stopPropagation(); }); });
-        row.appendChild(sel); row.appendChild(status); row.appendChild(com);
+        row.appendChild(sel); row.appendChild(status); row.appendChild(_sugBoxes[String(s)]); row.appendChild(com);
         list.appendChild(row);
         // An empty reflection is Not answered without the facilitator having to select it.
         if (!answered && !m.band) { sel.value = 'blank'; save(); }
       });
       list.appendChild(totalEl);
       syncTotal(false);
+      loadSuggestions(submissionId, 'reflection', _sugItems, _sugBoxes);
     });
     return section;
   }
@@ -5731,7 +5766,7 @@
     section.className = 'thread-section';
     section.innerHTML =
       '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
-      '<p class="thread-section-sub">How to mark: under each skill, open the participant\u2019s answers for that skill and read them. Then choose from the drop-down beside the skill. Your choice saves automatically. The participant\u2019s level is set once all three skills have a choice.</p>' +
+      '<p class="thread-section-sub">How to mark: under each skill, read the participant\u2019s answers for that skill. Then choose from the drop-down beside the skill. Your choice saves automatically. The participant\u2019s level is set once all three skills have a choice.</p>' +
       '<div class="skill-evidence-list">Loading\u2026</div>';
     const list = section.querySelector('.skill-evidence-list');
     const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
@@ -5768,6 +5803,7 @@
         key.appendChild(line);
       });
       list.appendChild(key);
+      const _skBoxes = {}, _skItems = [];
       (d.skills || []).forEach(function(skill, i) {
         const no = i + 1;
         const row = document.createElement('div');
@@ -5805,14 +5841,17 @@
           });
         });
         row.appendChild(label); row.appendChild(sel); row.appendChild(status);
+        _skBoxes[String(no)] = suggestBox();
+        row.appendChild(_skBoxes[String(no)]);
         const refKeys = SKILL_REFLECTIONS[d.unit_no] && SKILL_REFLECTIONS[d.unit_no][i];
         if (refKeys) {
           const answered = refKeys.filter(function(k) { var v = responses[k]; return typeof v === 'string' && v.trim() !== ''; }).length;
           const det = document.createElement('details');
           det.style.cssText = 'flex:1 1 100%;margin-top:6px;';
+          det.open = true;
           const sum = document.createElement('summary');
           sum.style.cssText = 'cursor:pointer;font-weight:600;font-size:12px;';
-          sum.textContent = 'Read the answers for this skill (' + answered + ' of ' + refKeys.length + ' answered)';
+          sum.textContent = 'Answers for this skill (' + answered + ' of ' + refKeys.length + ' answered)';
           det.appendChild(sum);
           refKeys.forEach(function(k) {
             const box = document.createElement('div');
@@ -5830,8 +5869,10 @@
           });
           row.appendChild(det);
         }
+        _skItems.push({ id: String(no), question: skill, keys: refKeys || [], evidenced: g ? g[0] : '', developing: g ? g[1] : '' });
         list.appendChild(row);
       });
+      loadSuggestions(submissionId, 'skill', _skItems, _skBoxes);
     }).catch(function() { list.textContent = 'The skills could not be loaded.'; });
     return section;
   }
@@ -6418,12 +6459,13 @@
 
   function renderGenericResponses(responses, lensId) {
     // Filter __-prefixed keys (system markers, not content)
-    const visibleKeys = Object.keys(responses).filter(function(k) { return !k.startsWith('__') && !isCapstoneKey(k, lensId); });
+    const visibleKeys = Object.keys(responses).filter(function(k) { return !k.startsWith('__') && !isCapstoneKey(k, lensId) && !isMarkedKey(k, lensId); });
 
     if (visibleKeys.length === 0) {
       const empty = document.createElement('div');
       empty.className = 'response-empty-card';
-      empty.textContent = 'No response content was provided.';
+      var _anyMarked = Object.keys(responses).some(function(k) { return isMarkedKey(k, lensId); });
+      empty.textContent = _anyMarked ? 'The reflections for this unit are in the marking section below.' : 'No response content was provided.';
       return empty;
     }
 
@@ -7357,6 +7399,11 @@
   // 7 Nov 2026: group work that goes to the Capstone S2R® Blueprint is not shown to facilitators
   // (same keys the Learning Portfolio leaves out, plus the group's Our Position statement).
   var FAC_CAPSTONE_KEYS={ u1_foundations:/^(pc_|confirmed_items$|team_summary$)/i, u2m1_lens1:/^(arch_|org_name$|strategy_period$|intent_statement$|sip_d\d_(q\d|st)$|sip_integrated$|confirmed_items$|team_summary$)/i, u2m1_lens2:/^(kex_|kiss_(keep|improve|start|stop)$|sip_d\d_st$|okr_drafts$|ent_priorities$|ent_okrs$|confirmed_items$|team_summary$)/i, u2m1_lens3:/^(mbt_(record|arena|bound|comp|value|verify|blind)$|syn_(themes|disagree|top5)$|own_(internal|external|timeline)$|team_name$|exec_(name|role)$|confirmed_items$|team_summary$)/i, u3m1_lens4:/^(syn_(missing_compass|strong_compass|sequence)$|kit_(team|mind|heart|hands|habit|profile)$|oceavl_scores$|team_name$|exec_(name|role)$|confirmed_items$|team_summary$)/i, u3m1_lens5:/^(pm_(record|scoring|faces|execution|scorecards)$|cm_(record|map|faces|ward)$|confirmed_items$|team_summary$)/i, u3m1_lens6:/^(ex_(record|future|delivery|chain|ownership|dialogue)$|confirmed_items$|team_summary$)/i, u3m2_lens7:/^(rd_(record|warning|accountability|learning|credibility|ward)$|confirmed_items$|team_summary$)/i, u3m2_lens8:/^(uc_(record|challenge|clog|lever|review_realign|restore)$|confirmed_items$|team_summary$)/i, u4m1_lens9:/^(es_(scanner|interp|resp|plan)$|confirmed_items$|team_summary$)/i, u4m1_lens10:/^(oh_(func|cons|rrr|resp|coc)$|confirmed_items$|team_summary$)/i, u4m2_lens11:/^(qs_(strategic|operational|behavioural|kiss)$|confirmed_items$|team_summary$)/i };
+  // 7 Nov 2026: one marking section. Reflections that are marked appear only there, beside their mark.
+  function isMarkedKey(k, lensId) {
+    if (lensId === 'u1_foundations') { return SKILL_REFLECTIONS[1].some(function(g) { return g.indexOf(k) >= 0; }); }
+    return /^kr_s[1-5]$/.test(k) && !!(window.S2R_KEY_REF && window.S2R_KEY_REF.label(lensId, k));
+  }
   function isCapstoneKey(k, lensId) { var rx = FAC_CAPSTONE_KEYS[lensId]; return /^team_summary$/i.test(k) || (!!rx && rx.test(k)); }
   // 7 Nov 2026: the question each answer responds to, so the facilitator sees what they are marking
   // (same question text the Learning Portfolio uses).
