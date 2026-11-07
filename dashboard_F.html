@@ -5760,13 +5760,19 @@
         ['r_m2_elephant', 'r_m3_cxo', 'r_m5_integration'],
         ['r_m4_climate', 'r_m4_principles', 'r_m5_pillars', 'r_m5_practices']]
   };
+  var U1_SECTIONS = { 1: 'Section 1 \u00b7 Orientation', 2: 'Section 2 \u00b7 Awareness', 3: 'Section 3 \u00b7 Intelligence', 4: 'Section 4 \u00b7 Extrapolating', 5: 'Section 5 \u00b7 Integration' };
+  var U1_SKILLS = ['Identify cognitive and functional bias in strategic decisions', 'Examine a strategic issue from each executive perspective', 'Apply institutional practices that build collective intelligence'];
+  function u1SkillOf(key) {
+    for (var i = 0; i < SKILL_REFLECTIONS[1].length; i++) { if (SKILL_REFLECTIONS[1][i].indexOf(key) >= 0) return i; }
+    return -1;
+  }
   function buildSkillEvidenceSection(submissionId, responses, lensId) {
     responses = responses || {};
     const section = document.createElement('section');
     section.className = 'thread-section';
     section.innerHTML =
-      '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
-      '<p class="thread-section-sub">How to mark: under each skill, read the participant\u2019s answers for that skill. Then choose from the drop-down beside the skill. Your choice saves automatically. The participant\u2019s level is set once all three skills have a choice.</p>' +
+      '<h2 class="thread-section-heading">Mark the skills</h2>' +
+      '<p class="thread-section-sub">How to mark: read the reflections above, section by section. Each one is tagged with the skill it evidences. For each skill below, read the suggested mark, then choose your mark from the drop-down. Your choice saves automatically.</p>' +
       '<div class="skill-evidence-list">Loading\u2026</div>';
     const list = section.querySelector('.skill-evidence-list');
     const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
@@ -5810,7 +5816,8 @@
         row.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:8px 0;font-size:12px;border-top:1px solid rgba(128,128,128,0.25);';
         const label = document.createElement('span');
         label.style.cssText = 'flex:1 1 260px;';
-        label.textContent = skill;
+        label.textContent = 'Skill ' + (i + 1) + ': ' + skill;
+        label.style.fontWeight = '600';
         const g = window.S2R_SKILL_GUIDE && window.S2R_SKILL_GUIDE[d.unit_no] && window.S2R_SKILL_GUIDE[d.unit_no][i];
         if (g) {
           [['Evidenced: ', g[0]], ['Developing others: ', g[1]]].forEach(function(x) {
@@ -5846,28 +5853,13 @@
         const refKeys = SKILL_REFLECTIONS[d.unit_no] && SKILL_REFLECTIONS[d.unit_no][i];
         if (refKeys) {
           const answered = refKeys.filter(function(k) { var v = responses[k]; return typeof v === 'string' && v.trim() !== ''; }).length;
-          const det = document.createElement('details');
-          det.style.cssText = 'flex:1 1 100%;margin-top:6px;';
-          det.open = true;
-          const sum = document.createElement('summary');
-          sum.style.cssText = 'cursor:pointer;font-weight:600;font-size:12px;';
-          sum.textContent = 'Answers for this skill (' + answered + ' of ' + refKeys.length + ' answered)';
-          det.appendChild(sum);
-          refKeys.forEach(function(k) {
-            const box = document.createElement('div');
-            box.style.cssText = 'margin:10px 0 0;padding:8px 12px;border-left:2px solid rgba(201,168,76,0.6);';
-            const qq = document.createElement('div');
-            qq.style.cssText = 'font-size:12px;line-height:1.6;font-style:italic;opacity:0.85;';
-            qq.textContent = questionFor(k, lensId) || humanizeFieldName(k, lensId);
-            const aa = document.createElement('div');
-            aa.style.cssText = 'font-size:13px;line-height:1.6;margin-top:4px;white-space:pre-wrap;';
-            const v = responses[k];
-            aa.textContent = (typeof v === 'string' && v.trim() !== '') ? v : 'Not answered.';
-            if (!(typeof v === 'string' && v.trim() !== '')) aa.style.opacity = '0.6';
-            box.appendChild(qq); box.appendChild(aa);
-            det.appendChild(box);
-          });
-          row.appendChild(det);
+          const where = document.createElement('div');
+          where.style.cssText = 'flex:1 1 100%;font-size:12px;line-height:1.6;margin-top:6px;';
+          const wb = document.createElement('strong');
+          wb.textContent = 'Read in the reflections tagged Skill ' + no + ' above: ';
+          where.appendChild(wb);
+          where.appendChild(document.createTextNode(refKeys.map(function(k) { var n = (k.match(/^r_m(\d+)_/) || [])[1]; return (U1_SECTIONS[n] || '') + ' \u00b7 ' + humanizeFieldName(k, lensId); }).join('; ') + ' (' + answered + ' of ' + refKeys.length + ' answered).'));
+          row.appendChild(where);
         }
         _skItems.push({ id: String(no), question: skill, keys: refKeys || [], evidenced: g ? g[0] : '', developing: g ? g[1] : '' });
         list.appendChild(row);
@@ -6129,15 +6121,11 @@
 
     // Five Commitments adaptive detection
     const fc = detectFiveCommitments(payload);
-    if (fc) {
-      console.log('[F4] Five Commitments structure detected — rendering panel');
-      body.appendChild(renderFiveCommitmentsPanel(fc));
-    }
 
     // Responses
     const responseHeader = document.createElement('h2');
     responseHeader.className = 'review-body-heading';
-    responseHeader.textContent = 'Participant Response';
+    responseHeader.textContent = lens.id === 'u1_foundations' ? 'Reflections, section by section' : 'Participant Response';
     body.appendChild(responseHeader);
 
     const responsesEl = renderResponses(payload, lens.id);
@@ -6193,13 +6181,25 @@
     var completionBar = buildCompletionBar(payload, lens);
     if (completionBar) content.appendChild(completionBar);
     content.appendChild(body);
-    content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
+    // 7 Nov 2026: one clean order — the reflections, then the marking, then the self-assessment,
+    // documents and feedback (with Mark as reviewed) last.
     // Key reflections: each carries a mark, and the marks set the unit mark and the competency level.
     var _resp = payload.responses || {};
     _krReview = !!window.S2R_KEY_REF && !!window.S2R_KEY_REF.label(lens.id, 'kr_s1') && [1, 2, 3, 4, 5].some(function(n) { return _resp['kr_s' + n] !== undefined; });
     if (_krReview) content.appendChild(wrapCollapsibleSection(buildReflectionMarksSection(submission, submissionId, lens.id, _resp)));
+    else content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId, _resp, lens.id)));
+    if (fc) {
+      const fcWrap = document.createElement('div');
+      fcWrap.className = 'review-body';
+      const fcHead = document.createElement('h2');
+      fcHead.className = 'review-body-heading';
+      fcHead.textContent = 'Self-assessment';
+      fcWrap.appendChild(fcHead);
+      fcWrap.appendChild(renderFiveCommitmentsPanel(fc));
+      content.appendChild(fcWrap);
+    }
+    content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
-    if (!_krReview) content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId, _resp, lens.id)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
   }
@@ -6561,7 +6561,7 @@
 
       const heading = document.createElement('div');
       heading.className = 'response-module-heading';
-      heading.textContent = 'Section ' + num;
+      heading.textContent = (lensId === 'u1_foundations' && U1_SECTIONS[num]) ? U1_SECTIONS[num] : 'Section ' + num;
       heading.addEventListener('click', function() {
         moduleEl.classList.toggle('collapsed');
       });
@@ -6708,7 +6708,7 @@
     // to re-open it. To change the default to "first section open", remove the
     // collapse loop below; to default-expanded, delete this whole block.
     const collapsibleHeadings = wrap.querySelectorAll('.response-module-heading');
-    if (collapsibleHeadings.length > 1) {
+    if (collapsibleHeadings.length > 1 && lensId !== 'u1_foundations') {
       wrap.querySelectorAll('.response-module').forEach(function(m) {
         m.classList.add('collapsed');
       });
@@ -6865,6 +6865,16 @@
         qEl.style.cssText = 'font-size:12px;line-height:1.6;font-style:italic;opacity:0.85;margin:2px 0 8px;white-space:pre-wrap;';
         qEl.textContent = qText;
         wrap.appendChild(qEl);
+      }
+      if (lensId === 'u1_foundations') {
+        let si = -1;
+        for (let n = 1; n <= 5 && si < 0; n++) si = u1SkillOf('r_m' + n + '_' + fieldName);
+        if (si >= 0) {
+          const tag = document.createElement('div');
+          tag.style.cssText = 'display:inline-block;font-size:11px;font-weight:600;margin:0 0 6px;padding:2px 8px;border-radius:10px;border:1px solid rgba(201,168,76,0.6);color:#c9a84c;';
+          tag.textContent = 'Skill ' + (si + 1) + ': ' + U1_SKILLS[si];
+          wrap.appendChild(tag);
+        }
       }
     }
 
@@ -7401,7 +7411,6 @@
   var FAC_CAPSTONE_KEYS={ u1_foundations:/^(pc_|confirmed_items$|team_summary$)/i, u2m1_lens1:/^(arch_|org_name$|strategy_period$|intent_statement$|sip_d\d_(q\d|st)$|sip_integrated$|confirmed_items$|team_summary$)/i, u2m1_lens2:/^(kex_|kiss_(keep|improve|start|stop)$|sip_d\d_st$|okr_drafts$|ent_priorities$|ent_okrs$|confirmed_items$|team_summary$)/i, u2m1_lens3:/^(mbt_(record|arena|bound|comp|value|verify|blind)$|syn_(themes|disagree|top5)$|own_(internal|external|timeline)$|team_name$|exec_(name|role)$|confirmed_items$|team_summary$)/i, u3m1_lens4:/^(syn_(missing_compass|strong_compass|sequence)$|kit_(team|mind|heart|hands|habit|profile)$|oceavl_scores$|team_name$|exec_(name|role)$|confirmed_items$|team_summary$)/i, u3m1_lens5:/^(pm_(record|scoring|faces|execution|scorecards)$|cm_(record|map|faces|ward)$|confirmed_items$|team_summary$)/i, u3m1_lens6:/^(ex_(record|future|delivery|chain|ownership|dialogue)$|confirmed_items$|team_summary$)/i, u3m2_lens7:/^(rd_(record|warning|accountability|learning|credibility|ward)$|confirmed_items$|team_summary$)/i, u3m2_lens8:/^(uc_(record|challenge|clog|lever|review_realign|restore)$|confirmed_items$|team_summary$)/i, u4m1_lens9:/^(es_(scanner|interp|resp|plan)$|confirmed_items$|team_summary$)/i, u4m1_lens10:/^(oh_(func|cons|rrr|resp|coc)$|confirmed_items$|team_summary$)/i, u4m2_lens11:/^(qs_(strategic|operational|behavioural|kiss)$|confirmed_items$|team_summary$)/i };
   // 7 Nov 2026: one marking section. Reflections that are marked appear only there, beside their mark.
   function isMarkedKey(k, lensId) {
-    if (lensId === 'u1_foundations') { return SKILL_REFLECTIONS[1].some(function(g) { return g.indexOf(k) >= 0; }); }
     return /^kr_s[1-5]$/.test(k) && !!(window.S2R_KEY_REF && window.S2R_KEY_REF.label(lensId, k));
   }
   function isCapstoneKey(k, lensId) { var rx = FAC_CAPSTONE_KEYS[lensId]; return /^team_summary$/i.test(k) || (!!rx && rx.test(k)); }

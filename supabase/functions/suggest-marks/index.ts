@@ -57,10 +57,13 @@ Deno.serve(async (req) => {
     const access = await userClient.rpc('get_reflection_marks', { p_submission_id: submissionId })
     if (access.error) return json({ ok: false, error: 'access_denied' }, 403)
 
-    const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-    const sub = await admin.from('submissions').select('payload').eq('id', submissionId).single()
-    if (sub.error || !sub.data) return json({ ok: false, error: 'not_found' }, 404)
-    const responses = (sub.data.payload && sub.data.payload.responses) || {}
+    // The submission, read with the caller's own login (the same call the review page makes).
+    const bundle = await userClient.rpc('get_submission_for_review', { p_submission_id: submissionId })
+    if (bundle.error) console.error('[suggest-marks] get_submission_for_review:', bundle.error.message)
+    const payload = bundle.data && bundle.data.submission && bundle.data.submission.payload
+    if (!payload) return json({ ok: false, error: 'not_found' }, 404)
+    const responses = payload.responses || {}
+    const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, { auth: { autoRefreshToken: false, persistSession: false } })
 
     const blocks = items.map((it) => {
       const answers = (it.keys || []).map((k) => ({ key: k, text: answerOf(responses[k]) }))
@@ -69,6 +72,7 @@ Deno.serve(async (req) => {
     const hash = await sha(scale + JSON.stringify(blocks))
 
     const cached = await admin.from('mark_suggestions').select('answers_hash, result').eq('submission_id', submissionId).eq('scale', scale).maybeSingle()
+    if (cached.error) console.error('[suggest-marks] cache read:', cached.error.message)
     if (cached.data && cached.data.answers_hash === hash) return json({ ok: true, suggestions: cached.data.result, cached: true })
 
     if (!ANTHROPIC_API_KEY) return json({ ok: false, error: 'no_key' }, 503)
@@ -106,7 +110,7 @@ Deno.serve(async (req) => {
       headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
       body: JSON.stringify({ model: MODEL, max_tokens: 1500, messages: [{ role: 'user', content: prompt }] }),
     })
-    if (!r.ok) return json({ ok: false, error: 'model_error', status: r.status, detail: (await r.text()).slice(0, 300) }, 502)
+    if (!r.ok) { const d = (await r.text()).slice(0, 300); console.error('[suggest-marks] model:', r.status, d); return json({ ok: false, error: 'model_error', status: r.status, detail: d }, 502) }
     const out = await r.json()
     const text = (out.content || []).map((c: { text?: string }) => c.text || '').join('')
     const m = text.match(/\{[\s\S]*\}/)
@@ -121,9 +125,11 @@ Deno.serve(async (req) => {
       result[id] = { mark: String(x.mark), reason: String(x.reason || '').slice(0, 300) }
     }
 
-    await admin.from('mark_suggestions').upsert({ submission_id: submissionId, scale, answers_hash: hash, result, created_at: new Date().toISOString() })
+    const saved = await admin.from('mark_suggestions').upsert({ submission_id: submissionId, scale, answers_hash: hash, result, created_at: new Date().toISOString() })
+    if (saved.error) console.error('[suggest-marks] cache write:', saved.error.message)
     return json({ ok: true, suggestions: result, cached: false })
   } catch (e) {
+    console.error('[suggest-marks] error:', String(e))
     return json({ ok: false, error: 'server_error', detail: String(e).slice(0, 300) }, 500)
   }
 })
