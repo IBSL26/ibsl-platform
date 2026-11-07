@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}))
     const submissionId = String(body.submission_id || '')
     const scale = body.scale === 'skill' ? 'skill' : 'reflection'
-    const items: Item[] = Array.isArray(body.items) ? body.items.slice(0, 8) : []
+    const items: Item[] = Array.isArray(body.items) ? body.items.slice(0, 16) : []
     if (!submissionId || !items.length) return json({ ok: false, error: 'bad_input' }, 400)
 
     // Access: the caller's own login must be allowed to mark this submission.

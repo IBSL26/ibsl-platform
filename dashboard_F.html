@@ -5766,6 +5766,96 @@
     for (var i = 0; i < SKILL_REFLECTIONS[1].length; i++) { if (SKILL_REFLECTIONS[1][i].indexOf(key) >= 0) return i; }
     return -1;
   }
+  // 7 Nov 2026: Unit 1 — the mark sits on each reflection. A skill's result is worked out from its reflection marks:
+  // Evidenced and developing others if any reflection is marked so; else Evidenced if any is; else Not evidenced.
+  function attachU1Marking(container, submissionId, responses, lensId) {
+    const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
+    const marks = {};
+    const summary = document.createElement('section');
+    summary.className = 'thread-section';
+    summary.innerHTML = '<h2 class="thread-section-heading">Skill results</h2>' +
+      '<p class="thread-section-sub">Worked out from your marks on the reflections above. A skill shows as Evidenced when at least one of its reflections is marked Evidenced, and as Evidenced and developing others when at least one is marked that way.</p>';
+    const lines = [];
+    U1_SKILLS.forEach(function(name, i) {
+      const l = document.createElement('div');
+      l.style.cssText = 'font-size:13px;line-height:1.7;padding:6px 0;border-top:1px solid rgba(128,128,128,0.25);';
+      summary.appendChild(l);
+      lines.push(l);
+    });
+    function resultOf(i) {
+      const ks = SKILL_REFLECTIONS[1][i];
+      const vals = ks.map(function(k) { return marks[k] || ''; });
+      if (vals.indexOf('developing_others') >= 0) return 'developing_others';
+      if (vals.indexOf('evidenced') >= 0) return 'evidenced';
+      if (vals.indexOf('not_evidenced') >= 0) return 'not_evidenced';
+      return '';
+    }
+    function drawLine(i) {
+      const r = resultOf(i);
+      const n = SKILL_REFLECTIONS[1][i].filter(function(k) { return !!marks[k]; }).length;
+      lines[i].textContent = '';
+      const b = document.createElement('strong');
+      b.textContent = 'Skill ' + (i + 1) + ': ' + U1_SKILLS[i] + ' \u2014 ';
+      lines[i].appendChild(b);
+      lines[i].appendChild(document.createTextNode(r ? (SUGGEST_LABELS[r] + ' (from ' + n + ' marked reflection' + (n === 1 ? '' : 's') + ')') : 'Not yet marked'));
+    }
+    function pushSkill(i) {
+      supabaseClient.rpc('set_skill_evidence', { p_submission_id: submissionId, p_skill_no: i + 1, p_evidence: resultOf(i) });
+    }
+    const rows = Array.prototype.slice.call(container.querySelectorAll('[data-u1-key]'));
+    const boxes = {}, items = [];
+    supabaseClient.rpc('get_u1_marks', { p_submission_id: submissionId }).then(function(res) {
+      const saved = (!res.error && res.data) || {};
+      rows.forEach(function(row) {
+        const key = row.getAttribute('data-u1-key');
+        const si = Number(row.getAttribute('data-u1-skill'));
+        marks[key] = saved[key] || '';
+        const g = window.S2R_SKILL_GUIDE && window.S2R_SKILL_GUIDE[1] && window.S2R_SKILL_GUIDE[1][si];
+        const box = document.createElement('div');
+        box.style.cssText = 'margin:10px 0 4px;padding:10px 12px;border-left:3px solid #c9a84c;font-size:12px;line-height:1.6;';
+        if (g) {
+          [['Evidenced: ', g[0]], ['Developing others: ', g[1]]].forEach(function(x) {
+            const d = document.createElement('div');
+            const b = document.createElement('strong');
+            b.textContent = x[0];
+            d.appendChild(b); d.appendChild(document.createTextNode(x[1]));
+            box.appendChild(d);
+          });
+        }
+        const sug = suggestBox();
+        boxes[key] = sug;
+        box.appendChild(sug);
+        const ctl = document.createElement('div');
+        ctl.style.cssText = 'display:flex;gap:10px;align-items:center;margin-top:8px;';
+        const lab = document.createElement('strong');
+        lab.textContent = 'Your mark:';
+        const sel = document.createElement('select');
+        sel.style.cssText = 'font:inherit;padding:6px 8px;';
+        sel.setAttribute('aria-label', 'Mark for this reflection');
+        OPTIONS.forEach(function(o) { const opt = document.createElement('option'); opt.value = o[0]; opt.textContent = o[1]; sel.appendChild(opt); });
+        sel.value = marks[key];
+        const status = document.createElement('span');
+        status.style.cssText = 'font-size:11px;';
+        sel.addEventListener('click', function(e) { e.stopPropagation(); });
+        sel.addEventListener('change', function() {
+          status.textContent = 'Saving\u2026';
+          supabaseClient.rpc('set_u1_mark', { p_submission_id: submissionId, p_key: key, p_mark: sel.value }).then(function(r) {
+            status.textContent = r.error ? 'Not saved' : 'Saved';
+            if (!r.error) { marks[key] = sel.value; drawLine(si); pushSkill(si); }
+          });
+        });
+        ctl.appendChild(lab); ctl.appendChild(sel); ctl.appendChild(status);
+        box.appendChild(ctl);
+        row.appendChild(box);
+        items.push({ id: key, question: (questionFor(key, lensId) || humanizeFieldName(key, lensId)) + ' [Skill: ' + U1_SKILLS[si] + ']',
+                     keys: [key], evidenced: g ? g[0] : '', developing: g ? g[1] : '' });
+      });
+      U1_SKILLS.forEach(function(n, i) { drawLine(i); });
+      if (items.length) loadSuggestions(submissionId, 'skill', items, boxes);
+    });
+    return summary;
+  }
+
   function buildSkillEvidenceSection(submissionId, responses, lensId) {
     responses = responses || {};
     const section = document.createElement('section');
@@ -6187,6 +6277,19 @@
     var _resp = payload.responses || {};
     _krReview = !!window.S2R_KEY_REF && !!window.S2R_KEY_REF.label(lens.id, 'kr_s1') && [1, 2, 3, 4, 5].some(function(n) { return _resp['kr_s' + n] !== undefined; });
     if (_krReview) content.appendChild(wrapCollapsibleSection(buildReflectionMarksSection(submission, submissionId, lens.id, _resp)));
+    else if (lens.id === 'u1_foundations') {
+      content.appendChild(attachU1Marking(body, submissionId, _resp, lens.id));
+      if (_resp.assessment) {
+        const saWrap = document.createElement('div');
+        saWrap.className = 'review-body';
+        const saHead = document.createElement('h2');
+        saHead.className = 'review-body-heading';
+        saHead.textContent = 'Self-assessment';
+        saWrap.appendChild(saHead);
+        saWrap.appendChild(renderAssessmentCard(_resp.assessment));
+        content.appendChild(saWrap);
+      }
+    }
     else content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId, _resp, lens.id)));
     if (fc) {
       const fcWrap = document.createElement('div');
@@ -6537,7 +6640,7 @@
     }
     visibleKeys.forEach(function(key) {
       if (key === 'assessment') {
-        assessmentData = responses[key];
+        if (lensId !== 'u1_foundations') assessmentData = responses[key];
         return;
       }
       const match = key.match(/^r_m(\d+)_(.+)$/);
@@ -6570,7 +6673,7 @@
       const body = document.createElement('div');
       body.className = 'response-module-body';
       buckets[num].forEach(function(entry) {
-        body.appendChild(renderFieldEntry(entry.fieldName, entry.value, 0, lensId));
+        body.appendChild(renderFieldEntry(lensId === 'u1_foundations' ? entry.key : entry.fieldName, entry.value, 0, lensId));
       });
       moduleEl.appendChild(body);
       wrap.appendChild(moduleEl);
@@ -6867,9 +6970,11 @@
         wrap.appendChild(qEl);
       }
       if (lensId === 'u1_foundations') {
-        let si = -1;
-        for (let n = 1; n <= 5 && si < 0; n++) si = u1SkillOf('r_m' + n + '_' + fieldName);
+        const fullKey = /^r_m\d+_/.test(fieldName) ? fieldName : '';
+        const si = fullKey ? u1SkillOf(fullKey) : -1;
         if (si >= 0) {
+          wrap.setAttribute('data-u1-key', fullKey);
+          wrap.setAttribute('data-u1-skill', String(si));
           const tag = document.createElement('div');
           tag.style.cssText = 'display:inline-block;font-size:11px;font-weight:600;margin:0 0 6px;padding:2px 8px;border-radius:10px;border:1px solid rgba(201,168,76,0.6);color:#c9a84c;';
           tag.textContent = 'Skill ' + (si + 1) + ': ' + U1_SKILLS[si];
