@@ -5777,17 +5777,45 @@
     function sectionTitle(k) { const n = (k.match(/^r_m(\d+)_/) || [])[1]; return (U1_SECTIONS[n] || '') + ' · ' + humanizeFieldName(k, lensId); }
     // An unanswered reflection counts as Not evidenced without the facilitator having to mark it.
     function markOf(k) { return isAnswered(k) ? (marks[k] || '') : 'not_evidenced'; }
+    // 7 Nov 2026: the marking sheet — every Unit 1 reflection in page order, its skill and the mark.
     const summary = document.createElement('section');
     summary.className = 'thread-section';
-    summary.innerHTML = '<h2 class="thread-section-heading">Skill results</h2>' +
-      '<p class="thread-section-sub">Worked out from your marks on the reflections above. A skill shows as Evidenced when at least one of its reflections is marked Evidenced, and as Evidenced and developing others when at least one is marked that way. A reflection left unanswered counts as Not evidenced.</p>';
-    const blocks = [];
-    U1_SKILLS.forEach(function() {
-      const l = document.createElement('div');
-      l.style.cssText = 'font-size:13px;line-height:1.7;padding:8px 0;border-top:1px solid rgba(128,128,128,0.25);';
-      summary.appendChild(l);
-      blocks.push(l);
+    summary.innerHTML = '<h2 class="thread-section-heading">Marking sheet</h2>' +
+      '<p class="thread-section-sub">Your marks on each reflection, in page order. It updates as you mark.</p>';
+    const sheet = document.createElement('table');
+    sheet.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;line-height:1.5;';
+    const thead = document.createElement('tr');
+    ['Section', 'Reflection', 'Skill', 'Your mark'].forEach(function(h) {
+      const th = document.createElement('th');
+      th.textContent = h;
+      th.style.cssText = 'text-align:left;padding:6px 8px;border-bottom:1px solid rgba(201,168,76,0.6);font-weight:700;';
+      thead.appendChild(th);
     });
+    sheet.appendChild(thead);
+    const markCells = {};
+    Object.keys(FAC_PROMPTS.u1_foundations || {}).filter(function(k) { return /^r_m\d+_/.test(k); }).forEach(function(k) {
+      const tr = document.createElement('tr');
+      const n = (k.match(/^r_m(\d+)_/) || [])[1];
+      const si = u1SkillOf(k);
+      [U1_SECTIONS[n] ? U1_SECTIONS[n].replace('Section ', '') : '', humanizeFieldName(k, lensId), si >= 0 ? U1_SKILLS[si] : '\u2014', ''].forEach(function(t, ci) {
+        const td = document.createElement('td');
+        td.textContent = t;
+        td.style.cssText = 'padding:6px 8px;border-bottom:1px solid rgba(128,128,128,0.25);vertical-align:top;';
+        if (ci === 3) { markCells[k] = td; td.style.fontWeight = '600'; }
+        tr.appendChild(td);
+      });
+      sheet.appendChild(tr);
+    });
+    summary.appendChild(sheet);
+    function drawSheet() {
+      Object.keys(markCells).forEach(function(k) {
+        let t;
+        if (u1SkillOf(k) < 0) t = 'Opening reflection, not marked';
+        else if (!isAnswered(k)) t = 'Not answered';
+        else t = marks[k] ? SUGGEST_LABELS[marks[k]] : 'Not yet marked';
+        markCells[k].textContent = t;
+      });
+    }
     function resultOf(i) {
       const ks = SKILL_REFLECTIONS[1][i];
       if (ks.some(function(k) { return isAnswered(k) && !marks[k]; })) {
@@ -5800,32 +5828,6 @@
       if (vals.indexOf('developing_others') >= 0) return 'developing_others';
       if (vals.indexOf('evidenced') >= 0) return 'evidenced';
       return 'not_evidenced';
-    }
-    function drawBlock(i) {
-      const ks = SKILL_REFLECTIONS[1][i];
-      const r = resultOf(i);
-      const toMark = ks.filter(function(k) { return isAnswered(k) && !marks[k]; }).length;
-      const el = blocks[i];
-      el.textContent = '';
-      const head = document.createElement('div');
-      const b = document.createElement('strong');
-      b.textContent = 'Skill ' + (i + 1) + ': ' + U1_SKILLS[i] + ' — ' + (r ? SUGGEST_LABELS[r] : 'Not yet marked');
-      head.appendChild(b);
-      if (toMark) head.appendChild(document.createTextNode(' (' + toMark + ' still to mark)'));
-      el.appendChild(head);
-      const secs = [];
-      ks.forEach(function(k) {
-        if (marks[k] === 'evidenced' || marks[k] === 'developing_others') {
-          const n = (k.match(/^r_m(\d+)_/) || [])[1];
-          if (U1_SECTIONS[n] && secs.indexOf(U1_SECTIONS[n]) < 0) secs.push(U1_SECTIONS[n]);
-        }
-      });
-      if (secs.length) {
-        const d = document.createElement('div');
-        d.style.cssText = 'font-size:12px;padding-left:14px;';
-        d.textContent = 'Evidenced in ' + secs.join('; ');
-        el.appendChild(d);
-      }
     }
     function pushSkill(i) {
       const r = resultOf(i);
@@ -5853,7 +5855,7 @@
     });
     const ic = document.createElement('p');
     ic.style.margin = '8px 0 0';
-    ic.textContent = 'Mark each reflection against its own guide. The Skill results at the end bring the marks together for each skill.';
+    ic.textContent = 'Mark each reflection against its own guide. The marking sheet at the end shows every reflection, its skill and your mark.';
     intro.appendChild(ic);
     const _h = container.querySelector('.review-body-heading');
     if (_h && _h.nextSibling) container.insertBefore(intro, _h.nextSibling); else container.insertBefore(intro, container.firstChild);
@@ -5905,7 +5907,7 @@
           status.textContent = 'Saving…';
           supabaseClient.rpc('set_u1_mark', { p_submission_id: submissionId, p_key: key, p_mark: sel.value }).then(function(r) {
             status.textContent = r.error ? 'Not saved' : 'Saved';
-            if (!r.error) { marks[key] = sel.value; drawBlock(si); pushSkill(si); }
+            if (!r.error) { marks[key] = sel.value; drawSheet(); pushSkill(si); }
           });
         });
         ctl.appendChild(lab); ctl.appendChild(sel); ctl.appendChild(status);
@@ -5914,8 +5916,8 @@
         items.push({ id: key, question: (questionFor(key, lensId) || humanizeFieldName(key, lensId)) + ' [Skill: ' + U1_SKILLS[si] + ']',
                      keys: [key], notevidenced: g ? g[0] : '', evidenced: g ? g[1] : '', developing: g ? g[2] : '' });
       });
+      drawSheet();
       U1_SKILLS.forEach(function(n, i) {
-        drawBlock(i);
         // A skill whose reflections are all unanswered is settled without marking.
         if (SKILL_REFLECTIONS[1][i].every(function(k) { return !isAnswered(k); })) pushSkill(i);
       });
