@@ -5719,12 +5719,19 @@
     return section;
   }
 
-  function buildSkillEvidenceSection(submissionId) {
+  // 7 Nov 2026: the reflections each skill is judged on, shown under the skill so the facilitator marks from them.
+  var SKILL_REFLECTIONS = {
+    1: [['r_m2_bs', 'r_m2_sys', 'r_m2_bias', 'r_m3_cost', 'r_m4_phase'],
+        ['r_m2_elephant', 'r_m3_cxo', 'r_m5_integration'],
+        ['r_m4_climate', 'r_m4_principles', 'r_m5_pillars', 'r_m5_practices']]
+  };
+  function buildSkillEvidenceSection(submissionId, responses, lensId) {
+    responses = responses || {};
     const section = document.createElement('section');
     section.className = 'thread-section';
     section.innerHTML =
       '<h2 class="thread-section-heading">Demonstrable skills</h2>' +
-      '<p class="thread-section-sub">Read the participant\u2019s reflections for this unit, then select what they evidence for each skill. Your selection saves automatically, and sets the Progressive level once all three skills are selected.</p>' +
+      '<p class="thread-section-sub">How to mark: under each skill, open the participant\u2019s answers for that skill and read them. Then choose from the drop-down beside the skill. Your choice saves automatically. The participant\u2019s level is set once all three skills have a choice.</p>' +
       '<div class="skill-evidence-list">Loading\u2026</div>';
     const list = section.querySelector('.skill-evidence-list');
     const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
@@ -5749,9 +5756,9 @@
       }
       const key = document.createElement('div');
       key.style.cssText = 'font-size:12px;line-height:1.7;margin:0 0 12px;padding:10px 12px;border-left:3px solid #c9a84c;';
-      [['Not evidenced', 'The reflections do not meet the description for this skill.'],
-       ['Evidenced', 'The reflections meet the description shown under the skill.'],
-       ['Evidenced and developing others', 'The reflections also meet the second description under the skill.']
+      [['Not evidenced', 'The answers do not show what the Evidenced line under the skill describes, or the answers are blank.'],
+       ['Evidenced', 'The answers show what the Evidenced line under the skill describes.'],
+       ['Evidenced and developing others', 'The answers show the Evidenced line, and also what the Developing others line describes.']
       ].forEach(function(k) {
         const line = document.createElement('div');
         const b = document.createElement('strong');
@@ -5770,7 +5777,7 @@
         label.textContent = skill;
         const g = window.S2R_SKILL_GUIDE && window.S2R_SKILL_GUIDE[d.unit_no] && window.S2R_SKILL_GUIDE[d.unit_no][i];
         if (g) {
-          [['Evidenced: ', g[0]], ['Evidenced and developing others: ', g[1]]].forEach(function(x) {
+          [['Evidenced: ', g[0]], ['Developing others: ', g[1]]].forEach(function(x) {
             const line = document.createElement('div');
             line.style.cssText = 'font-size:11px;line-height:1.6;margin-top:4px;opacity:0.85;';
             const b = document.createElement('strong');
@@ -5798,6 +5805,31 @@
           });
         });
         row.appendChild(label); row.appendChild(sel); row.appendChild(status);
+        const refKeys = SKILL_REFLECTIONS[d.unit_no] && SKILL_REFLECTIONS[d.unit_no][i];
+        if (refKeys) {
+          const answered = refKeys.filter(function(k) { var v = responses[k]; return typeof v === 'string' && v.trim() !== ''; }).length;
+          const det = document.createElement('details');
+          det.style.cssText = 'flex:1 1 100%;margin-top:6px;';
+          const sum = document.createElement('summary');
+          sum.style.cssText = 'cursor:pointer;font-weight:600;font-size:12px;';
+          sum.textContent = 'Read the answers for this skill (' + answered + ' of ' + refKeys.length + ' answered)';
+          det.appendChild(sum);
+          refKeys.forEach(function(k) {
+            const box = document.createElement('div');
+            box.style.cssText = 'margin:10px 0 0;padding:8px 12px;border-left:2px solid rgba(201,168,76,0.6);';
+            const qq = document.createElement('div');
+            qq.style.cssText = 'font-size:12px;line-height:1.6;font-style:italic;opacity:0.85;';
+            qq.textContent = questionFor(k, lensId) || humanizeFieldName(k, lensId);
+            const aa = document.createElement('div');
+            aa.style.cssText = 'font-size:13px;line-height:1.6;margin-top:4px;white-space:pre-wrap;';
+            const v = responses[k];
+            aa.textContent = (typeof v === 'string' && v.trim() !== '') ? v : 'Not answered.';
+            if (!(typeof v === 'string' && v.trim() !== '')) aa.style.opacity = '0.6';
+            box.appendChild(qq); box.appendChild(aa);
+            det.appendChild(box);
+          });
+          row.appendChild(det);
+        }
         list.appendChild(row);
       });
     }).catch(function() { list.textContent = 'The skills could not be loaded.'; });
@@ -6126,7 +6158,7 @@
     _krReview = !!window.S2R_KEY_REF && !!window.S2R_KEY_REF.label(lens.id, 'kr_s1') && [1, 2, 3, 4, 5].some(function(n) { return _resp['kr_s' + n] !== undefined; });
     if (_krReview) content.appendChild(wrapCollapsibleSection(buildReflectionMarksSection(submission, submissionId, lens.id, _resp)));
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
-    if (!_krReview) content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId)));
+    if (!_krReview) content.appendChild(wrapCollapsibleSection(buildSkillEvidenceSection(submissionId, _resp, lens.id)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
   }
