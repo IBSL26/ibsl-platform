@@ -5771,40 +5771,92 @@
   // 7 Nov 2026: Unit 1 — the mark sits on each reflection. A skill's result is worked out from its reflection marks:
   // Evidenced and developing others if any reflection is marked so; else Evidenced if any is; else Not evidenced.
   function attachU1Marking(container, submissionId, responses, lensId) {
-    const OPTIONS = [['', 'Select\u2026'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
+    const OPTIONS = [['', 'Select…'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
     const marks = {};
+    function isAnswered(k) { const v = responses[k]; return typeof v === 'string' && v.trim() !== ''; }
+    function sectionTitle(k) { const n = (k.match(/^r_m(\d+)_/) || [])[1]; return (U1_SECTIONS[n] || '') + ' · ' + humanizeFieldName(k, lensId); }
+    // An unanswered reflection counts as Not evidenced without the facilitator having to mark it.
+    function markOf(k) { return isAnswered(k) ? (marks[k] || '') : 'not_evidenced'; }
     const summary = document.createElement('section');
     summary.className = 'thread-section';
     summary.innerHTML = '<h2 class="thread-section-heading">Skill results</h2>' +
-      '<p class="thread-section-sub">Worked out from your marks on the reflections above. A skill shows as Evidenced when at least one of its reflections is marked Evidenced, and as Evidenced and developing others when at least one is marked that way.</p>';
-    const lines = [];
-    U1_SKILLS.forEach(function(name, i) {
+      '<p class="thread-section-sub">Worked out from your marks on the reflections above. A skill shows as Evidenced when at least one of its reflections is marked Evidenced, and as Evidenced and developing others when at least one is marked that way. A reflection left unanswered counts as Not evidenced.</p>';
+    const blocks = [];
+    U1_SKILLS.forEach(function() {
       const l = document.createElement('div');
-      l.style.cssText = 'font-size:13px;line-height:1.7;padding:6px 0;border-top:1px solid rgba(128,128,128,0.25);';
+      l.style.cssText = 'font-size:13px;line-height:1.7;padding:8px 0;border-top:1px solid rgba(128,128,128,0.25);';
       summary.appendChild(l);
-      lines.push(l);
+      blocks.push(l);
     });
     function resultOf(i) {
       const ks = SKILL_REFLECTIONS[1][i];
-      const vals = ks.map(function(k) { return marks[k] || ''; });
+      if (ks.some(function(k) { return isAnswered(k) && !marks[k]; })) {
+        const vals0 = ks.map(markOf);
+        if (vals0.indexOf('developing_others') >= 0) return 'developing_others';
+        if (vals0.indexOf('evidenced') >= 0) return 'evidenced';
+        return '';
+      }
+      const vals = ks.map(markOf);
       if (vals.indexOf('developing_others') >= 0) return 'developing_others';
       if (vals.indexOf('evidenced') >= 0) return 'evidenced';
-      if (vals.indexOf('not_evidenced') >= 0) return 'not_evidenced';
-      return '';
+      return 'not_evidenced';
     }
-    function drawLine(i) {
+    function drawBlock(i) {
+      const ks = SKILL_REFLECTIONS[1][i];
       const r = resultOf(i);
-      const n = SKILL_REFLECTIONS[1][i].filter(function(k) { return !!marks[k]; }).length;
-      lines[i].textContent = '';
+      const toMark = ks.filter(function(k) { return isAnswered(k) && !marks[k]; }).length;
+      const el = blocks[i];
+      el.textContent = '';
+      const head = document.createElement('div');
       const b = document.createElement('strong');
-      b.textContent = 'Skill ' + (i + 1) + ': ' + U1_SKILLS[i] + ' \u2014 ';
-      lines[i].appendChild(b);
-      lines[i].appendChild(document.createTextNode(r ? (SUGGEST_LABELS[r] + ' (from ' + n + ' marked reflection' + (n === 1 ? '' : 's') + ')') : 'Not yet marked'));
+      b.textContent = 'Skill ' + (i + 1) + ': ' + U1_SKILLS[i] + ' — ' + (r ? SUGGEST_LABELS[r] : 'Not yet marked');
+      head.appendChild(b);
+      if (toMark) head.appendChild(document.createTextNode(' (' + toMark + ' still to mark)'));
+      el.appendChild(head);
+      const secs = [];
+      ks.forEach(function(k) {
+        if (marks[k] === 'evidenced' || marks[k] === 'developing_others') {
+          const n = (k.match(/^r_m(\d+)_/) || [])[1];
+          if (U1_SECTIONS[n] && secs.indexOf(U1_SECTIONS[n]) < 0) secs.push(U1_SECTIONS[n]);
+        }
+      });
+      if (secs.length) {
+        const d = document.createElement('div');
+        d.style.cssText = 'font-size:12px;padding-left:14px;';
+        d.textContent = 'Evidenced in ' + secs.join('; ');
+        el.appendChild(d);
+      }
     }
     function pushSkill(i) {
-      supabaseClient.rpc('set_skill_evidence', { p_submission_id: submissionId, p_skill_no: i + 1, p_evidence: resultOf(i) });
+      const r = resultOf(i);
+      supabaseClient.rpc('set_skill_evidence', { p_submission_id: submissionId, p_skill_no: i + 1, p_evidence: r });
     }
     const rows = Array.prototype.slice.call(container.querySelectorAll('[data-u1-key]'));
+    // The competence and its skills, introduced once before the reflections.
+    const intro = document.createElement('div');
+    intro.style.cssText = 'font-size:13px;line-height:1.7;margin:0 0 18px;padding:14px 16px;border:1px solid rgba(201,168,76,0.5);border-radius:3px;';
+    const ih = document.createElement('div');
+    ih.style.cssText = 'font-weight:700;margin-bottom:6px;';
+    ih.textContent = 'Competence: Behavioural Strategic Decision-Making';
+    intro.appendChild(ih);
+    const ip = document.createElement('p');
+    ip.style.margin = '0 0 8px';
+    ip.textContent = 'The competent leader recognises how bias, emotion and functional perspective shape strategic choices, and brings diverse executive views together to reach sound enterprise judgement. Unit 1 builds this competence through three demonstrable skills. Each marked reflection below evidences one of these skills, shown by its skill tag.';
+    intro.appendChild(ip);
+    U1_SKILLS.forEach(function(name, i) {
+      const d = document.createElement('div');
+      const b = document.createElement('strong');
+      b.textContent = 'Skill ' + (i + 1) + ': ';
+      d.appendChild(b);
+      d.appendChild(document.createTextNode(name));
+      intro.appendChild(d);
+    });
+    const ic = document.createElement('p');
+    ic.style.margin = '8px 0 0';
+    ic.textContent = 'Mark each reflection against its own guide. The Skill results at the end bring the marks together for each skill.';
+    intro.appendChild(ic);
+    const _h = container.querySelector('.review-body-heading');
+    if (_h && _h.nextSibling) container.insertBefore(intro, _h.nextSibling); else container.insertBefore(intro, container.firstChild);
     const boxes = {}, items = [];
     supabaseClient.rpc('get_u1_marks', { p_submission_id: submissionId }).then(function(res) {
       const saved = (!res.error && res.data) || {};
@@ -5815,6 +5867,16 @@
         const g = U1_GUIDE[key];
         const box = document.createElement('div');
         box.style.cssText = 'margin:10px 0 4px;padding:10px 12px;border-left:3px solid #c9a84c;font-size:12px;line-height:1.6;';
+        if (!isAnswered(key)) {
+          const na = document.createElement('div');
+          const nb = document.createElement('strong');
+          nb.textContent = 'Not answered. ';
+          na.appendChild(nb);
+          na.appendChild(document.createTextNode('This reflection counts as Not evidenced for Skill ' + (si + 1) + '. Nothing to mark.'));
+          box.appendChild(na);
+          row.appendChild(box);
+          return;
+        }
         if (g) {
           [['Not evidenced: ', g[0]], ['Evidenced: ', g[1]], ['Developing others: ', g[2]]].forEach(function(x) {
             const d = document.createElement('div');
@@ -5840,10 +5902,10 @@
         status.style.cssText = 'font-size:11px;';
         sel.addEventListener('click', function(e) { e.stopPropagation(); });
         sel.addEventListener('change', function() {
-          status.textContent = 'Saving\u2026';
+          status.textContent = 'Saving…';
           supabaseClient.rpc('set_u1_mark', { p_submission_id: submissionId, p_key: key, p_mark: sel.value }).then(function(r) {
             status.textContent = r.error ? 'Not saved' : 'Saved';
-            if (!r.error) { marks[key] = sel.value; drawLine(si); pushSkill(si); }
+            if (!r.error) { marks[key] = sel.value; drawBlock(si); pushSkill(si); }
           });
         });
         ctl.appendChild(lab); ctl.appendChild(sel); ctl.appendChild(status);
@@ -5852,7 +5914,11 @@
         items.push({ id: key, question: (questionFor(key, lensId) || humanizeFieldName(key, lensId)) + ' [Skill: ' + U1_SKILLS[si] + ']',
                      keys: [key], notevidenced: g ? g[0] : '', evidenced: g ? g[1] : '', developing: g ? g[2] : '' });
       });
-      U1_SKILLS.forEach(function(n, i) { drawLine(i); });
+      U1_SKILLS.forEach(function(n, i) {
+        drawBlock(i);
+        // A skill whose reflections are all unanswered is settled without marking.
+        if (SKILL_REFLECTIONS[1][i].every(function(k) { return !isAnswered(k); })) pushSkill(i);
+      });
       if (items.length) loadSuggestions(submissionId, 'skill', items, boxes);
     });
     return summary;
@@ -6220,7 +6286,15 @@
     responseHeader.textContent = lens.id === 'u1_foundations' ? 'Reflections, section by section' : 'Participant Response';
     body.appendChild(responseHeader);
 
-    const responsesEl = renderResponses(payload, lens.id);
+    // Unit 1: every reflection is listed, including the ones left unanswered.
+    var _shown = payload;
+    if (lens.id === 'u1_foundations') {
+      const _src = payload.responses || {}, _r = {};
+      Object.keys(FAC_PROMPTS.u1_foundations || {}).forEach(function(k) { if (/^r_m\d+_/.test(k)) _r[k] = (k in _src) ? _src[k] : ''; });
+      Object.keys(_src).forEach(function(k) { if (!(k in _r)) _r[k] = _src[k]; });
+      _shown = Object.assign({}, payload, { responses: _r });
+    }
+    const responsesEl = renderResponses(_shown, lens.id);
     body.appendChild(responsesEl);
 
     // Submission ID footer (small reference for support / debugging)
@@ -7003,7 +7077,8 @@
       });
     }
 
-    wrap.appendChild(valueEl);
+    // Unit 1: an unanswered reflection carries its own Not answered note under the marking.
+    if (!(lensId === 'u1_foundations' && wrap.hasAttribute('data-u1-key') && value === '')) wrap.appendChild(valueEl);
     return wrap;
   }
 

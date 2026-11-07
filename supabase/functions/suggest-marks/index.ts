@@ -36,6 +36,23 @@ async function sha(text: string) {
   return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join('')
 }
 
+// The first complete JSON object in the reply, ignoring any text before or after it.
+function firstJson(text: string): { items?: { id: unknown; mark: unknown; reason?: unknown }[] } | null {
+  let start = text.indexOf('{')
+  while (start >= 0) {
+    let depth = 0, inStr = false, esc = false
+    for (let i = start; i < text.length; i++) {
+      const c = text[i]
+      if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; continue }
+      if (c === '"') inStr = true
+      else if (c === '{') depth++
+      else if (c === '}') { depth--; if (depth === 0) { try { return JSON.parse(text.slice(start, i + 1)) } catch { break } } }
+    }
+    start = text.indexOf('{', start + 1)
+  }
+  return null
+}
+
 function answerOf(v: unknown): string {
   if (typeof v === 'string') return v.trim()
   if (v === null || v === undefined) return ''
@@ -102,9 +119,10 @@ Deno.serve(async (req) => {
       'You are assisting a facilitator who marks reflections in the CESI programme (IBSL, Strategy2Results). ' +
       'Read the participant\'s answers and suggest a mark for each item, judged only against that item\'s own question and descriptions. ' +
       'The facilitator decides the final mark.\n\n' + rules +
-      '\nGive a reason of no more than 30 words for each, in British English, naming what the answers do or do not show. ' +
+      '\nFor each item, first write a reason of no more than 30 words, in British English, naming what the answer shows and what it lacks. ' +
+      'Then give the mark that the reason supports: if the reason says the answer falls short of the Evidenced description, the mark is not_evidenced. ' +
       'Address the facilitator, and refer to the participant as "the participant".\n' +
-      'Reply with JSON only, in this form: {"items":[{"id":"<item id>","mark":"<mark>","reason":"<reason>"}]}\n\n' + material
+      'Reply with JSON only, in this form: {"items":[{"id":"<item id>","reason":"<reason>","mark":"<mark>"}]}\n\n' + material
 
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -114,9 +132,8 @@ Deno.serve(async (req) => {
     if (!r.ok) { const d = (await r.text()).slice(0, 300); console.error('[suggest-marks] model:', r.status, d); return json({ ok: false, error: 'model_error', status: r.status, detail: d }, 502) }
     const out = await r.json()
     const text = (out.content || []).map((c: { text?: string }) => c.text || '').join('')
-    const m = text.match(/\{[\s\S]*\}/)
-    if (!m) return json({ ok: false, error: 'bad_reply' }, 502)
-    const parsed = JSON.parse(m[0])
+    const parsed = firstJson(text)
+    if (!parsed) { console.error('[suggest-marks] unreadable reply:', text.slice(0, 300)); return json({ ok: false, error: 'bad_reply' }, 502) }
     const allowed = scale === 'skill' ? SKILL_MARKS : REF_MARKS
     const result: Record<string, { mark: string; reason: string }> = {}
     for (const x of parsed.items || []) {
