@@ -469,6 +469,7 @@ html,body{margin:0;padding:0;background:#101a16;color:#1c1c1c;font-family:"Monts
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-protect.js" data-allow-print></script>
 <script src="/s2r-key-reflections.js"></script>
+<script src="/s2r-u1-sheet.js"></script>
 </head>
 <body>
 <div class="print-bar"><button onclick="window.print()">Print / Save PDF</button></div>
@@ -1759,6 +1760,9 @@ function renderResponses(payload, lensId) {
 
     var mc = MICRO_CLIMB[cat.id];
     if(latest && mc && mc.length){ ch.appendChild(el("div","section-label","Unit Summary")); ch.appendChild(renderMicroClimb(mc)); }
+
+    // Unit 1 marking sheet, once the facilitator has selected Mark as reviewed.
+    if(cat.id==="u1_foundations" && latest && String(latest.review_status||"")==="reviewed" && window.S2R_U1_SHEET){ var u1s=el("div"); ch.appendChild(u1s); window.S2R_U1_SHEET.render(supabaseClient, participantId, latest.cohort_id, u1s, { heading:"Marking Sheet", headingClass:"section-label", sub:false }); }
 
     if(feedbackOn && latest && latest.facilitator_feedback && String(latest.facilitator_feedback).trim()){
       ch.appendChild(el("div","section-label","Facilitator Feedback"));

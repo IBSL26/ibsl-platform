@@ -444,6 +444,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 <!-- Stage C.1: central filing (Supabase persistence) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script>
+<script src="/s2r-u1-sheet.js"></script>
 <script src="/s2r-team.js"></script>
 <script src="/s2r-protect.js"></script>
 
@@ -1131,6 +1132,7 @@ Email to Self</button>
 <div class="acc-b">
 <div class="sf-status-row"><span id="sf-status-label" class="sf-status"></span><span id="sf-timestamp" class="sf-ts"></span></div>
 <div id="sf-text" class="sf-text"></div>
+<div id="u1Sheet"></div>
 </div></div>
 <div class="acc" id="msg-acc" style="display:none;">
 <div class="acc-h" onclick="tA(this);if(this.closest('.acc').classList.contains('open'))pMarkRead();"><span class="acc-t">Messages</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Conversation with your facilitator</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
@@ -2191,6 +2193,10 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   pcFill();pcRecDraw();
 });
+</script>
+<script>
+/* Unit 1 marking sheet: shown once the facilitator has selected Mark as reviewed (get_u1_sheet returns nothing before that). */
+(function(){function go(){if(!window.S2R||!S2R.context||!window.S2R_U1_SHEET)return;Promise.resolve(S2R.context()).then(function(ctx){if(ctx&&ctx.profileId&&ctx.cohortId)S2R_U1_SHEET.render(S2R._client,ctx.profileId,ctx.cohortId,document.getElementById('u1Sheet'),{dark:true,heading:'Your marking sheet'});},function(){});}if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();
 </script>
 </body>
 </html>

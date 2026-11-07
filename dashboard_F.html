@@ -5624,17 +5624,79 @@
         box.textContent = '';
         if (!x) { box.textContent = 'A suggested mark is not available for this one. Mark from the answers.'; box.style.opacity = '0.7'; return; }
         const b = document.createElement('strong');
-        b.textContent = 'Suggested mark: ' + (SUGGEST_LABELS[x.mark] || x.mark) + '. ';
+        b.textContent = (scale === 'skill' ? 'Suggested skill evidence: ' : 'Suggested mark: ') + (SUGGEST_LABELS[x.mark] || x.mark) + '. ';
         box.appendChild(b);
         box.appendChild(document.createTextNode(x.reason || ''));
         const note = document.createElement('div');
         note.style.cssText = 'font-size:11px;opacity:0.7;margin-top:2px;';
-        note.textContent = 'A suggestion only. Your choice in the drop-down is the mark.';
+        note.textContent = scale === 'skill' ? 'A suggestion only. Your choice in the drop-down is the judgement.' : 'A suggestion only. Your choice in the drop-down is the mark.';
         box.appendChild(note);
       });
     }).catch(function() {
       Object.keys(boxes).forEach(function(id) { boxes[id].textContent = 'A suggested mark is not available for this one. Mark from the answers.'; boxes[id].style.opacity = '0.7'; });
     });
+  }
+  // 7 Nov 2026: context for the suggested overall feedback (set as each review is drawn).
+  var _fbCtx = null, _fbMarks = function() { return {}; };
+  function fbItems() {
+    if (!_fbCtx) return [];
+    const L = _fbCtx.lensId;
+    if (L === 'u1_foundations') {
+      return Object.keys(FAC_PROMPTS.u1_foundations || {}).filter(function(k) { return /^r_m\d+_/.test(k); }).map(function(k) {
+        return { id: k, question: humanizeFieldName(k, L) + ': ' + (questionFor(k, L) || ''), keys: [k] };
+      });
+    }
+    if (window.S2R_KEY_REF && window.S2R_KEY_REF.label(L, 'kr_s1')) {
+      return [1, 2, 3, 4, 5].map(function(n) { return { id: 'kr_s' + n, question: 'Section ' + n + ': ' + window.S2R_KEY_REF.label(L, 'kr_s' + n), keys: ['kr_s' + n] }; });
+    }
+    return [];
+  }
+  function buildFeedbackSuggest(submissionId, textarea) {
+    const box = document.createElement('div');
+    box.style.cssText = 'margin:0 0 12px;';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'score-edit-btn';
+    btn.style.fontFamily = 'inherit';
+    btn.textContent = 'Suggest feedback';
+    const out = document.createElement('div');
+    out.style.cssText = 'display:none;font-size:13px;line-height:1.7;margin-top:10px;padding:10px 12px;border:1px dashed rgba(201,168,76,0.6);border-radius:3px;white-space:pre-wrap;';
+    const use = document.createElement('button');
+    use.type = 'button';
+    use.className = 'score-edit-btn';
+    use.style.cssText = 'display:none;font-family:inherit;margin-top:8px;';
+    use.textContent = 'Use this as my feedback';
+    const note = document.createElement('div');
+    note.style.cssText = 'display:none;font-size:11px;opacity:0.7;margin-top:4px;';
+    note.textContent = 'A suggestion only. It goes into your feedback box, where you edit it before you mark the unit as reviewed.';
+    let draft = '';
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const items = fbItems();
+      const m = _fbMarks();
+      items.forEach(function(it) { if (m[it.id]) it.mark = m[it.id]; });
+      btn.disabled = true;
+      out.style.display = 'block';
+      out.textContent = 'Writing a suggested feedback\u2026';
+      use.style.display = 'none'; note.style.display = 'none';
+      supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: 'feedback', unit_title: (_fbCtx && _fbCtx.title) || '', items: items } }).then(function(r) {
+        btn.disabled = false;
+        const f = r && !r.error && r.data && r.data.ok ? r.data.feedback : '';
+        if (!f) { out.textContent = 'A suggested feedback is not available just now. Please try again.'; return; }
+        draft = f;
+        out.textContent = f;
+        use.style.display = 'inline-block'; note.style.display = 'block';
+      }).catch(function() { btn.disabled = false; out.textContent = 'A suggested feedback is not available just now. Please try again.'; });
+    });
+    use.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (!draft) return;
+      textarea.value = draft;
+      textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      textarea.focus();
+    });
+    box.appendChild(btn); box.appendChild(out); box.appendChild(use); box.appendChild(note);
+    return box;
   }
   const KR_BANDS = [['', 'Select\u2026', null], ['full', 'Fully evidenced', 20], ['part', 'Partly evidenced', 14], ['none', 'Not evidenced', 8], ['blank', 'Not answered', 0]];
   function buildReflectionMarksSection(submission, submissionId, lensId, responses) {
@@ -5646,6 +5708,7 @@
       '<div class="kr-mark-list">Loading\u2026</div>';
     const list = section.querySelector('.kr-mark-list');
     const selects = {};
+    _fbMarks = function() { const o = {}; Object.keys(selects).forEach(function(s) { const b = KR_BANDS.filter(function(x) { return x[0] === selects[s].value; })[0]; if (b && b[0]) o['kr_s' + s] = b[1]; }); return o; };
     const totalEl = document.createElement('div');
     totalEl.style.cssText = 'font-size:13px;font-weight:700;padding:10px 0 2px;border-top:1px solid rgba(128,128,128,0.25);';
     function currentTotal() {
@@ -5773,6 +5836,7 @@
   function attachU1Marking(container, submissionId, responses, lensId) {
     const OPTIONS = [['', 'Select…'], ['not_evidenced', 'Not evidenced'], ['evidenced', 'Evidenced'], ['developing_others', 'Evidenced and developing others']];
     const marks = {};
+    _fbMarks = function() { const o = {}; Object.keys(marks).forEach(function(k) { if (marks[k]) o[k] = SUGGEST_LABELS[marks[k]]; }); return o; };
     function isAnswered(k) { const v = responses[k]; return typeof v === 'string' && v.trim() !== ''; }
     function sectionTitle(k) { const n = (k.match(/^r_m(\d+)_/) || [])[1]; return (U1_SECTIONS[n] || '') + ' · ' + humanizeFieldName(k, lensId); }
     // An unanswered reflection counts as Not evidenced without the facilitator having to mark it.
@@ -5781,11 +5845,11 @@
     const summary = document.createElement('section');
     summary.className = 'thread-section';
     summary.innerHTML = '<h2 class="thread-section-heading">Marking sheet</h2>' +
-      '<p class="thread-section-sub">Your marks on each reflection, in page order. It updates as you mark.</p>';
+      '<p class="thread-section-sub">Your judgement of the skill evidence in each reflection, in page order. It updates as you choose.</p>';
     const sheet = document.createElement('table');
     sheet.style.cssText = 'width:100%;border-collapse:collapse;font-size:12px;line-height:1.5;';
     const thead = document.createElement('tr');
-    ['Section', 'Reflection', 'Skill', 'Your mark'].forEach(function(h) {
+    ['Section', 'Reflection', 'Skill', 'Skill evidence'].forEach(function(h) {
       const th = document.createElement('th');
       th.textContent = h;
       th.style.cssText = 'text-align:left;padding:6px 8px;border-bottom:1px solid rgba(201,168,76,0.6);font-weight:700;';
@@ -5812,7 +5876,7 @@
         let t;
         if (u1SkillOf(k) < 0) t = 'Opening reflection, not marked';
         else if (!isAnswered(k)) t = 'Not answered';
-        else t = marks[k] ? SUGGEST_LABELS[marks[k]] : 'Not yet marked';
+        else t = marks[k] ? SUGGEST_LABELS[marks[k]] : 'Not yet judged';
         markCells[k].textContent = t;
       });
     }
@@ -5874,7 +5938,7 @@
           const nb = document.createElement('strong');
           nb.textContent = 'Not answered. ';
           na.appendChild(nb);
-          na.appendChild(document.createTextNode('This reflection counts as Not evidenced for Skill ' + (si + 1) + '. Nothing to mark.'));
+          na.appendChild(document.createTextNode('This reflection counts as Not evidenced for Skill ' + (si + 1) + '. Nothing to judge.'));
           box.appendChild(na);
           row.appendChild(box);
           return;
@@ -5894,10 +5958,10 @@
         const ctl = document.createElement('div');
         ctl.style.cssText = 'display:flex;gap:10px;align-items:center;margin-top:8px;';
         const lab = document.createElement('strong');
-        lab.textContent = 'Your mark:';
+        lab.textContent = 'Skill evidence:';
         const sel = document.createElement('select');
         sel.style.cssText = 'font:inherit;padding:6px 8px;';
-        sel.setAttribute('aria-label', 'Mark for this reflection');
+        sel.setAttribute('aria-label', 'Skill evidence for this reflection');
         OPTIONS.forEach(function(o) { const opt = document.createElement('option'); opt.value = o[0]; opt.textContent = o[1]; sel.appendChild(opt); });
         sel.value = marks[key];
         const status = document.createElement('span');
@@ -6380,6 +6444,7 @@
       content.appendChild(fcWrap);
     }
     content.appendChild(wrapCollapsibleSection(buildDocumentsSection(submissionId)));
+    _fbCtx = { lensId: lens.id, responses: _resp, title: lensTitle };
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
@@ -8088,6 +8153,7 @@
         } catch (e) { console.error('[F5] chain feedback prefill error:', e); }
       })();
     }
+    if (fbItems().length) wrap.appendChild(buildFeedbackSuggest(submissionId, textarea));
     wrap.appendChild(textarea);
 
     const indicator = document.createElement('div');

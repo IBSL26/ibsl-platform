@@ -26,7 +26,7 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
 }
 
-type Item = { id: string; question?: string; keys: string[]; notevidenced?: string; evidenced?: string; developing?: string }
+type Item = { id: string; question?: string; keys: string[]; notevidenced?: string; evidenced?: string; developing?: string; mark?: string }
 
 const SKILL_MARKS = ['not_evidenced', 'evidenced', 'developing_others']
 const REF_MARKS   = ['full', 'part', 'none', 'blank']
@@ -37,7 +37,7 @@ async function sha(text: string) {
 }
 
 // The first complete JSON object in the reply, ignoring any text before or after it.
-function firstJson(text: string): { items?: { id: unknown; mark: unknown; reason?: unknown }[] } | null {
+function firstJson(text: string): { items?: { id: unknown; mark: unknown; reason?: unknown }[]; feedback?: unknown } | null {
   let start = text.indexOf('{')
   while (start >= 0) {
     let depth = 0, inStr = false, esc = false
@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
     const auth = req.headers.get('Authorization') || ''
     const body = await req.json().catch(() => ({}))
     const submissionId = String(body.submission_id || '')
-    const scale = body.scale === 'skill' ? 'skill' : 'reflection'
+    const scale = body.scale === 'skill' || body.scale === 'feedback' ? body.scale : 'reflection'
     const items: Item[] = Array.isArray(body.items) ? body.items.slice(0, 16) : []
     if (!submissionId || !items.length) return json({ ok: false, error: 'bad_input' }, 400)
 
@@ -90,9 +90,41 @@ Deno.serve(async (req) => {
 
     const cached = await admin.from('mark_suggestions').select('answers_hash, result').eq('submission_id', submissionId).eq('scale', scale).maybeSingle()
     if (cached.error) console.error('[suggest-marks] cache read:', cached.error.message)
-    if (cached.data && cached.data.answers_hash === hash) return json({ ok: true, suggestions: cached.data.result, cached: true })
+    if (cached.data && cached.data.answers_hash === hash) return json(scale === 'feedback' ? { ok: true, feedback: cached.data.result.feedback, cached: true } : { ok: true, suggestions: cached.data.result, cached: true })
 
     if (!ANTHROPIC_API_KEY) return json({ ok: false, error: 'no_key' }, 503)
+
+    // Suggested overall feedback, addressed to the participant; the facilitator edits it before use.
+    if (scale === 'feedback') {
+      const unitTitle = String(body.unit_title || 'this unit').slice(0, 120)
+      const fbMaterial = blocks.map((b) =>
+        `### ${b.question || b.id}\n` +
+        (b.mark ? `Facilitator's mark: ${b.mark}\n` : '') +
+        'Answer: ' + (b.answers.map((a) => a.text).join(' ').trim() || '(not answered)')
+      ).join('\n\n')
+      const fbPrompt =
+        `You are helping a facilitator of the CESI programme (IBSL, Strategy2Results) write overall feedback to a participant on ${unitTitle}. ` +
+        'Write it to the participant, using "you". British English. 120 to 180 words, in two or three short paragraphs, with no headings and no bullet points. ' +
+        'Peer-toned, warm and direct. First, name what the answers show well, with specifics from what the participant wrote. ' +
+        'Then name what is missing, including any reflections left unanswered, by their title. ' +
+        'Close with one or two concrete next steps the participant can take in their own organisation. ' +
+        'Follow the facilitator\'s marks where they are given. Do not mention marks, scores, ratings or that this text was suggested. ' +
+        'Reply with JSON only, in this form: {"feedback":"<the feedback>"}\n\n' + fbMaterial
+      const fr = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+        body: JSON.stringify({ model: MODEL, max_tokens: 1200, messages: [{ role: 'user', content: fbPrompt }] }),
+      })
+      if (!fr.ok) { const d = (await fr.text()).slice(0, 300); console.error('[suggest-marks] feedback model:', fr.status, d); return json({ ok: false, error: 'model_error' }, 502) }
+      const fout = await fr.json()
+      const ftext = (fout.content || []).map((c: { text?: string }) => c.text || '').join('')
+      const fparsed = firstJson(ftext) as { feedback?: unknown } | null
+      const feedback = fparsed && typeof fparsed.feedback === 'string' ? fparsed.feedback.trim() : ''
+      if (!feedback) { console.error('[suggest-marks] unreadable feedback reply:', ftext.slice(0, 300)); return json({ ok: false, error: 'bad_reply' }, 502) }
+      const fsaved = await admin.from('mark_suggestions').upsert({ submission_id: submissionId, scale, answers_hash: hash, result: { feedback }, created_at: new Date().toISOString() })
+      if (fsaved.error) console.error('[suggest-marks] cache write:', fsaved.error.message)
+      return json({ ok: true, feedback, cached: false })
+    }
 
     const rules = scale === 'skill'
       ? 'For each skill choose exactly one mark:\n' +
