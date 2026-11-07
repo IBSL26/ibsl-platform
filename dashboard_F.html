@@ -5761,7 +5761,8 @@
         ['r_m4_climate', 'r_m4_principles', 'r_m5_pillars', 'r_m5_practices']]
   };
   var U1_SECTIONS = { 1: 'Section 1 \u00b7 Orientation', 2: 'Section 2 \u00b7 Awareness', 3: 'Section 3 \u00b7 Intelligence', 4: 'Section 4 \u00b7 Extrapolating', 5: 'Section 5 \u00b7 Integration' };
-  var U1_NOT_EVIDENCED = ['Does not name a specific decision from their own work with the bias or functional perspective that shaped it, or the reflection is blank.', 'Does not describe a real issue as it appears from at least two other executive functions, or the reflection is blank.', 'Does not name a specific practice to draw out independent views before a decision, or the reflection is blank.'];
+  // 7 Nov 2026: each Unit 1 reflection's own marking guide [Not evidenced, Evidenced, Developing others], written against its question.
+  var U1_GUIDE = {"r_m2_bs": ["Restates the definition without linking it to a decision in their organisation.", "Applies the definition to their context and names a recent decision shaped by an invisible mental filter.", "Also describes helping colleagues see the filter behind that decision."], "r_m2_sys": ["Names a system without a real decision or the conditions that made it dominant.", "Names a real strategic decision, the system that dominated, and the conditions that caused it.", "Also describes creating the conditions for System 2 thinking in their team."], "r_m2_elephant": ["Describes the problem in general terms without naming functions in their organisation.", "Names where it shows up in their organisation and which functions see different parts of the same reality.", "Also describes bringing those functions together to see the whole picture."], "r_m2_bias": ["Names a bias family without a specific decision it shaped.", "Names the family that resonates personally and in their culture, and one specific decision it shaped.", "Also describes helping a colleague or team recognise that bias in their own decisions."], "r_m3_cxo": ["Speaks generally about functional focus without naming their own blind spot or the White Space.", "Names their role’s blind spot and the White Space between functional success and enterprise outcome.", "Also describes leading peers to examine that White Space from one another’s perspectives."], "r_m3_cost": ["Names a cost without tracing it to a bias family.", "Names the most visible hidden cost, traces it to a bias family, and says what addressing it would take.", "Also describes leading others to address the cost at its source."], "r_m4_phase": ["Names a phase without saying why their organisation is exposed there.", "Names the phase where their organisation is most exposed, frames it with that phase’s scanner question, and says what addressing it would change.", "Also describes leading their team to address that phase more deliberately."], "r_m4_climate": ["Names a climate type without the leadership behaviours behind it.", "Names the current climate, the leadership behaviours sustaining it, and its cost to strategy work.", "Also describes changing their own or other leaders’ behaviour to shift the climate."], "r_m4_principles": ["Lists principles without saying how they would introduce an absent one.", "Names the principle they apply most, the one most absent, and how they will introduce it in a specific decision or meeting.", "Also describes other leaders adopting that principle."], "r_m5_integration": ["Describes integration in general terms without where the shift to a shared enterprise view breaks down.", "Describes how integration works now and where individual perspectives fail to become a shared enterprise view.", "Also describes leading the team through that breakdown point."], "r_m5_pillars": ["Names a pillar without a specific practice to introduce.", "Names the most underdeveloped pillar and one specific practice from it they will introduce in their next strategy meeting.", "Also describes other leaders adopting that practice in their teams."], "r_m5_practices": ["Names practices without the resistance expected or how to handle it.", "Names two or three practices they can implement, the resistance they expect, and how they will address it.", "Also describes bringing other leaders to adopt the practices."]};
   var U1_SKILLS = ['Identify cognitive and functional bias in strategic decisions', 'Examine a strategic issue from each executive perspective', 'Apply institutional practices that build collective intelligence'];
   function u1SkillOf(key) {
     for (var i = 0; i < SKILL_REFLECTIONS[1].length; i++) { if (SKILL_REFLECTIONS[1][i].indexOf(key) >= 0) return i; }
@@ -5811,11 +5812,11 @@
         const key = row.getAttribute('data-u1-key');
         const si = Number(row.getAttribute('data-u1-skill'));
         marks[key] = saved[key] || '';
-        const g = window.S2R_SKILL_GUIDE && window.S2R_SKILL_GUIDE[1] && window.S2R_SKILL_GUIDE[1][si];
+        const g = U1_GUIDE[key];
         const box = document.createElement('div');
         box.style.cssText = 'margin:10px 0 4px;padding:10px 12px;border-left:3px solid #c9a84c;font-size:12px;line-height:1.6;';
         if (g) {
-          [['Not evidenced: ', U1_NOT_EVIDENCED[si]], ['Evidenced: ', g[0]], ['Developing others: ', g[1]]].forEach(function(x) {
+          [['Not evidenced: ', g[0]], ['Evidenced: ', g[1]], ['Developing others: ', g[2]]].forEach(function(x) {
             const d = document.createElement('div');
             const b = document.createElement('strong');
             b.textContent = x[0];
@@ -5849,7 +5850,7 @@
         box.appendChild(ctl);
         row.appendChild(box);
         items.push({ id: key, question: (questionFor(key, lensId) || humanizeFieldName(key, lensId)) + ' [Skill: ' + U1_SKILLS[si] + ']',
-                     keys: [key], evidenced: g ? g[0] : '', developing: g ? g[1] : '' });
+                     keys: [key], notevidenced: g ? g[0] : '', evidenced: g ? g[1] : '', developing: g ? g[2] : '' });
       });
       U1_SKILLS.forEach(function(n, i) { drawLine(i); });
       if (items.length) loadSuggestions(submissionId, 'skill', items, boxes);

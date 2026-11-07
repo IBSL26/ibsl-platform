@@ -26,7 +26,7 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } })
 }
 
-type Item = { id: string; question?: string; keys: string[]; evidenced?: string; developing?: string }
+type Item = { id: string; question?: string; keys: string[]; notevidenced?: string; evidenced?: string; developing?: string }
 
 const SKILL_MARKS = ['not_evidenced', 'evidenced', 'developing_others']
 const REF_MARKS   = ['full', 'part', 'none', 'blank']
@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
 
     const rules = scale === 'skill'
       ? 'For each skill choose exactly one mark:\n' +
-        '- "not_evidenced": the answers do not show what the Evidenced description says, or are blank.\n' +
+        '- "not_evidenced": the answers match the Not evidenced description, do not show what the Evidenced description says, or are blank.\n' +
         '- "evidenced": the answers show what the Evidenced description says.\n' +
         '- "developing_others": the answers show the Evidenced description and also the Developing others description.\n'
       : 'For each reflection choose exactly one mark:\n' +
@@ -91,6 +91,7 @@ Deno.serve(async (req) => {
     const material = blocks.map((b) =>
       `### Item ${b.id}\n` +
       (b.question ? `Skill or question: ${b.question}\n` : '') +
+      (b.notevidenced ? `Not evidenced description: ${b.notevidenced}\n` : '') +
       (b.evidenced ? `${scale === 'skill' ? 'Evidenced' : 'Fully evidenced'} description: ${b.evidenced}\n` : '') +
       (b.developing ? `Developing others description: ${b.developing}\n` : '') +
       'Participant answers:\n' +
@@ -99,7 +100,7 @@ Deno.serve(async (req) => {
 
     const prompt =
       'You are assisting a facilitator who marks reflections in the CESI programme (IBSL, Strategy2Results). ' +
-      'Read the participant\'s answers and suggest a mark for each item, judged only against the descriptions given. ' +
+      'Read the participant\'s answers and suggest a mark for each item, judged only against that item\'s own question and descriptions. ' +
       'The facilitator decides the final mark.\n\n' + rules +
       '\nGive a reason of no more than 30 words for each, in British English, naming what the answers do or do not show. ' +
       'Address the facilitator, and refer to the participant as "the participant".\n' +
