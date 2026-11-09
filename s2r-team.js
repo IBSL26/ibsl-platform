@@ -45,22 +45,27 @@
     '.tw-stand-h{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold,#c9a84c);margin-bottom:8px;}'+
     '.tw-stand p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.75);margin:0 0 10px;}'+
     '.tw-stand textarea{width:100%;min-height:110px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}'+
-    '.tw-stand textarea[disabled]{opacity:.85;}';
+    '.tw-stand textarea[disabled]{opacity:.85;}'+
+    '.tw-stand-n{font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;}'+
+    '.tw-stand-n.over{color:#e8a598;font-weight:600;}';
   var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:''};
-  var STAND_KEY='team_summary',STAND_NAME='Our Position';
+  var STAND_KEY='team_summary',STAND_NAME='Our Position',STAND_MAX=80;
+  function standWords(){var t=String(T.stand||'').trim();return t?t.split(/\s+/).length:0;}
+  function standCount(){var n=el('twStandN');if(!n)return;var w=standWords(),over=w>STAND_MAX;n.className='tw-stand-n'+(over?' over':'');n.textContent=w+' of '+STAND_MAX+' words'+(over?'. Shorten it to '+STAND_MAX+' or fewer before your group can agree.':'');}
   /* Our Position: the group's short summary statement of its position from the unit, in the unit's own terms. */
   function standDraw(){
     var c=T.cfg&&T.cfg.stand;if(!c)return;var host=el(c.mount);if(!host)return;
     if(!host.querySelector('#twStandTa')){
       host.innerHTML='<div class="tw-stand"><div class="tw-stand-h">Capstone work · Our Position</div>'+
-        '<p>As a group, write a short summary statement of your team\'s position from this unit. Use the unit\'s own terms and the work your group has agreed above. It guides the assessors through your work.'+(c.hint?' '+esc(c.hint):'')+'</p>'+
-        '<textarea id="twStandTa" placeholder="Our position from this unit…"></textarea></div>';
+        '<p>In no more than 80 words, state what your team decided in this unit and what that decision commits your organisation to. Write it as your team\'s position, in your own words. The detail belongs in the work that follows.'+(c.hint?' '+esc(c.hint):'')+'</p>'+
+        '<textarea id="twStandTa" placeholder="Our position from this unit…"></textarea><div class="tw-stand-n" id="twStandN"></div></div>';
       var ta=host.querySelector('#twStandTa');
-      ta.addEventListener('input',function(){T.stand=ta.value;API.save(STAND_KEY,ta.value);draw();});
+      ta.addEventListener('input',function(){T.stand=ta.value;standCount();API.save(STAND_KEY,ta.value);draw();});
     }
     var t=host.querySelector('#twStandTa');
     if(document.activeElement!==t&&t.value!==T.stand)t.value=T.stand;
     t.disabled=!isScribe();
+    standCount();
   }
   function standSet(r){if(r&&typeof r[STAND_KEY]==='string')T.stand=r[STAND_KEY];}
 
@@ -179,7 +184,7 @@
       if(cfg.stand){
         var base=cfg.complete;cfg=Object.assign({},cfg);
         cfg.names=(cfg.names||[]).concat([STAND_NAME]);
-        cfg.complete=function(){var m=base?String(base()||''):'';var o=m?[m]:[];if(!String(T.stand||'').trim())o.push('Our Position');return o.join('; ');};
+        cfg.complete=function(){var m=base?String(base()||''):'';var o=m?[m]:[];if(!String(T.stand||'').trim())o.push('Our Position');else if(standWords()>STAND_MAX)o.push('Our Position shortened to '+STAND_MAX+' words or fewer');return o.join('; ');};
       }
       T.cfg=cfg;
       if(!document.getElementById('tw-css')){var s=document.createElement('style');s.id='tw-css';s.textContent=CSS;document.head.appendChild(s);}
