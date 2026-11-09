@@ -6336,6 +6336,7 @@
     window.location.href = getReviewBackUrl();
   });
 
+  var _focusNoteAfterRender = false;
   function loadSubmissionReview(submissionId) {
     // HTML-F4-2: fetch via get_submission_for_review() and render the bundle.
     // HTML-F4-3 will add the feedback draft autosave box.
@@ -6522,6 +6523,16 @@
     content.appendChild(wrapCollapsibleSection(buildFeedbackSection(submission, submissionId, participantName, lensTitle, lens.unit)));
     content.appendChild(wrapCollapsibleSection(buildMessageSection(submissionId)));
     content.appendChild(idRef);
+    if (_focusNoteAfterRender) {
+      _focusNoteAfterRender = false;
+      const noteBox = content.querySelector('.thread-compose-textarea');
+      if (noteBox) {
+        const noteSection = noteBox.closest('.collapsible-section');
+        if (noteSection) noteSection.classList.remove('collapsed');
+        noteBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        noteBox.focus({ preventScroll: true });
+      }
+    }
   }
 
   // ─── WS5 / WS5.3: PARTICIPANT FINAL-SCORE SUMMARY ────────────────────────
@@ -8904,8 +8915,9 @@
       closeRevisionModal();
       revisionInFlight = false;
       showToast(message);
-      // Brief pause so the toast registers, then redirect to roster.
-      setTimeout(goBackToRoster, 1500);
+      // Stay on this page, at the Conversation box, so a note can be written straight away.
+      _focusNoteAfterRender = true;
+      loadSubmissionReview(submissionId);
 
     } catch (err) {
       console.error('[F7] return_for_revision exception:', err);
