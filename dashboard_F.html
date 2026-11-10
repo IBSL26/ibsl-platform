@@ -5843,10 +5843,11 @@
         q.style.fontWeight = '600';
         q.textContent = window.S2R_KEY_REF.label(lensId, 'kr_s' + s) || ('Section ' + s);
         row.appendChild(q);
+        const qlab = document.createElement('div'); qlab.className = 'response-label'; qlab.style.margin = '0 0 4px'; qlab.textContent = 'QUESTION'; row.insertBefore(qlab, q); const alab = document.createElement('div'); alab.className = 'response-label'; alab.style.margin = '10px 0 4px'; alab.textContent = 'PARTICIPANT\u2019S ANSWER'; row.appendChild(alab);
         const raw = responses['kr_s' + s];
         const answered = typeof raw === 'string' && raw.trim() !== '';
         const ans = document.createElement('div');
-        ans.style.cssText = 'margin:6px 0;white-space:pre-wrap;';
+        ans.className = 'response-text'; ans.style.margin = '0 0 10px';
         ans.textContent = answered ? raw : 'No answer submitted.';
         row.appendChild(ans);
         const g = window.S2R_REF_GUIDE && window.S2R_REF_GUIDE[res.data.unit_no] && window.S2R_REF_GUIDE[res.data.unit_no][s - 1];
