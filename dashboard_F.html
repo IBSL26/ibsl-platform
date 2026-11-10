@@ -5627,8 +5627,18 @@
     el.textContent = 'Working out a suggested mark\u2026';
     return el;
   }
+  // 10 Nov 2026: renew the sign-in before asking for a suggestion, and ask once more if it had run out.
+  function invokeSuggest(name, opts) {
+    return supabaseClient.auth.getSession().then(function() {
+      return supabaseClient.functions.invoke(name, opts);
+    }).then(function(r) {
+      const st = r && r.error && r.error.context && r.error.context.status;
+      if (st !== 401 && st !== 403) return r;
+      return supabaseClient.auth.refreshSession().then(function() { return supabaseClient.functions.invoke(name, opts); });
+    });
+  }
   function loadSuggestions(submissionId, scale, items, boxes) {
-    supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: scale, items: items } }).then(function(r) {
+    invokeSuggest('suggest-marks', { body: { submission_id: submissionId, scale: scale, items: items } }).then(function(r) {
       const sug = r && !r.error && r.data && r.data.ok ? (r.data.suggestions || {}) : null;
       Object.keys(boxes).forEach(function(id) {
         const box = boxes[id];
@@ -5751,7 +5761,7 @@
       out.style.display = 'block';
       out.textContent = 'Writing a suggested feedback\u2026';
       use.style.display = 'none'; note.style.display = 'none';
-      supabaseClient.functions.invoke('suggest-marks', { body: { submission_id: submissionId, scale: 'feedback', action: action, unit_no: fbUnitNo(), unit_title: (_fbCtx && _fbCtx.title) || '', items: items } }).then(function(r) {
+      invokeSuggest('suggest-marks', { body: { submission_id: submissionId, scale: 'feedback', action: action, unit_no: fbUnitNo(), unit_title: (_fbCtx && _fbCtx.title) || '', items: items } }).then(function(r) {
         btn.disabled = false;
         const f = r && !r.error && r.data && r.data.ok ? r.data.feedback : '';
         if (!f) { out.textContent = 'A suggested feedback is not available just now. Please try again.'; return; }
