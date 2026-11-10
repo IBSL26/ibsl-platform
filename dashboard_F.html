@@ -5673,10 +5673,16 @@
       const un = fbUnitNo();
       return [1, 2, 3, 4, 5].map(function(n) {
         const g = window.S2R_REF_GUIDE && window.S2R_REF_GUIDE[un] && window.S2R_REF_GUIDE[un][n - 1];
-        return { id: 'kr_s' + n, question: 'Section ' + n + ': ' + window.S2R_KEY_REF.label(L, 'kr_s' + n), keys: ['kr_s' + n], evidenced: g || '' };
+        return { id: 'kr_s' + n, question: 'Section ' + n + ': ' + window.S2R_KEY_REF.label(L, 'kr_s' + n), keys: ['kr_s' + n], evidenced: fbGuideText(un, n, g) };
       });
     }
     return [];
+  }
+  // The participant's How to answer guide (s2r-key-reflections.js), added to the Fully evidenced line so suggested marks follow it.
+  function fbGuideText(un, n, g) {
+    const k = window.S2R_KEY_REF_GUIDE && window.S2R_KEY_REF_GUIDE[un] && window.S2R_KEY_REF_GUIDE[un][n - 1];
+    if (!k) return g || '';
+    return (g ? g + ' ' : '') + 'The participant was told a full answer: ' + k.f.join(' ') + ' They were told to avoid: ' + k.a;
   }
   function fbUnitNo() {
     if (!_fbCtx) return '';
@@ -5859,6 +5865,22 @@
           line.appendChild(b); line.appendChild(document.createTextNode(g));
           row.appendChild(line);
         }
+        const kg = window.S2R_KEY_REF_GUIDE && window.S2R_KEY_REF_GUIDE[res.data.unit_no] && window.S2R_KEY_REF_GUIDE[res.data.unit_no][s - 1];
+        if (kg) {
+          const det = document.createElement('details');
+          det.style.cssText = 'font-size:11px;margin-bottom:8px;opacity:0.9;';
+          const sm = document.createElement('summary');
+          sm.style.cssText = 'cursor:pointer;font-weight:700;';
+          sm.textContent = 'How to answer (the guide the participant saw)';
+          det.appendChild(sm);
+          [['Draw from', [kg.d]], ['A full answer', kg.f], ['Avoid', [kg.a]]].forEach(function(part) {
+            const p = document.createElement('div'); p.style.margin = '4px 0 0';
+            const t = document.createElement('strong'); t.textContent = part[0] + ': ';
+            p.appendChild(t); p.appendChild(document.createTextNode(part[1].join(' ')));
+            det.appendChild(p);
+          });
+          row.appendChild(det);
+        }
         const sel = document.createElement('select');
         sel.style.cssText = 'font:inherit;padding:6px 8px;';
         sel.setAttribute('aria-label', 'Mark for section ' + s);
@@ -5871,7 +5893,7 @@
         sel.value = m.band || '';
         selects[s] = sel;
         _sugBoxes[String(s)] = suggestBox();
-        _sugItems.push({ id: String(s), question: q.textContent, keys: ['kr_s' + s], evidenced: g || '' });
+        _sugItems.push({ id: String(s), question: q.textContent, keys: ['kr_s' + s], evidenced: fbGuideText(String(res.data.unit_no), s, g) });
         const status = document.createElement('span');
         status.style.cssText = 'font-size:11px;margin-left:10px;';
         const com = document.createElement('textarea');
