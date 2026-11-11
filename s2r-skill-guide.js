@@ -43,78 +43,78 @@ window.S2R_REF_GUIDE = {
 "2": [
 "Names the specific element that is least defined and sets out how they would define it for their own context.",
 "Gives one concise statement and shows how they would use it to align functions, filter decisions and keep execution coherent.",
-"Builds directly on their statement and describes success in observable terms across the four domains.",
+"Builds on their statement and describes Success in Practice across the four domains.",
 "Names the one element they would incorporate in their organisation’s current strategy and states why.",
-"Sets out specific steps they would take to lead the leadership team through designing the architecture."
+"Sets out the steps they would take with the leadership team to design the strategy architecture."
 ],
 "3": [
-"Gives specific keep, improve, start and stop decisions that trace back to their Success in Practice.",
+"Starts from their Success in Practice and names what they would keep, improve, start and stop.",
 "Names which of the three problems moving too fast would create and a practical way to prevent it.",
 "Names their function's natural emphasis and a practical way to hold Key Results to Success in Practice.",
 "Shows the step from the KISS analysis to one Objective, with a Key Result that measures an outcome.",
-"Sets out specific steps to lead the team from Success in Practice to Objectives and Key Results."
+"Sets out the steps they would take with the leadership team to translate Success in Practice into Objectives and Key Results."
 ],
 "4": [
 "Names the checkpoint and gives a reason specific to their own Key Results.",
-"Names the trap, shows how it is operating, and gives a practical test.",
-"Names the checkpoint their role could overlook and the person who should verify it.",
+"Names the trap and how they would test it.",
+"Names the checkpoint their role could overlook and who should verify it.",
 "Names the illusion, the checkpoint where it could hide a breakdown, and how they would confirm it.",
-"Sets out specific steps to lead the team through stress-testing its Key Results."
+"Sets out the steps they would take with the leadership team to stress-test its Key Results."
 ],
 "5": [
 "Names a real change, the weakest of the 4 Checks on it and how they would strengthen it.",
-"Names specific actions that would build commitment on that change, beyond instruction or enforcement.",
+"Names what would move people from compliance to commitment on that change.",
 "Draws on their own OCEAVL profile and names what they would do differently.",
 "Names where the team is furthest apart and a practical way to close that gap.",
-"Sets out specific steps to help the team land the agenda through to adoption."
+"Sets out the steps they would take with the leadership team to land the agenda so that the change is adopted."
 ],
 "6": [
 "Takes a real Key Result and states what each function contributes and what must be provided.",
 "Names a specific scorecard change that reflects their contribution to Key Results.",
 "Names a specific change that moves performance management towards collective success.",
-"Names the FACES function, why it comes first, and how they would strengthen it.",
-"Sets out specific steps to help the team build the performance management system."
+"Names the FACES function they would strengthen first and how.",
+"Sets out the steps they would take with the leadership team to build the performance management system."
 ],
 "7": [
 "Names what they would change in how their tasks or targets were developed and the part they would play.",
 "Names where people comply without owning an expectation and how they would secure commitment.",
 "Names the expectation placed on another function and the enabling promise they must make in return.",
 "Applies each stage of GROW to the dialogue with one link in the chain.",
-"Sets out specific steps to help the team establish expectations across the chain of delivery."
+"Sets out the steps they would take with the leadership team to establish expectations across the chain of delivery."
 ],
 "8": [
-"States how they measure progress and gives a specific way to recover a shortfall.",
+"States how they measure progress and how they would recover a shortfall.",
 "Names a live early warning signal and the action they would take now.",
 "Names the most active fracture and what they would change to close it.",
 "Shows how an Enterprise Performance Intelligence Circle would make the wider impact of the fracture visible to others.",
-"Sets out specific steps to help the team run reviews that restore performance."
+"Sets out the steps they would take with the leadership team to run reviews that restore performance."
 ],
 "9": [
 "Names the clog and the evidence from their own setting that would confirm it.",
 "Names the lever and explains why it fits that clog.",
 "Names what in their function creates or reinforces the clog and what they would change.",
 "Takes the clog through Review, Realign and Restore across both people and organisational performance.",
-"Sets out specific steps to help the team make unclogging a habit."
+"Sets out the steps they would take with the leadership team to make unclogging a habit."
 ],
 "10": [
-"Names the ESRG condition, shows how it limits delivery and states what they would do first.",
+"Names the ESRG condition that most limits delivery and what they would do first.",
 "Links the condition to an execution capability and states how they would protect it.",
 "Names their likely bias on that condition and a practical way to correct for it.",
 "Names the alignment intervention and how a cross-functional review would agree it.",
-"Sets out specific steps to help the team turn ESRG results into an alignment intervention."
+"Sets out the steps they would take with the leadership team to turn ESRG results into an alignment intervention."
 ],
 "11": [
 "Names the value least lived and a specific behaviour that would show it being lived.",
-"Chooses one element and gives a reasoned estimate of its cost.",
+"Chooses one element and gives an estimate of its cost.",
 "Names the weakest trait in their function and what they would do to strengthen it.",
 "Writes a clear norm with demonstrable behaviours that support it.",
-"Sets out specific steps to help the team build a Cultural Operating Code."
+"Sets out the steps they would take with the leadership team to build a Cultural Operating Code."
 ],
 "12": [
 "Names the line of sight they would read first and gives a reason tied to a Key Result.",
 "Names what is pulling the result back and the KISS decision that would hold it.",
 "Names where drift would show first from their role and what they would do.",
 "Sets out what their Quarterly Three Lines of Sight page would say on a real Key Result.",
-"Sets out specific steps to help the team sustain performance each quarter."
+"Sets out the steps they would take with the leadership team to sustain performance each quarter."
 ]
 };
