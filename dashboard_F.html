@@ -6370,6 +6370,46 @@
   });
 
   var _focusNoteAfterRender = false;
+
+  // 11 Nov 2026: after Mark as reviewed or Return for revision the review page
+  // must stay open. This re-fetches the submission and re-draws it over the
+  // current page (no "Loading…" wipe, no redirect), keeping the scroll position
+  // and which sections were open or closed. focusNote = true scrolls to the
+  // Conversation box (used after Return for revision).
+  function refreshReviewInPlace(submissionId, focusNote) {
+    const content = document.getElementById('reviewContent');
+    const keepY = window.scrollY;
+    const closed = {};
+    if (content) {
+      content.querySelectorAll('.collapsible-section').forEach(function(s) {
+        const h = s.querySelector('.collapsible-section-heading');
+        if (h) closed[h.textContent.trim()] = s.classList.contains('collapsed');
+      });
+    }
+    supabaseClient.rpc('get_submission_for_review', { p_submission_id: submissionId })
+      .then(function(result) {
+        const bundle = result && result.data;
+        if (result.error || !bundle || typeof bundle !== 'object' || Object.keys(bundle).length === 0) {
+          console.warn('[F4] refreshReviewInPlace: could not re-fetch; page left as it is.', result && result.error);
+          return;
+        }
+        _focusNoteAfterRender = !!focusNote;
+        renderReviewBundle(bundle, submissionId);
+        content.querySelectorAll('.collapsible-section').forEach(function(s) {
+          const h = s.querySelector('.collapsible-section-heading');
+          if (!h) return;
+          const key = h.textContent.trim();
+          if (Object.prototype.hasOwnProperty.call(closed, key)) {
+            s.classList.toggle('collapsed', closed[key]);
+          }
+        });
+        if (!focusNote) window.scrollTo(0, keepY);
+      })
+      .catch(function(err) {
+        console.warn('[F4] refreshReviewInPlace exception; page left as it is.', err);
+      });
+  }
+
   function loadSubmissionReview(submissionId) {
     // HTML-F4-2: fetch via get_submission_for_review() and render the bundle.
     // HTML-F4-3 will add the feedback draft autosave box.
@@ -8689,9 +8729,9 @@
       closeCommitModal();
       commitInFlight = false;
       showToast(message);
-      // Brief pause so the toast registers, then redirect to roster where
-      // the dot grid re-fetches via get_cohort_participants().
-      setTimeout(goBackToRoster, 1500);
+      // 11 Nov 2026: stay on this page after Mark as reviewed — refresh the
+      // review in place (no redirect to the roster, no blank loading screen).
+      refreshReviewInPlace(submissionId, false);
 
     } catch (err) {
       console.error('[F5] review_submission exception:', err);
@@ -8949,8 +8989,8 @@
       revisionInFlight = false;
       showToast(message);
       // Stay on this page, at the Conversation box, so a note can be written straight away.
-      _focusNoteAfterRender = true;
-      loadSubmissionReview(submissionId);
+      // 11 Nov 2026: refresh in place — the page is never wiped or closed.
+      refreshReviewInPlace(submissionId, true);
 
     } catch (err) {
       console.error('[F7] return_for_revision exception:', err);
