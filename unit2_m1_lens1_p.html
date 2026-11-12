@@ -388,6 +388,22 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 .u2b-co-c b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
 .u2b-co-c span{font-size:13px;line-height:1.65;color:rgba(255,255,255,.82);white-space:pre-wrap;}
 .u2b-wide{grid-column:1/-1;}
+.u2b-ov{border:1px solid rgba(201,168,76,.25);border-radius:4px;background:#151c15;padding:14px 16px;margin:12px 0 16px;}
+.u2b-ov-h{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.u2b-ov-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;}
+.u2b-ov-t{width:100%;border-collapse:collapse;font-size:13px;}
+.u2b-ov-t th,.u2b-ov-t td{text-align:left;vertical-align:top;padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.07);line-height:1.5;}
+.u2b-ov-t tbody th{width:38%;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);}
+.u2b-ov-t td{color:rgba(255,255,255,.88);}
+.u2b-ov-t thead th{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.u2b-ov-p{margin-top:12px;border-left:3px solid var(--gold);padding:8px 12px;background:rgba(201,168,76,.05);}
+.u2b-ov-p b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.u2b-ov-p span{font-size:13px;line-height:1.65;color:rgba(255,255,255,.88);}
+.u2b-per{display:grid;grid-template-columns:minmax(200px,320px) 1fr;gap:14px;align-items:end;margin:4px 0 14px;}
+.u2b-per .u2b-period{margin:0;max-width:none;}
+.u2w-how-p{font-size:13px;line-height:1.6;color:rgba(255,255,255,.8);margin:4px 0 8px;}
+.u2b-per-n{font-size:12px;line-height:1.55;color:rgba(255,255,255,.6);border-left:2px solid rgba(201,168,76,.35);padding:2px 0 2px 10px;}
+@media (max-width:640px){.u2b-per{grid-template-columns:1fr;}}
 details.u2w-det{border:1px solid rgba(255,255,255,.08);border-radius:3px;margin:8px 0;background:#141d15;}
 details.u2w-det>summary{cursor:pointer;padding:12px 16px;font-size:12.5px;font-weight:700;color:rgba(255,255,255,.85);list-style:none;}
 details.u2w-det>summary::-webkit-details-marker{display:none;}
@@ -762,16 +778,16 @@ details.u2b-det .u2-q,details.u2b-det textarea{margin-left:16px;margin-right:16p
 <div class="u2w-how"><div class="u2w-how-h">Capstone work · How Section 5 works</div><p>This is group work and Capstone work. Your group builds three outputs for the simulated company of its Problem Charter, in order:</p><ol><li><strong>Step 1 · Strategy Architecture.</strong> Answer the questions of the 14 elements and write what each element is saying. The scribe then brings the elements together under five headings, and your group edits the text until it says what your group intends.</li><li><strong>Step 2 · Strategy Intent Statement.</strong> Deduce one crisp statement from WHAT, WHY, HOW and WHEN.</li><li><strong>Step 3 · Success in Practice.</strong> Answer the three questions of each SiP domain, write one statement for each domain, then write one Success in Practice statement that draws the four together.</li></ol><p>Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member's page. Your group can change the scribe at any time.</p><p>In the Group record tab, each member reads the record and selects Agree. When every member has agreed, the three outputs go into parts 2A and 2B of your team's Capstone S2R® Blueprint. Section 4 shows each step completed for Kestrel Point Services.</p></div>
 <div class="acc open">
 <div class="acc-h" onclick="tA(this)">
-  <span class="acc-t">5.1 — Your Company's Strategy</span>
+  <span class="acc-t">5.1 — Build Your Strategy Architecture, Intent and SiP</span>
   <div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Architecture · Intent · SiP · Capstone Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-<div id="u2bCharter"></div>
 <div id="u2bTeam"></div>
+<div id="u2bCharter"></div>
 <div id="u2bTool">
-<label class="u2-inlbl" for="strategy_period">Strategy period</label><input class="u2-in u2b-period" type="text" id="strategy_period" placeholder="e.g. 2027–2029" oninput="u2In('strategy_period',this.value)">
+<div class="u2b-per"><div><label class="u2-inlbl" for="strategy_period">Our strategy period</label><input class="u2-in u2b-period" type="text" id="strategy_period" placeholder="e.g. 2027–2029" oninput="u2In('strategy_period',this.value)"></div><div class="u2b-per-n">Enter the years your strategy covers, for example 2027–2029. Every choice your group makes in Steps 1 to 3 is set within this period.</div></div>
 <div class="step-tabs"><div class="step-tab active" onclick="u2Step(0)"><div class="step-num">Step 1</div><div class="step-name">Strategy Architecture</div></div><div class="step-tab" onclick="u2Step(1)"><div class="step-num">Step 2</div><div class="step-name">Strategy Intent Statement</div></div><div class="step-tab" onclick="u2Step(2)"><div class="step-num">Step 3</div><div class="step-name">Success in Practice</div></div><div class="step-tab" onclick="u2Step(3)"><div class="step-num">Record</div><div class="step-name">Group record</div></div></div>
-<div class="step-panel active"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 1 &middot; Strategy Architecture</div><ol><li>Choose an element from the row below. Read the lesson for the element beside the boxes.</li><li>Answer its questions with your group's actual strategic choices for your company.</li><li>Write <strong>what this element is saying</strong>: one or two sentences in your own words. The element shows a tick when it is written.</li><li>When all 14 elements are written, the scribe selects <strong>Bring the 14 elements together</strong>. The elements appear under the five headings.</li><li>Read the Architecture as one system with the checks in the lesson, and edit the text until it says what your group intends.</li></ol></div><div class="u2-chips" id="u2bChips"></div><div id="u2bEl"></div><h4>Producing the Strategy Architecture</h4><div id="u2bArch"></div></div>
+<div class="step-panel active"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 1 &middot; Strategy Architecture</div><p class="u2w-how-p">Your executive team simulates how its strategy architecture unfolds, element by element, for the company in your Problem Charter.</p><ol><li>Choose an element from the row below, and read its lesson beside the boxes.</li><li>Answer the element&rsquo;s questions with the choices your executive team makes to resolve the three problems in your Problem Charter and improve your organisation&rsquo;s results and position.</li><li>Write <strong>what this element is saying</strong>: one or two sentences in your own words. A tick appears on the element when it is written.</li><li>When all 14 elements have a tick, the scribe selects <strong>Bring the 14 elements together</strong>. Your 14 answers are placed in one box, grouped under the five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.</li><li>Read the five headings together as one strategy. Where two elements contradict each other, or something is missing, edit the text in the box until it says what your group intends.</li></ol></div><div class="u2-chips" id="u2bChips"></div><div id="u2bEl"></div><h4>Producing the Strategy Architecture</h4><div id="u2bArch"></div></div>
 <div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 2 &middot; Strategy Intent Statement</div><ol><li>Read the four cards: what your WHAT, WHY, HOW and WHEN elements are saying.</li><li>Deduce one crisp statement of your company's strategic ambition that carries the four, and type it in the box.</li><li>Read the statement against your Architecture. Where it exposes a contradiction, resolve it in the Architecture first.</li></ol></div><div id="u2bIntent"></div></div>
 <div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete Step 3 &middot; Success in Practice</div><ol><li>Open each of the four domains in turn.</li><li>Answer the three questions of the domain for your company.</li><li>Write one SiP statement for the domain from your answers.</li><li>Read the four statements together and test them for depth and balance, with the SiP Flammables from 3.2 as the final balance check.</li><li>Write your Success in Practice statement: one statement that draws the four together.</li></ol></div><div id="u2bSip"></div></div>
 <div class="step-panel"><div class="u2w-how"><div class="u2w-how-h">Capstone work &middot; How to complete the Group record</div><ol><li>Read your group's full record: Strategy Architecture, Strategy Intent Statement, the four SiP statements and your Success in Practice statement.</li><li>When it says what your group agreed, select <strong>Agree</strong> in the group record bar above. Every member agrees on their own page.</li><li>When every member has agreed, the three outputs go into parts 2A and 2B of your team's Capstone S2R® Blueprint. You can print them as one report.</li><li>If the scribe changes an entry after members have agreed, the agreements clear and every member agrees again.</li></ol></div><div id="u2bRecord"></div></div>
@@ -1143,12 +1159,14 @@ function u2Charter(){
   var host=u2el('u2bCharter');if(!host)return;
   var p=U2.pc;
   if(!p.company){host.innerHTML='<div class="u2-locked">Your group\'s company appears here once every member of your group has agreed your Problem Charter in Unit 1, part 6.2.</div>';return;}
-  host.innerHTML='<div class="u2b-co">'+
-    '<div class="u2b-co-c"><b>Your simulated company</b><span>'+u2esc(p.company)+'</span></div>'+
-    (p.org?'<div class="u2b-co-c"><b>Our organisation</b><span>'+u2esc(p.org)+'</span></div>':'')+
-    (p.team?'<div class="u2b-co-c"><b>Your executive team</b><span>'+u2esc(p.team)+'</span></div>':'')+
-    (p.problem?'<div class="u2b-co-c u2b-wide"><b>Your central organisational problem</b><span>'+u2esc(p.problem)+'</span></div>':'')+
-  '</div>';
+  /* Company overview (12 Nov 2026): one card, in the group's own voice, laid out as tables. */
+  var rows=[['Company',p.company]];
+  String(p.org||'').split('\n').forEach(function(l){var m=/^\s*([^:]{1,40}):\s*(.*)$/.exec(l);if(m&&m[2].trim())rows.push([m[1].trim(),m[2].trim()]);});
+  var team=String(p.team||'').split('\n').map(function(l){var m=/^\s*(.{1,30}?)\s+·\s+(.+)$/.exec(l);return m?[m[1],m[2]]:null;}).filter(Boolean);
+  host.innerHTML='<div class="u2b-ov"><div class="u2b-ov-h">Our company overview</div><div class="u2b-ov-g">'+
+    '<table class="u2b-ov-t"><tbody>'+rows.map(function(r){return '<tr><th>'+u2esc(r[0])+'</th><td>'+u2esc(r[1])+'</td></tr>';}).join('')+'</tbody></table>'+
+    (team.length?'<table class="u2b-ov-t"><thead><tr><th colspan="2">Our executive team</th></tr></thead><tbody>'+team.map(function(r){return '<tr><th>'+u2esc(r[0])+'</th><td>'+u2esc(r[1])+'</td></tr>';}).join('')+'</tbody></table>':'')+
+    '</div>'+(p.problem?'<div class="u2b-ov-p"><b>Our central organisational problem</b><span>'+u2esc(p.problem)+'</span></div>':'')+'</div>';
 }
 
 function u2Step(i){
