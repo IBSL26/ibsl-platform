@@ -17,7 +17,6 @@
  *     names: [...],                       // the confirmed names the Capstone checks
  *     complete: function(){ return '' },  // '' when complete, otherwise what is still missing
  *     onRemote: async function(responses){ ... }, // redraw the tool from the group record
- *     stand: { mount:'twStand', hint:'...' }      // optional: the group's Our Position statement (28 Oct 2026)
  *   });
  *   S2RTeam.save(key, value);             // the scribe's entries (batched)
  *
@@ -181,11 +180,8 @@
 
   var API={
     attach:async function(cfg){
-      if(cfg.stand){
-        var base=cfg.complete;cfg=Object.assign({},cfg);
-        cfg.names=(cfg.names||[]).concat([STAND_NAME]);
-        cfg.complete=function(){var m=base?String(base()||''):'';var o=m?[m]:[];if(!String(T.stand||'').trim())o.push('Our Position');else if(standWords()>STAND_MAX)o.push('Our Position shortened to '+STAND_MAX+' words or fewer');return o.join('; ');};
-      }
+      /* Our Position removed from every unit (12 Nov 2026). */
+      if(cfg.stand){cfg=Object.assign({},cfg);delete cfg.stand;}
       T.cfg=cfg;
       if(!document.getElementById('tw-css')){var s=document.createElement('style');s.id='tw-css';s.textContent=CSS;document.head.appendChild(s);}
       draw();

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Industry Illusion Game — Higher Education</title>
+<style>
+:root{--navy:#071827;--navy2:#0d2438;--gold:#d7ad54;--cream:#f6f2e8;--white:#fff;--muted:#9fb0bd;--green:#2e9d72;--red:#b95151;--line:#294155}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--navy);color:var(--white);min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;border-bottom:1px solid var(--line);background:#061522;position:sticky;top:0;z-index:3}
+.brand{font-weight:800;letter-spacing:.08em}.brand span{color:var(--gold)} .progress{font-size:14px;color:var(--muted)}
+main{max-width:1180px;margin:0 auto;padding:38px 28px 70px}.screen{display:none}.screen.active{display:block}.eyebrow{color:var(--gold);text-transform:uppercase;letter-spacing:.14em;font-size:13px;font-weight:700;margin-bottom:10px}
+h1{font-size:44px;line-height:1.05;margin:0 0 18px;max-width:900px} h2{font-size:34px;margin:0 0 18px} h3{font-size:22px;margin:0 0 10px}.lead{font-size:21px;line-height:1.5;max-width:900px;color:#e7edf1}.small{color:var(--muted);line-height:1.5}.card{background:var(--navy2);border:1px solid var(--line);border-radius:16px;padding:22px}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}.option{cursor:pointer;transition:.15s;border:1px solid var(--line);background:var(--navy2);border-radius:14px;padding:18px;min-height:112px}.option:hover{transform:translateY(-2px);border-color:#5f7688}.option.selected{outline:3px solid var(--gold);background:#142d42}.option.locked{cursor:default}.tag{display:inline-block;padding:5px 9px;border-radius:999px;background:#173047;color:#cbd7df;font-size:12px;margin-bottom:9px}.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}.btn{border:0;border-radius:10px;padding:13px 19px;font-weight:800;cursor:pointer;font-size:15px}.primary{background:var(--gold);color:#102030}.secondary{background:#18344a;color:white;border:1px solid #355168}.danger{background:#4a2328;color:#fff}.btn:disabled{opacity:.4;cursor:not-allowed}.notice{padding:16px 18px;border-left:4px solid var(--gold);background:#112a3e;margin:20px 0;line-height:1.5}.reveal{display:none;margin-top:24px;padding:24px;border-radius:16px;background:var(--cream);color:#132330}.reveal.show{display:block}.reveal .big{font-size:32px;font-weight:900;color:#132330}.flow{display:flex;align-items:stretch;gap:12px;margin:28px 0}.flow .step{flex:1;background:var(--navy2);border:1px solid var(--line);padding:20px;border-radius:14px;text-align:center}.arrow{display:flex;align-items:center;color:var(--gold);font-size:30px}.metric{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:13px 0}.metric:last-child{border-bottom:0}.metric b{color:var(--gold)}.arena-box{background:var(--cream);color:#132330;border-radius:18px;padding:26px;margin-top:24px}.arena-row{display:grid;grid-template-columns:170px 1fr;gap:14px;padding:13px 0;border-bottom:1px solid #d9d2c5}.arena-row:last-child{border:0}.footer-note{margin-top:35px;color:var(--muted);font-size:13px}.score{color:var(--gold);font-weight:800}.pill{padding:7px 10px;border-radius:999px;background:#153149;color:#d8e1e7;display:inline-block;margin:4px}.center{text-align:center}.quote{font-size:28px;line-height:1.35;font-weight:700;max-width:900px;margin:28px auto}.hidden-answer{filter:blur(7px);user-select:none;transition:.2s}.hidden-answer.revealed{filter:none}.timer{font-size:22px;font-weight:800;color:var(--gold)}
+@media(max-width:800px){h1{font-size:34px}.grid,.grid3{grid-template-columns:1fr}.flow{flex-direction:column}.arrow{justify-content:center;transform:rotate(90deg)}.arena-row{grid-template-columns:1fr}header{padding:14px 18px}main{padding:28px 18px}}
+@media print{header,.btns{display:none!important}.screen{display:block!important;page-break-after:always}body{background:white;color:black}.card,.option{background:white;color:black;border:1px solid #aaa}.small{color:#444}.reveal{display:block}.hidden-answer{filter:none}}
+</style>
+</head>
+<body>
+<header><div class="brand">STRATEGY<span>2RESULTS®</span></div><div class="progress" id="progress">Industry Illusion Game</div></header>
+<main>
+<section class="screen active" id="s0">
+<div class="eyebrow">Behavioural Strategy · Intelligence</div><h1>The Industry Illusion</h1>
+<p class="lead">Industry knowledge is valuable. But the world we know can quietly become the boundary of the world we examine.</p>
+<div class="flow"><div class="step"><h3>FAMILIARITY</h3><p>We know this industry.</p><p class="small">Attention gravitates toward the environment and signals we recognise.</p></div><div class="arrow">→</div><div class="step"><h3>EXCLUSION</h3><p>We discount what doesn't fit it.</p><p class="small">Signals outside our established industry frame are easier to underweight.</p></div><div class="arrow">→</div><div class="step"><h3>COMPLACENCY</h3><p>We become confident in the world we can see.</p><p class="small">Current success reinforces confidence that our existing view remains sufficient.</p></div></div>
+<div class="notice"><b>Industry Illusion:</b> the industry we understand becomes the boundary of our strategic vision.</div>
+<div class="center"><p class="quote">“The industry we understand can become the boundary of the world we examine.”</p></div>
+<div class="btns"><button class="btn primary" onclick="go(1)">Play the Game</button></div>
+</section>
+
+<section class="screen" id="s1"><div class="eyebrow">Case Brief</div><h2>Apex University · Strategy 2032</h2><p class="lead">You are the executive team of Apex University, an established private university preparing its next strategy.</p>
+<div class="grid3"><div class="card"><h3>18,000</h3><p class="small">Students across undergraduate and postgraduate programmes</p></div><div class="card"><h3>Strong</h3><p class="small">Accreditation, reputation and employer relationships</p></div><div class="card"><h3>Stable</h3><p class="small">Enrolment with growing online delivery</p></div></div>
+<div class="notice">Your task is to advise the Board on where Apex should focus its strategic attention. Make each decision as an executive team and lock it before moving on.</div><div class="btns"><button class="btn secondary" onclick="go(0)">Back</button><button class="btn primary" onclick="go(2)">Round 1</button></div></section>
+
+<section class="screen" id="s2"><div class="eyebrow">Round 1 · Select Four</div><h2>Where would you look?</h2><p class="lead">To understand how Apex University's environment is changing, choose the <b>four intelligence sources</b> you would prioritise.</p><div class="grid" id="r1"></div><p class="small">Selected: <span id="r1count">0</span>/4</p><div class="btns"><button class="btn secondary" onclick="go(1)">Back</button><button id="r1lock" class="btn primary" disabled onclick="lockR1()">Lock Decision</button></div><div id="r1reveal" class="reveal"><div class="big">FAMILIARITY</div><p><b>We know this industry.</b></p><p id="r1text"></p><p><b>Reflection:</b> How much of your attention went toward the world you already recognised as higher education?</p><button class="btn secondary" onclick="redoRound(1)">Redo Familiarity</button> <button class="btn primary" onclick="go(3)">Continue</button></div></section>
+
+<section class="screen" id="s3"><div class="eyebrow">Round 2 · Select Three</div><h2>What deserves serious attention?</h2><p class="lead">Your strategy team brings six developments. You only have capacity to investigate <b>three</b> in depth.</p><div class="grid" id="r2"></div><p class="small">Selected for investigation: <span id="r2count">0</span>/3</p><div class="btns"><button class="btn secondary" onclick="go(2)">Back</button><button id="r2lock" class="btn primary" disabled onclick="lockR2()">Lock Decision</button></div><div id="r2reveal" class="reveal"><div class="big">EXCLUSION</div><p><b>We discount what doesn't fit it.</b></p><p id="r2text"></p><p><b>Reflection:</b> Which signals felt less important because they did not look like conventional higher education?</p><button class="btn secondary" onclick="redoRound(2)">Redo Exclusion</button> <button class="btn primary" onclick="go(4)">Continue</button></div></section>
+
+<section class="screen" id="s4"><div class="eyebrow">Round 3 · Board Decision</div><h2>Should Apex reconsider its direction?</h2><p class="lead">Three years later, this is the university's current position.</p><div class="card" style="max-width:720px"><div class="metric"><span>Enrolment</span><b>+5%</b></div><div class="metric"><span>Revenue</span><b>+7%</b></div><div class="metric"><span>Graduate employment</span><b>86%</b></div><div class="metric"><span>Accreditation</span><b>Strong</b></div><div class="metric"><span>Student satisfaction</span><b>82%</b></div><div class="metric"><span>Market position</span><b>Top 3 private university</b></div><div class="metric"><span>Online enrolment</span><b>+12%</b></div></div>
+<p class="lead" style="margin-top:25px">The Board asks whether Apex needs to reconsider its fundamental strategic direction. Choose one.</p><div class="grid3" id="r3"></div><div class="btns"><button class="btn secondary" onclick="go(3)">Back</button><button id="r3lock" class="btn primary" disabled onclick="lockR3()">Lock Board Decision</button></div><div id="r3reveal" class="reveal"><div class="big">COMPLACENCY</div><p><b>We become confident in the world we can see.</b></p><p id="r3text"></p><p><b>Reflection:</b> Did strong current performance influence how urgently you felt Apex should question its future assumptions?</p><button class="btn secondary" onclick="redoRound(3)">Redo Complacency</button> <button class="btn primary" onclick="go(5)">Reveal the Illusion</button></div></section>
+
+<section class="screen" id="s5"><div class="eyebrow">Game Debrief</div><h2>Your Industry Illusion Result</h2><p class="lead">Where did the team's strategic field of vision narrow?</p><div class="grid3" id="resultSummary"></div>
+<div class="notice"><b>Apex did not lack information.</b> The issue is what its industry frame caused leaders to notice, discount and trust.</div><div class="btns"><button class="btn secondary" onclick="go(4)">Back</button><button class="btn primary" onclick="go(6)">Validate the Arena</button></div></section>
+
+<section class="screen" id="s6"><div class="eyebrow">ABCV · Arena Validation</div><h2>Now return to the customer end game</h2><p class="lead">Use the Arena question to test whether the university's strategic field of vision is wide enough.</p><div class="arena-box"><h3>What is the learner actually trying to achieve?</h3><div class="arena-row"><b>Functional</b><span>What is the learner ultimately trying to accomplish?</span></div><div class="arena-row"><b>Emotional</b><span>How does the learner want to feel about their capability and future?</span></div><div class="arena-row"><b>Social</b><span>What recognition, credibility or standing are they seeking?</span></div></div>
+<div class="notice">Discuss first. Then revisit the signals you deprioritised earlier: <b>which become strategically relevant when you look through the learner's end game?</b></div><div class="btns"><button class="btn secondary" onclick="go(5)">Back</button><button class="btn primary" onclick="document.getElementById('close').classList.add('show')">Reveal Close</button><button class="btn secondary" onclick="resetGame()">Reset Game</button><button class="btn secondary" onclick="window.print()">Print</button></div>
+<div class="reveal" id="close"><div class="big">ARENA TEST</div><p>Nothing in the environment had to change for previously discounted signals to become relevant. <b>What changed was the space through which leaders looked at them.</b></p><p><b>Industry Illusion narrows what we see. Arena tests whether we are looking in the right space.</b></p></div></section>
+</main>
+<script>
+const r1Data=[
+['A','Changes in how major employers assess and recruit talent','outside'],
+['B','Enrolment trends across universities','inside'],
+['C','Growth in professional and industry credentials','outside'],
+['D','Higher-education regulation and accreditation changes','inside'],
+['E','How working adults build capabilities outside formal education','outside'],
+['F','New programmes introduced by competing universities','inside'],
+['G','Changes in how employers recognise demonstrated skills versus qualifications','outside'],
+['H','Changes in university rankings and reputation','inside']];
+const r2Data=[
+['1','Major employers remove degree requirements from selected roles and introduce capability assessments.','outside'],
+['2','A leading university reduces fees for several postgraduate programmes.','inside'],
+['3','Employers increasingly use portfolios, simulations and demonstrated capability to evaluate candidates.','outside'],
+['4','A competing university launches a new Executive MBA.','inside'],
+['5','Working professionals increasingly combine short courses, certifications and workplace experience instead of longer qualifications.','outside'],
+['6','Applications to universities in your region are projected to grow by 8%.','inside']];
+const r3Data=[
+['A','ADJUST','Our strategy remains sound, but some areas need strengthening.'],
+['B','RE-EXAMINE','Current performance is strong, but question whether the assumptions underlying our future position remain valid.'],
+['C','NO MAJOR CHANGE','Our position remains strong. Continue executing the current strategy.']];
+let state={r1:[],r2:[],r3:null,locked1:false,locked2:false,locked3:false,result1:null,result2:null,result3:null};
+function render(){
+ document.getElementById('r1').innerHTML=r1Data.map(x=>`<div class="option ${state.r1.includes(x[0])?'selected':''} ${state.locked1?'locked':''}" onclick="pick('r1','${x[0]}',4)"><span class="tag">${x[0]}</span><h3>${x[1]}</h3></div>`).join('');
+ document.getElementById('r2').innerHTML=r2Data.map(x=>`<div class="option ${state.r2.includes(x[0])?'selected':''} ${state.locked2?'locked':''}" onclick="pick('r2','${x[0]}',3)"><span class="tag">Signal ${x[0]}</span><h3>${x[1]}</h3></div>`).join('');
+ document.getElementById('r3').innerHTML=r3Data.map(x=>`<div class="option ${state.r3===x[0]?'selected':''} ${state.locked3?'locked':''}" onclick="pick3('${x[0]}')"><span class="tag">Option ${x[0]}</span><h3>${x[1]}</h3><p class="small">${x[2]}</p></div>`).join('');
+ document.getElementById('r1count').textContent=state.r1.length;document.getElementById('r2count').textContent=state.r2.length;
+ document.getElementById('r1lock').disabled=state.r1.length!==4||state.locked1;document.getElementById('r2lock').disabled=state.r2.length!==3||state.locked2;document.getElementById('r3lock').disabled=!state.r3||state.locked3;
+}
+function pick(round,id,max){if(state['locked'+(round==='r1'?'1':'2')])return;let a=state[round]; if(a.includes(id))a.splice(a.indexOf(id),1);else if(a.length<max)a.push(id);render()}
+function pick3(id){if(state.locked3)return;state.r3=id;render()}
+function lockR1(){
+ state.locked1=true;
+ let inside=state.r1.filter(id=>r1Data.find(x=>x[0]===id)[2]==='inside').length;
+ let fell=inside>=3;
+ document.getElementById('r1text').innerHTML=fell
+ ? `<h3 style="color:#8f2f2f">YOU FELL INTO THE FAMILIARITY ILLUSION</h3><p>Your team concentrated its search within the traditional higher-education environment.</p><p><b>The trap:</b> because this is the industry you know, you looked primarily inside it for signals about the future.</p><p><b>Familiarity:</b> <em>We know this industry.</em></p>`
+ : `<h3 style="color:#237451">YOU RESISTED THE FAMILIARITY ILLUSION</h3><p>Your team looked beyond the traditional higher-education environment when searching for signals about the future.</p><p><b>Why this matters:</b> familiarity can cause leaders to search for change in the places they already know. Your choices widened the field of attention.</p><p><b>Familiarity:</b> <em>We know this industry.</em></p>`;
+ state.result1=fell?'FELL INTO':'RESISTED';
+ document.getElementById('r1reveal').classList.add('show');render()
+}
+function lockR2(){
+ state.locked2=true;
+ let excluded=r2Data.filter(x=>x[2]==='outside'&&!state.r2.includes(x[0])).length;
+ let fell=excluded>=2;
+ document.getElementById('r2text').innerHTML=fell
+ ? `<h3 style="color:#8f2f2f">YOU FELL INTO THE EXCLUSION ILLUSION</h3><p>Your team deprioritised important signals because they sat outside the conventional higher-education environment.</p><p><b>The trap:</b> developments that did not look like higher education were treated as less strategically relevant.</p><p><b>Exclusion:</b> <em>We discount what doesn't fit it.</em></p>`
+ : `<h3 style="color:#237451">YOU RESISTED THE EXCLUSION ILLUSION</h3><p>Your team kept important signals from outside traditional higher education in serious consideration.</p><p><b>Why this matters:</b> you did not dismiss a signal simply because it came from outside the established industry frame.</p><p><b>Exclusion:</b> <em>We discount what doesn't fit it.</em></p>`;
+ state.result2=fell?'FELL INTO':'RESISTED';
+ document.getElementById('r2reveal').classList.add('show');render()
+}
+function lockR3(){
+ state.locked3=true;
+ let resisted=state.r3==='B';
+ document.getElementById('r3text').innerHTML=resisted
+ ? `<h3 style="color:#237451">YOU RESISTED THE COMPLACENCY ILLUSION</h3><p>Your team chose to re-examine the assumptions behind Apex's future even though current performance is strong.</p><p><b>Why this matters:</b> present success did not become proof that today's model will remain relevant tomorrow.</p><p><b>Complacency:</b> <em>We become confident in the world we can see.</em></p>`
+ : `<h3 style="color:#8f2f2f">YOU FELL INTO THE COMPLACENCY ILLUSION</h3><p>Your team allowed strong current performance to reassure it that the existing strategic direction remains sufficient.</p><p><b>The trap:</b> today's success became evidence that the organisation is still looking at the future correctly, before its assumptions were tested.</p><p><b>Complacency:</b> <em>We become confident in the world we can see.</em></p>`;
+ state.result3=resisted?'RESISTED':'FELL INTO';
+ document.getElementById('r3reveal').classList.add('show');render()
+}
+function redoRound(n){
+ if(n===1){state.r1=[];state.locked1=false;state.result1=null;document.getElementById('r1reveal').classList.remove('show');}
+ if(n===2){state.r2=[];state.locked2=false;state.result2=null;document.getElementById('r2reveal').classList.remove('show');}
+ if(n===3){state.r3=null;state.locked3=false;state.result3=null;document.getElementById('r3reveal').classList.remove('show');}
+ render();
+}
+function go(n){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById('s'+n).classList.add('active');document.getElementById('progress').textContent=n===0?'Industry Illusion':n===1?'Case Brief':n<=4?'Round '+(n-1):n===5?'Game Debrief':'Arena Validation';if(n===5)renderSummary();window.scrollTo({top:0,behavior:'smooth'})}
+function renderSummary(){
+ const data=[['FAMILIARITY','We know this industry.',state.result1],['EXCLUSION',"We discount what doesn't fit it.",state.result2],['COMPLACENCY','We become confident in the world we can see.',state.result3]];
+ document.getElementById('resultSummary').innerHTML=data.map(x=>{let resisted=x[2]==='RESISTED';let c=resisted?'#237451':'#8f2f2f';return `<div class="card center"><h3>${x[0]}</h3><p class="small">${x[1]}</p><p style="font-size:22px;font-weight:900;color:${c}">${x[2]||'NOT COMPLETED'}</p></div>`}).join('');
+}
+function resetGame(){state={r1:[],r2:[],r3:null,locked1:false,locked2:false,locked3:false,result1:null,result2:null,result3:null};document.querySelectorAll('.reveal').forEach(x=>x.classList.remove('show'));render();go(0)}
+render();
+</script>
+</body></html>
