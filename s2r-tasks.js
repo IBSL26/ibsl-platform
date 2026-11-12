@@ -95,10 +95,10 @@
       else if(/^(feedback-acc|msg-acc|upload-acc)$/.test(id)||/ mod-nav /.test(cls)||(/Submit to Facilitator/.test(tx)&&tx.length<60))tail.push(c);
       else cap.push(c);
     });
-    var keep=function(c){var cls=' '+(c.className||'')+' ',id=c.id||'';return / acc /.test(cls)||/twbar/i.test(id)||/ step-tabs | step-panel /.test(cls)||/Rec$/.test(id)||/S5$/.test(id)||c.tagName==='SCRIPT';};
+    var keep=function(c){var cls=' '+(c.className||'')+' ',id=c.id||'';return c.hasAttribute('data-s2r-keep')||/ acc /.test(cls)||/twbar/i.test(id)||/ step-tabs | step-panel /.test(cls)||/Rec$/.test(id)||/S5$/.test(id)||c.tagName==='SCRIPT';};
     var capOut=[],grp=[];
     var flush=function(){if(!grp.length)return;var tx=norm(grp.map(function(g){return g.textContent;}).join(' '));
-      var title=/How Section 5 works/.test(tx)?'How Section 5 works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
+      var title=/How Section 5 works/.test(tx)?'How the Capstone project works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
       capOut.push(accWrap(title,'Capstone work',grp));grp=[];};
     cap.forEach(function(c){if(keep(c)){flush();if(/ acc /.test(' '+c.className+' '))c.classList.remove('open');capOut.push(c);}else grp.push(c);});flush();
     var capAcc=capOut.length?accWrap('Capstone','Capstone work',capOut):null;if(capAcc)capAcc.classList.add('s2r-cap');
