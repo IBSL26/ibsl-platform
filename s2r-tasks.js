@@ -6,10 +6,10 @@
   var B=function(lead,rest){return '<strong>'+lead+'</strong>'+(rest?' '+rest:'');};
   var T={
     lens1:[ // Unit 2
-      {how:'How to complete Step 1',t:B('In this step you complete your strategy period and the 14 elements.','For each element, answer its questions, then write what the element is saying. The scribe then brings the 14 elements together and your group reads the Architecture as one system.')},
-      {how:'How to complete Step 2',t:B('In this step you complete 1 entry:','your Strategy Intent Statement.')},
-      {how:'How to complete Step 3',t:B('In this step you complete 5 statements:','for each of the four SiP domains, answer its three questions and write its SiP statement; then write your one Success in Practice statement.')},
-      {how:'How to complete the Group record',t:B('In this step you complete 1 task:','read your group record, then select Agree.')}],
+      {how:'How to complete 5.1',t:B('In this part you complete the 14 elements.','For each element, answer its questions, then write what the element is saying. The scribe then brings the 14 elements together and your group reads the Architecture as one system.')},
+      {how:'How to complete 5.2',t:B('In this part you complete 1 entry:','your Strategy Intent Statement.')},
+      {how:'How to complete 5.3',t:B('In this part you complete 5 statements:','for each of the four SiP domains, answer its three questions and write its SiP statement; then write your one Success in Practice statement.')},
+      {how:'How to complete the Group record',t:B('In this part you complete 1 task:','read your group record, then select Agree.')}],
     lens2:[ // Unit 3
       {part:'5.1',t:B('In this part you complete 4 domains (16 entries):','for each SiP domain, check its SiP statement, then write one entry each for Keep, Improve, Start and Stop.')},
       {part:'5.2',t:B('In this part you complete the five steps for each of your themes (up to four):','1. the theme; 2. its Objective; 3. its Key Results and contributing roles; 4. the alignment test; 5. its place on the Priority Matrix. Then read your record and select Agree.')}],
