@@ -101,13 +101,14 @@
       var title=/How Section 5 works/.test(tx)?'How Section 5 works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
       capOut.push(accWrap(title,'Capstone work',grp));grp=[];};
     cap.forEach(function(c){if(keep(c)){flush();if(/ acc /.test(' '+c.className+' '))c.classList.remove('open');capOut.push(c);}else grp.push(c);});flush();
-    var order=top.concat(ref.length?[accWrap('Key Reflection','Section 5',ref)]:[],capOut,sum,close.length?[accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
+    var capAcc=capOut.length?accWrap('Capstone','Capstone work',capOut):null;if(capAcc)capAcc.classList.add('s2r-cap');
+    var order=top.concat(ref.length?[accWrap('Key Reflection','Section 5',ref)]:[],capAcc?[capAcc]:[],sum,close.length?[accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
     order.forEach(function(n){body.appendChild(n);});
   }
   function run(){
     try{layout();}catch(e){console.warn('[s2r-tasks] layout',e);}
     if(!document.getElementById('s2rTaskCss')){var st=document.createElement('style');st.id='s2rTaskCss';
-      st.textContent='.s2r-task{border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.06);border-radius:3px;padding:9px 12px;margin:0 0 14px;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.85);}.s2r-task strong{color:#c9a84c;}@media print{.s2r-task{display:none!important;}}';
+      st.textContent='.s2r-cap .acc:not(.open)>.acc-b{display:none!important;}.s2r-cap .acc:not(.open)>.acc-h .arr{transform:none!important;}.s2r-task{border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.06);border-radius:3px;padding:9px 12px;margin:0 0 14px;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.85);}.s2r-task strong{color:#c9a84c;}@media print{.s2r-task{display:none!important;}}';
       document.head.appendChild(st);}
     L.forEach(function(it,k){
       if(document.querySelector('[data-s2r-task="'+k+'"]'))return;
