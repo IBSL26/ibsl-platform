@@ -101,6 +101,10 @@
       var title=/How Section 5 works/.test(tx)?'How the Capstone project works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
       capOut.push(accWrap(title,'Capstone work',grp));grp=[];};
     cap.forEach(function(c){if(keep(c)){flush();if(/ acc /.test(' '+c.className+' '))c.classList.remove('open');capOut.push(c);}else grp.push(c);});flush();
+    /* The group record bar leads the Capstone, above the guidance (12 Nov 2026). */
+    var bars=capOut.filter(function(c){return /twbar/i.test(c.id||'')||c.id==='u2bTeam';});
+    var how=capOut.filter(function(c){var t=c.querySelector(':scope > .acc-h .acc-t');return t&&t.textContent==='How the Capstone project works';});
+    capOut=bars.concat(how,capOut.filter(function(c){return bars.indexOf(c)<0&&how.indexOf(c)<0;}));
     var capAcc=capOut.length?accWrap('Capstone','Capstone work',capOut):null;if(capAcc)capAcc.classList.add('s2r-cap');
     var order=top.concat(ref.length?[accWrap('Key Reflection','Section 5',ref)]:[],capAcc?[capAcc]:[],sum,close.length?[accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
     order.forEach(function(n){body.appendChild(n);});
