@@ -291,13 +291,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['1A','Simulated company','The simulated company our team leads throughout this Blueprint.'],
       ['1B','Simulated executive team','Our executive team at [Case] and the executive role each of us holds.'],
       ['1C','Our organisation','Our sector, size and main activity or service.'],
-      ['','PROBLEM CHARTER','The problem our team identified from the combined experience of its members: the challenges, how they manifested, their consequences for results, and the central problem we will solve as an executive team.','1D–1H'],
+      ['','PROBLEM CHARTER','The problem our team identified from the combined experience of its members: the challenges, the problem we selected in each area, how each shows up, its consequences for results, and the central problem we will solve as an executive team.','1D–1H'],
       ['1D','Challenges experienced','The recurring challenges we have experienced in strategy design, strategy execution and sustaining performance.'],
-      ['1E','How they manifested','How these challenges show up in our behaviours, management practices and organisational conditions.'],
-      ['1F','Consequences for results','How these challenges have undermined our results in strategy design, strategy execution and sustaining performance.'],
-      ['1G','The challenges we will address','The three challenges in each area we will address as an executive team.'],
-      ['1H','Our central organisational problem','The central problem we will solve as an executive team through CESI.'],
-      ['1S','Our Position','Our team’s position from this unit in no more than 80 words: what we decided and what that decision commits our organisation to. It guides the reader through the work below.','','stand']
+      ['1E','The problems we will address','The one problem in each area we will address as an executive team, and the challenges that solving it weakens or removes.'],
+      ['1F','How they show up','How each of our problems shows up in our behaviours, management practices and organisational conditions.'],
+      ['1G','Consequences for results','How each of our problems has cost our organisation results.'],
+      ['1H','Our central organisational problem','How our three problems connect: the central problem we will solve as an executive team through CESI.']
     ]},
     { key:'u2', unit:2, title:'Strategy Visioning & Success in Practice (SiP)', boxes:[
       ['2A','Strategy Architecture','Our strategy architecture under its five headings: Strategic Position, Strategic Model, Value Architecture, Strategic Navigation and Strategy Discipline.','2A'],
@@ -398,11 +397,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['1B','pc_team','Problem Charter · Executive Team'],
       ['1C','pc_org','Problem Charter · Our Organisation'],
       ['1D','pc_challenges','Problem Charter · Challenges Experienced'],
-      ['1E','pc_manifest','Problem Charter · How They Manifested'],
-      ['1F','pc_consequences','Problem Charter · Consequences'],
-      ['1G','pc_address','Problem Charter · Challenges We Will Address'],
-      ['1H','pc_problem','Problem Charter · Central Organisational Problem'],
-      ['1S','team_summary','Our Position']
+      ['1E','pc_address','Problem Charter · Challenges We Will Address'],
+      ['1F','pc_manifest','Problem Charter · How They Manifested'],
+      ['1G','pc_consequences','Problem Charter · Consequences'],
+      ['1H','pc_problem','Problem Charter · Central Organisational Problem']
     ]},
     u2: { lens:'u2m1_lens1', rows:[
       ['2A','arch_output','Strategy Architecture'],
@@ -563,37 +561,24 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         }));
       }).join('');
     }
+    // 1E (12 Nov 2026): per area, the selected problem and the challenges that solving it weakens or removes.
     if (key === '1E'){
-      a = areas(function(l){ return SCN.test(l); });
-      if (!a) return null;
-      return a.map(function(g){
-        return area(g.h) + grid(['Scenario','What happened'], g.items.map(function(l){
-          var m = l.match(SCN), p = pair(m[2]);
-          return '<th class="bt-w1"><span class="bt-n">Scenario ' + esc(m[1]) + '</span>' + (p ? e(p.k) : '') + '</th><td>' + e(p ? p.v : m[2]) + '</td>';
-        }));
-      }).join('');
+      var bl = [], cb = [];
+      String(raw).replace(/\r/g, '').split('\n').forEach(function(l){ l = l.trim(); if (!l){ if (cb.length){ bl.push(cb); cb = []; } } else cb.push(l); });
+      if (cb.length) bl.push(cb);
+      var rws = bl.map(function(x){ var p = pair(x[0]), q = x[1] ? pair(x[1]) : null; return (p && x.length <= 2 && (!x[1] || q)) ? '<th class="bt-w1">' + e(p.k) + '</th><td>' + e(p.v) + '</td><td>' + (q ? e(q.v) : '') + '</td>' : null; });
+      if (!rws.length || rws.some(function(r){ return !r; })) return null;
+      return grid(['Area','Our problem','Solving it weakens or removes'], rws);
     }
-    if (key === '1F'){
-      var fs = lines.map(pair);
+    if (key === '1F' || key === '1G'){
+      var fs = lines.map(pair), hd = key === '1F' ? 'How it shows up' : 'Consequence';
       if (fs.some(function(r){ return !r; })) return null;
       var subs = fs.map(function(r){ return pair(r.v); }), three = subs.every(function(s){ return s; });
-      return grid(three ? ['Area','Consequence','Evidence'] : ['Area','Consequence'], fs.map(function(r, i){
+      return grid(three ? ['Area',hd,'Evidence'] : ['Area',hd], fs.map(function(r, i){
         return '<th class="bt-w1">' + e(r.k) + '</th>' + (three ? '<td class="bt-w1">' + e(subs[i].k) + '</td><td>' + e(subs[i].v) + '</td>' : '<td>' + e(r.v) + '</td>');
       }));
     }
-    // 1G: the full wording of each challenge is already in 1D, so a challenge found there shows its name only.
-    a = areas(function(l){ return NUM.test(l); });
-    if (!a || a.length > 4) return null;
-    var inD = {}; String(content['1D'] || '').replace(/\r/g, '').split('\n').forEach(function(l){ var m = l.trim().match(NUM); if (m) inD[m[2]] = 1; });
-    var depth = Math.max.apply(null, a.map(function(g){ return g.items.length; })), body = [];
-    for (var i = 0; i < depth; i++){
-      body.push(a.map(function(g){
-        if (!g.items[i]) return '<td></td>';
-        var m = g.items[i].match(NUM), p = inD[m[2]] ? pair(m[2]) : null;
-        return '<td>' + e(m[1] + '. ' + (p ? p.k : m[2])) + '</td>';
-      }).join(''));
-    }
-    return grid(a.map(function(g){ return g.h; }), body, true);
+    return null;
   }
   function fmtBox(raw, prose){
     var e = starText;
@@ -714,7 +699,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     BLUEPRINT.forEach(function(d){
       if (S.mode === 'facilitator' && !by[d.key]) return;
       var m = MODULES[d.key]; if (m) h += '<div class="stand-mod">' + m[0] + ' · ' + m[1] + '</div>';
-      var sec = by[d.key], v = sec && sec.content ? String(sec.content[d.unit + 'S'] || '').trim() : '';
+      var sec = by[d.key], v = sec && sec.content ? String(sec.content[d.unit === 1 ? '1H' : d.unit + 'S'] || '').trim() : '';
       h += '<div class="stand-u"><div class="stand-t">Unit ' + d.unit + ' · ' + esc(d.title) + '</div>' +
         '<div class="stand-v' + (v ? '' : ' empty') + '">' + (v ? esc(v.replace(/\*/g, '')) : 'Not yet agreed.') + '</div></div>';
     });
@@ -724,7 +709,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var r = function(n, u, t){ return '<tr><td class="w">' + n + '</td><td>' + u + '</td><td>' + t + '</td></tr>'; };
     return '<table class="crit-tbl print-only"><thead><tr><th>Criterion</th><th>Units</th><th>What the panel assesses</th></tr></thead><tbody>' +
       '<tr class="grp"><td colspan="3">Team Blueprint · 60%</td></tr>' +
-      r('Problem Charter','Unit 1','How fully the Blueprint answers the central problem and builds the capabilities the Charter names.') +
+      r('Problem Charter','Unit 1','How fully the Blueprint answers each of the three problems and the central problem that connects them.') +
       r('Direction','Units 2–4','The coherence of strategic intent, success definition, priorities and direction integrity.') +
       r('Influence','Units 5–9','The strength of the alignment, performance and unclogging architecture.') +
       r('Grounding','Units 10–12','How well operating conditions, organisational health and navigation sustain the strategy.') +
@@ -885,7 +870,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     return '<div class="card"><div class="card-label">Assessment criteria</div>' +
       '<p class="muted">An external panel assesses the Blueprint and each member’s showcase, and combines these into your capstone score.</p>' +
       '<div class="crit-group"><div class="crit-head">Team Blueprint · 60%</div>' +
-        '<p class="crit"><strong>Problem Charter</strong> (Unit 1): how fully the Blueprint answers the central problem and builds the capabilities the Charter names.</p>' +
+        '<p class="crit"><strong>Problem Charter</strong> (Unit 1): how fully the Blueprint answers each of the three problems and the central problem that connects them.</p>' +
         '<p class="crit"><strong>Direction</strong> (Units 2–4): the coherence of strategic intent, success definition, priorities and direction integrity.</p>' +
         '<p class="crit"><strong>Influence</strong> (Units 5–9): the strength of the alignment, performance and unclogging architecture.</p>' +
         '<p class="crit"><strong>Grounding</strong> (Units 10–12): how well operating conditions, organisational health and navigation sustain the strategy.</p>' +
