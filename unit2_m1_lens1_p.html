@@ -396,6 +396,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 .u2b-ov-t tbody th{width:38%;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);}
 .u2b-ov-t td{color:rgba(255,255,255,.88);}
 .u2b-ov-t thead th{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+#u2bCharter .acc:not(.open)>.acc-b{display:none!important;}#u2bCharter .acc:not(.open)>.acc-h .arr{transform:none!important;}#u2bCharter .acc .acc .acc-t{font-size:15px;}.u2b-ovacc{margin:8px 0 14px;}.u2b-ov-pt{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.88);margin:0;}
 .u2b-ov-p{margin-top:12px;border-left:3px solid var(--gold);padding:8px 12px;background:rgba(201,168,76,.05);}
 .u2b-ov-p b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
 .u2b-ov-p span{font-size:13px;line-height:1.65;color:rgba(255,255,255,.88);}
@@ -1163,10 +1164,12 @@ function u2Charter(){
   var rows=[['Company',p.company]];
   String(p.org||'').split('\n').forEach(function(l){var m=/^\s*([^:]{1,40}):\s*(.*)$/.exec(l);if(m&&m[2].trim())rows.push([m[1].trim(),m[2].trim()]);});
   var team=String(p.team||'').split('\n').map(function(l){var m=/^\s*(.{1,30}?)\s+·\s+(.+)$/.exec(l);return m?[m[1],m[2]]:null;}).filter(Boolean);
-  host.innerHTML='<div class="u2b-ov"><div class="u2b-ov-h">Our company overview</div><div class="u2b-ov-g">'+
-    '<table class="u2b-ov-t"><tbody>'+rows.map(function(r){return '<tr><th>'+u2esc(r[0])+'</th><td>'+u2esc(r[1])+'</td></tr>';}).join('')+'</tbody></table>'+
-    (team.length?'<table class="u2b-ov-t"><thead><tr><th colspan="2">Our executive team</th></tr></thead><tbody>'+team.map(function(r){return '<tr><th>'+u2esc(r[0])+'</th><td>'+u2esc(r[1])+'</td></tr>';}).join('')+'</tbody></table>':'')+
-    '</div>'+(p.problem?'<div class="u2b-ov-p"><b>Our central organisational problem</b><span>'+u2esc(p.problem)+'</span></div>':'')+'</div>';
+  var acc=function(t,meta,body,cls){return '<div class="acc'+(cls?' '+cls:'')+'"><div class="acc-h" onclick="this.parentElement.classList.toggle(\'open\')"><span class="acc-t">'+t+'</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">'+(meta||'')+'</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div><div class="acc-b cb">'+body+'</div></div>';};
+  var tbl=function(rs){return '<table class="u2b-ov-t"><tbody>'+rs.map(function(r){return '<tr><th>'+u2esc(r[0])+'</th><td>'+u2esc(r[1])+'</td></tr>';}).join('')+'</tbody></table>';};
+  host.innerHTML=acc('Our company overview','From our Problem Charter',
+    acc('Our company','',tbl(rows))+
+    (team.length?acc('Our executive team','',tbl(team)):'')+
+    (p.problem?acc('Our central organisational problem','','<p class="u2b-ov-pt">'+u2esc(p.problem)+'</p>'):''),'u2b-ovacc');
 }
 
 function u2Step(i){
