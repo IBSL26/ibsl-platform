@@ -939,7 +939,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         '<span class="chip ' + st + '">' + chipText + (st === 'awaiting' ? ' · ' + nConf + ' of ' + members.length : '') + '</span>' +
       '</div><div class="sec-b">';
 
-    if (st === 'locked' || st === 'draft') h += '<p class="sec-note">Fills as soon as every member of ' + (isMember ? 'your group' : 'the group') + ' selects Agree on the group work in ' + (def.unit === 1 ? 'part 6.2' : 'Section 5') + ' of the Unit ' + def.unit + ' page.</p>';
+    if (st === 'locked' || st === 'draft') h += '<p class="sec-note">Fills as soon as every member of ' + (isMember ? 'your group' : 'the group') + ' selects Agree on the group work in ' + (def.unit === 1 ? 'the Problem Charter' : 'Section 5') + ' of the Unit ' + def.unit + ' page.</p>';
     if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
     if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
 
