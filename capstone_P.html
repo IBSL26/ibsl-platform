@@ -307,7 +307,6 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['2E','People & Culture Dynamics','What will be visible in how our people understand, decide and behave when our Strategy Intent succeeds.','2B.3'],
       ['2F','Enterprise Value Creation','How [Case] will benefit across its success metrics when our Strategy Intent succeeds.','2B.4'],
       ['2G','Success in Practice statement','Our Success in Practice in one statement: the success we will see across customers, operations, people and enterprise value.','2B.5','hl'],
-      ['2S','Our Position','Our team’s position from this unit in no more than 80 words: what we decided and what that decision commits our organisation to. It guides the reader through the work below.','','stand']
     ]},
     { key:'u3', unit:3, title:'SiP KISS Mapping & OKR Definition', boxes:[
       ['3A','Keep','The current practices we will keep because they already advance our SiP.'],
@@ -409,8 +408,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['2D','sip_d2_st','SiP · Operational Capability & Execution Rhythm'],
       ['2E','sip_d3_st','SiP · People & Culture Dynamics'],
       ['2F','sip_d4_st','SiP · Enterprise Value Creation'],
-      ['2G','sip_summary','SiP · Success in Practice Statement'],
-      ['2S','team_summary','Our Position']
+      ['2G','sip_summary','SiP · Success in Practice Statement']
     ]},
     u3: { lens:'u2m1_lens2', rows:[
       ['3A','kiss_keep','KISS · Keep'],
@@ -705,7 +703,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     BLUEPRINT.forEach(function(d){
       if (S.mode === 'facilitator' && !by[d.key]) return;
       var m = MODULES[d.key]; if (m) h += '<div class="stand-mod">' + m[0] + ' · ' + m[1] + '</div>';
-      var sec = by[d.key], v = sec && sec.content ? String(sec.content[d.unit === 1 ? '1H' : d.unit + 'S'] || '').trim() : '';
+      var sec = by[d.key], v = sec && sec.content ? (d.unit === 2 ? [sec.content['2B'], sec.content['2G']].filter(function(x){ return String(x || '').trim(); }).join('\n\n') : String(sec.content[d.unit === 1 ? '1H' : d.unit + 'S'] || '')).trim() : '';
       h += '<div class="stand-u"><div class="stand-t">Unit ' + d.unit + ' · ' + esc(d.title) + '</div>' +
         '<div class="stand-v' + (v ? '' : ' empty') + '">' + (v ? esc(v.replace(/\*/g, '')) : 'Not yet agreed.') + '</div></div>';
     });

@@ -396,7 +396,8 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 .u2b-ov-t tbody th{width:38%;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);}
 .u2b-ov-t td{color:rgba(255,255,255,.88);}
 .u2b-ov-t thead th{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
-#u2bCharter .acc:not(.open)>.acc-b{display:none!important;}#u2bCharter .acc:not(.open)>.acc-h .arr{transform:none!important;}#u2bCharter .acc .acc .acc-t{font-size:15px;}.u2b-ov-note{font-size:13px;color:rgba(255,255,255,.65);margin:0 0 10px;font-style:italic;}.u2b-ovacc{margin:8px 0 14px;}.u2b-ov-pt{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.88);margin:0;}
+#u2bCharter .acc:not(.open)>.acc-b{display:none!important;}#u2bCharter .acc:not(.open)>.acc-h .arr{transform:none!important;}#u2bCharter .acc .acc .acc-t{font-size:15px;}.u2b-show{margin-top:16px;border-left:3px solid var(--gold);background:rgba(201,168,76,.06);padding:12px 16px;border-radius:0 3px 3px 0;}.u2b-show-h{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}.u2b-show-s{font-size:11px;font-weight:700;color:rgba(255,255,255,.6);margin:10px 0 2px;}.u2b-show-main{color:var(--gold);}.u2b-show-t{font-size:14px;line-height:1.7;color:#fff;white-space:pre-wrap;}.u2b-show-t.empty{font-size:12.5px;color:rgba(255,255,255,.4);font-style:italic;}
+.u2b-ov-note{font-size:13px;color:rgba(255,255,255,.65);margin:0 0 10px;font-style:italic;}.u2b-ovacc{margin:8px 0 14px;}.u2b-ov-pt{font-size:13.5px;line-height:1.7;color:rgba(255,255,255,.88);margin:0;}
 .u2b-ov-p{margin-top:12px;border-left:3px solid var(--gold);padding:8px 12px;background:rgba(201,168,76,.05);}
 .u2b-ov-p b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
 .u2b-ov-p span{font-size:13px;line-height:1.65;color:rgba(255,255,255,.88);}
@@ -797,11 +798,6 @@ details.u2b-det .u2-q,details.u2b-det textarea{margin-left:16px;margin-right:16p
 </div>
 </div>
 
-<div class="acc open">
-<div class="acc-h" onclick="tA(this)"><div><div class="acc-t">Our Position</div><div class="acc-meta">Capstone work · closes your group record</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
-<div class="acc-b"><div class="cb">
-<div id="twStand"></div>
-</div></div></div>
 <div class="acc">
 <div class="acc-h" onclick="tA(this)">
   <span class="acc-t">Unit Summary</span>
@@ -1143,7 +1139,8 @@ function u2Missing(){
 
 /* Small live updates that keep the scribe's cursor in place. */
 function u2Live(k){
-  if(/_rs$/.test(k)){u2Chips();var b=u2el('u2bArchBtn');if(b)b.disabled=elDoneCount()<EL.length;var c=u2el('u2bCount');if(c)c.textContent=elDoneCount()+' of 14';}
+  if(/_rs$/.test(k)){u2Chips();var b=u2el('u2bArchBtn');if(b)b.disabled=elDoneCount()<EL.length;var c=u2el('u2bCount');if(c)c.textContent=elDoneCount()+' of 14';}
+  if(k==='intent_statement'||/^sip_/.test(k))u2Show();
   if(k==='intent_statement'){var m=u2el('u2bIntentMirror');if(m)m.textContent=u2t('intent_statement')||'Your Strategy Intent Statement appears here once your group writes it in 5.2.';}
   if(window.S2RTeam)S2RTeam.redraw();
 }
@@ -1179,7 +1176,7 @@ function u2Step(i){
   document.querySelectorAll('#u2bTool .step-panel').forEach(function(p,x){p.classList.toggle('active',x===i);});
   u2RenderStep(i);
 }
-function u2RenderStep(i){if(i===0)u2RenderArch();else if(i===1)u2RenderIntent();else if(i===2)u2RenderSip();else u2RenderRecord();if(window.S2RTeam)S2RTeam.redraw();}
+function u2RenderStep(i){if(i===0)u2RenderArch();else if(i===1)u2RenderIntent();else if(i===2)u2RenderSip();else u2RenderRecord();u2Show();if(window.S2RTeam)S2RTeam.redraw();}
 function u2RenderAll(){u2Charter();u2RenderStep(U2.step);}
 
 function u2Chips(){
@@ -1230,7 +1227,16 @@ function u2RenderIntent(){
           (t?'<div class="u2-mirror">'+u2esc(t)+'</div>':'<div class="u2-mirror empty">Appears here once your group writes it in 5.1.</div>')+'</div>';}).join('')+'</div>'+
       '<label class="u2-q" for="intent_statement">Your Strategy Intent Statement</label>'+
       '<textarea class="port-ta u2b-ta" id="intent_statement" style="min-height:110px;" oninput="u2In(\'intent_statement\',this.value)" placeholder="One crisp statement your group deduces from WHAT, WHY, HOW and WHEN…">'+u2esc(u2v('intent_statement'))+'</textarea>'+
+      '<div class="u2b-show" id="u2bIntentShow"></div>'+
     '</div></div>';
+}
+/* 5.2 and 5.3 (12 Nov 2026): the group's statements shown under a subheader after the input. */
+function u2Show(){
+  var em=function(t,w){return t?'<div class="u2b-show-t">'+u2esc(t)+'</div>':'<div class="u2b-show-t empty">'+w+'</div>';};
+  var a=u2el('u2bIntentShow');if(a)a.innerHTML='<div class="u2b-show-h">Our Strategy Intent Statement</div>'+em(u2t('intent_statement'),'Appears here once your group writes it in the box above.');
+  var b=u2el('u2bSipShow');if(b)b.innerHTML='<div class="u2b-show-h">Our Success in Practice</div>'+
+    SIPD.map(function(x,d){return '<div class="u2b-show-s">'+u2esc(x.t)+'</div>'+em(u2t(ssk(d)),'Appears here once your group writes it.');}).join('')+
+    '<div class="u2b-show-s u2b-show-main">Our Success in Practice statement</div>'+em(u2t('sip_summary'),'Appears here once your group writes it in the box above.');
 }
 function u2RenderSip(){
   var host=u2el('u2bSip');if(!host)return;
@@ -1249,6 +1255,7 @@ function u2RenderSip(){
       }).join('')+
       '<div class="u2-out u2b-sum"><div class="u2-out-h">Your Success in Practice statement</div><p class="u2b-lead">Read the four statements together and write one statement that draws them into the success your company will see in practice.</p>'+
       '<textarea class="port-ta u2b-ta" id="sip_summary" oninput="u2In(\'sip_summary\',this.value)" placeholder="One statement that draws the four together…">'+u2esc(u2v('sip_summary'))+'</textarea></div>'+
+      '<div class="u2b-show" id="u2bSipShow"></div>'+
     '</div></div>';
 }
 function u2RecRow(label,text){return '<div class="u7-rec"><div class="u7-rec-s">'+u2esc(label)+'</div><div class="u7-rec-t">'+(text?u2esc(text):'<i>Not written yet.</i>')+'</div></div>';}
@@ -1325,7 +1332,7 @@ function u2Fill(responses){
 }
 async function u2Attach(){
   if(!window.S2RTeam)return;
-  await S2RTeam.attach({stand:{mount:"twStand",hint:"For this unit: your Strategy Intent and your Success in Practice."},lens:U2_LENS,mount:'u2bTeam',lock:['u2bTool','u2bPer'],names:u2Names(),complete:u2Missing,
+  await S2RTeam.attach({lens:U2_LENS,mount:'u2bTeam',lock:['u2bTool','u2bPer'],names:u2Names(),complete:u2Missing,
     onRemote:async function(r){u2Fill(r);u2RenderAll();}});
 }
 
