@@ -70,7 +70,42 @@
   var L=T['lens'+m[1]];if(!L)return;
   function box(html){var d=document.createElement('div');d.className='s2r-task';d.innerHTML=html;return d;}
   function norm(s){return String(s||'').replace(/\s+/g,' ').trim();}
+
+  /* Section 5 layout (12 Nov 2026): Key Reflection first, then the Capstone work, then the Unit Summary,
+     then the Closing Insight and Transition, then feedback. Loose guidance boxes and the reflection are
+     placed in collapsible sections; the Capstone parts start closed. Elements are moved, never rebuilt,
+     so their saved work and handlers are kept. */
+  function accWrap(title,meta,nodes){
+    var a=document.createElement('div');a.className='acc s2r-wrap';
+    a.innerHTML='<div class="acc-h" onclick="this.parentElement.classList.toggle(\'open\')"><span class="acc-t"></span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta"></span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div><div class="acc-b cb"></div>';
+    a.querySelector('.acc-t').textContent=title;a.querySelector('.acc-meta').textContent=meta||'';
+    var b=a.querySelector('.acc-b');nodes.forEach(function(n){b.appendChild(n);});return a;}
+  function layout(){
+    var lab=[].slice.call(document.querySelectorAll('.mod-hero-label,.mod-badge')).filter(function(e){return /^Section 5 · Application/.test(norm(e.textContent));})[0];
+    var P=lab&&lab.closest('.mod-panel,.mod,[id^="mod"]');if(!P||P.getAttribute('data-s2r-layout'))return;
+    var body=P.querySelector('.mod-body')||P;P.setAttribute('data-s2r-layout','1');
+    var kids=[].slice.call(body.children),top=[],ref=[],cap=[],sum=[],close=[],tail=[];
+    kids.forEach(function(c){
+      var cls=' '+(c.className||'')+' ',id=c.id||'',tx=norm(c.textContent),at=c.querySelector(':scope > .acc-h .acc-t, :scope > .acc-h');
+      var t=at?norm(at.textContent):'';
+      if(/ (slo-box|lo-box) /.test(cls))top.push(c);
+      else if(/ s2r-key-ref /.test(cls))ref.push(c);
+      else if(/ acc /.test(cls)&&t.indexOf('Unit Summary')===0)sum.push(c);
+      else if(/ s2r-cr /.test(cls)||(/ hbox /.test(cls)&&/^(Section Closing Insight|Transition to)/.test(tx)))close.push(c);
+      else if(/^(feedback-acc|msg-acc|upload-acc)$/.test(id)||/ mod-nav /.test(cls)||(/Submit to Facilitator/.test(tx)&&tx.length<60))tail.push(c);
+      else cap.push(c);
+    });
+    var keep=function(c){var cls=' '+(c.className||'')+' ',id=c.id||'';return / acc /.test(cls)||/twbar/i.test(id)||/ step-tabs | step-panel /.test(cls)||/Rec$/.test(id)||/S5$/.test(id)||c.tagName==='SCRIPT';};
+    var capOut=[],grp=[];
+    var flush=function(){if(!grp.length)return;var tx=norm(grp.map(function(g){return g.textContent;}).join(' '));
+      var title=/How Section 5 works/.test(tx)?'How Section 5 works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
+      capOut.push(accWrap(title,'Capstone work',grp));grp=[];};
+    cap.forEach(function(c){if(keep(c)){flush();if(/ acc /.test(' '+c.className+' '))c.classList.remove('open');capOut.push(c);}else grp.push(c);});flush();
+    var order=top.concat(ref.length?[accWrap('Key Reflection','Section 5',ref)]:[],capOut,sum,close.length?[accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
+    order.forEach(function(n){body.appendChild(n);});
+  }
   function run(){
+    try{layout();}catch(e){console.warn('[s2r-tasks] layout',e);}
     if(!document.getElementById('s2rTaskCss')){var st=document.createElement('style');st.id='s2rTaskCss';
       st.textContent='.s2r-task{border:1px solid rgba(201,168,76,.35);background:rgba(201,168,76,.06);border-radius:3px;padding:9px 12px;margin:0 0 14px;font-size:12.5px;line-height:1.6;color:rgba(255,255,255,.85);}.s2r-task strong{color:#c9a84c;}@media print{.s2r-task{display:none!important;}}';
       document.head.appendChild(st);}
