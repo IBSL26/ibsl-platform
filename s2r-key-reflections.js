@@ -24,6 +24,7 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   var st = document.createElement('style');
   st.textContent = '.kr-block{margin:22px 0;background:#0a1a0d;border:1px solid rgba(26,122,106,.45);border-radius:4px;overflow:hidden;font-family:inherit;}' +
+    '.acc .kr-head{display:none;}.acc .kr-block{margin:4px 0;}' +
     '.kr-head{padding:9px 16px;border-bottom:1px solid rgba(26,122,106,.3);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#3fb8a2;}' +
     '.kr-frame{font-size:12px;line-height:1.5;color:#C6A24C;padding:12px 16px 0;}' +
     '.kr-q{font-size:15px;line-height:1.6;color:#fff;padding:14px 16px 8px;}' +
@@ -83,7 +84,7 @@
           '</div><div class="kr-skill">Skill evidenced: ' + esc(U.skill[sec - 1]) + '. Participants answer this in their own file.</div></div>';
         return;
       }
-      el.innerHTML = '<div class="kr-block"><div class="kr-head">✎ Reflection &mdash; ' + SEC[sec - 1] + '</div>' +
+      el.innerHTML = '<div class="kr-block"><div class="kr-head">✎ Key reflection &mdash; ' + SEC[sec - 1] + '</div>' +
         '<div class="kr-frame">' + esc(FRAME) + '</div><div class="kr-prevs" data-sec="' + sec + '"></div><div class="kr-q">' + esc(q) + '</div>' + guideHtml(sec) +
         '<textarea class="kr-ta" id="kr_s' + sec + '" placeholder="Write your reflection here..." aria-label="' + esc(q) + '"></textarea>' +
         '<button type="button" class="kr-save" data-sec="' + sec + '">Save Reflection</button><div class="kr-msg" id="kr_s' + sec + '-msg"></div></div>';
