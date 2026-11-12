@@ -1105,7 +1105,7 @@ var DIM4=[
    Keys (lens u2m1_lens1): strategy_period, arch_eNN_qN, arch_eNN_rs (what the element is saying),
    arch_output, intent_statement, sip_dN_qN, sip_dN_st, sip_summary. The page writes no statement for the group. */
 var U2={v:{},cur:0,step:0,pc:{}};
-var N_ARCH='Strategy Architecture',N_INTENT='Strategy Intent Statement',N_SIP='Success in Practice',N_SUM='SiP · Success in Practice Statement';
+var N_ARCH='Strategy Architecture',N_INTENT='Strategy Intent Statement',N_SIP='Success in Practice',N_SUM='SiP · Success in Practice Statement',N_PER='Strategy Period';
 var U2_LENS='u2m1_lens1';
 function pad2(n){return (n<10?'0':'')+n;}
 function qk(i,j){return 'arch_e'+pad2(i+1)+'_q'+(j+1);}
@@ -1113,7 +1113,7 @@ function rk(i){return 'arch_e'+pad2(i+1)+'_rs';}
 function sqk(d,j){return 'sip_d'+(d+1)+'_q'+(j+1);}
 function ssk(d){return 'sip_d'+(d+1)+'_st';}
 function scn(d){return 'SiP · '+SIPD[d].t;}
-function u2Names(){return [N_ARCH,N_INTENT].concat(SIPD.map(function(_,d){return scn(d);})).concat([N_SUM,N_SIP]);}
+function u2Names(){return [N_PER,N_ARCH,N_INTENT].concat(SIPD.map(function(_,d){return scn(d);})).concat([N_SUM,N_SIP]);}
 function u2v(k){var x=U2.v[k];return (x===undefined||x===null)?'':String(x);}
 function u2t(k){return u2v(k).replace(/\s+/g,' ').trim();}
 function u2esc(s){return String(s===undefined||s===null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1128,6 +1128,7 @@ function u2Company(){return String(U2.pc.company||'').trim();}
 /* What is still missing before the group can agree ('' when complete). */
 function u2Missing(){
   var out=[],n=EL.length-elDoneCount();
+  if(!u2t('strategy_period'))out.push('the strategy period');
   if(n)out.push(n+' of the 14 elements still need what the element is saying');
   if(!u2t('arch_output'))out.push('the Strategy Architecture');
   if(!u2t('intent_statement'))out.push('the Strategy Intent Statement');
