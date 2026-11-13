@@ -12,7 +12,7 @@
       {how:'How to complete the Group record',t:B('In this part you complete 1 task:','read your group record, then select Agree.')}],
     lens2:[ // Unit 3
       {part:'5.1',t:B('In this part you complete 4 domains (16 entries):','for each SiP domain, check its SiP statement, then write one entry each for Keep, Improve, Start and Stop.')},
-      {part:'5.2',t:B('In this part you complete 4 entries:','one theme for each SiP domain, read from that domain’s Keep, Improve, Start and Stop.')},
+      {part:'5.2',t:B('In this part you complete 4 entries:','one theme for each SiP domain, drawn from that domain’s Improve and Start entries.')},
       {part:'5.3',t:B('In this part you complete 3 steps for each of your four themes:','1. its Objective; 2. its Key Results and contributing roles; 3. the alignment test.')},
       {part:'5.4',t:B('In this part you complete 1 step for each of your four OKRs:','its Impact and its Effort, which place it on the Prioritisation Matrix. Then read your group record and select Agree.')}],
     lens3:[ // Unit 4

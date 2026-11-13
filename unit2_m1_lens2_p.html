@@ -362,6 +362,9 @@ select.u3-in option{background:#0a1a0d;color:#fff;}
 .km-d{font-family:'Cormorant Garamond',serif;font-size:14px!important;color:#fff!important;display:flex;gap:8px;align-items:flex-start;}
 .km-d .kiss-accent{width:3px;min-height:28px;border-radius:2px;flex-shrink:0;}
 .km-keep{color:#5ecba1!important;}.km-improve{color:#f0c060!important;}.km-start{color:#7ec8f0!important;}.km-stop{color:#f08080!important;}
+.km-grid-t{grid-template-columns:170px 1fr 1fr 200px;}
+.km-theme{color:#fff!important;font-weight:600;border-left:2px solid var(--gold);}
+.km-theme em{font-weight:400;color:rgba(255,255,255,.35);}
 .km-l{display:none;font-size:9px;font-weight:700;letter-spacing:2px;margin-bottom:2px;}
 @media(max-width:800px){.km-grid{grid-template-columns:1fr;}.km-h{display:none;}.km-l{display:block;}}
 .sx-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 0;}
@@ -378,6 +381,7 @@ select.u3-in option{background:#0a1a0d;color:#fff;}
 .sx-sub{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin:14px 0 6px;}
 .sx-kiss{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
 .sx-kiss .u3-final{margin:0;}
+.sx-kiss-dim{opacity:.6;}
 .sx-banner{border-left:3px solid var(--gold);background:#151c15;padding:10px 14px;margin-bottom:6px;}
 .sx-banner .sx-sub{margin:0 0 3px;}
 .sx-banner-t{font-size:14px;color:#fff;}
@@ -633,8 +637,8 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
   </div>
   <div id="five_0" class="step-panel active">
     <h5 class="u3-gq">Guiding Question: What insights emerged from the SiP and KISS reflections?</h5>
-    <p>Read your KISS reflection one SiP domain at a time. In each domain, look at what the Keep, Improve, Start and Stop entries point to together, and name the one shift that domain requires. Ask: <em>"If the organisation is to reach the future it has described, what is the one shift this domain must make?"</em></p>
-    <p>A theme names a shift, in a few words: "Customer responsiveness", "Execution speed". It is not a task and not yet an Objective. With one theme from each of the four SiP domains, your four themes cover the whole of the future the SiP describes.</p>
+    <p>Read your KISS reflection one SiP domain at a time. Read the domain's SiP statement, then read its Improve and Start entries together: what the organisation must do better and what it must begin. Name the one shift they point to. Ask: <em>"If the organisation is to reach the future it has described, what is the one shift this domain must make?"</em></p>
+    <p>A theme names a shift, in a few words: "Customer responsiveness", "Execution speed". It is not a task and not yet an Objective. Stop entries are once-off decisions the organisation acts on directly, and Keep entries are what it protects while it makes the shift; neither becomes a theme. With one theme from each of the four SiP domains, your four themes cover the whole of the future the SiP describes.</p>
     <div class="u3-outp"><p><strong>Output produced:</strong> Four strategic themes, one for each SiP domain, that name the organisation's priority execution shifts.</p></div>
   </div>
   <div id="five_1" class="step-panel">
@@ -840,8 +844,9 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
 
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">5.2 — Finding Your Four Themes</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Step 1 · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
 <div class="acc-b cb">
-  <p>With your KISS map complete, your group begins the five steps of 1.5. Step 1 finds your themes. A theme names one shift the organisation must make to reach its SiP. Your group records four themes only: one for each SiP domain, read from that domain's Keep, Improve, Start and Stop.</p>
+  <p>With your KISS map complete, your group begins the five steps of 1.5. Step 1 finds your themes. A theme names one shift the organisation must make to reach its SiP. Your group records four themes only: one for each SiP domain, drawn from that domain's Improve and Start entries.</p>
   <div id="okrThemeP"></div>
+  <div id="okrThemeTbl"></div>
 </div></div>
 
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">5.3 — From Themes to OKRs</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Steps 2 to 4 · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
@@ -1062,7 +1067,7 @@ function renderWorked(hostId){
     return '<div class="step-tab'+(i===0?' active':'')+'" onclick="u3Tab(\'wx\','+i+')"><div class="step-num">Step '+(i+1)+'</div><div class="step-name">'+n+'</div></div>';
   }).join('');
   var row3=function(a,b,c,cls){return '<div class="u3-wx-res'+(cls?' '+cls:'')+'"><div class="u3-wx-l">'+a+'</div><div class="u3-wx-n">'+b+'</div><div class="u3-wx-r">'+c+'</div></div>';};
-  var s1='<p>Reading the KISS table one SiP domain at a time, one strategic theme emerges from each domain:</p>'+
+  var s1='<p>Reading the KISS table one SiP domain at a time, one strategic theme emerges from the Improve and Start entries of each domain:</p>'+
     W.items.map(function(o,i){return '<div class="u3-wx-theme"><span>'+(i<9?'0':'')+(i+1)+'</span>'+u3esc(o.theme)+(W.kiss[i]?'<em style="margin-left:auto;font-style:normal;font-size:11px;color:rgba(255,255,255,.45);">'+u3esc(W.kiss[i].domain)+'</em>':'')+'</div>';}).join('');
   var s2='<p>Translate each strategic theme into one clear, qualitative Objective:</p>'+
     W.items.map(function(o,i){return '<div class="u3-wx-line"><div class="u3-wx-l">'+u3esc(o.theme)+'</div><div class="u3-wx-r"><strong>Objective '+(i+1)+':</strong> '+u3esc(o.obj)+'</div></div>';}).join('');
@@ -1531,20 +1536,33 @@ function sxThemeNav(T,which,last){
 // 5.2 · Step 1: one theme per SiP domain.
 function sxThemeHtml(T){
   var S=T.S,P=T.p,q="'"+P+"'",x=T.t,i=S.tt,o=S.items[i],d=sxDom(i);
-  var kiss=KISS_EL.map(function(k){var v=u3v(kexKey(d,k[0])).trim();return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t'+(v?'':' empty')+'">'+(v?u3esc(v):'Not yet recorded in 5.1')+'</div></div>';}).join('');
+  var kx=function(keys){return KISS_EL.filter(function(k){return keys.indexOf(k[0])>=0;}).map(function(k){var v=u3v(kexKey(d,k[0])).trim();return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t'+(v?'':' empty')+'">'+(v?u3esc(v):'Not yet recorded in 5.1')+'</div></div>';}).join('');};
   var sip=u3v(sipKey(i)).trim(),n=sxThemes(S).length;
   if(!kissGenerated())return sxNeed('Your four themes start from your KISS map. Complete the sixteen boxes in 5.1 and select Generate our KISS map first.');
-  return '<h5 class="u3-gq">Guiding Question: What one shift does each SiP domain require?</h5><p>'+x.s1+'</p>'+
+  return '<h5 class="u3-gq">Guiding Question: What one shift will make this domain&rsquo;s SiP statement true?</h5><p>'+x.s1+'</p>'+
     '<p class="sx-count"><strong>'+n+' of 4</strong> themes recorded</p>'+
     sxTabs(T,'tt',function(o){return !!o.theme.trim();})+
     '<div class="sx-panel"><div class="sx-dom"><div class="kiss-accent '+d.cls+'"></div><div class="sx-dom-t">'+u3esc(d.label)+'</div></div>'+
       '<div class="sx-sub">Your group\'s SiP statement for this domain</div><div class="u3-mirror'+(sip?'':' empty')+'">'+(sip?u3esc(sip):'Capture this SiP statement in 5.1.')+'</div>'+
-      '<div class="sx-sub">Your KISS entries for this domain</div><div class="sx-kiss">'+kiss+'</div>'+
+      '<div class="sx-sub">Where your theme comes from · Improve and Start</div><div class="sx-kiss">'+kx(['improve','start'])+'</div>'+
+      '<div class="sx-sub">Protected · Keep &nbsp;|&nbsp; Decided directly · Stop</div><div class="sx-kiss sx-kiss-dim">'+kx(['stop','keep'])+'</div>'+
       '<label class="u3-inlbl" for="'+P+'Theme_'+i+'">Theme '+(i+1)+' · the one shift '+u3esc(d.label)+' requires</label>'+
       '<input type="text" class="u3-in" id="'+P+'Theme_'+i+'" value="'+u3esc(o.theme)+'" placeholder="Name the shift in a few words, e.g. Customer responsiveness" oninput="sxSet('+q+','+i+',\'theme\',this.value)" onchange="sxChanged('+q+',\'theme\')">'+
       '<p class="u3-small">'+x.s1small+'</p>'+
       sxThemeNav(T,'tt')+'</div>';
 }
+// 5.2 · the four themes in one table, each beside the Improve and Start entries it comes from.
+function sxThemeTbl(T){
+  if(!kissGenerated())return '';
+  var S=T.S;
+  return '<p class="sx-count">When all four themes are recorded, read them together in the table below before you go on to 5.3.</p><div class="u3-out"><div class="u3-out-h">Your four themes</div><div class="km-grid km-grid-t"><div class="km-h">SiP domain</div><div class="km-h km-improve">Improve</div><div class="km-h km-start">Start</div><div class="km-h">Our theme</div>'+
+    S.items.map(function(o,i){var d=sxDom(i);
+      return '<div class="km-d"><span class="kiss-accent '+d.cls+'"></span>'+u3esc(d.label)+'</div>'+
+        ['improve','start'].map(function(k){return '<div class="km-c"><span class="km-l km-'+k+'">'+k.toUpperCase()+'</span>'+u3esc(u3v(kexKey(d,k)).trim())+'</div>';}).join('')+
+        '<div class="km-c km-theme"><span class="km-l">Our theme</span>'+(o.theme.trim()?u3esc(o.theme):'<em>Not recorded yet</em>')+'</div>';
+    }).join('')+'</div></div>';
+}
+function sxThemeTblPaint(T){var h=u3el('okrThemeTbl');if(h)h.innerHTML=sxThemeTbl(T);}
 // 5.3 · Steps 2 to 4 for one theme at a time.
 function sxOkrHtml(T){
   var S=T.S,P=T.p,q="'"+P+"'",x=T.t,i=S.ot,o=S.items[i],d=sxDom(i);
@@ -1647,19 +1665,20 @@ var SX={};
 // Each part is drawn in its own place; a change redraws the other parts, never the one being typed in.
 function sxRenderTool(T){
   var a=u3el('okrThemeP'),b=u3el(T.host),c=u3el('okrMxP');
-  if(a)a.innerHTML=sxThemeHtml(T);if(b)b.innerHTML=sxOkrHtml(T);if(c)c.innerHTML=sxMxHtml(T);
+  if(a)a.innerHTML=sxThemeHtml(T);if(b)b.innerHTML=sxOkrHtml(T);if(c)c.innerHTML=sxMxHtml(T);sxThemeTblPaint(T);
   T.out();
 }
 function sxRepaint(T,skip){
   if(skip!=='theme'){var a=u3el('okrThemeP');if(a)a.innerHTML=sxThemeHtml(T);}
   if(skip!=='okr'){var b=u3el(T.host);if(b)b.innerHTML=sxOkrHtml(T);}
   if(skip!=='mx'){var c=u3el('okrMxP');if(c)c.innerHTML=sxMxHtml(T);}
+  sxThemeTblPaint(T);
   T.out();
 }
 function sxGo(p,which,i){var T=SX[p];if(i<0||i>=SX_THEMES)return;T.S[which]=i;var h=u3el(which==='tt'?'okrThemeP':T.host);if(h)h.innerHTML=which==='tt'?sxThemeHtml(T):sxOkrHtml(T);T.queue();}
 function sxGoPart(id){var h=u3el(id);if(!h)return;var acc=h.closest('.acc');if(acc&&!acc.classList.contains('open'))acc.classList.add('open');h.scrollIntoView({behavior:'smooth',block:'start'});}
 function sxTouch(T){T.touch();clearTimeout(T._o);T._o=setTimeout(T.out,500);}
-function sxSet(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;sxTouch(T);}
+function sxSet(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;if(f==='theme')sxThemeTblPaint(T);sxTouch(T);}
 function sxKr(p,i,j,f,val){
   var T=SX[p];T.S.items[i].krs[j][f]=val;
   if(f==='t'){var c=u3el(p+'Chk_'+i+'_'+j);if(c)c.innerHTML=okrKrCheck(val);}
@@ -1672,7 +1691,7 @@ function sxMx(p,i,f,val){var T=SX[p];T.S.items[i][f]=val;T.touch();sxRepaint(T);
 var OK=sxState();
 function okrLoad(s){sxLoadInto(OK,s);}
 function okrConfirmed(){return isConf(N_PRI)&&isConf(N_OKR);}
-function okrRefreshMirror(){var a=u3el('okrThemeP');if(a&&SX.okr&&!(document.activeElement&&a.contains(document.activeElement)))a.innerHTML=sxThemeHtml(SX.okr);}
+function okrRefreshMirror(){var a=u3el('okrThemeP');if(a&&SX.okr&&!(document.activeElement&&a.contains(document.activeElement)))a.innerHTML=sxThemeHtml(SX.okr);if(SX.okr)sxThemeTblPaint(SX.okr);}
 // 3E lists the aligned Objectives only (29 Oct 2026); 3F carries each Objective with its Key Results.
 function okrPriText(){
   return sxPassed(OK).map(function(i,n){var o=OK.items[i];return 'Objective '+(n+1)+': '+o.obj.trim();}).join('\n');
@@ -1742,8 +1761,8 @@ function okrPrint(){
     pri?'<h3>Objectives'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(pri)+'</pre><h3>Key Results'+(okrConfirmed()?' · confirmed':' · not yet confirmed')+'</h3><pre>'+u3esc(okr)+'</pre>':'');
 }
 var OKT=SX.okr={S:OK,p:'okr',host:'okrToolP',touch:okrTouch,queue:okrQueue,out:renderOkrOut,t:{
-  s1:'Take one SiP domain at a time. Read the domain\'s SiP statement and its Keep, Improve, Start and Stop entries together. Each member says the one shift they see in them; then your group agrees one theme for the domain. Record four themes only: one for each SiP domain.',
-  s1small:'A theme names the shift in a few words. It is not a task and not yet an Objective. Each theme is carried into 5.3, where your group turns it into an OKR.',
+  s1:'Take one SiP domain at a time. Read the domain\'s SiP statement, then read its Improve and Start entries together: what the organisation must do better and what it must begin. Each member says the one shift they see in them; then your group agrees one theme for the domain. Record four themes only: one for each SiP domain.',
+  s1small:'A theme names the shift in a few words. Stop entries are once-off decisions your organisation acts on directly, and Keep entries are what it protects while it makes the shift. Each theme is carried into 5.3, where your group turns it into an OKR.',
   s2:'Translate the theme into a bold, qualitative statement that expresses strategic ambition. Start with a verb and describe the desired transformation. Make it ambitious, keep it qualitative and keep it memorable.',
   s3:'Write up to two Key Results for the Objective and name the contributing roles for each one.',
   s4:'Test the OKR against the four questions. Tick each question your group answers with a clear yes. An OKR that earns all four ticks is aligned.',
