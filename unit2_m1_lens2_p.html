@@ -356,6 +356,14 @@ select.u3-in option{background:#0a1a0d;color:#fff;}
 .u3-rec-item .u3-chain{margin-bottom:0;}
 .u3-test .okr-kr{margin-top:12px;}
 /* 13 Nov 2026 · 5.2 to 5.4: one theme per SiP domain, theme by theme to its OKR, prioritisation on its own */
+.km-grid{display:grid;grid-template-columns:170px repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);margin-top:6px;}
+.km-grid>div{background:#151c15;padding:9px 11px;font-size:12px;color:rgba(255,255,255,.82);line-height:1.55;}
+.km-h{font-size:9px!important;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);}
+.km-d{font-family:'Cormorant Garamond',serif;font-size:14px!important;color:#fff!important;display:flex;gap:8px;align-items:flex-start;}
+.km-d .kiss-accent{width:3px;min-height:28px;border-radius:2px;flex-shrink:0;}
+.km-keep{color:#5ecba1!important;}.km-improve{color:#f0c060!important;}.km-start{color:#7ec8f0!important;}.km-stop{color:#f08080!important;}
+.km-l{display:none;font-size:9px;font-weight:700;letter-spacing:2px;margin-bottom:2px;}
+@media(max-width:800px){.km-grid{grid-template-columns:1fr;}.km-h{display:none;}.km-l{display:block;}}
 .sx-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 0;}
 .sx-tab{flex:1;min-width:120px;padding:9px 10px;background:#151c15;border:1px solid rgba(255,255,255,.07);border-radius:3px 3px 0 0;cursor:pointer;}
 .sx-tab.active{background:#1a2a1e;border-color:var(--teal);border-bottom-color:#1a2a1e;}
@@ -822,10 +830,10 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
   <p>The four statements your group confirmed in Unit 2 are brought in from your Unit 2 page. Read each one with your group. Where your team has since refined a statement in the Capstone S2R® Blueprint, type the confirmed wording in the box.</p>
   <div id="sipCaptureP"></div>
   <h4>Build Your KISS Map</h4>
-  <p>Take one SiP domain at a time. Read the domain's SiP statement, then answer the four guiding questions with your group. Anchor every entry to the statement and be specific: "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS entry.</p>
+  <p>Take one SiP domain at a time. Open the domain and read its SiP statement. Then answer each of the four guiding questions with your group and type the agreed answer in its box: Keep, Improve, Start and Stop. Anchor every entry to the statement and be specific: "Improve cross-functional handover time from 72 hours to 24 hours" is a KISS entry. Each entry saves as it is typed.</p>
   <div id="kissFormP"></div>
-  <h4>Read Your KISS Map</h4>
-  <p>When all sixteen boxes are complete, read the map across the four domains as a group. Your KISS map is the source for 5.2.</p>
+  <h4>Generate Your KISS Map</h4>
+  <p>When all sixteen boxes are complete, select Generate our KISS map. Your sixteen entries come together in one map: the four SiP domains against Keep, Improve, Start and Stop. Read the map together as a group before you go on to 5.2, where it is the source of your four themes.</p>
   <div id="kissConfirmP"></div>
   <div class="hbox"><p><strong>Into your Capstone.</strong> Your confirmed Keep, Improve, Start and Stop feed your team's Capstone S2R® Blueprint. Its Unit 3 section opens once every member of your team has completed this unit, and brings your confirmed outputs in from your page. Your team then reads them together and confirms them.</p></div>
 </div></div>
@@ -1413,21 +1421,32 @@ function renderKissForm(){
   }).join('');
   renderKissConfirm();u3Mirrors();
 }
+// 5.1 · the KISS map is generated from the sixteen entries once all are typed (13 Nov 2026). 5.2 opens on it.
+function kissGenerated(){return !!U3._kgen&&kissFilled()===16;}
+function kissMapHtml(){
+  return '<div class="u3-out"><div class="u3-out-h">Your KISS map</div><div class="km-grid"><div class="km-h">SiP domain</div>'+KISS_EL.map(function(k){return '<div class="km-h km-'+k[0]+'">'+k[1]+'</div>';}).join('')+
+    KISS_DOMAINS.map(function(d){return '<div class="km-d"><span class="kiss-accent '+d.cls+'"></span>'+u3esc(d.label)+'</div>'+KISS_EL.map(function(k){return '<div class="km-c"><span class="km-l km-'+k[0]+'">'+k[1]+'</span>'+u3esc(u3v(kexKey(d,k[0])).trim())+'</div>';}).join('');}).join('')+
+    '</div></div>';
+}
 function renderKissConfirm(){
   var host=u3el('kissConfirmP');if(!host)return;
   if(!u3el('kissBtn')){
     host.innerHTML='<div class="u3-progress"><div class="u3-progress-top"><span>KISS entries complete</span><b id="kissCount"></b></div><div class="u3-bar"><span id="kissBar"></span></div></div>'+
-      '<div class="u3-btnrow"><button type="button" class="u3-b" id="kissBtn" onclick="kissConfirm()">Check the KISS map</button><span class="u3-pill" id="kissPill" style="display:none;">Confirmed</span></div>'+
+      '<div class="u3-btnrow"><button type="button" class="u3-b" id="kissBtn" onclick="kissGenerate()">Generate our KISS map</button></div>'+
       '<div class="u3-note" id="kissMsg" style="display:none;"></div><div id="kissOut"></div>';
   }
-  var done=kissConfirmed(),n=kissFilled();
+  var n=kissFilled(),gen=kissGenerated();
+  if(n<16&&U3._kgen)U3._kgen=false;
   u3el('kissCount').textContent=n+' of 16';u3el('kissBar').style.width=Math.round(n/16*100)+'%';
-  u3el('kissBtn').classList.toggle('ok',done);u3el('kissPill').style.display=done?'':'none';
-  if(done)u3msg('kissMsg','');
-  u3el('kissOut').innerHTML=done?'<div class="u3-out"><div class="u3-out-h">Your confirmed KISS map</div>'+KISS_EL.map(function(k,x){
-      return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t">'+u3esc(u3v(KISS_OUT[x]))+'</div></div>';
-    }).join('')+'</div>':'';
+  u3el('kissBtn').classList.toggle('ok',gen);
+  if(gen)u3msg('kissMsg','');
+  u3el('kissOut').innerHTML=gen?kissMapHtml():'';
   okrRefreshMirror();
+}
+function kissGenerate(){
+  if(kissFilled()<16){u3msg('kissMsg','Complete all sixteen boxes first: '+(16-kissFilled())+' still empty. Where your group finds nothing for a box, type "None identified".');return;}
+  U3._kgen=true;renderKissConfirm();
+  u3msg('kissMsg','Your KISS map is generated below. Read it together, then go on to 5.2.','ok');
 }
 var _kexTimers={};
 function kexInput(kid,val){
@@ -1447,11 +1466,7 @@ async function kexChange(kid){
 function U3_TW_NAMES(){return KISS_NAMES.concat([N_PRI,N_OKR]);}
 function u3TeamOut(){if(!window.S2RTeam||!S2RTeam.isScribe())return;if(kissFilled()===16){for(var x=0;x<KISS_EL.length;x++)S2RTeam.save(KISS_OUT[x],kissCompose(KISS_EL[x][0]));}if(!okrProblems().length){S2RTeam.save('ent_priorities',okrPriText());S2RTeam.save('ent_okrs',okrOkrText());}}
 var _twOn=false;
-function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:LENS,mount:'twBar',lock:['mod4'],names:U3_TW_NAMES(),complete:function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');},onRemote:function(r){Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined)U3.v[k]=r[k];});U3.conf=Array.isArray(r.confirmed_items)?r.confirmed_items.slice():[];okrLoad(r.__okr_work);u3RenderAll();}});}
-async function kissConfirm(){
-  if(kissFilled()<16){u3msg('kissMsg','Complete all sixteen boxes first. Where your group finds nothing for a box, record "None identified".');return;}
-  u3msg('kissMsg','All sixteen boxes are complete. Your group agrees the whole record in 5.4.','ok');
-}
+function twAttach(){if(_twOn||!window.S2RTeam)return;_twOn=true;S2RTeam.attach({lens:LENS,mount:'twBar',lock:['mod4'],names:U3_TW_NAMES(),complete:function(){var o=[];if(kissFilled()<16)o.push('all sixteen KISS boxes');return o.concat(okrProblems()).join(' ');},onRemote:function(r){Object.keys(r).forEach(function(k){if(r[k]!==null&&r[k]!==undefined)U3.v[k]=r[k];});U3.conf=Array.isArray(r.confirmed_items)?r.confirmed_items.slice():[];okrLoad(r.__okr_work);if(kissFilled()===16)U3._kgen=true;u3RenderAll();}});}
 
 // ── 5.2 to 5.4 · THE FIVE STEPS (group work), restructured 13 Nov 2026 ──
 // 5.2 Step 1: four themes, one for each SiP domain (theme i is read from domain i's Keep, Improve, Start and Stop).
@@ -1518,6 +1533,7 @@ function sxThemeHtml(T){
   var S=T.S,P=T.p,q="'"+P+"'",x=T.t,i=S.tt,o=S.items[i],d=sxDom(i);
   var kiss=KISS_EL.map(function(k){var v=u3v(kexKey(d,k[0])).trim();return '<div class="u3-final"><div class="u3-final-h '+k[0]+'">'+k[1]+'</div><div class="u3-final-t'+(v?'':' empty')+'">'+(v?u3esc(v):'Not yet recorded in 5.1')+'</div></div>';}).join('');
   var sip=u3v(sipKey(i)).trim(),n=sxThemes(S).length;
+  if(!kissGenerated())return sxNeed('Your four themes start from your KISS map. Complete the sixteen boxes in 5.1 and select Generate our KISS map first.');
   return '<h5 class="u3-gq">Guiding Question: What one shift does each SiP domain require?</h5><p>'+x.s1+'</p>'+
     '<p class="sx-count"><strong>'+n+' of 4</strong> themes recorded</p>'+
     sxTabs(T,'tt',function(o){return !!o.theme.trim();})+
@@ -1865,6 +1881,7 @@ window.addEventListener("load",async function(){
       HZ.cur=(hz.cur>=0&&hz.cur<HOT_ZONES.length)?hz.cur:0;
     }
     okrLoad(responses['__okr_work']);
+    U3._kgen=kissFilled()===16;
     u3RenderAll();
     twAttach();
     saLoad(responses['__game']);
