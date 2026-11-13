@@ -327,8 +327,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4B','Step 2 · Boundaries','For each of our Objectives: the conditions that could slow, restrict or prevent its delivery, and the Must-Be-True condition on them.'],
       ['4C','Step 3 · Competition','For each of our Objectives: every meaningful alternative available to our customers, including those outside our industry, and the Must-Be-True condition on our advantage.'],
       ['4D','Step 4 · Value Proposition','For each of our Objectives: why customers will choose us, tested as relevant, distinctive and deliverable, and the Must-Be-True condition that protects it.'],
-      ['4E','Step 5 · Accountability Assignment','For each critical Must-Be-True condition of our Objectives: the executive among us accountable for verifying it, the evidence required and the date of the first check.'],
-      ['4F','Step 6 · Executive blind spot','The checkpoint we as an executive team are most likely to overlook, and the enterprise risk if we do.']
+      ['4E','Step 5 · ABCV–MBT Integrity Table','For each of our Objectives: its four Must-Be-True conditions, the executive among us accountable for verifying them, the evidence required and the date of the first check.']
     ]},
     { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
       ['5A','Team behavioural profile','The two OCEAVL dimensions on which our team profile carries the highest risk for the strategy, and our response to each.'],
@@ -419,8 +418,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4B','mbt_bound','MBT · Boundaries'],
       ['4C','mbt_comp','MBT · Competition'],
       ['4D','mbt_value','MBT · Value Proposition'],
-      ['4E','mbt_verify','MBT · Verification Ownership'],
-      ['4F','mbt_blind','MBT · Executive Blind Spot']
+      ['4E','mbt_verify','MBT · Verification Ownership']
     ]},
     u5: { lens:'u3m1_lens4', rows:[
       ['5A','kit_profile','Alignment Plan · Team Profile'],
@@ -500,28 +498,13 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (cur.length) blocks.push(cur);
     if (!blocks.length) return null;
     var head = function(m){ return '<div class="bt-h">Objective ' + e(m[1]) + ' · ' + e(m[2]) + '</div>'; };
-    if (key === '4E'){
-      var html = '', rows = [], cols = null, ok = true;
-      var flush = function(){ if (rows.length){ html += '<table class="bt bt-grid"><thead><tr><th>Checkpoint</th><th>Must-Be-True</th>' + cols.map(function(c){ return '<th>' + e(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>'; rows = []; } };
-      blocks.forEach(function(b){
-        var m = b.length === 1 && b[0].trim().match(OBJ);
-        if (m){ flush(); html += head(m); return; }
-        var t = b[0].trim().match(/^(.+?)\s+·\s+Must-Be-True:\s*(.*)$/);
-        var kv = b.slice(1).map(function(l){ return l.trim().match(KV); });
-        if (!t || !kv.length || kv.some(function(x){ return !x; })){ ok = false; return; }
-        if (!cols) cols = kv.map(function(x){ return x[1]; });
-        rows.push('<tr><th class="bt-w1">' + e(t[1]) + '</th><td>' + e(t[2]) + '</td>' + kv.map(function(x){ return '<td>' + e(x[2]) + '</td>'; }).join('') + '</tr>');
-      });
-      flush();
-      return ok && html ? html : null;
-    }
-    if (['4A','4B','4C','4D'].indexOf(key) < 0) return null;
+    if (['4A','4B','4C','4D','4E'].indexOf(key) < 0) return null;
     var out = '';
     for (var i = 0; i < blocks.length; i++){
       var b = blocks[i], m = b[0].trim().match(OBJ);
       if (!m) return null;
       var trs = b.slice(1).map(function(l){ var x = l.trim().match(KV); if (!x) return null;
-        var mbt = /^must-be-true$/i.test(x[1].trim());
+        var mbt = /^(must-be-true|executive accountable)$/i.test(x[1].trim());
         return '<tr' + (mbt ? ' class="mbt"' : '') + '><th>' + e(x[1]) + '</th><td>' + (x[2].trim() ? e(x[2]) : '—') + '</td></tr>'; });
       if (!trs.length || trs.some(function(x){ return !x; })) return null;
       out += head(m) + '<table class="bt bt-kv"><tbody>' + trs.join('') + '</tbody></table>';

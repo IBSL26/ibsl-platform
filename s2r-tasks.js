@@ -17,7 +17,7 @@
       {part:'5.4',t:B('In this part you complete 1 step for each of your four OKRs:','its Impact and its Effort, which place it on the Prioritisation Matrix. Then read your group record and select Agree.')}],
     lens3:[ // Unit 4
       {part:'5.1',t:B('In this part you complete 4 steps for each of your Objectives:','Arena, Boundaries, Competition and Value Proposition. Each step ends with the condition that must remain true.')},
-      {part:'5.2',t:B('In this part you complete 2 tasks:','1. for each critical Must-Be-True condition, the accountable executive, the evidence and the date of the first check; 2. your executive blind spot. Then read your record and select Agree.')}],
+      {part:'5.2',t:B('In this part you complete 3 entries for each of your Objectives:','the executive accountable, the evidence that its conditions still hold and the date of the first check. Then read your record and select Agree.')}],
     lens4:[ // Unit 5
       {how:'How to complete Step 1',t:B('In this step you complete 3 entries:','the Shift, the Stake and the Step.')},
       {how:'How to complete Step 2',t:B('In this step you complete 9 entries:','your two highest-risk dimensions, each with its response (4 entries), and the behaviour you expect from the leadership team under Accountability, Commitment, Engagement, Integrity and Transparency (5 entries). Then select Agree.')}],
