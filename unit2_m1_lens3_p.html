@@ -1088,7 +1088,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 <div class="mod-body">
 <div class="slo-box"><div class="slo-box-label">Section learning outcomes</div><ul><li>Validate the critical assumptions, dependencies and uncertainties behind strategic objectives.</li><li>Assign and coordinate executive accountability for validating strategic conditions.</li></ul></div>
 
-<div class="u4-group"><strong>Capstone work · How Section 5 works.</strong> Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.<div class="u4-how" style="margin:14px 0 0;"><div class="u4-how-h">5.1 &middot; How to complete</div><ol><li><strong>Bring in your Objectives.</strong> Check that your group&rsquo;s Objectives from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li><strong>Select one Objective.</strong> You test each Objective once, with its Key Results shown beside it, in the four steps of the worked example in Section 4.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Objective serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Objective. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Objective delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Objective will make customers choose you, using the three tests. Then name what must remain true.</li><li><strong>Repeat for each Objective.</strong> Select Next Objective and take it through the same four steps.</li><li><strong>Go on to 5.2</strong> when every Objective has been taken through the four steps.</li></ol></div></div>
+<div class="u4-group"><strong>Capstone work · How Section 5 works.</strong> Your group chooses its scribe for this work in the group record bar. The scribe types what your group agrees, and the entries appear on every member&rsquo;s page.<div class="u4-how" style="margin:14px 0 0;"><div class="u4-how-h">5.1 &middot; How to complete</div><ol><li><strong>Bring in your Objectives.</strong> Check that your group&rsquo;s Objectives from Unit 3 are listed below. If they are missing, select Bring in from my Unit 3 page.</li><li><strong>Select one Objective.</strong> You test each Objective once, with its Key Results shown beside it, in the four steps of the worked example in Section 4.</li><li><strong>Step 1 &middot; Define the Arena.</strong> Name the customer need the Objective serves, at three depths: functional, experiential and consequential. Then name what must remain true.</li><li><strong>Step 2 &middot; Understand the Boundaries.</strong> List the conditions that could slow, restrict or prevent delivery of the Objective. Then name what must remain true.</li><li><strong>Step 3 &middot; See the Competition.</strong> List who or what else can give the customer what the Objective delivers. Then name what must remain true.</li><li><strong>Step 4 &middot; Establish the Value Proposition.</strong> Name what about the Objective will make customers choose you, using the three tests. Then name what must remain true.</li><li><strong>Repeat for each Objective.</strong> Select Next Objective and take it through the same four steps.</li><li><strong>Check your Integrity Table.</strong> At the end of 5.1, Our ABCV&ndash;MBT Integrity Table shows the Must-Be-True condition of each Objective at each checkpoint. When every row is complete, go on to 5.2.</li></ol></div></div>
 <div id="twBar"></div>
 
 <div class="acc">
@@ -1104,6 +1104,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div class="u4-rec shut" id="mbRecP"></div>
   <div id="mbOkrP"></div>
   <div id="mbToolP"></div>
+  <div id="mbTblP" style="margin-top:22px;"></div>
 </div>
 </div>
 
@@ -2080,6 +2081,12 @@ function mbToolHtml(){
       '<button type="button" class="u4-b ok" onclick="mbObjStep(1)">Next Objective &rarr;</button>')+'</div>';
   return nav+'<div class="u4-panel">'+h+'</div>';
 }
+/* Our ABCV–MBT Integrity Table: the Must-Be-True condition of each Objective at each checkpoint, at the end of 5.1. */
+function mbTableHtml(){
+  if(!MB.items.length)return '';
+  return '<div class="u4-egs-h">Our ABCV&ndash;MBT Integrity Table</div><table class="u4-tbl"><thead><tr><th>Objective</th>'+U4D.cps.map(function(c){return '<th>'+c.name+'</th>';}).join('')+'</tr></thead><tbody>'+
+    MB.items.map(function(o,i){return '<tr><td><strong>'+(i+1)+'.</strong> '+u4esc(o.obj)+'</td>'+U4D.cps.map(function(c){return '<td>'+(o[c.k].trim()?u4esc(o[c.k]):'<i>to be named</i>')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';
+}
 function mbOutHtml(){
   if(!MB.items.length)return '';
   var conf=mbConfirmed();
@@ -2095,12 +2102,14 @@ function renderMB(){
   if(r){var shut=r.classList.contains('shut');r.innerHTML=mbRecordHtml();r.classList.toggle('shut',shut);}
   if(t)t.innerHTML=mbToolHtml();
   if(o)o.innerHTML=mbOutHtml();
+  var tb=u4el('mbTblP');if(tb)tb.innerHTML=mbTableHtml();
   var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();
 }
 function mbRefresh(){   // while typing: everything except the box being typed in
   var r=u4el('mbRecP');
   if(r){var shut=r.classList.contains('shut'),before=r.offsetHeight;r.innerHTML=mbRecordHtml();r.classList.toggle('shut',shut);var d=r.offsetHeight-before;if(d&&r.getBoundingClientRect().top<window.innerHeight)window.scrollBy(0,d);}
   var o=u4el('mbOutP');if(o)o.innerHTML=mbOutHtml();
+  var tb=u4el('mbTblP');if(tb)tb.innerHTML=mbTableHtml();
   var ob=mbObj();
   document.querySelectorAll('#mbToolP .u4-stage').forEach(function(s,n){s.classList.toggle('done',mbStepDone(ob,n));});
   document.querySelectorAll('#mbOkrP .u4-krb').forEach(function(b,n){
@@ -2152,7 +2161,7 @@ function mbPrint(){
         '<p class="kr">Step 2 · Boundaries</p><table>'+row('Boundaries',o.bd)+row('Must-Be-True',o.b)+'</table>'+
         '<p class="kr">Step 3 · Competition</p><table>'+row('Alternatives',o.cp)+row('Must-Be-True',o.c)+'</table>'+
         '<p class="kr">Step 4 · Value Proposition</p><table>'+row('Relevant',o.rel)+row('Distinctive',o.dis)+row('Deliverable',o.dlv)+row('Must-Be-True',o.v)+'</table>';
-  }).join('')+'<h2>5.2 · Accountability assignment</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbVerText()||'—')+'</p><h2>5.2 · Executive blind spot</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbBlindText())+'</p>';
+  }).join('')+'<h2>Our ABCV–MBT Integrity Table</h2><table><tr><th>Objective</th><th>Arena</th><th>Boundaries</th><th>Competition</th><th>Value Proposition</th></tr>'+MB.items.map(function(o,i){return '<tr><td>'+(i+1)+'. '+u4esc(o.obj)+'</td><td>'+u4esc(o.a||'—')+'</td><td>'+u4esc(o.b||'—')+'</td><td>'+u4esc(o.c||'—')+'</td><td>'+u4esc(o.v||'—')+'</td></tr>';}).join('')+'</table><h2>5.2 · Accountability assignment</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbVerText()||'—')+'</p><h2>5.2 · Executive blind spot</h2><p style="white-space:pre-wrap;font-family:Arial,sans-serif;font-size:13px">'+u4esc(mbBlindText())+'</p>';
   var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Unit 4 · ABCV–MBT record</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:14px;margin:16px 0 4px;page-break-after:avoid}.kr{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;margin:10px 0 4px;color:#555}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;padding:6px 8px;border:1px solid #ccd;background:#f3f6f4}td{padding:6px 8px;border:1px solid #ccd;vertical-align:top}</style></head><body>'+
     '<h1>ABCV–MBT Record: Stress-Testing Your Objectives</h1><p class="sub">Strategy2Results® · Module 2 · Unit 4 · Parts 5.1 and 5.2 · Capstone work · '+(mbConfirmed()?'confirmed':'not yet confirmed')+'</p>'+body+'</body></html>';
   var w=window.open('','_blank');if(!w){window.print();return;}
