@@ -365,6 +365,14 @@ select.u3-in option{background:#0a1a0d;color:#fff;}
 .km-grid-t{grid-template-columns:170px 1fr 1fr 200px;}
 .km-theme{color:#fff!important;font-weight:600;border-left:2px solid var(--gold);}
 .km-theme em{font-weight:400;color:rgba(255,255,255,.35);}
+.tbl{padding:18px 20px;}
+.tbl-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,.55);}
+.tbl-sub{font-size:11px;color:rgba(255,255,255,.5);margin:6px 0 12px;}
+.km-grid-o{grid-template-columns:160px 1fr 1.5fr 110px;}
+.km-ol{margin:0;padding-left:18px;}.km-ol li{margin-bottom:6px;font-size:12px!important;line-height:1.55!important;color:rgba(255,255,255,.85)!important;}
+.u3-mx-clean{margin:4px 0 0;}
+.u3-mx-clean .u3-mx-cell{border:1px solid rgba(255,255,255,.07);border-top:3px solid;background:#111811;opacity:.55;}
+.u3-mx-clean .u3-mx-cell.on{opacity:1;background:#1a2a1e;}
 .km-l{display:none;font-size:9px;font-weight:700;letter-spacing:2px;margin-bottom:2px;}
 @media(max-width:800px){.km-grid{grid-template-columns:1fr;}.km-h{display:none;}.km-l{display:block;}}
 .sx-tabs{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 0;}
@@ -853,6 +861,7 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
 <div class="acc-b cb">
   <p>Each theme from 5.2 becomes one OKR. Take one theme at a time: write its Objective (Step 2), its Key Results and contributing roles (Step 3), then test the OKR against the four questions (Step 4). When the OKR is aligned, go on to the next theme.</p>
   <div id="okrToolP"></div>
+  <div id="okrOkrTbl"></div>
 </div></div>
 
 <div class="acc"><div class="acc-h" onclick="tA(this)"><span class="acc-t">5.4 — Prioritising Your OKRs</span><div style="display:flex;align-items:center;gap:10px"><span class="acc-meta">Step 5 · Group Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div></div>
@@ -1429,7 +1438,7 @@ function renderKissForm(){
 // 5.1 · the KISS map is generated from the sixteen entries once all are typed (13 Nov 2026). 5.2 opens on it.
 function kissGenerated(){return !!U3._kgen&&kissFilled()===16;}
 function kissMapHtml(){
-  return '<div class="u3-out"><div class="u3-out-h">Your KISS map</div><div class="km-grid"><div class="km-h">SiP domain</div>'+KISS_EL.map(function(k){return '<div class="km-h km-'+k[0]+'">'+k[1]+'</div>';}).join('')+
+  return '<div class="u3-out tbl">'+'<div class="tbl-title">Our KISS Map</div><div class="tbl-sub">The four SiP domains against Keep, Improve, Start and Stop</div>'+'<div class="km-grid"><div class="km-h">SiP domain</div>'+KISS_EL.map(function(k){return '<div class="km-h km-'+k[0]+'">'+k[1]+'</div>';}).join('')+
     KISS_DOMAINS.map(function(d){return '<div class="km-d"><span class="kiss-accent '+d.cls+'"></span>'+u3esc(d.label)+'</div>'+KISS_EL.map(function(k){return '<div class="km-c"><span class="km-l km-'+k[0]+'">'+k[1]+'</span>'+u3esc(u3v(kexKey(d,k[0])).trim())+'</div>';}).join('');}).join('')+
     '</div></div>';
 }
@@ -1555,14 +1564,27 @@ function sxThemeHtml(T){
 function sxThemeTbl(T){
   if(!kissGenerated())return '';
   var S=T.S;
-  return '<p class="sx-count">When all four themes are recorded, read them together in the table below before you go on to 5.3.</p><div class="u3-out"><div class="u3-out-h">Your four themes</div><div class="km-grid km-grid-t"><div class="km-h">SiP domain</div><div class="km-h km-improve">Improve</div><div class="km-h km-start">Start</div><div class="km-h">Our theme</div>'+
+  return '<p class="sx-count">When all four themes are recorded, read them together in the table below before you go on to 5.3.</p><div class="u3-out tbl">'+'<div class="tbl-title">Our Four Themes</div><div class="tbl-sub">Each theme beside the Improve and Start entries it comes from</div>'+'<div class="km-grid km-grid-t"><div class="km-h">SiP domain</div><div class="km-h km-improve">Improve</div><div class="km-h km-start">Start</div><div class="km-h">Our theme</div>'+
     S.items.map(function(o,i){var d=sxDom(i);
       return '<div class="km-d"><span class="kiss-accent '+d.cls+'"></span>'+u3esc(d.label)+'</div>'+
         ['improve','start'].map(function(k){return '<div class="km-c"><span class="km-l km-'+k+'">'+k.toUpperCase()+'</span>'+u3esc(u3v(kexKey(d,k)).trim())+'</div>';}).join('')+
         '<div class="km-c km-theme"><span class="km-l">Our theme</span>'+(o.theme.trim()?u3esc(o.theme):'<em>Not recorded yet</em>')+'</div>';
     }).join('')+'</div></div>';
 }
-function sxThemeTblPaint(T){var h=u3el('okrThemeTbl');if(h)h.innerHTML=sxThemeTbl(T);}
+function sxThemeTblPaint(T){var h=u3el('okrThemeTbl');if(h)h.innerHTML=sxThemeTbl(T);var o=u3el('okrOkrTbl');if(o)o.innerHTML=sxOkrTbl(T);}
+// 5.3 · the four OKRs in one table.
+function sxOkrTbl(T){
+  var S=T.S,th=sxThemes(S);
+  if(!sxWithObj(S).length)return '';
+  return '<p class="sx-count">When all four OKRs are aligned, read them together in the table below before you go on to 5.4.</p><div class="u3-out tbl">'+'<div class="tbl-title">Our OKRs</div><div class="tbl-sub">Each theme with its Objective, its Key Results and contributing roles, and its alignment test</div>'+
+    '<div class="km-grid km-grid-o"><div class="km-h">Theme</div><div class="km-h">Objective</div><div class="km-h">Key Results · contributing roles</div><div class="km-h">Alignment test</div>'+
+    th.map(function(i){var o=S.items[i],k=sxKrs(o),n=sxAl(o);
+      return '<div class="km-c km-theme"><span class="km-l">Theme</span>'+u3esc(o.theme)+'</div>'+
+        '<div class="km-c"><span class="km-l">Objective</span>'+(o.obj.trim()?'<strong>Objective '+(i+1)+':</strong> '+u3esc(o.obj):'<em>Not written yet</em>')+'</div>'+
+        '<div class="km-c"><span class="km-l">Key Results</span>'+(k.length?'<ol class="km-ol">'+k.map(function(x){return '<li>'+u3esc(x.t)+(x.r.trim()?'<span class="u3-chain-roles">Contributing roles: '+u3esc(x.r)+'</span>':'')+'</li>';}).join('')+'</ol>':'<em>Not written yet</em>')+'</div>'+
+        '<div class="km-c"><span class="km-l">Alignment test</span>'+(sxAligned(o)?'<span class="u3-pill" style="margin:0;">Aligned</span>':n+' of 4')+'</div>';
+    }).join('')+'</div></div>';
+}
 // 5.3 · Steps 2 to 4 for one theme at a time.
 function sxOkrHtml(T){
   var S=T.S,P=T.p,q="'"+P+"'",x=T.t,i=S.ot,o=S.items[i],d=sxDom(i);
@@ -1605,13 +1627,14 @@ function sxMxHtml(T){
   }).join('');
   var back=sxThemes(S).filter(function(i){return pr.indexOf(i)<0;});
   if(back.length)h+='<p class="u3-small">Not yet aligned in 5.3: '+back.map(function(i){return 'Theme '+(i+1)+' ('+sxAl(S.items[i])+' of 4)';}).join(' · ')+'.</p>';
-  h+='<div class="u3-mx"><div class="u3-mx-corner">Impact ↓ &nbsp; Effort →</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
+  h+='<div class="u3-out tbl">'+'<div class="tbl-title">Our Prioritisation Matrix</div><div class="tbl-sub">Where each aligned OKR sits by its impact and the effort it requires</div>'+
+    '<div class="u3-mx u3-mx-clean"><div class="u3-mx-corner">Impact \\ Effort</div><div class="u3-mx-ax">Low effort</div><div class="u3-mx-ax">Medium effort</div><div class="u3-mx-ax">High effort</div>'+
     ['High','Medium','Low'].map(function(im){
       return '<div class="u3-mx-ax u3-mx-row">'+im+' impact</div>'+['Low','Medium','High'].map(function(ef){
         var c=pmFind(im,ef),here=pr.filter(function(i){return S.items[i].im===im&&S.items[i].ef===ef;}).map(function(i){return '<span class="u3-mx-tag">Objective '+(i+1)+' · '+u3esc(S.items[i].theme)+'</span>';});
-        return '<div class="u3-mx-cell" style="border-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
+        return '<div class="u3-mx-cell'+(here.length?' on':'')+'" style="border-top-color:'+c.c+';"><div class="u3-mx-name" style="color:'+c.c+';">'+c.l+'</div>'+here.join('')+'</div>';
       }).join('');
-    }).join('')+'</div>';
+    }).join('')+'</div></div>';
   return h;
 }
 // The record: every theme with all it carries so far, in step order.
