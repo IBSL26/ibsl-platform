@@ -270,7 +270,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .u4-egs{margin:4px 0 4px;}
 .u4-egs-h{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin:0 0 8px;}
 .u4-tbl{width:100%;border-collapse:collapse;font-size:13px;}
-.u4-itbl{table-layout:fixed;margin-bottom:6px;}.u4-itbl td{vertical-align:top;}.u4-itbl th:nth-child(1){width:20%;}.u4-itbl th:nth-child(2){width:30%;}.u4-itbl th:nth-child(3){width:18%;}.u4-itbl th:nth-child(4){width:18%;}.u4-itbl th:nth-child(5){width:14%;}.u4-itbl .u4-in{width:100%;min-width:0;margin:0;box-sizing:border-box;}.u4-itbl-c{margin-top:8px;line-height:1.5;}.u4-mtbl td{vertical-align:top;}
+.u4-itbl{table-layout:fixed;margin-bottom:6px;}.u4-itbl td{vertical-align:top;}.u4-itbl th:nth-child(1){width:20%;}.u4-itbl th:nth-child(2){width:30%;}.u4-itbl th:nth-child(3){width:18%;}.u4-itbl th:nth-child(4){width:18%;}.u4-itbl th:nth-child(5){width:14%;}.u4-itbl .u4-in{width:100%;min-width:0;margin:0;box-sizing:border-box;}.u4-itbl-c{margin-top:8px;line-height:1.5;}.u4-pri{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;margin-bottom:6px;line-height:1.5;}.u4-mtbl td{vertical-align:top;}
 .u4-tbl th{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);text-align:left;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);}
 .u4-tbl td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.05);color:rgba(255,255,255,.75);line-height:1.65;vertical-align:top;}
 .u4-tbl td:first-child{width:42%;color:rgba(255,255,255,.6);}
@@ -1115,8 +1115,8 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Capstone Work</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <p>Each Objective in your Integrity Table carries four Must-Be-True conditions. One of them is critical: if it fails, the Objective fails with it. In this part your group names that condition for each Objective and the executive who checks it.</p>
-  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li><strong>Choose the critical condition.</strong> For each Objective, select the checkpoint whose Must-Be-True condition would do the most damage if it failed. The condition appears from your Integrity Table.</li><li><strong>Assign accountability.</strong> Select the executive from your team accountable for verifying that condition, then name the evidence that will confirm it still holds and the date of the first check.</li><li><strong>Agree.</strong> When every row is complete, read your record, then select Agree. Select Print for a copy.</li></ol></div>
+  <p>Each Objective in your Integrity Table carries four Must-Be-True conditions. One of them is critical: if it fails, the Objective loses the impact you ranked it for on your Unit 3 Prioritisation Matrix. Your Objectives appear here in that priority order, and your group names the critical condition of each and the executive who checks it.</p>
+  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li><strong>Start with Priority 1.</strong> Your Objectives are listed in the order your group ranked them on the Unit 3 Prioritisation Matrix, highest impact first.</li><li><strong>Choose the critical condition.</strong> For each Objective, select the checkpoint whose Must-Be-True condition, if it failed, would cost the Objective the impact you ranked it for. The condition appears from your Integrity Table.</li><li><strong>Assign accountability.</strong> Select the executive from your team accountable for verifying that condition, then name the evidence that will confirm it still holds and the date of the first check.</li><li><strong>Agree.</strong> When every row is complete, read your record, then select Agree. Select Print for a copy.</li></ol></div>
   <div id="mbVerP"></div>
   <div id="mbOutP"></div>
 </div>
@@ -1951,11 +1951,11 @@ var MB_FIELDS={
   dlv:['Deliverable · Can we consistently produce it?','Which capability and system let you deliver this Objective repeatedly?']
 };
 /* Each Objective from Unit 3 is tested once, across the four steps; its Key Results are shown with it. */
-function mbBlankObj(obj,krs){var o={obj:obj,krs:krs.map(function(t){return {t:t};})};MB_ALL.forEach(function(f){o[f]='';});return o;}
+function mbBlankObj(obj,krs,im,ef){var o={obj:obj,krs:krs.map(function(t){return {t:t};}),im:String(im||''),ef:String(ef||'')};MB_ALL.forEach(function(f){o[f]='';});return o;}
 function mbLoad(s){
   if(!s||typeof s!=='object')return;
   if(Array.isArray(s.items))MB.items=s.items.filter(function(o){return o&&o.obj&&Array.isArray(o.krs)&&o.krs.length;}).map(function(o){
-    var n=mbBlankObj(String(o.obj),o.krs.map(function(k){return String((k&&k.t)||'');}));
+    var n=mbBlankObj(String(o.obj),o.krs.map(function(k){return String((k&&k.t)||'');}),o.im,o.ef);
     MB_ALL.forEach(function(f){n[f]=String(o[f]||'');});
     return n;
   });
@@ -1974,14 +1974,19 @@ var MB_CPN={a:'Arena',b:'Boundaries',c:'Competition',v:'Value Proposition'};
 function mbConds(){var out=[];MB.items.forEach(function(o,i){['a','b','c','v'].forEach(function(f){var t=o[f].trim();if(t)out.push({id:(i+1)+'-'+f,i:i,cp:MB_CPN[f],t:t});});});return out;}
 /* 5.2 (13 Nov 2026): for each Objective, its critical Must-Be-True condition and one accountable executive from the group's Problem Charter team. */
 var MB_CPK={Arena:'a',Boundaries:'b',Competition:'c','Value Proposition':'v'};
+/* The Unit 3 Prioritisation Matrix (5.4): each Objective's place by impact and effort, which orders 5.2. */
+var MB_PM={'High|Low':'Strategic Catalysts','High|Medium':'Accelerated Enablers','High|High':'Core Strategic Drivers','Medium|Low':'Quick Efficiency Plays','Medium|Medium':'Targeted Growth Projects','Medium|High':'Heavy Investment Candidates','Low|Low':'Supportive Enablers','Low|Medium':'Marginal Utility Tasks','Low|High':'Resource Pitfalls'};
+function mbPri(o){var l=MB_PM[o.im+'|'+o.ef];return l?l+' ('+o.im+' impact, '+o.ef+' effort)':'';}
+function mbPriKey(o){var a={High:0,Medium:1,Low:2},b={Low:0,Medium:1,High:2};return (o.im in a?a[o.im]:3)*3+(o.ef in b?b[o.ef]:3);}
+function mbOrder(){return MB.items.map(function(o,i){return i;}).sort(function(x,y){return mbPriKey(MB.items[x])-mbPriKey(MB.items[y])||x-y;});}
 function mbVerRow(id){var v=MB.ver[id]||{};return {cp:String(v.cp||''),who:String(v.who||''),ev:String(v.ev||''),when:String(v.when||'')};}
 function mbCrit(o,v){var k=MB_CPK[v.cp];return k?o[k].trim():'';}
 function mbVerFull(id){var v=mbVerRow(id),o=MB.items[+id-1];return !!(o&&v.cp&&mbCrit(o,v)&&v.who.trim()&&v.ev.trim()&&v.when.trim());}
 function mbVerOwned(){return MB.items.filter(function(o,i){return mbVerFull(String(i+1));});}
 function mbS3Open(){if(!MB.items.length)return [];var n=MB.items.filter(function(o,i){return !mbVerFull(String(i+1));}).length;return n?['the critical condition, executive, evidence and first check for '+n+' Objective'+(n===1?'':'s')+' (5.2)']:[];}
 function mbVerText(){
-  return MB.items.map(function(o,i){var v=mbVerRow(String(i+1));
-    return 'Objective '+(i+1)+': '+o.obj.trim()+'\nCritical checkpoint: '+v.cp+'\nMust-Be-True: '+mbCrit(o,v)+'\nExecutive accountable: '+v.who.trim()+'\nEvidence that it still holds: '+v.ev.trim()+'\nFirst check: '+v.when.trim();
+  return mbOrder().map(function(i,r){var o=MB.items[i],v=mbVerRow(String(i+1));
+    return 'Objective '+(i+1)+': '+o.obj.trim()+'\nPriority: '+(r+1)+' · '+(mbPri(o)||'not placed in Unit 3')+'\nCritical checkpoint: '+v.cp+'\nMust-Be-True: '+mbCrit(o,v)+'\nExecutive accountable: '+v.who.trim()+'\nEvidence that it still holds: '+v.ev.trim()+'\nFirst check: '+v.when.trim();
   }).join('\n\n');
 }
 async function mbLoadTeam(){
@@ -1998,10 +2003,10 @@ function mbVerHtml(){
     var opts=MB.team.slice();if(v.who&&opts.indexOf(v.who)<0)opts.push(v.who);
     return '<select class="u4-in" onchange="mbVer(\''+id+'\',\'who\',this.value)"><option value="">&ndash; select &ndash;</option>'+opts.map(function(t){return '<option'+(t===v.who?' selected':'')+'>'+u4esc(t)+'</option>';}).join('')+'</select>';
   };
-  return '<div class="u4-egs-h">Our critical conditions and accountability</div><div style="overflow-x:auto;"><table class="u4-tbl u4-itbl"><thead><tr><th>Objective</th><th>Critical checkpoint and its Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>'+
-    MB.items.map(function(o,i){
-      var id=String(i+1),v=mbVerRow(id),c=mbCrit(o,v);
-      return '<tr><td><strong>'+(i+1)+'.</strong> '+u4esc(o.obj)+'</td><td><select class="u4-in" onchange="mbVer(\''+id+'\',\'cp\',this.value);mbPaintVer()"><option value="">&ndash; select the checkpoint &ndash;</option>'+
+  return '<div class="u4-egs-h">Our critical conditions and accountability &middot; in your Unit 3 priority order</div><div style="overflow-x:auto;"><table class="u4-tbl u4-itbl"><thead><tr><th>Priority and Objective</th><th>Critical checkpoint and its Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>'+
+    mbOrder().map(function(i,r){
+      var o=MB.items[i],id=String(i+1),v=mbVerRow(id),c=mbCrit(o,v),p=mbPri(o);
+      return '<tr><td><div class="u4-pri">Priority '+(r+1)+(p?' &middot; '+u4esc(p):' &middot; <i>not placed on your Unit 3 matrix</i>')+'</div><strong>Objective '+(i+1)+'.</strong> '+u4esc(o.obj)+'</td><td><select class="u4-in" onchange="mbVer(\''+id+'\',\'cp\',this.value);mbPaintVer()"><option value="">&ndash; select the checkpoint &ndash;</option>'+
         U4D.cps.map(function(k){return '<option'+(k.name===v.cp?' selected':'')+'>'+k.name+'</option>';}).join('')+'</select>'+
         (v.cp?'<div class="u4-itbl-c">'+(c?u4esc(c):'<i>name this condition in 5.1</i>')+'</div>':'')+'</td><td>'+who(id,v)+'</td>'+
         '<td><input class="u4-in" type="text" value="'+u4esc(v.ev)+'" placeholder="The evidence" oninput="mbVer(\''+id+'\',\'ev\',this.value)"></td>'+
@@ -2162,7 +2167,7 @@ function mbPrint(){
         '<p class="kr">Step 3 · Competition</p><table>'+row('Alternatives',o.cp)+row('Must-Be-True',o.c)+'</table>'+
         '<p class="kr">Step 4 · Value Proposition</p><table>'+row('Relevant',o.rel)+row('Distinctive',o.dis)+row('Deliverable',o.dlv)+row('Must-Be-True',o.v)+'</table>';
   }).join('')+'<h2>Our ABCV–MBT Integrity Table</h2><table><tr><th>Objective</th><th>Arena</th><th>Boundaries</th><th>Competition</th><th>Value Proposition</th></tr>'+MB.items.map(function(o,i){return '<tr><td>'+(i+1)+'. '+u4esc(o.obj)+'</td><td>'+u4esc(o.a||'—')+'</td><td>'+u4esc(o.b||'—')+'</td><td>'+u4esc(o.c||'—')+'</td><td>'+u4esc(o.v||'—')+'</td></tr>';}).join('')+'</table>'+
-    '<h2>Our critical conditions and accountability</h2><table><tr><th>Objective</th><th>Critical checkpoint</th><th>Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr>'+MB.items.map(function(o,i){var v=mbVerRow(String(i+1));return '<tr><td>'+(i+1)+'. '+u4esc(o.obj)+'</td><td>'+u4esc(v.cp||'—')+'</td><td>'+u4esc(mbCrit(o,v)||'—')+'</td><td>'+u4esc(v.who||'—')+'</td><td>'+u4esc(v.ev||'—')+'</td><td>'+u4esc(v.when||'—')+'</td></tr>';}).join('')+'</table>';
+    '<h2>Our critical conditions and accountability</h2><table><tr><th>Priority</th><th>Objective</th><th>Critical checkpoint</th><th>Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr>'+mbOrder().map(function(i,r){var o=MB.items[i],v=mbVerRow(String(i+1));return '<tr><td>'+(r+1)+(mbPri(o)?' · '+u4esc(mbPri(o)):'')+'</td><td>'+(i+1)+'. '+u4esc(o.obj)+'</td><td>'+u4esc(v.cp||'—')+'</td><td>'+u4esc(mbCrit(o,v)||'—')+'</td><td>'+u4esc(v.who||'—')+'</td><td>'+u4esc(v.ev||'—')+'</td><td>'+u4esc(v.when||'—')+'</td></tr>';}).join('')+'</table>';
   var doc='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Unit 4 · ABCV–MBT record</title><style>body{font-family:Georgia,serif;color:#172033;max-width:780px;margin:32px auto;padding:0 20px;line-height:1.5}h1{color:#043f2f;font-size:25px;margin-bottom:2px}.sub{color:#555;font-size:13px;margin:0 0 18px}h2{color:#043f2f;font-size:16px;margin:24px 0 6px;border-bottom:2px solid #c9a84c;padding-bottom:4px;page-break-after:avoid}h3{color:#071b4d;font-size:14px;margin:16px 0 4px;page-break-after:avoid}.kr{font-family:Arial,sans-serif;font-size:12px;font-weight:bold;margin:10px 0 4px;color:#555}table{width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px;page-break-inside:avoid}th{width:150px;text-align:left;vertical-align:top;padding:6px 8px;border:1px solid #ccd;background:#f3f6f4}td{padding:6px 8px;border:1px solid #ccd;vertical-align:top}</style></head><body>'+
     '<h1>ABCV–MBT Record: Stress-Testing Your Objectives</h1><p class="sub">Strategy2Results® · Module 2 · Unit 4 · Parts 5.1 and 5.2 · Capstone work · '+(mbConfirmed()?'confirmed':'not yet confirmed')+'</p>'+body+'</body></html>';
   var w=window.open('','_blank');if(!w){window.print();return;}
@@ -2179,13 +2184,15 @@ async function mbBring(manual){
       if(!o||!String(o.theme||'').trim()||!String(o.obj||'').trim())return;
       var krs=(o.krs||[]).filter(function(k){return k&&String(k.t||'').trim();});
       var al=Array.isArray(o.al)&&o.al.length===4&&o.al.every(function(x){return !!x;});
-      if(krs.length&&al)found.push(mbBlankObj(String(o.obj).trim(),krs.map(function(k){return String(k.t).trim();})));
+      if(krs.length&&al)found.push(mbBlankObj(String(o.obj).trim(),krs.map(function(k){return String(k.t).trim();}),o.im,o.ef));
     });
   }
   if(!found.length||(conf.indexOf('Key Results')<0&&conf.indexOf('OKRs')<0)){
     if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, then select Bring in from my Unit 3 page.');
     return;
   }
+  var pc=false;MB.items.forEach(function(o){var f=found.filter(function(x){return x.obj===o.obj;})[0];if(f&&(o.im!==f.im||o.ef!==f.ef)){o.im=f.im;o.ef=f.ef;pc=true;}});
+  if(pc){mbPaintVer();mbQueue();}
   var old={};MB.items.forEach(function(o){old[o.obj]=o;});
   var lost=MB.items.filter(function(o){return MB_ALL.some(function(f){return o[f].trim();})&&!found.some(function(x){return x.obj===o.obj;});});
   var same=JSON.stringify(found.map(function(o){return [o.obj,mbKrList(o)];}))===JSON.stringify(MB.items.map(function(o){return [o.obj,mbKrList(o)];}));
