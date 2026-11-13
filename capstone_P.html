@@ -327,7 +327,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['4B','Step 2 · Boundaries','For each of our Objectives: the conditions that could slow, restrict or prevent its delivery, and the Must-Be-True condition on them.'],
       ['4C','Step 3 · Competition','For each of our Objectives: every meaningful alternative available to our customers, including those outside our industry, and the Must-Be-True condition on our advantage.'],
       ['4D','Step 4 · Value Proposition','For each of our Objectives: why customers will choose us, tested as relevant, distinctive and deliverable, and the Must-Be-True condition that protects it.'],
-      ['4E','Step 5 · Critical conditions and accountability','For each of our Objectives: the Must-Be-True condition whose failure would do the most damage, the executive among us accountable for verifying it, the evidence required and the date of the first check.']
+      ['4E','Step 5 · Critical conditions and accountability','For each of our Objectives, in the priority order of our Unit 3 Prioritisation Matrix: the Must-Be-True condition whose failure would cost it the impact we ranked it for, the executive among us accountable for verifying it, the evidence required and the date of the first check.']
     ]},
     { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
       ['5A','Team behavioural profile','The two OCEAVL dimensions on which our team profile carries the highest risk for the strategy, and our response to each.'],
@@ -500,13 +500,13 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     var head = function(m){ return '<div class="bt-h">Objective ' + e(m[1]) + ' · ' + e(m[2]) + '</div>'; };
     if (key === '4E'){
       // One row per Objective: its critical checkpoint, the condition and who checks it.
-      var cols = ['Critical checkpoint','Must-Be-True','Executive accountable','Evidence that it still holds','First check'], rows = [];
+      var cols = ['Priority','Critical checkpoint','Must-Be-True','Executive accountable','Evidence that it still holds','First check'], rows = [];
       for (var q = 0; q < blocks.length; q++){
         var bq = blocks[q], mq = bq[0].trim().match(OBJ); if (!mq) return null;
         var got = {}; bq.slice(1).forEach(function(l){ var x = l.trim().match(KV); if (x) got[x[1].trim()] = x[2].trim(); });
         rows.push('<tr><th class="bt-w1">Objective ' + e(mq[1]) + ' · ' + e(mq[2]) + '</th>' + cols.map(function(k){ return '<td>' + (got[k] ? e(got[k]) : '—') + '</td>'; }).join('') + '</tr>');
       }
-      return '<table class="bt bt-grid"><thead><tr><th>Objective</th><th>Critical checkpoint</th><th>Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>';
+      return '<table class="bt bt-grid"><thead><tr><th>Objective</th><th>Priority from Unit 3</th><th>Critical checkpoint</th><th>Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>' + rows.join('') + '</tbody></table>';
     }
     if (['4A','4B','4C','4D'].indexOf(key) < 0) return null;
     var out = '';
