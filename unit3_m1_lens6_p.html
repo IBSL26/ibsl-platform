@@ -1611,7 +1611,7 @@ function u7AdDraw(){
   if(v&&!seen)opts.push('<option value="'+u7esc(v)+'" selected>'+u7esc(v)+'</option>');
   sel.innerHTML=opts.join('');sel.disabled=!(U7.okrs.length||v);
   if(!U7.ready)return;
-  u7msg('u7AdMsg',U7.okrs.length||v?'':'No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2, then reload this page.');
+  u7msg('u7AdMsg',U7.okrs.length||v?'':'No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, Section 5, then reload this page.');
 }
 async function u7AdSave(v){
   U7.ad=String(v||'');
@@ -1632,7 +1632,7 @@ async function u7Bring(manual){
   var c2=(u2&&Array.isArray(u2.confirmed_items))?u2.confirmed_items:[];
   U7.sip=U7_SIP.filter(function(r){return c2.indexOf(r[1])>=0&&String((u2||{})[r[0]]||'').trim();}).map(function(r){return [r[1],String(u2[r[0]]).trim()];});
   var w=u3&&u3.__okr_work,conf=(u3&&Array.isArray(u3.confirmed_items))?u3.confirmed_items:[],found=[];
-  if(w&&Array.isArray(w.items)&&conf.indexOf('OKRs')>=0)w.items.forEach(function(o){
+  if(w&&Array.isArray(w.items)&&(conf.indexOf('Key Results')>=0||conf.indexOf('OKRs')>=0))w.items.forEach(function(o){
     if(!o||!String(o.obj||'').trim())return;
     var krs=(o.krs||[]).map(function(k){return k&&String(k.t||'').trim();}).filter(function(k){return !!k;});
     if(krs.length)found.push({obj:String(o.obj).trim(),krs:krs});
@@ -1640,7 +1640,7 @@ async function u7Bring(manual){
   U7.okrs=found;u7SelDraw();u7AdDraw();
   var miss=[];
   if(!fns.length)miss.push('No confirmed Contribution Map was found on your Unit 6 page. Agree your group’s Contribution Map in Unit 6, Section 5.');
-  if(!found.length)miss.push('No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2.');
+  if(!found.length)miss.push('No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, Section 5.');
   if(!U7.sip.length)miss.push('No confirmed Success in Practice statements were found on your Unit 2 page. Agree your group’s SiP statements in Unit 2.');
   if(miss.length){u7msg('u7BringMsg',miss.join(' ')+' Then select Reload the drop-down lists.');return;}
   u7msg('u7BringMsg',manual?'The drop-down lists are up to date.':'',manual?'ok':'');

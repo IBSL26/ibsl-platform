@@ -2181,7 +2181,7 @@ async function mbBring(manual){
       if(krs.length&&al)found.push(mbBlankObj(String(o.obj).trim(),krs.map(function(k){return String(k.t).trim();})));
     });
   }
-  if(!found.length||conf.indexOf('OKRs')<0){
+  if(!found.length||(conf.indexOf('Key Results')<0&&conf.indexOf('OKRs')<0)){
     if(manual||!MB.items.length)u4msg('mbBringMsg','No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, then select Bring in from my Unit 3 page.');
     return;
   }

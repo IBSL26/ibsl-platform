@@ -1638,9 +1638,9 @@ async function u6Bring(manual){
     var krs=(o.krs||[]).map(function(k){return k&&String(k.t||'').trim();}).filter(function(k){return !!k;});
     if(krs.length)found.push({obj:String(o.obj).trim(),krs:krs});
   });
-  if(!found.length||conf.indexOf('OKRs')<0){
+  if(!found.length||(conf.indexOf('Key Results')<0&&conf.indexOf('OKRs')<0)){
     U6.okrs=[];if(host)host.innerHTML=u6OkrHtml();u6KrDraw();
-    u6msg('u6BringMsg','No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, part 5.2, then select Bring in from my Unit 3 page.');
+    u6msg('u6BringMsg','No confirmed OKRs were found on your Unit 3 page. Agree your group’s OKRs in Unit 3, Section 5, then select Bring in from my Unit 3 page.');
     return;
   }
   U6.okrs=found;if(host)host.innerHTML=u6OkrHtml();u6KrDraw();
