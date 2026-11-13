@@ -1744,17 +1744,11 @@ function renderOkrOut(){
   var host=u3el('okrOutP'),rh=u3el('okrRecP');if(!host||!rh)return;
   if(!u3el('okrRec')){
     rh.innerHTML='<div class="u3-out"><div class="u3-rec" id="okrRec"></div></div>';
-    host.innerHTML='<div id="okrFinal" style="display:none;">'+
-      '<div class="u3-out"><div class="u3-out-h">Your Objectives<span class="u3-pill" id="okrPillA" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrPriOut"></div></div>'+
-      '<div class="u3-out"><div class="u3-out-h">Your Key Results<span class="u3-pill" id="okrPillB" style="display:none;">Confirmed</span></div><div class="u3-final-t" id="okrOkrOut"></div></div></div>'+
-      '<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">Agree</button><button type="button" class="u3-b" onclick="okrPrint()">Print our group record</button></div>'+
+    host.innerHTML='<div class="u3-btnrow"><button type="button" class="u3-b" id="okrConfirmBtn" onclick="okrConfirm()">Agree</button><button type="button" class="u3-b" onclick="okrPrint()">Print our group record</button></div>'+
       '<div class="u3-note" id="okrMsg" style="display:none;"></div>';
   }
-  var done=okrConfirmed(),pri=okrPriText(),okr=okrOkrText();
+  var done=okrConfirmed();
   sxSetRec(u3el('okrRec'),sxRecord(OK)||SX_EMPTY,'okrRecP');
-  u3el('okrFinal').style.display=pri?'':'none';
-  u3el('okrPriOut').textContent=pri;u3el('okrOkrOut').textContent=okr;
-  u3el('okrPillA').style.display=done?'':'none';u3el('okrPillB').style.display=done?'':'none';
   u3el('okrConfirmBtn').classList.toggle('ok',done);
   if(done)u3msg('okrMsg','');
 }
