@@ -66,8 +66,10 @@
       {part:'5.4',t:B('In this part you complete at least 4 decisions:','one Keep, one Improve, one Stop and one Start, each with its line of sight and owner.')},
       {part:'5.5',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}]
   };
-  var m=/lens(\d+)_p/i.exec(location.pathname||'');if(!m)return;
-  var L=T['lens'+m[1]];if(!L)return;
+  /* 12 Nov 2026: the Section 5 layout also runs on facilitator pages (no task boxes there). */
+  var m=/lens(\d+)_([pf])/i.exec(location.pathname||'');if(!m)return;
+  var isF=/f/i.test(m[2]);
+  var L=isF?[]:T['lens'+m[1]];if(!L)return;
   function box(html){var d=document.createElement('div');d.className='s2r-task';d.innerHTML=html;return d;}
   function norm(s){return String(s||'').replace(/\s+/g,' ').trim();}
 
@@ -89,6 +91,8 @@
       var cls=' '+(c.className||'')+' ',id=c.id||'',tx=norm(c.textContent),at=c.querySelector(':scope > .acc-h .acc-t, :scope > .acc-h');
       var t=at?norm(at.textContent):'';
       if(/ (slo-box|lo-box) /.test(cls))top.push(c);
+      else if(/ s2r-kr-acc /.test(cls))ref.push(c);
+      else if(/ s2r-close-acc /.test(cls))close.push(c);
       else if(/ s2r-key-ref /.test(cls))ref.push(c);
       else if(/ acc /.test(cls)&&t.indexOf('Unit Summary')===0)sum.push(c);
       else if(/ s2r-cr /.test(cls)||(/ hbox /.test(cls)&&/^(Section Closing Insight|Transition to)/.test(tx)))close.push(c);
@@ -98,7 +102,7 @@
     var keep=function(c){var cls=' '+(c.className||'')+' ',id=c.id||'';return c.hasAttribute('data-s2r-keep')||/ acc /.test(cls)||/twbar/i.test(id)||/ step-tabs | step-panel /.test(cls)||/Rec$/.test(id)||/S5$/.test(id)||c.tagName==='SCRIPT';};
     var capOut=[],grp=[];
     var flush=function(){if(!grp.length)return;var tx=norm(grp.map(function(g){return g.textContent;}).join(' '));
-      var title=/How Section 5 works/.test(tx)?'How the Capstone project works':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
+      var title=/How Section 5 works/.test(tx)?'How the Capstone project works':/FACILITATOR (GUIDANCE|GUIDE)|PARTICIPANT ACTIVITY|Facilitator Frame/i.test(tx)?'Facilitator guidance':/Capstone Portfolio Output/.test(tx)?'Capstone Portfolio Output':/Application outputs/.test(tx)?'Application outputs':'Capstone guidance';
       capOut.push(accWrap(title,'Capstone work',grp));grp=[];};
     cap.forEach(function(c){if(keep(c)){flush();if(/ acc /.test(' '+c.className+' '))c.classList.remove('open');capOut.push(c);}else grp.push(c);});flush();
     /* The group record bar leads the Capstone, above the guidance (12 Nov 2026). */
@@ -106,7 +110,8 @@
     var how=capOut.filter(function(c){var t=c.querySelector(':scope > .acc-h .acc-t');return t&&t.textContent==='How the Capstone project works';});
     capOut=bars.concat(how,capOut.filter(function(c){return bars.indexOf(c)<0&&how.indexOf(c)<0;}));
     var capAcc=capOut.length?accWrap('Capstone','Capstone work',capOut):null;if(capAcc)capAcc.classList.add('s2r-cap');
-    var order=top.concat(ref.length?[accWrap('Key Reflection','Section 5',ref)]:[],capAcc?[capAcc]:[],sum,close.length?[accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
+    var one=function(a,k){return a.length===1&&(' '+a[0].className+' ').indexOf(' '+k+' ')>=0;};
+    var order=top.concat(ref.length?[one(ref,'s2r-kr-acc')?ref[0]:accWrap('Key Reflection','Section 5',ref)]:[],capAcc?[capAcc]:[],sum,close.length?[one(close,'s2r-close-acc')?close[0]:accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
     order.forEach(function(n){body.appendChild(n);});
   }
   function run(){
