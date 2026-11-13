@@ -47,7 +47,11 @@
     '.tw-stand textarea[disabled]{opacity:.85;}'+
     '.tw-stand-n{font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;}'+
     '.tw-stand-n.over{color:#e8a598;font-weight:600;}';
-  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:''};
+  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:'',cur:null};
+  /* 13 Nov 2026: the stored group values. A save that matches what is stored is skipped, so reopening a page
+     or moving between steps does not count as a change and does not clear the members' agreement. */
+  function canon(v){if(Array.isArray(v))return '['+v.map(canon).join(',')+']';if(v&&typeof v==='object')return '{'+Object.keys(v).sort().map(function(k){return JSON.stringify(k)+':'+canon(v[k]);}).join(',')+'}';return JSON.stringify(v===undefined?null:v);}
+  function same(a,b){var f=function(v){if(v&&typeof v==='object'&&!Array.isArray(v)&&('step' in v||'cur' in v)){var o={};Object.keys(v).forEach(function(k){if(k!=='step'&&k!=='cur')o[k]=v[k];});return o;}return v;};return canon(f(a))===canon(f(b));}
   var STAND_KEY='team_summary',STAND_NAME='Our Position',STAND_MAX=80;
   function standWords(){var t=String(T.stand||'').trim();return t?t.split(/\s+/).length:0;}
   function standCount(){var n=el('twStandN');if(!n)return;var w=standWords(),over=w>STAND_MAX;n.className='tw-stand-n'+(over?' over':'');n.textContent=w+' of '+STAND_MAX+' words'+(over?'. Shorten it to '+STAND_MAX+' or fewer before your group can agree.':'');}
@@ -150,7 +154,7 @@
     var changed=T.st&&before!==null&&T.st.version!==before;
     if((pull||(changed&&!wasScribe))&&T.cfg.onRemote&&!Object.keys(T.q).length){
       var r={};try{r=await window.S2R.loadAll(T.cfg.lens);}catch(e){r={};}
-      standSet(r);
+      standSet(r);T.cur=r||{};
       try{await T.cfg.onRemote(r);}catch(e){console.error('[S2RTeam] onRemote',e);}
     }
     draw();applyLock();standDraw();
@@ -172,6 +176,7 @@
       return false;
     }
     T.msg='';
+    if(T.cur)Object.keys(items).forEach(function(k){T.cur[k]=items[k];});
     if(T.st){T.st.version=r.version;T.st.all_agreed=false;(T.st.members||[]).forEach(function(m){m.agreed=false;});}
     draw();
     if(Object.keys(T.q).length)T.timer=setTimeout(flush,300);
@@ -189,6 +194,7 @@
       if(!T.ctx){var h=el(cfg.mount);if(h)h.innerHTML='';return;}
       watchLock();
       if(cfg.stand){try{standSet(await window.S2R.loadAll(cfg.lens));}catch(e){}}
+      try{T.cur=await window.S2R.loadAll(cfg.lens)||{};}catch(e){T.cur=null;}
       await refresh(false);
       clearInterval(T.poll);T.poll=setInterval(function(){if(!T.busy&&!Object.keys(T.q).length)refresh(false);},8000);
       window.addEventListener('beforeunload',function(){if(Object.keys(T.q).length)flush();});
@@ -196,6 +202,7 @@
     save:function(key,value){
       if(!T.cfg)return false;
       if(!isScribe())return false;
+      if(T.cur&&Object.prototype.hasOwnProperty.call(T.cur,key)&&same(T.cur[key],value)){if(key in T.q){delete T.q[key];}return true;}
       T.q[key]=value;clearTimeout(T.timer);T.timer=setTimeout(flush,700);return true;
     },
     flush:flush,
