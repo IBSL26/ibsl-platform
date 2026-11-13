@@ -73,7 +73,7 @@
   function box(html){var d=document.createElement('div');d.className='s2r-task';d.innerHTML=html;return d;}
   function norm(s){return String(s||'').replace(/\s+/g,' ').trim();}
 
-  /* Section 5 layout (12 Nov 2026): Key Reflection first, then the Capstone work, then the Unit Summary,
+  /* Section 5 layout (13 Nov 2026): the Capstone work, then the Unit Summary, then the Key Reflection,
      then the Closing Insight and Transition, then feedback. Loose guidance boxes and the reflection are
      placed in collapsible sections; the Capstone parts start closed. Elements are moved, never rebuilt,
      so their saved work and handlers are kept. */
@@ -111,7 +111,8 @@
     capOut=bars.concat(how,capOut.filter(function(c){return bars.indexOf(c)<0&&how.indexOf(c)<0;}));
     var capAcc=capOut.length?accWrap('Capstone','Capstone work',capOut):null;if(capAcc)capAcc.classList.add('s2r-cap');
     var one=function(a,k){return a.length===1&&(' '+a[0].className+' ').indexOf(' '+k+' ')>=0;};
-    var order=top.concat(ref.length?[one(ref,'s2r-kr-acc')?ref[0]:accWrap('Key Reflection','Section 5',ref)]:[],capAcc?[capAcc]:[],sum,close.length?[one(close,'s2r-close-acc')?close[0]:accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
+    /* 13 Nov 2026: the Key Reflection closes each section, just before the Closing Insight. */
+    var order=top.concat(capAcc?[capAcc]:[],sum,ref.length?[one(ref,'s2r-kr-acc')?ref[0]:accWrap('Key Reflection','Section 5',ref)]:[],close.length?[one(close,'s2r-close-acc')?close[0]:accWrap('Closing Insight & Transition','Unit close',close)]:[],tail);
     order.forEach(function(n){body.appendChild(n);});
   }
   function run(){
