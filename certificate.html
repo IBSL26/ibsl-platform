@@ -86,6 +86,9 @@
   .sig-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.05rem; color: #2b2b2b; }                                                 /* names: near-black */
   .sig-title { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6d10; margin-top: 2px; }                                      /* title labels: gold */
   .sig-seal { flex: 0 0 auto; padding: 0 6px; }
+  /* IBSL watermark — faint logo centred behind the certificate text */
+  .cert-watermark { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+  .cert-watermark img { width: 135mm; height: auto; opacity: 0.07; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .cert-footer { margin-top: 14px; font-size: 10px; letter-spacing: 1px; color: #6b7d76; }
   .cert-footer .foot-label { text-transform: uppercase; letter-spacing: 2px; color: #8a6d10; }                                                         /* label: gold */
 
@@ -218,6 +221,7 @@
           '<div class="frame-corner frame-corner--tr"></div>' +
           '<div class="frame-corner frame-corner--bl"></div>' +
           '<div class="frame-corner frame-corner--br"></div>' +
+          '<div class="cert-watermark" aria-hidden="true"><img src="logo.png" alt=""></div>' +
           '<div class="cert-inner">' +
             '<div class="cert-topmark">' + sealSvg(data.number) + '</div>' +
             '<div class="cert-top">' +
@@ -225,7 +229,7 @@
             '<div class="cert-rule"></div>' +
             '<div class="cert-lead">This is to certify that</div>' +
             '<div class="cert-name">' + escapeHtml(data.name) + '</div>' +
-            '<div class="cert-body">having demonstrated mastery of collective intelligence and the disciplined application of the Strategy2Results® (S2R®) methodology across the full programme of behavioural strategy and leadership, is hereby conferred the credential of</div>' +
+            '<div class="cert-body">having demonstrated disciplined application of the DIG Framework in the Strategy2Results® Programme, is hereby conferred the credential of</div>' +
             '<div class="cert-credential">Certified Enterprise Strategy Integrator</div>' +
             levelBlock +
             '</div>' +                                                  /* close .cert-top */
@@ -245,7 +249,7 @@
                   '<div class="sig-title">Chairman of the Board</div>' +
                 '</div>' +
               '</div>' +
-              '<div class="cert-footer"><span class="foot-label">Date of issue</span> ' + escapeHtml(fmtDate(data.issuedAt)) + '</div>' +
+              '<div class="cert-footer"><span class="foot-label">Participant No.</span> ' + escapeHtml(data.number) + ' &nbsp;·&nbsp; <span class="foot-label">Date of issue</span> ' + escapeHtml(fmtDate(data.issuedAt)) + '</div>' +
             '</div>' +                                                  /* close .cert-bottom */
           '</div>' +
         '</div>' +

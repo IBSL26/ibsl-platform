@@ -56,6 +56,7 @@
     <div class="kicker">Participant profile</div>
     <h1 id="who">My profile</h1>
     <div class="sub" id="group"></div>
+    <div class="sub" id="pnum" hidden></div>
     <div id="load" class="sub">Loading…</div>
     <div id="form" hidden>
       <label class="nm">Passport photo</label>
@@ -180,6 +181,10 @@
     $('load').hidden = true; $('form').hidden = false;
     $('who').textContent = P.full_name || 'My profile';
     $('group').textContent = 'CESI Company Name: ' + (P.team_name || 'shows here once the IBSL team has placed you in a group');
+    try {
+      var pn = await sb.from('profiles').select('participant_number').eq('id', uid).maybeSingle();
+      if (pn && !pn.error && pn.data && pn.data.participant_number) { $('pnum').textContent = 'Participant No.: ' + pn.data.participant_number; $('pnum').hidden = false; }
+    } catch (e) { console.error('[profile] participant number:', e); }
     $('bio').value = P.bio || '';
     syncCount(); fillRoles();
     var urls = await signed([P.photo_path].concat((P.members || []).map(function (m) { return m.photo_path; })));

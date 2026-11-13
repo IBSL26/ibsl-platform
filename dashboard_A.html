@@ -4234,7 +4234,8 @@
       const email = escapeHtml(p.email || '');
       const org = p.organisation_name ? escapeHtml(p.organisation_name) : '—';
       const suspendedTag = p.suspended ? '<span class="people-list__suspended">Suspended</span>' : '';
-      const meta = `${email}${org !== '—' ? ' · ' + org : ''} · joined ${fmtDayFull(p.joined_at ? p.joined_at.slice(0, 10) : null)}`;
+      const pnum = (role === 'participant' && p.participant_number) ? 'No. ' + escapeHtml(p.participant_number) + ' · ' : '';
+      const meta = `${pnum}${email}${org !== '—' ? ' · ' + org : ''} · joined ${fmtDayFull(p.joined_at ? p.joined_at.slice(0, 10) : null)}`;
 
       let roleBadge = '';
       if (role === 'facilitator') {
@@ -4468,6 +4469,19 @@
           renderCohortDetail();
           return;
         }
+        // Participant numbers from profiles (best-effort; the list still shows without them).
+        try {
+          const ids = ((data && data.participants) || []).map(x => x.profile_id || x.id).filter(Boolean);
+          if (ids.length) {
+            const pn = await sb.from('profiles').select('id, participant_number').in('id', ids);
+            if (pn && !pn.error && pn.data) {
+              const byId = {};
+              pn.data.forEach(r => { byId[r.id] = r.participant_number; });
+              data.participants.forEach(x => { const n = byId[x.profile_id || x.id]; if (n) x.participant_number = n; });
+            }
+          }
+        } catch (pnErr) { console.error('[cohort detail] participant numbers:', pnErr); }
+        if (cohortDetailState.currentId !== cohortId) return;
         cohortDetailState.data = data;
         renderCohortDetail();
       } catch (e) {
@@ -6430,10 +6444,19 @@
         }
         const u = detail.user;
         userEditFormState.prefill = u;
+        // Participant number (on the profile; used on the certificate).
+        let pnum = '';
+        try {
+          const pn = await sb.from('profiles').select('participant_number').eq('id', userId).maybeSingle();
+          if (pn && !pn.error && pn.data && pn.data.participant_number) pnum = pn.data.participant_number;
+        } catch (pnErr) { console.error('[user edit] participant number:', pnErr); }
+        if (userEditFormState.userId !== userId) return;
+        u.participant_number = pnum;
         userEditFormState.values = {
-          full_name:       u.full_name || '',
-          role:            u.role,
-          organisation_id: u.organisation_id || null,
+          full_name:          u.full_name || '',
+          role:               u.role,
+          organisation_id:    u.organisation_id || null,
+          participant_number: pnum,
         };
         userEditFormState.hasActiveCohorts = (detail.cohort_memberships || [])
           .some(m => m.cohort_archived_at === null);
@@ -6540,6 +6563,14 @@
             ${errMsg('role')}
           </div>
 
+          ${v.role === 'participant' ? `
+          <div class="form-row ${errClass('participant_number')}">
+            <label class="form-label" for="userEditFieldPnum">Participant No.</label>
+            <input class="form-input" id="userEditFieldPnum" name="participant_number" type="text" maxlength="40" value="${escapeHtml(v.participant_number || '')}" autocomplete="off" placeholder="e.g. T.D2026-33">
+            <div class="form-help">The Candidate ID from the registration tracker. It prints on the participant's certificate and shows on their profile.</div>
+            ${errMsg('participant_number')}
+          </div>` : ''}
+
           <div class="form-row ${errClass('organisation_id')}">
             <label class="form-label" for="userEditFieldOrg">Organisation</label>
             <select class="form-select" id="userEditFieldOrg" name="organisation_id">
@@ -6593,6 +6624,14 @@
       // Live input updates (no full re-render to preserve cursor)
       modal.addEventListener('input', (e) => {
         const t = e.target;
+        if (t.id === 'userEditFieldPnum') {
+          userEditFormState.values.participant_number = t.value;
+          if (userEditFormState.errors.participant_number) {
+            delete userEditFormState.errors.participant_number;
+            const row = t.closest('.form-row');
+            if (row) row.classList.remove('form-row--error');
+          }
+        }
         if (t.id === 'userEditFieldName') {
           userEditFormState.values.full_name = t.value;
           if (userEditFormState.errors.full_name) {
@@ -6635,6 +6674,11 @@
       if (!['admin','facilitator','participant'].includes(v.role)) {
         errors.role = 'Invalid role.';
       }
+      const trimmedPnum = (v.participant_number || '').trim();
+      if (trimmedPnum.length > 40) {
+        errors.participant_number = 'Participant No. must be 40 characters or fewer.';
+      }
+      const pnumChanged = v.role === 'participant' && trimmedPnum !== (u.participant_number || '');
       if (Object.keys(errors).length > 0) {
         userEditFormState.errors = errors;
         renderUserEditForm();
@@ -6645,7 +6689,8 @@
       const noChange =
         trimmedName === (u.full_name || '') &&
         v.role === u.role &&
-        (v.organisation_id || null) === (u.organisation_id || null);
+        (v.organisation_id || null) === (u.organisation_id || null) &&
+        !pnumChanged;
       if (noChange) {
         closeUserEditModal();
         return;
@@ -6668,6 +6713,20 @@
           userEditFormState.serverError = error.message || 'Save failed.';
           renderUserEditForm();
           return;
+        }
+
+        if (pnumChanged) {
+          const pres = await sb.rpc('admin_set_participant_number', { p_user_id: u.id, p_number: trimmedPnum });
+          if (pres.error) {
+            userEditFormState.submitting = false;
+            const msg = pres.error.message || '';
+            userEditFormState.errors = { participant_number: msg.includes('number_taken')
+              ? 'Another participant already has this number.'
+              : (msg || 'The Participant No. could not be saved.') };
+            renderUserEditForm();
+            return;
+          }
+          u.participant_number = trimmedPnum;
         }
 
         // Success path
