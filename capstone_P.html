@@ -102,6 +102,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .bt th,.bt td{text-align:left;vertical-align:top;padding:7px 10px;border:1px solid rgba(255,255,255,.08);}
 .bt-kv th{width:30%;font-weight:600;color:rgba(201,168,76,.9);background:rgba(201,168,76,.05);}
 .bt-kv tr.sub th{padding-left:22px;font-weight:500;color:rgba(255,255,255,.6);}
+.bt-kv tr.mbt th,.bt-kv tr.mbt td{background:rgba(201,168,76,.12);color:#fff;font-weight:600;border-left:3px solid var(--gold);}
 .bt-grid thead th{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.08);}
 .bt-grid tbody th{font-weight:600;color:rgba(255,255,255,.9);}
 .bt-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:12px 0 6px;}
@@ -204,6 +205,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   .bt tr{break-inside:avoid;}
   .bt-kv th{background:#f1f5f0 !important;color:#12301c !important;width:30%;}
   .bt-kv tr.sub th{background:#fafbf9 !important;color:#3d4a42 !important;}
+  .bt-kv tr.mbt th,.bt-kv tr.mbt td{background:#f7f3e6 !important;color:#12301c !important;font-weight:700;}
   .bt-grid thead th{background:#1A5C2C !important;color:#fff !important;font-size:8pt;}
   .bt-grid tbody th{background:#f1f5f0 !important;color:#12301c !important;}
   .bt-h{color:#a8862f !important;font-size:8.5pt;margin:10px 0 4px;break-after:avoid;}
@@ -321,12 +323,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       ['3F','Key Results','For each Objective, its Key Results, with the roles that contribute to each Key Result.']
     ]},
     { key:'u4', unit:4, title:'Direction Integrity (ABCV-MBT)', boxes:[
-      ['4A','Arena','The functional, experiential and consequential outcome our customers pursue, and the Must-Be-True condition our strategy depends on.'],
-      ['4B','Boundaries','The regulatory, structural and behavioural constraints on our strategy, and the Must-Be-True condition on each.'],
-      ['4C','Competition','Every meaningful alternative available to our customers, including those outside our industry, and the Must-Be-True condition on our competitive landscape.'],
-      ['4D','Value Proposition','The combination of choices that gives us a defensible advantage, what we will not do, and the Must-Be-True condition that protects it.'],
-      ['4E','Accountability Assignment','For each critical Must-Be-True condition, the executive among us accountable for verifying it, the evidence required and the date.'],
-      ['4F','Executive blind spots','The checkpoint we as an executive team are most likely to overlook, and the enterprise risk if we do.']
+      ['4A','Step 1 · Arena','For each of our Objectives: the functional, experiential and consequential outcome our customers pursue, and the Must-Be-True condition the Objective depends on.'],
+      ['4B','Step 2 · Boundaries','For each of our Objectives: the conditions that could slow, restrict or prevent its delivery, and the Must-Be-True condition on them.'],
+      ['4C','Step 3 · Competition','For each of our Objectives: every meaningful alternative available to our customers, including those outside our industry, and the Must-Be-True condition on our advantage.'],
+      ['4D','Step 4 · Value Proposition','For each of our Objectives: why customers will choose us, tested as relevant, distinctive and deliverable, and the Must-Be-True condition that protects it.'],
+      ['4E','Step 5 · Accountability Assignment','For each critical Must-Be-True condition of our Objectives: the executive among us accountable for verifying it, the evidence required and the date of the first check.'],
+      ['4F','Step 6 · Executive blind spot','The checkpoint we as an executive team are most likely to overlook, and the enterprise risk if we do.']
     ]},
     { key:'u5', unit:5, title:'Aligning Heart & Mind', boxes:[
       ['5A','Team behavioural profile','The two OCEAVL dimensions on which our team profile carries the highest risk for the strategy, and our response to each.'],
@@ -490,7 +492,44 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   // Each Key Result, contribution, response, intervention and norm starts its own table; an Objective is a heading.
   // === Unit 1 boxes laid out for the assessor (9 Nov 2026). Returns null when the text has another shape, and fmtBox then lays it out. The team's words are not changed. ===
   function starText(s){ return esc(s).replace(/\*([^*]+)\*/g, '<strong>$1</strong>').replace(/\s*\*\s*$/, '').replace(/^\*\s*/, ''); }
+  // === Unit 4 boxes (13 Nov 2026): one table per Objective, so the four ABCV steps read the same way in every box. ===
+  function fmtU4(key, raw){
+    var e = starText, OBJ = /^Objective\s+(\d+):\s*(.+)$/, KV = /^([^:]{1,60}?):\s*(.*)$/;
+    var blocks = [], cur = [];
+    String(raw).replace(/\r/g, '').split('\n').forEach(function(l){ if (!l.trim()){ if (cur.length){ blocks.push(cur); cur = []; } } else cur.push(l); });
+    if (cur.length) blocks.push(cur);
+    if (!blocks.length) return null;
+    var head = function(m){ return '<div class="bt-h">Objective ' + e(m[1]) + ' · ' + e(m[2]) + '</div>'; };
+    if (key === '4E'){
+      var html = '', rows = [], cols = null, ok = true;
+      var flush = function(){ if (rows.length){ html += '<table class="bt bt-grid"><thead><tr><th>Checkpoint</th><th>Must-Be-True</th>' + cols.map(function(c){ return '<th>' + e(c) + '</th>'; }).join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>'; rows = []; } };
+      blocks.forEach(function(b){
+        var m = b.length === 1 && b[0].trim().match(OBJ);
+        if (m){ flush(); html += head(m); return; }
+        var t = b[0].trim().match(/^(.+?)\s+·\s+Must-Be-True:\s*(.*)$/);
+        var kv = b.slice(1).map(function(l){ return l.trim().match(KV); });
+        if (!t || !kv.length || kv.some(function(x){ return !x; })){ ok = false; return; }
+        if (!cols) cols = kv.map(function(x){ return x[1]; });
+        rows.push('<tr><th class="bt-w1">' + e(t[1]) + '</th><td>' + e(t[2]) + '</td>' + kv.map(function(x){ return '<td>' + e(x[2]) + '</td>'; }).join('') + '</tr>');
+      });
+      flush();
+      return ok && html ? html : null;
+    }
+    if (['4A','4B','4C','4D'].indexOf(key) < 0) return null;
+    var out = '';
+    for (var i = 0; i < blocks.length; i++){
+      var b = blocks[i], m = b[0].trim().match(OBJ);
+      if (!m) return null;
+      var trs = b.slice(1).map(function(l){ var x = l.trim().match(KV); if (!x) return null;
+        var mbt = /^must-be-true$/i.test(x[1].trim());
+        return '<tr' + (mbt ? ' class="mbt"' : '') + '><th>' + e(x[1]) + '</th><td>' + (x[2].trim() ? e(x[2]) : '—') + '</td></tr>'; });
+      if (!trs.length || trs.some(function(x){ return !x; })) return null;
+      out += head(m) + '<table class="bt bt-kv"><tbody>' + trs.join('') + '</tbody></table>';
+    }
+    return out;
+  }
   function fmtU1(key, raw, content){
+    if (/^4[A-E]$/.test(key)) return fmtU4(key, raw);
     if (['1B','1C','1D','1E','1F','1G'].indexOf(key) < 0) return null;
     var e = starText;
     var lines = String(raw).replace(/\r/g, '').split('\n').map(function(l){ return l.trim(); }).filter(Boolean);
