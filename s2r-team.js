@@ -46,8 +46,12 @@
     '.tw-stand textarea{width:100%;min-height:110px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.14);border-radius:3px;color:#fff;font-family:inherit;font-size:13px;line-height:1.6;padding:10px 12px;resize:vertical;}'+
     '.tw-stand textarea[disabled]{opacity:.85;}'+
     '.tw-stand-n{font-size:11px;color:rgba(255,255,255,.55);margin-top:6px;}'+
-    '.tw-stand-n.over{color:#e8a598;font-weight:600;}';
-  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:'',cur:null};
+    '.tw-stand-n.over{color:#e8a598;font-weight:600;}'+
+    '.tw-live{margin-top:12px;border-left:3px solid #5ecba1;background:rgba(94,203,161,.06);border-radius:2px;padding:10px 14px;}'+
+    '.tw-live-h{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#5ecba1;margin-bottom:6px;}'+
+    '.tw-live-w{font-size:12px;color:rgba(255,255,255,.75);font-weight:600;margin-bottom:6px;}'+
+    '.tw-live-t{font-size:13px;line-height:1.65;color:#fff;white-space:pre-wrap;max-height:220px;overflow:auto;}';
+  var T={cfg:null,st:null,ctx:null,q:{},timer:null,busy:false,poll:null,obs:null,msg:'',stand:'',cur:null,live:null,noLive:false};
   /* 13 Nov 2026: the stored group values. A save that matches what is stored is skipped, so reopening a page
      or moving between steps does not count as a change and does not clear the members' agreement. */
   function canon(v){if(Array.isArray(v))return '['+v.map(canon).join(',')+']';if(v&&typeof v==='object')return '{'+Object.keys(v).sort().map(function(k){return JSON.stringify(k)+':'+canon(v[k]);}).join(',')+'}';return JSON.stringify(v===undefined?null:v);}
@@ -80,6 +84,52 @@
     var c=client();if(!c)return null;
     try{var r=await c.rpc(name,args);if(r.error){console.error('[S2RTeam] '+name,r.error);return null;}return r.data;}
     catch(e){console.error('[S2RTeam] '+name,e);return null;}
+  }
+  /* 14 Nov 2026: members follow the scribe live. The scribe's page reports where the scribe is writing and the
+     latest text (team_work_live); every member's group bar shows it. A redraw from the group record keeps each
+     member's open sections and place on the page. */
+  function clip(t,n){t=String(t||'').replace(/\s+/g,' ').trim();return t.length>n?t.slice(0,n-1)+'…':t;}
+  function inRoots(f){return (T.cfg&&T.cfg.lock||[]).some(function(id){var r=el(id);return r&&r.contains(f);});}
+  function labelOf(f){
+    if(f.id){var l=document.querySelector('label[for="'+(window.CSS&&CSS.escape?CSS.escape(f.id):f.id)+'"]');if(l&&clip(l.textContent,200))return clip(l.textContent,200);}
+    if(f.getAttribute('aria-label'))return clip(f.getAttribute('aria-label'),200);
+    var p=f.parentElement;
+    for(var i=0;i<7&&p;i++){
+      var c=[].slice.call(p.querySelectorAll('label,summary,h3,h4,.u2-q,.pc-q,.pc-qh,.pc-step-h,b,strong')).filter(function(h){return !h.contains(f)&&(h.compareDocumentPosition(f)&4)&&clip(h.textContent,200);});
+      if(c.length)return clip(c[c.length-1].textContent,200);
+      p=p.parentElement;
+    }
+    return clip(f.getAttribute('placeholder'),200);
+  }
+  function whereOf(f){
+    var root=null;(T.cfg.lock||[]).forEach(function(id){var r=el(id);if(r&&r.contains(f))root=r;});
+    var tab=root&&root.querySelector('.step-tab.active,.pc-tab.on,.pc-tab.active,.tab-btn.active,.tab.active');
+    return tab?clip([].map.call(tab.childNodes,function(n){return n.textContent;}).join(' '),90):'';
+  }
+  function noteInput(ev){
+    var f=ev.target;if(!f||!isScribe()||!/^(TEXTAREA|INPUT|SELECT)$/.test(f.tagName)||!inRoots(f))return;
+    var v=f.type==='checkbox'||f.type==='radio'?((f.checked?'Ticked: ':'Unticked: ')+labelOf(f)):(f.tagName==='SELECT'?(f.options[f.selectedIndex]?f.options[f.selectedIndex].text:''):f.value);
+    T.live={where:whereOf(f),label:labelOf(f),text:String(v||'').slice(0,1500)};
+  }
+  async function sendLive(){
+    if(T.noLive||!T.live||!isScribe())return;
+    var c=client();if(!c)return;
+    try{var r=await c.rpc('team_work_live',{p_cohort_id:T.ctx.cohortId,p_lens_id:T.cfg.lens,p_live:T.live});
+      if(r.error&&(r.error.code==='PGRST202'||/function/i.test(r.error.message||'')))T.noLive=true;}catch(e){}
+  }
+  function vkey(e){var h=e.tagName==='DETAILS'?e.querySelector('summary'):e.firstElementChild;return e.tagName+'|'+String(e.className||'').replace(/\bopen\b/g,'').replace(/\s+/g,' ').trim()+'|'+clip(h?h.textContent:'',80);}
+  function toggles(r){return [].slice.call(r.querySelectorAll('details,.open')).concat([].slice.call(r.querySelectorAll('[onclick*="toggle"]')).map(function(h){return h.parentElement;}).filter(function(x){return x&&x!==r;}));}
+  function snapView(){
+    var s={y:window.scrollY,k:{}};
+    toggles(document.body).forEach(function(e){var k=vkey(e);(s.k[k]=s.k[k]||[]).push(e.tagName==='DETAILS'?e.open:e.classList.contains('open'));});
+    return s;
+  }
+  function restoreView(s){
+    if(!s)return;
+    var n={};
+    toggles(document.body).forEach(function(e){var k=vkey(e),a=s.k[k];if(!a)return;var i=n[k]=(n[k]||0);n[k]++;if(i>=a.length)return;
+      if(e.tagName==='DETAILS'){if(e.open!==a[i])e.open=a[i];}else if(e.classList.contains('open')!==a[i])e.classList.toggle('open',a[i]);});
+    window.scrollTo(0,s.y);
   }
   function isScribe(){return !!(T.st&&T.st.team_id&&T.st.scribe_id&&T.st.scribe_id===T.st.me);}
   function meAgreed(){if(!T.st||!T.st.members)return false;var m=T.st.members.find(function(x){return x.profile_id===T.st.me;});return !!(m&&m.agreed);}
@@ -139,6 +189,12 @@
       else note+='<div class="tw-note">Read your group\'s record. When it says what your group agreed, select Agree.</div>';
     }
     if(T.msg)note+='<div class="tw-note warn">'+esc(T.msg)+'</div>';
+    var lv=st.live,lt=lv&&lv.at?Date.parse(lv.at):0;
+    if(!isScribe()&&st.scribe_id&&!st.all_agreed&&lv&&lv.text&&lt&&Date.now()-lt<15*60*1000){
+      note+='<div class="tw-live"><div class="tw-live-h">'+esc(nameOf(st.scribe_id)||'The scribe')+' is writing now</div>'+
+        ((lv.where||lv.label)?'<div class="tw-live-w">'+esc([lv.where,lv.label].filter(Boolean).join(' · '))+'</div>':'')+
+        '<div class="tw-live-t">'+esc(lv.text)+'</div></div>';
+    }
     host.innerHTML='<div class="tw-bar"><div class="tw-h">Group record'+(st.team_name?' · '+esc(st.team_name):'')+'</div>'+
       '<div class="tw-row"><label class="tw-lbl" for="twScribe">Scribe for this work</label><select class="tw-sel" id="twScribe" data-team-free onchange="S2RTeam.setScribe(this.value)">'+opts+'</select></div>'+
       '<div class="tw-chips">'+chips+'</div>'+
@@ -155,7 +211,9 @@
     if((pull||(changed&&!wasScribe))&&T.cfg.onRemote&&!Object.keys(T.q).length){
       var r={};try{r=await window.S2R.loadAll(T.cfg.lens);}catch(e){r={};}
       standSet(r);T.cur=r||{};
+      var view=(!pull&&!isScribe())?snapView():null;
       try{await T.cfg.onRemote(r);}catch(e){console.error('[S2RTeam] onRemote',e);}
+      if(view)restoreView(view);
     }
     draw();applyLock();standDraw();
   }
@@ -175,7 +233,7 @@
       if(Object.keys(T.q).length)T.timer=setTimeout(flush,4000);
       return false;
     }
-    T.msg='';
+    T.msg='';sendLive();
     if(T.cur)Object.keys(items).forEach(function(k){T.cur[k]=items[k];});
     if(T.st){T.st.version=r.version;T.st.all_agreed=false;(T.st.members||[]).forEach(function(m){m.agreed=false;});}
     draw();
@@ -193,10 +251,11 @@
       try{T.ctx=window.S2R?await window.S2R.context():null;}catch(e){T.ctx=null;}
       if(!T.ctx){var h=el(cfg.mount);if(h)h.innerHTML='';return;}
       watchLock();
+      if(!T.inputOn){T.inputOn=true;document.addEventListener('input',noteInput,true);document.addEventListener('change',noteInput,true);}
       if(cfg.stand){try{standSet(await window.S2R.loadAll(cfg.lens));}catch(e){}}
       try{T.cur=await window.S2R.loadAll(cfg.lens)||{};}catch(e){T.cur=null;}
       await refresh(false);
-      clearInterval(T.poll);T.poll=setInterval(function(){if(!T.busy&&!Object.keys(T.q).length)refresh(false);},8000);
+      clearInterval(T.poll);T.poll=setInterval(function(){if(!T.busy&&!Object.keys(T.q).length)refresh(false);},5000);
       window.addEventListener('beforeunload',function(){if(Object.keys(T.q).length)flush();});
     },
     save:function(key,value){
