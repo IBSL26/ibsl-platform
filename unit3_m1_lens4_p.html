@@ -464,6 +464,42 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
 .u5-s5-wc>div:last-child{border-left-color:var(--u5);color:#fff;}
 @media(max-width:700px){.u5-s5-wc{grid-template-columns:1fr;}}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+/* Readability and expand arrows (15 Nov 2026) */
+.sc-head{position:relative;padding-right:38px;}
+.sc-head::after{content:"";position:absolute;right:16px;top:20px;width:8px;height:8px;border-right:2px solid rgba(255,255,255,.75);border-bottom:2px solid rgba(255,255,255,.75);transform:rotate(-45deg);transition:transform .25s;}
+.sc-card.open .sc-head::after{transform:rotate(45deg);top:16px;}
+.unit-sub{font-size:11px;color:rgba(255,255,255,.6);}
+.mod-tab,.tab-btn{font-size:10.5px;}
+.acc-meta{font-size:11px;color:rgba(255,255,255,.55);}
+.p-arr,.ai-arr,.sum-arr{color:rgba(255,255,255,.6);}
+.sc-trigger{font-size:11px;}
+.sc-q{font-size:13px;color:rgba(255,255,255,.78);}
+.sc-rl,.ai-rl{font-size:10.5px;color:rgba(255,255,255,.6);}
+.sc-rt,.chg-grid .sc-rt{font-size:13px;color:rgba(255,255,255,.85);}
+.sc-impact,.sc-fac{font-size:12.5px;}
+.sc-fac{color:rgba(60,210,180,.95);}
+.ai-name{font-size:10.5px;color:rgba(255,255,255,.65);}
+.cm-name,.rl-title{font-size:10.5px;color:rgba(255,255,255,.68);}
+.wp-label,.wp-cell label{font-size:10.5px;color:rgba(255,255,255,.6);}
+.u5-from b,.u5-rec-s,.u5-lv-g b,.u5-ke-t b,p.u5-hot b,.u5-rt>b,.u5-s5-g b{font-size:10.5px;color:rgba(255,255,255,.65);}
+.u5-lv-c{font-size:12px;color:rgba(255,255,255,.65);}
+.u5-b,.u5-ke-h{font-size:11px;}
+.p-msg-time,.p-upload-list-size{color:rgba(255,255,255,.55);}
+.chg-job-label,.chg-table th,.chg-state-label{font-size:10.5px;}
+.chg-h{font-size:11px;}
+.chg-credit{font-size:12.5px;color:rgba(255,255,255,.65);}
+.ai-arr{font-size:0;width:8px;height:8px;margin-right:6px;border-right:2px solid rgba(255,255,255,.75);border-bottom:2px solid rgba(255,255,255,.75);transform:rotate(-45deg);transition:transform .25s;}
+.ai-card.open .ai-arr{transform:rotate(45deg);}
+.ai-rt{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;}
+.ai-ev{font-size:12.5px;color:rgba(120,220,170,.95);}
+.u5-fold{border:1px solid rgba(255,255,255,.1);border-radius:4px;margin:14px 0;background:rgba(255,255,255,.02);}
+.u5-fold>summary{list-style:none;cursor:pointer;position:relative;padding:13px 46px 13px 16px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teall);}
+.u5-fold>summary::-webkit-details-marker{display:none;}
+.u5-fold>summary::after{content:"";position:absolute;right:18px;top:17px;width:8px;height:8px;border-right:2px solid rgba(255,255,255,.75);border-bottom:2px solid rgba(255,255,255,.75);transform:rotate(-45deg);transition:transform .25s;}
+.u5-fold[open]>summary::after{transform:rotate(45deg);top:14px;}
+.u5-fold[open]>summary{border-bottom:1px solid rgba(255,255,255,.08);}
+.u5-fold-b{padding:12px 16px 4px;}
+.u5-fold-b>.u5-applied:first-child{margin-top:0;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="5"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m1_lens4"></script>
@@ -670,11 +706,12 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
   <p>1.1 showed that strategy reaches people through two filters, Mind and Heart. 1.2 showed that alignment has to be designed, that human reactions to it are predictable and that it becomes visible in behaviour.</p>
   <p>Every Objective and Key Result your team sets asks people to work differently: some practices must start and others must stop. This is where alignment is most often lost. People who accepted the direction in principle now meet it in their own work, and the two filters decide whether they take it up. Change management is how you design alignment at this point. It turns the principles of 1.2 into four checks, each with one tool, that carry people from understanding the direction to living it in their daily work. Two of the tools you have already met: SCARF (Principle 4) and ACE-IT (Principle 5).</p>
   <div class="chg-def">Change management is the leadership discipline of moving people from current practice to the practice the strategy requires.</div>
-  <h4>The event and the transition</h4>
+  <details class="u5-fold"><summary>The event and the transition</summary><div class="u5-fold-b">
   <p>A change is an event. It is announced on a date, and on that date the structure, the system or the target is different. Announcing new Objectives and Key Results is one example of such an event. The transition is what each affected person goes through afterwards: letting go of a familiar practice, working out what the new one asks of them, and becoming able to do it. <strong>The event belongs to the organisation. The transition belongs to the person.</strong></p>
   <p>Consider how this can play out with a strategy. Your leadership team debates the direction for months before announcing it, as your team did in setting its Objectives and Key Results across Units 2 to 4. By the day of the announcement, you have worked through your own questions, settled your doubts and accepted what the direction asks of the organisation. For you, the transition is largely complete. For the people who will carry the Objectives, it begins on that day: they are hearing the direction for the first time and still have to work out what it means for their own work.</p>
   <p>This difference in timing often explains the friction that follows an announcement. Leaders who are already convinced can grow impatient that people are not moving faster. People who are still making sense of the change can read that impatience as pressure and respond with resistance. Change management is the work of leading people across that gap, so that the direction set by the leadership team becomes practice in daily work.</p>
-  <h4>The 4 Checks of Mind, Heart, Hands and Habit</h4>
+  </div></details>
+  <details class="u5-fold"><summary>The 4 Checks of Mind, Heart, Hands and Habit</summary><div class="u5-fold-b">
   <p>A change is adopted when it passes four checks for the people it affects. For example, a Key Result that depends on a new way of serving customers moves only as fast as the people serving customers adopt that practice. Mind and Heart are the two filters from 1.1. Hands and Habit extend the same path to the point where the new practice is real. Each check asks one question and has one tool. Expand each check.</p>
   <div class="principle-stack">
     <div class="p-card open" onclick="toggleP(this)">
@@ -714,7 +751,8 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       </div>
     </div>
   </div>
-  <h4>Why the order matters</h4>
+  </div></details>
+  <details class="u5-fold"><summary>Why the order matters</summary><div class="u5-fold-b">
   <p>Each check depends on the one before it. A person cannot want a change they have misread. They will not perform a change they do not want, and skill offered to an unwilling person is left unused. A practice cannot become habit while most people are unable to perform it.</p>
   <p>The practical rule follows. <strong>A change stalls at the first check it fails, and that check is where your effort belongs.</strong> Effort spent further along the path is lost.</p>
   <ul>
@@ -722,7 +760,8 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
     <li>A team that wants a change and has no authority to act has stalled at Hands. More encouragement will not move it.</li>
     <li>A team that did it well for a month and drifted back has stalled at Habit. A relaunch will not hold it.</li>
   </ul>
-  <h4>Your four jobs as leader</h4>
+  </div></details>
+  <details class="u5-fold"><summary>Your four jobs as leader</summary><div class="u5-fold-b">
   <p>Leading the transition means doing one job at each check. Each job is taught with its tool in the four parts that follow.</p>
   <div class="chg-wrap"><table class="chg-table">
     <tr><th>Check</th><th>Tool</th><th>Your job</th><th>Complete when</th></tr>
@@ -732,8 +771,11 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
     <tr><td>Habit</td><td>ACE-IT</td><td>Reinforce</td><td>The practice holds through a full review period with you absent.</td></tr>
   </table></div>
   <p class="chg-credit">Industry parallel: the Prosci ADKAR&reg; Model (Awareness, Desire, Knowledge, Ability, Reinforcement).</p>
-  <div class="u5-applied"><p><strong>Applied to the direction set:</strong> Each new practice your Objectives and Key Results ask of people has to pass the four checks for every group it touches before the Key Result it serves can move.</p></div>
+  </div></details>
+  <details class="u5-fold"><summary>Applied to the direction set</summary><div class="u5-fold-b">
+  <div class="u5-applied"><p>Each new practice your Objectives and Key Results ask of people has to pass the four checks for every group it touches before the Key Result it serves can move.</p></div>
   <div class="p-insight">&#10148; Insight: For the last change you announced, which check has it reached today? If you cannot name the check, the change has been announced and left to chance.</div>
+  </div></details>
 </div>
 </div>
 
@@ -775,20 +817,16 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       <div class="sc-body">
         <div class="sc-row"><div class="sc-rl">What It Is</div><div class="sc-rt">The Step is the person&rsquo;s own part, said in the first person and small enough to do next week. Each affected role needs its own. Without a Step, people understand the change as something that will happen to others.</div></div>
         <div class="sc-row"><div class="sc-rl">Weak</div><div class="sc-rt">&ldquo;Embrace the new process.&rdquo;</div></div>
-        <div class="sc-row"><div class="sc-rl">Clear</div><div class="sc-rt">&ldquo;I decide on the call, within my limit.&rdquo;</div></div>
+        <div class="sc-row"><div class="sc-rl">Clear</div><div class="sc-rt">&ldquo;When a customer complains, I resolve it on that call, within my approval limit.&rdquo;</div></div>
         <div class="sc-row"><div class="sc-rl">Shows Up As</div><div class="sc-rt">&ldquo;I am waiting to be told&rdquo; &bull; People agree with the change and carry on as before</div></div>
         <div class="sc-impact">&#9888; Execution: Agreement without movement. The change is endorsed in meetings and absent from daily work.</div>
         <div class="sc-fac">&#10148; Your move: Give each affected role its own Step, and ask people to say it back.</div>
       </div>
     </div>
   </div>
-  <div class="chg-job"><div class="chg-job-label">Your job at this check &middot; Mind &mdash; Explain</div>
-    <p><strong>The job:</strong> give people a version of the change they can repeat. Use the same Shift, Stake and Step, in the same words, in every forum, until people can say them back.</p>
-    <p><strong>Complete when:</strong> three people from the affected group give the same Shift, Stake and Step.</p>
-    <p><strong>Sounds like:</strong> <em>&ldquo;From March, complaints are resolved on the first call. We are losing customers who wait two days for an answer. Your part is to decide on the call, within your limit.&rdquo;</em></p>
-    <p><strong>&#9888; When skipped:</strong> people fill the gap with their own version, and leadership time goes on re-explaining the change (Clarification Debt).</p>
-  </div>
-  <div class="u5-applied"><p><strong>Applied to the direction set:</strong> A worked example on one Key Result.</p><p style="margin-top:8px;"><strong>Objective:</strong> Keep the customers we are losing to slow service.<br><strong>Key Result:</strong> Raise first-call resolution from 60% to 85% by December.</p><ul><li><strong>Shift:</strong> From March, agents resolve complaints on the first call. Passing complaints to a supervisor stops.</li><li><strong>Stake:</strong> Meeting the Key Result keeps the customers who now leave after a two-day wait. If we stay as we are, we keep losing them.</li><li><strong>Step (agent):</strong> &ldquo;I decide on the call, within my limit.&rdquo;</li><li><strong>Step (supervisor):</strong> &ldquo;I coach agents on the calls they could not close, and I stop taking the handover.&rdquo;</li></ul><p style="margin-top:8px;">Every Key Result that asks people to work differently carries its own Shift, Stake and Step, with a Step for each affected role.</p></div>
+  <details class="u5-fold"><summary>Applied to the direction set</summary><div class="u5-fold-b">
+  <div class="u5-applied"><p>A worked example on one Key Result.</p><p style="margin-top:8px;"><strong>Objective:</strong> Keep the customers we are losing to slow service.<br><strong>Key Result:</strong> Raise first-call resolution from 60% to 85% by December.</p><ul><li><strong>Shift:</strong> From March, agents resolve complaints on the first call. Passing complaints to a supervisor stops.</li><li><strong>Stake:</strong> Meeting the Key Result keeps the customers who now leave after a two-day wait. If we stay as we are, we keep losing them.</li><li><strong>Step (agent):</strong> &ldquo;When a customer complains, I resolve it on that call. I approve the refund or credit myself, up to my limit, without asking a supervisor. I pass the call on only when the fix is above my limit.&rdquo;</li><li><strong>Step (supervisor):</strong> &ldquo;I stop taking over complaints from agents. Each day I go through the calls agents could not close and coach them, so they can resolve calls like those themselves next time.&rdquo;</li></ul><p style="margin-top:8px;">Every Key Result that asks people to work differently carries its own Shift, Stake and Step, with a Step for each affected role.</p></div>
+  </div></details>
 </div>
 </div>
 
@@ -852,14 +890,12 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       </div>
     </div>
   </div>
-  <div class="chg-job"><div class="chg-job-label">Your job at this check &middot; Heart &mdash; Involve</div>
-    <p><strong>The job:</strong> give people a hand in shaping how the change lands. You decide what changes, and they help shape how it is done. Name plainly what people give up, identify the threat they feel and apply its counter. Involve managers first, since they carry the change into every team.</p>
-    <p><strong>Why it works:</strong> a part in the decision answers each threat. Being consulted restores Status. Seeing the plan early restores Certainty. Choosing how restores Autonomy. Working on it together restores Relatedness. Hearing the reasons restores Fairness.</p>
-    <p><strong>Complete when:</strong> the people affected can point to a part of the change they shaped.</p>
-    <p><strong>Sounds like:</strong> <em>&ldquo;You know these calls better than I do. Where should the decision limit sit?&rdquo;</em></p>
-    <p><strong>&#9888; When skipped:</strong> Silent Disengagement. People comply, do the minimum and wait to be chased.</p>
-  </div>
-  <div class="u5-applied"><p><strong>Applied to the direction set:</strong> Each Key Result can threaten something different.</p><ul><li><strong>Status:</strong> a Key Result that exposes performance.</li><li><strong>Certainty:</strong> a new target or timeline.</li><li><strong>Autonomy:</strong> a Key Result that centralises decisions or adds reporting.</li><li><strong>Relatedness:</strong> a Key Result that cuts across functions.</li><li><strong>Fairness:</strong> a Key Result that loads some teams more than others.</li></ul><p style="margin-top:8px;">Before you cascade your Key Results, name the threat each one is most likely to raise, in which group, and plan its counter.</p></div>
+  <details class="u5-fold"><summary>Why involvement works</summary><div class="u5-fold-b">
+  <p>A part in the decision answers each threat. Being consulted restores Status. Seeing the plan early restores Certainty. Choosing how restores Autonomy. Working on it together restores Relatedness. Hearing the reasons restores Fairness.</p>
+  </div></details>
+  <details class="u5-fold"><summary>Applied to the direction set</summary><div class="u5-fold-b">
+  <div class="u5-applied"><p>Each Key Result can threaten something different.</p><ul><li><strong>Status:</strong> a Key Result that exposes performance.</li><li><strong>Certainty:</strong> a new target or timeline.</li><li><strong>Autonomy:</strong> a Key Result that centralises decisions or adds reporting.</li><li><strong>Relatedness:</strong> a Key Result that cuts across functions.</li><li><strong>Fairness:</strong> a Key Result that loads some teams more than others.</li></ul><p style="margin-top:8px;">Before you cascade your Key Results, name the threat each one is most likely to raise, in which group, and plan its counter.</p></div>
+  </div></details>
 </div>
 </div>
 
@@ -913,13 +949,9 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
     </div>
   </div>
   <p>One missing element is enough to stop people who understand and want the change. Training closes a Skill gap and leaves a Time, Authority or Tools gap where it was.</p>
-  <div class="chg-job"><div class="chg-job-label">Your job at this check &middot; Hands &mdash; Equip</div>
-    <p><strong>The job:</strong> make the new practice possible on an ordinary working day. Ask the people affected what is missing, supply it, and remove the old work, rules and approvals in the way.</p>
-    <p><strong>Complete when:</strong> a person can perform the new practice from start to finish without asking permission or using a workaround.</p>
-    <p><strong>Sounds like:</strong> <em>&ldquo;What do you need from me to do this on Monday?&rdquo;</em></p>
-    <p><strong>&#9888; When skipped:</strong> willing people fail, and their failure is read as resistance. Heart, which had passed, begins to fail as well.</p>
-  </div>
-  <div class="u5-applied"><p><strong>Applied to the direction set:</strong> Run the STAT Check on each new practice a Key Result asks of people, for every group that will carry it.</p><ul><li><strong>Skill:</strong> name the skill the practice needs and who must build it. Build it on real work before the first review of the Key Result.</li><li><strong>Time:</strong> take away the old practice it replaces. A new practice added with nothing removed competes with the old work, and the old work wins.</li><li><strong>Authority:</strong> state the decision limit the practice needs. The executive accountable for the Objective sets it openly and backs the first decisions made under it.</li><li><strong>Tools:</strong> confirm that the system people use every day supports the practice and records the Key Result. Where it still fits the old way, the work and the scorecard tell two different stories.</li></ul><p style="margin-top:8px;">A Key Result whose practice lacks one element falls behind, and the shortfall is read as poor performance.</p></div>
+  <details class="u5-fold"><summary>Applied to the direction set</summary><div class="u5-fold-b">
+  <div class="u5-applied"><p>Run the STAT Check on each new practice a Key Result asks of people, for every group that will carry it.</p><ul><li><strong>Skill:</strong> name the skill the practice needs and who must build it. Build it on real work before the first review of the Key Result.</li><li><strong>Time:</strong> take away the old practice it replaces. A new practice added with nothing removed competes with the old work, and the old work wins.</li><li><strong>Authority:</strong> state the decision limit the practice needs. The executive accountable for the Objective sets it openly and backs the first decisions made under it.</li><li><strong>Tools:</strong> confirm that the system people use every day supports the practice and records the Key Result. Where it still fits the old way, the work and the scorecard tell two different stories.</li></ul><p style="margin-top:8px;">A Key Result whose practice lacks one element falls behind, and the shortfall is read as poor performance.</p></div>
+  </div></details>
 </div>
 </div>
 
@@ -929,14 +961,22 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
   <div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Expand Each Behaviour</span><div class="arr"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div></div>
 </div>
 <div class="acc-b cb">
-  <p><strong>ACE-IT is the Habit check.</strong> A new practice becomes habit when it is repeated, noticed and expected. These five behaviours hold it in place after the launch has passed.</p>
+  <p><strong>ACE-IT is the Habit check.</strong> Many changes start well and fade in the months after launch, when attention moves to the next priority and the old way, which is quicker and familiar, comes back. Mind, Heart and Hands get people started on the new practice. Habit decides whether the practice is still there a year later. A new practice becomes habit when it is repeated, noticed and expected, and people judge whether a change is real by watching what you and your fellow leaders do once the launch has passed.</p>
+  <details class="u5-fold"><summary>Why ACE-IT is the tool for this check</summary><div class="u5-fold-b">
+  <p>Change management frameworks name reinforcement as the final stage of adoption; in ADKAR&reg; it is the R. ACE-IT turns reinforcement into five observable behaviours that anyone in the organisation can see and check at every review. Each behaviour closes one of the routes by which the old way returns:</p>
+  <ul><li><strong>Accountability</strong> closes the gap of a practice with no owner.</li><li><strong>Commitment</strong> closes the gap of a practice dropped under pressure.</li><li><strong>Engagement</strong> closes the gap of problems nobody raises.</li><li><strong>Integrity</strong> closes the gap of slips that are hidden.</li><li><strong>Transparency</strong> closes the gap of results nobody can see.</li></ul>
+  <p>ACE-IT is the S2R&reg; behavioural standard for strategic alignment, so the behaviours that land a change are the same as the behaviours your team states for its leadership in Section 5.</p>
+  </div></details>
   <div class="aceit-grid">
     <div class="ai-card" onclick="toggleAI(this)">
       <div class="ai-head"><div><div class="ai-letter" style="color:#8ab0e8;">A</div><div class="ai-name">Accountability</div></div><div class="ai-arr">&#9660;</div></div>
       <div class="ai-bar"></div>
       <div class="ai-body">
         <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Taking full ownership for results. Acknowledging missteps and driving corrective action.</div></div>
+        <div class="ai-row"><div class="ai-rl">In a change</div><div class="ai-rt">A new practice tends to belong to everyone, and so to no one. When it slips, nobody is asked about it, and the old way returns without anyone deciding it should. One named owner for each new practice gives the change a person who notices the first slip, asks why and acts on it.</div></div>
         <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Defines clear ownership &bull; Acknowledges missteps &bull; Holds self and others to measurable standards</div></div>
+        <div class="ai-row"><div class="ai-rl">In the worked example</div><div class="ai-rt">The contact-centre manager owns first-call resolution. Every week below target has a named owner, a reason and a fix by a date.</div></div>
+        <div class="ai-row"><div class="ai-rl">When it is missing</div><div class="ai-rt">The change has many supporters and no owner. Slips are discussed in general terms, and nothing is done about them.</div></div>
         <div class="ai-ev">&#10003; Observable: Commitments tracked &bull; Reviews end with named owners &bull; &ldquo;We missed it, here&rsquo;s the fix&rdquo; language common</div>
       </div>
     </div>
@@ -945,7 +985,10 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       <div class="ai-bar"></div>
       <div class="ai-body">
         <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Staying anchored to agreed strategic intent even when pressure rises. Following through despite discomfort.</div></div>
+        <div class="ai-row"><div class="ai-rl">In a change</div><div class="ai-rt">The new practice is slower than the old way until people are good at it. Its real test comes on the first busy day, when a deadline makes the old way tempting. When the practice is kept under pressure, people learn it is the standard. When it is suspended &ldquo;just this once&rdquo;, people learn it was optional, and the exception becomes the rule.</div></div>
         <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Aligns daily choices to long-term direction &bull; Protects priorities from noise &bull; Closes loops they open</div></div>
+        <div class="ai-row"><div class="ai-rl">In the worked example</div><div class="ai-rt">On a peak day the supervisor still hands unresolved calls back to the agent with coaching, and does not take them over to clear the queue.</div></div>
+        <div class="ai-row"><div class="ai-rl">When it is missing</div><div class="ai-rt">The practice holds in quiet weeks and disappears in busy ones.</div></div>
         <div class="ai-ev">&#10003; Observable: Strategic priorities stay consistent &bull; Leaders decline non-strategic work &bull; Promises kept visibly</div>
       </div>
     </div>
@@ -954,7 +997,10 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       <div class="ai-bar"></div>
       <div class="ai-body">
         <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Actively involving self and others in sense-making, dialogue, and execution. Listening to understand.</div></div>
+        <div class="ai-row"><div class="ai-rl">In a change</div><div class="ai-rt">The people doing the new practice see its problems first: the step that does not work, the case the design did not foresee. Regular two-way conversation brings these problems to the surface while they can still be fixed, before people quietly work around them. It also keeps the Heart check alive after launch: people who help improve a practice take ownership of it and defend it.</div></div>
         <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Invites participation and dissent &bull; Connects roles to purpose &bull; Creates two-way dialogue</div></div>
+        <div class="ai-row"><div class="ai-rl">In the worked example</div><div class="ai-rt">Agents bring the calls they could not close to a weekly huddle. The team uses them to adjust the approval limit and the call guide.</div></div>
+        <div class="ai-row"><div class="ai-rl">When it is missing</div><div class="ai-rt">People work around the practice in silence, and the problem shows up only in the results.</div></div>
         <div class="ai-ev">&#10003; Observable: Team meetings are two-way &bull; Feedback loops visible &bull; People quote the shared &ldquo;why&rdquo;</div>
       </div>
     </div>
@@ -963,7 +1009,10 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       <div class="ai-bar"></div>
       <div class="ai-body">
         <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Acting consistently with values, facts, and truth &mdash; even when inconvenient. Declaring conflicts of interest early.</div></div>
+        <div class="ai-row"><div class="ai-rl">In a change</div><div class="ai-rt">Early results of a change are often worse than the old way, and people are tempted to hide slips or report the practice as working when it is not. Integrity means reporting the practice as it actually runs, including your own slips, so the real problem is found and fixed early. If you ask for the new practice and keep the old one in your own work, you tell people the change is meant for others.</div></div>
         <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Says what is true, even when it is hard &bull; Uses data to support choices &bull; References values in trade-offs</div></div>
+        <div class="ai-row"><div class="ai-rl">In the worked example</div><div class="ai-rt">A supervisor who takes over a call reports it, with the reason. The reason is used to fix the approval limit or the training.</div></div>
+        <div class="ai-row"><div class="ai-rl">When it is missing</div><div class="ai-rt">Reports show the change working while the daily work shows the old way.</div></div>
         <div class="ai-ev">&#10003; Observable: Evidence cited before decisions &bull; Values referenced in hard choices &bull; Teams trust word matches deed</div>
       </div>
     </div>
@@ -972,28 +1021,28 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
       <div class="ai-bar"></div>
       <div class="ai-body">
         <div class="ai-row"><div class="ai-rl">Definition</div><div class="ai-rt">Making reasoning, progress, and constraints visible to all stakeholders. Sharing challenges openly.</div></div>
+        <div class="ai-row"><div class="ai-rl">In a change</div><div class="ai-rt">People keep a new practice when they can see that it is working. Making progress visible, including setbacks and the reason for any change of course, shows people that their effort is producing a result and leaves no gap for rumour to fill. It also shows every team where the practice is holding and where it needs help.</div></div>
         <div class="ai-row"><div class="ai-rl">Desired Behaviour</div><div class="ai-rt">Communicates decisions with rationale &bull; Documents choices and lessons &bull; Shares progress including setbacks</div></div>
+        <div class="ai-row"><div class="ai-rl">In the worked example</div><div class="ai-rt">First-call resolution is shown every week for each team, with the trend since March and the main reasons calls were not closed.</div></div>
+        <div class="ai-row"><div class="ai-rl">When it is missing</div><div class="ai-rt">People cannot tell whether the change is working, assume it is not, and their effort drops.</div></div>
         <div class="ai-ev">&#10003; Observable: Dashboards updated regularly &bull; Decisions logged and accessible &bull; &ldquo;No surprises&rdquo; culture evident</div>
       </div>
     </div>
   </div>
-  <h4>How ACE-IT holds a new practice</h4>
-  <p>Habit is the last check and the one to plan first: before the change starts, decide how the five behaviours will hold the new practice in place.</p>
-  <div class="chg-wrap"><table class="chg-table">
-    <tr><th>Behaviour</th><th>What it does for a new practice</th></tr>
-    <tr><td>Accountability</td><td>One named person owns the practice and its result.</td></tr>
-    <tr><td>Commitment</td><td>The practice is kept when pressure rises and the old way is quicker.</td></tr>
-    <tr><td>Engagement</td><td>People talk about how it is going and improve it together.</td></tr>
-    <tr><td>Integrity</td><td>Slips are reported as they are, and early.</td></tr>
-    <tr><td>Transparency</td><td>Its results are visible to everyone the change affects.</td></tr>
+  <details class="u5-fold"><summary>How to apply ACE-IT</summary><div class="u5-fold-b">
+  <p>You and your organisation decide what each of the five behaviours entails for the new practice. These definitions are independent of the organisation&rsquo;s stated values. They are specific to reinforcing the behaviour the change requires, so that performance is sustained. For each new practice, define each behaviour by deciding the following:</p>
+  <div class="chg-wrap"><table class="chg-table wide">
+    <tr><th>Behaviour</th><th>What to decide</th></tr>
+    <tr><td>Accountability</td><td>Who owns the practice and its result, and what the owner does when it slips.</td></tr>
+    <tr><td>Commitment</td><td>What must hold when pressure rises, and which work gives way so that it can.</td></tr>
+    <tr><td>Engagement</td><td>Where and how often the people doing the practice raise problems and improve it.</td></tr>
+    <tr><td>Integrity</td><td>How slips are reported, by whom and how early.</td></tr>
+    <tr><td>Transparency</td><td>Where the result is shown, how often and to whom.</td></tr>
   </table></div>
-  <div class="chg-job"><div class="chg-job-label">Your job at this check &middot; Habit &mdash; Reinforce</div>
-    <p><strong>The job:</strong> make the new practice the expected practice. Show it yourself first, recognise it by name when it happens and correct a slip early. Ask about it in every regular review: what you ask about, people repeat.</p>
-    <p><strong>Complete when:</strong> the practice holds through a full review period with you absent.</p>
-    <p><strong>Sounds like:</strong> <em>&ldquo;I saw you close that case on the call. That is the standard.&rdquo;</em></p>
-    <p><strong>&#9888; When skipped:</strong> the old way returns under the first pressure, and the organisation concludes that the change was a phase.</p>
-  </div>
-  <div class="u5-applied"><p><strong>Applied to the direction set:</strong> As a leader, you apply ACE-IT to your Objectives and Key Results in your own conduct and in every review.</p><ul><li><strong>Accountability:</strong> name one owner for each Key Result and the practice behind it, and close every review with the owner, the next action and the date.</li><li><strong>Commitment:</strong> hold the agreed Key Result targets and timelines when pressure rises, and decline work that serves none of the Objectives.</li><li><strong>Engagement:</strong> open each Key Result review with the people doing the work: what is helping, what is in the way, and what they would change.</li><li><strong>Integrity:</strong> report your own Key Results as they stand, with the evidence, including those that are behind.</li><li><strong>Transparency:</strong> keep progress on every Key Result visible to everyone whose work feeds it, and give the reason for any change to a priority or target.</li></ul></div>
+  </div></details>
+  <details class="u5-fold"><summary>Applied to the direction set</summary><div class="u5-fold-b">
+  <div class="u5-applied"><p>As a leader, you apply ACE-IT to your Objectives and Key Results in your own conduct and in every review.</p><ul><li><strong>Accountability:</strong> name one owner for each Key Result and the practice behind it, and close every review with the owner, the next action and the date.</li><li><strong>Commitment:</strong> hold the agreed Key Result targets and timelines when pressure rises, and decline work that serves none of the Objectives.</li><li><strong>Engagement:</strong> open each Key Result review with the people doing the work: what is helping, what is in the way, and what they would change.</li><li><strong>Integrity:</strong> report your own Key Results as they stand, with the evidence, including those that are behind.</li><li><strong>Transparency:</strong> keep progress on every Key Result visible to everyone whose work feeds it, and give the reason for any change to a priority or target.</li></ul></div>
+  </div></details>
 </div>
 </div>
 <div class="acc s2r-kr-acc">
@@ -1388,7 +1437,7 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
 <div class="u5-s5">
   <div class="u5-s5-h"><span class="u5-s5-n">Step</span><span class="u5-s5-q">&ldquo;What do I do differently?&rdquo;</span></div>
   <div class="u5-s5-g"><p><b>What it is</b>The Step is the person&rsquo;s own part, said in the first person and small enough to do next week. Each affected role needs its own. Without a Step, people understand the change as something that will happen to others.</p>
-  <div class="u5-s5-wc"><div><b>Weak</b>&ldquo;Embrace the new process.&rdquo;</div><div><b>Clear</b>&ldquo;I decide on the call, within my limit.&rdquo;</div></div>
+  <div class="u5-s5-wc"><div><b>Weak</b>&ldquo;Embrace the new process.&rdquo;</div><div><b>Clear</b>&ldquo;When a customer complains, I resolve it on that call, within my approval limit.&rdquo;</div></div>
   <p><b>Your move</b>Give each affected role its own Step, and ask people to say it back.</p></div>
   <label class="wp-label" for="s5_step">Your group&rsquo;s Step &middot; What must be done differently?</label>
   <textarea class="wp-ta" id="s5_step" placeholder="What each group affected does differently, said in the first person..." oninput="s5In('step',this.value)"></textarea>
