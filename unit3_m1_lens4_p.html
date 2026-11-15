@@ -444,6 +444,13 @@ p.u5-rl-k{font-size:12px!important;font-style:italic;color:rgba(255,255,255,.5)!
 p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
 @media(max-width:700px){.u5-two{grid-template-columns:1fr;}.u5-oc-r{flex-direction:column;align-items:stretch;gap:8px;}.u5-oc-r .u5-sel{flex:0 0 auto;width:100%;}}
 .u5-lv-g.u5-lv-g2{grid-template-columns:repeat(2,1fr);}
+.u5-sum{border:1px solid var(--u5-bd);border-left:3px solid var(--u5);background:var(--u5-bg);border-radius:0 4px 4px 0;padding:14px 16px;margin:0 0 14px;}
+.u5-sum-h{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--u5);margin:0 0 8px;}
+.u5-sum p{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin:0 0 8px;}
+.u5-sum ul{margin:0 0 8px;padding-left:20px;}
+.u5-sum li{font-size:13px;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:4px;}
+.u5-sum b,.u5-sum strong{color:#fff;}
+.u5-sum p.u5-sum-n{font-style:italic;color:rgba(255,255,255,.7);margin:0;}
 .u5-rt{margin-top:10px;font-size:12.5px;line-height:1.65;color:rgba(255,255,255,.72);background:rgba(255,255,255,.03);border-radius:3px;padding:9px 11px;}
 .u5-rt>b{display:block;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:4px;}
 .u5-rt ul{margin:0;padding-left:18px;}
@@ -2121,6 +2128,50 @@ async function u5Bring(manual){
 function ocBlank(){return OC.map(function(){return 0;});}
 function ocNorm(w){var a=ocBlank();if(w&&Array.isArray(w.s))OC.forEach(function(d,j){var v=parseInt(w.s[j],10);a[j]=(v>=1&&v<=5)?v:0;});return a;}
 function ocDone(){return U5.oc.every(function(v){return v>0;});}
+/* ── OCEAVL summaries (16 Nov 2026): a personal summary above the seven dimensions, and a team summary above the team profile. ──
+   Worked out from the scores already held; scoring, submitting and the team profile are unchanged. */
+function ocNames(a){return a.length?a.join(', '):'none';}
+function ocGlance(rows){var g={High:[],Balanced:[],Low:[]};rows.forEach(function(r){g[r.lv].push(r.name);});return g;}
+function ocPersonalSum(){
+  var P=ocMine().filter(function(x){return x;});if(P.length<OC.length)return null;
+  var g=ocGlance(P.map(function(x){return {name:x.d.name,lv:x.lv};}));
+  var tilt=P.filter(function(x){return x.lv!=='Balanced';}).sort(function(a,b){return Math.abs(b.v-3)-Math.abs(a.v-3);}).slice(0,2);
+  return {g:g,top:tilt};
+}
+function ocPersonalSumHtml(){
+  var S=ocPersonalSum();if(!S)return '<div class="u5-sum"><div class="u5-sum-h">Your profile summary</div><p>Your summary appears here once you have scored all seven dimensions.</p></div>';
+  var h='<div class="u5-sum"><div class="u5-sum-h">Your profile summary</div>'+
+    '<p><b>Your profile at a glance.</b> High: '+u5esc(ocNames(S.g.High))+'. Balanced: '+u5esc(ocNames(S.g.Balanced))+'. Low: '+u5esc(ocNames(S.g.Low))+'.</p>';
+  if(S.top.length){
+    h+='<p><b>Where your strategic risk is highest.</b> These are the two dimensions where you lean most strongly to one side: a score of 1 or 5 first, then 2 or 4. A strong lean shows up most often in how you work, especially under pressure, so these are the traits most likely to affect the strategy. Consider them first:</p><ul>'+S.top.map(function(x){return '<li><strong>'+u5esc(x.d.name)+' &middot; '+x.lv+' (score '+x.v+').</strong> '+u5esc(x.g.risk)+'</li>';}).join('')+'</ul>'+
+      '<p><b>Guardrails to start with.</b></p><ul>'+S.top.map(function(x){return '<li><strong>'+u5esc(x.d.name)+'.</strong> '+u5esc(x.g.resp)+'</li>';}).join('')+'</ul>'+
+      '<p class="u5-sum-n">You decide which dimension matters most for your own strategic contribution.</p>';
+  }else h+='<p><b>Where your strategic risk is highest.</b> All seven of your dimensions are Balanced. A Balanced level carries a strategic risk too: read the strategic risk on each dimension below and judge which matters most for your own strategic contribution.</p>';
+  return h+'</div>';
+}
+function ocPersonalSumText(){
+  var S=ocPersonalSum();if(!S)return '';
+  var t='PROFILE SUMMARY\nHigh: '+ocNames(S.g.High)+'. Balanced: '+ocNames(S.g.Balanced)+'. Low: '+ocNames(S.g.Low)+'.';
+  if(S.top.length)t+='\nWhere strategic risk is highest: '+S.top.map(function(x){return x.d.name+' ('+x.lv+', score '+x.v+'): '+x.g.risk+' Guardrail: '+x.g.resp;}).join(' | ');
+  else t+='\nAll seven dimensions are Balanced.';
+  return t+'\n\n';
+}
+function ocTeamSum(dims,names,lvOf){
+  var rows=dims.map(function(c,i){c=c||[0,0,0];var H=c[0],Bn=c[1],L=c[2],n=H+Bn+L,lv=(H>=Bn&&H>=L)?'High':((L>=Bn&&L>=H)?'Low':'Balanced');return {i:i,name:names[i],H:H,Bn:Bn,L:L,n:n,lv:lv};});
+  var split=rows.filter(function(r){return r.H>0&&r.L>0;});
+  var shared=rows.filter(function(r){var k=r.lv==='High'?r.H:(r.lv==='Low'?r.L:0);return r.lv!=='Balanced'&&k*2>r.n&&!(r.H>0&&r.L>0);});
+  return {g:ocGlance(rows),split:split,shared:shared};
+}
+function ocTeamSumHtml(dims){
+  var S=ocTeamSum(dims,OC.map(function(d){return d.name;}));
+  var gl=function(r){return OC[r.i].levels.filter(function(x){return x.level===r.lv;})[0];};
+  var h='<div class="u5-sum"><div class="u5-sum-h">Your team&rsquo;s profile summary</div>'+
+    '<p><b>Your team at a glance.</b> High: '+u5esc(ocNames(S.g.High))+'. Balanced: '+u5esc(ocNames(S.g.Balanced))+'. Low: '+u5esc(ocNames(S.g.Low))+'.</p>'+
+    '<p><b>Where the team is split.</b> '+(S.split.length?'On these dimensions at least one member is High and at least one is Low. Leaders who lean opposite ways tend to lead the change in opposite ways, so people receive different messages:</p><ul>'+S.split.map(function(r){var lv=function(L){return OC[r.i].levels.filter(function(x){return x.level===L;})[0];};return '<li><strong>'+u5esc(r.name)+'.</strong> High '+r.H+' &middot; Balanced '+r.Bn+' &middot; Low '+r.L+'. <em>Guardrail:</em> agree one team standard on this dimension before you lead the change. Members leaning High: '+u5esc(lv('High').resp)+' Members leaning Low: '+u5esc(lv('Low').resp)+'</li>';}).join('')+'</ul>':'No dimension has members at opposite levels.</p>')+
+    '<p><b>Where the team&rsquo;s strategic risk is highest.</b> '+(S.shared.length?'On these dimensions most members share the same High or Low level, and no member sits at the opposite level to challenge it. The whole team leans the same way, so the risk goes unchecked: it is a shared blind spot.</p><ul>'+S.shared.map(function(r){var g=gl(r);return '<li><strong>'+u5esc(r.name)+' &middot; '+r.lv+'.</strong> '+u5esc(g.risk)+' <em>Guardrail:</em> '+u5esc(g.resp)+'</li>';}).join('')+'</ul>':'No dimension has most members at the same High or Low level.</p>')+
+    '<p class="u5-sum-n">Use this summary when your group names its two highest-risk dimensions in Step 2.</p></div>';
+  return h;
+}
 function ocLevel(v){return v>=4?'High':(v<=2?'Low':'Balanced');}
 function ocMine(){return OC.map(function(d,j){var v=U5.oc[j];if(!v)return null;var lv=ocLevel(v);return {d:d,v:v,lv:lv,g:d.levels.filter(function(x){return x.level===lv;})[0]};});}
 function ocGridDraw(){
@@ -2132,14 +2183,14 @@ function ocGridDraw(){
 }
 function ocScoresText(){return OC.map(function(d,j){return d.name+' '+(U5.oc[j]||'—');}).join(' · ');}
 function ocProfileText(){
-  return ocMine().filter(function(x){return x;}).map(function(x){
+  return ocPersonalSumText()+ocMine().filter(function(x){return x;}).map(function(x){
     return x.d.name+': '+x.lv+' (score '+x.v+')\n'+x.g.dna+'\nStrategic risk: '+x.g.risk+'\nResponse: '+x.g.resp+'\nRoutines: '+x.g.rout;
   }).join('\n\n');
 }
 function ocProfileDraw(){
   var host=u5el('ocProfile');if(host){
     var P=ocMine().filter(function(x){return x;});
-    host.innerHTML='<div class="chg-h">Your own profile</div>'+(P.length?P.map(function(x){
+    host.innerHTML='<div class="chg-h">Your own profile</div>'+(P.length?ocPersonalSumHtml():'')+(P.length?P.map(function(x){
       return '<div class="u5-lv" style="border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:0 0 8px;"><span class="u5-lv-n">'+u5esc(x.d.name)+'</span><span class="u5-lv-h">'+x.lv+'</span>'+
         '<span class="u5-lv-c">Your score: '+x.v+'</span><p class="u5-lv-dna">'+u5esc(x.g.dna)+'</p>'+
         '<div class="u5-lv-g u5-lv-g2"><div><b>Strategic risk</b>'+u5esc(x.g.risk)+'</div><div><b>Response</b>'+u5esc(x.g.resp)+'</div></div>'+
@@ -2176,6 +2227,7 @@ async function ocConfirm(){
 function ocPrint(){
   var P=ocMine().filter(function(x){return x;});
   var body=P.length?P.map(function(x){return '<h2>'+u5esc(x.d.name)+' · '+x.lv+' (score '+x.v+')</h2><p>'+u5esc(x.g.dna)+'</p><p><b>Strategic risk:</b> '+u5esc(x.g.risk)+'</p><p><b>Response:</b> '+u5esc(x.g.resp)+'</p><p><b>Routines:</b></p>'+x.g.rd.map(function(r){return '<p>&bull; <b>'+u5esc(r[0])+'.</b> '+u5esc(r[1])+'</p>';}).join('');}).join(''):'<p>—</p>';
+  body=(function(){var S=ocPersonalSum();if(!S)return '';var t='<h2>Profile summary</h2><p><b>High:</b> '+u5esc(ocNames(S.g.High))+'. <b>Balanced:</b> '+u5esc(ocNames(S.g.Balanced))+'. <b>Low:</b> '+u5esc(ocNames(S.g.Low))+'.</p>';if(S.top.length)t+='<p><b>Where my strategic risk is highest:</b></p>'+S.top.map(function(x){return '<p>&bull; <b>'+u5esc(x.d.name)+' · '+x.lv+' (score '+x.v+').</b> '+u5esc(x.g.risk)+' <b>Guardrail:</b> '+u5esc(x.g.resp)+'</p>';}).join('');else t+='<p>All seven dimensions are Balanced.</p>';return t;})()+body;
   u5print('My OCEAVL Profile','Strategy2Results® · Module 3 · Unit 5 · Section 3 · 3.1 · '+(u5has([OC_NAME])?'submitted to my team’s Capstone':'not yet submitted'),body);
 }
 
@@ -2241,7 +2293,7 @@ async function u5TeamOc(manual){
     var q=await S2R._client.rpc('get_capstone_team_oceavl',{p_team_id:team.id});
     var o=q&&!q.error&&q.data;if(!o||typeof o!=='object'){note(TEAM_OC_NONE);return;}
     if(!Array.isArray(o.dims)){note(TEAM_OC_WAIT+' Submitted so far: '+(o.submitted||0)+' of '+(o.members||0)+' members.');return;}
-    host.innerHTML='<div class="u5-from" style="white-space:normal;margin-bottom:8px;">The level held by most members is the team’s level. '+u5esc(String(o.members))+' members submitted. No names and no single scores are shown.</div>'+OC.map(function(d,i){
+    host.innerHTML='<div class="u5-from" style="white-space:normal;margin-bottom:8px;">The level held by most members is the team’s level. '+u5esc(String(o.members))+' members submitted. No names and no single scores are shown.</div>'+ocTeamSumHtml(o.dims)+OC.map(function(d,i){
       var c=o.dims[i]||[0,0,0],H=c[0],Bn=c[1],L=c[2],lv=(H>=Bn&&H>=L)?'High':((L>=Bn&&L>=H)?'Low':'Balanced'),g=d.levels.filter(function(x){return x.level===lv;})[0];
       return '<div class="u5-lv" style="border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:0 0 8px;"><span class="u5-lv-n">'+u5esc(d.name)+'</span><span class="u5-lv-h">'+lv+'</span>'+
         '<span class="u5-lv-c">High '+H+' · Balanced '+Bn+' · Low '+L+'</span>'+
