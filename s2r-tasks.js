@@ -20,7 +20,7 @@
       {part:'5.2',t:B('In this part you complete 4 entries for each of your Objectives:','its critical checkpoint, the executive accountable, the evidence that the condition still holds and the date of the first check, starting with Priority 1 from your Unit 3 Prioritisation Matrix. Then read your record and select Agree.')}],
     lens4:[ // Unit 5
       {how:'How to complete Step 1',t:B('In this step you complete 3 entries:','the Shift, the Stake and the Step.')},
-      {how:'How to complete Step 2',t:B('In this step you complete 9 entries:','your two highest-risk dimensions, each with its response (4 entries), and the behaviour you expect from the leadership team under Accountability, Commitment, Engagement, Integrity and Transparency (5 entries). Then select Agree.')}],
+      {how:'How to complete Step 2',t:B('In this step you complete 9 entries:','your two highest-risk dimensions, each with its response (4 entries), and what your leadership team commits to under Accountability, Commitment, Engagement, Integrity and Transparency (5 entries). Then select Agree.')}],
     lens5:[ // Unit 6
       {how:'How to complete Activity 1',t:B('In this activity you complete 2 tasks:','1. select your Objective and Key Result; 2. complete the Contribution Map for three or four business functions, filling every entry in each function’s row.')},
       {how:'How to complete Activity 2',t:B('In this activity you complete 5 entries for each business function:','one practical arrangement under each FACES function: Foster, Align, Create, Embed and Support.')},
