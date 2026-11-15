@@ -181,7 +181,7 @@
     var note='';
     if(st.all_agreed)note='<div class="tw-note ok">✓ Every member has agreed. Your group\'s work goes into your team\'s Capstone S2R® Blueprint.</div>';
     else if(!st.scribe_id)note='<div class="tw-note">Choose your scribe for this work. The scribe types what your group agrees; the entries appear on every member\'s page.</div>';
-    else if(isScribe())note='<div class="tw-note">You are the scribe. Type what your group agrees. Your entries save and appear on every member\'s page.</div>';
+    else if(isScribe())note='<div class="tw-note">You are the scribe. Type what your group agrees. There is no Save button: each entry saves on its own and appears on every member\'s page.'+(T.busy||Object.keys(T.q).length?' <b style="color:#c9a84c">Saving…</b>':(T.savedAt?' <b style="color:#5ecba1">✓ Saved at '+T.savedAt+'</b>':''))+'</div>';
     else note='<div class="tw-note">'+esc(nameOf(st.scribe_id))+' is the scribe. The group\'s entries appear below as they are saved.</div>';
     if(st.version>0&&!st.all_agreed){
       if(missing)note+='<div class="tw-note warn">Still to complete before your group can agree: '+esc(missing)+'</div>';
@@ -233,7 +233,7 @@
       if(Object.keys(T.q).length)T.timer=setTimeout(flush,4000);
       return false;
     }
-    T.msg='';sendLive();
+    T.msg='';T.savedAt=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});sendLive();
     if(T.cur)Object.keys(items).forEach(function(k){T.cur[k]=items[k];});
     if(T.st){T.st.version=r.version;T.st.all_agreed=false;(T.st.members||[]).forEach(function(m){m.agreed=false;});}
     draw();
@@ -261,8 +261,7 @@
     save:function(key,value){
       if(!T.cfg)return false;
       if(!isScribe())return false;
-      if(T.cur&&Object.prototype.hasOwnProperty.call(T.cur,key)&&same(T.cur[key],value)){if(key in T.q){delete T.q[key];}return true;}
-      T.q[key]=value;clearTimeout(T.timer);T.timer=setTimeout(flush,700);return true;
+      var fresh=!Object.keys(T.q).length;T.q[key]=value;clearTimeout(T.timer);T.timer=setTimeout(flush,700);if(fresh)draw();return true;
     },
     flush:flush,
     setScribe:async function(pid){

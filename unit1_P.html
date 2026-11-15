@@ -2237,15 +2237,9 @@ function pcOpen(){
   else if(half)open.push('Step 1: the simulated executive team ('+half+(half===1?' row has':' rows have')+' a role without a name, or a name without a role)');
   var seen={},dup=[];pcTeamRows().forEach(function(r){var k=pct(r.role);if(seen[k]&&dup.indexOf(k)<0)dup.push(k);seen[k]=1;});
   if(dup.length)open.push('Step 1: each role is held by one member ('+dup.join(', ')+' appears more than once)');
-  if(!pct(PC.w.trig.src))open.push('Step 2: the source of the trigger (internal or external)');
-  if(!pct(PC.w.trig.text))open.push('Step 2: the trigger');
-  if(!pct(PC.w.trig.signal))open.push('Step 2: the signal');
   var min=pcMin();
   PC_AREAS.forEach(function(a){var n=pcList(a[0]).length;if(n<min)open.push('Step 3, task 1: at least '+min+' '+a[1].toLowerCase()+' challenges ('+n+' so far)');});
   PC_AREAS.forEach(function(a){var s=pcSel(a[0]);if(s.state==='none')open.push('Step 3, task 2: tick the '+a[1].toLowerCase()+' challenges that solving each one would also improve');else if(s.state==='tie')open.push('Step 3, task 2: choose between the tied '+a[1].toLowerCase()+' challenges');});
-  PC_AREAS.forEach(function(a){
-    if(!pct(PC.w.why[a[0]]))open.push('Step 3, task 3: why the '+a[1].toLowerCase()+' problem matters now');
-  });
   if(!pct(PC.w.problem))open.push('Step 4: the central organisational problem');
   return open;
 }
