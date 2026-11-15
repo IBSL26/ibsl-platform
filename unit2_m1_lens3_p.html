@@ -283,6 +283,7 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .u4-tw .u4-tbl tbody tr:nth-child(even) td{background:rgba(255,255,255,.025);}
 .u4-tw .u4-tbl tbody tr:last-child td{border-bottom:none;}
 .u4-mtbl{table-layout:fixed;min-width:760px;}
+.u4-ctbl{min-width:900px;}.u4-ctbl th:first-child,.u4-ctbl td:first-child{width:22%!important;}.u4-ctbl th:nth-child(2){width:12%;}.u4-ctbl th:nth-child(3){width:24%;}.u4-ctbl th:nth-child(4){width:13%;}.u4-ctbl th:nth-child(5){width:17%;}.u4-ctbl th:nth-child(6){width:12%;}.u4-ctbl td.u4-td-arena{border-left:3px solid #8ab0e8;}.u4-ctbl td.u4-td-boundaries{border-left:3px solid #f0c060;}.u4-ctbl td.u4-td-competition{border-left:3px solid #5ecba1;}.u4-ctbl td.u4-td-valueprop{border-left:3px solid #c39de0;}
 .u4-mtbl th:first-child,.u4-mtbl td:first-child{width:24%!important;}
 .u4-mtbl td{font-size:13px;line-height:1.6;}
 .u4-mtbl td:first-child,.u4-itbl td:first-child{color:rgba(255,255,255,.9)!important;font-weight:500;}
@@ -1144,8 +1145,9 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 </div>
 <div class="acc-b cb">
   <p>Each Objective in your Integrity Table carries four Must-Be-True conditions. One of them is critical: if it fails, the Objective loses the impact you ranked it for on your Unit 3 Prioritisation Matrix. Your Objectives appear here in that priority order, and your group names the critical condition of each and the executive who checks it.</p>
-  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li><strong>Start with Priority 1.</strong> Your Objectives are listed in the order your group ranked them on the Unit 3 Prioritisation Matrix, highest impact first.</li><li><strong>Choose the critical condition.</strong> For each Objective, select the checkpoint whose Must-Be-True condition, if it failed, would cost the Objective the impact you ranked it for. The condition appears from your Integrity Table.</li><li><strong>Assign accountability.</strong> Select the executive from your team accountable for verifying that condition, then name the evidence that will confirm it still holds and the date of the first check.</li><li><strong>Agree.</strong> When every row is complete, read your record, then select Agree. Select Print for a copy.</li></ol></div>
+  <div class="u4-how"><div class="u4-how-h">Capstone work &middot; How to complete</div><ol><li><strong>Start with Priority 1.</strong> Your Objectives are listed in the order your group ranked them on the Unit 3 Prioritisation Matrix, highest impact first.</li><li><strong>Choose the critical condition.</strong> For each Objective, select the checkpoint whose Must-Be-True condition, if it failed, would cost the Objective the impact you ranked it for. The condition appears from your Integrity Table.</li><li><strong>Assign accountability.</strong> Select the executive from your team accountable for verifying that condition, then name the evidence that will confirm it still holds and the date of the first check.</li><li><strong>Read your table.</strong> At the end of 5.2, Our Critical Conditions Table shows each Objective&rsquo;s critical condition and the executive accountable for it.</li><li><strong>Agree.</strong> When every row is complete, read your record, then select Agree. Select Print for a copy.</li></ol></div>
   <div id="mbVerP"></div>
+  <div id="mbCritP" style="margin-top:22px;"></div>
   <div id="mbOutP"></div>
 </div>
 </div>
@@ -2023,6 +2025,7 @@ async function mbLoadTeam(){
   var t=(conf.indexOf('Problem Charter · Executive Team')>=0&&typeof r.pc_team==='string')?r.pc_team:'';
   MB.team=t.split('\n').map(function(l){return l.trim();}).filter(Boolean);
   var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();
+  mbPaintCrit();
 }
 function mbVerHtml(){
   if(!MB.items.length)return '<div class="u4-locked">This table fills in once your group brings in its Objectives in 5.1.</div>';
@@ -2031,7 +2034,7 @@ function mbVerHtml(){
     var opts=MB.team.slice();if(v.who&&opts.indexOf(v.who)<0)opts.push(v.who);
     return '<select class="u4-in" onchange="mbVer(\''+id+'\',\'who\',this.value)"><option value="">&ndash; select &ndash;</option>'+opts.map(function(t){return '<option'+(t===v.who?' selected':'')+'>'+u4esc(t)+'</option>';}).join('')+'</select>';
   };
-  return '<div class="u4-tw"><div class="u4-tw-h">Our critical conditions and accountability<small>In your Unit 3 priority order</small></div><div style="overflow-x:auto;"><table class="u4-tbl u4-itbl"><thead><tr><th>Priority and Objective</th><th>Critical checkpoint and its Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>'+
+  return '<div class="u4-tw"><div class="u4-tw-h">Name each critical condition and its accountable executive<small>In your Unit 3 priority order</small></div><div style="overflow-x:auto;"><table class="u4-tbl u4-itbl"><thead><tr><th>Priority and Objective</th><th>Critical checkpoint and its Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>'+
     mbOrder().map(function(i,r){
       var o=MB.items[i],id=String(i+1),v=mbVerRow(id),c=mbCrit(o,v),p=mbPri(o);
       return '<tr><td><div class="u4-pri"><span class="u4-prin">Priority '+(r+1)+'</span>'+(p?u4esc(p):'<i>not placed on your Unit 3 matrix</i>')+'</div><div class="u4-oline"><span class="u4-onum">'+(i+1)+'</span><span class="u4-otx">'+u4esc(o.obj)+'</span></div></td><td><select class="u4-in" onchange="mbVer(\''+id+'\',\'cp\',this.value);mbPaintVer()"><option value="">&ndash; select the checkpoint &ndash;</option>'+
@@ -2041,7 +2044,16 @@ function mbVerHtml(){
         '<td><input class="u4-in" type="text" value="'+u4esc(v.when)+'" placeholder="e.g. 31 Mar 2027" oninput="mbVer(\''+id+'\',\'when\',this.value)"></td></tr>';
     }).join('')+'</tbody></table></div></div>';
 }
-function mbPaintVer(){var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();}
+/* Our Critical Conditions Table (end of 5.2): read-only view of each Objective's critical condition and accountability. */
+function mbCritHtml(){
+  if(!MB.items.length)return '';
+  return '<div class="u4-tw"><div class="u4-tw-h">Our Critical Conditions Table<small>The critical condition of each Objective and the executive accountable for it, in your Unit 3 priority order</small></div><div style="overflow-x:auto;"><table class="u4-tbl u4-mtbl u4-ctbl"><thead><tr><th>Priority and Objective</th><th>Critical checkpoint</th><th>Must-Be-True condition</th><th>Executive accountable</th><th>Evidence that it still holds</th><th>First check</th></tr></thead><tbody>'+
+    mbOrder().map(function(i,r){var o=MB.items[i],v=mbVerRow(String(i+1)),c=mbCrit(o,v),k=(U4D.cps.filter(function(x){return x.name===v.cp;})[0]||{}).cls||'',p=mbPri(o),tbn='<i>to be named</i>';
+      return '<tr><td><div class="u4-pri">Priority '+(r+1)+(p?' &middot; '+u4esc(p):'')+'</div><span class="u4-onum">'+(i+1)+'</span><span class="u4-otx">'+u4esc(o.obj)+'</span></td><td>'+(v.cp?u4esc(v.cp):tbn)+'</td><td'+(k?' class="u4-td-'+k+'"':'')+'>'+(c?u4esc(c):tbn)+'</td><td>'+(v.who.trim()?u4esc(v.who):tbn)+'</td><td>'+(v.ev.trim()?u4esc(v.ev):tbn)+'</td><td>'+(v.when.trim()?u4esc(v.when):tbn)+'</td></tr>';
+    }).join('')+'</tbody></table></div></div>';
+}
+function mbPaintCrit(){var c=u4el('mbCritP');if(c)c.innerHTML=mbCritHtml();}
+function mbPaintVer(){var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();mbPaintCrit();}
 function mbVer(id,f,val){MB.ver[id]=mbVerRow(id);MB.ver[id][f]=val;mbUnconfirm();clearTimeout(_mbPaint);_mbPaint=setTimeout(mbRefresh,350);mbQueue();}
 function mbConfirmed(){return MB_NAMES.every(u4isConf);}
 var MB_LAB={fn:'Functional',ex:'Experiential',co:'Consequential',bd:'Boundaries',cp:'Alternatives',rel:'Relevant',dis:'Distinctive',dlv:'Deliverable'};
@@ -2137,12 +2149,14 @@ function renderMB(){
   if(o)o.innerHTML=mbOutHtml();
   var tb=u4el('mbTblP');if(tb)tb.innerHTML=mbTableHtml();
   var v=u4el('mbVerP');if(v)v.innerHTML=mbVerHtml();
+  mbPaintCrit();
 }
 function mbRefresh(){   // while typing: everything except the box being typed in
   var r=u4el('mbRecP');
   if(r){var shut=r.classList.contains('shut'),before=r.offsetHeight;r.innerHTML=mbRecordHtml();r.classList.toggle('shut',shut);var d=r.offsetHeight-before;if(d&&r.getBoundingClientRect().top<window.innerHeight)window.scrollBy(0,d);}
   var o=u4el('mbOutP');if(o)o.innerHTML=mbOutHtml();
   var tb=u4el('mbTblP');if(tb)tb.innerHTML=mbTableHtml();
+  mbPaintCrit();
   var ob=mbObj();
   document.querySelectorAll('#mbToolP .u4-stage').forEach(function(s,n){s.classList.toggle('done',mbStepDone(ob,n));});
   document.querySelectorAll('#mbOkrP .u4-krb').forEach(function(b,n){
@@ -2150,7 +2164,7 @@ function mbRefresh(){   // while typing: everything except the box being typed i
     b.classList.toggle('done',mbObjDone(x));b.firstChild.innerHTML=mbObjDone(x)?'&#10003;':(n+1);
   });
 }
-function mbPaint(){var k=u4el('mbOkrP'),t=u4el('mbToolP'),v=u4el('mbVerP');if(k)k.innerHTML=mbPickHtml();if(t)t.innerHTML=mbToolHtml();if(v)v.innerHTML=mbVerHtml();}
+function mbPaint(){var k=u4el('mbOkrP'),t=u4el('mbToolP'),v=u4el('mbVerP');if(k)k.innerHTML=mbPickHtml();if(t)t.innerHTML=mbToolHtml();if(v)v.innerHTML=mbVerHtml();mbPaintCrit();}
 function mbStepGo(n){
   if(n<0||n>3)return;MB.step=n;mbPaint();mbQueue();
   var t=u4el('mbToolP');if(t&&t.getBoundingClientRect().top<0)t.scrollIntoView({behavior:'smooth',block:'start'});
