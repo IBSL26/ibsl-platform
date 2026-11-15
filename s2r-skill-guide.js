@@ -13,9 +13,9 @@ window.S2R_SKILL_GUIDE = {
 4: [["Section 1: names the ABCV checkpoint that Key Results would find hardest to pass, and gives a reason specific to their context.", "Section 5 also shows how they would lead the team through this test on its Key Results."],
     ["Section 3: names the ABCV checkpoint their role is most likely to overlook and who should verify it.", "Section 5 also shows how they would help others see their blind spots and who verifies them."],
     ["Sections 2 and 4: names an Industry Illusion trap and a practical way to test it, and the breakdown it could hide at one ABCV checkpoint and how to confirm it.", "Section 5 also shows how they would help the team notice and test these traps."]],
-5: [["Section 3: names the OCEAVL trait that most puts their strategic contribution at risk, and what they would do about it.", "Section 5 also shows how they would use the profiles to help the team lead the change."],
+5: [["Section 3: names the OCEAVL trait that most puts their strategic contribution at risk, and the guardrails they would put in place to address it.", "Section 5 also shows how they would use the profiles to help the team lead the change."],
     ["Sections 1 and 2: names the weakest of the 4 Checks in their organisation or team and how to strengthen it, and how they would move a change from installed to adopted using the three steps.", "Section 5 also shows how they would help the team land the agenda through to adoption."],
-    ["Section 4: names where the leadership team is furthest from one voice on the changes the strategy requires, and how they would close that gap.", "Section 5 also shows how they would bring other leaders to carry the same message."]],
+    ["Section 4: names their role’s alignment hot zone, where they are most likely to lose people, and how they would address it while giving their contribution.", "Section 5 also shows how they would bring other leaders to carry the same message."]],
 6: [["Section 1: takes a real Key Result and sets out what each function must contribute and what the organisation or team must provide.", "Section 5 also shows how they would build this with the leadership team."],
     ["Sections 3 and 4: states what would change for performance management to drive collective success, and which FACES function they would strengthen first, and how.", "Section 5 also shows how they would help the team build this into the management system."],
     ["Section 2: states a specific change to their own scorecard that reflects their contribution to Key Results.", "Section 5 also shows how they would help other leaders align their scorecards."]],
@@ -64,8 +64,8 @@ window.S2R_REF_GUIDE = {
 "5": [
 "Names the weakest of the 4 Checks in their organisation or team and how they would strengthen it.",
 "Names a change and sets out how they would take it through each of the three steps to adoption.",
-"Names the OCEAVL trait that most puts their strategic contribution at risk and what they would do about it.",
-"Names where the team is furthest apart and a practical way to close that gap.",
+"Names the OCEAVL trait that most puts their strategic contribution at risk and the guardrails they would put in place to address it.",
+"Names their role’s contribution and alignment hot zone, and what they would do to guard the hot zone.",
 "Sets out the steps they would take with the leadership team to land the agenda so that the change is adopted."
 ],
 "6": [
