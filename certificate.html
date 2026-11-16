@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBSL Strategy2Results® · Certificate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <script src="supabase.umd.js"></script>
 <style>
   :root {
@@ -66,31 +69,34 @@
   .cert-top { display: flex; flex-direction: column; align-items: center; width: 100%; }
   .cert-topmark { width: 100%; display: flex; justify-content: center; }
   .cert-topmark svg { width: 200px; height: auto; display: block; }       /* CESI seal — large hero mark at the top (~200px) */
+  .cert-badge { margin-top: 52px; margin-bottom: 14px; width: 100%; display: flex; justify-content: center; }
+  .cert-badge svg { width: 175px; height: auto; display: block; }   /* CESI level badge before the credential name */
   .cert-lowmark { flex: 0 0 auto; display: flex; align-items: flex-end; }
   .cert-lowmark img { width: 120px !important; height: auto; display: block; }   /* IBSL logo centred between the signatories */
   .cert-bottom { width: 100%; }
 
   .cert-shield { display: block; }
   .cert-institution { font-family: 'Montserrat', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--forest); margin-top: 8px; }
-  .cert-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.7rem; font-weight: 400; color: #1f5132; margin-top: 14px; }            /* heading: green */
+  .cert-title { font-family: 'Cinzel', 'Trajan Pro', Georgia, serif; font-size: 1.75rem; font-weight: 600; letter-spacing: 3px; white-space: nowrap; text-transform: uppercase; color: #1f5132; margin-top: 14px; }
   .cert-rule { width: 120px; height: 2px; background: #c9a227; margin: 12px auto 18px; }                                                              /* divider: gold */
-  .cert-lead { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: #8a6d10; }                                                     /* label: gold */
-  .cert-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.5rem; color: #1f5132; margin: 10px 0 14px; }                            /* heading: green */
-  .cert-body { font-size: 13.5px; line-height: 1.85; color: #2b2b2b; max-width: 150mm; }                                                               /* body: near-black */
-  .cert-credential { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.6rem; color: #1f5132; margin-top: 16px; }                         /* heading: green */
+  .cert-lead { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; color: #8a6d10; }
+  .cert-name { font-family: 'Pinyon Script', 'Cormorant Garamond', cursive; font-size: 3.4rem; font-weight: 400; color: #1f5132; margin: 6px 0 4px; padding: 0 12mm 6px; border-bottom: 1px solid #c9a227; line-height: 1.25; }
+  .cert-body { font-family: 'Cormorant Garamond', Georgia, serif; font-style: italic; font-size: 17px; line-height: 1.6; color: #2b2b2b; max-width: 150mm; margin-top: 12px; }
+  .cert-key { font-style: normal; font-weight: 600; color: #1f5132; }
+  .cert-credential { font-family: 'Cinzel', 'Trajan Pro', Georgia, serif; font-size: 1.15rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: #1f5132; margin-top: 14px; }
   .cert-level-leadin { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #8a6d10; margin-top: 12px; }                            /* label: gold */
   .cert-level { display: inline-block; margin-top: 8px; padding: 8px 22px; border: 2px solid #c9a227; background: #fbf6e4; border-radius: 4px; font-family: 'Montserrat', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #1f5132; }   /* level box: green text + border */
   .cert-signatories { width: 100%; display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; padding-top: 8px; }
   .sig { flex: 1; text-align: center; }
   .sig-slot { height: 44px; border-bottom: 1px solid #b9982f; margin: 0 10px 8px; }
-  .sig-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.05rem; color: #2b2b2b; }                                                 /* names: near-black */
-  .sig-title { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6d10; margin-top: 2px; }                                      /* title labels: gold */
+  .sig-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 600; color: #2b2b2b; }
+  .sig-title { font-family: 'Cinzel', Georgia, serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #8a6d10; margin-top: 3px; }
   .sig-seal { flex: 0 0 auto; padding: 0 6px; }
-  /* IBSL watermark — faint logo centred behind the certificate text */
-  .cert-watermark { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-  .cert-watermark img { width: 135mm; height: auto; opacity: 0.07; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .cert-footer { margin-top: 14px; font-size: 10px; letter-spacing: 1px; color: #6b7d76; }
-  .cert-footer .foot-label { text-transform: uppercase; letter-spacing: 2px; color: #8a6d10; }                                                         /* label: gold */
+  /* IBSL watermark — the word IBSL, faint and diagonal, behind the certificate text */
+  .cert-watermark { position: absolute; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; overflow: hidden; }
+  .cert-watermark { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='80' viewBox='0 0 120 80'%3E%3Ctext x='60' y='46' text-anchor='middle' transform='rotate(-30 60 40)' font-family='Georgia, serif' font-size='17' font-weight='700' letter-spacing='3' fill='%231f5132' fill-opacity='0.07'%3EIBSL%3C/text%3E%3C/svg%3E"); background-repeat: repeat; background-size: 30mm 20mm; -webkit-print-color-adjust: exact; print-color-adjust: exact; }   /* small IBSL repeated across the sheet */
+  .cert-footer { margin-top: 14px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; letter-spacing: 0.5px; color: #4b5a54; }
+  .cert-footer .foot-label { font-family: 'Cinzel', Georgia, serif; font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #8a6d10; }
 
   @page { size: A4 portrait; margin: 0; }
   @media print {
@@ -203,16 +209,60 @@
   </svg>`;
   }
 
+  // CESI level badge — gold ring on a forest-green face: CESI, mortarboard, the level
+  // earned, one to three stars, laurels and a gold ribbon. Replaces the level box.
+  function levelBadgeSvg(level) {
+    const parts = String(level || '').toUpperCase().split(' ');
+    const line1 = escapeHtml(parts[0] || '');
+    const line2 = escapeHtml(parts.slice(1).join(' '));
+    const stars = level === 'Master Integrator' ? 3 : (level === 'Advanced Integrator' ? 2 : 1);
+    let starMarks = '';
+    for (let i = 0; i < stars; i++) {
+      const x = 100 + (i - (stars - 1) / 2) * 14;
+      starMarks += '<path transform="translate(' + x + ' 151)" d="M0 -5.2 L1.5 -1.7 L5 -1.6 L2.3 0.7 L3.2 4.3 L0 2.3 L-3.2 4.3 L-2.3 0.7 L-5 -1.6 L-1.5 -1.7 Z" fill="url(#bgGold)"/>';
+    }
+    const laurel = '<path d="M62.0 158.4 L59.6 156.7 L57.2 154.9 L55.0 153.0 L52.8 151.0 L50.7 148.9 L48.8 146.7 L46.9 144.4 L45.1 142.1 L43.4 139.7 L41.8 137.2 L40.3 134.6 L39.0 132.0 L37.7 129.4 L36.6 126.6 L35.6 123.9 L34.7 121.1 L34.0 118.2 L33.3 115.3 L32.8 112.4 L32.4 109.5 L32.2 106.6 L32.0 103.6 L32.0 100.7 L32.1 97.7 L32.4 94.8 L32.8 91.9 L33.3 89.0 L33.9 86.1 L34.6 83.3" fill="none" stroke="url(#bgGold)" stroke-width="1.4"/><ellipse cx="60.6" cy="152.4" rx="5.8" ry="2.3" transform="rotate(360 60.6 152.4)"/><ellipse cx="55.7" cy="158.7" rx="5.8" ry="2.3" transform="rotate(436 55.7 158.7)"/><ellipse cx="50.4" cy="142.4" rx="5.8" ry="2.3" transform="rotate(373 50.4 142.4)"/><ellipse cx="44.2" cy="147.5" rx="5.8" ry="2.3" transform="rotate(449 44.2 147.5)"/><ellipse cx="42.7" cy="130.5" rx="5.8" ry="2.3" transform="rotate(386 42.7 130.5)"/><ellipse cx="35.5" cy="134.0" rx="5.8" ry="2.3" transform="rotate(462 35.5 134.0)"/><ellipse cx="37.8" cy="117.0" rx="5.8" ry="2.3" transform="rotate(398 37.8 117.0)"/><ellipse cx="30.0" cy="118.9" rx="5.8" ry="2.3" transform="rotate(474 30.0 118.9)"/><ellipse cx="36.0" cy="102.9" rx="5.8" ry="2.3" transform="rotate(411 36.0 102.9)"/><ellipse cx="28.0" cy="103.0" rx="5.8" ry="2.3" transform="rotate(487 28.0 103.0)"/><ellipse cx="37.4" cy="88.7" rx="5.8" ry="2.3" transform="rotate(424 37.4 88.7)"/><ellipse cx="29.6" cy="87.0" rx="5.8" ry="2.3" transform="rotate(500 29.6 87.0)"/>';
+    return `
+  <svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="CESI ${escapeHtml(level)}">
+    <defs>
+      <linearGradient id="bgGold" x1="20%" y1="10%" x2="80%" y2="95%">
+        <stop offset="0%" stop-color="#fff1b8"/><stop offset="35%" stop-color="#e3bf4f"/><stop offset="65%" stop-color="#c9a227"/><stop offset="100%" stop-color="#7c5e12"/>
+      </linearGradient>
+      <linearGradient id="bgGoldRev" x1="80%" y1="95%" x2="20%" y2="10%">
+        <stop offset="0%" stop-color="#fff1b8"/><stop offset="40%" stop-color="#d9b23d"/><stop offset="100%" stop-color="#6f5410"/>
+      </linearGradient>
+      <radialGradient id="bgFace" cx="50%" cy="38%" r="70%">
+        <stop offset="0%" stop-color="#2b6a44"/><stop offset="60%" stop-color="#1a4d2e"/><stop offset="100%" stop-color="#0d2a19"/>
+      </radialGradient>
+    </defs>
+    <circle cx="100" cy="100" r="96" fill="url(#bgGold)"/>
+    <circle cx="100" cy="100" r="88" fill="url(#bgGoldRev)"/>
+    <circle class="cesi-face" cx="100" cy="100" r="83" fill="url(#bgFace)"/>
+    <circle cx="100" cy="100" r="78" fill="none" stroke="#c9a227" stroke-width="0.8" opacity="0.8"/>
+    <g fill="url(#bgGold)">${laurel}</g>
+    <g transform="translate(200 0) scale(-1 1)" fill="url(#bgGold)">${laurel}</g>
+    <text x="100" y="56" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="24" font-weight="700" letter-spacing="3" fill="url(#bgGold)">CESI</text>
+    <g fill="url(#bgGold)">
+      <path d="M100 63 L125 72 L100 81 L75 72 Z"/>
+      <path d="M86 77 L86 86 C91 91 109 91 114 86 L114 77 L100 82 Z"/>
+      <path d="M121 73.5 L121 86" stroke="url(#bgGold)" stroke-width="1.2" fill="none"/>
+      <circle cx="121" cy="87.5" r="2"/>
+    </g>
+    <text x="100" y="111" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="700" letter-spacing="0.8" fill="#fbf3dc">${line1}</text>
+    <text x="100" y="130" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="12.5" font-weight="700" letter-spacing="0.8" fill="#fbf3dc">${line2}</text>
+    ${starMarks}
+    <path d="M22 158 C60 186 104 150 178 152 L176 162 C108 162 64 198 26 168 Z" fill="url(#bgGold)" stroke="#7c5e12" stroke-width="0.5"/>
+  </svg>`;
+  }
+
   function renderCertificate(data) {
     document.getElementById('congrats').innerHTML =
       'Congratulations! This confirms <strong>' + escapeHtml(data.name) + '</strong> has completed the programme.';
     document.getElementById('printBtn').style.display = '';
 
     const level = levelFromScore(data.finalScore);
-    const levelBlock = level
-      ? '<div class="cert-level-leadin">at the level of</div>' +
-        '<div class="cert-level">' + escapeHtml(level) + '</div>'
-      : '';
+    // The level earned is shown on the CESI badge before the credential name (no level box).
+    const topMark = level ? levelBadgeSvg(level) : sealSvg(data.number);
 
     document.getElementById('root').innerHTML =
       '<div class="sheet-wrap">' +
@@ -221,17 +271,16 @@
           '<div class="frame-corner frame-corner--tr"></div>' +
           '<div class="frame-corner frame-corner--bl"></div>' +
           '<div class="frame-corner frame-corner--br"></div>' +
-          '<div class="cert-watermark" aria-hidden="true"><img src="logo.png" alt=""></div>' +
+          '<div class="cert-watermark" aria-hidden="true"></div>' +
           '<div class="cert-inner">' +
-            '<div class="cert-topmark">' + sealSvg(data.number) + '</div>' +
             '<div class="cert-top">' +
             '<div class="cert-title">Certificate of Achievement</div>' +
             '<div class="cert-rule"></div>' +
             '<div class="cert-lead">This is to certify that</div>' +
             '<div class="cert-name">' + escapeHtml(data.name) + '</div>' +
-            '<div class="cert-body">having demonstrated disciplined application of the DIG Framework in the Strategy2Results® Programme, is hereby conferred the credential of</div>' +
+            '<div class="cert-body">having demonstrated disciplined application of the <span class="cert-key">DIG Framework</span> in the <span class="cert-key">Strategy2Results® Programme</span>, is hereby conferred the credential of</div>' +
+            '<div class="cert-badge">' + topMark + '</div>' +
             '<div class="cert-credential">Certified Enterprise Strategy Integrator</div>' +
-            levelBlock +
             '</div>' +                                                  /* close .cert-top */
             '<div class="cert-bottom">' +
               '<div class="cert-signatories">' +
