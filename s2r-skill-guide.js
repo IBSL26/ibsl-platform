@@ -18,7 +18,7 @@ window.S2R_SKILL_GUIDE = {
     ["Section 4: names the one hot zone element where their role is most likely to lose people, and how they would create alignment on it.", "Section 5 also shows how they would bring other leaders to put Skill, Time, Authority and Tools in place together."]],
 6: [["Section 1: designs a Contribution Map for one of their organisation’s Key Results, naming each contributing function, what it must deliver, what its people must deliver and the organisational conditions that enable them.", "Section 5 also shows how they would build this with the leadership team."],
     ["Sections 3 and 4: states what would change for performance management to drive collective success, and which FACES function they would strengthen first, and how.", "Section 5 also shows how they would help the team build this into the management system."],
-    ["Section 2: states a specific change to their own scorecard that reflects their contribution to Key Results.", "Section 5 also shows how they would help other leaders align their scorecards."]],
+    ["Section 2: designs a performance scorecard for their current role, weighting the Strategy, Operational and Behavioural categories and naming one measure for each.", "Section 5 also shows how they would help other leaders align their scorecards."]],
 7: [["Sections 1 and 2: names what they would change in how their tasks or targets were developed and the part they would play, where people comply without owning an expectation, and how they would secure commitment.", "Section 5 also shows how they would help the team establish expectations."],
     ["Section 3: uses their Expectations Chain to name an expectation placed on another function and the enabling promise they must make in return.", "Section 5 also shows how they would help others map their own chains across the organisation or team."],
     ["Section 4: applies each stage of GROW to the alignment dialogue with one link in the chain.", "Section 5 also shows how they would help others hold these dialogues."]],
@@ -70,7 +70,7 @@ window.S2R_REF_GUIDE = {
 ],
 "6": [
 "Designs a Contribution Map for one of their organisation’s Key Results: each function’s contribution, what its people must deliver and the organisational conditions that enable them.",
-"Names a specific scorecard change that reflects their contribution to Key Results.",
+"Designs a scorecard for their current role: a weighting for the Strategy, Operational and Behavioural categories and one measure for each.",
 "Names a specific change that moves performance management towards collective success.",
 "Names the FACES function they would strengthen first and how.",
 "Sets out the steps they would take with the leadership team to build the performance management system."
