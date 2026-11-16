@@ -16,7 +16,7 @@ window.S2R_SKILL_GUIDE = {
 5: [["Section 3: names the OCEAVL trait that most puts their strategic contribution at risk, and the guardrails they would put in place to address it.", "Section 5 also shows how they would help the team put Skill, Time, Authority and Tools in place, with the risks in its profile in view."],
     ["Sections 1 and 2: names the weakest of the 4 Checks in their organisation or team and how to strengthen it, and how they would move a change from installed to adopted using the three steps.", "Section 5 also shows how they would help the leadership team put Skill, Time, Authority and Tools in place for one Key Result or change."],
     ["Section 4: names the one hot zone element where their role is most likely to lose people, and how they would create alignment on it.", "Section 5 also shows how they would bring other leaders to put Skill, Time, Authority and Tools in place together."]],
-6: [["Section 1: takes a real Key Result and sets out what each function must contribute and what the organisation or team must provide.", "Section 5 also shows how they would build this with the leadership team."],
+6: [["Section 1: designs a Contribution Map for one of their organisation’s Key Results, naming each contributing function, what it must deliver, what its people must deliver and the organisational conditions that enable them.", "Section 5 also shows how they would build this with the leadership team."],
     ["Sections 3 and 4: states what would change for performance management to drive collective success, and which FACES function they would strengthen first, and how.", "Section 5 also shows how they would help the team build this into the management system."],
     ["Section 2: states a specific change to their own scorecard that reflects their contribution to Key Results.", "Section 5 also shows how they would help other leaders align their scorecards."]],
 7: [["Sections 1 and 2: names what they would change in how their tasks or targets were developed and the part they would play, where people comply without owning an expectation, and how they would secure commitment.", "Section 5 also shows how they would help the team establish expectations."],
@@ -69,7 +69,7 @@ window.S2R_REF_GUIDE = {
 "Sets out the steps they would take with the leadership team to put Skill, Time, Authority and Tools in place for one Key Result or change."
 ],
 "6": [
-"Takes a real Key Result and states what each function contributes and what must be provided.",
+"Designs a Contribution Map for one of their organisation’s Key Results: each function’s contribution, what its people must deliver and the organisational conditions that enable them.",
 "Names a specific scorecard change that reflects their contribution to Key Results.",
 "Names a specific change that moves performance management towards collective success.",
 "Names the FACES function they would strengthen first and how.",
