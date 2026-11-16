@@ -73,7 +73,7 @@ window.S2R_REF_GUIDE = {
 "Designs a scorecard for their current role: a weighting for the Strategy, Operational and Behavioural categories and one measure for each.",
 "Describes how they would implement each of the three shifts in their organisation.",
 "Applies one FACES element to each function in their Contribution Map, covering its people and its organisational conditions.",
-"Sets out the steps they would take with the leadership team to build the performance management system."
+"Sets out how they would help the leadership team build each of the two components: the Contribution Map and the FACES application."
 ],
 "7": [
 "Names what they would change in how their tasks or targets were developed and the part they would play.",
