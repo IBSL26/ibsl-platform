@@ -657,6 +657,41 @@ b.u6-it-l{display:block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-
 <p><em>Performance targets are illustrative. The purpose is to establish sufficient evidence to determine whether the required contribution is being delivered and whether the organisation is enabling it.</em></p></div></div>
 <div class="u6-sub"><div class="u6-sub-h" onclick="this.parentNode.classList.toggle('open')"><span>4.1.2 Interpreting the Contribution Map</span><span class="u6-sub-a">&#9662;</span></div><div class="u6-sub-b"><p>The Contribution Map establishes the relationship between three elements.</p>
 <div class="u6-hc"><div class="u6-hc-c" style="border-top-color:#8ab0e8;"><div class="u6-hc-n" style="color:#8ab0e8;">1</div><div class="u6-hc-t">Functional Contribution &mdash; What must the function deliver?</div><div class="u6-hc-b"><p>Each function has a defined contribution to the key result.</p></div></div><div class="u6-hc-c" style="border-top-color:var(--teall);"><div class="u6-hc-n" style="color:var(--teall);">2</div><div class="u6-hc-t">People Performance &mdash; What must individuals and teams deliver?</div><div class="u6-hc-b"><p>The map identifies the results and behaviours required from people, supported by measurable performance expectations wherever practical.</p></div></div><div class="u6-hc-c" style="border-top-color:#5ecba1;"><div class="u6-hc-n" style="color:#5ecba1;">3</div><div class="u6-hc-t">Organisational Performance &mdash; What conditions must the organisation provide?</div><div class="u6-hc-b"><p>The map identifies the relevant organisational conditions necessary to enable the human contribution.</p></div></div></div>
+<p>The table brings the four functions of 4.1.1 together as one S2R&reg; Contribution Map&trade;, with each function&rsquo;s contribution read down its column.</p>
+<div class="u6t-cap">The S2R&reg; Contribution Map&trade; &middot; worked example</div>
+<div class="u6t-wrap" id="u6CmapTable"></div>
+<script>
+(function(){
+  var host=document.getElementById('u6CmapTable'); if(!host) return;
+  var src=null, subs=document.querySelectorAll('.u6-sub');
+  for(var i=0;i<subs.length;i++){var h=subs[i].querySelector('.u6-sub-h'); if(h&&h.textContent.indexOf('4.1.1')>-1){src=subs[i];break;}}
+  if(!src) return;
+  var items=src.querySelectorAll('.u6-it'), cols=[];
+  for(var j=0;j<items.length;j++){
+    var nm=items[j].querySelector('.u6-it-h strong'), ps=items[j].querySelectorAll('.u6-it-b p'), vals=[];
+    for(var k=0;k<ps.length;k++){var c=ps[k].cloneNode(true), l=c.querySelector('.u6-it-l'); if(l) l.parentNode.removeChild(l); vals.push(c.innerHTML);}
+    cols.push({name:nm?nm.textContent:'', vals:vals});
+  }
+  var kr=src.querySelectorAll('.u6-from'), krText=kr.length>1?kr[1].innerHTML:'';
+  var groups=[['1 &middot; Functional Contribution',[['Required functional contribution',0]]],
+              ['2 &middot; People Performance',[['Required contribution',1],['Performance metric',2]]],
+              ['3 &middot; Organisational Performance',[['Required organisational condition',3],['Measure or evidence of readiness',4]]]];
+  var n=cols.length+1, h='<table class="u6t" style="min-width:860px;"><thead>';
+  if(krText) h+='<tr><th colspan="'+n+'" style="font-size:12px;letter-spacing:0;">'+krText.replace(/<b>/,'<b style="display:block;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--u6);margin-bottom:4px;">')+'</th></tr>';
+  h+='<tr><th style="width:15%;">Element</th>';
+  cols.forEach(function(c){h+='<th>'+c.name+'</th>';});
+  h+='</tr></thead><tbody>';
+  groups.forEach(function(g){
+    h+='<tr><td colspan="'+n+'" style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--u6);background:rgba(255,255,255,.04);">'+g[0]+'</td></tr>';
+    g[1].forEach(function(r){
+      h+='<tr><td><strong>'+r[0]+'</strong></td>';
+      cols.forEach(function(c){h+='<td>'+(c.vals[r[1]]||'')+'</td>';});
+      h+='</tr>';
+    });
+  });
+  host.innerHTML=h+'</tbody></table>';
+})();
+</script>
 <p>Only the organisational conditions that materially affect delivery are included. Some require numerical performance measures, such as system availability or staffing coverage. Others require evidence that an arrangement or capability exists and is functioning, such as documented approval authority or established escalation procedures.</p></div></div>
 </div></div></div>
 
