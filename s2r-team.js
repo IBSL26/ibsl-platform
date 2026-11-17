@@ -142,7 +142,7 @@
       var root=el(id);if(!root)return;
       root.classList.toggle('tw-ro',ro);
       root.querySelectorAll('textarea,input,select').forEach(function(f){
-        if(f.closest('[data-team-free]')||f.classList.contains('p-thread-ta')||f.type==='file'||f.classList.contains('ref-ta')||f.classList.contains('reflection-textarea'))return;
+        if(f.closest('[data-team-free]')||f.classList.contains('p-thread-ta')||f.type==='file'||f.classList.contains('ref-ta')||f.classList.contains('kr-ta')||f.classList.contains('reflection-textarea'))return;
         if(ro){if(!f.disabled){f.disabled=true;f.setAttribute('data-tw-off','1');}}
         else if(f.getAttribute('data-tw-off')){f.disabled=false;f.removeAttribute('data-tw-off');}
       });
