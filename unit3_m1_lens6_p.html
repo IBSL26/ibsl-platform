@@ -772,6 +772,8 @@ table.u7v-t td strong{color:#fff;}
   <div class="u7-s5-g"><p><b>From part 1.4 &middot; Will</b>What will be done, and by whom. This closes Resolve It. You agree the actions each of you will take, then you ask the alignment question again.</p></div>
   <label class="wp-label" for="ad_will">Will · what you and your chair agree to do, and how you confirm that your chair has reached a 10</label><textarea class="wp-ta reflection-textarea" id="ad_will" style="min-height:120px;" placeholder="What I will do: ...&#10;&#10;What I ask my chair to do: ...&#10;&#10;How I ask the alignment question again: “...”"></textarea><div class="reflection-saved" id="ad_will-saved"></div>
 </div>
+<div class="u7t-cap">Your completed Alignment Dialogue with your board chair</div>
+<div class="u7t-wrap" id="u7DlgAd"></div>
 </div></div></div>
 <div class="acc s2r-kr-acc">
 <div class="acc-h" onclick="tA(this)"><span class="acc-t">Key Reflection</span><div style="display:flex;align-items:center;gap:10px;"><span class="acc-meta">Section 4 &middot; Integration</span><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div></div>
@@ -878,6 +880,8 @@ table.u7v-t td strong{color:#fff;}
   <div class="u7-s5-g"><p><b>From part 1.4 &middot; Will</b>What will be done, and by whom. This closes Resolve It. You agree the actions each of you will take, then you ask the alignment question again.</p></div>
   <label class="wp-label" for="u7_dg_will">Will · what you and your chair agree to do, and how you confirm that your chair has reached a 10</label><textarea class="wp-ta" id="u7_dg_will" data-u7="dg_will" placeholder="What we will do: ...&#10;&#10;What we ask our chair to do: ...&#10;&#10;How we ask the alignment question again: “...”" style="min-height:96px;"></textarea>
 </div>
+<div class="u7t-cap">Your group’s completed Alignment Dialogue with the board chair</div>
+<div class="u7t-wrap" id="u7DlgDg"></div>
 </div></div></div>
 <div id="u7Rec"></div>
 
@@ -1680,7 +1684,7 @@ function u7Init(responses){
   U7.w=u7norm(responses.__ex_work);
   U7.ad=typeof responses.ad_kr==='string'?responses.ad_kr:'';
   U7.ready=true;
-  u7Fill();u7RecDraw();u7AdDraw();u7Bring(false);
+  u7Fill();u7RecDraw();u7AdDraw();u7Bring(false);if(window.u7DlgDraw)setTimeout(window.u7DlgDraw,0);
   twAttach();
 }
 document.addEventListener('DOMContentLoaded',function(){
@@ -1701,6 +1705,24 @@ renderSummaryP();
   &copy; 2026 Institute of Behavioural Strategy &amp; Leadership. Strategy2Results&reg; and S2R&reg; are trade marks of IBSL. All rights reserved.<br>
   Programme content may not be reproduced, distributed or adapted without written consent.
 </footer>
+<script>
+/* The completed Alignment Dialogue (4.1 and 5.2): one table drawn from the GROW entries as they are typed. */
+(function(){
+  function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function v(id){var e=document.getElementById(id);return e?String(e.value||"").trim():"";}
+  function cell(x){return x?esc(x).replace(/\n/g,"<br>"):"<i>to be completed</i>";}
+  function draw(host,kr,g,r,o,w,who){var h=document.getElementById(host);if(!h)return;
+    var row=function(a,b){return "<tr><td class=\"u7t-l\">"+a+"</td><td>"+b+"</td></tr>";};
+    h.innerHTML="<table class=\"u7t\"><colgroup><col style=\"width:22%;\"><col></colgroup><tbody>"+
+      row("Key Result",cell(v(kr)))+row("Starting point","The board chair has disagreed with the current metric and timeframe and gives a 5. "+who+" aim is a 10.")+
+      row("G &middot; Goal",cell(v(g)))+row("R &middot; Reality",cell(v(r)))+row("O &middot; Options",cell(v(o)))+row("W &middot; Will",cell(v(w)))+"</tbody></table>";}
+  function all(){draw("u7DlgAd","ad_kr","ad_goal","ad_reality","ad_options","ad_will","Your");draw("u7DlgDg","u7_dg_kr","u7_dg_goal","u7_dg_reality","u7_dg_options","u7_dg_will","Our");}
+  document.addEventListener("input",all);document.addEventListener("change",all);
+  window.addEventListener("load",function(){all();setTimeout(all,1500);setTimeout(all,4000);});
+  if(document.readyState!=="loading")all();else document.addEventListener("DOMContentLoaded",all);
+  window.u7DlgDraw=all;
+})();
+</script>
 <script src="/s2r-tasks.js"></script>
 <script src="s2r-charter.js"></script>
 </body>
