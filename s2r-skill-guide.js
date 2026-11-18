@@ -80,7 +80,7 @@ window.S2R_REF_GUIDE = {
 "Names the two of the five mechanisms most often missed and how they would introduce or reinforce them.",
 "Names the expectation placed on another function and how they would address their bias to create collective intelligence with that function.",
 "Applies each stage of GROW to the dialogue with one link in the chain.",
-"Sets out the steps they would take with the leadership team to establish expectations across the chain of delivery."
+"Sets out the steps they would take with the leadership team to establish expectations along the Delivery Line."
 ],
 "8": [
 "States how they measure progress and how they would recover a shortfall.",
