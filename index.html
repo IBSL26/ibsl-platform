@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBSL | Strategy2Results® Digital Platform</title>
 <script src="supabase.umd.js"></script>
+<script src="s2r-marks.js"></script>
 <style>
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -2436,7 +2437,8 @@ async function validateAccess() {
       var v = unitAvg(u);
       var valHtml = (v === null)
         ? '<span class="ms-unit-val pending">In progress</span>'
-        : '<span class="ms-unit-val">' + escapeHtml(String(v)) + ' / 100</span>';
+        : '<span class="ms-unit-val">' + escapeHtml(String(v)) + ' / 100' +
+            (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? ' &middot; ' + S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : '') + '</span>';
       unitRows +=
         '<div class="ms-unit-row">' +
           '<span class="ms-unit-name">Module ' + u + ' &middot; ' + escapeHtml(UNIT_NAMES[u]) + '</span>' +
@@ -2449,13 +2451,14 @@ async function validateAccess() {
         '<span class="ms-unit-name">Capstone</span>' +
         (capPending
           ? '<span class="ms-unit-val pending">Pending</span>'
-          : '<span class="ms-unit-val">' + escapeHtml(String(d.capstone_avg)) + ' / 100</span>') +
+          : '<span class="ms-unit-val">' + escapeHtml(String(d.capstone_avg)) + ' / 100' +
+              (d.capstone_earned_pct !== null && d.capstone_earned_pct !== undefined && window.S2RMarks ? ' &middot; ' + S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : '') + '</span>') +
       '</div>';
 
     // While pending, explain the weighting + that the capstone is still required.
     // Once a capstone score exists the sub-line is misleading, so suppress it entirely.
     var capNote = capPending
-      ? '<p class="ms-final-cap">Weighted across Modules 2, 3 and 4. Certification also requires the capstone, scored by IBSL after the Blueprint Showcase.</p>'
+      ? '<p class="ms-final-cap">Your final mark builds as each unit is marked. Certification also requires the capstone, scored by IBSL after the Blueprint Showcase.</p>'
       : '';
 
     host.innerHTML =
@@ -2466,6 +2469,7 @@ async function validateAccess() {
       '</div>' +
       capNote +
       '<div class="ms-units">' + unitRows + '</div>' +
+      (window.S2RMarks ? S2RMarks.table(d) : '') +
       (unscored > 0
         ? '<p class="ms-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</p>'
         : '');
@@ -2476,7 +2480,7 @@ async function validateAccess() {
   // Injects each lens's score onto its EXISTING portal card — matched by
   // data-lens-id, which equals lens_catalog.id / submissions.lens_id. Never 0:
   // a lens with no scored latest submission reads "Not yet scored".
-  function renderPortalLensScores(catRes, subRes) {
+  function renderPortalLensScores(catRes, subRes, unitMap) {
     if (catRes.error || !catRes.data || subRes.error) {
       console.warn('[p-portal-scores] read error:', catRes.error || subRes.error);
       return;   // leave the cards as-is
@@ -2496,7 +2500,10 @@ async function validateAccess() {
       var hasScore = latest && typeof latest.score === 'number';
       var span = document.createElement('span');
       span.className = 'ms-lens-score' + (hasScore ? '' : ' unscored');
-      span.textContent = hasScore ? (latest.score + ' / 100') : 'Not yet scored';
+      var uRow = unitMap && unitMap[lensId];
+      var adds = (hasScore && uRow && uRow.earned !== null && uRow.earned !== undefined && window.S2RMarks)
+        ? ' \u00b7 +' + S2RMarks.pct(uRow.earned) : '';
+      span.textContent = hasScore ? (latest.score + ' / 100' + adds) : 'Not yet scored';
       var openSpan = card.lastElementChild;   // the "Open →" indicator
       if (openSpan && openSpan.tagName === 'SPAN') card.insertBefore(span, openSpan);
       else card.appendChild(span);
@@ -2542,7 +2549,8 @@ async function validateAccess() {
         .eq('profile_id', pid).eq('cohort_id', cohortId).maybeSingle()
     ]).then(function(results) {
       renderHeadline(results[0]);
-      renderPortalLensScores(results[1], results[2]);
+      var sd0 = (results[0] && !results[0].error && results[0].data) ? (Array.isArray(results[0].data) ? results[0].data[0] : results[0].data) : null;
+      renderPortalLensScores(results[1], results[2], (window.S2RMarks && sd0) ? S2RMarks.byLens(sd0) : null);
       renderParticipantLinks(pid, cohortId, results[3]);
       var sd = (results[0] && !results[0].error && results[0].data) ? (Array.isArray(results[0].data) ? results[0].data[0] : results[0].data) : null;
       _capScored = !!(sd && sd.capstone_avg !== null && sd.capstone_avg !== undefined);

@@ -6,6 +6,7 @@
 <title>IBSL | Facilitator Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="s2r-profiles.js"></script>
+<script src="s2r-marks.js"></script>
 <script src="s2r-fac-capstone.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -6677,7 +6678,8 @@
       rows +=
         '<div class="fss-unit-row">' +
           '<span class="fss-unit-name">Module ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
-          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(d['unit' + u + '_avg'])) + '</span>' +
+          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(d['unit' + u + '_avg'])) +
+            (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? ' · ' + S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : '') + '</span>' +
         '</div>';
     });
 
@@ -6686,7 +6688,8 @@
       '<div class="fss-units">' + rows +
         '<div class="fss-unit-row fss-capstone">' +
           '<span class="fss-unit-name">Capstone</span>' +
-          '<span class="fss-unit-avg">' + (capPending ? 'Pending' : escapeHtml(String(d.capstone_avg)) + ' / 100') + '</span>' +
+          '<span class="fss-unit-avg">' + (capPending ? 'Pending' : escapeHtml(String(d.capstone_avg)) + ' / 100' +
+            (d.capstone_earned_pct !== null && d.capstone_earned_pct !== undefined && window.S2RMarks ? ' · ' + S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : '')) + '</span>' +
         '</div>' +
       '</div>' +
       '<div class="fss-final">' +
@@ -6695,6 +6698,7 @@
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
+      (window.S2RMarks ? S2RMarks.table(d) : '') +
       (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</div>' : '');
     mountEl.style.fontFamily = 'inherit';
   }
