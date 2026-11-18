@@ -6649,7 +6649,7 @@
     }
     const certified = d.certified === true;
     mountEl.innerHTML =
-      '<span class="rcs-pct">' + escapeHtml(String(d.final_pct)) + '%</span>' +
+      '<span class="rcs-pct">' + (window.S2RMarks ? S2RMarks.total(d.final_pct) : escapeHtml(String(d.final_pct)) + '%') + '</span>' +
       (certified
         ? '<span class="rcs-cert is-certified" title="Certified">✓ Certified</span>'
         : '<span class="rcs-cert not-certified">Not yet</span>');
@@ -6692,7 +6692,7 @@
       '</div>' +
       '<div class="fss-final">' +
         '<span class="fss-final-label">Programme total</span>' +
-        '<span class="fss-final-pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(finalPct)) + '%</span>' +
+        '<span class="fss-final-pct' + (certified ? ' is-certified' : '') + '">' + (window.S2RMarks ? S2RMarks.total(finalPct) : escapeHtml(String(finalPct)) + '%') + '</span>' +
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +

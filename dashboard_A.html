@@ -10214,7 +10214,7 @@ sam@gamma.org, Sam Lee, participant,`;
       const final =
         '<div class="cert-score__final">' +
           '<span class="cert-score__final-label">Programme total</span>' +
-          '<span class="cert-score__pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(pct)) + '%</span>' +
+          '<span class="cert-score__pct' + (certified ? ' is-certified' : '') + '">' + (window.S2RMarks ? S2RMarks.total(pct) : escapeHtml(String(pct)) + '%') + '</span>' +
           badge +
         '</div>';
       const note = (unscored > 0)

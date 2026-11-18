@@ -31,8 +31,16 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
+  // One decimal place, with whole numbers shown plainly (25%, 18.3%).
   function pct(n) {
-    return (Math.round(Number(n) * 100) / 100).toFixed(2) + '%';
+    var v = Math.round(Number(n) * 10) / 10;
+    return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + '%';
+  }
+
+  // Programme total: rounded down to one decimal, so a total just under 80% never shows as 80%.
+  function total(n) {
+    var v = Math.floor(Number(n || 0) * 10 + 1e-9) / 10;
+    return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + '%';
   }
 
   var MODULE_NAMES = { 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
@@ -44,9 +52,10 @@
   // Percentage of the final mark earned so far in one module (null when none scored).
   function moduleEarned(d, m) {
     var total = 0, any = false;
+    var count = units(d).filter(function (u) { return Number(u.module) === Number(m); }).length || 1;
     units(d).forEach(function (u) {
-      if (Number(u.module) === Number(m) && u.earned !== null && u.earned !== undefined) {
-        total += Number(u.earned); any = true;
+      if (Number(u.module) === Number(m) && u.score !== null && u.score !== undefined) {
+        total += Number(u.score) * (25 / count) / 100; any = true;   // exact share, so 3 x 8.33 adds to 25
       }
     });
     return any ? total : null;
@@ -97,5 +106,5 @@
       '<tbody>' + rows + '</tbody></table></details>';
   }
 
-  window.S2RMarks = { table: table, moduleEarned: moduleEarned, byLens: byLens, pct: pct };
+  window.S2RMarks = { table: table, moduleEarned: moduleEarned, byLens: byLens, pct: pct, total: total };
 })();

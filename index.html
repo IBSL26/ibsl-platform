@@ -2465,7 +2465,7 @@ async function validateAccess() {
 
     host.innerHTML =
       '<div class="ms-final">' +
-        '<span class="ms-final-num' + (certified ? ' is-certified' : '') + '">' + (finalPct === null ? '&mdash;' : escapeHtml(String(finalPct)) + '%') + '</span>' +
+        '<span class="ms-final-num' + (certified ? ' is-certified' : '') + '">' + (finalPct === null ? '&mdash;' : (window.S2RMarks ? S2RMarks.total(finalPct) : escapeHtml(String(finalPct)) + '%')) + '</span>' +
         '<span class="ms-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
