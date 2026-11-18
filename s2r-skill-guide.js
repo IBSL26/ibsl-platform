@@ -20,7 +20,7 @@ window.S2R_SKILL_GUIDE = {
     ["Sections 3 and 4: describes how they would implement each of the three shifts in their organisation, and how they would apply one FACES element across the functions of their Contribution Map.", "Section 5 also shows how they would help the team build this into the management system."],
     ["Section 2: designs a performance scorecard for their current role, giving a percentage weighting for each of the Strategy, Operational and Behavioural categories, adding up to 100%, and naming one measure for each.", "Section 5 also shows how they would help other leaders align their scorecards."]],
 7: [["Sections 1 and 2: names the condition of Clarity, Capability and Commitment most often missed in their organisation or team and how they would establish it, and the two of the five mechanisms most often missed and how they would introduce or reinforce them.", "Section 5 also shows how they would help the team establish expectations."],
-    ["Section 3: uses their Expectations Chain to name an expectation placed on another function and the enabling promise they must make in return.", "Section 5 also shows how they would help others map their own chains across the organisation or team."],
+    ["Section 3: uses their Expectations Chain to name an expectation placed on another function and how they would address their bias to create collective intelligence with that function.", "Section 5 also shows how they would help others map their own chains across the organisation or team."],
     ["Section 4: applies each stage of GROW to the alignment dialogue with one link in the chain.", "Section 5 also shows how they would help others hold these dialogues."]],
 8: [["Section 4: shows how an Enterprise Performance Intelligence Circle would create awareness of the wider impact of the fracture across the organisation or team.", "Section 5 also shows how they would help the team make these reviews a shared practice."],
     ["Sections 1 and 2: states how progress is measured, how they would recover a shortfall, and what they would do about a live early warning signal.", "Section 5 also shows how they would help the team run reviews that restore performance."],
@@ -78,7 +78,7 @@ window.S2R_REF_GUIDE = {
 "7": [
 "Names the condition of Clarity, Capability and Commitment most often missed and how they would establish it.",
 "Names the two of the five mechanisms most often missed and how they would introduce or reinforce them.",
-"Names the expectation placed on another function and the enabling promise they must make in return.",
+"Names the expectation placed on another function and how they would address their bias to create collective intelligence with that function.",
 "Applies each stage of GROW to the dialogue with one link in the chain.",
 "Sets out the steps they would take with the leadership team to establish expectations across the chain of delivery."
 ],
