@@ -3717,7 +3717,7 @@
   // Human-readable pillar name from unit integer (matches lens_catalog unit values)
   function unitName(u) {
     var names = { 1: 'Foundation', 2: 'Direction', 3: 'Influence', 4: 'Grounding' };
-    return names[Number(u)] || ('Module ' + u);
+    return names[Number(u)] ? ('Module ' + Number(u) + ' · ' + names[Number(u)]) : ('Module ' + u);
   }
 
   // Build pillar badge HTML for a cohort card (empty string when no units assigned)
@@ -6262,8 +6262,8 @@
     var isAssigned = (_myUnits.length === 0) || (_myUnits.indexOf(unitNum) !== -1);
     if (!isAssigned) {
       dot.classList.add('dot-not-assigned');
-      dot.setAttribute('data-tooltip', (lensState.lens_title || lensState.lens_id) + ' — Not your pillar');
-      dot.setAttribute('aria-label', (lensState.lens_title || lensState.lens_id) + ' — Not your pillar');
+      dot.setAttribute('data-tooltip', (lensState.lens_title || lensState.lens_id) + ' — Not your module');
+      dot.setAttribute('aria-label', (lensState.lens_title || lensState.lens_id) + ' — Not your module');
       return dot;
     }
 
@@ -6739,7 +6739,10 @@
   function buildLensMetaLine(lens) {
     const parts = [];
     if (lens.unit !== null && lens.unit !== undefined) parts.push('Module ' + escapeHtml(String(lens.unit)));
-    if (lens.id) parts.push('<code style="font-family:Menlo,Consolas,monospace; font-size:11px; opacity:0.7;">' + escapeHtml(lens.id) + '</code>');
+    // Unit number from the lens code (u1_foundations = Unit 1; uXmY_lensN = Unit N+1). The code itself is never shown.
+    var unitMatch = /lens(\d+)$/.exec(String(lens.id || ''));
+    var unitNo = lens.id === 'u1_foundations' ? 1 : (unitMatch ? Number(unitMatch[1]) + 1 : null);
+    if (unitNo) parts.push('Unit ' + unitNo);
     if (parts.length === 0) return '';
     return parts.join('<span class="meta-sep">·</span>');
   }

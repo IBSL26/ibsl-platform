@@ -4247,7 +4247,7 @@
           const units = Array.isArray(p.units) ? p.units : [];
           const unitLabel = units.length > 0
             ? units.map(u => unitNames[u - 1] || `Module ${u}`).join(', ')
-            : 'No sections';
+            : 'No modules';
           roleBadge = `<span class="people-list__role-badge">${escapeHtml(unitLabel)}</span>`;
         }
       }
@@ -5201,14 +5201,14 @@
               <span class="role-picker__icon">⭐</span>
               <div>
                 <div class="role-picker__label">Lead Facilitator</div>
-                <div class="role-picker__desc">Full access to all sections in this cohort. Can review, unlock, and give feedback across all pillars.</div>
+                <div class="role-picker__desc">Full access to all modules in this cohort. Can review, unlock, and give feedback across all modules.</div>
               </div>
             </button>
             <button type="button" class="role-picker__btn" id="rolePickFac">
               <span class="role-picker__icon">👤</span>
               <div>
                 <div class="role-picker__label">Facilitator</div>
-                <div class="role-picker__desc">Access limited to assigned sections only. Choose which sections on the next screen.</div>
+                <div class="role-picker__desc">Access limited to assigned modules only. Choose which modules on the next screen.</div>
               </div>
             </button>
           </div>
@@ -5239,7 +5239,7 @@
         const unitLabels = ['Foundation', 'Direction', 'Influence', 'Grounding'];
         body.innerHTML = `
           <div style="padding:4px 0 12px;font-size:12px;color:var(--ash);">
-            <strong style="color:var(--white)">${name}</strong> — select the sections they will facilitate:
+            <strong style="color:var(--white)">${name}</strong> — select the modules they will facilitate:
           </div>
           <div class="unit-picker">
             ${unitLabels.map((label, i) => `
@@ -11490,6 +11490,15 @@ sam@gamma.org, Sam Lee, participant,`;
         </div>
       `;
 
+      // Unit label from the lens code (u1_foundations = Unit 1; uXmY_lensN = Unit N+1). The code itself is never shown.
+      const SUPPORT_UNIT_TITLES = ['', 'Behavioural Strategy Fundamentals', 'Strategy Visioning & Success in Practice (SiP)', 'SiP KISS Mapping & OKR Definition', 'Direction Integrity (ABCV-MBT)', 'Aligning Heart & Mind', 'Performance Management Setup', 'Establishing Performance Expectations', 'Performance Measurement', 'Strategic Unclogging', 'ESRG Alignment', 'Culture Reinforcement & Organisational Health', 'Sustaining Performance'];
+      const supportUnitLabel = (id) => {
+        if (!id) return '—';
+        const m = /lens(\d+)$/.exec(String(id));
+        const n = id === 'u1_foundations' ? 1 : (m ? Number(m[1]) + 1 : null);
+        return n ? ('Unit ' + n + ' · ' + SUPPORT_UNIT_TITLES[n]) : String(id);
+      };
+
       // Submissions section
       const submissionsTotal = counts.submissions_total != null ? counts.submissions_total : submissions.length;
       const submissionsCountLabel = `Showing ${submissions.length} of ${submissionsTotal}`;
@@ -11503,7 +11512,7 @@ sam@gamma.org, Sam Lee, participant,`;
                <tbody>
                  ${submissions.map(s => `
                    <tr>
-                     <td><code style="font-size:12px;color:rgba(255,255,255,0.85);">${escapeHtml(s.lens_id || '—')}</code></td>
+                     <td>${escapeHtml(supportUnitLabel(s.lens_id))}</td>
                      <td class="cell-secondary">${escapeHtml(s.cohort_name || '—')}</td>
                      <td>${supportReviewPillHtml(s.review_status)}</td>
                      <td class="cell-secondary">${escapeHtml(fmtRelative(s.submitted_at))}</td>
@@ -11537,7 +11546,7 @@ sam@gamma.org, Sam Lee, participant,`;
                <tbody>
                  ${responses.map(r => `
                    <tr>
-                     <td><code style="font-size:12px;color:rgba(255,255,255,0.85);">${escapeHtml(r.lens_id || '—')}</code></td>
+                     <td>${escapeHtml(supportUnitLabel(r.lens_id))}</td>
                      <td class="cell-secondary">${escapeHtml(r.cohort_name || '—')}</td>
                      <td>${supportReviewPillHtml(r.progress_status)}</td>
                      <td class="cell-secondary">${r.response_key_count != null ? r.response_key_count : 0}</td>
