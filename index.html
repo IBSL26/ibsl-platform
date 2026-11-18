@@ -1025,6 +1025,11 @@
   .ms-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 18px; font-family: 'Montserrat', sans-serif; }
   .ms-links a { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); text-decoration: none; }
   .ms-links a:hover { text-decoration: underline; }
+  .ms-mod-total { margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); font-family: 'Montserrat', sans-serif; }
+  .ms-mod-total-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .ms-mod-total-row strong { color: var(--gold); font-size: 12px; letter-spacing: 1px; }
+  .ms-mod-total-bar { height: 5px; margin-top: 8px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; }
+  .ms-mod-total-bar div { height: 100%; background: var(--gold); }
   .ms-lens-score { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--gold); font-family: 'Montserrat', sans-serif; white-space: nowrap; margin-left: 12px; }
   .ms-lens-score.unscored { color: rgba(255,255,255,0.4); font-weight: 400; font-style: italic; letter-spacing: 0; }
 
@@ -1164,7 +1169,7 @@
 
     <!-- WS5.5: participant Overall Result panel — hidden until populated for a signed-in participant (see loadParticipantScores). -->
     <div class="ms-card" id="msHeadlineCard" style="display:none;">
-      <p class="ms-card-label">Overall result</p>
+      <p class="ms-card-label">Programme total</p>
       <div id="msHeadline"></div>
       <div class="ms-links" id="msLinks" style="display:none;"></div>
     </div>
@@ -2434,11 +2439,10 @@ async function validateAccess() {
 
     var unitRows = '';
     [2, 3, 4].forEach(function(u) {
-      var v = unitAvg(u);
-      var valHtml = (v === null)
-        ? '<span class="ms-unit-val pending">In progress</span>'
-        : '<span class="ms-unit-val">' + escapeHtml(String(v)) + ' / 100' +
-            (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? ' &middot; ' + S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : '') + '</span>';
+      var e = window.S2RMarks ? S2RMarks.moduleEarned(d, u) : null;
+      var valHtml = (e === null)
+        ? '<span class="ms-unit-val pending">Not yet marked</span>'
+        : '<span class="ms-unit-val">' + S2RMarks.pct(e) + ' of 25%</span>';
       unitRows +=
         '<div class="ms-unit-row">' +
           '<span class="ms-unit-name">Module ' + u + ' &middot; ' + escapeHtml(UNIT_NAMES[u]) + '</span>' +
@@ -2451,15 +2455,13 @@ async function validateAccess() {
         '<span class="ms-unit-name">Capstone</span>' +
         (capPending
           ? '<span class="ms-unit-val pending">Pending</span>'
-          : '<span class="ms-unit-val">' + escapeHtml(String(d.capstone_avg)) + ' / 100' +
-              (d.capstone_earned_pct !== null && d.capstone_earned_pct !== undefined && window.S2RMarks ? ' &middot; ' + S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : '') + '</span>') +
+          : '<span class="ms-unit-val">' + (window.S2RMarks ? S2RMarks.pct(d.capstone_earned_pct) : escapeHtml(String(d.capstone_avg)) + ' / 100') + ' of 25%</span>') +
       '</div>';
 
     // While pending, explain the weighting + that the capstone is still required.
     // Once a capstone score exists the sub-line is misleading, so suppress it entirely.
-    var capNote = capPending
-      ? '<p class="ms-final-cap">Your final mark builds as each unit is marked. Certification also requires the capstone, scored by IBSL after the Blueprint Showcase.</p>'
-      : '';
+    var capNote = '<p class="ms-final-cap">Programme total to date, out of 100%. Each module adds up to 25% as its units are marked, and the Capstone adds up to 25%.' +
+      (capPending ? ' Certification also requires the Capstone, scored by IBSL after the Blueprint Showcase.' : '') + '</p>';
 
     host.innerHTML =
       '<div class="ms-final">' +
@@ -2469,10 +2471,27 @@ async function validateAccess() {
       '</div>' +
       capNote +
       '<div class="ms-units">' + unitRows + '</div>' +
-      (window.S2RMarks ? S2RMarks.table(d) : '') +
       (unscored > 0
         ? '<p class="ms-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</p>'
         : '');
+  }
+
+  // Module total on each module card: the share of the module's 25% earned so far.
+  function renderModuleTotals(d) {
+    if (!d || !window.S2RMarks) return;
+    [2, 3, 4].forEach(function(n) {
+      var badge = document.getElementById('unit' + n + 'Badge');
+      if (!badge || !badge.parentElement) return;
+      var card = badge.parentElement;
+      var el = card.querySelector('.ms-mod-total');
+      if (!el) { el = document.createElement('div'); el.className = 'ms-mod-total'; card.appendChild(el); }
+      var e = S2RMarks.moduleEarned(d, n);
+      var fill = e === null ? 0 : Math.min(100, e / 25 * 100);
+      el.innerHTML =
+        '<div class="ms-mod-total-row"><span>Module total</span><strong>' +
+          (e === null ? 'Not yet marked' : S2RMarks.pct(e) + ' of 25%') + '</strong></div>' +
+        '<div class="ms-mod-total-bar"><div style="width:' + fill + '%;"></div></div>';
+    });
   }
 
   // Per-lens scores: own submissions joined (client-side) to lens_catalog, units
@@ -2550,7 +2569,7 @@ async function validateAccess() {
     ]).then(function(results) {
       renderHeadline(results[0]);
       var sd0 = (results[0] && !results[0].error && results[0].data) ? (Array.isArray(results[0].data) ? results[0].data[0] : results[0].data) : null;
-      renderPortalLensScores(results[1], results[2], (window.S2RMarks && sd0) ? S2RMarks.byLens(sd0) : null);
+      renderModuleTotals(sd0);
       renderParticipantLinks(pid, cohortId, results[3]);
       var sd = (results[0] && !results[0].error && results[0].data) ? (Array.isArray(results[0].data) ? results[0].data[0] : results[0].data) : null;
       _capScored = !!(sd && sd.capstone_avg !== null && sd.capstone_avg !== undefined);

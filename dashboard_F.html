@@ -6678,8 +6678,7 @@
       rows +=
         '<div class="fss-unit-row">' +
           '<span class="fss-unit-name">Module ' + u + ' · ' + escapeHtml(unitName[u]) + '</span>' +
-          '<span class="fss-unit-avg">' + escapeHtml(fmtAvg(d['unit' + u + '_avg'])) +
-            (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? ' · ' + S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : '') + '</span>' +
+          '<span class="fss-unit-avg">' + (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : 'not yet marked') + '</span>' +
         '</div>';
     });
 
@@ -6688,17 +6687,15 @@
       '<div class="fss-units">' + rows +
         '<div class="fss-unit-row fss-capstone">' +
           '<span class="fss-unit-name">Capstone</span>' +
-          '<span class="fss-unit-avg">' + (capPending ? 'Pending' : escapeHtml(String(d.capstone_avg)) + ' / 100' +
-            (d.capstone_earned_pct !== null && d.capstone_earned_pct !== undefined && window.S2RMarks ? ' · ' + S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : '')) + '</span>' +
+          '<span class="fss-unit-avg">' + (capPending ? 'Pending' : (window.S2RMarks ? S2RMarks.pct(d.capstone_earned_pct) : escapeHtml(String(d.capstone_avg)) + ' / 100') + ' of 25%') + '</span>' +
         '</div>' +
       '</div>' +
       '<div class="fss-final">' +
-        '<span class="fss-final-label">Final</span>' +
+        '<span class="fss-final-label">Programme total</span>' +
         '<span class="fss-final-pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(finalPct)) + '%</span>' +
         '<span class="fss-cert ' + (certified ? 'is-certified' : 'not-certified') + '">' +
           (certified ? '✓ Certified' : 'Not yet certified') + '</span>' +
       '</div>' +
-      (window.S2RMarks ? S2RMarks.table(d) : '') +
       (unscored > 0 ? '<div class="fss-note">' + unscored + ' reviewed unit' + (unscored === 1 ? '' : 's') + ' not yet scored.</div>' : '');
     mountEl.style.fontFamily = 'inherit';
   }

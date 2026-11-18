@@ -10191,9 +10191,8 @@ sam@gamma.org, Sam Lee, participant,`;
       function unitRow(u) {
         const v = d['unit' + u + '_avg'];
         const cell = (v === null || v === undefined)
-          ? '<span class="cert-score__v cert-score__v--muted">in progress</span>'
-          : '<span class="cert-score__v">' + escapeHtml(String(v)) + ' / 100' +
-            (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? ' · ' + S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : '') + '</span>';
+          ? '<span class="cert-score__v cert-score__v--muted">not yet marked</span>'
+          : '<span class="cert-score__v">' + (window.S2RMarks && S2RMarks.moduleEarned(d, u) !== null ? S2RMarks.pct(S2RMarks.moduleEarned(d, u)) + ' of 25%' : escapeHtml(String(v)) + ' / 100') + '</span>';
         return '<div class="cert-score__row"><span class="cert-score__k">' +
                escapeHtml(unitName[u]) + '</span>' + cell + '</div>';
       }
@@ -10207,15 +10206,14 @@ sam@gamma.org, Sam Lee, participant,`;
       function capstoneRow() {
         const head = '<div class="cert-score__row"><span class="cert-score__k">Capstone</span>';
         if (d.capstone_pending !== true) {
-          return head + '<span class="cert-score__v">' + escapeHtml(String(d.capstone_avg)) + ' / 100' +
-            (d.capstone_earned_pct !== null && d.capstone_earned_pct !== undefined && window.S2RMarks ? ' · ' + S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : '') + '</span></div>';
+          return head + '<span class="cert-score__v">' + (window.S2RMarks ? S2RMarks.pct(d.capstone_earned_pct) + ' of 25%' : escapeHtml(String(d.capstone_avg)) + ' / 100') + '</span></div>';
         }
         return head + '<span class="cert-score__v cert-score__v--muted">Pending</span></div>';
       }
       const units = unitRow(2) + unitRow(3) + unitRow(4) + capstoneRow();
       const final =
         '<div class="cert-score__final">' +
-          '<span class="cert-score__final-label">Final</span>' +
+          '<span class="cert-score__final-label">Programme total</span>' +
           '<span class="cert-score__pct' + (certified ? ' is-certified' : '') + '">' + escapeHtml(String(pct)) + '%</span>' +
           badge +
         '</div>';
@@ -10226,8 +10224,7 @@ sam@gamma.org, Sam Lee, participant,`;
       let cls = (variant === 'compact') ? 'cert-score cert-score--compact' : 'cert-score';
       if (certified) cls += ' is-certified';
       const heading = (variant === 'compact') ? '' : '<div class="cert-score__heading">Certification score</div>';
-      const accum = (variant !== 'compact' && window.S2RMarks) ? S2RMarks.table(d) : '';
-      return '<div class="' + cls + '">' + heading + units + final + accum + note + '</div>';
+      return '<div class="' + cls + '">' + heading + units + final + note + '</div>';
     }
 
     function hydrateCertScores(container) {
