@@ -2926,6 +2926,8 @@
   .capstone-member__name { font-size: 13px; color: rgba(255,255,255,0.9); font-family: Montserrat, sans-serif; }
   .capstone-member__email { color: rgba(255,255,255,0.45); font-size: 11px; margin-left: 6px; }
   .capstone-member__role { color: #c9a84c; font-size: 11px; font-weight: 600; margin-left: 8px; letter-spacing: 0.5px; }
+  select.capstone-role-sel { background: #0f1a12; border: 1px solid rgba(201,168,76,0.45); border-radius: 2px; padding: 3px 6px; font-family: Montserrat, sans-serif; cursor: pointer; }
+  .capstone-role-saved { font-size: 11px; color: #5ecba1; margin-left: 6px; }
   .capstone-remove-btn { font-size: 11px; padding: 5px 12px; }
   .capstone-candidate { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; color: #fff; cursor: pointer; font-family: Montserrat, sans-serif; margin-bottom: 6px; }
   .capstone-candidate:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
@@ -12661,6 +12663,22 @@ sam@gamma.org, Sam Lee, participant,`;
         capstoneState.teams = teams;
         capstoneState.agreedByTeam = agreedByTeam;
         capstoneState.membersByTeam = membersByTeam;
+        if (!window.__capRoleSel) {
+          window.__capRoleSel = true;
+          document.addEventListener('change', async function(ev) {
+            const sel = ev.target;
+            if (!sel || !sel.classList || !sel.classList.contains('capstone-role-sel')) return;
+            const note = sel.nextElementSibling;
+            sel.disabled = true; if (note) { note.style.color = ''; note.textContent = 'Saving…'; }
+            try {
+              const r = await sb.rpc('admin_set_exec_role', { p_profile_id: sel.getAttribute('data-profile-id'), p_role: sel.value });
+              const ok = !r.error && r.data && r.data.ok;
+              if (note) { note.style.color = ok ? '' : '#f0a060'; note.textContent = ok ? 'Saved' : 'Not saved. Please try again.'; }
+              if (!r.error) console.log('[capstone] role saved', r.data); else console.error('[capstone] role save:', r.error);
+            } catch (e) { if (note) { note.style.color = '#f0a060'; note.textContent = 'Not saved. Please try again.'; } }
+            sel.disabled = false;
+          });
+        }
         capstoneState.assignedIds = assignedIds;
         renderCapstoneTeams();
       } catch (e) {
@@ -12831,7 +12849,11 @@ sam@gamma.org, Sam Lee, participant,`;
               const hasScore = typeof m.score_pct === 'number';
               return '<div class="capstone-member">' +
                 '<span class="capstone-member__name">' + capstoneEsc(m.full_name) +
-                  '<span class="capstone-member__role">' + capstoneEsc(m.exec_role || 'Role not recorded') + '</span>' +
+                  '<select class="capstone-member__role capstone-role-sel" aria-label="CESI Executive Role" data-profile-id="' + capstoneEsc(m.profile_id) + '">' +
+                    ['', 'CEO', 'CFO', 'COO', 'CHRO', 'CTO', 'CMO', 'CCO', 'CPO', 'CRO', 'CSO'].map(function(r) {
+                      return '<option value="' + r + '"' + ((m.exec_role || '').toUpperCase() === r ? ' selected' : '') + '>' + (r || 'Role not recorded') + '</option>';
+                    }).join('') +
+                  '</select><span class="capstone-role-saved"></span>' +
                   (m.email ? '<span class="capstone-member__email">' + capstoneEsc(m.email) + '</span>' : '') + '</span>' +
                 '<span class="capstone-score">' +
                   '<input type="number" min="0" max="100" step="1" placeholder="0–100" class="capstone-score-input" aria-label="Capstone score (0–100)"' +
