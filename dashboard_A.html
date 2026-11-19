@@ -2925,6 +2925,7 @@
   .capstone-member--empty { color: rgba(255,255,255,0.45); font-style: italic; justify-content: flex-start; }
   .capstone-member__name { font-size: 13px; color: rgba(255,255,255,0.9); font-family: Montserrat, sans-serif; }
   .capstone-member__email { color: rgba(255,255,255,0.45); font-size: 11px; margin-left: 6px; }
+  .capstone-member__role { color: #c9a84c; font-size: 11px; font-weight: 600; margin-left: 8px; letter-spacing: 0.5px; }
   .capstone-remove-btn { font-size: 11px; padding: 5px 12px; }
   .capstone-candidate { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 10px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; color: #fff; cursor: pointer; font-family: Montserrat, sans-serif; margin-bottom: 6px; }
   .capstone-candidate:hover { border-color: rgba(201,168,76,0.5); background: rgba(201,168,76,0.08); }
@@ -12615,6 +12616,13 @@ sam@gamma.org, Sam Lee, participant,`;
           if (!profRes.error && Array.isArray(profRes.data)) profRes.data.forEach(function(p) { profById[p.id] = p; });
         }
 
+        // 19 Nov 2026: each member's CESI Executive Role (from her participant profile).
+        const roleById = {};
+        try {
+          const roleRes = await sb.rpc('get_cohort_participant_profiles', { p_cohort_id: capstoneState.cohortId });
+          if (!roleRes.error && Array.isArray(roleRes.data)) roleRes.data.forEach(function(r) { if (r && r.profile_id && r.exec_role) roleById[r.profile_id] = r.exec_role; });
+        } catch (e) { console.warn('[capstone] executive roles:', e); }
+
         // WS4: existing certificates for this cohort (one read) → participant_number by profile.
         const certByProfile = {};
         const certScoreByProfile = {};
@@ -12643,6 +12651,7 @@ sam@gamma.org, Sam Lee, participant,`;
             score_pct: (m.capstone_final_pct === undefined ? null : m.capstone_final_pct),
             full_name: (profById[m.profile_id] && profById[m.profile_id].full_name) || '(unknown participant)',
             email: (profById[m.profile_id] && profById[m.profile_id].email) || '',
+            exec_role: roleById[m.profile_id] || '',
             certified: !!certifiedByProfile[m.profile_id],
             participant_number: (m.profile_id in certByProfile) ? certByProfile[m.profile_id] : null,
             cert_score: (m.profile_id in certScoreByProfile) ? certScoreByProfile[m.profile_id] : null
@@ -12822,6 +12831,7 @@ sam@gamma.org, Sam Lee, participant,`;
               const hasScore = typeof m.score_pct === 'number';
               return '<div class="capstone-member">' +
                 '<span class="capstone-member__name">' + capstoneEsc(m.full_name) +
+                  '<span class="capstone-member__role">' + capstoneEsc(m.exec_role || 'Role not recorded') + '</span>' +
                   (m.email ? '<span class="capstone-member__email">' + capstoneEsc(m.email) + '</span>' : '') + '</span>' +
                 '<span class="capstone-score">' +
                   '<input type="number" min="0" max="100" step="1" placeholder="0–100" class="capstone-score-input" aria-label="Capstone score (0–100)"' +

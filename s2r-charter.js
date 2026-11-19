@@ -1,6 +1,6 @@
 /* S2R Portal · Our company overview in Section 5 of Units 3 to 12 (12 Nov 2026).
    Shows, read-only, what the group agreed in its Problem Charter (Unit 1): the company,
-   the strategy redesign trigger, the three problems and the central problem statement,
+   the executive team (19 Nov 2026), the strategy redesign trigger, the three problems and the central problem statement,
    so that every unit's Capstone work is done for the same company and problem.
    Placed just above the group record bar. Nothing is saved and no work is changed.
    © 2026 IBSLeadership. All rights reserved. S2R® and Strategy2Results® are registered trademarks. */
@@ -48,6 +48,7 @@
       var org=[['Company',c.company]].concat(lines(c.org));
       body='<p class="s2c-note">This is information from our Problem Charter. Every part of this unit’s Capstone work is done for this company and its central problem.</p>'+
         '<div class="s2c-l">Our company</div>'+tbl(org)+
+        (c.team?'<div class="s2c-l">Our executive team</div>'+tbl(c.team.split('\n').map(function(l){var i=l.indexOf('·');return i>0?[l.slice(0,i).trim(),l.slice(i+1).trim()]:null;}).filter(Boolean)):'')+
         (c.trigger?'<div class="s2c-l">Our strategy redesign trigger</div>'+tbl(lines(c.trigger)):'')+
         (AREAS.some(function(a){return c.probs[a];})?'<div class="s2c-l">Our three problems</div>'+tbl(AREAS.filter(function(a){return c.probs[a];}).map(function(a){return [a,c.probs[a].p+(c.probs[a].w?'\nWhy this matters now: '+c.probs[a].w:'')];})).replace(/\n/g,'<br>'):'')+
         (c.problem?'<div class="s2c-l">Our central organisational problem</div><p class="s2c-p">'+esc(c.problem)+'</p>':'');
@@ -58,7 +59,7 @@
     var r={};try{r=await window.S2R.loadAll('u1_foundations')||{};}catch(e){r={};}
     var conf=Array.isArray(r.confirmed_items)?r.confirmed_items:[];
     function g(k,n){return conf.indexOf(n)>=0&&typeof r[k]==='string'?r[k].trim():'';}
-    return {company:g('pc_company','Problem Charter · Simulated Company'),org:g('pc_org','Problem Charter · Our Organisation'),
+    return {company:g('pc_company','Problem Charter · Simulated Company'),team:g('pc_team','Problem Charter · Executive Team'),org:g('pc_org','Problem Charter · Our Organisation'),
             trigger:g('pc_trigger','Problem Charter · Strategy Redesign Trigger'),
             probs:problems(g('pc_address','Problem Charter · Challenges We Will Address')),
             problem:g('pc_problem','Problem Charter · Central Organisational Problem')};
