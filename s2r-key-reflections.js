@@ -31,6 +31,7 @@
     '.kr-skill{font-size:12px;line-height:1.5;color:rgba(255,255,255,.7);padding:0 16px 14px;}' +
     '.kr-prev{margin:6px 16px 10px;padding:10px 12px;background:rgba(255,255,255,.06);border-left:3px solid #C6A24C;font-size:13px;line-height:1.6;color:rgba(255,255,255,.88);white-space:pre-wrap;}' +
     '.kr-prev b{display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#C6A24C;margin-bottom:4px;white-space:normal;}' +
+    '.kr-pnote{display:block;font-size:12px;font-style:italic;color:rgba(255,255,255,.6);margin-bottom:6px;white-space:normal;}' +
     '.kr-prev a,.kr-prev button{background:none;border:0;padding:0;color:#3fb8a2;font:inherit;text-decoration:underline;cursor:pointer;}' +
     '.kr-ta{display:block;width:calc(100% - 32px);min-height:110px;margin:4px 16px 10px;padding:10px;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);border-radius:3px;color:#fff;font:inherit;font-size:14px;line-height:1.6;resize:vertical;}' +
     '.kr-save{margin:0 16px 14px;padding:8px 16px;background:#1A7A6A;border:0;border-radius:3px;color:#fff;font:inherit;font-size:12px;font-weight:700;cursor:pointer;}' +
@@ -54,10 +55,12 @@
     return (U.carry[sec] || []).map(function (p) {
       var u = String(p[0]), s = p[1], v = (cache[D[u].lens] || {})['kr_s' + s], same = u === unit;
       var name = 'Your earlier response · ' + (same ? '' : 'Unit ' + u + ', ') + 'Section ' + s;
-      if (typeof v === 'string' && v.trim()) return '<div class="kr-prev"><b>' + name + '</b>' + esc(v) + '</div>';
+      var pq = (D[u].q || [])[s - 1] || '';
+      var note = '<span class="kr-pnote">This is your answer to the ' + (same ? '' : 'Unit ' + u + ', ') + 'Section ' + s + ' reflection' + (pq ? ': \u201c' + esc(pq) + '\u201d' : '') + '. The question below builds on it.</span>';
+      if (typeof v === 'string' && v.trim()) return '<div class="kr-prev"><b>' + name + '</b>' + note + esc(v) + '</div>';
       var go = same ? '<button type="button" data-go="' + s + '">Go to Section ' + s + '</button>'
                     : '<a href="/' + D[u].file + '">Go to Unit ' + u + '</a>';
-      return '<div class="kr-prev"><b>' + name + '</b>No earlier response saved yet. ' + go + '</div>';
+      return '<div class="kr-prev"><b>' + name + '</b>' + note + 'No earlier response saved yet. ' + go + '</div>';
     }).join('');
   }
   function refreshPrev() {
