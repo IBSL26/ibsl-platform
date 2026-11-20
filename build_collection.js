@@ -156,7 +156,7 @@ function extractSummary(html, lensId){
   try { arr = (new Function('return (' + arrText + ');'))(); }
   catch (e){ note('Micro-Climb: ' + lensId + ' → PARSE FAILED (' + e.message + ').'); return null; }
   assert(Array.isArray(arr), 'SUMMARY for ' + lensId + ' did not eval to an array');
-  note('Micro-Climb: ' + lensId + ' → ' + arr.length + ' arc segments.');
+  note('Micro-Climb: ' + lensId + ' → ' + arr.length + ' arc segments, ' + arr.reduce(function(n,b){return n+((b.points||[]).length);},0) + ' key learnings.');
   return arr;
 }
 
@@ -203,7 +203,7 @@ function extractPrompts(html, lensId){
   return prompts;
 }
 
-// Units 10 and 11 have no Unit Summary on their pages (removed 27 Oct); the Learning Portfolio carries these.
+// Fallback only: since 20 Nov 2026 every participant file (Units 10 and 11 included) carries its own SUMMARY array, read by extractSummary.
 const PORTFOLIO_SUMMARY = {
   u4m1_lens9: [
     {arc:"Awareness — What",title:"What Was Established",body:"Every strategic commitment places specific demands on the organisation’s operating conditions. ESRG names those conditions: Environment (FIT), Systems (SIP), Resources (AIR) and Governance (PAR). You specified, at the level of the Objective, what each component must provide for one Objective to be delivered, and you learnt when to use ESRG Alignment and when to use Strategic Unclogging."},
@@ -370,6 +370,8 @@ function buildTemplate(){
 '.sheet .sum-arc{width:auto;flex:0 0 auto;color:#fff;background:var(--ibsl-green);font-size:8.5px;letter-spacing:1.5px;padding:4px 8px;border-radius:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
 '.sheet .sum-title{font-family:"Montserrat",sans-serif;font-size:13px;font-weight:700;color:var(--ibsl-green);}',
 '.sheet .sum-arr{display:none;}',
+'.sum-pts{margin:2px 0 6px 18px;padding:0;}.sum-pts li{font-size:13px;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:7px;}.sum-pts li strong{font-weight:600;}',
+'.sheet .sum-pts li{color:#1c1c1c;font-size:11.5px;line-height:1.6;margin-bottom:5px;break-inside:avoid;}.sheet .sum-pts li strong{color:var(--ibsl-green);}',
 '.sheet .sum-body{padding:12px 16px 4px;}',
 '.sheet .sum-body p{font-size:12px;line-height:1.75;color:var(--ibsl-ink);margin:0 0 8px;}',
 '/* facilitator feedback */',
@@ -435,7 +437,9 @@ function buildTemplate(){
 '    arr.forEach(function(s){',
 '      var b=el("div","sum-block open");',
 '      var h=el("div","sum-h"); h.appendChild(el("span","sum-arc",s.arc||"")); h.appendChild(el("span","sum-title",s.title||s.t||"")); b.appendChild(h);',
-'      var body=el("div","sum-body"); body.appendChild(el("p",null,s.body||"")); b.appendChild(body);',
+'      var body=el("div","sum-body"); body.appendChild(el("p",null,s.body||""));',
+'      if(s.points&&s.points.length){ var ul=el("ul","sum-pts"); s.points.forEach(function(pt){ var li=el("li"); var k=String(pt).indexOf(": "); if(k>0&&k<60){ li.appendChild(el("strong",null,pt.slice(0,k+1))); li.appendChild(document.createTextNode(" "+pt.slice(k+2))); } else { li.textContent=pt; } ul.appendChild(li); }); body.appendChild(ul); }',
+'      b.appendChild(body);',
 '      wrap.appendChild(b);',
 '    });',
 '    return wrap;',
