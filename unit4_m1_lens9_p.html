@@ -1480,8 +1480,8 @@ function u10Norm(w){
   if(Array.isArray(w.fns)&&w.fns.length)b.fns=w.fns.map(function(f){var x=u10BlankFn();if(f){if(typeof f.role==="string")x.role=f.role;if(typeof f.fn==="string")x.fn=f.fn;if(Array.isArray(f.s))for(var i=0;i<12;i++)x.s[i]=typeof f.s[i]==="string"?f.s[i]:"";}return x;});
   if(Array.isArray(w.interp))for(var d=0;d<4;d++)for(var k=0;k<3;k++){var v=w.interp[d]&&w.interp[d][k];b.interp[d][k]=typeof v==="string"?v:"";}
   if(Array.isArray(w.resp)&&w.resp.length)b.resp=w.resp.slice(0,4).map(function(r){var x=u10BlankResp();Object.keys(x).forEach(function(k){if(r&&typeof r[k]==="string")x[k]=r[k];});return x;});
-  return b;
   while(b.resp.length<4)b.resp.push(u10BlankResp());
+  return b;
 }
 function u10Parse(t){var m={};String(t||"").split(/\r?\n/).forEach(function(l){var i=l.lastIndexOf(": ");if(i>0)m[l.slice(0,i).trim()]=l.slice(i+2).trim();});return m;}
 function u10Col(m){return m.role||m.name;}
@@ -1550,7 +1550,7 @@ function u10DrawKeyScores(){for(var d=0;d<4;d++){var el=u10el("u10KeyCap"+d);if(
 function u10DrawRows(){
   var host=u10el("u10Int");
   if(host)host.innerHTML='<div class="u10-scroll"><table style="min-width:1100px" class="u10-tbl u10-int"><thead><tr><th>Execution-enabling capability</th><th>Functional Intelligence / Convergence</th><th>Cross-Functional Intelligence / Divergence</th><th>Enterprise Intelligence / Dependency</th><th>Collective Intelligence Response</th><th>Executive functions</th></tr></thead><tbody>'+
-    U10_DOM.map(function(d,i){var r=U10W.resp[i];function ta(path,v,lbl){return '<td><textarea class="fld-input u10-ta" style="min-height:90px;" aria-label="'+u10esc(d[1]+' · '+lbl)+'" data-u10="'+path+'">'+u10esc(v)+'</textarea></td>';}
+    U10_DOM.map(function(d,i){var r=U10W.resp[i]||(U10W.resp[i]=u10BlankResp());function ta(path,v,lbl){return '<td><textarea class="fld-input u10-ta" style="min-height:90px;" aria-label="'+u10esc(d[1]+' · '+lbl)+'" data-u10="'+path+'">'+u10esc(v)+'</textarea></td>';}
       return '<tr><td style="min-width:200px;"><strong>'+d[1]+'</strong><br>('+d[0]+')<div class="u10-note" id="u10KeyCap'+i+'">'+u10KeyScores(i)+'</div></td>'+U10_QL.map(function(q,k){return ta("interp-"+i+"-"+k,U10W.interp[i][k],q);}).join("")+ta("resp-"+i+"-response",r.response,"Collective Intelligence Response")+ta("resp-"+i+"-functions",r.functions,"Executive functions")+'</tr>';}).join("")+'</tbody></table></div>';
 }
 function u10PRText(r,i){return r.response?u10esc(r.response):'<span class="u10-miss">Write the Collective Intelligence Response for '+U10_DOM[i][1]+' in part 5.3 first.</span>';}
