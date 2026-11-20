@@ -76,11 +76,11 @@ window.S2R_REF_GUIDE = {
 "Sets out how they would help the leadership team build each of the two components: the Contribution Map and the FACES application."
 ],
 "7": [
-"Names the condition of Clarity, Capability and Commitment most often missed and how they would establish it.",
-"Names the two of the five mechanisms most often missed and how they would introduce or reinforce them.",
+"Names the condition of Clarity, Capability and Commitment most often missed when establishing expectations and how they would implement it.",
+"Names the two of the five mechanisms most often missed in their organisation or team and how they would introduce or reinforce them.",
 "Names the expectation placed on another function and how they would address their bias to create collective intelligence with that function.",
-"Applies each stage of GROW to the dialogue with one link in the chain.",
-"Sets out the steps they would take with the leadership team to establish expectations along the Delivery Line."
+"Names one Key Result and one person in the Expectations Chain and applies each stage of GROW to establishing expectations with that person on that Key Result.",
+"Sets out how they would help the leadership team adopt the Delivery Line and the Expectations Chain as a fundamental component of performance management."
 ],
 "8": [
 "States how they measure progress and how they would recover a shortfall.",
