@@ -325,7 +325,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="11"></script><script defer src="/s2r-key-reflections.js" data-lens="u4m1_lens10"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="11"></script>
 </head>
@@ -851,7 +851,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 <div class="acc-b"><div class="cb">
 <p>The completed Organisational Health Response forms part of the final capstone panel assessment. It includes the consolidated health score and gross quarterly exposure for only the functions represented in the group, the lowest-scoring health trait and one integrated Review–Realign–Restore response with accountable CXO(s), a health improvement target and a financial reduction target. It also includes the group’s Cultural Operating Code.</p>
 <p><strong>This work is presented only during the final capstone panel assessment.</strong></p>
-<div class="u11-rec"><div id="u11RecMsg" class="u11-note2"></div><button type="button" class="ref-save" data-team-free onclick="u11Agree()">Agree</button> <button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our group record</button></div>
+<div class="u11-rec"><div id="u11RecTbl"></div><div id="u11RecMsg" class="u11-note2"></div><button type="button" class="ref-save" data-team-free onclick="u11Agree()">Agree</button> <button type="button" class="ref-save" data-team-free onclick="u11Print()">Print our group record</button></div>
 </div></div></div>
 
 <div class="acc">
@@ -1620,6 +1620,8 @@ function u11Out(){
   var t=u11Texts();U11_KEYS.forEach(function(k){if(_u11Last[k]!==t[k]){_u11Last[k]=t[k];S2RTeam.save(k,t[k]);}});
 }
 function u11RecDraw(){
+  var rt=u11el("u11RecTbl");if(rt&&window.S2RRec){try{var t=u11Texts(),s0=window.S2RTeam&&S2RTeam.status(),H=["Functional health assessments","Consolidated health position","Review–Realign–Restore","Organisational Health Response","Cultural Operating Code"];
+    S2RRec.set(rt,'<div class="s2r-rec-out">'+S2RRec.head(!!(s0&&s0.all_agreed))+U11_KEYS.map(function(k,i){return S2RRec.part(H[i],S2RRec.table(t[k],{band:function(x){return /^Response \d+$/.test(x);}}));}).join('')+'</div>');}catch(e){}}
   var m=u11el("u11RecMsg");if(!m)return;var o=u11Open(),st=window.S2RTeam&&S2RTeam.status();
   if(st&&st.all_agreed)m.innerHTML='<span class="u11-ok">✓ Every member has agreed. Your group’s clinic record goes into your team’s Capstone S2R® Blueprint.</span>';
   else if(o.length)m.textContent="Still to complete before your group can agree: "+o.join("; ")+".";

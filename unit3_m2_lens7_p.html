@@ -425,10 +425,11 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 .u8v-l li{font-size:12.5px;line-height:1.7;color:rgba(255,255,255,.75);margin:0 0 5px;}
 .u8v-l li strong{color:#fff;}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="8"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m2_lens7"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="8"></script>
 </head>
@@ -1709,6 +1710,7 @@ function u8Rows(part,print){
   return u8Text(part).split('\n').filter(function(l){return l;}).map(function(l){
     var i=l.indexOf(': '),a=i>=0?l.slice(0,i):l,b=i>=0?l.slice(i+2):'';
     var v=b.trim()?u8esc(b):(print?'—':'<i style="opacity:.6">to be agreed by your group</i>');
+    if(!print)return '<tr><td class="rt-k">'+u8esc(a)+'</td><td class="rt-v">'+v+'</td></tr>';
     return '<tr><td style="width:34%;padding:8px 10px;border:1px solid '+bd+';font-weight:700;vertical-align:top;">'+u8esc(a)+'</td><td style="padding:8px 10px;border:1px solid '+bd+';white-space:pre-wrap;vertical-align:top;">'+v+'</td></tr>';
   }).join('');
 }
@@ -1716,17 +1718,19 @@ function u8Tables(print){
   var bd=print?'#c9c9c9':'rgba(255,255,255,.12)',hb=print?'#e8efe9':'rgba(94,203,161,.12)',hc=print?'#043f2f':'#5ecba1';
   var tb='<table style="width:100%;border-collapse:collapse;margin:8px 0 18px;font-size:13px;">';
   var head=function(t){return '<tr><td colspan="2" style="padding:8px 10px;border:1px solid '+bd+';background:'+hb+';color:'+hc+';font-weight:700;letter-spacing:.5px;">'+t+'</td></tr>';};
-  var ward=tb+head('5.1 &middot; Our WARD')+u8Rows('c5',print)+'</table>';
+  if(!print){tb='<table class="s2r-rt"><tbody>';head=function(t){return '<tr class="rt-s"><th colspan="2">'+t+'</th></tr>';};}
+  var ward=tb+head('5.1 &middot; Our WARD')+u8Rows('c5',print)+(print?'':'</tbody>')+'</table>';
   var epic=tb+head('5.2 &middot; Our EPIC')+U8P.filter(function(p){return p[0]!=='c5';}).map(function(p){
-    return '<tr><td colspan="2" style="padding:6px 10px;border:1px solid '+bd+';font-weight:700;color:'+hc+';">'+u8esc(p[4].replace('5.2 · ',''))+'</td></tr>'+u8Rows(p[0],print);
-  }).join('')+'</table>';
+    var sh=u8esc(p[4].replace('5.2 · ',''));
+    return (print?'<tr><td colspan="2" style="padding:6px 10px;border:1px solid '+bd+';font-weight:700;color:'+hc+';">'+sh+'</td></tr>':'<tr class="rt-s"><th colspan="2">'+sh+'</th></tr>')+u8Rows(p[0],print);
+  }).join('')+(print?'':'</tbody>')+'</table>';
   return ward+epic;
 }
 function u8RecDraw(){
   var host=u8el('u8Rec');if(!host)return;
   var conf=u8has(),msg=u8el('u8Msg'),keep=msg?[msg.textContent,msg.className,msg.style.display]:null;
   host.innerHTML='<div class="u8-out"><div class="u8-out-h">Your group&rsquo;s record'+(conf?'<span class="u8-conf yes">Agreed by every member &middot; into your Capstone</span>':'<span class="u8-conf no">Not yet agreed by every member</span>')+'</div>'+
-    u8Tables(false)+
+    U8P.map(function(p){return S2RRec.part(p[4],'<table class="s2r-rt"><tbody>'+u8Rows(p[0],false)+'</tbody></table>');}).join('')+
     '<div class="u8-btnrow"><button type="button" class="u8-b ok" id="u8ConfBtn" onclick="u8Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u8-b" onclick="u8Print()">Print our group record</button></div>'+
     '<div class="u8-note" id="u8Msg" style="display:none;"></div></div>';
   if(keep&&keep[0]){var m=u8el('u8Msg');m.textContent=keep[0];m.className=keep[1];m.style.display=keep[2];}

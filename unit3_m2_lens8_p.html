@@ -422,6 +422,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 .u9-rrr td{color:rgba(255,255,255,.78)!important;font-weight:400!important;}.u9-rrr td.u9-stage{color:#c9a84c!important;font-weight:700!important;}
 .u9-open{margin:6px 0 22px;}.u9-open p{font-size:14px;line-height:1.85;color:rgba(255,255,255,.78);margin:0 0 12px;}.lever-body .u9-lv-how{margin-top:10px;}.lever-body .u8v-hc{margin:10px 0 4px;}.step-panel .u8v-hc{margin:4px 0 16px;}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="9"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m2_lens8"></script>
@@ -1649,9 +1650,9 @@ function u9RecDraw(){
       var fs=U9F.filter(function(f){return f[2]===p[0]&&!f[3];}),done=fs.filter(function(f){return !u9bad(f);}).length;
       var lines=U9F.filter(function(f){return f[2]===p[0]&&(!f[3]||u9val(f[0]));}).map(function(f){
         var b=u9val(f[0]);
-        return '<div class="u9-rec-t"><strong>'+u9esc(f[1])+':</strong> '+(b?u9esc(b):'<i>to be agreed by your group</i>')+'</div>';
+        return '<tr><td class="rt-k">'+u9esc(f[1])+'</td><td class="rt-v">'+(b?u9esc(b):'<i>to be agreed by your group</i>')+'</td></tr>';
       }).join('');
-      return '<details class="u9-rec"><summary>'+u9esc(p[4])+'<span>'+done+' of '+fs.length+' entries</span></summary>'+lines+'</details>';
+      return '<details class="u9-rec"><summary>'+u9esc(p[4])+'<span>'+done+' of '+fs.length+' entries</span></summary><table class="s2r-rt"><tbody>'+lines+'</tbody></table></details>';
     }).join('')+
     '<div class="u9-btnrow"><button type="button" class="u9-b ok" id="u9ConfBtn" onclick="u9Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u9-b" onclick="u9Print()">Print our group record</button></div>'+
     '<div class="u9-note" id="u9Msg" style="display:none;"></div></div>';

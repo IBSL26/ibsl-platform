@@ -527,10 +527,11 @@ body{background:#111811;color:#fff;font-family:"Montserrat",sans-serif;font-size
 .u4-how p{font-size:13px!important;line-height:1.7!important;color:rgba(255,255,255,.8)!important;margin:8px 0 0!important;}
 .u4-ver{border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:12px 14px;margin:0 0 12px;background:rgba(255,255,255,.02);}.u4-ver-c{font-size:13px;line-height:1.6;color:rgba(255,255,255,.8);margin-bottom:8px;}.u4-ver-c .u4-tag{display:inline-block;margin-bottom:4px;}.u4-ver-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:10px;}.u4-in{width:100%;box-sizing:border-box;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.15);color:#fff;border-radius:3px;padding:8px 10px;font:inherit;font-size:13px;margin-top:4px;}select.u4-in{max-width:360px;margin-bottom:12px;}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="4"></script><script defer src="/s2r-key-reflections.js" data-lens="u2m1_lens3"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="4"></script>
 </head>
@@ -2077,14 +2078,14 @@ function mbRecordText51(){
   }).join('\n\n');
 }
 function mbRecordHtml(){
-  var done=MB.items.filter(mbObjDone).length;
-  var head='<div class="u4-rec-h" onclick="this.parentNode.classList.toggle(\'shut\')">Your ABCV&ndash;MBT record<span>'+(MB.items.length?done+' of '+MB.items.length+' Objectives tested &middot; ':'')+'select to open or close</span></div>';
-  if(!MB.items.length)return head+'<div class="u4-rec-b"><div class="u4-rec-empty">Your record starts when your Unit 3 Objectives are brought in. The Must-Be-True condition of each step is added here.</div></div>';
-  return head+'<div class="u4-rec-b">'+MB.items.map(function(o,i){
-    return '<div class="u4-rec-o">Objective '+(i+1)+' &middot; '+u4esc(o.obj)+'</div>'+U4D.cps.map(function(c){
-      return '<div class="u4-rec-c '+c.cls+'"><span class="u4-tag">'+c.name+'</span><div>'+(o[c.k].trim()?u4esc(o[c.k]):'<i>Must-Be-True to be named</i>')+'</div></div>';
-    }).join('');
-  }).join('')+'<div class="u4-rec-o">5.2 &middot; Critical conditions and accountability</div><div class="u4-rec-k">'+(mbVerOwned().length?u4esc(mbVerText()).replace(/\n/g,'<br>'):'<i>to be agreed by your group</i>')+'</div></div>';
+  var done=MB.items.filter(mbObjDone).length,R=S2RRec;
+  var head='<div class="s2r-rec-out" style="margin:0;border:none;">'+R.head(mbConfirmed(),'Your ABCV–MBT record')+(MB.items.length?'<div style="font-size:12px;color:rgba(255,255,255,.55);margin:0 0 4px;">'+done+' of '+MB.items.length+' Objectives tested</div>':'');
+  if(!MB.items.length)return head+'<div class="u4-rec-empty">Your record starts when your Unit 3 Objectives are brought in. The Must-Be-True condition of each step is added here.</div></div>';
+  return head+MB.items.map(function(o,i){
+    return R.part('Objective '+(i+1)+' · '+o.obj,'<table class="s2r-rt"><tbody>'+U4D.cps.map(function(c){
+      return '<tr><td class="rt-k"><span class="u4-tag '+c.cls+'">'+c.name+'</span></td><td class="rt-v">'+(o[c.k].trim()?u4esc(o[c.k]):'<i>Must-Be-True to be named</i>')+'</td></tr>';
+    }).join('')+'</tbody></table>');
+  }).join('')+R.part('5.2 · Critical conditions and accountability',mbVerOwned().length?R.table(mbVerText(),{band:function(k){return /^Objective \d+$/.test(k);}}):R.rows([['Critical conditions and accountability','']]))+'</div>';
 }
 function mbPickHtml(){
   if(!MB.items.length)return '<div class="u4-okrs"><div class="u4-egs-h">From Unit 3 &middot; your group&rsquo;s Objectives</div><div class="u4-locked">No Objectives are here yet. Select Bring in from my Unit 3 page.</div></div>';

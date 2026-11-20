@@ -390,6 +390,7 @@ table.u7v-t td strong{color:#fff;}
 .u7v-map b{color:rgba(255,255,255,.55);font-weight:700;}
 .u7-okr b{min-width:118px;}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="7"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m1_lens6"></script>
@@ -1595,12 +1596,16 @@ function u7LineDraw(){
   [['u7LineTbl',line],['u7ChainTbl',chain],['u7Arch',arch]].forEach(function(x){var h=u7el(x[0]);if(h)h.innerHTML=x[1];});
 }
 function u7RecHtml(part){
-  return u7Text(part).split('\n').map(function(l){
-    if(!l)return '';var i=l.indexOf(': ');if(i<0)return '<div class="u7-rec-s">'+u7esc(l)+'</div>';
-    var k=l.slice(0,i),val=l.slice(i+2),head=(k===k.toUpperCase());
-    if(head)return '<div class="u7-rec-s">'+u7esc(k.charAt(0)+k.slice(1).toLowerCase())+(val?': '+u7esc(val):'')+'</div>';
-    return '<div class="u7-rec-t"><strong>'+u7esc(k)+':</strong> '+(val?u7esc(val):'<i>to be agreed by your group</i>')+'</div>';
-  }).join('');
+  var rows=[];
+  u7Text(part).split('\n').forEach(function(l){
+    if(!l)return;var i=l.indexOf(': ');
+    if(i<0){if(rows.length){rows[rows.length-1].v+=(rows[rows.length-1].v?'\n':'')+l;}return;}
+    var k=l.slice(0,i);rows.push({k:k,v:l.slice(i+2),h:(k===k.toUpperCase())});
+  });
+  return '<table class="s2r-rt"><tbody>'+rows.map(function(r){
+    var v=r.v?u7esc(r.v):'<i>to be agreed by your group</i>';
+    return r.h?'<tr class="rt-s"><th>'+u7esc(r.k)+'</th><td>'+v+'</td></tr>':'<tr><td class="rt-k">'+u7esc(r.k)+'</td><td class="rt-v">'+v+'</td></tr>';
+  }).join('')+'</tbody></table>';
 }
 function u7RecDraw(){
   u7LineDraw();

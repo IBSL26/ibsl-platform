@@ -507,7 +507,7 @@ button.u3-opt:hover{border-color:var(--gold);color:#fff;background:rgba(201,168,
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="3"></script><script defer src="/s2r-key-reflections.js" data-lens="u2m1_lens2"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="3"></script>
 </head>
@@ -1639,7 +1639,9 @@ function sxMxHtml(T){
 }
 // The record: every theme with all it carries so far, in step order.
 function sxRecord(S){
-  return sxThemes(S).map(function(i){return '<div class="u3-rec-item">'+sxChain(S,i,5,true)+'</div>';}).join('');
+  if(!sxThemes(S).length)return '';
+  return sxText(S).split('\n\n').map(function(b){var h=b.split('\n')[0],c=h.indexOf(': ');
+    return S2RRec.part(c>0?h.slice(0,c):h,S2RRec.table(b));}).join('');
 }
 // Readable copy of the record, saved for the facilitator's report. Group work feeds the Capstone and is left out of the Learning Portfolio.
 function sxText(S){
@@ -1748,7 +1750,7 @@ function renderOkrOut(){
       '<div class="u3-note" id="okrMsg" style="display:none;"></div>';
   }
   var done=okrConfirmed();
-  sxSetRec(u3el('okrRec'),sxRecord(OK)||SX_EMPTY,'okrRecP');
+  sxSetRec(u3el('okrRec'),S2RRec.head(done,false)+(sxRecord(OK)||SX_EMPTY),'okrRecP');
   u3el('okrConfirmBtn').classList.toggle('ok',done);
   if(done)u3msg('okrMsg','');
 }

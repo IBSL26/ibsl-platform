@@ -462,7 +462,7 @@ details.u2b-det .u2-q,details.u2b-det textarea{margin-left:16px;margin-right:16p
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="2"></script><script defer src="/s2r-key-reflections.js" data-lens="u2m1_lens1"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="2"></script>
 </head>
@@ -1332,10 +1332,7 @@ function u2RenderRecord(){
   at.split('\n').forEach(function(l){l=l.trim();if(!l)return;if(gh.indexOf(l)>=0){cur={h:l,t:[]};groups.push(cur);return;}if(!cur){cur={h:'',t:[]};groups.push(cur);}cur.t.push(l);});
   host.innerHTML=(miss?'<div class="u2-note">Still to complete: '+u2esc(miss)+'.</div>':'<div class="u2-ok">&#10003; Your strategy is complete. Read it as one piece, then select Agree.</div>')+
     '<div class="u2r-head"><span><b>Company</b>'+E(u2Company(),'Not set')+'</span><span><b>Strategy period</b>'+E(u2t('strategy_period'),'Not set')+'</span></div>'+
-    out(1,'Our Strategy Architecture',groups.length?'<div class="u2r-grid2">'+groups.map(function(g){return '<div class="u2r-card small">'+(g.h?'<b>'+u2esc(g.h)+'</b>':'')+'<span>'+u2esc(g.t.join('\n'))+'</span></div>';}).join('')+'</div>':'<span class="u2r-empty">Written in 5.1.</span>')+
-    out(2,'Our Strategy Intent Statement','<div class="u2r-found-t">'+E(u2t('intent_statement'),'Written in 5.2.')+'</div>')+
-    out(3,'Our Success in Practice','<div class="u2r-det" style="margin-top:0;">In the four domains</div><div class="u2r-grid2">'+SIPD.map(function(x,d){return '<div class="u2r-card small"><b>'+u2esc(x.t)+'</b><span>'+E(u2t(ssk(d)),'Written in 5.3.')+'</span></div>';}).join('')+'</div>'+
-      '<div class="u2r-found" style="margin:14px 0 0;"><div class="u2r-found-h">Our Success in Practice statement</div><div class="u2r-found-t">'+E(u2t('sip_summary'),'Written in 5.3.')+'</div></div>')+
+    '<div class="s2r-rec-out">'+S2RRec.head(!!(window.S2RTeam&&S2RTeam.status()&&S2RTeam.status().all_agreed))+S2RRec.part('5.1 · Strategy Architecture',S2RRec.table(at,{band:function(k,l){return gh.indexOf(l.trim())>=0;}}))+S2RRec.part('5.2 · Strategy Intent Statement',S2RRec.rows([['Strategy Intent Statement',u2t('intent_statement'),1]]))+S2RRec.part('5.3 · Success in Practice',S2RRec.rows(SIPD.map(function(x,d){return [x.t,u2t(ssk(d))];}).concat([['Success in Practice statement',u2t('sip_summary'),1]])))+'</div>'+
     '<div class="u2-btnrow" style="margin-top:20px;"><button type="button" class="u2-b ok" data-team-free onclick="S2RTeam.agree()"'+(miss?' disabled':'')+'>Agree</button><button type="button" class="u2-b" data-team-free onclick="u2Print(\'all\')"'+(miss?' disabled':'')+'>Print our group record</button></div>';
 }
 

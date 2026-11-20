@@ -507,10 +507,11 @@ p.u5-need{font-size:14px!important;color:#fff!important;font-weight:600;}
 .u5-fold[open]>summary{border-bottom:1px solid rgba(255,255,255,.08);}
 .u5-fold-b{padding:12px 16px 4px;}
 .u5-fold-b>.u5-applied:first-child{margin-top:0;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="5"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m1_lens4"></script>
-<script src="/s2r-team.js"></script>
+<script src="/s2r-team.js"></script><script src="/s2r-rectable.js"></script>
 <script src="/s2r-protect.js"></script>
 <script defer src="/s2r-competency-block.js" data-unit="5"></script>
 </head>
@@ -2254,10 +2255,10 @@ function s5RecDraw(){
   var host=u5el('kitOutP');if(!host)return;
   var conf=u5has(S5_NAMES),msg=u5el('kitMsg'),keep=msg?[msg.textContent,msg.className,msg.style.display]:null;
   host.innerHTML='<div class="u5-out">'+u5recHead('Your group&rsquo;s record',S5_NAMES)+'<div class="u5-rec">'+['mind','profile','habit'].map(function(part){
-    return '<div class="u5-rec-s">'+u5esc(S5_REC[part])+'</div>'+S5.filter(function(f){return f[2]===part;}).map(function(f){
+    return '<details class="s2r-recd"><summary>'+u5esc(S5_REC[part])+'</summary><table class="s2r-rt"><tbody>'+S5.filter(function(f){return f[2]===part;}).map(function(f){
       var v=String(U5.s5[f[0]]||'').trim();
-      return '<div class="u5-rec-t"><strong>'+u5esc(f[1])+':</strong> '+(v?u5esc(v):'<i>to be agreed by your group</i>')+'</div>';
-    }).join('');
+      return '<tr><td class="rt-k">'+u5esc(f[1])+'</td><td class="rt-v">'+(v?u5esc(v):'<i>to be agreed by your group</i>')+'</td></tr>';
+    }).join('')+'</tbody></table></details>';
   }).join('')+'</div><div class="u5-btnrow"><button type="button" class="u5-b ok" id="kitConfBtn" onclick="s5Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u5-b" onclick="s5Print()">Print our group record</button></div>'+
     '<div class="u5-note" id="kitMsg" style="display:none;"></div></div>';
   if(keep&&keep[0]){var m=u5el('kitMsg');m.textContent=keep[0];m.className=keep[1];m.style.display=keep[2];}

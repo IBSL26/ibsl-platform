@@ -428,6 +428,7 @@ table.u6t tr:nth-child(even) td{background:rgba(255,255,255,.02);}
 .u6-it-b p{font-size:12.5px!important;line-height:1.7!important;color:rgba(255,255,255,.75)!important;margin:0 0 8px!important;}
 b.u6-it-l{display:block;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:2px;}
 .s2r-cr{background:rgba(26,122,106,.07);border:1px solid rgba(26,122,106,.2);border-radius:3px;padding:16px 20px;margin:14px 0;}.s2r-cr-h{font-family:'Montserrat',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#22a08a;margin-bottom:6px;}.s2r-cr p{font-size:14px;color:rgba(255,255,255,.82);line-height:1.85;margin:0;}.s2r-lj{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}.s2r-lj th,.s2r-lj td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top;color:rgba(255,255,255,.75);line-height:1.6;}.s2r-lj th{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#c9a84c;}
+.s2r-rt{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:12.5px;line-height:1.6;}.s2r-rt th,.s2r-rt td{padding:8px 12px;border:1px solid rgba(255,255,255,.09);vertical-align:top;text-align:left;}.s2r-rt .rt-k{width:32%;font-weight:600;color:rgba(255,255,255,.88);background:rgba(255,255,255,.03);}.s2r-rt .rt-v{color:rgba(255,255,255,.8);white-space:pre-wrap;overflow-wrap:anywhere;}.s2r-rt i{color:rgba(255,255,255,.35);}.s2r-rt tr.rt-s th,.s2r-rt tr.rt-s td{background:rgba(94,203,161,.10);color:#fff;font-weight:700;}.s2r-rt tr.rt-s th{width:32%;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.75);}.s2r-rt tr.rt-s th[colspan]{width:auto;}@media(max-width:640px){.s2r-rt .rt-k{width:40%;}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="/s2r-save.js"></script><script src="/s2r-competency-gate.js" data-unit="6"></script><script defer src="/s2r-key-reflections.js" data-lens="u3m1_lens5"></script>
@@ -1592,26 +1593,26 @@ function u6RecDraw(){
     U6P.map(function(p,i){
       var rows=[],done=0,total=0;
       if(p[0]==='ward'||p[0]==='scorecard'){
-        u6Text(p[0]).split('\n').forEach(function(l){var c=l.indexOf(': '),a=l.slice(0,c),b=l.slice(c+2).trim();total++;if(b)done++;rows.push('<div class="u6-rec-t"><strong>'+u6esc(a)+':</strong> '+(b?u6esc(b):'<i>to be agreed by your group</i>')+'</div>');});
-        return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary>'+rows.join('')+'</details>';
+        u6Text(p[0]).split('\n').forEach(function(l){var c=l.indexOf(': '),a=l.slice(0,c),b=l.slice(c+2).trim();total++;if(b)done++;rows.push('<tr><td class="rt-k">'+u6esc(a)+'</td><td class="rt-v">'+(b?u6esc(b):'<i>to be agreed by your group</i>')+'</td></tr>');});
+        return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary><table class="s2r-rt"><tbody>'+rows.join('')+'</tbody></table></details>';
       }
-      rows.push('<div class="u6-rec-t"><strong>Key Result:</strong> '+(u6val('kr')?u6esc(u6val('kr')):'<i>to be agreed by your group</i>')+'</div>');
+      rows.push('<tr><td class="rt-k">Key Result</td><td class="rt-v">'+(u6val('kr')?u6esc(u6val('kr')):'<i>to be agreed by your group</i>')+'</td></tr>');
       if(p[0]==='faces'){
         U6_FACES.forEach(function(f){
-          rows.push('<div class="u6-rec-s">'+u6esc(f[0]+' · '+f[1])+'</div>');
-          for(var m=1;m<=2;m++){var v=u6val('f'+m+'_'+f[0]);total++;if(v)done++;rows.push('<div class="u6-rec-t"><strong>'+u6esc(u6fnName(m))+':</strong> '+(v?u6esc(v):'<i>to be agreed by your group</i>')+'</div>');}
+          rows.push('<tr class="rt-s"><th colspan="2">'+u6esc(f[0]+' · '+f[1])+'</th></tr>');
+          for(var m=1;m<=2;m++){var v=u6val('f'+m+'_'+f[0]);total++;if(v)done++;rows.push('<tr><td class="rt-k">'+u6esc(u6fnName(m))+'</td><td class="rt-v">'+(v?u6esc(v):'<i>to be agreed by your group</i>')+'</td></tr>');}
         });
-        return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary>'+rows.join('')+'</details>';
+        return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary><table class="s2r-rt"><tbody>'+rows.join('')+'</tbody></table></details>';
       }
       for(var n=1;n<=4;n++){
         if(!u6fnUsed(n))continue;
-        rows.push('<div class="u6-rec-s">Function '+n+(u6val('f'+n+'_name')?' &middot; '+u6esc(u6val('f'+n+'_name')):'')+'</div>');
+        rows.push('<tr class="rt-s"><th colspan="2">Function '+n+(u6val('f'+n+'_name')?' &middot; '+u6esc(u6val('f'+n+'_name')):'')+'</th></tr>');
         (p[0]==='map'?U6_MAPF:U6_FACES).forEach(function(f){
           var v=u6val('f'+n+'_'+f[0]);total++;if(v)done++;
-          rows.push('<div class="u6-rec-t"><strong>'+u6esc(p[0]==='map'?f[1]:f[0]+' · '+f[1])+':</strong> '+(v?u6esc(v):'<i>to be agreed by your group</i>')+'</div>');
+          rows.push('<tr><td class="rt-k">'+u6esc(p[0]==='map'?f[1]:f[0]+' · '+f[1])+'</td><td class="rt-v">'+(v?u6esc(v):'<i>to be agreed by your group</i>')+'</td></tr>');
         });
       }
-      return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary>'+rows.join('')+'</details>';
+      return '<details class="u6-rec"><summary>5.'+(i+1)+' &middot; '+u6esc(p[1])+'<span>'+done+' of '+total+' entries</span></summary><table class="s2r-rt"><tbody>'+rows.join('')+'</tbody></table></details>';
     }).join('')+
     '<div class="u6-btnrow"><button type="button" class="u6-b ok" id="u6ConfBtn" onclick="u6Confirm()">'+(conf?'Agreed &#10003;':'Agree')+'</button><button type="button" class="u6-b" onclick="u6Print()">Print our group record</button></div>'+
     '<div class="u6-note" id="u6Msg" style="display:none;"></div></div>';
