@@ -31,8 +31,8 @@ window.S2R_SKILL_GUIDE = {
 10: [["Sections 1 and 3: names the ESRG condition that most limits delivery, how their executive bias may affect the reading, and how they would correct for it.", "Section 5 also shows how they would help the team read its ESRG results."],
     ["Section 2: links that condition to an execution capability and states how they would protect it.", "Section 5 also shows how they would help others interpret results by capability."],
     ["Section 4: names the alignment intervention and how a cross-functional review would agree it.", "Section 5 also shows how they would help the team turn results into an alignment intervention."]],
-11: [["Sections 1 and 3: names the health trait whose weakness is most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact, and the health signal their role would contribute to, ignore or reinforce and how they would address that bias.", "Section 5 also shows how they would help other leaders read health in their areas."],
-    ["Section 2: chooses one element of poor health and gives an estimate of its cost, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
+11: [["Sections 1 and 3: names the vulnerable health signal most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact, and the health signal their role would contribute to, ignore or reinforce and how they would address that bias.", "Section 5 also shows how they would help other leaders read health in their areas."],
+    ["Section 2: puts a cost on the poor behaviour behind the vulnerable signal chosen in Section 1, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
     ["Section 4: chooses one value and writes a norm with demonstrable behaviours that support it.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
 12: [["Sections 1 and 4: says which line of sight they would read first for a Key Result and why, and sets out what their Quarterly Three Lines of Sight page would say.", "Section 5 also shows how they would help the team sustain this each quarter."],
     ["Section 3: says where drift would show first from their role, and what they would do when it appears.", "Section 5 also shows how they would help others spot drift early."],
@@ -104,8 +104,8 @@ window.S2R_REF_GUIDE = {
 "Sets out the steps they would take with the leadership team to turn ESRG results into an alignment intervention."
 ],
 "11": [
-"Names the health trait whose weakness is most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact.",
-"Chooses one element and gives an estimate of its cost.",
+"Names the vulnerable health signal most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact.",
+"Puts a cost on the poor behaviour behind the Section 1 signal, with its basis.",
 "Names the health signal their role would contribute to, ignore or reinforce and how they would address the bias.",
 "Writes a clear norm with demonstrable behaviours that support it.",
 "Sets out the steps they would take with the leadership team to build a Cultural Operating Code."
