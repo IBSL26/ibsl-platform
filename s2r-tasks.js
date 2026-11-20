@@ -46,15 +46,8 @@
       {part:'5.1',t:B('In this part you complete the annual scores for each function:','list each function on your executive team with the role that leads it, then score its 12 components on the 1–5 scale.')},
       {part:'5.2',t:B('In this part you complete one row for each of the four execution-enabling capabilities:','what the scores show for Convergence, Divergence and Dependency, your Collective Intelligence Response and the executive functions that carry it. Then select Agree.')}],
     lens10:[ // Unit 11
-      {part:'5.1',t:B('Section 5 has 8 tasks across parts 5.2 to 5.8.','Each part below states what you complete in it.')},
-      {part:'5.2',t:B('In this part you complete Task 1 for each function your group ticked:','tick your CXO roles, then write each function’s interpretation of its health position in its card.')},
-      {part:'5.3',t:B('In this part you complete Task 2 for each function,','in the same function card in part 5.2.')},
-      {part:'5.4',t:B('In this part you complete 2 entries:','the functions contributing most to the weaknesses, and the vulnerabilities requiring cross-functional leadership attention.')},
-      {part:'5.5',t:B('In this part you complete 4 entries:','the overlaps flagged, the most vulnerable functions, the priority cultural vulnerabilities and the priority people-performance concerns.')},
-      {part:'5.6',t:B('In this part you complete 3 entries:','the prioritised diagnosis, the cultural reinforcement actions with named executive accountability, and the measurable commitments.')},
-      {part:'5.7',t:B('In this part you complete 1 response row','for your lowest-scoring health trait, and a further row only for a further priority.')},
-      {part:'5.8',t:B('In this part you complete 3 steps:','1. three to six values, each with its meaning; 2. at least three values translated into norms; 3. your strongest norm tested against the three tests.')},
-      {part:'5.9',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
+      {part:'5.1',t:B('In this part you complete 3 steps:','1. three to six of your company’s values, each with its definition; 2. at least three values translated into norms, each with its three actions, norm statement and demonstrable behaviours; 3. your strongest norm tested against the three tests.')},
+      {part:'5.2',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
     lens11:[ // Unit 12
       {part:'5.1',t:B('Section 5 has 3 parts to complete: 5.2, 5.3 and 5.4.','Each part below states what you complete in it.')},
       {part:'5.2',t:B('In this part you complete 13 entries:','the quarter, the Key Result, your WARD, the four ESRG capabilities, the consolidated health score and the two weakest traits. Select Bring in to fill those that come from Units 6, 10 and 11, then check each one.')},
