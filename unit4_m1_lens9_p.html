@@ -803,7 +803,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 <div class="u10-sub">The functions on your executive team</div><p>The role list comes from your Problem Charter.</p>
 <div id="u10Fns"></div>
 <button type="button" class="ref-save u10-add" onclick="u10AddFn()">+ Add a function</button>
-<div class="u10-sub">Each function’s 12 scores</div><p>Select N/A only where a component genuinely does not apply to a function; it is left out of the averages.</p>
+<div class="u10-sub">Each function’s 12 scores</div><p>Score each statement for each function: how true is it today for that function? Select N/A only where a component genuinely does not apply to a function; it is left out of the averages.</p>
 <div id="u10Ent"></div>
 </div></div></div>
 <div class="acc">
@@ -1462,6 +1462,7 @@ var U10_NAMES=["ESRG Clinic · Enterprise Scanner","ESRG Clinic · Collective Fi
 var U10_KEYS=["es_scanner","es_interp","es_resp"];
 var U10_EL=["Facilities","Infrastructure","Technology","Standardisation","Integration","Process Efficiency","Asset Availability","Investment","Resource Utilisation","Policies & Procedures","Authority","Risk Management"];
 var U10_PER=["Annual","Q1","Q2","Q3","Q4"];
+var U10_ST=["Our facilities are suitable and functional for the Objective.", "Essential infrastructure reliably supports our required operations.", "Our technology supports our performance requirements reliably.", "Our core operational processes are clearly defined and consistently applied.", "Our processes and systems connect effectively across functions.", "Our processes deliver required outputs without unnecessary delays, duplication or waste.", "We have access to the productive assets required for delivery.", "Adequate financial provision supports our strategic priorities.", "Available assets and financial resources are allocated and utilised effectively.", "Our policies and procedures support consistent organisational decisions and operations.", "Decision rights and approval arrangements enable timely decisions.", "Material organisational risks are identified, assessed, mitigated and monitored."];
 var U10_DOM=[["Environment","Operational Readiness"],["Systems","Operational Flow"],["Resources","Delivery Capacity"],["Governance","Decision Responsiveness"]];
 var U10_QL=["Functional / Convergence","Cross-functional / Divergence","Enterprise / Dependency"];
 var U10_RF=[["response","Collective Intelligence Response"],["functions","Executive functions"]];
@@ -1509,10 +1510,10 @@ function u10DrawFns(){
 }
 function u10DrawGrid(){
   var e=u10el("u10Ent");if(!e)return;
-  var hd='<th>ESRG domain</th><th>Execution capability</th><th>Component</th>'+U10W.fns.map(function(f,i){return '<th id="u10FnH'+i+'">'+u10esc(u10FnLabel(f,i))+'</th>';}).join("");
-  var rows="";for(var c=0;c<12;c++){var d=Math.floor(c/3);rows+='<tr><td>'+U10_DOM[d][0]+'</td><td>'+U10_DOM[d][1]+'</td><td>'+u10esc(U10_EL[c])+'</td>'+U10W.fns.map(function(f,i){
+  var hd='<th>ESRG domain</th><th>Execution capability</th><th>Component</th><th>Functional assessment statement</th>'+U10W.fns.map(function(f,i){return '<th id="u10FnH'+i+'">'+u10esc(u10FnLabel(f,i))+'</th>';}).join("");
+  var rows="";for(var c=0;c<12;c++){var d=Math.floor(c/3);rows+='<tr><td>'+U10_DOM[d][0]+'</td><td>'+U10_DOM[d][1]+'</td><td>'+u10esc(U10_EL[c])+'</td><td style="min-width:240px;">'+u10esc(U10_ST[c])+'</td>'+U10W.fns.map(function(f,i){
     return '<td class="u10-sc"><select class="u10-sel" aria-label="'+u10esc(U10_EL[c])+' · Function '+(i+1)+'" data-u10="sc-'+i+'-'+c+'">'+["","1","2","3","4","5","N/A"].map(function(o){return '<option value="'+o+'"'+(o===f.s[c]?' selected':'')+'>'+o+'</option>';}).join("")+'</select></td>';}).join("")+'</tr>';}
-  e.innerHTML='<div class="u10-scroll"><table class="u10-tbl u10-ent" style="min-width:'+(420+110*U10W.fns.length)+'px"><thead><tr>'+hd+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  e.innerHTML='<div class="u10-scroll"><table class="u10-tbl u10-ent" style="min-width:'+(680+110*U10W.fns.length)+'px"><thead><tr>'+hd+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
 }
 function u10DrawSum(){
   var s=u10el("u10Sum");if(!s)return;u10Sync();var p=0;
