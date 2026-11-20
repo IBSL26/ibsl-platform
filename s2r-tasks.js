@@ -39,17 +39,12 @@
       {how:'How to complete Consequence 4',t:B('In this step you complete 2 entries:','for individuals, the potential gap and the decision point for recovery; for the organisational conditions, the potential gap and the decision point for recovery.')},
       {how:'How to complete part 5.2',t:B('In this part you complete 4 entries:','the red flag, what explains the gap for individuals, what explains it for the organisational conditions, and the recovery. Then select Agree.')}],
     lens8:[ // Unit 9
-      {part:'5.1',t:B('In this part you complete 2 entries:','the challenge you select from your Problem Charter, and its strategic connection.')},
-      {part:'5.2',t:B('In this part you complete 2 entries:','the clog you select, and the reason for your selection.')},
-      {part:'5.3',t:B('In this part you complete 2 entries:','the lever you select, and the reason for your selection.')},
-      {part:'5.4',t:B('In this part you complete 15 entries:','4 for REVIEW, 6 for REALIGN and 5 for RESTORE.')},
-      {part:'5.5',t:B('In this part you complete 1 task:','check your work against the four quality checks, and correct any entry that falls short.')},
-      {part:'5.6',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
+      {part:'5.1',t:B('In this part you complete 5 entries:','after you bring in your lagging KPI from Unit 8: the three checks of the Clog Trace, the clog they name, and why the evidence confirms it.')},
+      {part:'5.2',t:B('In this part you complete 2 entries:','the lever you select, and how it clears the clog.')},
+      {part:'5.3',t:B('In this part you complete 10 entries:','5 for REALIGN and 5 for RESTORE. Then read your group’s record and select Agree.')}],
     lens9:[ // Unit 10
-      {part:'5.1',t:B('In this part you complete 1 entry:','any missing submissions or evidence gaps.')},
-      {part:'5.2',t:B('In this part you complete 12 entries:','for each of Environment, Systems, Resources and Governance, one finding at each level: Functional (Convergence), Cross-functional (Divergence) and Enterprise (Dependency).')},
-      {part:'5.3',t:B('In this part you complete one row for each response your group agrees:','the ESRG domain, execution capability, component, collective finding, strategic commitment affected, the response and the functions involved.')},
-      {part:'5.4',t:B('In this part you complete one row for each response from 5.3:','the implementation actions, accountable executive, contributing functions, target date and evidence of improvement. Then select Agree.')}],
+      {part:'5.1',t:B('In this part you complete the annual scores for each function:','list each function on your executive team with the role that leads it, then score its 12 components on the 1–5 scale.')},
+      {part:'5.2',t:B('In this part you complete one row for each of the four execution-enabling capabilities:','what the scores show for Convergence, Divergence and Dependency, your Collective Intelligence Response and the executive functions that carry it. Then select Agree.')}],
     lens10:[ // Unit 11
       {part:'5.1',t:B('Section 5 has 8 tasks across parts 5.2 to 5.8.','Each part below states what you complete in it.')},
       {part:'5.2',t:B('In this part you complete Task 1 for each function your group ticked:','tick your CXO roles, then write each function’s interpretation of its health position in its card.')},
