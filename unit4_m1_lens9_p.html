@@ -824,6 +824,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 <tr><td>Enterprise Intelligence</td><td>Dependency</td><td>Where does one function’s operating capability enable or constrain another’s strategic delivery?</td><td>Align</td></tr>
 </tbody></table></div>
 <div class="hbox"><p><strong>Interpretation rule:</strong> A shared low score may indicate convergence; a large score difference may indicate divergence; dependency requires a demonstrable relationship between functions and a strategic commitment. Scores alone do not prove a dependency.</p><p><strong>Response discipline:</strong> Convergence &rarr; Coordinate shared conditions; Divergence &rarr; Reconcile differing assessments using evidence; Dependency &rarr; Align interdependent operating requirements and responsibilities. Each capability carries one coherent collective response.</p></div>
+<div class="u10-sub">Your ESRG Alignment Key</div><p>Each row carries your consolidated scan for that capability: each function’s score, the enterprise average and every component scored 1 or 2. Read the score patterns from these figures. Your group agrees each entry; the scribe types it in the table below, and every entry appears on each member’s page. Members do not type in this table.</p>
 <div id="u10Int"></div>
 </div></div></div>
 <div class="hbox"><div class="u10-sub">Application outputs</div><ul class="u10-ul"><li>Enterprise ESRG Scanner built from your group’s annual scores for each function (5.1).</li><li>Your ESRG Alignment Key: for each execution-enabling capability, what the scores show, the Collective Intelligence Response and the executive functions that carry it (5.3).</li></ul><p><strong>What your completed work shows:</strong> Evidence-based scoring of each function; consistent three-level intelligence interpretation; evidence supporting the findings; quality of the collective executive decisions.</p><div class="u10-rec"><div id="u10RecTbl"></div><div id="u10RecMsg" class="u10-note"></div><button type="button" class="ref-save" data-team-free onclick="u10Agree()">Agree</button> <button type="button" class="ref-save" data-team-free onclick="u10Print()">Print our group record</button></div></div>
@@ -1520,6 +1521,7 @@ function u10DrawSum(){
   var srows=U10_DOM.map(function(dd,d){return '<tr><td>'+dd[0]+'</td><td>'+dd[1]+'</td>'+U10M.map(function(m){var x=u10Cap(m,d,p);return '<td><span class="u10-pv'+u10Band(x)+'">'+u10Fmt(x)+'</span></td>';}).join("")+'<td><span class="u10-pv'+u10Band(u10Ent(d,p))+'">'+u10Fmt(u10Ent(d,p))+'</span></td></tr>';}).join("");
   s.innerHTML='<div class="u10-scroll"><table class="u10-tbl u10-ent u10-sum" style="min-width:'+(420+110*U10M.length)+'px"><thead><tr><th>ESRG domain</th><th>Execution capability</th>'+U10W.fns.map(function(f,i){return '<th>'+u10esc(u10FnLabel(f,i))+'</th>';}).join("")+'<th>Enterprise avg.</th></tr></thead><tbody>'+srows+'</tbody></table></div>'+
     '<div class="u10-note">A dash (—) is a capability not yet fully scored: it stays blank and never counts as zero.</div>';
+  u10DrawKeyScores();
 }
 function u10DrawScanner(){u10Sync();u10DrawFns();u10DrawGrid();u10DrawSum();}
 function u10AddFn(){if(window.S2RTeam&&!S2RTeam.isScribe())return;U10W.fns.push(u10BlankFn());u10DrawScanner();u10Out();u10RecDraw();}
@@ -1537,11 +1539,19 @@ function u10Fld(path,label,val,kind){
   if(kind==="date")return '<label class="fld-label">'+label+'</label><input class="fld-input" type="date" data-u10="'+path+'" value="'+u10esc(val)+'">';
   return '<label class="fld-label">'+label+'</label><input class="fld-input" type="text" data-u10="'+path+'" value="'+u10esc(val)+'">';
 }
+/* 5.3 · the consolidated scan shown inside each row of the ESRG Alignment Key */
+function u10KeyScores(d){
+  u10Sync();var p=0;if(!U10M.length)return 'Scores appear here once the scribe enters them in 5.1.';
+  var caps=U10M.map(function(m){return u10esc(u10Col(m))+' '+u10Fmt(u10Cap(m,d,p));}).join(' · ')+' · <strong>Enterprise avg. '+u10Fmt(u10Ent(d,p))+'</strong>';
+  var low=[];for(var c=d*3;c<d*3+3;c++){var w=U10M.map(function(m){var x=u10Score(m,c,p);return (typeof x==="number"&&x<=2)?u10esc(u10Col(m))+' '+x:null;}).filter(Boolean);if(w.length)low.push(u10esc(U10_EL[c])+': '+w.join(', '));}
+  return caps+(low.length?'<br>Scored 1 or 2 · '+low.join('; '):'');
+}
+function u10DrawKeyScores(){for(var d=0;d<4;d++){var el=u10el("u10KeyCap"+d);if(el)el.innerHTML=u10KeyScores(d);}}
 function u10DrawRows(){
   var host=u10el("u10Int");
   if(host)host.innerHTML='<div class="u10-scroll"><table style="min-width:1100px" class="u10-tbl u10-int"><thead><tr><th>Execution-enabling capability</th><th>Functional Intelligence / Convergence</th><th>Cross-Functional Intelligence / Divergence</th><th>Enterprise Intelligence / Dependency</th><th>Collective Intelligence Response</th><th>Executive functions</th></tr></thead><tbody>'+
     U10_DOM.map(function(d,i){var r=U10W.resp[i];function ta(path,v,lbl){return '<td><textarea class="fld-input u10-ta" style="min-height:90px;" aria-label="'+u10esc(d[1]+' · '+lbl)+'" data-u10="'+path+'">'+u10esc(v)+'</textarea></td>';}
-      return '<tr><td><strong>'+d[1]+'</strong><br>('+d[0]+')</td>'+U10_QL.map(function(q,k){return ta("interp-"+i+"-"+k,U10W.interp[i][k],q);}).join("")+ta("resp-"+i+"-response",r.response,"Collective Intelligence Response")+ta("resp-"+i+"-functions",r.functions,"Executive functions")+'</tr>';}).join("")+'</tbody></table></div>';
+      return '<tr><td style="min-width:200px;"><strong>'+d[1]+'</strong><br>('+d[0]+')<div class="u10-note" id="u10KeyCap'+i+'">'+u10KeyScores(i)+'</div></td>'+U10_QL.map(function(q,k){return ta("interp-"+i+"-"+k,U10W.interp[i][k],q);}).join("")+ta("resp-"+i+"-response",r.response,"Collective Intelligence Response")+ta("resp-"+i+"-functions",r.functions,"Executive functions")+'</tr>';}).join("")+'</tbody></table></div>';
 }
 function u10PRText(r,i){return r.response?u10esc(r.response):'<span class="u10-miss">Write the Collective Intelligence Response for '+U10_DOM[i][1]+' in part 5.3 first.</span>';}
 function u10DrawFields(){
