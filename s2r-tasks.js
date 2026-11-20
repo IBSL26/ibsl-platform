@@ -46,7 +46,7 @@
       {part:'5.1',t:B('In this part you complete the annual scores for each function:','list each function on your executive team with the role that leads it, then score its 12 components on the 1–5 scale.')},
       {part:'5.2',t:B('In this part you complete one row for each of the four execution-enabling capabilities:','what the scores show for Convergence, Divergence and Dependency, your Collective Intelligence Response and the executive functions that carry it. Then select Agree.')}],
     lens10:[ // Unit 11
-      {part:'5.1',t:B('In this part you complete 3 steps:','1. three to six of your company’s values, each with its definition; 2. at least three values translated into norms, each with its three actions, norm statement and demonstrable behaviours; 3. your strongest norm tested against the three tests.')},
+      {part:'5.1',t:B('In this part you complete 2 steps:','1. three to six of your company’s values, each with its definition; 2. a norm for each value: its acronym, three actions, norm statement and demonstrable behaviours.')},
       {part:'5.2',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
     lens11:[ // Unit 12
       {part:'5.1',t:B('Section 5 has 3 parts to complete: 5.2, 5.3 and 5.4.','Each part below states what you complete in it.')},

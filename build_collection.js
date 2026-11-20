@@ -217,7 +217,7 @@ const PORTFOLIO_SUMMARY = {
     {arc:"Intelligence — Why",title:"Why It Matters",body:"Organisational health multiplies how effectively and how fast strategy execution capability converts into results, and sustains that momentum over time. Each weakened health trait carries a hidden cost, which can be quantified to direct leadership attention to its performance implications."},
     {arc:"Extrapolating — Where",title:"Where the Signals Show",body:"Each executive reads organisational health through the signals their function encounters. Across the ten CXO roles, functional bias can distort that reading, and debiasing techniques establish an evidence-based assessment."},
     {arc:"Integration — Collective",title:"What Was Built",body:"Two worked examples: the Organisational Health Thermometer conducted across three functions, from the results to the quantified loss and the consolidated picture, and the IBSL Cultural Operating Code, each value translated into a norm with its demonstrable behaviours."},
-    {arc:"Application — In Practice",title:"What You Applied",body:"Your group built your company’s Cultural Operating Code: its values translated into norms, each with three actions, a norm statement and demonstrable behaviours, with the strongest norm tested against the three tests."}
+    {arc:"Application — In Practice",title:"What You Applied",body:"Your group built your company’s Cultural Operating Code: each of its values translated into a norm, with three actions, a norm statement and demonstrable behaviours."}
   ]
 };
 function decodeSummaryText(s){
