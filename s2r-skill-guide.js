@@ -35,8 +35,8 @@ window.S2R_SKILL_GUIDE = {
     ["Section 2: puts a cost on the poor behaviour behind the vulnerable signal chosen in Section 1, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
     ["Section 4: chooses one value and writes its definition, its norm as three actions and its norm statement, with one demonstrable behaviour for each action.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
 12: [["Sections 1 and 4: says which line of sight they would read first for a Key Result and why, and sets out what their Quarterly Three Lines of Sight page would say.", "Section 5 also shows how they would help the team sustain this each quarter."],
-    ["Section 3: says where drift would show first from their role, and what they would do when it appears.", "Section 5 also shows how they would help others spot drift early."],
-    ["Section 2: names what is pulling a result back towards average and the KISS decision that would hold it.", "Section 5 also shows how they would help the team make these decisions each quarter."]]
+    ["Section 3: names the performance drift their role is likely to contribute to, and how they would address that bias when it shows up.", "Section 5 also shows how they would help others spot drift early."],
+    ["Section 2: names which of the three performance drifts is pulling a result back towards average and the KISS decision that would hold it.", "Section 5 also shows how they would help the team make these decisions each quarter."]]
 };
 /* What a Fully evidenced answer looks like, per unit and section of the key reflections. */
 window.S2R_REF_GUIDE = {
@@ -112,8 +112,8 @@ window.S2R_REF_GUIDE = {
 ],
 "12": [
 "Names the line of sight they would read first and gives a reason tied to a Key Result.",
-"Names what is pulling the result back and the KISS decision that would hold it.",
-"Names where drift would show first from their role and what they would do.",
+"Names which of the three drifts is pulling the result back and the KISS decision that would hold it.",
+"Names the drift their role is likely to contribute to and how they would address that bias.",
 "Sets out what their Quarterly Three Lines of Sight page would say on a real Key Result.",
 "Sets out the steps they would take with the leadership team to sustain performance each quarter."
 ]
