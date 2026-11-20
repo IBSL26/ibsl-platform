@@ -87,7 +87,7 @@ window.S2R_REF_GUIDE = {
 "Names the most prevalent consequence of weak review discipline and how they would address it.",
 "Names the fracture their role is most likely to contribute to and how they would address that gap.",
 "Shows how an Enterprise Performance Intelligence Circle would address that consequence, and names the performance fracture it would make visible.",
-"Sets out the steps they would take with the leadership team to run reviews that restore performance."
+"Sets out how they would help the leadership team implement EPIC in their organisation through its four steps, with the recoveries followed through until the gaps close."
 ],
 "9": [
 "Names the clog and the evidence from their own setting that would confirm it.",
