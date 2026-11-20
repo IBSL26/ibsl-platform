@@ -33,7 +33,7 @@ window.S2R_SKILL_GUIDE = {
     ["Section 4: names the alignment intervention and how a cross-functional review would agree it.", "Section 5 also shows how they would help the team turn results into an alignment intervention."]],
 11: [["Sections 1 and 3: names the vulnerable health signal most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact, and the health signal their role would contribute to, ignore or reinforce and how they would address that bias.", "Section 5 also shows how they would help other leaders read health in their areas."],
     ["Section 2: puts a cost on the poor behaviour behind the vulnerable signal chosen in Section 1, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
-    ["Section 4: chooses one value and writes a norm with demonstrable behaviours that support it.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
+    ["Section 4: chooses one value and writes its definition, its norm as three actions and its norm statement, with one demonstrable behaviour for each action.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
 12: [["Sections 1 and 4: says which line of sight they would read first for a Key Result and why, and sets out what their Quarterly Three Lines of Sight page would say.", "Section 5 also shows how they would help the team sustain this each quarter."],
     ["Section 3: says where drift would show first from their role, and what they would do when it appears.", "Section 5 also shows how they would help others spot drift early."],
     ["Section 2: names what is pulling a result back towards average and the KISS decision that would hold it.", "Section 5 also shows how they would help the team make these decisions each quarter."]]
@@ -107,7 +107,7 @@ window.S2R_REF_GUIDE = {
 "Names the vulnerable health signal most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact.",
 "Puts a cost on the poor behaviour behind the Section 1 signal, with its basis.",
 "Names the health signal their role would contribute to, ignore or reinforce and how they would address the bias.",
-"Writes a clear norm with demonstrable behaviours that support it.",
+"Writes the definition, the norm as three actions and the norm statement, with one demonstrable behaviour for each action.",
 "Sets out the steps they would take with the leadership team to build a Cultural Operating Code."
 ],
 "12": [
