@@ -27,7 +27,7 @@ window.S2R_SKILL_GUIDE = {
     ["Section 3: names the fracture their role is most likely to contribute to and how they would address that gap.", "Section 5 also shows how they would help others close such fractures."]],
 9: [["Sections 1 and 3: names the most active clog with evidence, how their own role contributes to, reinforces or ignores it, and what they would change.", "Section 5 also shows how they would help the team make clog diagnosis a habit."],
     ["Section 2: selects a lever for the clog from Section 1 and explains why it fits.", "Section 5 also shows how they would help others choose the right lever."],
-    ["Section 4: takes the clog through Review–Realign–Restore across both people and organisational performance.", "Section 5 also shows how they would help the team make the cycle a habit."]],
+    ["Section 4: sets out how they would guide the leadership team through Review, Realign and Restore on the clog, for both people and the organisation.", "Section 5 also shows how they would help the team make the cycle a habit."]],
 10: [["Sections 1 and 3: names the ESRG condition that most limits delivery, how their executive bias may affect the reading, and how they would correct for it.", "Section 5 also shows how they would help the team read its ESRG results."],
     ["Section 2: links that condition to an execution capability and states how they would protect it.", "Section 5 also shows how they would help others interpret results by capability."],
     ["Section 4: names the alignment intervention and how a cross-functional review would agree it.", "Section 5 also shows how they would help the team turn results into an alignment intervention."]],
@@ -87,13 +87,13 @@ window.S2R_REF_GUIDE = {
 "Names the most prevalent consequence of weak review discipline and how they would address it.",
 "Names the fracture their role is most likely to contribute to and how they would address that gap.",
 "Shows how an Enterprise Performance Intelligence Circle would address that consequence, and names the performance fracture it would make visible.",
-"Sets out how they would help the leadership team implement EPIC in their organisation through its four steps, with the recoveries followed through until the gaps close."
+"Applies the four steps of EPIC to their own leadership team: the results each executive brings, the review of the three signals, the root cause of a gap, and the recovery followed through."
 ],
 "9": [
 "Names the clog and the evidence from their own setting that would confirm it.",
 "Names the lever and explains why it fits the clog from Section 1.",
 "Names how their role contributes to, reinforces or ignores the clog and what they would change.",
-"Takes the clog through Review, Realign and Restore across both people and organisational performance.",
+"Sets out how they would guide the leadership team through Review, Realign and Restore on the clog, for both people and the organisation.",
 "Sets out the steps they would take with the leadership team to make unclogging a habit."
 ],
 "10": [
