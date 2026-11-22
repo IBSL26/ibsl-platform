@@ -147,6 +147,9 @@ const REPORT_CSS = extractCss(dash, ['.review-completion', '.response-', '.asses
 
 // ── 3. Per-participant extraction: Micro-Climb SUMMARY + question prompts ──
 function extractSummary(html, lensId){
+  // 22 Nov 2026: the approved whole-unit Unit Summary is static HTML between USUM markers in each participant file.
+  const u0 = html.indexOf('<!--USUM-START-->'), u1 = html.indexOf('<!--USUM-END-->');
+  if (u0 >= 0 && u1 > u0){ note('Unit Summary: ' + lensId + ' → approved whole-unit summary (' + (u1-u0) + ' chars).'); return { html: html.slice(u0 + 17, u1) }; }
   const a = html.indexOf('var SUMMARY=[');
   if (a < 0){ note('Micro-Climb: ' + lensId + ' → none (no SUMMARY array).'); return null; }
   let i = html.indexOf('[', a); let depth = 0; const start = i;
@@ -231,7 +234,7 @@ Object.keys(LENS_FILES).forEach(function(lensId){
   assert(fs.existsSync(path.join(ROOT, f)), 'participant file missing: ' + f);
   const html = read(f);
   const summary = extractSummary(html, lensId) || PORTFOLIO_SUMMARY[lensId] || null;
-  MICRO_CLIMB[lensId] = summary && summary.map(function(b){ return Object.assign({}, b, { arc: decodeSummaryText(b.arc), title: decodeSummaryText(b.title || b.t), body: decodeSummaryText(b.body) }); });
+  MICRO_CLIMB[lensId] = summary && summary.html ? summary : summary && summary.map(function(b){ return Object.assign({}, b, { arc: decodeSummaryText(b.arc), title: decodeSummaryText(b.title || b.t), body: decodeSummaryText(b.body) }); });
   PROMPTS[lensId] = extractPrompts(html, lensId);
 });
 
@@ -247,7 +250,7 @@ let html = TEMPLATE;
 html = injectAll(html, '%%REPORT_CSS%%', REPORT_CSS);
 html = injectAll(html, '%%SUM_CSS%%', SUM_CSS);
 html = injectAll(html, '%%PIPELINE%%', PIPELINE);
-html = injectAll(html, '%%MICRO_CLIMB%%', JSON.stringify(MICRO_CLIMB));
+html = injectAll(html, '%%MICRO_CLIMB%%', JSON.stringify(MICRO_CLIMB).replace(/<\//g, '<\\/'));
 html = injectAll(html, '%%PROMPTS%%', JSON.stringify(PROMPTS));
 html = injectAll(html, '%%BUILD_INFO%%', JSON.stringify(BUILD_INFO));
 html = injectAll(html, '%%SB_URL%%', SB_URL);
@@ -374,6 +377,22 @@ function buildTemplate(){
 '.sheet .sum-pts li{color:#1c1c1c;font-size:11.5px;line-height:1.6;margin-bottom:5px;break-inside:avoid;}.sheet .sum-pts li strong{color:var(--ibsl-green);}',
 '.sheet .sum-body{padding:12px 16px 4px;}',
 '.sheet .sum-body p{font-size:12px;line-height:1.75;color:var(--ibsl-ink);margin:0 0 8px;}',
+'/* approved whole-unit Unit Summary (22 Nov 2026) */',
+'.sheet .usum{color:var(--ibsl-ink);margin:0 0 14px;}',
+'.sheet .usum .usum-comp{border:1px solid var(--ibsl-line);border-left:4px solid var(--ibsl-gold);background:var(--ibsl-cream);border-radius:3px;padding:12px 16px;margin:0 0 16px;break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+'.sheet .usum .usum-comp-l{font-size:8.5px;font-weight:700;letter-spacing:1.5px;color:var(--ibsl-gold);margin-bottom:4px;}',
+'.sheet .usum .usum-comp-n{font-size:14px;font-weight:700;color:var(--ibsl-green);margin-bottom:4px;}',
+'.sheet .usum h2{font-family:Montserrat,sans-serif;font-size:13px;font-weight:700;color:var(--ibsl-green);margin:18px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--ibsl-line);break-after:avoid;}',
+'.sheet .usum h3{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ibsl-deep);margin:12px 0 6px;break-after:avoid;}',
+'.sheet .usum p{font-size:11.5px;line-height:1.7;color:var(--ibsl-ink);margin:0 0 8px;}',
+'.sheet .usum ul,.sheet .usum ol{margin:0 0 8px 18px;padding:0;}.sheet .usum ul ul{margin:4px 0 2px 16px;}',
+'.sheet .usum li{font-size:11.5px;line-height:1.6;color:var(--ibsl-ink);margin-bottom:4px;break-inside:avoid;}',
+'.sheet .usum strong{color:var(--ibsl-green);}',
+'.sheet .usum em{color:var(--ibsl-deep);font-style:italic;}',
+'.sheet .usum table.usum-t{width:100%;border-collapse:collapse;margin:4px 0 12px;font-size:10.5px;}',
+'.sheet .usum table.usum-t th{text-align:left;background:var(--ibsl-green);color:#fff;font-weight:700;padding:6px 8px;border:1px solid var(--ibsl-green);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
+'.sheet .usum table.usum-t td{vertical-align:top;padding:6px 8px;border:1px solid var(--ibsl-line);line-height:1.5;color:var(--ibsl-ink);}',
+'.sheet .usum table.usum-t tr{break-inside:avoid;}',
 '/* facilitator feedback */',
 '.feedback-block{border-left:4px solid var(--ibsl-gold);background:var(--ibsl-cream);-webkit-print-color-adjust:exact;print-color-adjust:exact;}',
 '.feedback-block .fb-text{color:var(--ibsl-ink);font-size:12.5px;}',
@@ -433,6 +452,7 @@ function buildTemplate(){
 '  function fmtDate(iso){ if(!iso) return null; var d=new Date(iso); if(isNaN(d)) return null; return d.toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}); }',
 '',
 '  function renderMicroClimb(arr){',
+'    if(arr && arr.html){ var us=el("div","usum-print"); us.innerHTML=arr.html; return us; }',
 '    var wrap=el("div","micro-climb");',
 '    arr.forEach(function(s){',
 '      var b=el("div","sum-block open");',
@@ -494,7 +514,7 @@ function buildTemplate(){
 '    }',
 '',
 '    var mc = MICRO_CLIMB[cat.id];',
-'    if(latest && mc && mc.length){ ch.appendChild(el("div","section-label","Unit Summary")); ch.appendChild(renderMicroClimb(mc)); }',
+'    if(latest && mc && (mc.html || mc.length)){ ch.appendChild(el("div","section-label","Unit Summary")); ch.appendChild(renderMicroClimb(mc)); }',
 '',
 '    // Unit 1 marking sheet, once the facilitator has selected Mark as reviewed.',
 '    if(cat.id==="u1_foundations" && latest && String(latest.review_status||"")==="reviewed" && window.S2R_U1_SHEET){ var u1s=el("div"); ch.appendChild(u1s); window.S2R_U1_SHEET.render(supabaseClient, participantId, latest.cohort_id, u1s, { heading:"Marking Sheet", headingClass:"section-label", sub:false }); }',
