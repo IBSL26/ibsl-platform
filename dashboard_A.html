@@ -2971,6 +2971,15 @@
   .capstone-brief-field input:focus, .capstone-brief-field textarea:focus { border-color: var(--gold); }
   .capstone-brief-field input[type="datetime-local"] { color-scheme: dark; }
   .capstone-bp { font-size: 11px; color: rgba(255,255,255,0.6); font-family: Montserrat, sans-serif; white-space: nowrap; }
+  /* 22 Nov 2026: assessor marking forms upload */
+  .capmk-intro { font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.7); font-family: Montserrat, sans-serif; margin: 0 0 12px; }
+  .capmk-table { width: 100%; border-collapse: collapse; font-family: Montserrat, sans-serif; font-size: 12.5px; margin: 10px 0 4px; }
+  .capmk-table th { text-align: left; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,0.55); padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .capmk-table td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); color: #fff; vertical-align: middle; }
+  .capmk-team { font-weight: 700; color: var(--gold); padding-top: 14px !important; }
+  .capmk-flag { color: #f0a060; font-size: 11px; font-weight: 700; }
+  .capmk-ok { color: #5fd08a; font-size: 11px; font-weight: 700; }
+  .capmk-notes { font-size: 12px; color: #f0a060; line-height: 1.6; margin: 8px 0 0; padding-left: 18px; font-family: Montserrat, sans-serif; }
 
   </style>
 </head>
@@ -3276,6 +3285,18 @@
               <button type="button" class="btn btn--primary" id="capBriefSaveBtn">Save dates</button>
               <span id="capBriefMsg" class="capstone-score-saved"></span>
             </div>
+          </div>
+
+          <!-- 22 Nov 2026: assessor marking forms. Admin uploads the returned fillable PDFs; the portal reads the marks, works out each member's capstone score per assessor, averages them and saves through admin_set_capstone_score. -->
+          <div id="capstoneMarksPanel" class="capstone-team" style="display:none;">
+            <div class="capstone-team__head"><h2 class="capstone-team__name">Assessor marking forms</h2></div>
+            <p class="capmk-intro">Upload the completed marking forms the assessors returned: one PDF for each assessor and team. The portal reads the marks, works out each member’s capstone score for each assessor and averages them. Where assessors are more than 10 marks apart, the score is flagged for the panel to agree. Check the scores, change any the panel agreed differently, then select Save scores.</p>
+            <div class="capstone-team__actions">
+              <label class="btn btn--primary" for="capMarksFiles" style="cursor:pointer;">Upload marking forms</label>
+              <input type="file" id="capMarksFiles" accept="application/pdf,.pdf" multiple style="display:none;">
+              <span id="capMarksMsg" class="capstone-score-saved"></span>
+            </div>
+            <div id="capMarksResult"></div>
           </div>
 
           <div id="capstoneContainer">
@@ -12584,9 +12605,11 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!capstoneState.cohortId) {
         container.innerHTML = '<div class="capstone-empty">Select a cohort to begin.</div>';
         const bp = document.getElementById('capstoneBriefPanel'); if (bp) bp.style.display = 'none';
+        const mp = document.getElementById('capstoneMarksPanel'); if (mp) mp.style.display = 'none';
         return;
       }
       loadCapstoneBrief();   // Capstone build: cohort brief panel
+      capMarksReset();       // 22 Nov 2026: assessor marking forms panel
       container.innerHTML = skeletonHtml();
       try {
         const teamsRes = await sb.from('capstone_team')
@@ -13180,6 +13203,125 @@ sam@gamma.org, Sam Lee, participant,`;
       if (!v) return null;
       const d = new Date(v); return isNaN(d.getTime()) ? null : d.toISOString();
     }
+    // ===== 22 Nov 2026: assessor marking forms (fillable PDFs) → capstone scores =====
+    // Capstone score per assessor = Blueprint score (sum of the 12 section totals × 5%) + Command × 28% + Delivery × 12%.
+    // A check mark is the assessor's mark where entered, otherwise the system mark printed on the form.
+    const capMarks = { forms: {} };   // key team_id|assessor -> parsed form
+    function capMarksReset() {
+      capMarks.forms = {};
+      const panel = document.getElementById('capstoneMarksPanel'); if (panel) panel.style.display = capstoneState.cohortId ? '' : 'none';
+      const r = document.getElementById('capMarksResult'); if (r) r.innerHTML = '';
+      const m = document.getElementById('capMarksMsg'); if (m) m.textContent = '';
+      const f = document.getElementById('capMarksFiles'); if (f && !f.__bound) { f.__bound = true; f.addEventListener('change', function() { capMarksRead(Array.from(f.files || [])); f.value = ''; }); }
+    }
+    function capMarksLoadLib() {
+      if (window.PDFLib) return Promise.resolve();
+      return new Promise(function(res, rej) {
+        const sc = document.createElement('script');
+        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js';
+        sc.onload = function() { res(); }; sc.onerror = function() { rej(new Error('Could not load the PDF reader. Check the internet connection and try again.')); };
+        document.head.appendChild(sc);
+      });
+    }
+    async function capMarksParse(file) {
+      const doc = await window.PDFLib.PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+      const form = doc.getForm();
+      const get = function(n) { try { return String(form.getTextField(n).getText() || '').trim(); } catch (e) { return ''; } };
+      let meta = null; try { meta = JSON.parse(get('ibsl_meta')); } catch (e) {}
+      if (!meta || !meta.team_id || !Array.isArray(meta.sys)) throw new Error('This is not an IBSL capstone marking form.');
+      const notes = []; let g = 0, total = 0, blank = 0;
+      const num = function(v, max, label) { const n = Number(String(v).replace(',', '.')); if (!Number.isFinite(n) || n < 0 || n > max) { notes.push(label + ' reads “' + v + '”, which is not a mark from 0 to ' + max + '; counted as 0.'); return 0; } return n; };
+      meta.sys.forEach(function(sec, i) {
+        sec.forEach(function(sm, k) {
+          const v = get('am_' + g);
+          if (v !== '') total += num(v, 100, 'Section ' + (i + 1) + ', check ' + (k + 1));
+          else if (sm !== null && sm !== undefined) total += Number(sm);
+          else blank++;
+          g++;
+        });
+      });
+      if (blank) notes.push(blank + ' check' + (blank === 1 ? '' : 's') + ' marked “Assessor to mark” or “Not yet submitted” left blank; counted as 0.');
+      const bp = total * 0.05;
+      const members = (meta.members || []).map(function(m, idx) {
+        const c = get('cmd_' + idx), d = get('del_' + idx);
+        if (c === '' || d === '') { notes.push((m.name || 'A member') + ': ' + (c === '' && d === '' ? 'Command and Delivery' : c === '' ? 'Command' : 'Delivery') + ' not marked.'); return { pid: m.pid, name: m.name, cap: null }; }
+        return { pid: m.pid, name: m.name, cap: bp + num(c, 100, (m.name || '') + ' Command') * 0.28 + num(d, 100, (m.name || '') + ' Delivery') * 0.12 };
+      });
+      const assessor = get('assessor') || get('nda_name') || file.name.replace(/\.pdf$/i, '');
+      return { team_id: meta.team_id, cohort_id: meta.cohort_id, team: meta.team, assessor: assessor, bp: bp, members: members, notes: notes, file: file.name };
+    }
+    async function capMarksRead(files) {
+      const msg = document.getElementById('capMarksMsg');
+      if (!files.length) return;
+      if (msg) msg.textContent = 'Reading ' + files.length + ' form' + (files.length === 1 ? '' : 's') + '…';
+      const errors = [];
+      try { await capMarksLoadLib(); } catch (e) { if (msg) msg.textContent = e.message; return; }
+      for (const f of files) {
+        try {
+          const r = await capMarksParse(f);
+          if (r.cohort_id && r.cohort_id !== capstoneState.cohortId) { errors.push(f.name + ': this form belongs to another cohort.'); continue; }
+          const key = r.team_id + '|' + r.assessor.toLowerCase();
+          if (capMarks.forms[key]) errors.push(f.name + ': replaces the earlier form from ' + r.assessor + ' for ' + r.team + '.');
+          capMarks.forms[key] = r;
+        } catch (e) { errors.push(f.name + ': ' + (e && e.message ? e.message : 'could not be read.')); }
+      }
+      if (msg) msg.textContent = Object.keys(capMarks.forms).length + ' form' + (Object.keys(capMarks.forms).length === 1 ? '' : 's') + ' read.';
+      capMarksRender(errors);
+    }
+    function capMarksRender(errors) {
+      const out = document.getElementById('capMarksResult'); if (!out) return;
+      const forms = Object.values(capMarks.forms);
+      const assessors = Array.from(new Set(forms.map(function(f) { return f.assessor; }))).sort();
+      const saved = {}; Object.values(capstoneState.membersByTeam || {}).forEach(function(list) { list.forEach(function(m) { saved[m.profile_id] = m.score_pct; }); });
+      let rows = '';
+      (capstoneState.teams || []).forEach(function(t) {
+        const tf = forms.filter(function(f) { return f.team_id === t.id; });
+        if (!tf.length) return;
+        rows += '<tr><td class="capmk-team" colspan="' + (assessors.length + 4) + '">' + capstoneEsc(t.team_name) + ' · ' + tf.length + ' assessor' + (tf.length === 1 ? '' : 's') + '</td></tr>';
+        const list = (capstoneState.membersByTeam[t.id] || []);
+        list.forEach(function(m) {
+          const byA = {}; tf.forEach(function(f) { const mm = f.members.filter(function(x) { return x.pid === m.profile_id; })[0]; if (mm && mm.cap !== null) byA[f.assessor] = mm.cap; });
+          const vals = Object.values(byA);
+          const avg = vals.length ? vals.reduce(function(a, b) { return a + b; }, 0) / vals.length : null;
+          const spread = vals.length > 1 ? Math.max.apply(null, vals) - Math.min.apply(null, vals) : 0;
+          const flag = spread > 10;
+          rows += '<tr><td>' + capstoneEsc(m.full_name) + '</td>' +
+            assessors.map(function(a) { return '<td>' + (a in byA ? byA[a].toFixed(1) : '<span class="capstone-score-saved">—</span>') + '</td>'; }).join('') +
+            '<td>' + (avg === null ? '—' : avg.toFixed(1)) + '</td>' +
+            '<td>' + (avg === null ? '<span class="capmk-flag">No marks</span>' : flag ? '<span class="capmk-flag">' + Math.round(spread) + ' apart · panel to agree</span>' : '<span class="capmk-ok">Agreed</span>') + '</td>' +
+            '<td><input type="number" min="0" max="100" step="1" class="capstone-score-input capmk-input" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '"' + (avg === null ? '' : ' value="' + Math.round(avg) + '"') + '>' +
+            (typeof saved[m.profile_id] === 'number' ? ' <span class="capstone-score-saved">now: ' + saved[m.profile_id] + '</span>' : '') + '</td></tr>';
+        });
+      });
+      const notes = [];
+      forms.forEach(function(f) { f.notes.forEach(function(n) { notes.push(f.assessor + ' · ' + f.team + ': ' + n); }); });
+      (errors || []).forEach(function(e) { notes.push(e); });
+      out.innerHTML = (rows ? '<table class="capmk-table"><thead><tr><th>Member</th>' + assessors.map(function(a) { return '<th>' + capstoneEsc(a) + '</th>'; }).join('') + '<th>Average</th><th>Check</th><th>Score to save</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+          '<div class="capstone-team__actions" style="margin-top:10px;"><button type="button" class="btn btn--primary" id="capMarksSave">Save scores</button><span id="capMarksSaveMsg" class="capstone-score-saved"></span></div>' : '') +
+        (notes.length ? '<ul class="capmk-notes">' + notes.map(function(n) { return '<li>' + capstoneEsc(n) + '</li>'; }).join('') + '</ul>' : '');
+      const btn = document.getElementById('capMarksSave'); if (btn) btn.onclick = capMarksSave;
+    }
+    async function capMarksSave() {
+      const btn = document.getElementById('capMarksSave'), msg = document.getElementById('capMarksSaveMsg');
+      const inputs = Array.from(document.querySelectorAll('.capmk-input'));
+      const bad = inputs.filter(function(i) { const v = (i.value || '').trim(); return v !== '' && (!/^\d+$/.test(v) || Number(v) > 100); });
+      if (bad.length) { if (msg) msg.textContent = 'Each score must be a whole number from 0 to 100.'; bad[0].focus(); return; }
+      const todo = inputs.filter(function(i) { return (i.value || '').trim() !== ''; });
+      if (!todo.length) { if (msg) msg.textContent = 'There are no scores to save.'; return; }
+      btn.disabled = true; let ok = 0; const failed = [];
+      for (const i of todo) {
+        if (msg) msg.textContent = 'Saving ' + (ok + failed.length + 1) + ' of ' + todo.length + '…';
+        try {
+          const r = await sb.rpc('admin_set_capstone_score', { p_profile_id: i.getAttribute('data-profile-id'), p_cohort_id: i.getAttribute('data-cohort-id'), p_pct: Number(i.value) });
+          if (r.error) failed.push(r.error.message); else ok++;
+        } catch (e) { failed.push((e && e.message) || 'Network error'); }
+      }
+      btn.disabled = false;
+      if (msg) msg.textContent = ok + ' score' + (ok === 1 ? '' : 's') + ' saved' + (failed.length ? '; ' + failed.length + ' not saved: ' + failed[0] : '.');
+      const keep = capMarks.forms; await loadCapstoneTeams(); capMarks.forms = keep; capMarksRender([]);
+      const m2 = document.getElementById('capMarksSaveMsg'); if (m2) m2.textContent = ok + ' score' + (ok === 1 ? '' : 's') + ' saved' + (failed.length ? '; ' + failed.length + ' not saved.' : '. Members’ final scores and certificates below are updated.');
+    }
+
     async function loadCapstoneBrief() {
       const panel = document.getElementById('capstoneBriefPanel');
       if (!panel) return;
