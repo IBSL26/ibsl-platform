@@ -37,7 +37,7 @@
     return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + '%';
   }
 
-  // Programme total: rounded down to one decimal, so a total just under 80% never shows as 80%.
+  // Programme total: rounded down to one decimal, so a total just under 70% never shows as 70%.
   function total(n) {
     var v = Math.floor(Number(n || 0) * 10 + 1e-9) / 10;
     return (v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)) + '%';
@@ -101,7 +101,7 @@
 
     return '<details class="s2rm">' +
       '<summary>Mark accumulation &middot; ' + scored + ' of ' + total + ' units marked</summary>' +
-      '<div class="s2rm-key">Each marked unit adds its share to the final mark: a unit in Modules 2 and 4 carries up to 8.33%, a unit in Module 3 up to 5%, and the Capstone up to 25%. Certification requires 80% or more, with the Capstone scored.</div>' +
+      '<div class="s2rm-key">Each marked unit adds its share to the final mark: a unit in Modules 2 and 4 carries up to 8.33%, a unit in Module 3 up to 5%, and the Capstone up to 25%. Certification requires 70% or more, with the Capstone scored.</div>' +
       '<table><thead><tr><th>Unit</th><th class="n">Mark</th><th class="n">Adds</th><th class="n">Running total</th></tr></thead>' +
       '<tbody>' + rows + '</tbody></table></details>';
   }

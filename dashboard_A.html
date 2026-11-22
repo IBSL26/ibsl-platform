@@ -3931,10 +3931,10 @@
     }
 
     // Minimal HTML escape for any text we drop into table cells.
-    // Certification level from the final score — same bands as certificate.html (80–84 / 85–90 / 91–100).
+    // Certification level from the final score — same bands as certificate.html (70–84 / 85–90 / 91–100).
     function certLevelFromScore(score) {
       const n = Math.round(Number(score));
-      if (!Number.isFinite(n) || n < 80) return '';
+      if (!Number.isFinite(n) || n < 70) return '';
       if (n <= 84) return 'Proficient Integrator';
       if (n <= 90) return 'Advanced Integrator';
       return 'Master Integrator';
@@ -12756,7 +12756,7 @@ sam@gamma.org, Sam Lee, participant,`;
                '" data-cohort-id="' + capstoneEsc(cohortId) + '">Issue certificate</button>';
       }
       return '<button type="button" class="btn--ghost capstone-issue-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
-             '" data-cohort-id="' + capstoneEsc(cohortId) + '" disabled title="Participant must pass (final &gt;= 80) to certify">Issue certificate</button>';
+             '" data-cohort-id="' + capstoneEsc(cohortId) + '" disabled title="Participant must pass (final &gt;= 70) to certify">Issue certificate</button>';
     }
 
     // WS4: one delegated handler for the per-member Issue-certificate buttons.
