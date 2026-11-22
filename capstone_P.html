@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IBSL | Capstone — Blueprint Showcase</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="supabase.umd.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -109,6 +110,12 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .bt-grid tbody th{font-weight:600;color:rgba(255,255,255,.9);}
 .bt-h{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin:12px 0 6px;}
 .bt-h:first-child{margin-top:2px;}
+/* 22 Nov 2026: Objective headings and the Objectives list read in sentence case, not capitals. */
+.bt-obj{font-size:13px;font-weight:700;color:var(--gold);line-height:1.45;margin:14px 0 6px;}
+.bt-obj:first-child{margin-top:2px;}
+.bt-obj .on{color:rgba(255,255,255,.55);font-weight:600;margin-right:4px;}
+.bt-objs th{width:16%;white-space:nowrap;}
+.bt-objs td{font-weight:600;color:rgba(255,255,255,.92);}
 .bt-ol{margin:0 0 8px 20px;}
 .bt-ol li{margin:0 0 3px;}
 .bt-p{margin:0 0 8px;}
@@ -156,6 +163,8 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   body{font-family:'Montserrat',Arial,Helvetica,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .unit-nav,.unit-header,.actions,.msg,.admin-bar,.banner,.box-ta,.no-print,.chip,.screen-only,.crit-group,.pull{display:none !important;}
   .print-only{display:block !important;}
+  span.print-only.pi{display:inline !important;}
+  .confirms.print-only{display:flex !important;}
   .main{padding:0;max-width:none;}
   /* Cover */
   .cover{height:255mm;display:flex !important;flex-direction:column;justify-content:space-between;border-top:6px solid #C6A24C;padding:22mm 6mm 10mm;break-after:page;}
@@ -211,6 +220,10 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   .bt-grid thead th{background:#1A5C2C !important;color:#fff !important;font-size:8pt;}
   .bt-grid tbody th{background:#f1f5f0 !important;color:#12301c !important;}
   .bt-h{color:#a8862f !important;font-size:8.5pt;margin:10px 0 4px;break-after:avoid;}
+  .bt-obj{color:#12301c !important;font-size:10.5pt;font-weight:700;margin:12px 0 5px;padding-left:8px;border-left:3px solid #1A5C2C;break-after:avoid;}
+  .bt-obj .on{color:#a8862f !important;}
+  .bt-objs th{background:#1A5C2C !important;color:#fff !important;width:16%;}
+  .bt-objs td{color:#12301c !important;font-weight:600;}
   .bt-ol{margin-left:18px;}
   .bt-ul{margin-left:18px;}
   .bt-n{color:#a8862f !important;font-size:8pt;}
@@ -487,7 +500,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     String(raw).replace(/\r/g, '').split('\n').forEach(function(l){ if (!l.trim()){ if (cur.length){ blocks.push(cur); cur = []; } } else cur.push(l); });
     if (cur.length) blocks.push(cur);
     if (!blocks.length) return null;
-    var head = function(m){ return '<div class="bt-h">Objective ' + e(m[1]) + ' · ' + e(m[2]) + '</div>'; };
+    var head = function(m){ return '<div class="bt-obj"><span class="on">Objective ' + e(m[1]) + ' ·</span>' + e(m[2]) + '</div>'; };
     if (key === '4E'){
       // One row per Objective: its critical checkpoint, the condition and who checks it.
       var cols = ['Priority','Critical checkpoint','Must-Be-True','Executive accountable','Evidence that it still holds','First check'], rows = [];
@@ -665,7 +678,11 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         if (t.length <= 120 && /^\*[^*]+\*?$|^[^*]+\*$/.test(t)){ close(); html += '<div class="bt-h">' + e(t.replace(/\*/g, '')) + '</div>'; k++; continue; }
         if (/^[-•–]\s+/.test(t)){ close(); var dots = []; while (k < b.length && /^[-•–]\s+/.test(b[k].trim())){ dots.push(b[k].trim().replace(/^[-•–]\s+/, '')); k++; } html += '<ul class="bt-ul">' + dots.map(function(x){ return '<li>' + e(x) + '</li>'; }).join('') + '</ul>'; continue; }
         if (num(L) !== null){ close(); var items = []; while (k < b.length && num(b[k]) !== null){ items.push(num(b[k])); k++; } html += '<ol class="bt-ol">' + items.map(function(x){ return '<li>' + e(x) + '</li>'; }).join('') + '</ol>'; continue; }
-        if (r && OBJ.test(r.k)){ close(); html += '<div class="bt-h">' + e(r.k + ': ' + r.v) + '</div>'; k++; continue; }
+        if (r && OBJ.test(r.k)){ close();
+          // A block made only of Objective lines (3E) is the Objectives list: one table row each. Otherwise the Objective heads what follows.
+          if (b.every(function(x){ var y = kv(x); return y && OBJ.test(y.k); })) html += '<table class="bt bt-kv bt-objs"><tbody><tr><th>' + e(r.k) + '</th><td>' + e(r.v) + '</td></tr></tbody></table>';
+          else html += '<div class="bt-obj"><span class="on">' + e(r.k) + ' ·</span>' + e(r.v) + '</div>';
+          k++; continue; }
         if (r && ITEM.test(r.k)){ close(); tbl = { item:true, rows:[{ k:r.k, v:r.v }] }; lastTop = true; k++; continue; }
         if (r){
           var sub = ind(L) && lastTop && tbl && !tbl.item;
@@ -681,7 +698,26 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
       bi++;
     }
     close();
-    return html.split('</tbody></table><table class="bt bt-kv"><tbody>').join('');
+    return html.split('</tbody></table><table class="bt bt-kv"><tbody>').join('').split('</tbody></table><table class="bt bt-kv bt-objs"><tbody>').join('');
+  }
+  // 22 Nov 2026 (print format): a line the team broke mid-sentence (it starts in lower case after a line with no closing punctuation)
+  // is shown joined to the line before it, so lists and tables lay out the same for every team. The stored text is not changed.
+  function joinWraps(raw){
+    var out = [];
+    String(raw).replace(/\r/g, '').split('\n').forEach(function(l){
+      var t = l.trim(), j = out.length - 1;
+      while (j >= 0 && !out[j].trim()) j--;
+      if (t && /^[a-z]/.test(t) && j >= 0 && !/[.?!:;]$/.test(out[j].trim())){ out.length = j + 1; out[j] = out[j].replace(/\s+$/, '') + ' ' + t; return; }
+      out.push(l);
+    });
+    return out.join('\n');
+  }
+  // A first line that only repeats the box title (e.g. "Our central organisational problem:") is not shown twice.
+  function dropTitleLine(raw, title){
+    var ls = String(raw).split('\n'), i = 0; while (i < ls.length && !ls[i].trim()) i++;
+    var norm = function(x){ return String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); };
+    if (i < ls.length && norm(ls[i]) && norm(ls[i]) === norm(title)) ls.splice(0, i + 1);
+    return ls.join('\n');
   }
   // === Print report: cover page, criteria table and module dividers (28 Oct 2026) ===
   var MODULES = { u1:['Module 1','Foundation','Behavioural Strategy',[1]], u2:['Module 2','Direction','Pillar 1 of DIG',[2,3,4]],
@@ -891,7 +927,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
 
   function teamCard(){
-    var h = '<div class="card"><div class="card-label">' + (S.mode !== 'participant' ? 'Team' : 'Your team') + '</div>';
+    var h = '<div class="card"><div class="card-label">' + (S.mode !== 'participant' ? 'Team' : '<span class="screen-only">Your team</span><span class="print-only pi">Team</span>') + '</div>';
     if (!S.bp){ return h + '<p class="muted">IBSL will confirm your team.</p></div>'; }
     h += '<h2>' + esc(S.bp.team && S.bp.team.name) + '</h2><div class="members">';
     (S.bp.members || []).forEach(function(m){ h += '<span class="member">' + esc(m.full_name) + '</span>'; });
@@ -965,7 +1001,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 
     if (st === 'locked' || st === 'draft') h += '<p class="sec-note">Fills as soon as every member of ' + (isMember ? 'your group' : 'the group') + ' selects Agree on the group work in ' + (def.unit === 1 ? 'the Problem Charter' : 'Section 5') + ' of the Unit ' + def.unit + ' page.</p>';
     if (st === 'awaiting' && !isMember) h += '<p class="sec-note">Awaiting confirmation · ' + nConf + ' of ' + members.length + ' confirmed' + (sec.sent_by_name ? ' · sent by ' + esc(sec.sent_by_name) + ', ' + esc(fmtDateTime(sec.sent_at)) : '') + '</p>';
-    if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? 'Agreed by every member in Unit ' + def.unit + ' · ' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
+    if (st === 'agreed') h += '<p class="sec-note">' + (isMember ? '<span class="screen-only">Agreed by every member in Unit ' + def.unit + ' · </span><span class="print-only pi">Agreed · </span>' : 'Agreed · ') + esc(fmtDateTime(sec.agreed_at)) + '</p>';
 
     var drawBox = function(b){
       // A group heading (no box of its own), e.g. 2B · Success in Practice.
@@ -979,17 +1015,18 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
         h += '<textarea class="box-ta" data-sec="' + sec.key + '" data-box="' + esc(b[0]) + '" oninput="capInput(this)">' + esc(val) + '</textarea>' +
              '<div class="ptext" id="pt_' + sec.key + '_' + esc(b[0]) + '">' + esc(val) + '</div>';
       } else if (st !== 'locked'){
-        h += '<div class="box-v' + (val ? ' fmt' : ' empty') + '">' + (val ? (fmtU1(b[0], val, content) || fmtBox(val, b[4] === 'stand' || b[4] === 'hl')) : 'Not yet entered') + '</div>';
+        var shown = val ? dropTitleLine(joinWraps(val), b[1]) : '';
+        h += '<div class="box-v' + (val ? ' fmt' : ' empty') + '">' + (val ? (fmtU1(b[0], shown, content) || fmtBox(shown, b[4] === 'stand' || b[4] === 'hl')) : 'Not yet entered') + '</div>';
       }
       h += '</div>';
     };
     if (sec.key === 'u5' && st !== 'locked' && S.mode !== 'facilitator') h += '<div class="box oc-team" id="ocTeam">' + ocTeamHtml() + '</div>';
     def.boxes.forEach(drawBox);
 
-    if (st !== 'locked' && sec.updated_by_name && !isMember) h += '<div class="meta">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
+    if (st !== 'locked' && sec.updated_by_name) h += '<div class="meta' + (isMember ? ' print-only' : '') + '">Last saved by ' + esc(sec.updated_by_name) + ', ' + esc(fmtDateTime(sec.updated_at)) + '</div>';
 
-    if (!isMember && (st === 'awaiting' || st === 'agreed')){
-      h += '<div class="confirms">';
+    if ((st === 'agreed' && (!isMember || nConf)) || (!isMember && st === 'awaiting')){
+      h += '<div class="confirms' + (isMember ? ' print-only' : '') + '">';
       members.forEach(function(m){
         var at = confirmed[m.profile_id];
         h += '<span class="cf' + (at ? ' yes' : '') + '">' + (at ? '✓ ' : '') + esc(m.full_name) + (at ? ' · ' + esc(fmtDateTime(at)) : ' · pending') + '</span>';
