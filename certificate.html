@@ -74,7 +74,7 @@
   .cert-topmark { width: 100%; display: flex; justify-content: center; }
   .cert-topmark svg { width: 200px; height: auto; display: block; }       /* CESI seal — large hero mark at the top (~200px) */
   .cert-badge { margin-top: 52px; margin-bottom: 14px; width: 100%; display: flex; justify-content: center; }
-  .cert-badge svg { width: 175px; height: auto; display: block; }   /* CESI level badge before the credential name */
+  .cert-badge svg { width: 189px; height: auto; display: block; }   /* CESI badge before the credential name — 189px keeps the disc at its 175px size inside the shadow margin */
   .cert-lowmark { flex: 0 0 auto; display: flex; align-items: flex-end; }
   .cert-lowmark img { width: 120px !important; height: auto; display: block; }   /* IBSL logo centred between the signatories */
   .cert-bottom { width: 100%; }
@@ -261,15 +261,58 @@
   </svg>`;
   }
 
-  // CESI badge — forest-green disc, gold ring, thin inner ring, CESI in gold
+  // CESI badge — IBSL logo green (#025c18) disc, logo gold (#ecbd17) ring, thin inner ring, CESI in gold
   // (the portal's CESI badge). Vector, so it prints sharp.
+  // Embossed finish: light falls from the top left — raised rim (highlight top-left,
+  // shade bottom-right), gold-foil ring, recessed inner ring, raised gold lettering,
+  // and a soft cast shadow on the paper.
   function cesiBadgeSvg() {
+    const font = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
     return `
-  <svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="CESI">
-    <circle cx="100" cy="100" r="99" fill="#1e3024"/>
-    <circle cx="100" cy="100" r="86" fill="none" stroke="#bfa95b" stroke-width="4"/>
-    <circle cx="100" cy="100" r="71" fill="none" stroke="#4a5033" stroke-width="1.3"/>
-    <text x="103" y="114" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-size="40" font-weight="700" letter-spacing="6" fill="#bfa95b">CESI</text>
+  <svg width="200" height="200" viewBox="-6 -6 216 216" role="img" aria-label="CESI">
+    <defs>
+      <radialGradient id="cbFace" cx="38%" cy="32%" r="78%">
+        <stop offset="0%" stop-color="#0b7426"/>
+        <stop offset="55%" stop-color="#025c18"/>
+        <stop offset="100%" stop-color="#013d10"/>
+      </radialGradient>
+      <linearGradient id="cbBevel" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#4f9a62"/>
+        <stop offset="45%" stop-color="#025c18"/>
+        <stop offset="100%" stop-color="#012308"/>
+      </linearGradient>
+      <linearGradient id="cbFoil" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#fbe48a"/>
+        <stop offset="25%" stop-color="#ecbd17"/>
+        <stop offset="50%" stop-color="#b88a0c"/>
+        <stop offset="72%" stop-color="#f3cf4a"/>
+        <stop offset="100%" stop-color="#9a7408"/>
+      </linearGradient>
+      <linearGradient id="cbText" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#fbe48a"/>
+        <stop offset="50%" stop-color="#ecbd17"/>
+        <stop offset="100%" stop-color="#b88a0c"/>
+      </linearGradient>
+      <filter id="cbShadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3.2"/>
+        <feOffset dx="2.5" dy="3.5" result="b"/>
+        <feComponentTransfer><feFuncA type="linear" slope="0.38"/></feComponentTransfer>
+        <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g filter="url(#cbShadow)">
+      <circle cx="100" cy="100" r="99" fill="url(#cbBevel)"/>
+    </g>
+    <circle cx="100" cy="100" r="93" fill="url(#cbFace)"/>
+    <circle cx="100" cy="100" r="93" fill="none" stroke="#012308" stroke-width="1" opacity="0.7"/>
+    <circle cx="100" cy="100" r="86" fill="none" stroke="#012308" stroke-width="5" opacity="0.55" transform="translate(1.2,1.6)"/>
+    <circle cx="100" cy="100" r="86" fill="none" stroke="url(#cbFoil)" stroke-width="4.4"/>
+    <circle cx="100" cy="100" r="88.2" fill="none" stroke="#fff6d2" stroke-width="0.5" opacity="0.55"/>
+    <circle cx="100" cy="100" r="71" fill="none" stroke="#012308" stroke-width="1.4" opacity="0.8" transform="translate(-0.7,-0.9)"/>
+    <circle cx="100" cy="100" r="71" fill="none" stroke="#4f9a62" stroke-width="0.9" opacity="0.55" transform="translate(0.7,0.9)"/>
+    <text x="104.6" y="116.2" text-anchor="middle" font-family="${font}" font-size="40" font-weight="700" letter-spacing="6" fill="#011a06" opacity="0.75">CESI</text>
+    <text x="102.4" y="113.4" text-anchor="middle" font-family="${font}" font-size="40" font-weight="700" letter-spacing="6" fill="#fff4c9" opacity="0.6">CESI</text>
+    <text x="103" y="114" text-anchor="middle" font-family="${font}" font-size="40" font-weight="700" letter-spacing="6" fill="url(#cbText)" stroke="#9a7408" stroke-width="0.4">CESI</text>
   </svg>`;
   }
 
