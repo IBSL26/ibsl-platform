@@ -43,9 +43,10 @@
       {part:'5.2',t:B('In this part you complete 2 entries:','the lever you select, and how it clears the clog.')},
       {part:'5.3',t:B('In this part you complete 10 entries:','5 for REALIGN and 5 for RESTORE. Then read your group’s record and select Agree.')}],
     lens9:[ // Unit 10
-      {part:'5.1',t:B('In this part the scribe completes the scores for each function:','each member sends the 12 scores for the function they lead; the scribe adds the function with its executive role and enters the scores.')},
-      {part:'5.2',t:B('Nothing to type in this part:','the consolidated scan builds itself from the scores in 5.1.')},
-      {part:'5.3',t:B('In this part you complete one row for each of the four execution-enabling capabilities:','what the scores show for Convergence, Divergence and Dependency, your Collective Intelligence Response and the executive functions that carry it. Then select Agree.')}],
+      {part:'5.1',t:B('In this part the scribe completes the scores for the two functions:','the group selects two functions; each member sends their 12 scores for both functions, and the scribe selects the functions and the members and enters the scores.')},
+      {part:'5.2',t:B('In this part you complete 2 entries for each function (4 in total):','the pattern shows itself from the scores; for each function, write its Coordinate and its Reconcile interventions.')},
+      {part:'5.3',t:B('In this part you complete 2 entries:','the Overlap, and the Align commitments between the two functions.')},
+      {part:'5.4',t:B('In this part you complete at least 2 interventions in order of delivery:','each with its impact on enterprise results and its lead executive. Then read your group’s record and select Agree.')}],
     lens10:[ // Unit 11
       {part:'5.1',t:B('In this part you complete 2 steps:','1. three to six of your company’s values, each with its definition; 2. a norm for each value: its three actions, its acronym, its norm statement and one demonstrable behaviour for each action.')},
       {part:'5.2',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
