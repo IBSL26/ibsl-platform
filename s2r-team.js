@@ -174,7 +174,7 @@
     }).join('');
     var chips=st.members.map(function(m){
       var cls='tw-chip'+(m.agreed?' ok':'')+(m.profile_id===st.scribe_id?' sc':'');
-      return '<span class="'+cls+'">'+esc(m.full_name||'Member')+(m.profile_id===st.scribe_id?' · scribe':'')+(m.agreed?' · agreed ✓':'')+'</span>';
+      return '<span class="'+cls+'">'+esc(m.full_name||'Member')+(m.profile_id===st.scribe_id?' · scribe':'')+(m.agreed?(m.by_admin?' · agreed by admin ✓':' · agreed ✓'):'')+'</span>';
     }).join('');
     var missing=st.version>0?String(T.cfg.complete?T.cfg.complete()||'':''):'';
     var canAgree=st.version>0&&!missing&&!meAgreed();

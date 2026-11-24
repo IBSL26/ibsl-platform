@@ -2970,6 +2970,14 @@
   .capstone-brief-field textarea { resize: vertical; line-height: 1.6; }
   .capstone-brief-field input:focus, .capstone-brief-field textarea:focus { border-color: var(--gold); }
   .capstone-brief-field input[type="datetime-local"] { color-scheme: dark; }
+  .capstone-pending { margin-top: 10px; padding: 12px 14px; border: 1px solid rgba(201,168,76,0.35); border-radius: 8px; background: rgba(201,168,76,0.06); font-family: Montserrat, sans-serif; font-size: 12px; }
+  .capstone-pending__intro, .capstone-pending__note { color: rgba(255,255,255,0.7); margin-bottom: 8px; }
+  .capstone-pending__note.warn { color: #f0a060; }
+  .capstone-pending__row { padding: 8px 0; border-top: 1px solid rgba(255,255,255,0.08); }
+  .capstone-pending__unit { font-weight: 600; color: #c9a84c; margin-bottom: 6px; }
+  .capstone-pending__ms { display: flex; flex-wrap: wrap; gap: 8px; }
+  .capstone-pending__m { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 6px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.85); }
+  .capstone-pending__m.ok { color: #5ecba1; }
   .capstone-bp { font-size: 11px; color: rgba(255,255,255,0.6); font-family: Montserrat, sans-serif; white-space: nowrap; }
   /* 22 Nov 2026: assessor marking forms upload */
   .capmk-intro { font-size: 12.5px; line-height: 1.6; color: rgba(255,255,255,0.7); font-family: Montserrat, sans-serif; margin: 0 0 12px; }
@@ -12904,6 +12912,7 @@ sam@gamma.org, Sam Lee, participant,`;
               '<a class="capstone-cert-view" href="capstone_P.html?teamId=' + encodeURIComponent(t.id) + '" target="_blank" rel="noopener">Open Capstone S2R® Blueprint</a>' +
               '<button type="button" class="btn btn--primary capstone-add-btn" data-team-id="' + capstoneEsc(t.id) +
                 '" data-team-name="' + capstoneEsc(t.team_name) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">+ Add participant</button>' +
+              '<button type="button" class="btn--ghost capstone-remove-btn capstone-pending-btn" data-team-id="' + capstoneEsc(t.id) + '">Agree for an absent member</button>' +
               '<button type="button" class="btn--ghost capstone-remove-btn capstone-edit-team-btn" data-team-id="' + capstoneEsc(t.id) +
                 '" data-team-name="' + capstoneEsc(t.team_name) + '">Edit team</button>' +
               '<button type="button" class="btn--ghost capstone-delete-btn" data-team-id="' + capstoneEsc(t.id) +
@@ -12911,8 +12920,66 @@ sam@gamma.org, Sam Lee, participant,`;
             '</div>' +
           '</div>' +
           '<div class="capstone-team__members">' + rows + '</div>' +
+          '<div class="capstone-pending" data-team-id="' + capstoneEsc(t.id) + '" hidden></div>' +
         '</div>';
       }).join('');
+    }
+
+    // 24 Nov 2026: admin agrees on behalf of an absent member so the group can move on.
+    // The member's Agree is recorded at the record's current version and marked "agreed by admin"
+    // on every member's page; if the scribe changes the record afterwards, it clears like any Agree.
+    function capstonePendingPanel(teamId) {
+      return Array.prototype.find.call(document.querySelectorAll('.capstone-pending'), function(p) { return p.getAttribute('data-team-id') === teamId; }) || null;
+    }
+    function toggleCapstonePending(teamId) {
+      const panel = capstonePendingPanel(teamId);
+      if (!panel) return;
+      if (!panel.hidden) { panel.hidden = true; return; }
+      panel.hidden = false;
+      loadCapstonePending(teamId);
+    }
+    async function loadCapstonePending(teamId) {
+      const panel = capstonePendingPanel(teamId);
+      if (!panel) return;
+      panel.innerHTML = '<div class="capstone-pending__note">Loading…</div>';
+      const r = await sb.rpc('admin_team_work_pending', { p_team_id: teamId });
+      if (r.error) { panel.innerHTML = '<div class="capstone-pending__note warn">Could not load. ' + capstoneEsc(r.error.message || '') + '</div>'; return; }
+      const list = Array.isArray(r.data) ? r.data : [];
+      if (!list.length) { panel.innerHTML = '<div class="capstone-pending__note">No group record in this team is waiting for a member to agree.</div>'; return; }
+      panel.innerHTML = '<div class="capstone-pending__intro">Use this only when the team has told you their record is complete and a member cannot be reached. The member shows as “agreed by admin” on every member\'s page. If the scribe changes the record afterwards, the members agree again.</div>' +
+        list.map(function(w) {
+          const label = w.unit ? ('Unit ' + String(w.unit).replace(/^u/, '')) : w.lens_id;
+          const people = (w.members || []).map(function(m) {
+            if (m.agreed) return '<span class="capstone-pending__m ok">' + capstoneEsc(m.full_name || 'Member') + (m.by_admin ? ' · agreed by admin' : ' · agreed') + ' ✓</span>';
+            return '<span class="capstone-pending__m">' + capstoneEsc(m.full_name || 'Member') + ' · not agreed ' +
+              '<button type="button" class="btn--ghost capstone-agree-for-btn" data-team-id="' + capstoneEsc(teamId) + '" data-lens-id="' + capstoneEsc(w.lens_id) +
+              '" data-version="' + capstoneEsc(String(w.version)) + '" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-name="' + capstoneEsc(m.full_name || 'this member') + '">Agree on their behalf</button></span>';
+          }).join('');
+          return '<div class="capstone-pending__row"><div class="capstone-pending__unit">' + capstoneEsc(label) + ' · group record</div><div class="capstone-pending__ms">' + people + '</div></div>';
+        }).join('');
+    }
+    async function capstoneAgreeFor(btn) {
+      const name = btn.getAttribute('data-name') || 'this member';
+      if (btn.getAttribute('data-armed') !== '1') {
+        btn.setAttribute('data-armed', '1');
+        btn.textContent = 'Select again to agree for ' + name;
+        setTimeout(function() { if (btn.isConnected && btn.getAttribute('data-armed') === '1') { btn.removeAttribute('data-armed'); btn.textContent = 'Agree on their behalf'; } }, 6000);
+        return;
+      }
+      btn.disabled = true; btn.textContent = 'Saving…';
+      const teamId = btn.getAttribute('data-team-id');
+      const r = await sb.rpc('admin_team_work_agree_for', {
+        p_team_id: teamId, p_lens_id: btn.getAttribute('data-lens-id'),
+        p_profile_id: btn.getAttribute('data-profile-id'), p_version: parseInt(btn.getAttribute('data-version'), 10)
+      });
+      if (r.error || !r.data || !r.data.ok) {
+        const why = (r.data && r.data.error === 'changed') ? 'The scribe changed the record just now. Here is the latest.' : 'Not saved. Please try again.';
+        window.showToast(why, 4000);
+        if (r.error) console.error('[capstone] agree for:', r.error);
+      } else {
+        window.showToast(r.data.all_agreed ? 'Agreed for ' + name + '. Every member has now agreed; the work goes into the Blueprint.' : 'Agreed for ' + name + '.', 4000);
+      }
+      loadCapstonePending(teamId);
     }
 
     async function createCapstoneTeam() {
@@ -13383,6 +13450,10 @@ sam@gamma.org, Sam Lee, participant,`;
           if (addBtn) { openCapstonePicker(addBtn.getAttribute('data-team-id'), addBtn.getAttribute('data-team-name') || 'team', addBtn.getAttribute('data-cohort-id')); return; }
           const delBtn = e.target.closest('.capstone-delete-btn');
           if (delBtn) { confirmDeleteCapstoneTeam(delBtn.getAttribute('data-team-id'), delBtn.getAttribute('data-team-name') || 'this team'); return; }
+          const pendBtn = e.target.closest('.capstone-pending-btn');
+          if (pendBtn) { toggleCapstonePending(pendBtn.getAttribute('data-team-id')); return; }
+          const forBtn = e.target.closest('.capstone-agree-for-btn');
+          if (forBtn) { capstoneAgreeFor(forBtn); return; }
           const editTeamBtn = e.target.closest('.capstone-edit-team-btn');
           if (editTeamBtn) { openCapstoneTeamEdit(editTeamBtn.getAttribute('data-team-id'), editTeamBtn.getAttribute('data-team-name') || ''); return; }
           const editMemBtn = e.target.closest('.capstone-edit-member-btn');
