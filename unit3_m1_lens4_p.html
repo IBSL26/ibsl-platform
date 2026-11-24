@@ -2298,7 +2298,7 @@ async function u5TeamOc(manual){
     var q=await S2R._client.rpc('get_capstone_team_oceavl',{p_team_id:team.id});
     var o=q&&!q.error&&q.data;if(!o||typeof o!=='object'){note(TEAM_OC_NONE);return;}
     if(!Array.isArray(o.dims)){note(TEAM_OC_WAIT+' Submitted so far: '+(o.submitted||0)+' of '+(o.members||0)+' members.');return;}
-    host.innerHTML='<div class="u5-from" style="white-space:normal;margin-bottom:8px;">The level held by most members is the team’s level. '+u5esc(String(o.members))+' members submitted. No names and no single scores are shown.</div>'+ocTeamSumHtml(o.dims)+'<div class="chg-h">Team profile details &middot; each dimension</div>'+OC.map(function(d,i){
+    host.innerHTML='<div class="u5-from" style="white-space:normal;margin-bottom:8px;">The level held by most members is the team’s level. '+u5esc(String(o.submitted))+(o.submitted<o.members?' of '+u5esc(String(o.members))+' members submitted; the programme administrator released the profile from the members who submitted.':' members submitted.')+' No names and no single scores are shown.</div>'+ocTeamSumHtml(o.dims)+'<div class="chg-h">Team profile details &middot; each dimension</div>'+OC.map(function(d,i){
       var c=o.dims[i]||[0,0,0],H=c[0],Bn=c[1],L=c[2],lv=(H>=Bn&&H>=L)?'High':((L>=Bn&&L>=H)?'Low':'Balanced'),g=d.levels.filter(function(x){return x.level===lv;})[0];
       return '<div class="u5-lv" style="border:1px solid rgba(255,255,255,.08);border-radius:4px;margin:0 0 8px;"><span class="u5-lv-n">'+u5esc(d.name)+'</span><span class="u5-lv-h">'+lv+'</span>'+
         '<span class="u5-lv-c">High '+H+' · Balanced '+Bn+' · Low '+L+'</span>'+

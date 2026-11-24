@@ -12945,8 +12945,19 @@ sam@gamma.org, Sam Lee, participant,`;
       const r = await sb.rpc('admin_team_work_pending', { p_team_id: teamId });
       if (r.error) { panel.innerHTML = '<div class="capstone-pending__note warn">Could not load. ' + capstoneEsc(r.error.message || '') + '</div>'; return; }
       const list = Array.isArray(r.data) ? r.data : [];
-      if (!list.length) { panel.innerHTML = '<div class="capstone-pending__note">No group record in this team is waiting for a member to agree.</div>'; return; }
-      panel.innerHTML = '<div class="capstone-pending__intro">Use this only when the team has told you their record is complete and a member cannot be reached. The member shows as “agreed by admin” on every member\'s page. If the scribe changes the record afterwards, the members agree again.</div>' +
+      // 24 Nov 2026: Unit 5 OCEAVL team profile waits for every member's scores; admin can release it from those who submitted.
+      let ocHtml = '';
+      const oc = await sb.rpc('get_capstone_team_oceavl', { p_team_id: teamId });
+      const o = (!oc.error && oc.data) ? oc.data : null;
+      if (o && !Array.isArray(o.dims) && (o.submitted || 0) > 0) {
+        ocHtml = '<div class="capstone-pending__row"><div class="capstone-pending__unit">Unit 5 · OCEAVL team profile</div><div class="capstone-pending__ms">' +
+          '<span class="capstone-pending__m">' + capstoneEsc(String(o.submitted)) + ' of ' + capstoneEsc(String(o.members)) + ' members submitted their scores ' +
+          '<button type="button" class="btn--ghost capstone-oc-release-btn" data-team-id="' + capstoneEsc(teamId) + '">Release the profile from those who submitted</button></span></div></div>';
+      } else if (o && o.released && Array.isArray(o.dims)) {
+        ocHtml = '<div class="capstone-pending__row"><div class="capstone-pending__unit">Unit 5 · OCEAVL team profile</div><div class="capstone-pending__ms"><span class="capstone-pending__m ok">Released from ' + capstoneEsc(String(o.submitted)) + ' of ' + capstoneEsc(String(o.members)) + ' members ✓</span></div></div>';
+      }
+      if (!list.length && !ocHtml) { panel.innerHTML = '<div class="capstone-pending__note">Nothing in this team is waiting for a member.</div>'; return; }
+      panel.innerHTML = ocHtml + (list.length ? '<div class="capstone-pending__intro">Use this only when the team has told you their record is complete and a member cannot be reached. The member shows as “agreed by admin” on every member\'s page. If the scribe changes the record afterwards, the members agree again.</div>' +
         list.map(function(w) {
           const label = w.unit ? ('Unit ' + String(w.unit).replace(/^u/, '')) : w.lens_id;
           const people = (w.members || []).map(function(m) {
@@ -12956,7 +12967,21 @@ sam@gamma.org, Sam Lee, participant,`;
               '" data-version="' + capstoneEsc(String(w.version)) + '" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-name="' + capstoneEsc(m.full_name || 'this member') + '">Agree on their behalf</button></span>';
           }).join('');
           return '<div class="capstone-pending__row"><div class="capstone-pending__unit">' + capstoneEsc(label) + ' · group record</div><div class="capstone-pending__ms">' + people + '</div></div>';
-        }).join('');
+        }).join('') : '');
+    }
+    async function capstoneReleaseOc(btn) {
+      if (btn.getAttribute('data-armed') !== '1') {
+        btn.setAttribute('data-armed', '1');
+        btn.textContent = 'Select again to release the profile';
+        setTimeout(function() { if (btn.isConnected && btn.getAttribute('data-armed') === '1') { btn.removeAttribute('data-armed'); btn.textContent = 'Release the profile from those who submitted'; } }, 6000);
+        return;
+      }
+      btn.disabled = true; btn.textContent = 'Saving…';
+      const teamId = btn.getAttribute('data-team-id');
+      const r = await sb.rpc('admin_release_team_oceavl', { p_team_id: teamId });
+      if (r.error || !r.data || !r.data.ok) { window.showToast('Not saved. Please try again.', 4000); if (r.error) console.error('[capstone] OCEAVL release:', r.error); }
+      else window.showToast('Team profile released. The scribe can now pull it.', 4000);
+      loadCapstonePending(teamId);
     }
     async function capstoneAgreeFor(btn) {
       const name = btn.getAttribute('data-name') || 'this member';
@@ -13452,6 +13477,8 @@ sam@gamma.org, Sam Lee, participant,`;
           if (delBtn) { confirmDeleteCapstoneTeam(delBtn.getAttribute('data-team-id'), delBtn.getAttribute('data-team-name') || 'this team'); return; }
           const pendBtn = e.target.closest('.capstone-pending-btn');
           if (pendBtn) { toggleCapstonePending(pendBtn.getAttribute('data-team-id')); return; }
+          const ocBtn = e.target.closest('.capstone-oc-release-btn');
+          if (ocBtn) { capstoneReleaseOc(ocBtn); return; }
           const forBtn = e.target.closest('.capstone-agree-for-btn');
           if (forBtn) { capstoneAgreeFor(forBtn); return; }
           const editTeamBtn = e.target.closest('.capstone-edit-team-btn');

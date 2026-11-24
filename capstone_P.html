@@ -883,7 +883,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
     if (o.error) return h + '<div class="box-i">Your team’s profile is not available yet.</div>';
     if (!o.dims) return h + '<div class="box-i">Your team’s profile appears here once every member has submitted their OCEAVL scores in Unit 5, part 3.1. Submitted so far: ' +
       esc(String(o.submitted || 0)) + ' of ' + esc(String(o.members || 0)) + ' members.</div>';
-    h += '<div class="box-i">The level held by most members is the team’s level. ' + esc(String(o.members)) + ' members submitted. No names and no single scores are shown.</div>' + ocTeamSumHtml(o) + '<div class="oc-sum-h" style="margin:12px 0 6px;">Team profile details · each dimension</div>';
+    h += '<div class="box-i">The level held by most members is the team’s level. ' + esc(String(o.submitted)) + (o.submitted < o.members ? ' of ' + esc(String(o.members)) + ' members submitted; the programme administrator released the profile from the members who submitted.' : ' members submitted.') + ' No names and no single scores are shown.</div>' + ocTeamSumHtml(o) + '<div class="oc-sum-h" style="margin:12px 0 6px;">Team profile details · each dimension</div>';
     OCEAVL.forEach(function(d, i){
       var c = o.dims[i] || [0,0,0], H = c[0], Bn = c[1], L = c[2];
       var lv = (H >= Bn && H >= L) ? 'High' : ((L >= Bn && L >= H) ? 'Low' : 'Balanced'), g = d.lv[lv];
