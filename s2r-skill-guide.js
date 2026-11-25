@@ -34,9 +34,9 @@ window.S2R_SKILL_GUIDE = {
 11: [["Sections 1 and 3: names the vulnerable health signal most visible, how it manifests and how they would work through the layers of the Pyramid to minimise its impact, and the health signal their role would contribute to, ignore or reinforce and how they would address that bias.", "Section 5 also shows how they would help other leaders read health in their areas."],
     ["Section 2: puts a cost on the poor behaviour behind the vulnerable signal chosen in Section 1, with the basis for it.", "Section 5 also shows how they would help others put a cost on health losses."],
     ["Section 4: chooses one value and writes its definition, its norm as three actions and its norm statement, with one demonstrable behaviour for each action.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
-12: [["Sections 1 and 4: says which line of sight they would read first for a Key Result and why, and sets out what their Performance Sustaining Key would say.", "Section 5 also shows how they would help the team sustain this each quarter."],
-    ["Section 3: names the performance drift their role is likely to contribute to, and how they would address that bias when it shows up.", "Section 5 also shows how they would help others spot drift early."],
-    ["Section 2: names which of the three performance drifts is pulling a result back towards average and the KISS decision that would hold it.", "Section 5 also shows how they would help the team make these decisions each quarter."]]
+12: [["Section 1: says which line of sight they would read first for a Key Result and why.", "Section 5 also shows how they would help the team sustain this each quarter."],
+    ["Sections 2 and 3: names the drift pulling a result back towards average and how the quarterly reinforcement would hold it, and names the drift their role is likely to contribute to and how they would address that bias.", "Section 5 also shows how they would help others spot drift early."],
+    ["Section 4: names a Restore decision that would show Red at quarter end, what is blocking it and how they would unblock it.", "Section 5 also shows how they would help the team reinforce recovery each quarter."]]
 };
 /* What a Fully evidenced answer looks like, per unit and section of the key reflections. */
 window.S2R_REF_GUIDE = {
@@ -112,9 +112,9 @@ window.S2R_REF_GUIDE = {
 ],
 "12": [
 "Names the line of sight they would read first and gives a reason tied to a Key Result.",
-"Names which of the three drifts is pulling the result back and the KISS decision that would hold it.",
+"Names which of the three drifts is pulling the result back and how the quarterly reinforcement would hold it.",
 "Names the drift their role is likely to contribute to and how they would address that bias.",
-"Sets out what their Performance Sustaining Key would say on a real Key Result.",
+"Names a Restore decision that would show Red at quarter end, what is blocking it and how they would unblock it.",
 "Sets out the steps they would take with the leadership team to sustain performance each quarter."
 ]
 };
