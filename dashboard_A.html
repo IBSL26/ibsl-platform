@@ -2921,7 +2921,7 @@
   .capstone-team__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
   .capstone-team__name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.3rem; font-weight: 500; color: #fff; margin: 0; }
   .capstone-team__members { display: flex; flex-direction: column; gap: 8px; }
-  .capstone-member { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 12px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; }
+  .capstone-member { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; padding: 9px 12px; box-sizing: border-box; max-width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; }
   .capstone-member--empty { color: rgba(255,255,255,0.45); font-style: italic; justify-content: flex-start; }
   .capstone-member__name { font-size: 13px; color: rgba(255,255,255,0.9); font-family: Montserrat, sans-serif; }
   .capstone-member__email { color: rgba(255,255,255,0.45); font-size: 11px; margin-left: 6px; }
@@ -2964,6 +2964,8 @@
   .capstone-cert-err { font-size: 11px; color: #e06c6c; }
   .capstone-reissue-alert { flex-basis: 100%; font-size: 12px; font-weight: 600; color: #f0b44c; }
   .capstone-reissue-btn { font-size: 11px; padding: 5px 12px; }
+  .capstone-member > .capstone-cert { flex: 1 1 280px; min-width: 0; }
+  .capstone-member__actions { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; margin-left: auto; flex-wrap: wrap; }
   /* Capstone build: cohort brief panel + Blueprint progress per team */
   .capstone-brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   .capstone-brief-field { display: flex; flex-direction: column; gap: 6px; }
@@ -12971,11 +12973,13 @@ sam@gamma.org, Sam Lee, participant,`;
                 '<span class="capstone-cert" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(t.cohort_id) + '">' +
                   capstoneCertControlHtml(m, t.cohort_id) +
                 '</span>' +
+                '<span class="capstone-member__actions">' +
                 '<a class="capstone-cert-view" href="collection.html?participantId=' + encodeURIComponent(m.profile_id) + '&feedback=on&adminView=1" target="_blank" rel="noopener">Learning Portfolio</a>' +
                 '<button type="button" class="btn--ghost capstone-remove-btn capstone-edit-member-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
                   '" data-name="' + capstoneEsc(m.full_name) + '" data-team-id="' + capstoneEsc(t.id) + '">Edit</button>' +
                 '<button type="button" class="btn--ghost capstone-remove-btn capstone-remove-member-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
                   '" data-name="' + capstoneEsc(m.full_name) + '">Remove</button>' +
+                '</span>' +
               '</div>';
             }).join('')
           : '<div class="capstone-member capstone-member--empty">No members yet.</div>';
