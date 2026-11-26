@@ -36,7 +36,7 @@ window.S2R_SKILL_GUIDE = {
     ["Section 4: chooses one value and writes its norm as three actions and its norm statement, with one demonstrable behaviour for each action.", "Section 5 also shows how they would help the team build a Cultural Operating Code."]],
 12: [["Section 1: says where their organisation or team needs to prioritise sustaining performance, people or organisation, and why.", "Section 5 also shows how they would help the team sustain this each quarter."],
     ["Sections 2 and 3: names the drift pulling a result back towards average and how the quarterly reinforcement would improve it, and names the drift their role is likely to contribute to and how they would address that bias.", "Section 5 also shows how they would help others spot drift early."],
-    ["Section 4: names a pending decision that would show Amber or Red at quarter end and the Strategic Unclogging Lever they would use to unblock it.", "Section 5 also shows how they would help the team reinforce recovery each quarter."]]
+    ["Section 4: names a pending decision that would show Amber or Red at quarter end and how they would unblock it: the root cause and its recovery for a people decision, or the lever for an organisational decision.", "Section 5 also shows how they would help the team reinforce recovery each quarter."]]
 };
 /* What a Fully evidenced answer looks like, per unit and section of the key reflections. */
 window.S2R_REF_GUIDE = {
@@ -114,7 +114,7 @@ window.S2R_REF_GUIDE = {
 "Names where their organisation or team needs to prioritise sustaining performance, people or organisation, and states why.",
 "Names which of the three drifts is pulling the result back and how the quarterly reinforcement would improve it.",
 "Names the drift their role is likely to contribute to and how they would address that bias.",
-"Names a pending decision that would show Amber or Red at quarter end and the Strategic Unclogging Lever they would use to unblock it.",
+"Names a pending decision that would show Amber or Red at quarter end and how they would unblock it: the root cause and its recovery for a people decision, or the Strategic Unclogging Lever for an organisational decision.",
 "Sets out the steps they would take with the leadership team to sustain performance each quarter."
 ]
 };
