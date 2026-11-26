@@ -12798,20 +12798,23 @@ sam@gamma.org, Sam Lee, participant,`;
       if (m.participant_number) {
         let html = '<span class="capstone-cert-issued">Certified' + certLevelSuffix(m.cert_score) + ' · ' + capstoneEsc(m.participant_number) + '</span>' +
                '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
-        // 26 Nov 2026: the mark changed after issue → reissue alert (or withdraw if now below 70).
+        // 26 Nov 2026: admin can always reissue an issued certificate (to correct a mistake).
+        // If the mark changed after issue, an alert says so; below 70% the button withdraws instead.
         const issued = Math.round(Number(m.cert_score));
         const nowPct = m.current_final;
-        if (typeof nowPct === 'number' && Number.isFinite(issued) && nowPct !== issued) {
-          const below = !m.certified;
+        const known  = typeof nowPct === 'number';
+        const below  = known && !m.certified;
+        if (known && Number.isFinite(issued) && nowPct !== issued) {
           html += '<span class="capstone-reissue-alert">⚠ Mark changed after issue: the certificate shows ' + issued + '%' +
                   (certLevelFromScore(issued) ? ' (' + escapeHtml(certLevelFromScore(issued)) + ')' : '') +
                   '; the final mark is now ' + nowPct + '%' +
-                  (below ? ' (below 70%, not certified)' : (certLevelFromScore(nowPct) ? ' (' + escapeHtml(certLevelFromScore(nowPct)) + ')' : '')) + '.</span>' +
-                  '<button type="button" class="btn btn--primary capstone-reissue-btn" data-mode="' + (below ? 'withdraw' : 'reissue') +
-                  '" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(cohortId) +
-                  '" data-name="' + capstoneEsc(m.full_name) + '" data-old="' + issued + '" data-new="' + nowPct + '">' +
-                  (below ? 'Withdraw certificate' : 'Reissue certificate') + '</button>';
+                  (below ? ' (below 70%, not certified)' : (certLevelFromScore(nowPct) ? ' (' + escapeHtml(certLevelFromScore(nowPct)) + ')' : '')) +
+                  '. Select ' + (below ? 'Withdraw' : 'Reissue') + ' certificate.</span>';
         }
+        html += '<button type="button" class="' + (known && nowPct !== issued ? 'btn btn--primary' : 'btn--ghost') + ' capstone-reissue-btn" data-mode="' + (below ? 'withdraw' : 'reissue') +
+                '" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(cohortId) +
+                '" data-name="' + capstoneEsc(m.full_name) + '" data-old="' + (Number.isFinite(issued) ? issued : '') + '" data-new="' + (known ? nowPct : '') + '">' +
+                (below ? 'Withdraw certificate' : 'Reissue certificate') + '</button>';
         return html;
       }
       if (m.certified === true) {
@@ -12912,7 +12915,9 @@ sam@gamma.org, Sam Lee, participant,`;
         const newPct  = Number(btn.getAttribute('data-new'));
         const msg = mode === 'withdraw'
           ? 'Withdraw the certificate for ' + who + '?\n\nHer final mark is now ' + newPct + '%, below the 70% needed for certification. The certificate issued at ' + oldPct + '% will be removed.'
-          : 'Reissue the certificate for ' + who + '?\n\nThe certificate will change from ' + oldPct + '% (' + (certLevelFromScore(oldPct) || '—') + ') to ' + newPct + '% (' + (certLevelFromScore(newPct) || '—') + '), dated today. Her participant number stays the same.';
+          : (btn.getAttribute('data-new') === '' || String(newPct) === String(oldPct)
+              ? 'Reissue the certificate for ' + who + '?\n\nIt will be issued again at her current final mark, dated today. Her participant number stays the same.'
+              : 'Reissue the certificate for ' + who + '?\n\nThe certificate will change from ' + oldPct + '% (' + (certLevelFromScore(oldPct) || '—') + ') to ' + newPct + '% (' + (certLevelFromScore(newPct) || '—') + '), dated today. Her participant number stays the same.');
         if (!window.confirm(msg)) return;
         const origLabel = btn.textContent;
         btn.disabled = true;
