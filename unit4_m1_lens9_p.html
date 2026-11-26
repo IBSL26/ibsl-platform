@@ -872,7 +872,7 @@ div.acc-t+.acc-meta{margin-left:0;margin-top:5px;}
 <div class="acc">
 <div class="acc-h" onclick="tA(this)"><div><div class="acc-t">5.4 &mdash; Step 4: Enterprise Intelligence: Your ESRG Alignment Key</div></div><div class="arr"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></div></div>
 <div class="acc-b"><div class="cb">
-<p>The escalated constraints, combined interventions and aligned dependencies come through from Step 3. Your group weighs each one against its impact on your company’s results and sets the order of delivery with the arrows, in the same way as Step 4 of the worked example in 4.4; Priority 1 comes first. For each one, write its impact on enterprise results and its lead executive. Retained interventions come through as function-led. The completed tables are your ESRG Alignment Key.</p>
+<p>The escalated constraints, combined interventions and aligned dependencies come through from Step 3. Your group weighs each one against its impact on your company’s results and sets the order of delivery with the Up and Down buttons, in the same way as Step 4 of the worked example in 4.4; Priority 1 comes first. For each one, write its impact on enterprise results and its lead executive. Retained interventions come through as function-led. The completed tables are your ESRG Alignment Key.</p>
 <div class="u10-sub">Your ESRG Alignment Key</div>
 <div id="u10Key"></div>
 <div class="u10-sub">Your group’s record</div><p>Read your group’s record, then select Agree. When every member has agreed, your record feeds boxes 10A to 10D of your team’s Capstone S2R® Blueprint; 10D is your ESRG Alignment Key, built automatically from your entries.</p>
@@ -1636,7 +1636,9 @@ function u10DrawGrid(){
     return '<div class="u10-sub">'+u10esc(u10FnLabel(f))+'</div><div class="u10-scroll"><table class="u10-tbl u10-ent" style="min-width:'+(520+110*U10W.who.length)+'px"><thead><tr>'+hd+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
   }).join("");
 }
-function u10Empty(minw,heads,note){return '<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:'+minw+'px"><thead><tr>'+heads.map(function(h){return '<th>'+h+'</th>';}).join("")+'</tr></thead><tbody><tr><td colspan="'+heads.length+'"><span class="u10-miss">'+note+'</span></td></tr></tbody></table></div>';}
+function u10Cg(w){return '<colgroup>'+w.map(function(x){return '<col style="width:'+x+'%">';}).join('')+'</colgroup>';}
+var U10_TS='width:100%;table-layout:fixed;min-width:680px';
+function u10Empty(w,heads,note){return '<p class="u10-note" style="margin:6px 0 8px;">'+note+'</p><div class="u10-scroll"><table class="u10-tbl u10-int" style="'+U10_TS+'">'+u10Cg(w)+'<thead><tr>'+heads.map(function(h){return '<th>'+h+'</th>';}).join('')+'</tr></thead><tbody><tr>'+heads.map(function(){return '<td>—</td>';}).join('')+'</tr></tbody></table></div>';}
 function u10OldBox(title,html){return '<div class="u10-note" style="margin:8px 0 12px;"><strong>'+title+'</strong> Your group typed these before this part was rebuilt. They are kept for reference: use them to complete the entries below.<div style="margin-top:6px;white-space:pre-wrap;">'+html+'</div></div>';}
 /* 5.2 · each function's scores and responses, then the situation, intervention and lead for every component below 4.0 */
 function u10PatTable(f){
@@ -1647,9 +1649,9 @@ function u10PatTable(f){
 }
 function u10SitTable(f){
   var L=u10Items(f);
-  if(!L.length)return u10Empty(1000,["Component","Score","Response","Situation","Intervention","Lead"],u10FnDone(f)?"Every component of this function scores 4.0 or above: Protect. No intervention.":"The components below 4.0 appear here once every member’s scores for this function are entered in 5.1.");
+  if(!L.length)return u10Empty([13,8,11,26,26,16],["Component","Score","Response","Situation","Intervention","Lead"],u10FnDone(f)?"Every component of this function scores 4.0 or above: Protect. No intervention.":"The components below 4.0 appear here once every member’s scores for this function are entered in 5.1.");
   function ta(id,k,lbl,ph){return '<td><textarea class="fld-input u10-ta" style="min-height:80px;" aria-label="'+u10esc(lbl)+'" placeholder="'+u10esc(ph)+'" data-u10="it-'+id+'-'+k+'">'+u10esc(u10ItG(id)[k])+'</textarea></td>';}
-  return '<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:1000px"><thead><tr><th>Component</th><th>Score</th><th>Response</th><th>Situation</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
+  return '<div class="u10-scroll"><table class="u10-tbl u10-int" style="'+U10_TS+'">'+u10Cg([13,8,11,26,26,16])+'<thead><tr><th>Component</th><th>Score</th><th>Response</th><th>Situation</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
     L.map(function(x){var esc=x.resp==="Escalate",lb=u10ItLabel(x);
       return '<tr><td>'+u10esc(U10_EL[x.c])+'</td><td><span class="u10-pv'+u10Band(x.avg)+'">'+x.avg.toFixed(2)+'</span></td><td><strong>'+x.resp+'</strong></td>'+
         ta(x.id,"sit",lb+" · Situation","What is happening, and how it affects the Objective or its Key Results")+
@@ -1669,8 +1671,8 @@ function u10DrawPat(){[0,1].forEach(function(f){var t=u10el("u10FxT"+f);if(t)t.i
 function u10DrawCx(){
   var h=u10el("u10Cx");if(!h)return;var o=U10W.old,L=u10All();
   var old=o&&(o.overlap.trim()||o.align.trim())?u10OldBox("Earlier entries.","Overlap: "+u10esc(o.overlap)+"\nAlign: "+u10esc(o.align)):"";
-  if(!L.length){h.innerHTML=old+u10Empty(1000,["Intervention from Step 2","Decision","With","What the functions agree"],"Each intervention from 5.2 appears here as its own row once the scores are entered in 5.1 and a component scores below 4.0.");return;}
-  h.innerHTML=old+'<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:1000px"><thead><tr><th>Intervention from Step 2</th><th>Decision</th><th>With</th><th>What the functions agree</th></tr></thead><tbody>'+
+  if(!L.length){h.innerHTML=old+u10Empty([30,17,20,33],["Intervention from Step 2","Decision","With","What the functions agree"],"Each intervention from 5.2 appears here as its own row once the scores are entered in 5.1 and a component scores below 4.0.");return;}
+  h.innerHTML=old+'<div class="u10-scroll"><table class="u10-tbl u10-int" style="'+U10_TS+'">'+u10Cg([30,17,20,33])+'<thead><tr><th>Intervention from Step 2</th><th>Decision</th><th>With</th><th>What the functions agree</th></tr></thead><tbody>'+
     L.map(function(x){var t=u10ItG(x.id),lf=u10LinkedFrom(x.id),other=1-x.f;
       var dec='<select class="fld-isel" aria-label="'+u10esc(u10ItLabel(x))+' · Decision" data-u10="it-'+x.id+'-dec"><option value="">'+(lf.length?"Settled by the linked row":"Select")+'</option>'+U10_DEC.map(function(d){return '<option'+(t.dec===d?' selected':'')+'>'+d+'</option>';}).join("")+'</select>'+
         (lf.length?'<div class="u10-note" style="margin-top:4px;">Linked from: '+lf.map(function(y){return u10esc(u10ItLabel(y))+' ('+u10ItG(y.id).dec+')';}).join("; ")+'</div>':'');
@@ -1689,14 +1691,14 @@ function u10DrawKey(){
   var old=o&&o.pri.length?u10OldBox("Earlier Key entries.",o.pri.map(function(p,i){return "Priority "+(i+1)+": "+u10esc(p.iv)+(p.impact?" · Impact: "+u10esc(p.impact):"")+(p.lead?" · Lead: "+u10esc(p.lead):"");}).join("\n")):"";
   var G=u10Ordered(),F=u10FnLed();
   function ta(i,k,lbl,v){return '<td><textarea class="fld-input u10-ta" style="min-height:70px;" aria-label="Priority '+(i+1)+' · '+lbl+'" data-u10="kv-'+i+'-'+k+'">'+u10esc(v)+'</textarea></td>';}
-  var pt=G.length?'<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:1000px"><thead><tr><th>Priority</th><th>Intervention</th><th>Where it comes from</th><th>Impact on enterprise results</th><th>Lead executive</th><th>Order</th></tr></thead><tbody>'+
+  var pt=G.length?'<div class="u10-scroll"><table class="u10-tbl u10-int" style="'+U10_TS+'">'+u10Cg([8,26,22,20,15,9])+'<thead><tr><th>Priority</th><th>Intervention</th><th>Where it comes from</th><th>Impact on enterprise results</th><th>Lead executive</th><th>Order</th></tr></thead><tbody>'+
     G.map(function(g,i){var v=u10KV(g),x=u10GIv(g);
       return '<tr><td><strong>'+(i+1)+'</strong></td><td>'+(x.iv?u10esc(x.iv):'<i>to be written in 5.2 and 5.3</i>')+(x.agree?'<div style="margin-top:4px;"><em>Agreed between the functions:</em> '+u10esc(x.agree)+'</div>':'')+'</td><td>'+u10esc(u10GSrc(g))+'</td>'+
         ta(i,"impact","Impact on enterprise results",v.impact)+ta(i,"lead","Lead executive",v.lead)+
-        '<td style="white-space:nowrap;">'+(i>0?'<button type="button" class="ref-save" aria-label="Move up" onclick="u10Move('+i+',-1)">↑</button> ':'')+(i<G.length-1?'<button type="button" class="ref-save" aria-label="Move down" onclick="u10Move('+i+',1)">↓</button>':'')+'</td></tr>';}).join("")+'</tbody></table></div>'
-    :u10Empty(1000,["Priority","Intervention","Where it comes from","Impact on enterprise results","Lead executive","Order"],u10All().length?"Escalated, combined and aligned interventions appear here from 5.3.":"Escalated, combined and aligned interventions appear here once 5.2 and 5.3 are complete.");
-  var ft=F.length?'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p><div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:760px"><thead><tr><th>Function</th><th>Component</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
-    F.map(function(x){var t=u10ItG(x.id);return '<tr><td>'+u10esc(u10FnLabel(x.f))+'</td><td>'+u10esc(U10_EL[x.c])+' · '+x.avg.toFixed(2)+'</td><td>'+(t.iv.trim()?u10esc(t.iv):'<i>to be written in 5.2</i>')+'</td><td>'+u10esc(t.lead)+'</td></tr>';}).join("")+'</tbody></table></div>':'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p>'+u10Empty(760,["Function","Component","Intervention","Lead"],"Interventions your group retains in 5.3 appear here.");
+        '<td>'+(i>0?'<button type="button" class="ref-save" style="display:block;margin:0 0 6px;padding:4px 8px;" onclick="u10Move('+i+',-1)">Up</button>':'')+(i<G.length-1?'<button type="button" class="ref-save" style="display:block;padding:4px 8px;" onclick="u10Move('+i+',1)">Down</button>':'')+'</td></tr>';}).join("")+'</tbody></table></div>'
+    :u10Empty([8,26,22,20,15,9],["Priority","Intervention","Where it comes from","Impact on enterprise results","Lead executive","Order"],u10All().length?"Escalated, combined and aligned interventions appear here from 5.3.":"Escalated, combined and aligned interventions appear here once 5.2 and 5.3 are complete.");
+  var ft=F.length?'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p><div class="u10-scroll"><table class="u10-tbl u10-int" style="'+U10_TS+'">'+u10Cg([22,20,38,20])+'<thead><tr><th>Function</th><th>Component</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
+    F.map(function(x){var t=u10ItG(x.id);return '<tr><td>'+u10esc(u10FnLabel(x.f))+'</td><td>'+u10esc(U10_EL[x.c])+' · '+x.avg.toFixed(2)+'</td><td>'+(t.iv.trim()?u10esc(t.iv):'<i>to be written in 5.2</i>')+'</td><td>'+u10esc(t.lead)+'</td></tr>';}).join("")+'</tbody></table></div>':'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p>'+u10Empty([22,20,38,20],["Function","Component","Intervention","Lead"],"Interventions your group retains in 5.3 appear here.");
   h.innerHTML=old+'<div class="u10-sub">Prioritised interventions</div>'+pt+ft;
 }
 function u10Draw(){u10DrawFns();u10DrawWho();u10DrawGrid();u10DrawFx();u10DrawCx();u10DrawKey();u10RecDraw();}
