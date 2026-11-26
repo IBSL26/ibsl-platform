@@ -48,7 +48,7 @@
       {part:'5.3',t:B('In this part you complete 1 decision for each intervention:','Combine, Align or Retain; for Combine and Align, select the intervention or function it links to and write what the functions agree.')},
       {part:'5.4',t:B('In this part you complete 2 entries for each prioritised intervention:','set the order of delivery, then write each one’s impact on enterprise results and its lead executive. Then read your group’s record and select Agree.')}],
     lens10:[ // Unit 11
-      {part:'5.1',t:B('In this part you complete 2 steps:','1. three to six of your company’s values; 2. a norm for each value: its three actions, its acronym, its norm statement and one demonstrable behaviour for each action.')},
+      {part:'5.1',t:B('In this part you complete 2 steps:','1. three to six of your company’s values; 2. a norm card for each value: its three actions and their acronym, its norm statement and one demonstrable behaviour for each action.')},
       {part:'5.2',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
     lens11:[ // Unit 12
       {part:'5.1',t:B('Section 5 has 3 parts to complete: 5.2, 5.3 and 5.4.','Each part below states what you complete in it.')},
