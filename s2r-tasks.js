@@ -44,7 +44,7 @@
       {part:'5.3',t:B('In this part you complete 10 entries:','5 for REALIGN and 5 for RESTORE. Then read your group’s record and select Agree.')}],
     lens9:[ // Unit 10
       {part:'5.1',t:B('In this part the scribe completes the scores for the two functions:','the group selects two functions; each member sends their 12 scores for both functions, and the scribe selects the functions and the members and enters the scores.')},
-      {part:'5.2',t:B('In this part you complete 2 entries for each function (4 in total):','each function score and its response show themselves from the scores; for each function, write its Escalate and Coordinate responses.')},
+      {part:'5.2',t:B('In this part you complete 2 entries for each function (4 in total):','each score and its response show themselves from the members’ scores; for each function, write its Escalate and Coordinate responses.')},
       {part:'5.3',t:B('In this part you complete 2 entries:','the Overlap, and the Align commitments between the two functions.')},
       {part:'5.4',t:B('In this part you complete at least 2 interventions in order of delivery:','each with its impact on enterprise results and its lead executive. Then read your group’s record and select Agree.')}],
     lens10:[ // Unit 11
