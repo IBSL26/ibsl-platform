@@ -2962,6 +2962,8 @@
   .capstone-cert-issued { font-size: 12px; font-weight: 700; color: #5fd08a; white-space: nowrap; }
   .capstone-cert-view { font-size: 11px; color: var(--gold); text-decoration: underline; white-space: nowrap; }
   .capstone-cert-err { font-size: 11px; color: #e06c6c; }
+  .capstone-reissue-alert { flex-basis: 100%; font-size: 12px; font-weight: 600; color: #f0b44c; }
+  .capstone-reissue-btn { font-size: 11px; padding: 5px 12px; }
   /* Capstone build: cohort brief panel + Blueprint progress per team */
   .capstone-brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
   .capstone-brief-field { display: flex; flex-direction: column; gap: 6px; }
@@ -12667,12 +12669,14 @@ sam@gamma.org, Sam Lee, participant,`;
 
         // WS4: per-member certified flag — one get_participant_final_score each, in parallel.
         const certifiedByProfile = {};
+        const finalPctByProfile = {};
         await Promise.all(members.map(function(m) {
           return sb.rpc('get_participant_final_score', { p_profile_id: m.profile_id, p_cohort_id: capstoneState.cohortId })
             .then(function(sres) {
               const sd = (sres && !sres.error && sres.data) ? (Array.isArray(sres.data) ? sres.data[0] : sres.data) : null;
               certifiedByProfile[m.profile_id] = !!(sd && sd.certified === true);
-            }, function() { certifiedByProfile[m.profile_id] = false; });
+              finalPctByProfile[m.profile_id] = (sd && sd.final_pct !== null && sd.final_pct !== undefined) ? Math.round(Number(sd.final_pct)) : null;
+            }, function() { certifiedByProfile[m.profile_id] = false; finalPctByProfile[m.profile_id] = null; });
         }));
 
         const membersByTeam = {};
@@ -12687,7 +12691,8 @@ sam@gamma.org, Sam Lee, participant,`;
             exec_role: roleById[m.profile_id] || '',
             certified: !!certifiedByProfile[m.profile_id],
             participant_number: (m.profile_id in certByProfile) ? certByProfile[m.profile_id] : null,
-            cert_score: (m.profile_id in certScoreByProfile) ? certScoreByProfile[m.profile_id] : null
+            cert_score: (m.profile_id in certScoreByProfile) ? certScoreByProfile[m.profile_id] : null,
+            current_final: (m.profile_id in finalPctByProfile) ? finalPctByProfile[m.profile_id] : null
           });
         });
 
@@ -12751,6 +12756,17 @@ sam@gamma.org, Sam Lee, participant,`;
           return;
         }
 
+        // 26 Nov 2026: a certificate is already issued → ask again before changing the mark.
+        let hasCert = false;
+        Object.keys(capstoneState.membersByTeam || {}).forEach(function(k) {
+          (capstoneState.membersByTeam[k] || []).forEach(function(mm) { if (mm.profile_id === profile && mm.participant_number) hasCert = true; });
+        });
+        if (hasCert && !window.confirm('A certificate has already been issued to this participant.\n\n' +
+            'Saving a new Capstone mark changes her final mark. The certificate will then need to be reissued (or withdrawn if the final mark falls below 70%).\n\n' +
+            'Save the new mark of ' + pct + '%?')) {
+          return;
+        }
+
         const origLabel = btn.textContent;
         btn.disabled = true;
         btn.textContent = 'Saving…';
@@ -12760,6 +12776,7 @@ sam@gamma.org, Sam Lee, participant,`;
             btn.textContent = origLabel;
             if (res.error) { showErr(res.error.message || 'Could not save score.'); return; }
             if (savedEl) savedEl.textContent = 'saved: ' + pct;
+            if (hasCert) { loadCapstoneTeams(); return; }   // refresh → shows the reissue alert
             // brief confirmation tick, auto-removed
             const ok = document.createElement('span');
             ok.className = 'capstone-score-ok';
@@ -12779,8 +12796,23 @@ sam@gamma.org, Sam Lee, participant,`;
     function capstoneCertControlHtml(m, cohortId) {
       const viewHref = 'certificate.html?participantId=' + encodeURIComponent(m.profile_id) + '&cohortId=' + encodeURIComponent(cohortId);
       if (m.participant_number) {
-        return '<span class="capstone-cert-issued">Certified' + certLevelSuffix(m.cert_score) + ' · ' + capstoneEsc(m.participant_number) + '</span>' +
+        let html = '<span class="capstone-cert-issued">Certified' + certLevelSuffix(m.cert_score) + ' · ' + capstoneEsc(m.participant_number) + '</span>' +
                '<a class="capstone-cert-view" href="' + viewHref + '" target="_blank" rel="noopener">View certificate</a>';
+        // 26 Nov 2026: the mark changed after issue → reissue alert (or withdraw if now below 70).
+        const issued = Math.round(Number(m.cert_score));
+        const nowPct = m.current_final;
+        if (typeof nowPct === 'number' && Number.isFinite(issued) && nowPct !== issued) {
+          const below = !m.certified;
+          html += '<span class="capstone-reissue-alert">⚠ Mark changed after issue: the certificate shows ' + issued + '%' +
+                  (certLevelFromScore(issued) ? ' (' + escapeHtml(certLevelFromScore(issued)) + ')' : '') +
+                  '; the final mark is now ' + nowPct + '%' +
+                  (below ? ' (below 70%, not certified)' : (certLevelFromScore(nowPct) ? ' (' + escapeHtml(certLevelFromScore(nowPct)) + ')' : '')) + '.</span>' +
+                  '<button type="button" class="btn btn--primary capstone-reissue-btn" data-mode="' + (below ? 'withdraw' : 'reissue') +
+                  '" data-profile-id="' + capstoneEsc(m.profile_id) + '" data-cohort-id="' + capstoneEsc(cohortId) +
+                  '" data-name="' + capstoneEsc(m.full_name) + '" data-old="' + issued + '" data-new="' + nowPct + '">' +
+                  (below ? 'Withdraw certificate' : 'Reissue certificate') + '</button>';
+        }
+        return html;
       }
       if (m.certified === true) {
         return '<button type="button" class="btn btn--primary capstone-issue-btn" data-profile-id="' + capstoneEsc(m.profile_id) +
@@ -12863,11 +12895,49 @@ sam@gamma.org, Sam Lee, participant,`;
       });
     }
 
+    // 26 Nov 2026: reissue (or withdraw) a certificate after the mark changed. Asks again first.
+    let _capstoneReissueBound = false;
+    function bindCapstoneReissueHandler() {
+      if (_capstoneReissueBound) return;
+      _capstoneReissueBound = true;
+      document.addEventListener('click', function(e) {
+        const btn = e.target.closest('.capstone-reissue-btn');
+        if (!btn || btn.disabled) return;
+        const wrap = btn.closest('.capstone-cert');
+        const profile = btn.getAttribute('data-profile-id');
+        const cohort  = btn.getAttribute('data-cohort-id');
+        const mode    = btn.getAttribute('data-mode');
+        const who     = btn.getAttribute('data-name') || 'this participant';
+        const oldPct  = btn.getAttribute('data-old');
+        const newPct  = Number(btn.getAttribute('data-new'));
+        const msg = mode === 'withdraw'
+          ? 'Withdraw the certificate for ' + who + '?\n\nHer final mark is now ' + newPct + '%, below the 70% needed for certification. The certificate issued at ' + oldPct + '% will be removed.'
+          : 'Reissue the certificate for ' + who + '?\n\nThe certificate will change from ' + oldPct + '% (' + (certLevelFromScore(oldPct) || '—') + ') to ' + newPct + '% (' + (certLevelFromScore(newPct) || '—') + '), dated today. Her participant number stays the same.';
+        if (!window.confirm(msg)) return;
+        const origLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = mode === 'withdraw' ? 'Withdrawing…' : 'Reissuing…';
+        function showErr(t) {
+          btn.disabled = false; btn.textContent = origLabel;
+          let err = wrap && wrap.querySelector('.capstone-cert-err');
+          if (!err && wrap) { err = document.createElement('span'); err.className = 'capstone-cert-err'; wrap.appendChild(err); }
+          if (err) err.textContent = t;
+        }
+        sb.rpc('admin_reissue_certificate', { p_profile_id: profile, p_cohort_id: cohort }).then(function(res) {
+          if (res.error) { showErr(res.error.message || 'Could not update the certificate.'); return; }
+          const d = res.data || {};
+          if (d.ok === false) { showErr(d.error === 'no_certificate' ? 'No certificate found for this participant.' : (d.error || 'Could not update the certificate.')); return; }
+          loadCapstoneTeams();
+        }, function(err) { showErr((err && err.message) || 'Network error.'); });
+      });
+    }
+
     function renderCapstoneTeams() {
       const container = document.getElementById('capstoneContainer');
       if (!container) return;
       bindCapstoneScoreHandler();
       bindCapstoneCertHandler();
+      bindCapstoneReissueHandler();
       const teams = capstoneState.teams;
       if (!teams.length) {
         container.innerHTML = '<div class="capstone-empty">No teams yet for this cohort. Enter a team name above and select Create Team to add the first one.</div>';
