@@ -1636,6 +1636,7 @@ function u10DrawGrid(){
     return '<div class="u10-sub">'+u10esc(u10FnLabel(f))+'</div><div class="u10-scroll"><table class="u10-tbl u10-ent" style="min-width:'+(520+110*U10W.who.length)+'px"><thead><tr>'+hd+'</tr></thead><tbody>'+rows+'</tbody></table></div>';
   }).join("");
 }
+function u10Empty(minw,heads,note){return '<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:'+minw+'px"><thead><tr>'+heads.map(function(h){return '<th>'+h+'</th>';}).join("")+'</tr></thead><tbody><tr><td colspan="'+heads.length+'"><span class="u10-miss">'+note+'</span></td></tr></tbody></table></div>';}
 function u10OldBox(title,html){return '<div class="u10-note" style="margin:8px 0 12px;"><strong>'+title+'</strong> Your group typed these before this part was rebuilt. They are kept for reference: use them to complete the entries below.<div style="margin-top:6px;white-space:pre-wrap;">'+html+'</div></div>';}
 /* 5.2 · each function's scores and responses, then the situation, intervention and lead for every component below 4.0 */
 function u10PatTable(f){
@@ -1646,7 +1647,7 @@ function u10PatTable(f){
 }
 function u10SitTable(f){
   var L=u10Items(f);
-  if(!L.length)return '<div class="u10-note">'+(u10FnDone(f)?"Every component of this function scores 4.0 or above: Protect. No intervention.":"The components below 4.0 appear here once every member’s scores for this function are entered.")+'</div>';
+  if(!L.length)return u10Empty(1000,["Component","Score","Response","Situation","Intervention","Lead"],u10FnDone(f)?"Every component of this function scores 4.0 or above: Protect. No intervention.":"The components below 4.0 appear here once every member’s scores for this function are entered in 5.1.");
   function ta(id,k,lbl,ph){return '<td><textarea class="fld-input u10-ta" style="min-height:80px;" aria-label="'+u10esc(lbl)+'" placeholder="'+u10esc(ph)+'" data-u10="it-'+id+'-'+k+'">'+u10esc(u10ItG(id)[k])+'</textarea></td>';}
   return '<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:1000px"><thead><tr><th>Component</th><th>Score</th><th>Response</th><th>Situation</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
     L.map(function(x){var esc=x.resp==="Escalate",lb=u10ItLabel(x);
@@ -1668,7 +1669,7 @@ function u10DrawPat(){[0,1].forEach(function(f){var t=u10el("u10FxT"+f);if(t)t.i
 function u10DrawCx(){
   var h=u10el("u10Cx");if(!h)return;var o=U10W.old,L=u10All();
   var old=o&&(o.overlap.trim()||o.align.trim())?u10OldBox("Earlier entries.","Overlap: "+u10esc(o.overlap)+"\nAlign: "+u10esc(o.align)):"";
-  if(!L.length){h.innerHTML=old+'<div class="u10-note">Every intervention from Step 2 appears here once the scores are entered and a component scores below 4.0.</div>';return;}
+  if(!L.length){h.innerHTML=old+u10Empty(1000,["Intervention from Step 2","Decision","With","What the functions agree"],"Each intervention from 5.2 appears here as its own row once the scores are entered in 5.1 and a component scores below 4.0.");return;}
   h.innerHTML=old+'<div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:1000px"><thead><tr><th>Intervention from Step 2</th><th>Decision</th><th>With</th><th>What the functions agree</th></tr></thead><tbody>'+
     L.map(function(x){var t=u10ItG(x.id),lf=u10LinkedFrom(x.id),other=1-x.f;
       var dec='<select class="fld-isel" aria-label="'+u10esc(u10ItLabel(x))+' · Decision" data-u10="it-'+x.id+'-dec"><option value="">'+(lf.length?"Settled by the linked row":"Select")+'</option>'+U10_DEC.map(function(d){return '<option'+(t.dec===d?' selected':'')+'>'+d+'</option>';}).join("")+'</select>'+
@@ -1693,9 +1694,9 @@ function u10DrawKey(){
       return '<tr><td><strong>'+(i+1)+'</strong></td><td>'+(x.iv?u10esc(x.iv):'<i>to be written in 5.2 and 5.3</i>')+(x.agree?'<div style="margin-top:4px;"><em>Agreed between the functions:</em> '+u10esc(x.agree)+'</div>':'')+'</td><td>'+u10esc(u10GSrc(g))+'</td>'+
         ta(i,"impact","Impact on enterprise results",v.impact)+ta(i,"lead","Lead executive",v.lead)+
         '<td style="white-space:nowrap;">'+(i>0?'<button type="button" class="ref-save" aria-label="Move up" onclick="u10Move('+i+',-1)">↑</button> ':'')+(i<G.length-1?'<button type="button" class="ref-save" aria-label="Move down" onclick="u10Move('+i+',1)">↓</button>':'')+'</td></tr>';}).join("")+'</tbody></table></div>'
-    :'<div class="u10-note">'+(u10All().length?"No escalated, combined or aligned intervention yet: these come through from Step 3.":"The interventions come through once Steps 2 and 3 are complete.")+'</div>';
+    :u10Empty(1000,["Priority","Intervention","Where it comes from","Impact on enterprise results","Lead executive","Order"],u10All().length?"Escalated, combined and aligned interventions appear here from 5.3.":"Escalated, combined and aligned interventions appear here once 5.2 and 5.3 are complete.");
   var ft=F.length?'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p><div class="u10-scroll"><table class="u10-tbl u10-int" style="min-width:760px"><thead><tr><th>Function</th><th>Component</th><th>Intervention</th><th>Lead</th></tr></thead><tbody>'+
-    F.map(function(x){var t=u10ItG(x.id);return '<tr><td>'+u10esc(u10FnLabel(x.f))+'</td><td>'+u10esc(U10_EL[x.c])+' · '+x.avg.toFixed(2)+'</td><td>'+(t.iv.trim()?u10esc(t.iv):'<i>to be written in 5.2</i>')+'</td><td>'+u10esc(t.lead)+'</td></tr>';}).join("")+'</tbody></table></div>':'';
+    F.map(function(x){var t=u10ItG(x.id);return '<tr><td>'+u10esc(u10FnLabel(x.f))+'</td><td>'+u10esc(U10_EL[x.c])+' · '+x.avg.toFixed(2)+'</td><td>'+(t.iv.trim()?u10esc(t.iv):'<i>to be written in 5.2</i>')+'</td><td>'+u10esc(t.lead)+'</td></tr>';}).join("")+'</tbody></table></div>':'<div class="u10-sub">Function-led interventions</div><p>Retained Coordinate interventions stay with their function, under the function’s own lead.</p>'+u10Empty(760,["Function","Component","Intervention","Lead"],"Interventions your group retains in 5.3 appear here.");
   h.innerHTML=old+'<div class="u10-sub">Prioritised interventions</div>'+pt+ft;
 }
 function u10Draw(){u10DrawFns();u10DrawWho();u10DrawGrid();u10DrawFx();u10DrawCx();u10DrawKey();u10RecDraw();}
