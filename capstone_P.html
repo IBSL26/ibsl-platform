@@ -486,7 +486,7 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function caseText(t){ return esc(t).split('[Case]').join(esc(S.caseName || 'your simulated company')); }
   // The team's simulated company: box 1A of its Problem Charter.
   function teamCompany(){ var l = (S.bp && S.bp.sections) || []; for (var i = 0; i < l.length; i++){ if (l[i].key === 'u1' && l[i].content && String(l[i].content['1A'] || '').trim()) return String(l[i].content['1A']).trim(); } return ''; }
-  function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 70) return ''; if (n <= 79) return 'Proficient Integrator'; if (n <= 89) return 'Advanced Integrator'; return 'Master Integrator'; }
+  function levelFromScore(score){ var n = Math.round(Number(score)); if (!isFinite(n) || n < 70) return ''; if (n <= 79) return 'Foundational Integrator'; if (n <= 89) return 'Senior Integrator'; return 'Principal Integrator'; }
   function stateHtml(title, msg){ return '<div class="state"><h2>' + esc(title) + '</h2><p>' + esc(msg) + '</p></div>'; }
   function fatal(title, msg){ document.getElementById('root').innerHTML = stateHtml(title, msg); }
   // === Box formatter: turns the agreed text of a box into headings, tables and lists (28 Oct 2026). ===

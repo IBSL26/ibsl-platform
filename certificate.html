@@ -160,9 +160,9 @@
   function levelFromScore(score) {
     const n = Math.round(Number(score));
     if (!Number.isFinite(n) || n < 70) return '';
-    if (n <= 84) return 'Proficient Integrator';
-    if (n <= 90) return 'Advanced Integrator';
-    return 'Master Integrator';   // 91–100
+    if (n <= 79) return 'Foundational Integrator';
+    if (n <= 89) return 'Senior Integrator';
+    return 'Principal Integrator';   // 90–100 (Master Integrator is reserved for post-programme implementation)
   }
 
   // Placeholder IBSL shield/emblem (issuing authority). Replace with the official
@@ -221,7 +221,7 @@
     const parts = String(level || '').toUpperCase().split(' ');
     const line1 = escapeHtml(parts[0] || '');
     const line2 = escapeHtml(parts.slice(1).join(' '));
-    const stars = level === 'Master Integrator' ? 3 : (level === 'Advanced Integrator' ? 2 : 1);
+    const stars = level === 'Principal Integrator' ? 3 : (level === 'Senior Integrator' ? 2 : 1);
     let starMarks = '';
     for (let i = 0; i < stars; i++) {
       const x = 100 + (i - (stars - 1) / 2) * 14;
