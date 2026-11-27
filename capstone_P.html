@@ -18,6 +18,14 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
 .nav-right{display:flex;align-items:center;gap:18px;}
 .nav-back,.nav-print{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);background:none;border:none;cursor:pointer;font-family:inherit;}
 .nav-back:hover,.nav-print:hover{color:var(--teal);}
+/* 27 Nov 2026: the print button stands out as a gold button in the top bar. */
+.nav-print{color:#0d1a10;background:#c9a84c;border:1px solid #c9a84c;border-radius:3px;padding:10px 18px;font-weight:700;letter-spacing:1.5px;}
+.nav-print:hover{color:#0d1a10;background:#dcc077;border-color:#dcc077;}
+/* 27 Nov 2026: the print button sits in the Team card, top right; the top-bar copy is not shown. */
+#printBtn{display:none !important;}
+.team-card{position:relative;}
+.team-print{position:absolute;top:24px;right:32px;font-size:11px;text-transform:uppercase;cursor:pointer;font-family:inherit;}
+@media (max-width:640px){.team-print{position:static;display:block;margin:0 0 14px;}}
 .unit-header{background:linear-gradient(135deg,#0a1a12,#142a1e);padding:50px 40px 40px;border-bottom:1px solid rgba(26,122,106,.2);}
 .uh-inner{max-width:1100px;margin:0 auto;}
 .eyebrow{font-size:9px;font-weight:700;letter-spacing:5px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
@@ -927,8 +935,9 @@ body{background:#111811;color:#fff;font-family:'Montserrat',sans-serif;}
   function fact(k, v){ return '<div class="fact"><div class="fact-k">' + esc(k) + '</div><div class="fact-v">' + (v ? esc(v) : 'To be confirmed') + '</div></div>'; }
 
   function teamCard(){
-    var h = '<div class="card"><div class="card-label">' + (S.mode !== 'participant' ? 'Team' : '<span class="screen-only">Your team</span><span class="print-only pi">Team</span>') + '</div>';
+    var h = '<div class="card team-card"><div class="card-label">' + (S.mode !== 'participant' ? 'Team' : '<span class="screen-only">Your team</span><span class="print-only pi">Team</span>') + '</div>';
     if (!S.bp){ return h + '<p class="muted">IBSL will confirm your team.</p></div>'; }
+    if (S.mode !== 'facilitator') h += '<button type="button" class="nav-print team-print no-print" onclick="window.print()">Print Capstone S2R® Blueprint</button>';
     h += '<h2>' + esc(S.bp.team && S.bp.team.name) + '</h2><div class="members">';
     (S.bp.members || []).forEach(function(m){ h += '<span class="member">' + esc(m.full_name) + '</span>'; });
     return h + '</div></div>';
