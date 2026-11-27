@@ -1336,8 +1336,12 @@ async function u12Bring(manual){
   if(!window.S2R)return;
   var r8={};try{r8=await S2R.loadAll("u3m2_lens7")||{};}catch(e){r8={};}
   var w=r8.__rd_work;if(typeof w==="string"){try{w=JSON.parse(w);}catch(e){w=null;}}
-  var got=[];
+  var got=[],nOld=0;
+  /* 27 Nov 2026: a decision brought in earlier that no longer matches the group's current Unit 8 EPIC
+     or Unit 10 ESRG Alignment Key is taken off the page. Decisions the group added itself stay. */
+  function u12Drop(s,src,cur){var before=U12W[s].length;U12W[s]=U12W[s].filter(function(r){var d=r.dec.trim();return !(r.src===src&&d&&cur.indexOf(d)<0);});nOld+=before-U12W[s].length;if(!U12W[s].length)U12W[s].push(u12Row());}
   if(w&&typeof w==="object"){
+    [["c4_dp1","pp"],["c4_dp2","ep"]].forEach(function(x){var d=u12Str(w[x[0]]).trim();if(d)u12Drop(x[1],"EPIC Restore",[d]);});
     [["c4_dp1","pp"],["c4_dp2","ep"]].forEach(function(x){
       var d=u12Str(w[x[0]]).trim();if(!d||u12Has(d))return;
       var slot=u12Slot(x[1]);slot.src="EPIC Restore";slot.dec=d;
@@ -1347,13 +1351,15 @@ async function u12Bring(manual){
   var r10={};try{r10=await S2R.loadAll("u4m1_lens9")||{};}catch(e){r10={};}
   var k10=r10.__es_work;if(typeof k10==="string"){try{k10=JSON.parse(k10);}catch(e){k10=null;}}
   var nIv=0;
+  if(k10&&Array.isArray(k10.pri)){var ivs=k10.pri.map(function(p){return u12Str(p&&p.iv).trim();}).filter(Boolean);if(ivs.length)u12Drop("ep","ESRG Alignment Key",ivs);}
   if(k10&&Array.isArray(k10.pri))k10.pri.forEach(function(p){
     var d=u12Str(p&&p.iv).trim();if(!d||u12Has(d))return;
     var slot=u12Slot("ep");slot.src="ESRG Alignment Key";slot.dec=d;slot.owner=u12Str(p.lead).trim();nIv++;
   });
   if(nIv)got.push(nIv===1?"one ESRG Alignment Key intervention (5.2)":nIv+" ESRG Alignment Key interventions (5.2)");
   u12Fill();u12Out();u12RecDraw();
-  if(got.length)u12Msg("Brought in: "+got.join(", ")+". Remove any decision that is closed or on track, add any other open decisions, then set the owner, date and RAG for each.","ok");
+  var gone=nOld?("Taken off: "+(nOld===1?"one earlier decision":nOld+" earlier decisions")+" that no longer "+(nOld===1?"matches":"match")+" your Unit 8 EPIC or Unit 10 ESRG Alignment Key. "):"";
+  if(got.length||nOld)u12Msg((got.length?"Brought in: "+got.join(", ")+". ":"")+gone+"Remove any decision that is closed or on track, add any other open decisions, then set the owner, date and RAG for each.","ok");
   else if(manual)u12Msg((w||k10)?"Your Unit 8 EPIC decisions and Unit 10 ESRG Alignment Key interventions are already on the page.":"Your group’s Unit 8 EPIC and Unit 10 ESRG Alignment Key were not found yet (agreed group work in those units is needed). The scribe can type the decisions.","warn");
 }
 function u12Msg(t,c){var m=u12el("u12BringMsg");if(!m)return;m.textContent=t||"";m.className="u12-note"+(c?" "+c:"");}

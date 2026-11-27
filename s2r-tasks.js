@@ -51,11 +51,9 @@
       {part:'5.1',t:B('In this part you complete 2 steps:','1. three to six of your company’s values; 2. a norm card for each value: its three actions and their acronym, its norm statement and one demonstrable behaviour for each action.')},
       {part:'5.2',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}],
     lens11:[ // Unit 12
-      {part:'5.1',t:B('Section 5 has 3 parts to complete: 5.2, 5.3 and 5.4.','Each part below states what you complete in it.')},
-      {part:'5.2',t:B('In this part you complete 13 entries:','the quarter, the Key Result, your WARD, the four ESRG capabilities, the consolidated health score and the two weakest traits. Select Bring in to fill those that come from Units 6, 10 and 11, then check each one.')},
-      {part:'5.3',t:B('In this part you complete 3 lines of sight (13 entries):','the strategic, operational and behavioural lines, each with its result, alert, recovery, owner and check date.')},
-      {part:'5.4',t:B('In this part you complete at least 4 decisions:','one Keep, one Improve, one Stop and one Start, each with its line of sight and owner.')},
-      {part:'5.5',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}]
+      {part:'5.1',t:B('In this part you complete 2 steps:','1. bring in your Unit 8 EPIC and Unit 10 ESRG Alignment Key, add any open Health Thermometer decisions, remove any decision that is closed or on track, and set the owner, date and RAG of each people decision; 2. for each Amber and Red people decision, what is holding it, its root cause, the recovery action, its owner and the date.')},
+      {part:'5.2',t:B('In this part you complete 2 steps:','1. remove any organisational decision that is closed or on track, add any other open decisions, and set the line of sight, owner, date and RAG of each; 2. for each Amber and Red organisational decision, what is holding it, the lever that clears it, the unblocking action, its owner and the date.')},
+      {part:'5.3',t:B('In this part you complete 1 task:','read your group’s record, then select Agree.')}]
   };
   /* 12 Nov 2026: the Section 5 layout also runs on facilitator pages (no task boxes there). */
   var m=/lens(\d+)_([pf])/i.exec(location.pathname||'');if(!m)return;
