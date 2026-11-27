@@ -428,6 +428,7 @@ function buildTemplate(){
 '  var SB_URL="%%SB_URL%%", SB_ANON="%%SB_ANON%%";',
 '  if(typeof supabase==="undefined"){ document.getElementById("root").innerHTML="<div class=\\"fatal\\"><h2>Could not load</h2><p>The Supabase library failed to load. Check your connection and refresh.</p></div>"; return; }',
 '  var supabaseClient=supabase.createClient(SB_URL,SB_ANON,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});',
+'  var SKILL_REFLECTIONS = { 1: [[\'r_m2_bs\', \'r_m2_sys\', \'r_m2_bias\', \'r_m3_cost\', \'r_m4_phase\'], [\'r_m2_elephant\', \'r_m3_cxo\', \'r_m5_integration\'], [\'r_m4_climate\', \'r_m4_principles\', \'r_m5_pillars\', \'r_m5_practices\']] }; var U1_SECTIONS = { 1: \'Section 1 \\u00b7 Orientation\', 2: \'Section 2 \\u00b7 Awareness\', 3: \'Section 3 \\u00b7 Intelligence\', 4: \'Section 4 \\u00b7 Extrapolating\', 5: \'Section 5 \\u00b7 Integration\' }; var U1_SKILLS = [\'Identify cognitive and functional bias in strategic decisions\', \'Examine a strategic issue from each executive perspective\', \'Apply institutional practices that build collective intelligence\']; function u1SkillOf(key) { for (var i = 0; i < SKILL_REFLECTIONS[1].length; i++) { if (SKILL_REFLECTIONS[1][i].indexOf(key) >= 0) return i; } return -1; }',
 '',
 '  var MICRO_CLIMB=%%MICRO_CLIMB%%;',
 '  var PROMPTS=%%PROMPTS%%;',
